@@ -1,2 +1,2 @@
-# Minishell
-[![Build Status](https://travis-ci.org/Jaahd/Minishell.svg?branch=master)](https://travis-ci.org/Jaahd/M:inishell)
+# 21sh
+[![Build Status](https://travis-ci.org/Arigowin/21sh.svg?branch=master)](https://travis-ci.org/Arigowin/21sh)
