@@ -32,7 +32,6 @@ int				event(char buf[3])
 //	x  = 3;
 //	while ((ret = read(0, buf, 3)) > 0)
 //	{
-//		buf[ret] = '\0';
 //		if (buf[0] == 10)
 //		{
 //			ft_putchar(buf[0]);

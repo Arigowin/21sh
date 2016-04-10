@@ -34,6 +34,7 @@ static int		check_fct(char **cmd, char **env, t_duo **env_cpy)
 	while (path[i])
 	{
 		tmp = join_exe(path[i], cmd[0]);
+		// a execve tu doit lui passer la copie des variable d'env pas les variable d'en de base
 		execve(tmp, cmd, env);
 		i++;
 	}
