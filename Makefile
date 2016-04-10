@@ -3,7 +3,7 @@ RM =	/bin/rm
 MAKE =	/usr/bin/make
 MKDIR =	/bin/mkdir
 
-NAME = minishell
+NAME = 21sh
 
 ROOT =		$(shell /bin/pwd)
 OPATH =		$(ROOT)/objs
