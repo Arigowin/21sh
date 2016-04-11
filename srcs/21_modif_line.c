@@ -27,6 +27,17 @@ int			backspace(char **line, int *x)
 	return (0);
 }
 
+int			del(char **line, int *x)
+{
+	int		tmp;
+
+	tmp = *x;
+	move(185, x, *line);
+	if (*x != tmp)
+		backspace(line, x);
+	return (0);
+}
+
 int		insert(char **line, char c, int pos)
 {
 	char	*tmp;

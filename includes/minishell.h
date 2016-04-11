@@ -47,6 +47,12 @@ int				event(char buf[], char **line, int *x);
 int				backspace(char **line, int *x);
 int				insert(char **line, char c, int pos);
 int				move(int key, int *x, char *line);
+int				del(char **line, int *x);
+
+// le char 'line' doit etre accible en permanance car besoin pour les signaux
+//		^C (passe a la ligne suivante et vide 'line')
+//		^D ( == del si 'line' contient qqchose)
+// 'x' aussi doit etre disponible
 
 
 #endif
