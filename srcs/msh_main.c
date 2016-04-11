@@ -29,6 +29,7 @@ int			main(int ac, char **av, char **env)
 	env_cpy = tbl_to_duo(cpy, '=');
 	savior(env_cpy);
 	read_buff = ft_strnew(BUFF_SIZE);
+	init_term();
 	while (1)
 	{
 		ft_bzero(read_buff, BUFF_SIZE + 1);
@@ -36,6 +37,7 @@ int			main(int ac, char **av, char **env)
 		display_prompt(env_cpy);
 		fct_read(read_buff, cpy, &env_cpy);
 	}
+	reset_term();
 	free_duo(&env_cpy);
 	free_tab(&cpy);
 	free(read_buff);

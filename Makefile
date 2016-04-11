@@ -13,7 +13,7 @@ LIBPATH =	$(ROOT)/libft
 LFTHPATH =	$(LIBPATH)/includes
 
 CFLAGS = -Wall -Werror -Wextra -I $(HPATH) -I $(LFTHPATH)
-LIBS = -L $(LIBPATH) -lft
+LIBS = -L $(LIBPATH) -lft -ltermcap
 
 SRC = 	msh_main.c \
 		msh_first_steps.c \
@@ -25,7 +25,12 @@ SRC = 	msh_main.c \
 		msh_env.c \
 		msh_setenv.c \
 		msh_unsetenv.c \
-		msh_exit.c
+		msh_exit.c \
+		21_event.c \
+		21_modif_line.c \
+		21_move_in_line.c \
+		21_termcap.c \
+		21_tputs.c
 
 OFILES = $(patsubst %.c, $(OPATH)/%.o, $(SRC))
 

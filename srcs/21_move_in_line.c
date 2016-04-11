@@ -1,8 +1,8 @@
-#include "shell.h"
+#include "minishell.h"
 #include "libft.h"
 #include <term.h>
 
-t_bool		move(int key, int *x, char *line)
+int		move(int key, int *x, char *line)
 {
 	if (key == 186)
 	{
@@ -22,5 +22,5 @@ t_bool		move(int key, int *x, char *line)
 			*x += 1;
 		}
 	}
-	return (TRUE);
+	return (0);
 }

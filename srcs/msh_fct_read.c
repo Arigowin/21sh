@@ -65,28 +65,32 @@ int				check_home(char **cmd)
 
 int				fct_read(char *read_buff, char **env, t_duo **env_cpy)
 {
-	int				ret;
 	char			**cmd;
+	char			buf[3];
+	int				ret;
 	int				i;
+	int				x;
 
 	i = 0;
 	ret = 0;
-	while ((ret = read(0, read_buff, BUFF_SIZE)) > 0)
+	x = 3;
+	while ((ret = read(0, buf, 3)) > 0)
 	{
-		if ((cmd = read_n_check(SEP, read_buff)) == NULL || cmd[0] == NULL)
-			return (-1);
-		while (cmd[++i])
-			if (cmd[i][0] == '~')
-				manage_tilde(env_cpy, &cmd[i]);
-		if (handle_builtin(cmd, env_cpy) != 0)
+		if (event(buf, &read_buff, &x) == 1)
 			break ;
-		if (check_home(cmd) < 0)
-			break ;
-		father_n_son(cmd, env, env_cpy);
-		break ;
 	}
 	if (ret <= 0)
 		bi_exit(NULL, env_cpy);
+	if ((cmd = read_n_check(SEP, read_buff)) == NULL || cmd[0] == NULL)
+		return (-1);
+	while (cmd[++i])
+		if (cmd[i][0] == '~')
+			manage_tilde(env_cpy, &cmd[i]);
+	if (handle_builtin(cmd, env_cpy) != 0)
+		return (-1);
+	if (check_home(cmd) < 0)
+		return (-1);
+	father_n_son(cmd, env, env_cpy);
 	free_tab(&cmd);
 	return (0);
 }

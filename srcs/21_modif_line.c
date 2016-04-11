@@ -1,15 +1,15 @@
-#include "shell.h"
+#include "minishell.h"
 #include "libft.h"
 #include <term.h>
 
-t_bool			backspace(char (*line)[], int *x)
+int			backspace(char **line, int *x)
 {
 	// probleme trop a droite
 	char	*tmp;
 	int		i;
 
 	if ((tmp = ft_strsub(*line, *x - 3, ft_strlen(*line))) == NULL)
-		return (FALSE);
+		return (-1);
 	(*line)[*x - 4] = 0;
 	i = 0;
 	while (tmp[i])
@@ -26,10 +26,10 @@ t_bool			backspace(char (*line)[], int *x)
 		// delete one character position at the cursor.
 		tputs(tgetstr("dc", NULL), 1, my_outc);
 	}
-	return (TRUE);
+	return (0);
 }
 
-t_bool		insert(char (*line)[], char c, int pos)
+int		insert(char **line, char c, int pos)
 {
 	char	*tmp;
 	int		i;
@@ -39,7 +39,7 @@ t_bool		insert(char (*line)[], char c, int pos)
 		(*line)[pos] = c;
 	else
 		if ((tmp = ft_strsub(*line, pos, ft_strlen(*line))) == NULL)
-			return (FALSE);
+			return (-1);
 	ft_putchar(c);
 	if (tmp != NULL)
 	{
@@ -59,5 +59,5 @@ t_bool		insert(char (*line)[], char c, int pos)
 		// restore the last saved cursor position.
 		tputs(tgetstr("rc", NULL), 1, my_outc);
 	}
-	return (TRUE);
+	return (0);
 }

@@ -36,4 +36,14 @@ int				bi_unsetenv(char **arg, t_duo **env);
 
 int				bi_cd(char **arg, t_duo **env);
 
+
+int				init_term();
+int				reset_term();
+int				my_outc(int c);
+int				event(char buf[], char **line, int *x);
+int				backspace(char **line, int *x);
+int				insert(char **line, char c, int pos);
+int				move(int key, int *x, char *line);
+
+
 #endif
