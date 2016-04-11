@@ -4,7 +4,7 @@
 
 int		move(int key, int *x, char *line)
 {
-	if (key == 186)
+	if (key == LEFT)
 	{
 		if (*x > 3)
 		{
@@ -13,7 +13,7 @@ int		move(int key, int *x, char *line)
 			*x -= 1;
 		}
 	}
-	else if (key == 185)
+	else if (key == RIGHT)
 	{
 		if ((*x - 3) < (int)ft_strlen(line))
 		{

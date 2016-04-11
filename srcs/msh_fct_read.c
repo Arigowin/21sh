@@ -94,13 +94,3 @@ int				fct_read(char *read_buff, char **env, t_duo **env_cpy)
 	free_tab(&cmd);
 	return (0);
 }
-
-/*
-gauche : 27 91 68 : 186
-droite : 27 91 67 : 185
-haut : 27 91 65 : 183
-bas : 27 91 66 : 184
-
-backspace : 127 0 0
-tab : 9 0 0
-*/

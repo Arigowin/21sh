@@ -7,6 +7,14 @@
 # define SEP " \t\n\0"
 # define BUFF_SIZE 1024
 # define MAX_PATH 1024
+# define LEFT 186
+# define RIGHT 185
+# define UP 183
+# define DOWN 184
+# define BACKSPACE 127
+# define TAB 9
+# define DEL 126
+# define RETURN 10
 
 # include "libft.h"
 
@@ -54,5 +62,15 @@ int				del(char **line, int *x);
 //		^D ( == del si 'line' contient qqchose)
 // 'x' aussi doit etre disponible
 
+
+/*
+gauche : 27 91 68 : 186
+droite : 27 91 67 : 185
+haut : 27 91 65 : 183
+bas : 27 91 66 : 184
+
+backspace : 127 0 0
+tab : 9 0 0
+*/
 
 #endif
