@@ -4,15 +4,13 @@
 
 int			backspace(char **line, int *x)
 {
-	// probleme trop a droite
 	char	*tmp;
 	int		i;
 
-	if ((tmp = ft_strsub(*line, *x - 3, ft_strlen(*line))) == NULL)
-		return (-1);
+	tmp = ft_strsub(*line, *x - 3, ft_strlen(*line));
 	(*line)[*x - 4] = 0;
 	i = 0;
-	while (tmp[i])
+	while (tmp && tmp[i])
 	{
 		(*line)[(*x - 4) + i] = tmp[i];
 		i++;
@@ -38,8 +36,10 @@ int		insert(char **line, char c, int pos)
 	if ((*line)[pos] == 0)
 		(*line)[pos] = c;
 	else
+	{
 		if ((tmp = ft_strsub(*line, pos, ft_strlen(*line))) == NULL)
 			return (-1);
+	}
 	ft_putchar(c);
 	if (tmp != NULL)
 	{

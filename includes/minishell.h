@@ -1,6 +1,9 @@
 #ifndef MINISHELL_H
 # define MINISHELL_H
 
+#define DEBUG 0
+#include <stdio.h>
+
 # define SEP " \t\n\0"
 # define BUFF_SIZE 1024
 # define MAX_PATH 1024
