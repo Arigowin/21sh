@@ -1,4 +1,4 @@
-#include "minishell.h"
+#include "shell.h"
 #include <term.h>
 #include <unistd.h>
 #include <fcntl.h>

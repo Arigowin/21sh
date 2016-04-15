@@ -1,5 +1,5 @@
 #include <signal.h>
-#include "minishell.h"
+#include "shell.h"
 #include "libft.h"
 
 static void		fct_m_ctrl_c(int sig)

@@ -1,5 +1,5 @@
 #include <stdio.h>
-#include "minishell.h"
+#include "shell.h"
 #include "libft.h"
 
 static char		*get_path(t_duo *env)

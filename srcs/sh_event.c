@@ -1,4 +1,4 @@
-#include "minishell.h"
+#include "shell.h"
 #include "libft.h"
 
 int				event(char buf[], char **line, int *x)

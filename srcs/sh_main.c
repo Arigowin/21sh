@@ -3,7 +3,7 @@
 #include <fcntl.h>
 #include <stdio.h>
 #include <sys/wait.h>
-#include "minishell.h"
+#include "shell.h"
 #include "libft.h"
 
 t_duo		*savior(t_duo *env)

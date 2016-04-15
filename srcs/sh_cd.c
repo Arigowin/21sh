@@ -1,17 +1,17 @@
 #include <unistd.h>
-#include "minishell.h"
+#include "shell.h"
 #include "libft.h"
 
 static int		cd_usage(char **arg, char **path, char *tmp_old_pwd)
 {
 	if (arg[1] && arg[2])
 	{
-		ft_putendl("minishell: cd: too many arguments.");
+		ft_putendl("shell: cd: too many arguments.");
 		return (-1);
 	}
 	if (arg[1] && arg[1][0] == '-' && arg[1][1])
 	{
-		ft_putstr("minishell: cd: -");
+		ft_putstr("shell: cd: -");
 		ft_putchar(arg[1][1]);
 		ft_putendl(": invalid option\ncd: usage: cd [dir]");
 		return (-1);
@@ -20,7 +20,7 @@ static int		cd_usage(char **arg, char **path, char *tmp_old_pwd)
 	{
 		if (((*path) = ft_strdup(tmp_old_pwd)) == NULL)
 		{
-			ft_putendl("minishell: cd: variable $OLDPWD not set");
+			ft_putendl("shell: cd: variable $OLDPWD not set");
 			return (-2);
 		}
 	}
@@ -29,7 +29,7 @@ static int		cd_usage(char **arg, char **path, char *tmp_old_pwd)
 
 static int		access_home(char **arg, char *home, char *tmp)
 {
-	ft_putstr("minishell: cd: ");
+	ft_putstr("shell: cd: ");
 	if (home == NULL && !arg[1])
 		ft_putendl("no $HOME variable set");
 	else if (home == NULL && arg[1] && arg[1][0] == '~')
@@ -55,7 +55,7 @@ static int		cd_access(char **arg, char *path, t_duo *env)
 		return (access_home(arg, home, tmp));
 	if (arg[1] && chdir(tmp) == -1)
 	{
-		ft_putstr("minishell: cd: ");
+		ft_putstr("shell: cd: ");
 		ft_putstr(tmp);
 		if ((access(tmp, F_OK)) == -1)
 			ft_putendl(": no such file or directory");
@@ -74,7 +74,7 @@ static int		cd_home(t_duo **env)
 
 	if ((home = get_env(env, "HOME")) == NULL)
 	{
-		ft_putendl("minishell: cd: no $HOME variable set");
+		ft_putendl("shell: cd: no $HOME variable set");
 		return (-1);
 	}
 	if (chdir(home) == -1)

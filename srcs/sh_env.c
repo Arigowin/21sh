@@ -1,4 +1,4 @@
-#include "minishell.h"
+#include "shell.h"
 #include "libft.h"
 
 static int		print_modified_env(char **arg, t_duo **env)

@@ -10,76 +10,59 @@ OPATH =		$(ROOT)/objs
 CPATH =		$(ROOT)/srcs
 HPATH =		$(ROOT)/includes
 LIBPATH =	$(ROOT)/libft
-LFTHPATH =	$(LIBPATH)/includes
+LIBHPATH =	$(LIBPATH)/includes
 
-CFLAGS = -Wall -Werror -Wextra -I $(HPATH) -I $(LFTHPATH)
+CFLAGS = -O3 -Wall -Werror -Wextra -I $(HPATH) -I $(LIBHPATH)
 LIBS = -L $(LIBPATH) -lft -ltermcap
 
-SRC = 	msh_main.c \
-		msh_first_steps.c \
-		msh_signal.c \
-		msh_builtin.c \
-		msh_fct_read.c \
-		msh_father_n_son.c \
-		msh_cd.c \
-		msh_env.c \
-		msh_setenv.c \
-		msh_unsetenv.c \
-		msh_exit.c \
-		21_event.c \
-		21_modif_line.c \
-		21_move_in_line.c \
-		21_termcap.c \
-		21_tputs.c
+SRC = sh_builtin.c \
+	  sh_cd.c \
+	  sh_env.c \
+	  sh_event.c \
+	  sh_exit.c \
+	  sh_father_n_son.c \
+	  sh_fct_read.c \
+	  sh_first_steps.c \
+	  sh_main.c \
+	  sh_modif_line.c \
+	  sh_move_in_line.c \
+	  sh_setenv.c \
+	  sh_signal.c \
+	  sh_termcap.c \
+	  sh_tputs.c \
+	  sh_unsetenv.c
 
 OFILES = $(patsubst %.c, $(OPATH)/%.o, $(SRC))
 
-.PHONY: all clean fclean re
+.PHONY: all clean fclean re lib.fclean
 
 all: $(OPATH) $(NAME)
 
 $(NAME): $(OFILES)
-	@$(MAKE) -C $(LIBPATH) -j 8
-	@echo "Creating OBJ files"
-	@echo "Building $@"
+	@echo "$(NAME) : Building Libft"
+	@$(MAKE) -C $(LIBPATH)
+	@echo "$(NAME) : Building $@"
 	@$(CC) $(CFLAGS) -o $@ $^ $(LIBS)
-	@echo "\033[36mAll is done!\033[0m"
+	@echo "\033[32mDone !\033[0m"
 
 $(OPATH)/%.o: $(CPATH)/%.c
+	@echo "$(NAME) : Creating file $@"
 	@$(CC) $(CFLAGS) -c $< -o $@
 
 $(OPATH):
-	@echo "Creating OBJ directory"
+	@echo "$(NAME) : Creating objs directory"
 	@$(MKDIR) $@
 
 clean:
-	@echo "Deleting OBJ files"
+	@echo "$(NAME) : Deleting objs"
 	@$(RM) -rf $(OPATH)
 
 fclean: clean lib.fclean
-	@echo "Deleting $(NAME)"
+	@echo "$(NAME) : Deleting $(NAME)"
 	@$(RM) -f $(NAME)
-	@echo "\033[36mAll clear!\033[0m"
+	@echo "\033[32mDone !\033[0m"
 
 lib.fclean:
 	@$(MAKE) fclean -C $(LIBPATH)
 
 re: fclean all
-
-# lil memo
-# $@ = rule's name
-# $^ = all the rule dependecies
-# $< = only the first dependence
-# '-j 8' => complile la lib en multi threading ^^
-
-# Color for c
-#   reset	"\033[0m"
-#   RED  	"\033[31m"
-#   GRN  	"\033[32m"
-#   YEL  	"\033[33m"
-#   BLU  	"\033[34m"
-#   MAG  	"\033[35m"
-#   CYN  	"\033[36m"
-#   WHT  	"\033[37m"
-
-#   cf https://www.admin-linux.fr/bash-de-la-couleur-dans-le-shell/<Paste>

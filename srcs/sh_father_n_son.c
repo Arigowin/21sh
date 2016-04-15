@@ -3,7 +3,7 @@
 #include <fcntl.h>
 #include <stdio.h>
 #include <sys/wait.h>
-#include "minishell.h"
+#include "shell.h"
 #include "libft.h"
 
 static char		*join_exe(char *s1, char *s2)
@@ -57,7 +57,7 @@ int				father_n_son(char **cmd, char **env, t_duo **env_cpy)
 	{
 		check_signal(2);
 		check_fct(cmd, env, env_cpy);
-		ft_putstr("minishell: ");
+		ft_putstr("shell: ");
 		ft_putstr(cmd[0]);
 		ft_putendl(": command not found");
 		exit(EXIT_FAILURE);

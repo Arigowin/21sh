@@ -1,5 +1,5 @@
 #include <stdlib.h>
-#include "minishell.h"
+#include "shell.h"
 #include "libft.h"
 
 int				bi_exit(char **arg, t_duo **env)
@@ -9,7 +9,7 @@ int				bi_exit(char **arg, t_duo **env)
 	i = 0;
 	if (arg && arg[1] && arg[2])
 	{
-		ft_putendl("minishell: exit : too many arguments");
+		ft_putendl("shell: exit : too many arguments");
 		return (-1);
 	}
 	while (arg && arg[1] && arg[1][i])

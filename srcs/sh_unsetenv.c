@@ -1,5 +1,5 @@
 #include <stdlib.h>
-#include "minishell.h"
+#include "shell.h"
 #include "libft.h"
 
 static int		del_first(t_duo **env, char *name)
@@ -52,12 +52,12 @@ int				bi_unsetenv(char **arg, t_duo **env)
 
 	i = 1;
 	if (!arg[i])
-		ft_putendl("minishell: unsetenv: too few arguments.");
+		ft_putendl("shell: unsetenv: too few arguments.");
 	while (arg[i])
 	{
 		if (del_env(env, arg[i]) == -1)
 		{
-			ft_putstr("minishell: unsetenv: '");
+			ft_putstr("shell: unsetenv: '");
 			ft_putstr(arg[i]);
 			ft_putendl("': undefined variable");
 		}

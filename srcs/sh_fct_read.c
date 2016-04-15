@@ -1,6 +1,6 @@
 #include <unistd.h>
 #include <stdlib.h>
-#include "minishell.h"
+#include "shell.h"
 #include "libft.h"
 
 static int		create_list(char cheat[], char (*tmp)[], int *k, t_list **arg)
@@ -53,7 +53,7 @@ int				check_home(char **cmd)
 	{
 		if (cmd[i][0] == '~')
 		{
-			ft_putstr("minishell: ");
+			ft_putstr("shell: ");
 			ft_putstr(cmd[0]);
 			ft_putendl(": no $HOME variable set");
 			return (-1);
