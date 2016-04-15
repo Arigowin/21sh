@@ -53,7 +53,7 @@ int				check_home(char **cmd)
 	{
 		if (cmd[i][0] == '~')
 		{
-			ft_putstr("shell: ");
+			ft_putstr("21sh: ");
 			ft_putstr(cmd[0]);
 			ft_putendl(": no $HOME variable set");
 			return (-1);

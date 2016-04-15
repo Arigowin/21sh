@@ -57,7 +57,7 @@ int				father_n_son(char **cmd, char **env, t_duo **env_cpy)
 	{
 		check_signal(2);
 		check_fct(cmd, env, env_cpy);
-		ft_putstr("shell: ");
+		ft_putstr("21sh: ");
 		ft_putstr(cmd[0]);
 		ft_putendl(": command not found");
 		exit(EXIT_FAILURE);

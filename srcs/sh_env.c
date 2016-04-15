@@ -38,7 +38,7 @@ int				bi_env(char **arg, t_duo **env)
 	{
 		if (print_modified_env(arg, env) == -1)
 		{
-			ft_putstr("env :");
+			ft_putstr("21sh :env :");
 			ft_putstr(arg[1]);
 			ft_putendl(": No such file or directory");
 			return (-1);
