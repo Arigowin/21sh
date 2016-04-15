@@ -18,6 +18,12 @@
 
 # include "libft.h"
 
+typedef struct s_line
+{
+	char	*line;
+	int		curs_x;
+} t_line;
+
 t_duo			*savior(t_duo *env);
 
 int				display_prompt(t_duo *env);
@@ -33,7 +39,7 @@ char			*get_env(t_duo **env, char *name);
 int				handle_builtin(char **cmd, t_duo **env);
 
 char			**read_n_check(char *special, char *read_buff);
-int				fct_read(char *read_buff, char **env, t_duo **env_cpy);
+int				fct_read(t_line *line, t_duo **env_cpy);
 
 int				father_n_son(char **cmd, char **env, t_duo **env_cpy);
 
@@ -51,11 +57,11 @@ int				bi_cd(char **arg, t_duo **env);
 int				init_term();
 int				reset_term();
 int				my_outc(int c);
-int				event(char buf[], char **line, int *x);
-int				backspace(char **line, int *x);
-int				insert(char **line, char c, int pos);
-int				move(int key, int *x, char *line);
-int				del(char **line, int *x);
+int				event(char buf[], t_line *stline);
+int				backspace(t_line *stline);
+int				insert(t_line *stline, char c, int pos);
+int				move(int key, t_line *stline);
+int				del(t_line *stline);
 
 // le char 'line' doit etre accible en permanance car besoin pour les signaux
 //		^C (passe a la ligne suivante et vide 'line')

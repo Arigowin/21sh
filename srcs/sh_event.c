@@ -1,7 +1,7 @@
 #include "shell.h"
 #include "libft.h"
 
-int				event(char buf[], char **line, int *x)
+int				event(char buf[], t_line *stline)
 {
 //	printf("%d, %d, %d\n", buf[0], buf[1], buf[2]);
 	if (buf[0] == RETURN)
@@ -12,14 +12,14 @@ int				event(char buf[], char **line, int *x)
 	else if (buf[1] == 0)
 	{
 		if (buf[0] == BACKSPACE)
-			backspace(line, x);
+			backspace(stline);
 		else if (buf[0] == DEL)
-			del(line, x);
+			del(stline);
 		else if (buf[0] != TAB)
-			insert(line, buf[0], ++(*x) - 4);
+			insert(stline, buf[0], ++(stline->curs_x) - 4);
 	}
 	else if (buf[0] == 27)
-		move(buf[0] + buf[1] + buf[2], x, *line);
+		move(buf[0] + buf[1] + buf[2], stline);
 	ft_bzero(buf, 3);
 	return (0);
 }
