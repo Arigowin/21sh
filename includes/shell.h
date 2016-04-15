@@ -41,7 +41,7 @@ int				handle_builtin(char **cmd, t_duo **env);
 char			**read_n_check(char *special, char *read_buff);
 int				fct_read(t_line *line, t_duo **env_cpy);
 
-int				father_n_son(char **cmd, char **env, t_duo **env_cpy);
+int				father_n_son(char **cmd, t_duo **env_cpy);
 
 int				bi_env(char **arg, t_duo **env);
 

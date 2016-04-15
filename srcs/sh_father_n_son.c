@@ -42,7 +42,7 @@ static int		check_fct(char **cmd, char **env, t_duo **env_cpy)
 	return (0);
 }
 
-int				father_n_son(char **cmd, char **env, t_duo **env_cpy)
+int				father_n_son(char **cmd, t_duo **env_cpy)
 {
 	pid_t		father;
 	int			stat_loc;
@@ -56,7 +56,8 @@ int				father_n_son(char **cmd, char **env, t_duo **env_cpy)
 	if (father == 0)
 	{
 		check_signal(2);
-		check_fct(cmd, env, env_cpy);
+		// transformer env_cpy en char**
+		check_fct(cmd, NULL, env_cpy);
 		ft_putstr("21sh: ");
 		ft_putstr(cmd[0]);
 		ft_putendl(": command not found");

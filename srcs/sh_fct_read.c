@@ -89,7 +89,7 @@ int				fct_read(t_line *stline, t_duo **env_cpy)
 		return (-1);
 	if (check_home(cmd) < 0)
 		return (-1);
-	father_n_son(cmd, NULL, env_cpy);
+	father_n_son(cmd, env_cpy);
 	free_tab(&cmd);
 	return (0);
 }
