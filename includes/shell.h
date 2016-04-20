@@ -4,64 +4,84 @@
 #define DEBUG 0
 #include <stdio.h>
 
+# define CMD 0
+# define ARG 1
+# define RED_ARG 2
+# define PIPE '|' // 124
+# define LRED '<' // 60
+# define RRED '>' // 62
+# define SEMI ';' // 59
+# define DLRED 61 // "<<" -- < + 1
+# define DRRED 63 // ">>" -- > + 1
+# define LOR 125 // "||" -- | + 1
+# define LAND 39 // "&&" -- & + 1
+# define SPECIAL "|<>;&"
 # define SEP " \t\n\0"
-# define BUFF_SIZE 1024
-# define MAX_PATH 1024
 # define LEFT 186
 # define RIGHT 185
 # define UP 183
 # define DOWN 184
 # define BACKSPACE 127
 # define TAB 9
-# define DEL 126
+# define DEL 126 
 # define RETURN 10
+# define BUFF_SIZE 1024
+# define MAX_PATH 1024
 
 # include "libft.h"
 
-typedef struct s_line
+typedef struct			s_arglst
 {
-	char	*line;
-	int		curs_x;
-} t_line;
+	char				*token;
+	int					type;
+	struct s_arglst		*next;
+}						t_arglst;
 
-t_duo			*savior(t_duo *env);
+typedef struct			s_line
+{
+	char				*line;
+	int					curs_x;
+}						t_line;
 
-int				display_prompt(t_duo *env);
-char			**cpy_env(char **env);
-int				manage_tilde(t_duo **env, char **arg);
-int				fill_path(char ***env);
+t_duo					*savior(t_duo *env);
 
-int				check_signal(int loc);
+int						display_prompt(t_duo *env);
+char					**cpy_env(char **env);
+int						manage_tilde(t_duo **env, char **arg);
+int						fill_path(char ***env);
 
-int				add_env(t_duo **env, char *name, char *value);
-int				change_env(t_duo **env, char *name, char *value);
-char			*get_env(t_duo **env, char *name);
-int				handle_builtin(char **cmd, t_duo **env);
+int						check_signal(int loc);
 
-char			**read_n_check(char *special, char *read_buff);
-int				fct_read(t_line *line, t_duo **env_cpy);
+int						add_env(t_duo **env, char *name, char *value);
+int						change_env(t_duo **env, char *name, char *value);
+char					*get_env(t_duo **env, char *name);
+int						handle_builtin(char **cmd, t_duo **env);
 
-int				father_n_son(char **cmd, t_duo **env_cpy);
+char					**read_n_check(char *special, char *read_buff);
+int						fct_read(t_line *line, t_duo **env_cpy);
 
-int				bi_env(char **arg, t_duo **env);
+int						father_n_son(char **cmd, t_duo **env_cpy);
 
-int				bi_exit(char **arg, t_duo **env);
+int						bi_env(char **arg, t_duo **env);
 
-int				bi_setenv(char **arg, t_duo **env);
+int						bi_exit(char **arg, t_duo **env);
 
-int				bi_unsetenv(char **arg, t_duo **env);
+int						bi_setenv(char **arg, t_duo **env);
 
-int				bi_cd(char **arg, t_duo **env);
+int						bi_unsetenv(char **arg, t_duo **env);
+
+int						bi_cd(char **arg, t_duo **env);
 
 
-int				init_term();
-int				reset_term();
-int				my_outc(int c);
-int				event(char buf[], t_line *stline);
-int				backspace(t_line *stline);
-int				insert(t_line *stline, char c, int pos);
-int				move(int key, t_line *stline);
-int				del(t_line *stline);
+int						init_term();
+int						reset_term();
+int						my_outc(int c);
+int						event(char buf[], t_line *stline);
+int						backspace(t_line *stline);
+int						insert(t_line *stline, char c, int pos);
+int						move(int key, t_line *stline);
+int						del(t_line *stline);
+
 
 // le char 'line' doit etre accible en permanance car besoin pour les signaux
 //		^C (passe a la ligne suivante et vide 'line')
