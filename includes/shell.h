@@ -7,14 +7,17 @@
 # define SEP " \t\n\0"
 # define BUFF_SIZE 1024
 # define MAX_PATH 1024
+
 # define LEFT 186
 # define RIGHT 185
 # define UP 183
 # define DOWN 184
+
 # define BACKSPACE 127
 # define TAB 9
 # define RETURN 10
 # define CTRL_D 4
+
 # define OP_RIGHT 344
 # define OP_LEFT 345
 # define DEL 295
