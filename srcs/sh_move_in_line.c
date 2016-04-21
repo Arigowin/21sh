@@ -70,5 +70,7 @@ int		move(int key, t_line *stline)
 		move_word_right(stline);
 	else if (key == OP_LEFT)
 		move_word_left(stline);
+	else
+		return (-1);
 	return (0);
 }

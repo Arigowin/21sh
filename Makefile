@@ -30,7 +30,8 @@ SRC = sh_builtin.c \
 	  sh_signal.c \
 	  sh_termcap.c \
 	  sh_tputs.c \
-	  sh_unsetenv.c
+	  sh_unsetenv.c \
+	  sh_spec_key.c
 
 OFILES = $(patsubst %.c, $(OPATH)/%.o, $(SRC))
 

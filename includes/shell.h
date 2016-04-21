@@ -13,11 +13,13 @@
 # define DOWN 184
 # define BACKSPACE 127
 # define TAB 9
-# define DEL 126
 # define RETURN 10
 # define CTRL_D 4
-# define OP_RIGHT 177
-# define OP_LEFT 178
+# define OP_RIGHT 344
+# define OP_LEFT 345
+# define DEL 295
+# define HOME 293
+# define END 296
 
 # include "libft.h"
 
@@ -60,26 +62,54 @@ int				bi_cd(char **arg, t_duo **env);
 int				init_term();
 int				reset_term();
 int				my_outc(int c);
-int				event(char buf[], t_line *stline);
+int				event(int key, t_line *stline);
 int				backspace(t_line *stline);
 int				insert(t_line *stline, char c, int pos);
 int				move(int key, t_line *stline);
-int				del(t_line *stline);
+int				spec_key(int key, t_line *stline);
 
 // le char 'line' doit etre accible en permanance car besoin pour les signaux
 //		^C (passe a la ligne suivante et vide 'line')
 //		^D ( == del si 'line' contient qqchose)
 // 'x' aussi doit etre disponible
 
-
-/*
-gauche : 27 91 68 : 186
-droite : 27 91 67 : 185
-haut : 27 91 65 : 183
-bas : 27 91 66 : 184
-
-backspace : 127 0 0
-tab : 9 0 0
-*/
+// OP_RIGHT
+// 344
+//
+// OP_LEFT
+// 345
+//
+// HOME
+// 293
+//
+// END
+// 296
+//
+// DEl
+// 295
+//
+// right
+// 185
+//
+// left
+// 186
+//
+// up
+// 183
+//
+// down
+// 184
+//
+// CTRL D
+// 4
+//
+// return
+// 10 || 97 ??????
+//
+// tab
+// 9
+//
+// backspace
+// 127
 
 #endif

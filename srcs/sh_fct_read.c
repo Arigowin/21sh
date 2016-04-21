@@ -66,22 +66,28 @@ int				check_home(char **cmd)
 int				fct_read(t_line *stline, t_duo **env_cpy)
 {
 	char			**cmd;
-	char			buf[3];
+	char			buf[7];
+	int				key;
 	int				ret;
 	int				i;
 
 	i = 0;
 	ret = 0;
 	stline->curs_x = 3;
-	while ((ret = read(0, buf, 3)) > 0)
+	ft_bzero(buf, 7);
+	while ((ret = read(0, buf, 7)) > 0)
 	{
-		// printf("%d | %d\t%d\t%d == %d\n", ret, buf[0], buf[1], buf[2], buf[0] + buf[1] + buf[2]);
-		if (buf[0] + buf[1] + buf[2] == CTRL_D && stline->line[0] == '\0')
+		key = buf[0] + buf[1] + buf[2] + buf[3] + buf[4] + buf[5] + buf[6];
+
+	//	printf("%d | %d\t%d\t%d\t%d\t%d\t%d\t%d == %d\n", ret, buf[0], buf[1], buf[2], buf[3], buf[4], buf[5], buf[6], key);
+
+		if (key == CTRL_D && stline->line[0] == '\0')
 			bi_exit(NULL, env_cpy);
-		else if (buf[0] + buf[1] + buf[2] == CTRL_D)
-			buf[0] = 126;
-		if (event(buf, stline) == 1)
+		else if (key == CTRL_D)
+			key = DEL;
+		if (event(key, stline) == 1)
 			break ;
+		ft_bzero(buf, 7);
 	}
 	if (ret <= 0)
 		bi_exit(NULL, env_cpy);
