@@ -75,6 +75,11 @@ int				fct_read(t_line *stline, t_duo **env_cpy)
 	stline->curs_x = 3;
 	while ((ret = read(0, buf, 3)) > 0)
 	{
+		// printf("%d | %d\t%d\t%d == %d\n", ret, buf[0], buf[1], buf[2], buf[0] + buf[1] + buf[2]);
+		if (buf[0] + buf[1] + buf[2] == CTRL_D && stline->line[0] == '\0')
+			bi_exit(NULL, env_cpy);
+		else if (buf[0] + buf[1] + buf[2] == CTRL_D)
+			buf[0] = 126;
 		if (event(buf, stline) == 1)
 			break ;
 	}

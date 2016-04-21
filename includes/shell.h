@@ -15,6 +15,9 @@
 # define TAB 9
 # define DEL 126
 # define RETURN 10
+# define CTRL_D 4
+# define OP_RIGHT 177
+# define OP_LEFT 178
 
 # include "libft.h"
 

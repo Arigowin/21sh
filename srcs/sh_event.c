@@ -18,7 +18,7 @@ int				event(char buf[], t_line *stline)
 		else if (buf[0] != TAB)
 			insert(stline, buf[0], ++(stline->curs_x) - 4);
 	}
-	else if (buf[0] == 27)
+	else if (buf[0] == 27 || buf[0] == 59)
 		move(buf[0] + buf[1] + buf[2], stline);
 	ft_bzero(buf, 3);
 	return (0);
