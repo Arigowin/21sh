@@ -21,6 +21,7 @@ int			main(int ac, char **av, char **env)
 	char			**cpy;
 	t_duo			*env_cpy;
 	t_line			stline;
+	t_history		*history;
 
 	(void)ac;
 	(void)av;
@@ -31,12 +32,13 @@ int			main(int ac, char **av, char **env)
 	savior(env_cpy);
 	stline.line = ft_strnew(BUFF_SIZE);
 	init_term();
+	history = NULL;
 	while (1)
 	{
 		ft_bzero(stline.line, BUFF_SIZE + 1);
 		check_signal(1);
 		display_prompt(env_cpy);
-		fct_read(&stline, &env_cpy);
+		fct_read(&stline, &env_cpy, &history);
 	}
 	reset_term();
 	free_duo(&env_cpy);

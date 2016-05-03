@@ -1,10 +1,12 @@
 #include "shell.h"
 #include "libft.h"
 
-int				event(int key, t_line *stline)
+int				event(int key, t_line *stline, t_history **history)
 {
 	if (key == RETURN)
 	{
+		if (stline->line && stline->line[0])
+			add_history(history, stline->line);
 		ft_putchar(key);
 		return (1);
 	}
@@ -14,6 +16,8 @@ int				event(int key, t_line *stline)
 		spec_key(key, stline);
 	else if (key == LEFT || key == RIGHT || key == OP_RIGHT || key == OP_LEFT)
 		move(key, stline);
+	else if (key == UP || key == DOWN)
+		nav_history(key, history, stline);
 	else if (key != TAB)
 		insert(stline, key, ++(stline->curs_x) - 4);
 	return (0);

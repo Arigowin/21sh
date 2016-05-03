@@ -63,7 +63,7 @@ int				check_home(char **cmd)
 	return (0);
 }
 
-int				fct_read(t_line *stline, t_duo **env_cpy)
+int				fct_read(t_line *stline, t_duo **env_cpy, t_history **history)
 {
 	char			**cmd;
 	char			buf[7];
@@ -85,7 +85,7 @@ int				fct_read(t_line *stline, t_duo **env_cpy)
 			bi_exit(NULL, env_cpy);
 		else if (key == CTRL_D)
 			key = DEL;
-		if (event(key, stline) == 1)
+		if (event(key, stline, history) == 1)
 			break ;
 		ft_bzero(buf, 7);
 	}

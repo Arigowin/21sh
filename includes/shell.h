@@ -18,19 +18,31 @@
 # define RETURN 10
 # define CTRL_D 4
 
-# define OP_RIGHT 344
-# define OP_LEFT 345
+// - MAC OPTION + [LEFT|RIGHT]
+// # define OP_RIGHT 344
+// # define OP_LEFT 345
+// - LINUX CTRL + [LEFT|RIGHT]
+# define OP_RIGHT 346
+# define OP_LEFT 347
+
 # define DEL 295
 # define HOME 293
 # define END 296
 
 # include "libft.h"
 
-typedef struct s_line
+typedef struct			s_line
 {
-	char	*line;
-	int		curs_x;
-} t_line;
+	char				*line;
+	int					curs_x;
+}						t_line;
+
+typedef struct			s_history
+{
+	char				*line;
+	struct s_history	*prev;
+	struct s_history	*next;
+}						t_history;
 
 t_duo			*savior(t_duo *env);
 
@@ -47,7 +59,7 @@ char			*get_env(t_duo **env, char *name);
 int				handle_builtin(char **cmd, t_duo **env);
 
 char			**read_n_check(char *special, char *read_buff);
-int				fct_read(t_line *line, t_duo **env_cpy);
+int				fct_read(t_line *line, t_duo **env_cpy, t_history **history);
 
 int				father_n_son(char **cmd, t_duo **env_cpy);
 
@@ -65,54 +77,24 @@ int				bi_cd(char **arg, t_duo **env);
 int				init_term();
 int				reset_term();
 int				my_outc(int c);
-int				event(int key, t_line *stline);
+int				event(int key, t_line *stline, t_history **history);
 int				backspace(t_line *stline);
 int				insert(t_line *stline, char c, int pos);
 int				move(int key, t_line *stline);
 int				spec_key(int key, t_line *stline);
+void			add_history(t_history **history, char *line);
+char			*nav_history(int key, t_history **history, t_line *stline);
 
-// le char 'line' doit etre accible en permanance car besoin pour les signaux
-//		^C (passe a la ligne suivante et vide 'line')
-//		^D ( == del si 'line' contient qqchose)
-// 'x' aussi doit etre disponible
 
-// OP_RIGHT
-// 344
-//
-// OP_LEFT
-// 345
-//
-// HOME
-// 293
-//
-// END
-// 296
-//
-// DEl
-// 295
-//
-// right
-// 185
-//
-// left
-// 186
-//
-// up
-// 183
-//
-// down
-// 184
-//
-// CTRL D
-// 4
-//
-// return
-// 10 || 97 ??????
-//
-// tab
-// 9
-//
-// backspace
-// 127
+// X Utiliser les fleches du haut et du bas pour naviguer dans l’historique des commandes que l’on pourra alors éditer si le coeur nous en dit (la ligne, pas l’historique, hein).
+// X Couper, copier et/ou coller tout ou partie d’une ligne avec la séquence de touches qui vous plaira.
+// X Ecrire ET éditer une commande sur plusieurs lignes. Dans ce cas, on apprecie-rait que ctrl+UP et ctrl+DOWN permettent de passer d’une ligne à l’autre de la commande en restant sur la même colonne ou la colonne la plus appropriée sinon.
+// X Si une partie parenthésée de la commande n’est pas refermée avant l’appui sur la touche return, le shell revient à la ligne et attend la fin de la commande. Par partie parenthésée, on entend une partie de la commande entre quotes, doubles quotes, back quotes, parenthèses, crochets, accolades, etc.
+// X ctrl+D et ctrl+C dans l’édition de la ligne (sachant que le ctrl+C pour arrêter un programme en cours, c’est bien aussi).
+
+// O Editer la ligne à l’endroit où se trouve le curseur.
+// O Déplacer le curseur vers la gauche et vers la droite pour pouvoir éditer la ligne à un endroit précis. Les nouveaux caractères doivent bien entendu s’insérer entre les caractères existants de la même manière que dans un shell ordinaire.
+// O Se déplacer par "mot" vers la gauche et vers la droite avec ctrl+LEFT et ctrl+RIGHT ou toute autre combinaison de touche raisonnable.
+// O Aller directement au début et à la fin d’une ligne avec home et end .
 
 #endif
