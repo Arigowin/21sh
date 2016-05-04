@@ -63,15 +63,34 @@ int				check_home(char **cmd)
 	return (0);
 }
 
-int				fct_read(t_line *stline, t_duo **env_cpy, t_history **history)
+int				check_after_read(t_line *stline, t_duo **env_cpy)
 {
 	char			**cmd;
-	char			buf[7];
-	int				key;
-	int				ret;
 	int				i;
 
 	i = 0;
+	if ((cmd = read_n_check(SEP, stline->line)) == NULL || cmd[0] == NULL)
+		return (-1);
+	while (cmd[++i])
+	{
+		if (cmd[i][0] == '~')
+			manage_tilde(env_cpy, &cmd[i]);
+	}
+	if (handle_builtin(cmd, env_cpy) != 0)
+		return (-1);
+	if (check_home(cmd) < 0)
+		return (-1);
+	father_n_son(cmd, env_cpy);
+	free_tab(&cmd);
+	return (0);
+}
+
+int				fct_read(t_line *stline, t_duo **env_cpy, t_history **history)
+{
+	char			buf[7];
+	int				key;
+	int				ret;
+
 	ret = 0;
 	stline->curs_x = 3;
 	ft_bzero(buf, 7);
@@ -79,7 +98,7 @@ int				fct_read(t_line *stline, t_duo **env_cpy, t_history **history)
 	{
 		key = buf[0] + buf[1] + buf[2] + buf[3] + buf[4] + buf[5] + buf[6];
 
-	//	printf("%d | %d\t%d\t%d\t%d\t%d\t%d\t%d == %d\n", ret, buf[0], buf[1], buf[2], buf[3], buf[4], buf[5], buf[6], key);
+		//	printf("%d | %d\t%d\t%d\t%d\t%d\t%d\t%d == %d\n", ret, buf[0], buf[1], buf[2], buf[3], buf[4], buf[5], buf[6], key);
 
 		if (key == CTRL_D && stline->line[0] == '\0')
 			bi_exit(NULL, env_cpy);
@@ -91,16 +110,7 @@ int				fct_read(t_line *stline, t_duo **env_cpy, t_history **history)
 	}
 	if (ret <= 0)
 		bi_exit(NULL, env_cpy);
-	if ((cmd = read_n_check(SEP, stline->line)) == NULL || cmd[0] == NULL)
+	if (check_after_read(stline, env_cpy) == -1)
 		return (-1);
-	while (cmd[++i])
-		if (cmd[i][0] == '~')
-			manage_tilde(env_cpy, &cmd[i]);
-	if (handle_builtin(cmd, env_cpy) != 0)
-		return (-1);
-	if (check_home(cmd) < 0)
-		return (-1);
-	father_n_son(cmd, env_cpy);
-	free_tab(&cmd);
 	return (0);
 }

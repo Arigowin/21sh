@@ -33,38 +33,48 @@ void			add_history(t_history **history, char *line)
 	}
 }
 
-char		*nav_history(int key, t_history **history, t_line *stline)
+static int		up_history(t_line *stline, t_history **history)
 {
 	int		i;
 
 	i = 0;
+	while (stline->curs_x > 3)
+		backspace(stline);
+	while (((*history)->line)[i])
+	{
+		insert(stline, ((*history)->line)[i], ++(stline->curs_x) - 4);
+		i++;
+	}
+	if ((*history)->prev)
+		*history = (*history)->prev;
+	return (0);
+}
+
+static int		down_history(t_line *stline, t_history **history)
+{
+	int		i;
+
+	i = -1;
+	if ((*history)->next)
+	{
+		*history = (*history)->next;
+		i = 0;
+	}
+	while (stline->curs_x > 3)
+		backspace(stline);
+	while (i >= 0 && ((*history)->line)[i])
+	{
+		insert(stline, ((*history)->line)[i], ++(stline->curs_x) - 4);
+		i++;
+	}
+	return (0);
+}
+
+int			nav_history(int key, t_history **history, t_line *stline)
+{
 	if (key == UP && *history != NULL)
-	{
-		while (stline->curs_x > 3)
-			backspace(stline);
-		while (((*history)->line)[i])
-		{
-			insert(stline, ((*history)->line)[i], ++(stline->curs_x) - 4);
-			i++;
-		}
-		if ((*history)->prev)
-			*history = (*history)->prev;
-	}
+		up_history(stline, history);
 	else if (key == DOWN && *history != NULL)
-	{
-		i = -1;
-		if ((*history)->next)
-		{
-			*history = (*history)->next;
-			i = 0;
-		}
-		while (stline->curs_x > 3)
-			backspace(stline);
-		while (i >= 0 && ((*history)->line)[i])
-		{
-			insert(stline, ((*history)->line)[i], ++(stline->curs_x) - 4);
-			i++;
-		}
-	}
-	return (NULL);
+		down_history(stline, history);
+	return (0);
 }

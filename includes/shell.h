@@ -83,10 +83,9 @@ int				insert(t_line *stline, char c, int pos);
 int				move(int key, t_line *stline);
 int				spec_key(int key, t_line *stline);
 void			add_history(t_history **history, char *line);
-char			*nav_history(int key, t_history **history, t_line *stline);
+int				nav_history(int key, t_history **history, t_line *stline);
 
 
-// X Utiliser les fleches du haut et du bas pour naviguer dans l’historique des commandes que l’on pourra alors éditer si le coeur nous en dit (la ligne, pas l’historique, hein).
 // X Couper, copier et/ou coller tout ou partie d’une ligne avec la séquence de touches qui vous plaira.
 // X Ecrire ET éditer une commande sur plusieurs lignes. Dans ce cas, on apprecie-rait que ctrl+UP et ctrl+DOWN permettent de passer d’une ligne à l’autre de la commande en restant sur la même colonne ou la colonne la plus appropriée sinon.
 // X Si une partie parenthésée de la commande n’est pas refermée avant l’appui sur la touche return, le shell revient à la ligne et attend la fin de la commande. Par partie parenthésée, on entend une partie de la commande entre quotes, doubles quotes, back quotes, parenthèses, crochets, accolades, etc.
@@ -96,5 +95,6 @@ char			*nav_history(int key, t_history **history, t_line *stline);
 // O Déplacer le curseur vers la gauche et vers la droite pour pouvoir éditer la ligne à un endroit précis. Les nouveaux caractères doivent bien entendu s’insérer entre les caractères existants de la même manière que dans un shell ordinaire.
 // O Se déplacer par "mot" vers la gauche et vers la droite avec ctrl+LEFT et ctrl+RIGHT ou toute autre combinaison de touche raisonnable.
 // O Aller directement au début et à la fin d’une ligne avec home et end .
+// O Utiliser les fleches du haut et du bas pour naviguer dans l’historique des commandes que l’on pourra alors éditer si le coeur nous en dit (la ligne, pas l’historique, hein).
 
 #endif
