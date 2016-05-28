@@ -9,11 +9,9 @@
 # define BUFF_SIZE 1024
 # define MAX_PATH 1024
 
-# define LEFT 186
-# define RIGHT 185
-
-//# define UP 4283163
-# define UP -10
+# define LEFT 414235
+# define RIGHT 479771
+# define UP 4283163
 # define DOWN 4348699
 
 # define BACKSPACE 127

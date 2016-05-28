@@ -137,13 +137,14 @@ int				fct_read(t_line *stline, t_duo **env_cpy, t_history **history)
 	stline->curs_x = 3;
 	while ((ret = read(0, &key, 8)) > 0)
 	{
-		//		printf("%d\n", key); // !!!!!!!!!!!!!!! PRINTF !!!!!!!!!!!!!!!!!!!
+				//		printf("%d\n", key); // !!!!!!!!!!!!!!! PRINTF !!!!!!!!!!!!!!!!!!!
 		if (key == CTRL_D && stline->line[0] == '\0')
 			bi_exit(NULL, env_cpy);
 		else if (key == CTRL_D)
 			key = DEL;
 		if (event(key, stline, history) == 1)
 			break ;
+		key = 0;
 	}
 	if (ret <= 0)
 		bi_exit(NULL, env_cpy);
