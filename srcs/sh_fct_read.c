@@ -3,42 +3,71 @@
 #include "shell.h"
 #include "libft.h"
 
-static int		create_list(char cheat[], char (*tmp)[], int *k, t_list **arg)
+static t_e_list			*expr_new(char *content)
 {
-	if (cheat[0] == cheat[1] && (*tmp)[0] != '\0')
+	t_e_list		*new;
+
+	if ((new = (t_e_list *)malloc(sizeof(t_e_list))) == NULL)
+		return (NULL);
+	new->data = NULL;
+	new->type = NONE;
+	new->next = NULL;
+	if (content == NULL)
+		return (NULL);
+	new->data = ft_strdup(content);
+	return (new);
+}
+
+static void				expr_pushbk(t_e_list **l_expr, char content[])
+{
+	t_e_list		*tmp;
+
+	tmp = *l_expr;
+	if (tmp == NULL)
 	{
-		ft_lstpushback(arg, *tmp);
-		ft_bzero(*tmp, 1024);
-		*k = 0;
+		*l_expr = expr_new(content);
+		return ;
 	}
-	else if (cheat[0] != cheat[1])
-		(*tmp)[(*k)++] = cheat[0];
-	return (0);
+	while (tmp->next)
+		tmp = tmp->next;
+	tmp->next = expr_new(content);
+}
+
+t_e_list				lexer_1(char *read_buff)
+{
+	t_e_list		*l_expr;
+	char			tmp[1024];
+	char			**tbl;
+	int				i;
+	int				j;
+	int				k;
+
+	ft_bzero(tmp, 1024);
+	l_expr = NULL;
+	i = -1;
+	k = 0;
+	while (read_buff[++i])
+	{
+		j = 0;
+		while (read_buff[i] != special[j] && special[j])
+			j++;
+		if (read_buff[i] == special[j] && tmp[0] != '\0')
+		{
+			expr_pushbk(&l_expr, tmp);
+			ft_bzero(tmp, 1024);
+			k = 0;
+		}
+		else if (read_buff[i] != special[j])
+			tmp[k++] = read_buff[i];
+	}
+	if (ft_strlen(tmp))
+		expr_pushbk(&l_expr, tmp);
 }
 
 char			**read_n_check(char *special, char *read_buff)
 {
-	t_list			*arg;
-	char			tmp[1024];
-	char			cheat[2];
-	char			**tbl;
-	int				i[3];
+	lexer_1(read_buff);
 
-	ft_bzero(tmp, 1024);
-	arg = NULL;
-	i[0] = -1;
-	i[2] = 0;
-	while (read_buff[++i[0]])
-	{
-		i[1] = 0;
-		while (read_buff[i[0]] != special[i[1]] && special[i[1]])
-			i[1]++;
-		cheat[0] = read_buff[i[0]];
-		cheat[1] = special[i[1]];
-		create_list(cheat, &tmp, &(i[2]), &arg);
-	}
-	if (ft_strlen(tmp))
-		ft_lstpushback(&arg, tmp);
 	tbl = lst_to_tbl(arg);
 	free_lst(&arg);
 	return (tbl);
@@ -87,26 +116,20 @@ int				check_after_read(t_line *stline, t_duo **env_cpy)
 
 int				fct_read(t_line *stline, t_duo **env_cpy, t_history **history)
 {
-	char			buf[7];
 	int				key;
 	int				ret;
 
 	ret = 0;
 	stline->curs_x = 3;
-	ft_bzero(buf, 7);
-	while ((ret = read(0, buf, 7)) > 0)
+	while ((ret = read(0, &key, 8)) > 0)
 	{
-		key = buf[0] + buf[1] + buf[2] + buf[3] + buf[4] + buf[5] + buf[6];
-
-		//	printf("%d | %d\t%d\t%d\t%d\t%d\t%d\t%d == %d\n", ret, buf[0], buf[1], buf[2], buf[3], buf[4], buf[5], buf[6], key);
-
+		printf("%d\n", key); // !!!!!!!!!!!!!!! PRINTF !!!!!!!!!!!!!!!!!!!
 		if (key == CTRL_D && stline->line[0] == '\0')
 			bi_exit(NULL, env_cpy);
 		else if (key == CTRL_D)
 			key = DEL;
 		if (event(key, stline, history) == 1)
 			break ;
-		ft_bzero(buf, 7);
 	}
 	if (ret <= 0)
 		bi_exit(NULL, env_cpy);

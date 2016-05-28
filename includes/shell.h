@@ -4,14 +4,16 @@
 #define DEBUG 0
 #include <stdio.h>
 
-# define SEP " \t\n\0"
+# define IGN " \t\n\0"
+# define SEP "|&>< \t\n\0"
 # define BUFF_SIZE 1024
 # define MAX_PATH 1024
 
 # define LEFT 186
 # define RIGHT 185
-# define UP 183
-# define DOWN 184
+
+# define UP 4283163
+# define DOWN 4348699
 
 # define BACKSPACE 127
 # define TAB 9
@@ -25,11 +27,30 @@
 # define OP_RIGHT 346
 # define OP_LEFT 347
 
-# define DEL 295
+# define DEL 2117294875
 # define HOME 293
 # define END 296
 
 # include "libft.h"
+
+typedef enum
+{
+	NONE,
+	EXP,
+	RED,
+	RED_ARG,
+	CMD,
+	CMD_ARG,
+	PIPE,
+	SEMI
+} 						types;
+
+typedef struct			s_e_list
+{
+	char				*data;
+	types				type;
+	struct s_e_list		*next;
+}						t_e_list;
 
 typedef struct			s_line
 {
