@@ -23,6 +23,8 @@ static void				expr_pushbk(t_e_list **l_expr, char content[])
 	t_e_list		*tmp;
 
 	tmp = *l_expr;
+	if (content[0] == '\0')
+		return ;
 	if (tmp == NULL)
 	{
 		*l_expr = expr_new(content);
@@ -33,44 +35,56 @@ static void				expr_pushbk(t_e_list **l_expr, char content[])
 	tmp->next = expr_new(content);
 }
 
-t_e_list				lexer_1(char *read_buff)
+int						inside_lexer_1(char (*tmp)[], char *read_buff, int i, t_e_list **l_expr)
 {
-	t_e_list		*l_expr;
+	(*tmp)[0] = read_buff[i];
+	if (read_buff[i + 1] && read_buff[i + 1] == read_buff[i])
+		(*tmp)[1] = read_buff[i + 1];
+	expr_pushbk(l_expr, *tmp);
+	ft_bzero(*tmp, 2);
+	return (0);
+}
+
+int						lexer_1(char *read_buff, t_e_list **l_expr)
+{
 	char			tmp[1024];
-	char			**tbl;
 	int				i;
-	int				j;
 	int				k;
 
 	ft_bzero(tmp, 1024);
-	l_expr = NULL;
 	i = -1;
 	k = 0;
 	while (read_buff[++i])
 	{
-		j = 0;
-		while (read_buff[i] != special[j] && special[j])
-			j++;
-		if (read_buff[i] == special[j] && tmp[0] != '\0')
+		if (ft_strchr(SEP, read_buff[i]))
 		{
-			expr_pushbk(&l_expr, tmp);
+			expr_pushbk(l_expr, tmp);
 			ft_bzero(tmp, 1024);
 			k = 0;
+			if (ft_strchr(IGN, read_buff[i]) == NULL)
+			inside_lexer_1(&tmp, read_buff, i, l_expr);
 		}
-		else if (read_buff[i] != special[j])
+		else if (ft_strchr(SEP, read_buff[i]) == NULL)
 			tmp[k++] = read_buff[i];
 	}
 	if (ft_strlen(tmp))
-		expr_pushbk(&l_expr, tmp);
+		expr_pushbk(l_expr, tmp);
+	return (0);
 }
 
 char			**read_n_check(char *special, char *read_buff)
 {
-	lexer_1(read_buff);
+	t_e_list		*l_expr;
 
-	tbl = lst_to_tbl(arg);
-	free_lst(&arg);
-	return (tbl);
+	(void)special;
+	l_expr = NULL;
+	lexer_1(read_buff, &l_expr);
+	printf("trololopouettoto\n");
+	while (l_expr != NULL){printf("(((%s)))\n",l_expr->data); l_expr=l_expr->next;}
+	//	tbl = lst_to_tbl(arg);
+	//	free_lst(&arg);
+	//	return (tbl);
+	return (NULL);
 }
 
 int				check_home(char **cmd)
@@ -123,7 +137,7 @@ int				fct_read(t_line *stline, t_duo **env_cpy, t_history **history)
 	stline->curs_x = 3;
 	while ((ret = read(0, &key, 8)) > 0)
 	{
-		printf("%d\n", key); // !!!!!!!!!!!!!!! PRINTF !!!!!!!!!!!!!!!!!!!
+		//		printf("%d\n", key); // !!!!!!!!!!!!!!! PRINTF !!!!!!!!!!!!!!!!!!!
 		if (key == CTRL_D && stline->line[0] == '\0')
 			bi_exit(NULL, env_cpy);
 		else if (key == CTRL_D)

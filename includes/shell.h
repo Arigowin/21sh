@@ -12,7 +12,8 @@
 # define LEFT 186
 # define RIGHT 185
 
-# define UP 4283163
+//# define UP 4283163
+# define UP -10
 # define DOWN 4348699
 
 # define BACKSPACE 127
