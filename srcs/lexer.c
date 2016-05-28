@@ -40,8 +40,14 @@ t_arglst		*lexer(char *read_buff)
 	int				i;
 	int				j;
 
-
-	ft_bzero(tmp, ft_strlen(tmp));
+	ft_bzero(tmp, ft_strlen(read_buff));
 	ret = NULL;
-
+	i = 0
+	while (read_buff[i])
+	{
+		j = 0;
+		while (SEP && read_buff[i] != SEP[j])
+			j++;
+		if (read_buff[i] == SEP[j] && (read_buff[i] != ' ' && read_buff[i] != '\t' && read_buff[i] != '\n' && read_buff[i] != '\0'))
+	}
 }

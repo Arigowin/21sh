@@ -11,12 +11,13 @@
 # define LRED '<' // 60
 # define RRED '>' // 62
 # define SEMI ';' // 59
+# define LAND '&' // 38
 # define DLRED 61 // "<<" -- < + 1
 # define DRRED 63 // ">>" -- > + 1
-# define LOR 125 // "||" -- | + 1
-# define LAND 39 // "&&" -- & + 1
+# define LDOR 125 // "||" -- | + 1
+# define LDAND 39 // "&&" -- & + 1
 # define SPECIAL "|<>;&"
-# define SEP " \t\n\0"
+# define SEP " \t\n\0|<>;&"
 # define LEFT 186
 # define RIGHT 185
 # define UP 183
