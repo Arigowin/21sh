@@ -78,7 +78,13 @@ int				change_env(t_duo **env, char *name, char *value);
 char			*get_env(t_duo **env, char *name);
 int				handle_builtin(char **cmd, t_duo **env);
 
+/*
+** sh_fct_read
+*/
+int				lexer_1(char *read_buff, t_e_list **l_expr);
 char			**read_n_check(char *special, char *read_buff);
+int				check_home(char **cmd);
+int				check_after_read(t_line *stline, t_duo **env_cpy);
 int				fct_read(t_line *line, t_duo **env_cpy, t_history **history);
 
 int				father_n_son(char **cmd, t_duo **env_cpy);

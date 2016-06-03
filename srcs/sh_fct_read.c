@@ -35,17 +35,17 @@ static void				expr_pushbk(t_e_list **l_expr, char content[])
 	tmp->next = expr_new(content);
 }
 
-int						inside_lexer_1(char (*tmp)[], char *read_buff, int i, t_e_list **l_expr)
+static int		in_lexer_1(char (*tmp)[], char *r_buff, int i, t_e_list **l_exp)
 {
-	(*tmp)[0] = read_buff[i];
-	if (read_buff[i + 1] && read_buff[i + 1] == read_buff[i])
-		(*tmp)[1] = read_buff[i + 1];
-	expr_pushbk(l_expr, *tmp);
+	(*tmp)[0] = r_buff[i];
+	if (r_buff[i + 1] && r_buff[i + 1] == r_buff[i])
+		(*tmp)[1] = r_buff[i + 1];
+	expr_pushbk(l_exp, *tmp);
 	ft_bzero(*tmp, 2);
 	return (0);
 }
 
-int						lexer_1(char *read_buff, t_e_list **l_expr)
+int				lexer_1(char *read_buff, t_e_list **l_expr)
 {
 	char			tmp[1024];
 	int				i;
