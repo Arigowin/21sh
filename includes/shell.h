@@ -5,7 +5,8 @@
 #include <stdio.h>
 
 # define IGN " \t\n\0"
-# define SEP "|&>< \t\n\0"
+# define SEP "|&><; \t\n\0"
+# define SPECIAL "|&><;"
 # define BUFF_SIZE 1024
 # define MAX_PATH 1024
 
@@ -79,9 +80,18 @@ char			*get_env(t_duo **env, char *name);
 int				handle_builtin(char **cmd, t_duo **env);
 
 /*
-** sh_fct_read
+** sh_lexer1
 */
 int				lexer_1(char *read_buff, t_e_list **l_expr);
+
+/*
+** sh_lexer2
+*/
+void			lexer_2(t_e_list **l_expr);
+
+/*
+** sh_fct_read
+*/
 char			**read_n_check(char *special, char *read_buff);
 int				check_home(char **cmd);
 int				check_after_read(t_line *stline, t_duo **env_cpy);
@@ -112,6 +122,8 @@ void			add_history(t_history **history, char *line);
 int				nav_history(int key, t_history **history, t_line *stline);
 
 
+// X finir lexer
+// X implémenter parser
 // X Couper, copier et/ou coller tout ou partie d’une ligne avec la séquence de touches qui vous plaira.
 // X Ecrire ET éditer une commande sur plusieurs lignes. Dans ce cas, on apprecie-rait que ctrl+UP et ctrl+DOWN permettent de passer d’une ligne à l’autre de la commande en restant sur la même colonne ou la colonne la plus appropriée sinon.
 // X Si une partie parenthésée de la commande n’est pas refermée avant l’appui sur la touche return, le shell revient à la ligne et attend la fin de la commande. Par partie parenthésée, on entend une partie de la commande entre quotes, doubles quotes, back quotes, parenthèses, crochets, accolades, etc.

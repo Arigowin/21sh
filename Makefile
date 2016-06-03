@@ -20,6 +20,8 @@ SRC = sh_builtin.c \
 	  sh_env.c \
 	  sh_event.c \
 	  sh_exit.c \
+	  sh_lexer1.c \
+	  sh_lexer2.c \
 	  sh_father_n_son.c \
 	  sh_fct_read.c \
 	  sh_first_steps.c \
