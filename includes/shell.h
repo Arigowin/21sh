@@ -9,8 +9,8 @@
 # define BUFF_SIZE 1024
 # define MAX_PATH 1024
 
-# define LEFT 414235
-# define RIGHT 479771
+# define LEFT 4479771
+# define RIGHT 4414235
 # define UP 4283163
 # define DOWN 4348699
 
@@ -23,12 +23,12 @@
 // # define OP_RIGHT 344
 // # define OP_LEFT 345
 // - LINUX CTRL + [LEFT|RIGHT]
-# define OP_RIGHT 346
-# define OP_LEFT 347
+# define OP_RIGHT 993090331
+# define OP_LEFT 993090331
 
 # define DEL 2117294875
-# define HOME 293
-# define END 296
+# define HOME 2117163803
+# define END 2117360411
 
 # include "libft.h"
 
