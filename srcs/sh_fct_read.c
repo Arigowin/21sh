@@ -12,6 +12,7 @@ char			**read_n_check(char *special, char *read_buff)
 	lexer_1(read_buff, &l_expr);
 	printf("trololopouettoto\n");
 	lexer_2(&l_expr);
+	parser(&l_expr);
 	while (l_expr != NULL){printf("(((%s -- %d)))\n",l_expr->data, l_expr->type); l_expr=l_expr->next;}
 	//	tbl = lst_to_tbl(arg);
 	//	free_lst(&arg);

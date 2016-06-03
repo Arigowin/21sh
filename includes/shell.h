@@ -1,5 +1,5 @@
-#ifndef MINISHELL_H
-# define MINISHELL_H
+#ifndef SHELL_H
+# define SHELL_H
 
 #define DEBUG 0
 #include <stdio.h>
@@ -65,15 +65,32 @@ typedef struct			s_history
 	struct s_history	*next;
 }						t_history;
 
+typedef struct			s_node
+{
+	char				*data;
+	types				type;
+	struct s_e_list		*left;
+	struct s_e_list		*right;
+}						t_node;
+
 t_duo			*savior(t_duo *env);
 
+/*
+** sh_first_steps
+*/
 int				display_prompt(t_duo *env);
 char			**cpy_env(char **env);
 int				manage_tilde(t_duo **env, char **arg);
 int				fill_path(char ***env);
 
+/*
+** sh_signal
+*/
 int				check_signal(int loc);
 
+/*
+** sh_builtin
+*/
 int				add_env(t_duo **env, char *name, char *value);
 int				change_env(t_duo **env, char *name, char *value);
 char			*get_env(t_duo **env, char *name);
@@ -87,7 +104,7 @@ int				lexer_1(char *read_buff, t_e_list **l_expr);
 /*
 ** sh_lexer2
 */
-void			lexer_2(t_e_list **l_expr);
+int				lexer_2(t_e_list **l_expr);
 
 /*
 ** sh_fct_read
@@ -97,30 +114,76 @@ int				check_home(char **cmd);
 int				check_after_read(t_line *stline, t_duo **env_cpy);
 int				fct_read(t_line *line, t_duo **env_cpy, t_history **history);
 
+/*
+** sh_father_n_son
+*/
 int				father_n_son(char **cmd, t_duo **env_cpy);
 
+/*
+** sh_env
+*/
 int				bi_env(char **arg, t_duo **env);
 
+/*
+** sh_exit
+*/
 int				bi_exit(char **arg, t_duo **env);
 
+/*
+** sh_setenv
+*/
 int				bi_setenv(char **arg, t_duo **env);
 
+/*
+** sh_unsetenv
+*/
 int				bi_unsetenv(char **arg, t_duo **env);
 
+/*
+** sh_cd
+*/
 int				bi_cd(char **arg, t_duo **env);
 
 
+/*
+** sh_termcap
+*/
 int				init_term();
 int				reset_term();
+
+/*
+** sh_tputs
+*/
 int				my_outc(int c);
+
+/*
+** sh_event
+*/
 int				event(int key, t_line *stline, t_history **history);
+
+/*
+** sh_modif_line
+*/
 int				backspace(t_line *stline);
 int				insert(t_line *stline, char c, int pos);
+
+/*
+** sh_move_in_line
+*/
 int				move(int key, t_line *stline);
+
+/*
+** sh_spec_key
+*/
 int				spec_key(int key, t_line *stline);
+
+/*
+** sh_history
+*/
 void			add_history(t_history **history, char *line);
 int				nav_history(int key, t_history **history, t_line *stline);
 
+#endif
 
 // X finir lexer
 // X implémenter parser
@@ -135,4 +198,3 @@ int				nav_history(int key, t_history **history, t_line *stline);
 // O Aller directement au début et à la fin d’une ligne avec home et end .
 // O Utiliser les fleches du haut et du bas pour naviguer dans l’historique des commandes que l’on pourra alors éditer si le coeur nous en dit (la ligne, pas l’historique, hein).
 
-#endif
