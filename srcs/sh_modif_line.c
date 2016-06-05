@@ -27,17 +27,6 @@ int			backspace(t_line *stline)
 	return (0);
 }
 
-int			del(t_line *stline)
-{
-	int		tmp;
-
-	tmp = stline->curs_x;
-	move(185, stline);
-	if (stline->curs_x != tmp)
-		backspace(stline);
-	return (0);
-}
-
 int		insert(t_line *stline, char c, int pos)
 {
 	char	*tmp;
