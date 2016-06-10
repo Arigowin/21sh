@@ -85,6 +85,7 @@ int						display_prompt(t_duo *env);
 char					**cpy_env(char **env);
 int						manage_tilde(t_duo **env, char **arg);
 int						fill_path(char ***env);
+t_duo		*savior(t_duo *env);
 
 /*
 ** sh_first_steps
@@ -191,6 +192,11 @@ int				spec_key(int key, t_line *stline);
 */
 void			add_history(t_history **history, char *line);
 int				nav_history(int key, t_history **history, t_line *stline);
+
+/*
+** sh_parser
+*/
+int				parser(t_e_list **l_expr);
 
 #endif
 
