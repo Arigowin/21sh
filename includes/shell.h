@@ -4,6 +4,10 @@
 #define DEBUG 0
 #include <stdio.h>
 
+# define TRUE 1
+# define FALSE 0
+# define ERROR -1
+
 # define LRED '<' // 60
 # define RRED '>' // 62
 # define LAND '&' // 38
@@ -50,6 +54,7 @@ typedef enum
 	CMD,
 	CMD_ARG,
 	PIPE,
+	AND,
 	SEMI
 } 						types;
 
@@ -121,6 +126,13 @@ int				lexer_1(char *read_buff, t_e_list **l_expr);
 ** sh_lexer2
 */
 int				lexer_2(t_e_list **l_expr);
+
+/*
+** sh_create_tree
+*/
+t_node			*create_node(char *data, types type);
+int				end_left(char *data, types type, t_node **node);
+int				end_right(char *data, types type, t_node **node);
 
 /*
 ** sh_fct_read
@@ -200,7 +212,7 @@ int				nav_history(int key, t_history **history, t_line *stline);
 /*
 ** sh_parser
 */
-int				parser(t_e_list **l_expr);
+t_node			*parser(t_e_list **l_expr);
 
 #endif
 
