@@ -30,7 +30,7 @@ static void			end(t_line *stline)
 	}
 }
 
-int			spec_key(int key, t_line *stline)
+int					spec_key(int key, t_line *stline)
 {
 	if (key == DEL)
 		del(stline);

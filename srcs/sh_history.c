@@ -16,7 +16,7 @@ static t_history	*new_history(char *line)
 	return (new);
 }
 
-void			add_history(t_history **history, char *line)
+void				add_history(t_history **history, char *line)
 {
 	t_history	*new;
 
@@ -33,7 +33,7 @@ void			add_history(t_history **history, char *line)
 	}
 }
 
-static int		up_history(t_line *stline, t_history **history)
+static int			up_history(t_line *stline, t_history **history)
 {
 	int		i;
 
@@ -50,7 +50,7 @@ static int		up_history(t_line *stline, t_history **history)
 	return (0);
 }
 
-static int		down_history(t_line *stline, t_history **history)
+static int			down_history(t_line *stline, t_history **history)
 {
 	int		i;
 
@@ -70,7 +70,7 @@ static int		down_history(t_line *stline, t_history **history)
 	return (0);
 }
 
-int			nav_history(int key, t_history **history, t_line *stline)
+int					nav_history(int key, t_history **history, t_line *stline)
 {
 	if (key == UP && *history != NULL)
 		up_history(stline, history);

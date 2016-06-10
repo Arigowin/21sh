@@ -27,20 +27,27 @@ int			backspace(t_line *stline)
 	return (0);
 }
 
-int		insert(t_line *stline, char c, int pos)
+static int	insert2(t_line *stline, char c, int pos, char **tmp)
+{
+	if ((stline->line)[pos] == 0)
+		(stline->line)[pos] = c;
+	else
+	{
+		if (!(*tmp = ft_strsub(stline->line, pos, ft_strlen(stline->line))))
+			return (-1);
+	}
+	ft_putchar(c);
+	return (0);
+}
+
+int			insert(t_line *stline, char c, int pos)
 {
 	char	*tmp;
 	int		i;
 
 	tmp = NULL;
-	if ((stline->line)[pos] == 0)
-		(stline->line)[pos] = c;
-	else
-	{
-		if ((tmp = ft_strsub(stline->line, pos, ft_strlen(stline->line))) == NULL)
-			return (-1);
-	}
-	ft_putchar(c);
+	if (insert2(stline, c, pos, &tmp) == -1)
+		return (-1);
 	if (tmp != NULL)
 	{
 		// ce == shift + d in vim

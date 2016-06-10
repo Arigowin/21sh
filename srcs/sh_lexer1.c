@@ -35,7 +35,8 @@ static void				expr_pushbk(t_e_list **l_expr, char content[])
 	tmp->next = expr_new(content);
 }
 
-static int		in_lexer_1(char (*tmp)[], char *r_buff, int *i, t_e_list **l_exp)
+static int				in_lexer_1(char (*tmp)[], char *r_buff, int *i,
+		t_e_list **l_exp)
 {
 	(*tmp)[0] = r_buff[(*i)];
 	if (r_buff[(*i) + 1] && r_buff[(*i) + 1] == r_buff[(*i)]
@@ -49,7 +50,7 @@ static int		in_lexer_1(char (*tmp)[], char *r_buff, int *i, t_e_list **l_exp)
 	return (0);
 }
 
-int				lexer_1(char *read_buff, t_e_list **l_expr)
+int						lexer_1(char *read_buff, t_e_list **l_expr)
 {
 	char			tmp[1024];
 	int				i;

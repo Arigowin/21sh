@@ -85,7 +85,7 @@ int						display_prompt(t_duo *env);
 char					**cpy_env(char **env);
 int						manage_tilde(t_duo **env, char **arg);
 int						fill_path(char ***env);
-t_duo		*savior(t_duo *env);
+t_duo					*savior(t_duo *env);
 
 /*
 ** sh_first_steps

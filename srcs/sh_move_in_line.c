@@ -60,7 +60,7 @@ static void	move_word_right(t_line *stline)
 	stline->curs_x = x + 3;
 }
 
-int		move(int key, t_line *stline)
+int			move(int key, t_line *stline)
 {
 	if (key == LEFT)
 		move_left(stline);

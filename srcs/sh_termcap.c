@@ -4,7 +4,7 @@
 #include <fcntl.h>
 #include <stdlib.h>
 
-int			init_term()
+int			init_term(void)
 {
 	struct termios	term;
 	char			*nameterm;
@@ -23,10 +23,10 @@ int			init_term()
 	return (0);
 }
 
-int			reset_term()
+int			reset_term(void)
 {
-	struct termios term;
-	
+	struct termios	term;
+
 	if (tcgetattr(0, &term) == -1)
 		return (-1);
 	term.c_lflag |= (ICANON | ECHO);
