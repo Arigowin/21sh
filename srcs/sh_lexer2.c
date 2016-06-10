@@ -3,6 +3,9 @@
 #include "shell.h"
 #include "libft.h"
 
+#define RA RED_ARG
+#define CA CMD_ARG
+
 int				in_lexer_2(t_e_list **tmp, int boule)
 {
 	while (*tmp && (*tmp)->next)
@@ -10,10 +13,10 @@ int				in_lexer_2(t_e_list **tmp, int boule)
 		if (ft_strchr("><", ((*tmp)->next->data)[0]))
 			(*tmp)->next->type = RED;
 		else if (boule == 1 && (!ft_strchr(SPECIAL, ((*tmp)->next->data)[0]) &&
-			((*tmp)->type == CMD || (*tmp)->type == CMD_ARG || (*tmp)->type == RED_ARG)))
-			(*tmp)->next->type = CMD_ARG;
+			((*tmp)->type == CMD || (*tmp)->type == CA || (*tmp)->type == RA)))
+			(*tmp)->next->type = CA;
 		else if ((*tmp)->type == RED)
-			(*tmp)->next->type = RED_ARG;
+			(*tmp)->next->type = RA;
 		else if (((*tmp)->next->data)[0] == ';')
 		{
 			(*tmp)->next->type = SEMI;
@@ -25,7 +28,7 @@ int				in_lexer_2(t_e_list **tmp, int boule)
 			boule = 0;
 		}
 		else if (boule == 0 && ((ft_strchr(SPECIAL, ((*tmp)->data)[0])
-			&& !ft_strchr("><", ((*tmp)->next->data)[0])) || (*tmp)->type == RED_ARG))
+		&& !ft_strchr("><", ((*tmp)->next->data)[0])) || (*tmp)->type == RA))
 			(*tmp)->next->type = CMD;
 		*tmp = (*tmp)->next;
 	}
