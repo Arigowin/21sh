@@ -17,14 +17,20 @@ t_node			*create_node(char *data, types type)
 	return (new);
 }
 
-int				end_left(char *data, types type, t_node **node)
+int				add_node(char *data, types type, t_node **node, int side)
 {
 	t_node			*tmp;
 
 	tmp = *node;
 	if (*node = NULL)
 		*node = create_node(data, type);
-	else
+	if (side == 0)
+	{
+		while (tmp->right)
+			tmp = tmp->right;
+		tmp->right = create_node(data, type);
+	}
+	else if (side == 1)
 	{
 		while (tmp->left)
 			tmp = tmp->left;
@@ -32,20 +38,3 @@ int				end_left(char *data, types type, t_node **node)
 	}
 	return (0);
 }
-
-int				end_right(char *data, types type, t_node **node)
-{
-	t_node			*tmp;
-
-	tmp = *node;
-	if (*node = NULL)
-		*node = create_node(data, type);
-	else
-	{
-		while (tmp->right)
-			tmp = tmp->right;
-		tmp->right = create_node(data, type);
-	}
-	return (0);
-}
-

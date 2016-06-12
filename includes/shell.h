@@ -58,7 +58,7 @@ typedef enum
 	SEMI
 } 						types;
 
-typedef struct			s_e_list
+typedef struct			s_e_list // -> l_expr
 {
 	char				*data;
 	types				type;
@@ -78,7 +78,7 @@ typedef struct			s_history
 	struct s_history	*next;
 }						t_history;
 
-typedef struct			s_node
+typedef struct			s_node // -> node ou tree
 {
 	char				*data;
 	types				type;
@@ -131,8 +131,7 @@ int				lexer_2(t_e_list **l_expr);
 ** sh_create_tree
 */
 t_node			*create_node(char *data, types type);
-int				end_left(char *data, types type, t_node **node);
-int				end_right(char *data, types type, t_node **node);
+int				add_node(char *data, types type, t_node **node, int side); // 0 pour right - 1 pour left
 
 /*
 ** sh_fct_read
