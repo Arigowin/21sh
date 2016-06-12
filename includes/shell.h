@@ -8,14 +8,6 @@
 # define FALSE 0
 # define ERROR -1
 
-# define LRED '<' // 60
-# define RRED '>' // 62
-# define LAND '&' // 38
-# define DLRED 61 // "<<" -- < + 1
-# define DRRED 63 // ">>" -- > + 1
-# define LDOR 125 // "||" -- | + 1
-# define LDAND 39 // "&&" -- & + 1
-
 # define IGN " \t\n\0"
 # define SEP "|&><; \t\n\0"
 # define SPECIAL "|&><;"
@@ -54,7 +46,13 @@ typedef enum
 	CMD,
 	CMD_ARG,
 	PIPE,
-	AND,
+	LAND,
+	LDOR;
+	LDAND;
+	RRED,
+	LRED,
+	DRRED,
+	DLRED;
 	SEMI
 } 						types;
 
