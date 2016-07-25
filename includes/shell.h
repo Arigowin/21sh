@@ -47,12 +47,12 @@ typedef enum
 	CMD_ARG,
 	PIPE,
 	LAND,
-	LDOR;
-	LDAND;
+	LDOR,
+	LDAND,
 	RRED,
 	LRED,
 	DRRED,
-	DLRED;
+	DLRED,
 	SEMI
 } 						types;
 
@@ -80,8 +80,8 @@ typedef struct			s_node // -> node ou tree
 {
 	char				*data;
 	types				type;
-	struct s_e_list		*left;
-	struct s_e_list		*right;
+	struct s_node		*left;
+	struct s_node		*right;
 }						t_node;
 
 int						display_prompt(t_duo *env);

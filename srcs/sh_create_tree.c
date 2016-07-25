@@ -11,7 +11,7 @@ t_node			*create_node(char *data, types type)
 		return (NULL);
 	if ((new->data = ft_strdup(data)) == NULL)
 		return (NULL);
-	new->types = type;
+	new->type = type;
 	new->left = NULL;
 	new->right = NULL;
 	return (new);
@@ -22,7 +22,7 @@ int				add_node(char *data, types type, t_node **node, int side)
 	t_node			*tmp;
 
 	tmp = *node;
-	if (*node = NULL)
+	if (*node == NULL)
 		*node = create_node(data, type);
 	if (side == 0)
 	{

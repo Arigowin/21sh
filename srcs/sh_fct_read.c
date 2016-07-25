@@ -3,17 +3,38 @@
 #include "shell.h"
 #include "libft.h"
 
+int				tree_traversal(t_node *tree)
+{
+//	printf("tree : %p\n", tree);
+	if (tree->left != NULL)
+//	{printf("toto2\n");
+		tree_traversal(tree->left);
+//	}
+//	printf("toto1/2\n");
+	if (tree->right != NULL)
+		tree_traversal(tree->right);
+//	ft_putstr(tree->data);
+	ft_putstr("-->");
+	return (0);
+}
+
 char			**read_n_check(char *special, char *read_buff)
 {
 	t_e_list		*l_expr;
+	t_node			*tree;
 
 	(void)special;
 	l_expr = NULL;
 	lexer_1(read_buff, &l_expr);
-	printf("trololopouettoto\n");
+	printf("list:\n");
+	t_e_list *tmp = l_expr;
+	while (tmp != NULL){printf("(((%s -- %d)))\n",tmp->data, tmp->type); tmp=tmp->next;}
 	lexer_2(&l_expr);
-	parser(&l_expr);
-	while (l_expr != NULL){printf("(((%s -- %d)))\n",l_expr->data, l_expr->type); l_expr=l_expr->next;}
+	printf("list ap enum:\n");
+	tmp = l_expr;
+	while (tmp != NULL){printf("(((%s --> %d)))\n",tmp->data, tmp->type); tmp=tmp->next;}
+	tree = parser(&l_expr);
+	tree_traversal(tree);
 	//	tbl = lst_to_tbl(arg);
 	//	free_lst(&arg);
 	//	return (tbl);
@@ -45,6 +66,7 @@ int				check_after_read(t_line *stline, t_duo **env_cpy)
 	int				i;
 
 	i = 0;
+	printf("trololopouetpouet....\n");
 	if ((cmd = read_n_check(SEP, stline->line)) == NULL || cmd[0] == NULL)
 		return (-1);
 	while (cmd[++i])
@@ -63,11 +85,13 @@ int				check_after_read(t_line *stline, t_duo **env_cpy)
 
 int				fct_read(t_line *stline, t_duo **env_cpy, t_history **history)
 {
+	ft_putstr("la fct read....\n");
 	int				key;
 	int				ret;
 
 	ret = 0;
 	stline->curs_x = 3;
+	(void)history;
 	while ((ret = read(0, &key, 8)) > 0)
 	{
 		//printf("%d\n", key); // !!!!!!!!!!!!!!! PRINTF !!!!!!!!!!!!!!!!!!!
