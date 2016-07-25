@@ -6,15 +6,15 @@
 int				tree_traversal(t_node *tree)
 {
 //	printf("tree : %p\n", tree);
-	if (tree->left != NULL)
+	if (tree && tree->left != NULL)
 //	{printf("toto2\n");
 		tree_traversal(tree->left);
 //	}
 //	printf("toto1/2\n");
-	if (tree->right != NULL)
+	if (tree && tree->right != NULL)
 		tree_traversal(tree->right);
-//	ft_putstr(tree->data);
-	ft_putstr("-->");
+	ft_putstr(tree->data);
+	ft_putstr(" --> ");
 	return (0);
 }
 
@@ -26,15 +26,14 @@ char			**read_n_check(char *special, char *read_buff)
 	(void)special;
 	l_expr = NULL;
 	lexer_1(read_buff, &l_expr);
-	printf("list:\n");
 	t_e_list *tmp = l_expr;
-	while (tmp != NULL){printf("(((%s -- %d)))\n",tmp->data, tmp->type); tmp=tmp->next;}
 	lexer_2(&l_expr);
-	printf("list ap enum:\n");
 	tmp = l_expr;
-	while (tmp != NULL){printf("(((%s --> %d)))\n",tmp->data, tmp->type); tmp=tmp->next;}
+	printf("avant parser\n");
 	tree = parser(&l_expr);
+	printf("apres parser\n");
 	tree_traversal(tree);
+	printf("\napres tree traversal\n");
 	//	tbl = lst_to_tbl(arg);
 	//	free_lst(&arg);
 	//	return (tbl);

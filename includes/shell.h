@@ -128,8 +128,8 @@ int				lexer_2(t_e_list **l_expr);
 /*
 ** sh_create_tree
 */
-t_node			*create_node(char *data, types type);
-int				add_node(char *data, types type, t_node **node, int side); // 0 pour right - 1 pour left
+t_node			*create_node(types type);
+//int				add_node(char *data, types type, t_node **node, int side); // 0 pour right - 1 pour left
 
 /*
 ** sh_fct_read
