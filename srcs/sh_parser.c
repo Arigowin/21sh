@@ -3,6 +3,29 @@
 #include "shell.h"
 #include "libft.h"
 
+int				clear_node(t_node **node)
+{
+	if (node && (*node) && !(*node)->left && !(*node)->right)
+	{
+		ft_strdel(&((*node)->data));
+		(*node)->type = NONE;
+		free(*node);
+		*node = NULL;
+		return (TRUE);
+	}
+	return (FALSE);
+}
+
+int				clear_tree(t_node **tree)
+{
+	if ((*tree)->left)
+		clear_tree(&((*tree)->left));
+	if ((*tree)->right)
+		clear_tree(&((*tree)->right));
+	clear_node(tree);
+	return (FALSE);
+}
+
 int				parse_error(char *data)
 {
 	ft_putstr("21sh: parse error near \"");
@@ -30,12 +53,15 @@ int				check_red_arg(t_e_list **l_expr, t_node **tree)
 	{
 		node->type = RED_ARG;
 		if ((node->data = ft_strdup((*l_expr)->data)) == NULL)
+		{
+			clear_node(&node);
 			return (FALSE);
+		}
 		*tree = node;
 		return (TRUE);
 	}
 	parse_error((*l_expr)->data);
-	//clear_node();
+	clear_node(&node);
 	return (FALSE);
 }
 
@@ -47,10 +73,14 @@ int				check_red(t_e_list **l_expr, t_node **tree)
 	node = NULL;
 	save = *l_expr;
 	if ((node = create_node(NULL, RED)) != NULL && (*l_expr)->type == RED
-		&& move_in_list(*l_expr) && check_red_arg(l_expr, &(node->right)))
+			&& move_in_list(*l_expr) && check_red_arg(l_expr, &(node->right)))
 	{
 		if ((node->data = ft_strdup(save->data)) == NULL)
+		{
+			clear_node(&node);
 			return (FALSE);
+		}
+		return (FALSE);
 		node->type = ft_strequ(save->data, ">") ? RRED : 0;
 		node->type = ft_strequ(save->data, ">>") ? DRRED : node->type;
 		node->type = ft_strequ(save->data, "<") ? LRED : node->type;
@@ -60,7 +90,7 @@ int				check_red(t_e_list **l_expr, t_node **tree)
 			*l_expr = save;
 		return (TRUE);
 	}
-	// fct clear_node();
+	clear_node(&node);
 	*l_expr = save;
 	return (FALSE);
 }
@@ -76,13 +106,16 @@ int				check_arg(t_e_list **l_expr, t_node **tree)
 	{
 		node->type = CMD_ARG;
 		if ((node->data = ft_strdup((*l_expr)->data)) == NULL)
+		{
+			clear_node(&node);
 			return (FALSE);
+		}
 		if (!move_in_list(*l_expr) || !check_arg(l_expr, &(node->right)))
 			*l_expr = save;
 		*tree = node;
 		return (TRUE);
 	}
-	//clear_node();
+	clear_node(&node);
 	return (FALSE);
 }
 
@@ -103,14 +136,17 @@ int				check_command(t_e_list **l_expr, t_node **tree)
 	{
 		node->type = CMD;
 		if ((node->data = ft_strdup((*l_expr)->data)) == NULL)
+		{
+			clear_node(&node);
 			return (FALSE);
+		}
 		if (!move_in_list(*l_expr) || !check_arg(l_expr, &(node->right)))
 			*l_expr = save;
 		*tree = node;
 		return (TRUE);
 	}
 	parse_error((*l_expr)->data);
-	//clear_node();
+	clear_node(&node);
 	return (FALSE);
 }
 
@@ -126,6 +162,8 @@ int				check_c_pipe(t_e_list **l_expr, t_node **tree)
 		*tree = node;
 		return (TRUE);
 	}
+	parse_error((*l_expr)->data);
+	clear_node(&node);
 	return (FALSE);
 }
 
@@ -152,7 +190,7 @@ t_node			*parser(t_e_list **l_expr)
 	node = NULL;
 	if ((check_expr(l_expr, &node)) == FALSE)
 	{
-		// clear tree
+		clear_tree(&node);
 	}
-		return (node);
+	return (node);
 }
