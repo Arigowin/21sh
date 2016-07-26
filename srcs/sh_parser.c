@@ -36,20 +36,21 @@ int				parse_error(char *data)
 	return (ERROR);
 }
 
-int				move_in_list(t_e_list *l_expr)
+int				move_in_list(t_e_list **l_expr)
 {
-	printf("move in list\n");
-	if (l_expr && l_expr->next)
+	printf("move in list [%s]\n", (*l_expr)->data);
+	if ((*l_expr) && (*l_expr)->next)
 	{
-		l_expr = l_expr->next;
-		return (1);
+		(*l_expr) = (*l_expr)->next;
+		printf("move [%s]\n", (*l_expr)->data);
+		return (TRUE);
 	}
-	return (0);
+	return (FALSE);
 }
 
 int				check_red_arg(t_e_list **l_expr, t_node **tree)
 {
-	printf("check red arg\n");
+	printf("check red arg [%s]\n", (*l_expr)->data);
 	t_node			*node;
 
 	node = NULL;
@@ -71,14 +72,14 @@ int				check_red_arg(t_e_list **l_expr, t_node **tree)
 
 int				check_red(t_e_list **l_expr, t_node **tree)
 {
-	printf("check red\n");
+	printf("check red [%s]\n", (*l_expr)->data);
 	t_node			*node;
 	t_e_list		*save;
 
 	node = NULL;
 	save = *l_expr;
 	if ((node = create_node(RED)) != NULL && (*l_expr)->type == RED
-			&& move_in_list(*l_expr) && check_red_arg(l_expr, &(node->right)))
+			&& move_in_list(l_expr) && check_red_arg(l_expr, &(node->right)))
 	{
 		if ((node->data = ft_strdup(save->data)) == NULL)
 		{
@@ -91,7 +92,7 @@ int				check_red(t_e_list **l_expr, t_node **tree)
 		node->type = ft_strequ(save->data, "<") ? LRED : node->type;
 		node->type = ft_strequ(save->data, "<<") ? DLRED : node->type;
 		*tree = node;
-		if (!move_in_list(*l_expr) || !check_red(l_expr, &(node->left)))
+		if (!move_in_list(l_expr) || !check_red(l_expr, &(node->left)))
 			*l_expr = save;
 		return (TRUE);
 	}
@@ -102,7 +103,7 @@ int				check_red(t_e_list **l_expr, t_node **tree)
 
 int				check_arg(t_e_list **l_expr, t_node **tree)
 {
-	printf("check arg\n");
+	printf("check arg [%s]\n", (*l_expr)->data);
 	t_node			*node;
 	t_e_list		*save;
 
@@ -117,7 +118,7 @@ int				check_arg(t_e_list **l_expr, t_node **tree)
 		//	clear_node(&node);
 			return (FALSE);
 		}
-		if (!move_in_list(*l_expr) || !check_arg(l_expr, &(node->right)))
+		if (!move_in_list(l_expr) || !check_arg(l_expr, &(node->right)))
 			*l_expr = save;
 		*tree = node;
 		return (TRUE);
@@ -128,7 +129,7 @@ int				check_arg(t_e_list **l_expr, t_node **tree)
 
 int				check_command(t_e_list **l_expr, t_node **tree)
 {
-	printf("check command\n");
+	printf("check command [%s]\n", (*l_expr)->data);
 	t_e_list		*save;
 	t_node			*node;
 	int				red;
@@ -140,7 +141,7 @@ int				check_command(t_e_list **l_expr, t_node **tree)
 		return (FALSE);
 	if (!(red = check_red(l_expr, &(node->left))))
 		*l_expr = save;
-	if ((!red || move_in_list(*l_expr)) && (*l_expr)->type == CMD)
+	if ((!red || move_in_list(l_expr)) && (*l_expr)->type == CMD)
 	{
 		node->type = CMD;
 		if ((node->data = ft_strdup((*l_expr)->data)) == NULL)
@@ -148,8 +149,7 @@ int				check_command(t_e_list **l_expr, t_node **tree)
 			clear_node(&node);
 			return (FALSE);
 		}
-		// PB DE DEPLACEMENT !!!!!!!!!!!!!!!!
-		if (!move_in_list(*l_expr) || !check_arg(l_expr, &(node->right)))
+		if (!move_in_list(l_expr) || !check_arg(l_expr, &(node->right)))
 			*l_expr = save;
 		*tree = node;
 		return (TRUE);
@@ -161,7 +161,7 @@ int				check_command(t_e_list **l_expr, t_node **tree)
 
 int				check_c_pipe(t_e_list **l_expr, t_node **tree)
 {
-	printf("check cpipe\n");
+	printf("check cpipe [%s]\n", (*l_expr)->data);
 	t_node			*node;
 
 	node = NULL;
@@ -179,7 +179,7 @@ int				check_c_pipe(t_e_list **l_expr, t_node **tree)
 
 int				check_expr(t_e_list **l_expr, t_node **tree)
 {
-	printf("check expr\n");
+	printf("check expr [%s]\n", (*l_expr)->data);
 	t_node			*node;
 
 	node = NULL;
@@ -194,6 +194,7 @@ int				check_expr(t_e_list **l_expr, t_node **tree)
 
 t_node			*parser(t_e_list **l_expr)
 {
+	printf("parser [%s]\n", (*l_expr)->data);
 	t_node			*node;
 
 	if (*l_expr == NULL)

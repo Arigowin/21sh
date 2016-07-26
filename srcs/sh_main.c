@@ -47,6 +47,7 @@ int			main(int ac, char **av, char **env)
 		display_prompt(env_cpy);
 		printf("fct read comming\n");
 		fct_read(&stline, &env_cpy, &history);
+		break ;
 	}
 	reset_term();
 	free_duo(&env_cpy);
