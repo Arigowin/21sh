@@ -65,6 +65,7 @@ int				check_red_arg(t_e_list **l_expr, t_node **tree)
 		*tree = node;
 		return (TRUE);
 	}
+	printf("error in check red arg\n");
 	parse_error((*l_expr)->data);
 	clear_node(&node);
 	return (FALSE);
@@ -86,13 +87,12 @@ int				check_red(t_e_list **l_expr, t_node **tree)
 			clear_node(&node);
 			return (FALSE);
 		}
-		return (FALSE);
 		node->type = ft_strequ(save->data, ">") ? RRED : 0;
 		node->type = ft_strequ(save->data, ">>") ? DRRED : node->type;
 		node->type = ft_strequ(save->data, "<") ? LRED : node->type;
 		node->type = ft_strequ(save->data, "<<") ? DLRED : node->type;
 		*tree = node;
-		if (!move_in_list(l_expr) || !check_red(l_expr, &(node->left)))
+		if (!move_in_list(l_expr))// || !check_red(l_expr, &(node->left)))
 			*l_expr = save;
 		return (TRUE);
 	}
@@ -139,9 +139,10 @@ int				check_command(t_e_list **l_expr, t_node **tree)
 	red = 0;
 	if ((node = create_node(CMD)) == NULL)
 		return (FALSE);
-	if (!(red = check_red(l_expr, &(node->left))))
+	if ((red = check_red(l_expr, &(node->left))) == FALSE)
 		*l_expr = save;
-	if ((!red || move_in_list(l_expr)) && (*l_expr)->type == CMD)
+	printf("ZXXXcheck command [%s]%d\n", (*l_expr)->data, red);
+	if ((red != FALSE || move_in_list(l_expr)) && (*l_expr)->type == CMD)
 	{
 		node->type = CMD;
 		if ((node->data = ft_strdup((*l_expr)->data)) == NULL)
@@ -154,6 +155,7 @@ int				check_command(t_e_list **l_expr, t_node **tree)
 		*tree = node;
 		return (TRUE);
 	}
+	printf("error in check cmd\n");
 	parse_error((*l_expr)->data);
 	clear_node(&node);
 	return (FALSE);
@@ -172,6 +174,7 @@ int				check_c_pipe(t_e_list **l_expr, t_node **tree)
 		*tree = node;
 		return (TRUE);
 	}
+	printf("error in check cpipe\n");
 	parse_error((*l_expr)->data);
 	clear_node(&node);
 	return (FALSE);

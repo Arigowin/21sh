@@ -26,9 +26,9 @@ char			**read_n_check(char *special, char *read_buff)
 	(void)special;
 	l_expr = NULL;
 	lexer_1(read_buff, &l_expr);
-	t_e_list *tmp = l_expr;
+//	t_e_list *tmp = l_expr;
 	lexer_2(&l_expr);
-	tmp = l_expr;
+//	tmp = l_expr;
 	printf("avant parser\n");
 	tree = parser(&l_expr);
 	printf("apres parser\n");
