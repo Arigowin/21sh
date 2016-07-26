@@ -142,7 +142,7 @@ int				check_command(t_e_list **l_expr, t_node **tree)
 	if ((red = check_red(l_expr, &(node->left))) == FALSE)
 		*l_expr = save;
 	printf("ZXXXcheck command [%s]%d\n", (*l_expr)->data, red);
-	if ((red != FALSE || move_in_list(l_expr)) && (*l_expr)->type == CMD)
+	if (/*(!red  || move_in_list(l_expr) ) &&*/ (*l_expr)->type == CMD)
 	{
 		node->type = CMD;
 		if ((node->data = ft_strdup((*l_expr)->data)) == NULL)
@@ -150,7 +150,12 @@ int				check_command(t_e_list **l_expr, t_node **tree)
 			clear_node(&node);
 			return (FALSE);
 		}
-		if (!move_in_list(l_expr) || !check_arg(l_expr, &(node->right)))
+		// apres move peut etre 
+		//  - cmd arg
+		//  - red
+		if (!move_in_list(l_expr))
+			*l_expr = save;
+		if (!check_arg(l_expr, &(node->right)) && !check_red(l_expr, &(node->left)))
 			*l_expr = save;
 		*tree = node;
 		return (TRUE);

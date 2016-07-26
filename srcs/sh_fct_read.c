@@ -5,14 +5,17 @@
 
 int				tree_traversal(t_node *tree)
 {
-//	printf("tree : %p\n", tree);
+	printf("tree : %s\n", tree->data);
 	if (tree && tree->left != NULL)
-//	{printf("toto2\n");
+	{
+		printf("left %s\n", tree->left->data);
 		tree_traversal(tree->left);
-//	}
-//	printf("toto1/2\n");
+	}
 	if (tree && tree->right != NULL)
+	{
+		printf("right %s\n", tree->right->data);
 		tree_traversal(tree->right);
+	}
 	ft_putstr(tree->data);
 	ft_putstr(" --> ");
 	return (0);

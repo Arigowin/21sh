@@ -5,7 +5,7 @@
 
 t_node			*create_node(types type)
 {
-	printf("create node\n");
+//	printf("create node\n");
 	t_node			*new;
 
 	if ((new = (t_node *)malloc(sizeof(t_node))) == NULL)
@@ -14,7 +14,7 @@ t_node			*create_node(types type)
 	new->type = type;
 	new->left = NULL;
 	new->right = NULL;
-	printf("end create node\n");
+//	printf("end create node\n");
 	return (new);
 }
 
