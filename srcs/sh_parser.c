@@ -92,7 +92,7 @@ int				check_red(t_e_list **l_expr, t_node **tree)
 		node->type = ft_strequ(save->data, "<<") ? DLRED : node->type;
 		*tree = node;
 		printf("XXX\n");
-		if (!move_in_list(l_expr))// || !check_red(l_expr, &(node->left)))
+		if (!move_in_list(l_expr) || !check_red(l_expr, &(node->left)))
 			*l_expr = save;
 		printf("YXX\n");
 		return (TRUE);
