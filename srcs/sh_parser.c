@@ -141,7 +141,7 @@ int				check_command(t_e_list **l_expr, t_node **tree)
 		return (FALSE);
 	if ((red = check_red(l_expr, &(node->left))) == FALSE)
 		*l_expr = save;
-	printf("ZXXXcheck command [%s]%d\n", (*l_expr)->data, red);
+	printf("check command after check red [%s]%d\n", (*l_expr)->data, red);
 	if (/*(!red  || move_in_list(l_expr) ) &&*/ (*l_expr)->type == CMD)
 	{
 		node->type = CMD;
@@ -155,6 +155,7 @@ int				check_command(t_e_list **l_expr, t_node **tree)
 		//  - red
 		if (!move_in_list(l_expr))
 			*l_expr = save;
+		printf("abcdef\n");
 		if (!check_arg(l_expr, &(node->right)) && !check_red(l_expr, &(node->left)))
 			*l_expr = save;
 		*tree = node;
