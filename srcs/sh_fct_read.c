@@ -5,19 +5,21 @@
 
 int				tree_traversal(t_node *tree)
 {
-	printf("tree : %s\n", tree->data);
+	printf("tree : %s - %d\n", tree->data, tree->type);
 	if (tree && tree->left != NULL)
 	{
-		printf("left %s\n", tree->left->data);
+		printf("{{%s left %s}}\n", tree->data, tree->left->data);
 		tree_traversal(tree->left);
 	}
 	if (tree && tree->right != NULL)
 	{
-		printf("right %s\n", tree->right->data);
+		printf("{{%s right %s}}\n", tree->data, tree->right->data);
 		tree_traversal(tree->right);
 	}
-	ft_putstr(tree->data);
-	ft_putstr(" --> ");
+//	ft_putstr("[");
+//	ft_putstr(tree->data);
+//	ft_putstr("]");
+//	ft_putstr(" --> ");
 	return (0);
 }
 
@@ -94,7 +96,7 @@ int				fct_read(t_line *stline, t_duo **env_cpy, t_history **history)
 	ret = 0;
 	stline->curs_x = 3;
 	(void)history;
-	while ((ret = read(0, &key, 8)) > 0)
+	while ((ret = read(0, &key, 7)) > 0)
 	{
 		//printf("%d\n", key); // !!!!!!!!!!!!!!! PRINTF !!!!!!!!!!!!!!!!!!!
 		if (key == CTRL_D && stline->line[0] == '\0')
