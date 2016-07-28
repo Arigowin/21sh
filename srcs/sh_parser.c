@@ -91,8 +91,10 @@ int				check_red(t_e_list **l_expr, t_node **tree)
 		node->type = ft_strequ(save->data, "<") ? LRED : node->type;
 		node->type = ft_strequ(save->data, "<<") ? DLRED : node->type;
 		*tree = node;
+		printf("XXX\n");
 		if (!move_in_list(l_expr))// || !check_red(l_expr, &(node->left)))
 			*l_expr = save;
+		printf("YXX\n");
 		return (TRUE);
 	}
 	//clear_node(&node);
@@ -146,7 +148,7 @@ int				check_command(t_e_list **l_expr, t_node **tree)
 		*l_expr = save;
 	}
 	printf("check command after check red [%s]%d\n", (*l_expr)->data, red);
-	if (/*(!red  || move_in_list(l_expr) ) &&*/ (*l_expr)->type == CMD)
+	if ((*l_expr)->type == CMD /*(!red  || move_in_list(l_expr))*/)
 	{
 		if ((node->data = ft_strdup((*l_expr)->data)) == NULL)
 		{
@@ -157,7 +159,7 @@ int				check_command(t_e_list **l_expr, t_node **tree)
 			*l_expr = save;
 		else
 		{
-			// apres move peut etre 
+			// apres move peut etre
 			//  - cmd arg
 			//  - red
 			printf("XXXn %s\n", node->data);
