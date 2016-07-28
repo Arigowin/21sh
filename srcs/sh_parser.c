@@ -109,7 +109,7 @@ int				check_arg(t_e_list **l_expr, t_node **tree)
 
 	node = NULL;
 	save = *l_expr;
-		printf("((%s)))\n", (*l_expr)->data);
+	printf("((%s - %d)))\n", (*l_expr)->data, (*l_expr)->type);
 	if (((node = create_node(CMD_ARG)) != NULL) && (*l_expr)->type == CMD_ARG)
 	{
 		node->type = CMD_ARG;
@@ -155,7 +155,6 @@ int				check_command(t_e_list **l_expr, t_node **tree)
 		//  - red
 		if (!move_in_list(l_expr))
 			*l_expr = save;
-		printf("abcdef\n");
 		if (!check_arg(l_expr, &(node->right)) && !check_red(l_expr, &(node->left)))
 			*l_expr = save;
 		*tree = node;
