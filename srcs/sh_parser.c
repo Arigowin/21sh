@@ -110,7 +110,7 @@ int				check_arg(t_e_list **l_expr, t_node **tree, t_node **right_node)
 	t_node			*save;
 
 	node = NULL;
-	save = *tree; // noeud CMD
+	save = *tree;
 	if ((*l_expr)->type == CMD_ARG && ((node = create_node(CMD_ARG)) != NULL))
 	{
 		if ((node->data = ft_strdup((*l_expr)->data)) == NULL)
@@ -139,9 +139,6 @@ int				check_next(t_e_list **l_expr, t_node **tree, t_node **right_node)
 		while (save && save->left != NULL)
 			save = save->left;
 		check_red(l_expr, &(save->left));
-	//	printf("XXXXXXXXXXXXXXXXX %s\n", save->data);
-	//	if (save->left)
-	//		printf("YYYYYYYYYYYYYYYYY %s\n", save->left->data);
 		check_arg(l_expr, &save, right_node);
 		return (TRUE);
 	}
