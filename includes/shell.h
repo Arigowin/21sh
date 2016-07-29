@@ -210,6 +210,7 @@ int				nav_history(int key, t_history **history, t_line *stline);
 ** sh_parser
 */
 t_node			*parser(t_e_list **l_expr);
+int				check_next(t_e_list **l_expr, t_node **tree, t_node **right_node);
 
 #endif
 
