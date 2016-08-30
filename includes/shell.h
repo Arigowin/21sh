@@ -9,8 +9,9 @@
 # define ERROR -1
 
 # define IGN " \t\n\0"
-# define SEP "|&><; \t\n\0"
+# define SEP "|&;>< \t\n\0"
 # define SPECIAL "|&><;"
+# define WAKA "><"
 # define BUFF_SIZE 1024
 # define MAX_PATH 1024
 
@@ -42,6 +43,7 @@ typedef enum
 	NONE,
 	EXP,
 	RED,
+	RED_FD,
 	RED_ARG,
 	CMD,
 	CMD_ARG,
@@ -119,6 +121,7 @@ int				handle_builtin(char **cmd, t_duo **env);
 ** sh_lexer1
 */
 int				lexer_1(char *read_buff, t_e_list **l_expr);
+t_e_list		*expr_new(char *content);
 
 /*
 ** sh_lexer2

@@ -3,7 +3,7 @@
 #include "shell.h"
 #include "libft.h"
 
-static t_e_list			*expr_new(char *content)
+t_e_list				*expr_new(char *content)
 {
 	t_e_list		*new;
 
@@ -63,10 +63,22 @@ int						lexer_1(char *read_buff, t_e_list **l_expr)
 	{
 		if (ft_strchr(SEP, read_buff[i]))
 		{
+			if (ft_strchr(WAKA, read_buff[i]) && read_buff[i - 1]
+				&& ft_isdigit(read_buff[i - 1]) && (!read_buff[i - 2]
+				|| (read_buff[i - 2] && ft_strchr(SEP, read_buff[i - 2]))))
+			{
+				tmp[k++] = read_buff[i];
+				if (read_buff[i + 1] && read_buff[i + 1] == read_buff[i])
+				{
+					tmp[k++] = read_buff[i + 1];
+					i++;
+				}
+				i++;
+			}
 			expr_pushbk(l_expr, tmp);
 			ft_bzero(tmp, 1024);
 			k = 0;
-			if (ft_strchr(IGN, read_buff[i]) == NULL)
+			if (!ft_strchr(WAKA, read_buff[i]) && !ft_strchr(IGN, read_buff[i]))
 				in_lexer_1(&tmp, read_buff, &i, l_expr);
 		}
 		else if (ft_strchr(SEP, read_buff[i]) == NULL)

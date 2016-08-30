@@ -187,8 +187,6 @@ int				check_c_pipe(t_e_list **l_expr, t_node **tree)
 	node = NULL;
 	if ((node = create_node(PIPE)) == NULL)
 		return (FALSE);
-//	printf("left %p, right %p\n", &(node->left), &(node->right));
-//	printf("%p\n", (node->left == NULL ? &(node->left) : &(node->right)));
 	node_to_give = (node->left == NULL ? &(node->left) : &(node->right));
 	if (check_command(l_expr, node_to_give))
 	{
