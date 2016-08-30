@@ -182,15 +182,32 @@ int				check_c_pipe(t_e_list **l_expr, t_node **tree)
 {
 	printf("check cpipe [%s]\n", (*l_expr)->data);
 	t_node			*node;
-	t_node			*node_to_give;
+	t_node			**node_to_give;
 
 	node = NULL;
 	if ((node = create_node(PIPE)) == NULL)
 		return (FALSE);
-	node_to_give = (node->left != NULL ? node->left : node->right);
-	if (check_command(l_expr, &node_to_give))
+//	printf("left %p, right %p\n", &(node->left), &(node->right));
+//	printf("%p\n", (node->left == NULL ? &(node->left) : &(node->right)));
+	node_to_give = (node->left == NULL ? &(node->left) : &(node->right));
+	if (check_command(l_expr, node_to_give))
 	{
-		*tree = node_to_give;
+		if ((*l_expr)->type == PIPE)
+		{
+			node->data = ft_strdup((*l_expr)->data);
+			*tree = node;
+			if (!(move_in_list(l_expr) && check_c_pipe(l_expr, &(node->right))))
+			{
+				printf("error in check cpipe\n");
+				parse_error((*l_expr)->data);
+				clear_node(&node);
+				return (FALSE);
+			}
+			*tree = node;
+			return (TRUE);
+		}
+		*tree = *node_to_give;
+		clear_node(&node);
 		return (TRUE);
 	}
 	printf("error in check cpipe\n");
