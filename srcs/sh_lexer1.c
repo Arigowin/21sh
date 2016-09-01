@@ -38,15 +38,18 @@ static void				expr_pushbk(t_e_list **l_expr, char content[])
 static int				in_lexer_1(char (*tmp)[], char *r_buff, int *i,
 		t_e_list **l_exp)
 {
+	int				j;
+
+	j = 1;
 	(*tmp)[0] = r_buff[(*i)];
-	if (r_buff[(*i) + 1] && r_buff[(*i) + 1] == r_buff[(*i)]
-			&& r_buff[(*i)] != ';')
+	if (r_buff[(*i) + j] && r_buff[(*i) + j] == r_buff[(*i)]
+			&& r_buff[(*i)] != '\0')
 	{
-		(*tmp)[1] = r_buff[(*i) + 1];
+		(*tmp)[j] = r_buff[(*i) + j];
 		(*i)++;
 	}
 	expr_pushbk(l_exp, *tmp);
-	ft_bzero(*tmp, 2);
+	ft_bzero(*tmp, j + 1);
 	return (0);
 }
 

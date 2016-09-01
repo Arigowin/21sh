@@ -232,18 +232,47 @@ int				check_c_pipe(t_e_list **l_expr, t_node **tree)
 	return (FALSE);
 }
 
+// CA MARCHE PAS %%%%%%%%!!!!!!!!!
 int				check_expr(t_e_list **l_expr, t_node **tree)
 {
 	printf("check expr [%s]\n", (*l_expr)->data);
 	t_node			*node;
+	t_node			**node_to_give;
 
 	node = NULL;
-	if ((node = create_node(EXP)) != NULL
-			&& check_c_pipe(l_expr, &node->left) == TRUE)
+	if ((node = create_node(EXP)) != NULL)
+		return (FALSE);
+	node_to_give = (node->left == NULL ? &(node->left) : &(node->right));
+	if (check_c_pipe(l_expr, node_to_give))
 	{
-		*tree = node;
+			printf("error in check expr\n");
+		if ((*l_expr)->type == SEMI && ft_strlen((*l_expr)->data) != 1)
+		{
+			printf("error in check expr\n");
+			parse_error((*l_expr)->data);
+			clear_node(&node);
+			return (FALSE);
+		}
+		if ((*l_expr)->type == SEMI)
+		{
+			node->data = ft_strdup((*l_expr)->data);
+			*tree = node;
+			if (!(move_in_list(l_expr) && check_expr(l_expr, &(node->right))))
+			{
+				printf("error in check expr\n");
+				parse_error((*l_expr)->data);
+				clear_node(&node);
+			}
+			*tree = node;
+			return (TRUE);
+		}
+		*tree = *node_to_give;
+		clear_node(&node);
 		return (TRUE);
 	}
+	printf("error in check expr\n");
+	parse_error((*l_expr)->data);
+	clear_node(&node);
 	return (FALSE);
 }
 
