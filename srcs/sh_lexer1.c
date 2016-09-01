@@ -55,10 +55,12 @@ int						lexer_1(char *read_buff, t_e_list **l_expr)
 	char			tmp[1024];
 	int				i;
 	int				k;
+	char			boolean;
 
 	ft_bzero(tmp, 1024);
 	i = -1;
 	k = 0;
+	boolean = 1;
 	while (read_buff[++i])
 	{
 		if (ft_strchr(SEP, read_buff[i]))
@@ -73,13 +75,14 @@ int						lexer_1(char *read_buff, t_e_list **l_expr)
 					tmp[k++] = read_buff[i + 1];
 					i++;
 				}
-				i++;
+				boolean = 0;
 			}
 			expr_pushbk(l_expr, tmp);
 			ft_bzero(tmp, 1024);
 			k = 0;
-			if (!ft_strchr(WAKA, read_buff[i]) && !ft_strchr(IGN, read_buff[i]))
+			if (boolean && !ft_strchr(IGN, read_buff[i]))
 				in_lexer_1(&tmp, read_buff, &i, l_expr);
+			boolean = 1;
 		}
 		else if (ft_strchr(SEP, read_buff[i]) == NULL)
 			tmp[k++] = read_buff[i];
