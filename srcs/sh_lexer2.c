@@ -6,6 +6,38 @@
 #define RA RED_ARG
 #define CA CMD_ARG
 
+int				land_managment(t_e_list **tmp)
+{
+	printf("land_managment ((%s))\n", (*tmp)->data);
+	t_e_list		*new;
+	t_e_list		*tmp2;
+	char			*red_arg;
+
+	red_arg = NULL;
+	new = NULL;
+	tmp2 = (*tmp)->next;
+	if (tmp2 && tmp2->data[0] == '&' && tmp2->next && (ft_isstrnum(tmp2->next->data) || (ft_strlen(tmp2->next->data) == 1 && tmp2->next->data[0] == '-')))
+	{
+		red_arg = ft_properjoin(tmp2->data, tmp2->next->data);
+		free(tmp2->data);
+		tmp2->data = ft_strdup(red_arg);
+		tmp2->type = RA;
+		free(tmp2->next->data);
+		new = tmp2->next->next;
+		free(tmp2->next);
+		tmp2->next = new;
+		printf("******if 1 land [[%s -- %s]]\n", tmp2->data, tmp2->next->data);
+	}
+	else if ((*tmp)->next && (*tmp)->next->data[0] == '&' && (*tmp)->next->next)
+	{
+		free((*tmp)->next->data);
+		new = (*tmp)->next->next;
+		free((*tmp)->next);
+		(*tmp)->next = new;
+	}
+	return (-1);
+}
+
 int				waka_lexer(t_e_list **tmp)
 {
 	t_e_list		*elem;
@@ -13,6 +45,8 @@ int				waka_lexer(t_e_list **tmp)
 	char			*red;
 	t_e_list		*new;
 
+	red = NULL;
+	new = NULL;
 	elem = *tmp;
 	if (ft_isdigit((elem->data)[0]))
 	{
@@ -26,11 +60,13 @@ int				waka_lexer(t_e_list **tmp)
 		new->next = (*tmp)->next;
 		(*tmp)->next = new;
 		(*tmp)->type = RED;
+		land_managment(&((*tmp)->next));
 		return (0);
 	}
 	else
 	{
 		(*tmp)->type = RED;
+		land_managment(tmp);
 		return (0);
 	}
 	return (-1);
