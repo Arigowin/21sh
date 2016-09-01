@@ -8,7 +8,7 @@
 # define FALSE 0
 # define ERROR -1
 
-# define IGN " \t\n\0"
+# define IGN " \t\n" // j'ai enlevé le \0 des IGN
 # define SEP "|&;>< \t\n\0"
 # define SPECIAL "|&><;"
 # define WAKA "><"
