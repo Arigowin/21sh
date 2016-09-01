@@ -49,19 +49,37 @@ int				move_in_list(t_e_list **l_expr)
 	return (FALSE);
 }
 
+static int		filled_red_arg(t_e_list **l_expr, t_node **node)
+{
+	if (((*node)->data = ft_strdup((*l_expr)->data)) == NULL)
+	{
+		clear_node(node);
+		return (FALSE);
+	}
+	return (TRUE);
+}
+
 int				check_red_arg(t_e_list **l_expr, t_node **tree)
 {
 	printf("check red arg [%s]\n", (*l_expr)->data);
 	t_node			*node;
+	t_node			*save;
 
 	node = NULL;
+	save = *tree;
 	if ((*l_expr)->type == RED_ARG && ((node = create_node(RED_ARG)) != NULL))
 	{
-		if ((node->data = ft_strdup((*l_expr)->data)) == NULL)
-		{
-			clear_node(&node);
+		if (filled_red_arg(l_expr, &node) == FALSE)
 			return (FALSE);
-		}
+		*tree = node;
+		return (TRUE);
+	}
+	else if ((*l_expr)->type == RED_FD && ((node = create_node(RED_FD)) != NULL))
+	{
+		if (filled_red_arg(l_expr, &node) == FALSE)
+			return (FALSE);
+		if (!move_in_list(l_expr) || !check_red_arg(l_expr, &(node->right)))
+			*tree = save;
 		*tree = node;
 		return (TRUE);
 	}
