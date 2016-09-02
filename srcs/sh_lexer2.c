@@ -26,16 +26,19 @@ int				land_managment(t_e_list **tmp)
 		new = tmp2->next->next;
 		free(tmp2->next);
 		tmp2->next = new;
-		printf("******if 1 land [[%s -- %s]]\n", tmp2->data, tmp2->next->data);
+		printf("dans 1er id land\n");
+		return (TRUE);
 	}
 	else if ((*tmp)->next && (*tmp)->next->data[0] == '&' && (*tmp)->next->next)
 	{
+		printf("dans 2er id land\n");
 		free((*tmp)->next->data);
 		new = (*tmp)->next->next;
 		free((*tmp)->next);
 		(*tmp)->next = new;
+		return (TRUE);
 	}
-	return (-1);
+	return (FALSE);
 }
 
 int				waka_lexer(t_e_list **tmp)

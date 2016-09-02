@@ -19,10 +19,11 @@ int				clear_node(t_node **node)
 
 int				clear_tree(t_node **tree)
 {
-	printf("cleqr tree\n");
-	if ((*tree)->left)
+	printf("clear tree\n");
+//	printf("clear tree -- [%s]\n", (*tree)->data);
+	if ((*tree) && (*tree)->left)
 		clear_tree(&((*tree)->left));
-	if ((*tree)->right)
+	if ((*tree) && (*tree)->right)
 		clear_tree(&((*tree)->right));
 	clear_node(tree);
 	return (FALSE);
@@ -143,9 +144,11 @@ int				check_arg(t_e_list **l_expr, t_node **tree, t_node **right_node)
 		return (TRUE);
 	}
 	clear_node(&node);
+	ft_putendl("missing name for redirect\n");
 	return (FALSE);
 }
 
+//checker pour le retour de check_red, il faut stopper si pas d'argumer de redirection.... ajouter un code pour si il n'y a pas de red_arg
 int				check_next(t_e_list **l_expr, t_node **tree, t_node **right_node)
 {
 	printf("check next [%s]\n", (*l_expr)->data);
@@ -232,7 +235,6 @@ int				check_c_pipe(t_e_list **l_expr, t_node **tree)
 	return (FALSE);
 }
 
-// CA MARCHE PAS %%%%%%%%!!!!!!!!!
 int				check_expr(t_e_list **l_expr, t_node **tree)
 {
 	printf("check expr [%s]\n", (*l_expr)->data);
@@ -240,7 +242,7 @@ int				check_expr(t_e_list **l_expr, t_node **tree)
 	t_node			**node_to_give;
 
 	node = NULL;
-	if ((node = create_node(EXP)) != NULL)
+	if ((node = create_node(EXP)) == NULL)
 		return (FALSE);
 	node_to_give = (node->left == NULL ? &(node->left) : &(node->right));
 	if (check_c_pipe(l_expr, node_to_give))
@@ -270,7 +272,7 @@ int				check_expr(t_e_list **l_expr, t_node **tree)
 		clear_node(&node);
 		return (TRUE);
 	}
-	printf("error in check expr\n");
+	printf("error in check expr - pouet!!!!!\n");
 	parse_error((*l_expr)->data);
 	clear_node(&node);
 	return (FALSE);
