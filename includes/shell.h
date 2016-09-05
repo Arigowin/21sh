@@ -215,6 +215,11 @@ int				nav_history(int key, t_history **history, t_line *stline);
 t_node			*parser(t_e_list **l_expr);
 int				check_next(t_e_list **l_expr, t_node **tree, t_node **right_node);
 
+/*
+** sh_tree_traversal
+*/
+int				tree_traversal(t_node *tree);
+
 #endif
 
 // X finir lexer

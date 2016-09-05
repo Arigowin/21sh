@@ -6,6 +6,8 @@
 int				clear_node(t_node **node)
 {
 	printf("cleqr node\n");
+	if ((*node) && (*node)->type)
+		printf("%d \n", (*node)->type);
 	if (node && (*node) && !(*node)->left && !(*node)->right)
 	{
 		ft_strdel(&((*node)->data));
@@ -84,7 +86,7 @@ int				check_red_arg(t_e_list **l_expr, t_node **tree)
 		*tree = node;
 		return (TRUE);
 	}
-	printf("error in check red arg\n");
+	ft_putendl("missing name for redirect\n");
 	parse_error((*l_expr)->data);
 	clear_node(&node);
 	return (FALSE);
@@ -144,7 +146,6 @@ int				check_arg(t_e_list **l_expr, t_node **tree, t_node **right_node)
 		return (TRUE);
 	}
 	clear_node(&node);
-	ft_putendl("missing name for redirect\n");
 	return (FALSE);
 }
 
@@ -247,7 +248,6 @@ int				check_expr(t_e_list **l_expr, t_node **tree)
 	node_to_give = (node->left == NULL ? &(node->left) : &(node->right));
 	if (check_c_pipe(l_expr, node_to_give))
 	{
-			printf("error in check expr\n");
 		if ((*l_expr)->type == SEMI && ft_strlen((*l_expr)->data) != 1)
 		{
 			printf("error in check expr\n");
