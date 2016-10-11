@@ -5,6 +5,8 @@
 
 t_e_list				*expr_new(char *content)
 {
+	if (DEBUG_LEXER-PARSER == 1)
+		printf("------- EXPR NEW ------\n");
 	t_e_list		*new;
 
 	if ((new = (t_e_list *)malloc(sizeof(t_e_list))) == NULL)
@@ -20,6 +22,8 @@ t_e_list				*expr_new(char *content)
 
 static void				expr_pushbk(t_e_list **l_expr, char content[])
 {
+	if (DEBUG_LEXER-PARSER == 1)
+		printf("------- EXPR PUSHBK ------\n");
 	t_e_list		*tmp;
 
 	tmp = *l_expr;
@@ -38,6 +42,8 @@ static void				expr_pushbk(t_e_list **l_expr, char content[])
 static int				in_lexer_1(char (*tmp)[], char *r_buff, int *i,
 		t_e_list **l_exp)
 {
+	if (DEBUG_LEXER-PARSER == 1)
+		printf("------- IN LEXER 1 ------\n");
 	int				j;
 
 	j = 1;
@@ -55,6 +61,8 @@ static int				in_lexer_1(char (*tmp)[], char *r_buff, int *i,
 
 int						lexer_1(char *read_buff, t_e_list **l_expr)
 {
+	if (DEBUG_LEXER-PARSER == 1)
+		printf("------- LEXER 1 ------\n");
 	char			tmp[1024];
 	int				i;
 	int				k;

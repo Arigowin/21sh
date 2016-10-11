@@ -4,6 +4,8 @@
 
 int			backspace(t_line *stline)
 {
+	if (DEBUG_TERMCAPS == 1)
+		printf("------- BACKSPACE ------\n");
 	char	*tmp;
 	int		i;
 
@@ -29,6 +31,8 @@ int			backspace(t_line *stline)
 
 static int	insert2(t_line *stline, char c, int pos, char **tmp)
 {
+	if (DEBUG_TERMCAPS == 1)
+		printf("------- INSERT2 ------\n");
 	if ((stline->line)[pos] == 0)
 		(stline->line)[pos] = c;
 	else
@@ -42,6 +46,8 @@ static int	insert2(t_line *stline, char c, int pos, char **tmp)
 
 int			insert(t_line *stline, char c, int pos)
 {
+	if (DEBUG_TERMCAPS == 1)
+		printf("------- INSERT ------\n");
 	char	*tmp;
 	int		i;
 

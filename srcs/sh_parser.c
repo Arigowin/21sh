@@ -5,7 +5,8 @@
 
 int				clear_node(t_node **node)
 {
-	printf("cleqr node\n");
+	if (DEBUG_TREE-CREATION == 1)
+		printf("------- CLEAR NODE ------\n");
 	if ((*node) && (*node)->type)
 		printf("%d \n", (*node)->type);
 	if (node && (*node) && !(*node)->left && !(*node)->right)
@@ -21,7 +22,8 @@ int				clear_node(t_node **node)
 
 int				clear_tree(t_node **tree)
 {
-	printf("clear tree\n");
+	if (DEBUG_TREE-CREATION == 1)
+		printf("------- CLEAR TREE ------\n");
 //	printf("clear tree -- [%s]\n", (*tree)->data);
 	if ((*tree) && (*tree)->left)
 		clear_tree(&((*tree)->left));
@@ -33,6 +35,8 @@ int				clear_tree(t_node **tree)
 
 int				parse_error(char *data)
 {
+	if (DEBUG_TREE-CREATION == 1)
+		printf("------- PARSE ERROR ------\n");
 	ft_putstr("21sh: parse error near \"");
 	ft_putstr(data);
 	ft_putendl("\"");
@@ -41,7 +45,8 @@ int				parse_error(char *data)
 
 int				move_in_list(t_e_list **l_expr)
 {
-	printf("move in list [%s]\t", (*l_expr)->data);
+	if (DEBUG_TREE-CREATION == 1)
+		printf("------- MOVE IN LIST ------\n[%s]\t", (*l_expr)->data);
 	if ((*l_expr) && (*l_expr)->next)
 	{
 		(*l_expr) = (*l_expr)->next;
@@ -54,6 +59,8 @@ int				move_in_list(t_e_list **l_expr)
 
 static int		filled_red_arg(t_e_list **l_expr, t_node **node)
 {
+	if (DEBUG_TREE-CREATION == 1)
+		printf("------- FILLED RED ARG ------\n");
 	if (((*node)->data = ft_strdup((*l_expr)->data)) == NULL)
 	{
 		clear_node(node);
@@ -64,7 +71,8 @@ static int		filled_red_arg(t_e_list **l_expr, t_node **node)
 
 int				check_red_arg(t_e_list **l_expr, t_node **tree)
 {
-	printf("check red arg [%s]\n", (*l_expr)->data);
+	if (DEBUG_TREE-CREATION == 1)
+		printf("------- CHECK RED_ARG ------\n[%s]\n", (*l_expr)->data);
 	t_node			*node;
 	t_node			*save;
 
@@ -94,7 +102,8 @@ int				check_red_arg(t_e_list **l_expr, t_node **tree)
 
 int				check_red(t_e_list **l_expr, t_node **tree)
 {
-	printf("check red [%s]\n", (*l_expr)->data);
+	if (DEBUG_TREE-CREATION == 1)
+		printf("------- CHECK RED ------\n[%s]\n", (*l_expr)->data);
 	t_node			*node;
 	t_node			*save;
 	t_e_list		*list_save;
@@ -126,6 +135,8 @@ int				check_red(t_e_list **l_expr, t_node **tree)
 
 int				check_arg(t_e_list **l_expr, t_node **tree, t_node **right_node)
 {
+	if (DEBUG_TREE-CREATION == 1)
+		printf("------- CHECK ARG ------\n");
 	printf("check arg [%s]\n", (*l_expr)->data);
 	t_node			*node;
 	t_node			*save;
@@ -152,6 +163,9 @@ int				check_arg(t_e_list **l_expr, t_node **tree, t_node **right_node)
 //checker pour le retour de check_red, il faut stopper si pas d'argumer de redirection.... ajouter un code pour si il n'y a pas de red_arg
 int				check_next(t_e_list **l_expr, t_node **tree, t_node **right_node)
 {
+	if (DEBUG_TREE-CREATION == 1)
+		printf("------- CHECK C PIPE ------\n");
+		printf("------- ADD ENV ------\n");
 	printf("check next [%s]\n", (*l_expr)->data);
 	t_node			*save;
 
@@ -169,7 +183,8 @@ int				check_next(t_e_list **l_expr, t_node **tree, t_node **right_node)
 
 int				check_command(t_e_list **l_expr, t_node **tree)
 {
-	printf("check command [%s]\n", (*l_expr)->data);
+	if (DEBUG_TREE-CREATION == 1)
+		printf("------- CHECK COMMAND -----\n[%s]\n", (*l_expr)->data);
 	t_node			*save;
 	t_node			*node;
 	int				red;
@@ -202,7 +217,8 @@ int				check_command(t_e_list **l_expr, t_node **tree)
 
 int				check_c_pipe(t_e_list **l_expr, t_node **tree)
 {
-	printf("check cpipe [%s]\n", (*l_expr)->data);
+	if (DEBUG_TREE-CREATION == 1)
+		printf("------- CHECK C PIPE ------\n");
 	t_node			*node;
 	t_node			**node_to_give;
 
@@ -238,7 +254,8 @@ int				check_c_pipe(t_e_list **l_expr, t_node **tree)
 
 int				check_expr(t_e_list **l_expr, t_node **tree)
 {
-	printf("check expr [%s]\n", (*l_expr)->data);
+	if (DEBUG_TREE-CREATION == 1)
+		printf("------- CHECK EXPR ------\n");
 	t_node			*node;
 	t_node			**node_to_give;
 
@@ -280,7 +297,8 @@ int				check_expr(t_e_list **l_expr, t_node **tree)
 
 t_node			*parser(t_e_list **l_expr)
 {
-	printf("parser [%s]\n", (*l_expr)->data);
+	if (DEBUG_TREE-CREATION == 1)
+		printf("------- PARSER ------\n");
 	t_node			*node;
 
 	if (*l_expr == NULL)

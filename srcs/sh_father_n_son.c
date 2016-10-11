@@ -8,6 +8,8 @@
 
 static char		*join_exe(char *s1, char *s2)
 {
+	if (DEBUG == 1)
+		printf("------- JOIN EXE ------\n");
 	char		*rlt;
 	char		*tmp;
 
@@ -21,6 +23,8 @@ static char		*join_exe(char *s1, char *s2)
 
 static int		check_fct(char **cmd, char **env, t_duo **env_cpy)
 {
+	if (DEBUG == 1)
+		printf("------- CHECK FCT------\n");
 	char		**path;
 	char		*tmp;
 	int			i;
@@ -44,6 +48,8 @@ static int		check_fct(char **cmd, char **env, t_duo **env_cpy)
 
 int				father_n_son(char **cmd, t_duo **env_cpy)
 {
+	if (DEBUG == 1)
+		printf("------- FATHER N SON ------\n");
 	pid_t		father;
 	int			stat_loc;
 

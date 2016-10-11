@@ -5,6 +5,8 @@
 
 int				tree_traversal_verif(t_node *tree)
 {
+	if (DEBUG == 1)
+		printf("------- TREE TRAVERSAL VERIF ------\n");
 	printf("tree : %s - %d\n", tree->data, tree->type);
 	if (tree && tree->left != NULL)
 	{
@@ -25,6 +27,8 @@ int				tree_traversal_verif(t_node *tree)
 
 char			**read_n_check(char *special, char *read_buff)
 {
+	if (DEBUG == 1)
+		printf("------- READ N CHECK ------\n");
 	t_e_list		*l_expr;
 	t_node			*tree;
 
@@ -48,6 +52,8 @@ char			**read_n_check(char *special, char *read_buff)
 
 int				check_home(char **cmd)
 {
+	if (DEBUG == 1)
+		printf("------- CHECK HOME ------\n");
 	int			i;
 
 	i = 0;
@@ -67,6 +73,8 @@ int				check_home(char **cmd)
 
 int				check_after_read(t_line *stline, t_duo **env_cpy)
 {
+	if (DEBUG == 1)
+		printf("------- CHECK AFTER READ ------\n");
 	char			**cmd;
 	int				i;
 
@@ -90,7 +98,8 @@ int				check_after_read(t_line *stline, t_duo **env_cpy)
 
 int				fct_read(t_line *stline, t_duo **env_cpy, t_history **history)
 {
-	ft_putstr("la fct read....\n");
+	if (DEBUG == 1)
+		printf("------- FCT READ ------\n");
 	int				key;
 	int				ret;
 
