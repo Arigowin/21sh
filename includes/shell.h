@@ -225,6 +225,11 @@ int				tree_traversal(t_node *tree);
 */
 int				red(t_node *tree);
 
+/*
+** sh_cmd
+*/
+char			**cmd(t_node *tree);
+
 #endif
 
 // X finir lexer

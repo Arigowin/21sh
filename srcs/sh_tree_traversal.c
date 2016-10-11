@@ -3,6 +3,11 @@
 
 int				tree_traversal(t_node *tree)
 {
+	t_list		*list_fd;
+	char		fd[2];
+	char		**tabcmd;
+
+	// changer parcour
 	if (tree && tree->left != NULL)
 	{
 		printf("------ IF -------\n");
@@ -12,7 +17,7 @@ int				tree_traversal(t_node *tree)
 		if (tree->type == CMD)
 		{
 			printf("CMD : [%s]\n", tree->data);
-			// cmd(tree);
+			tabcmd = cmd(tree);
 		}
 		else if (tree->type == PIPE)
 		{
@@ -27,7 +32,9 @@ int				tree_traversal(t_node *tree)
 		else if (tree->type == RRED || tree->type == LRED || tree->type == DRRED || tree->type == DLRED)
 		{
 			printf("RED : [%s]\n", tree->data);
-			red(tree);
+			fd[0] = red(tree);
+			fd[1] = 0;
+			ft_lstadd(&list_fd, ft_lstnew(fd));
 		}
 		return (TRUE);
 	}
@@ -38,12 +45,14 @@ int				tree_traversal(t_node *tree)
 		if (tree->type == CMD)
 		{
 			printf("CMD : [%s]\n", tree->data);
-			// cmd(tree);
+			tabcmd = cmd(tree);
 		}
 		else if (tree->type == RRED || tree->type == LRED || tree->type == DRRED || tree->type == DLRED)
 		{
 			printf("RED : [%s]\n", tree->data);
-			red(tree);
+			fd[0] = red(tree);
+			fd[1] = 0;
+			ft_lstadd(&list_fd, ft_lstnew(fd));
 		}
 		return (TRUE);
 	}
