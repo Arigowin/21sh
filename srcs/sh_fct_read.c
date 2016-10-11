@@ -67,7 +67,7 @@ int				check_home(char **cmd)
 
 int				check_after_read(t_line *stline, t_duo **env_cpy)
 {
-	t_node			*tree;
+	char			**cmd;
 	int				i;
 
 	i = 0;
