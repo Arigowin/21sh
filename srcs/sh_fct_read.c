@@ -37,7 +37,8 @@ char			**read_n_check(char *special, char *read_buff)
 	printf("avant parser\n");
 	tree = parser(&l_expr);
 	printf("apres parser\n");
-	tree_traversal_verif(tree);
+//	tree_traversal_verif(tree);
+	tree_traversal(tree);
 	printf("\napres tree traversal\n");
 	//	tbl = lst_to_tbl(arg);
 	//	free_lst(&arg);
