@@ -3,18 +3,18 @@
 #include "shell.h"
 #include "libft.h"
 
-int				tree_traversal(t_node *tree)
+int				tree_traversal_verif(t_node *tree)
 {
 	printf("tree : %s - %d\n", tree->data, tree->type);
 	if (tree && tree->left != NULL)
 	{
 		printf("{{%s left %s}}\n", tree->data, tree->left->data);
-		tree_traversal(tree->left);
+		tree_traversal_verif(tree->left);
 	}
 	if (tree && tree->right != NULL)
 	{
 		printf("{{%s right %s}}\n", tree->data, tree->right->data);
-		tree_traversal(tree->right);
+		tree_traversal_verif(tree->right);
 	}
 //	ft_putstr("[");
 //	ft_putstr(tree->data);
@@ -37,6 +37,7 @@ char			**read_n_check(char *special, char *read_buff)
 	printf("avant parser\n");
 	tree = parser(&l_expr);
 	printf("apres parser\n");
+//	tree_traversal_verif(tree);
 	tree_traversal(tree);
 	printf("\napres tree traversal\n");
 	//	tbl = lst_to_tbl(arg);
