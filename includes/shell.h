@@ -220,6 +220,11 @@ int				check_next(t_e_list **l_expr, t_node **tree, t_node **right_node);
 */
 int				tree_traversal(t_node *tree);
 
+/*
+** sh_red
+*/
+int				red(t_node *tree);
+
 #endif
 
 // X finir lexer

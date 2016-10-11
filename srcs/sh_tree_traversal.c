@@ -27,7 +27,7 @@ int				tree_traversal(t_node *tree)
 		else if (tree->type == RRED || tree->type == LRED || tree->type == DRRED || tree->type == DLRED)
 		{
 			printf("RED : [%s]\n", tree->data);
-			// red(tree);
+			red(tree);
 		}
 		return (TRUE);
 	}
@@ -43,7 +43,7 @@ int				tree_traversal(t_node *tree)
 		else if (tree->type == RRED || tree->type == LRED || tree->type == DRRED || tree->type == DLRED)
 		{
 			printf("RED : [%s]\n", tree->data);
-			// red(tree);
+			red(tree);
 		}
 		return (TRUE);
 	}
