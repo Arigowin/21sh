@@ -25,15 +25,15 @@ static int		check_fct(char **cmd, char **env, t_duo **env_cpy)
 {
 	if (DEBUG == 1)
 		printf("------- CHECK FCT------\n");
-	char		**path;
+	char		**path = NULL;
 	char		*tmp;
 	int			i;
 
 	tmp = get_env(env_cpy, "PATH");
 	if (tmp == NULL)
 		fill_path(&path);
-	else
-		path = read_n_check(":", tmp, env);
+//	else
+//		path = read_n_check(":", tmp, env);
 	i = 0;
 	while (path[i])
 	{

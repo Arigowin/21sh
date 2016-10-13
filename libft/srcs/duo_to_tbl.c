@@ -13,6 +13,19 @@
 #include <stdlib.h>
 #include "libft.h"
 
+int		duo_count(t_duo *lst)
+{
+	int		cpt;
+
+	cpt = 0;
+	while (lst)
+	{
+		lst = lst->next;
+		cpt++;
+	}
+	return (cpt);
+}
+
 char		**duo_to_tbl(t_duo *lst, char *sep)
 {
 	int			i;
@@ -21,12 +34,12 @@ char		**duo_to_tbl(t_duo *lst, char *sep)
 	char		**tbl;
 
 	i = 0;
-	if ((tbl = (char **)malloc(sizeof(char *) * (ft_lst_count(lst) + 1))) == NULL)
+	if ((tbl = (char **)malloc(sizeof(char *) * (duo_count(lst) + 1))) == NULL)
 		return (NULL);
 	while (lst != NULL)
 	{
 		tmp1 = ft_properjoin(lst->name, sep);
-		tmp2 = ft_properjoin(tmp1, lst->value)
+		tmp2 = ft_properjoin(tmp1, lst->value);
 		if ((tbl[i] = ft_strdup(tmp2)) == NULL)
 			return (NULL);
 		free(tmp1);
