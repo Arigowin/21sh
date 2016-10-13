@@ -20,7 +20,7 @@ static char		**tree_to_tbl(t_node *tree, int nb_elem)
 	return (tbl);
 }
 
-char		**cmd(t_node *tree)
+char		**format_cmd(t_node *tree)
 {
 	char	**ret;
 	t_node	*tmp;

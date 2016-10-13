@@ -21,7 +21,7 @@ int		lred(char *filename, int red_fd)
 
 	if ((access(filename, F_OK)) == -1)
 	{
-		printf("shell: no such file or directory: %s\n", filename);
+		printf("21sh: no such file or directory: %s\n", filename);
 		return (-1);
 	}
 	fd = open(filename, O_RDONLY);
