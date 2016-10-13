@@ -144,7 +144,7 @@ t_node			*create_node(types type);
 /*
 ** sh_fct_read
 */
-char			**read_n_check(char *special, char *read_buff, char **env);
+t_node          *read_n_check(char *special, char *read_buff, char **env);
 int				check_home(char **cmd);
 int				check_after_read(t_line *stline, t_duo **env_cpy);
 int				fct_read(t_line *line, t_duo **env_cpy, t_history **history);

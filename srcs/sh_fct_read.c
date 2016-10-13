@@ -25,7 +25,7 @@ int				tree_traversal_verif(t_node *tree)
 	return (0);
 }
 
-char			**read_n_check(char *special, char *read_buff, char **env)
+t_node          *read_n_check(char *special, char *read_buff, char **env)
 {
 	if (DEBUG == 1)
 		printf("------- READ N CHECK ------\n");
@@ -46,11 +46,10 @@ char			**read_n_check(char *special, char *read_buff, char **env)
         tree_traversal_verif(tree);
         printf("\napres tree traversal verif\n");
     }
-    tree_traversal(tree, env);
     //	tbl = lst_to_tbl(arg);
     //	free_lst(&arg);
     //	return (tbl);
-    return (NULL);
+    return (tree);
 }
 
 int				check_home(char **cmd)
@@ -78,13 +77,17 @@ int				check_after_read(t_line *stline, t_duo **env_cpy)
 {
     if (DEBUG == 1)
         printf("------- CHECK AFTER READ ------\n");
-    char			**cmd;
+    t_node          *tree;
+    char            **env;
     int				i;
 
     i = 0;
-    printf("trololopouetpouet....\n");
-    if ((cmd = read_n_check(SEP, stline->line, NULL)) == NULL || cmd[0] == NULL)
+    if ((tree = read_n_check(SEP, stline->line, NULL)) == NULL)
         return (-1);
+
+    env = duo_to_tbl(env_cpy, '=');
+    tree_traversal(tree, env);
+    /*
     while (cmd[++i])
     {
         if (cmd[i][0] == '~')
@@ -95,7 +98,7 @@ int				check_after_read(t_line *stline, t_duo **env_cpy)
     if (check_home(cmd) < 0)
         return (-1);
     father_n_son(cmd, env_cpy);
-    free_tab(&cmd);
+    free_tab(&cmd);*/
     return (0);
 }
 

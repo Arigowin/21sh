@@ -21,8 +21,7 @@ char		**duo_to_tbl(t_duo *lst, char *sep)
 	char		**tbl;
 
 	i = 0;
-	if ((tbl = (char **)malloc(sizeof(char *) * (ft_lst_count(lst) + 1)))
-			== NULL)
+	if ((tbl = (char **)malloc(sizeof(char *) * (ft_lst_count(lst) + 1))) == NULL)
 		return (NULL);
 	while (lst != NULL)
 	{

@@ -33,6 +33,7 @@ int		lred(char *filename, int red_fd)
 	return (fd);
 }
 
+// add in param list fd et return TRUE or FALSE
 int		red(t_node *tree)
 {
 	char	*filename;
@@ -59,5 +60,9 @@ int		red(t_node *tree)
 	{
 	}
 
-	return (-1);
+    if (tree->left)
+        red(tree->left);
+    else
+        return(-1) ;
+    return(-1) ;
 }

@@ -2,29 +2,12 @@
 #include "libft.h"
 
 
-void    red_function(t_node *tree)
-{
-    if (RRED)
-    {
-        // RRED_function();
-        // void fichier red.c
-    }
-    //else if (LRED)
-
-    if (tree->left)
-        red_function(tree->left);
-    else
-        return ;
-}
-
 void pipe_function(t_node *tree)
 {
     int     pfd[2];
 
     pipe(pfd);
-
-    // redirection
-    red_function(tree->left);
+    (void)tree;
 
     // exec pipe
     // qui va open and close fd and execut cmd
