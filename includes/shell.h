@@ -225,7 +225,7 @@ int				check_next(t_e_list **l_expr, t_node **tree, t_node **right_node);
 /*
  ** sh_tree_traversal
  */
-int				tree_traversal(t_node *tree, t_duo **env);
+int				tree_traversal(t_node *tree);
 
 /*
  ** sh_red
@@ -236,7 +236,12 @@ int     		red(t_node *tree, t_intlst **lstfd);
  ** sh_cmd
  */
 char			**format_cmd(t_node *tree);
-int				manage_cmd(t_node *tree, t_duo **env);
+int				manage_cmd(t_node *tree);
+
+/*
+ ** sh_pipe
+ */
+int				pipe_function(t_node *tree, int in_fd);
 
 #endif
 

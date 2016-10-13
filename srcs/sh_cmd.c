@@ -39,7 +39,7 @@ char		**format_cmd(t_node *tree)
 	return (ret);
 }
 
-int			manage_cmd(t_node *tree, t_duo **env)
+int			manage_cmd(t_node *tree)
 {
 	t_intlst	*lstfd;
 	char		**cmd;
@@ -55,13 +55,13 @@ int			manage_cmd(t_node *tree, t_duo **env)
     while (cmd[++i])
     {
         if (cmd[i][0] == '~')
-            manage_tilde(env, &cmd[i]);
+            manage_tilde(&cmd[i]);
     }
-    if (handle_builtin(cmd, env) != 0)
+    if (handle_builtin(cmd) != 0)
         return (FALSE);
     if (check_home(cmd) < 0)
         return (FALSE);
-    father_n_son(cmd, env);
+    father_n_son(cmd);
     free_tab(&cmd);
 	return (TRUE);
 }
