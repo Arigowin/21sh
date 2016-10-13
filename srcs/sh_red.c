@@ -33,8 +33,7 @@ int		lred(char *filename, int red_fd)
 	return (fd);
 }
 
-// add in param list fd et return TRUE or FALSE
-int		red(t_node *tree)
+int		red(t_node *tree, t_intlst **lstfd)
 {
 	char	*filename;
 	int		red_fd;
@@ -50,9 +49,9 @@ int		red(t_node *tree)
 		filename = ft_strdup(tree->right->data);
 
 	if (tree->type == RRED)
-		return (rred(filename, red_fd));
+		ft_intlst_add(lstfd, rred(filename, red_fd));
 	else if (tree->type == LRED)
-		return (lred(filename, red_fd));
+		ft_intlst_add(lstfd, lred(filename, red_fd));
 	else if (tree->type == DRRED)
 	{
 	}
@@ -60,9 +59,11 @@ int		red(t_node *tree)
 	{
 	}
 
-    if (tree->left)
-        red(tree->left);
-    else
-        return(-1) ;
-    return(-1) ;
+	if (tree->left)
+	{
+		red(tree->left, lstfd);
+		return (TRUE);
+	}
+	else
+		return(FALSE) ;
 }

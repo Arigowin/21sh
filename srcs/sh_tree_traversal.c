@@ -15,29 +15,23 @@ void pipe_function(t_node *tree)
     // finir par close tout les fd open (red and pipe)
 }
 
-int				tree_traversal(t_node *tree, char **env)
+int				tree_traversal(t_node *tree, t_duo **env)
 {
     (void)env;
-    (void)tree;
 
-    if (PIPE)
+    if (tree->type == PIPE)
     {
         // pipe_function(tree->left);
         // va socuper de tout les pipes
     }
-    if (SEMI)
+    if (tree->type == SEMI)
     {
         // this(tree->left);
         // this(tree->right);
     }
-    if (CMD)
+    if (tree->type == CMD)
     {
-        // pas de pipe, semi, etc si on arrive ici
-        // donc exec cmd
-        // cmd();
-        // father_n_son ????? car la fonction a deja tout
-        // se qu'il faut pour ici sauf si ces un builtin donc
-        // trouver la fonction qui fait le choix
+		manage_cmd(tree, env);
     }
 
     return (TRUE);

@@ -79,26 +79,12 @@ int				check_after_read(t_line *stline, t_duo **env_cpy)
         printf("------- CHECK AFTER READ ------\n");
     t_node          *tree;
     char            **env;
-    int				i;
 
-    i = 0;
     if ((tree = read_n_check(SEP, stline->line, NULL)) == NULL)
         return (-1);
 
     env = duo_to_tbl(env_cpy, '=');
     tree_traversal(tree, env);
-    /*
-    while (cmd[++i])
-    {
-        if (cmd[i][0] == '~')
-            manage_tilde(env_cpy, &cmd[i]);
-    }
-    if (handle_builtin(cmd, env_cpy) != 0)
-        return (-1);
-    if (check_home(cmd) < 0)
-        return (-1);
-    father_n_son(cmd, env_cpy);
-    free_tab(&cmd);*/
     return (0);
 }
 

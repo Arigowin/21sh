@@ -81,6 +81,9 @@ SRC = ft_memset.c \
 	  ft_lstiter.c \
 	  ft_lstmap.c \
 \
+	  ft_int_lst_new.c \
+	  ft_int_lst_add.c \
+\
 	  ft_putnbrendl.c \
 	  ft_strnlen.c \
 	  ft_lstpushback.c \

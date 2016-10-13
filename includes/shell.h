@@ -99,143 +99,144 @@ int						manage_tilde(t_duo **env, char **arg);
 int						fill_path(char ***env);
 
 /*
-** sh_main
-*/
+ ** sh_main
+ */
 t_duo					*savior(t_duo *env);
 
 /*
-** sh_first_steps
-*/
+ ** sh_first_steps
+ */
 int				display_prompt(t_duo *env);
 char			**cpy_env(char **env);
 int				manage_tilde(t_duo **env, char **arg);
 int				fill_path(char ***env);
 
 /*
-** sh_signal
-*/
+ ** sh_signal
+ */
 int				check_signal(int loc);
 
 /*
-** sh_builtin
-*/
+ ** sh_builtin
+ */
 int				add_env(t_duo **env, char *name, char *value);
 int				change_env(t_duo **env, char *name, char *value);
 char			*get_env(t_duo **env, char *name);
 int				handle_builtin(char **cmd, t_duo **env);
 
 /*
-** sh_lexer1
-*/
+ ** sh_lexer1
+ */
 int				lexer_1(char *read_buff, t_e_list **l_expr);
 t_e_list		*expr_new(char *content);
 
 /*
-** sh_lexer2
-*/
+ ** sh_lexer2
+ */
 int				lexer_2(t_e_list **l_expr);
 
 /*
-** sh_create_tree
-*/
+ ** sh_create_tree
+ */
 t_node			*create_node(types type);
 //int				add_node(char *data, types type, t_node **node, int side); // 0 pour right - 1 pour left
 
 /*
-** sh_fct_read
-*/
+ ** sh_fct_read
+ */
 t_node          *read_n_check(char *special, char *read_buff, char **env);
 int				check_home(char **cmd);
 int				check_after_read(t_line *stline, t_duo **env_cpy);
 int				fct_read(t_line *line, t_duo **env_cpy, t_history **history);
 
 /*
-** sh_father_n_son
-*/
+ ** sh_father_n_son
+ */
 int				father_n_son(char **cmd, t_duo **env_cpy);
 
 /*
-** sh_env
-*/
+ ** sh_env
+ */
 int				bi_env(char **arg, t_duo **env);
 
 /*
-** sh_exit
-*/
+ ** sh_exit
+ */
 int				bi_exit(char **arg, t_duo **env);
 
 /*
-** sh_setenv
-*/
+ ** sh_setenv
+ */
 int				bi_setenv(char **arg, t_duo **env);
 
 /*
-** sh_unsetenv
-*/
+ ** sh_unsetenv
+ */
 int				bi_unsetenv(char **arg, t_duo **env);
 
 /*
-** sh_cd
-*/
+ ** sh_cd
+ */
 int				bi_cd(char **arg, t_duo **env);
 /*
-** sh_termcap
-*/
+ ** sh_termcap
+ */
 int				init_term();
 int				reset_term();
 
 /*
-** sh_tputs
-*/
+ ** sh_tputs
+ */
 int				my_outc(int c);
 
 /*
-** sh_event
-*/
+ ** sh_event
+ */
 int				event(int key, t_line *stline, t_history **history);
 
 /*
-** sh_modif_line
-*/
+ ** sh_modif_line
+ */
 int				backspace(t_line *stline);
 int				insert(t_line *stline, char c, int pos);
 
 /*
-** sh_move_in_line
-*/
+ ** sh_move_in_line
+ */
 int				move(int key, t_line *stline);
 
 /*
-** sh_spec_key
-*/
+ ** sh_spec_key
+ */
 int				spec_key(int key, t_line *stline);
 
 /*
-** sh_history
-*/
+ ** sh_history
+ */
 void			add_history(t_history **history, char *line);
 int				nav_history(int key, t_history **history, t_line *stline);
 
 /*
-** sh_parser
-*/
+ ** sh_parser
+ */
 t_node			*parser(t_e_list **l_expr);
 int				check_next(t_e_list **l_expr, t_node **tree, t_node **right_node);
 
 /*
-** sh_tree_traversal
-*/
-int				tree_traversal(t_node *tree, char **env);
+ ** sh_tree_traversal
+ */
+int				tree_traversal(t_node *tree, t_duo **env);
 
 /*
-** sh_red
-*/
-int				red(t_node *tree);
+ ** sh_red
+ */
+int     		red(t_node *tree, t_intlst **lstfd);
 
 /*
-** sh_cmd
-*/
+ ** sh_cmd
+ */
 char			**format_cmd(t_node *tree);
+int				manage_cmd(t_node *tree, t_duo **env);
 
 #endif
 
