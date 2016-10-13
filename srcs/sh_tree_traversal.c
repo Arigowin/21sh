@@ -35,6 +35,7 @@ void pipe_function(t_node *tree)
 int				tree_traversal(t_node *tree, char **env)
 {
     (void)env;
+    (void)tree;
 
     if (PIPE)
     {
@@ -55,4 +56,6 @@ int				tree_traversal(t_node *tree, char **env)
         // se qu'il faut pour ici sauf si ces un builtin donc
         // trouver la fonction qui fait le choix
     }
+
+    return (TRUE);
 }

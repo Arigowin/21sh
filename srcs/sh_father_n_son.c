@@ -33,7 +33,7 @@ static int		check_fct(char **cmd, char **env, t_duo **env_cpy)
 	if (tmp == NULL)
 		fill_path(&path);
 	else
-		path = read_n_check(":", tmp);
+		path = read_n_check(":", tmp, env);
 	i = 0;
 	while (path[i])
 	{

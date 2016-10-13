@@ -56,7 +56,7 @@ void				add_history(t_history **history, char *line)
 //	return (0);
 //}
 
-static int			history(t_line *stline, t_history **history, int up)
+static int			nav2_history(t_line *stline, t_history **history, int up)
 {
 	if (DEBUG_HISTORY == 1)
 		printf("------- HISTORY ------\n");
@@ -85,8 +85,8 @@ int					nav_history(int key, t_history **history, t_line *stline)
 	if (DEBUG_HISTORY == 1)
 		printf("------- NAV HISTORY ------\n");
 	if (key == UP && *history != NULL)
-		history(stline, history, 1);
+		nav2_history(stline, history, 1);
 	else if (key == DOWN && *history != NULL)
-		history(stline, history, 0);
+		nav2_history(stline, history, 0);
 	return (0);
 }

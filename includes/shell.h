@@ -2,6 +2,13 @@
 # define SHELL_H
 
 #define DEBUG 0
+#define DEBUG2 1
+#define DEBUG_BUILTIN 0
+#define DEBUG_LEXER_PARSER 0
+#define DEBUG_TREE_CREATION 0
+#define DEBUG_TREE 0
+#define DEBUG_TERMCAPS 0
+#define DEBUG_HISTORY 0
 #include <stdio.h>
 
 # define TRUE 1
@@ -137,7 +144,7 @@ t_node			*create_node(types type);
 /*
 ** sh_fct_read
 */
-char			**read_n_check(char *special, char *read_buff);
+char			**read_n_check(char *special, char *read_buff, char **env);
 int				check_home(char **cmd);
 int				check_after_read(t_line *stline, t_duo **env_cpy);
 int				fct_read(t_line *line, t_duo **env_cpy, t_history **history);

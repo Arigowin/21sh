@@ -4,7 +4,7 @@
 
 static void			del(t_line *stline)
 {
-	if (DEBUG_TERMCAP == 1)
+	if (DEBUG_TERMCAPS == 1)
 		printf("------- DEL ------\n");
 	int		tmp;
 
@@ -16,7 +16,7 @@ static void			del(t_line *stline)
 
 static void			home(t_line *stline)
 {
-	if (DEBUG_TERMCAP == 1)
+	if (DEBUG_TERMCAPS == 1)
 		printf("------- HOME ------\n");
 	while (stline->curs_x > 3)
 	{
@@ -27,7 +27,7 @@ static void			home(t_line *stline)
 
 static void			end(t_line *stline)
 {
-	if (DEBUG_TERMCAP == 1)
+	if (DEBUG_TERMCAPS == 1)
 		printf("------- END ------\n");
 	while ((stline->curs_x - 3) < (int)ft_strlen(stline->line))
 	{
@@ -38,7 +38,7 @@ static void			end(t_line *stline)
 
 int					spec_key(int key, t_line *stline)
 {
-	if (DEBUG_TERMCAP == 1)
+	if (DEBUG_TERMCAPS == 1)
 		printf("------- SPEC KEY ------\n");
 	if (key == DEL)
 		del(stline);
