@@ -4,6 +4,8 @@
 
 int				add_env(t_duo **env, char *name, char *value)
 {
+	if (DEBUG == 1)
+		printf("------- ADD ENV ------\n");
 	if (name == NULL)
 		return (-1);
 	else
@@ -13,6 +15,8 @@ int				add_env(t_duo **env, char *name, char *value)
 
 int				change_env(t_duo **env, char *name, char *value)
 {
+	if (DEBUG == 1)
+		printf("------- CHANGE ENV ------\n");
 	t_duo				*cpy;
 
 	cpy = *env;
@@ -33,6 +37,8 @@ int				change_env(t_duo **env, char *name, char *value)
 
 char			*get_env(t_duo **env, char *name)
 {
+	if (DEBUG == 1)
+		printf("------- GET ENV ------\n");
 	t_duo				*cpy;
 
 	cpy = *env;
@@ -48,6 +54,8 @@ char			*get_env(t_duo **env, char *name)
 
 int				handle_builtin(char **cmd, t_duo **env)
 {
+	if (DEBUG == 1)
+		printf("------- HANDLE BUILTIN ------\n");
 	static const char	*bi[] = {"cd", "setenv", "unsetenv", "env", "exit"};
 	static int			(*fct_tbl[])(char **cmd, t_duo **env) = {&bi_cd,
 							&bi_setenv, &bi_unsetenv, &bi_env, &bi_exit};

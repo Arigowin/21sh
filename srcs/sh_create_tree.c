@@ -5,7 +5,8 @@
 
 t_node			*create_node(types type)
 {
-//	printf("create node\n");
+	if (DEBUG_TREE == 1)
+		printf("------- CREATE NODE ------\n");
 	t_node			*new;
 
 	if ((new = (t_node *)malloc(sizeof(t_node))) == NULL)

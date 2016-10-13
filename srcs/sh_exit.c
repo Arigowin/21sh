@@ -4,6 +4,8 @@
 
 int				bi_exit(char **arg, t_duo **env)
 {
+	if (DEBUG_BUILTIN == 1)
+		printf("------- BI EXIT ------\n");
 	int			i;
 
 	i = 0;

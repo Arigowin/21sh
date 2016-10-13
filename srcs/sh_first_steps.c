@@ -4,6 +4,8 @@
 
 static char		*get_path(t_duo *env)
 {
+	if (DEBUG == 1)
+		printf("------- GET PATH ------\n");
 	char			*path;
 	char			*tmp;
 	char			*home;
@@ -25,6 +27,8 @@ static char		*get_path(t_duo *env)
 
 int				display_prompt(t_duo *env)
 {
+	if (DEBUG == 1)
+		printf("------- DISPLAY PROMPT ------\n");
 	char			*name;
 	char			*path;
 
@@ -52,6 +56,8 @@ int				display_prompt(t_duo *env)
 
 char			**cpy_env(char **env)
 {
+	if (DEBUG == 1)
+		printf("------- CPY ENV ------\n");
 	char			**cpy;
 	char			*tmp;
 	int				i;
@@ -75,6 +81,8 @@ char			**cpy_env(char **env)
 
 int				manage_tilde(t_duo **env, char **arg)
 {
+	if (DEBUG == 1)
+		printf("------- MANAGE TILDE ------\n");
 	char			*tmp;
 	char			*home_path;
 
@@ -91,6 +99,8 @@ int				manage_tilde(t_duo **env, char **arg)
 
 int				fill_path(char ***env)
 {
+	if (DEBUG == 1)
+		printf("------- FILL PATH ------\n");
 	char			*tmp;
 
 	tmp = NULL;

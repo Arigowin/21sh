@@ -3,6 +3,8 @@
 
 int				event(int key, t_line *stline, t_history **history)
 {
+	if (DEBUG == 1)
+		printf("------- EVENT ------\n");
 	if (key == RETURN)
 	{
 		if (stline->line && stline->line[0])

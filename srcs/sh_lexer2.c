@@ -8,7 +8,8 @@
 
 int				land_managment(t_e_list **tmp)
 {
-	printf("land_managment ((%s))\n", (*tmp)->data);
+	if (DEBUG_PARSER-LEXER == 1)
+		printf("------- LAND MANAGMENT ------((%s))\n");
 	t_e_list		*new;
 	t_e_list		*tmp2;
 	char			*red_arg;
@@ -43,6 +44,8 @@ int				land_managment(t_e_list **tmp)
 
 int				waka_lexer(t_e_list **tmp)
 {
+	if (DEBUG_PARSER-LEXER == 1)
+		printf("------- WAKA LEXER ------\n");
 	t_e_list		*elem;
 	char			fd[2];
 	char			*red;
@@ -77,6 +80,8 @@ int				waka_lexer(t_e_list **tmp)
 
 int				in_lexer_2(t_e_list **tmp, int boule)
 {
+	if (DEBUG_PARSER-LEXER == 1)
+		printf("------- IN LEXER 2 ------\n");
 	while (*tmp && (*tmp)->next)
 	{
 		if (ft_strchr((*tmp)->next->data, '<') || ft_strchr((*tmp)->next->data, '>'))
@@ -111,6 +116,8 @@ int				in_lexer_2(t_e_list **tmp, int boule)
 
 int				lexer_2(t_e_list **l_expr)
 {
+	if (DEBUG_PARSER-LEXER == 1)
+		printf("------- LEXER 2 ------\n");
 	t_e_list		*tmp;
 	int				boule;
 

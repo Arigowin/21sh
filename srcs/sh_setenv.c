@@ -3,6 +3,8 @@
 
 static int		is_valid(char *str)
 {
+	if (DEBUG_BUILTIN == 1)
+		printf("------- IS VALID ------\n");
 	int			i;
 
 	i = 0;
@@ -23,6 +25,8 @@ static int		is_valid(char *str)
 
 int				bi_setenv(char **arg, t_duo **env)
 {
+	if (DEBUG_BUILTIN == 1)
+		printf("------- BI SETENV ------\n");
 	int			i;
 
 	i = 0;

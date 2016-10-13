@@ -3,6 +3,8 @@
 
 static t_history	*new_history(char *line)
 {
+	if (DEBUG_HISTORY == 1)
+		printf("------- NEW HISTORY ------\n");
 	t_history	*new;
 
 	if ((new = (t_history *)malloc(sizeof(t_history))) == NULL)
@@ -18,6 +20,8 @@ static t_history	*new_history(char *line)
 
 void				add_history(t_history **history, char *line)
 {
+	if (DEBUG_HISTORY == 1)
+		printf("------- ADD HISTORY ------\n");
 	t_history	*new;
 
 	while (*history && (*history)->next != NULL)
@@ -33,29 +37,33 @@ void				add_history(t_history **history, char *line)
 	}
 }
 
-static int			up_history(t_line *stline, t_history **history)
-{
-	int		i;
+//static int			up_history(t_line *stline, t_history **history)
+//{
+//	if (DEBUG_HISTORY == 1)
+//		printf("------- UP HISTORY ------\n");
+//	int		i;
+//
+//	i = 0;
+//	while (stline->curs_x > 3)
+//		backspace(stline);
+//	while (((*history)->line)[i])
+//	{
+//		insert(stline, ((*history)->line)[i], ++(stline->curs_x) - 4);
+//		i++;
+//	}
+//	if ((*history)->prev)
+//		*history = (*history)->prev;
+//	return (0);
+//}
 
-	i = 0;
-	while (stline->curs_x > 3)
-		backspace(stline);
-	while (((*history)->line)[i])
-	{
-		insert(stline, ((*history)->line)[i], ++(stline->curs_x) - 4);
-		i++;
-	}
-	if ((*history)->prev)
-		*history = (*history)->prev;
-	return (0);
-}
-
-static int			down_history(t_line *stline, t_history **history)
+static int			history(t_line *stline, t_history **history, int up)
 {
+	if (DEBUG_HISTORY == 1)
+		printf("------- HISTORY ------\n");
 	int		i;
 
 	i = -1;
-	if ((*history)->next)
+	if (up == 0 && (*history)->next)
 	{
 		*history = (*history)->next;
 		i = 0;
@@ -67,14 +75,18 @@ static int			down_history(t_line *stline, t_history **history)
 		insert(stline, ((*history)->line)[i], ++(stline->curs_x) - 4);
 		i++;
 	}
+	if (up == 1 && (*history)->prev)
+		*history = (*history)->prev;
 	return (0);
 }
 
 int					nav_history(int key, t_history **history, t_line *stline)
 {
+	if (DEBUG_HISTORY == 1)
+		printf("------- NAV HISTORY ------\n");
 	if (key == UP && *history != NULL)
-		up_history(stline, history);
+		history(stline, history, 1);
 	else if (key == DOWN && *history != NULL)
-		down_history(stline, history);
+		history(stline, history, 0);
 	return (0);
 }

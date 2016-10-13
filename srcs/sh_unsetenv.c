@@ -4,6 +4,8 @@
 
 static int		del_first(t_duo **env, char *name)
 {
+	if (DEBUG_BUILTIN == 1)
+		printf("------- ADD FIRST ------\n");
 	t_duo		*cpy;
 	t_duo		*tmp;
 
@@ -23,6 +25,8 @@ static int		del_first(t_duo **env, char *name)
 
 static int		del_env(t_duo **env, char *name)
 {
+	if (DEBUG_BUILTIN == 1)
+		printf("------- DEL ENV ------\n");
 	t_duo		*cpy;
 	t_duo		*tmp;
 
@@ -48,6 +52,8 @@ static int		del_env(t_duo **env, char *name)
 
 int				bi_unsetenv(char **arg, t_duo **env)
 {
+	if (DEBUG_BUILTIN == 1)
+		printf("------- BI UNSETENV ------\n");
 	int			i;
 
 	i = 1;

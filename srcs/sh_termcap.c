@@ -6,6 +6,8 @@
 
 int			init_term(void)
 {
+	if (DEBUG_TERMCAP == 1)
+		printf("------- INIT TERM ------\n");
 	struct termios	term;
 	char			*nameterm;
 
@@ -25,6 +27,8 @@ int			init_term(void)
 
 int			reset_term(void)
 {
+	if (DEBUG_TERMCAP == 1)
+		printf("------- RESET TERM ------\n");
 	struct termios	term;
 
 	if (tcgetattr(0, &term) == -1)
