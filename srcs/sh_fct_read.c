@@ -18,10 +18,10 @@ int				tree_traversal_verif(t_node *tree)
 		printf("{{%s right %s}}\n", tree->data, tree->right->data);
 		tree_traversal_verif(tree->right);
 	}
-//	ft_putstr("[");
-//	ft_putstr(tree->data);
-//	ft_putstr("]");
-//	ft_putstr(" --> ");
+	//	ft_putstr("[");
+	//	ft_putstr(tree->data);
+	//	ft_putstr("]");
+	//	ft_putstr(" --> ");
 	return (0);
 }
 
@@ -35,83 +35,83 @@ t_node          *read_n_check(char *special, char *read_buff, char **env)
 	(void)special;
 	l_expr = NULL;
 	lexer_1(read_buff, &l_expr);
-//	t_e_list *tmp = l_expr;
+	//	t_e_list *tmp = l_expr;
 	lexer_2(&l_expr);
-//	tmp = l_expr;
+	//	tmp = l_expr;
 	printf("avant parser\n");
 	tree = parser(&l_expr);
 	printf("apres parser\n");
 	if (DEBUG2 == 1)
-    {
-        tree_traversal_verif(tree);
-        printf("\napres tree traversal verif\n");
-    }
-    //	tbl = lst_to_tbl(arg);
-    //	free_lst(&arg);
-    //	return (tbl);
-    return (tree);
+	{
+		tree_traversal_verif(tree);
+		printf("\napres tree traversal verif\n");
+	}
+	//	tbl = lst_to_tbl(arg);
+	//	free_lst(&arg);
+	//	return (tbl);
+	return (tree);
 }
 
 int				check_home(char **cmd)
 {
-    if (DEBUG == 1)
-        printf("------- CHECK HOME ------\n");
-    int			i;
+	if (DEBUG == 1)
+		printf("------- CHECK HOME ------\n");
+	int			i;
 
-    i = 0;
-    while (cmd[i])
-    {
-        if (cmd[i][0] == '~')
-        {
-            ft_putstr("21sh: ");
-            ft_putstr(cmd[0]);
-            ft_putendl(": no $HOME variable set");
-            return (-1);
-        }
-        i++;
-    }
-    return (0);
+	i = 0;
+	while (cmd[i])
+	{
+		if (cmd[i][0] == '~')
+		{
+			ft_putstr("21sh: ");
+			ft_putstr(cmd[0]);
+			ft_putendl(": no $HOME variable set");
+			return (-1);
+		}
+		i++;
+	}
+	return (0);
 }
 
 int				check_after_read(t_line *stline, t_duo **env_cpy)
 {
-    if (DEBUG == 1)
-        printf("------- CHECK AFTER READ ------\n");
-    t_node          *tree;
-    char            **env;
+	if (DEBUG == 1)
+		printf("------- CHECK AFTER READ ------\n");
+	t_node          *tree;
+	char            **env;
 
-    if ((tree = read_n_check(SEP, stline->line, NULL)) == NULL)
-        return (-1);
+	if ((tree = read_n_check(SEP, stline->line, NULL)) == NULL)
+		return (-1);
 
-    env = duo_to_tbl(env_cpy, '=');
-    tree_traversal(tree, env);
-    return (0);
+	env = duo_to_tbl(env_cpy, '=');
+	tree_traversal(tree, env);
+	return (0);
 }
 
 int				fct_read(t_line *stline, t_duo **env_cpy, t_history **history)
 {
-    if (DEBUG == 1)
-        printf("------- FCT READ ------\n");
-    int				key;
-    int				ret;
+	if (DEBUG == 1)
+		printf("------- FCT READ ------\n");
+	int				key;
+	int				ret;
 
-    ret = 0;
-    stline->curs_x = 3;
-    (void)history;
-    while ((ret = read(0, &key, 7)) > 0)
-    {
-        //printf("%d\n", key); // !!!!!!!!!!!!!!! PRINTF !!!!!!!!!!!!!!!!!!!
-        if (key == CTRL_D && stline->line[0] == '\0')
-            bi_exit(NULL, env_cpy);
-        else if (key == CTRL_D)
-            key = DEL;
-        if (event(key, stline, history) == 1)
-            break ;
-        key = 0;
-    }
-    if (ret <= 0)
-        bi_exit(NULL, env_cpy);
-    if (check_after_read(stline, env_cpy) == -1)
-        return (-1);
-    return (0);
+	ret = 0;
+	stline->curs_x = 3;
+	(void)history;
+	while ((ret = read(0, &key, 7)) > 0)
+	{
+		//printf("%d\n", key); // !!!!!!!!!!!!!!! PRINTF !!!!!!!!!!!!!!!!!!!
+		if (key == CTRL_D && stline->line[0] == '\0')
+			bi_exit(NULL, env_cpy);
+		else if (key == CTRL_D)
+			key = DEL;
+		if (event(key, stline, history) == 1)
+			break ;
+		key = 0;
+	}
+	if (ret <= 0)
+		bi_exit(NULL, env_cpy);
+	if (check_after_read(stline, env_cpy) == -1)
+		return (-1);
+	return (0);
 }

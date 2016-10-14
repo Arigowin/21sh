@@ -24,7 +24,7 @@ int				clear_tree(t_node **tree)
 {
 	if (DEBUG_TREE_CREATION == 1)
 		printf("------- CLEAR TREE ------\n");
-//	printf("clear tree -- [%s]\n", (*tree)->data);
+	//	printf("clear tree -- [%s]\n", (*tree)->data);
 	if ((*tree) && (*tree)->left)
 		clear_tree(&((*tree)->left));
 	if ((*tree) && (*tree)->right)
@@ -165,7 +165,7 @@ int				check_next(t_e_list **l_expr, t_node **tree, t_node **right_node)
 {
 	if (DEBUG_TREE_CREATION == 1)
 		printf("------- CHECK C PIPE ------\n");
-		printf("------- ADD ENV ------\n");
+	printf("------- ADD ENV ------\n");
 	printf("check next [%s]\n", (*l_expr)->data);
 	t_node			*save;
 

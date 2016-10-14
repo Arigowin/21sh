@@ -15,7 +15,7 @@ t_node			*create_node(types type)
 	new->type = type;
 	new->left = NULL;
 	new->right = NULL;
-//	printf("end create node\n");
+	//	printf("end create node\n");
 	return (new);
 }
 

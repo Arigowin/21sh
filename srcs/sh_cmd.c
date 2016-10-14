@@ -52,16 +52,16 @@ int			manage_cmd(t_node *tree)
 	if ((cmd = format_cmd(tree)) == NULL)
 		return (FALSE);
 
-    while (cmd[++i])
-    {
-        if (cmd[i][0] == '~')
-            manage_tilde(&cmd[i]);
-    }
-    if (handle_builtin(cmd) != 0)
-        return (FALSE);
-    if (check_home(cmd) < 0)
-        return (FALSE);
-    father_n_son(cmd);
-    free_tab(&cmd);
+	while (cmd[++i])
+	{
+		if (cmd[i][0] == '~')
+			manage_tilde(&cmd[i]);
+	}
+	if (handle_builtin(cmd) != 0)
+		return (FALSE);
+	if (check_home(cmd) < 0)
+		return (FALSE);
+	father_n_son(cmd);
+	free_tab(&cmd);
 	return (TRUE);
 }
