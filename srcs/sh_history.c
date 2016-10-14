@@ -55,6 +55,8 @@ void				add_history(t_history **history, char *line)
 //		*history = (*history)->prev;
 //	return (0);
 //}
+//
+
 
 static int			nav2_history(t_line *stline, t_history **history, int up)
 {
@@ -90,3 +92,31 @@ int					nav_history(int key, t_history **history, t_line *stline)
 		nav2_history(stline, history, 0);
 	return (0);
 }
+
+/**************************************** autre possibilité ???
+ 
+int					nav_history(int key, t_history **history, t_line *stline)
+{
+	if (DEBUG_HISTORY == 1)
+		printf("------- HISTORY ------\n");
+	int		i;
+
+	i = -1;
+	if (key == UP && *history && (*history)->next)
+	{
+		*history = (*history)->next;
+		i = 0;
+	}
+	while (stline->curs_x > 3)
+		backspace(stline);
+	while (i >= 0 && ((*history)->line)[i])
+	{
+		insert(stline, ((*history)->line)[i], ++(stline->curs_x) - 4);
+		i++;
+	}
+	if (key == DOWN && *history && (*history)->prev)
+		*history = (*history)->prev;
+	return (0);
+}
+
+*********************************************************/

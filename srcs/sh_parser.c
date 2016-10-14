@@ -107,12 +107,14 @@ int				check_red(t_e_list **l_expr, t_node **tree)
 	t_node			*node;
 	t_node			*save;
 	t_e_list		*list_save;
+	int				red_ret;
 
 	node = NULL;
 	save = *tree;
 	list_save = *l_expr;
+	red_ret = TRUE;
 	if ((*l_expr)->type == RED && (node = create_node(RED)) != NULL
-			&& move_in_list(l_expr) && check_red_arg(l_expr, &(node->right)))
+			&& move_in_list(l_expr) && ((red_ret = check_red_arg(l_expr, &(node->right))) == TRUE))
 	{
 		if ((node->data = ft_strdup(list_save->data)) == NULL)
 		{
@@ -123,11 +125,13 @@ int				check_red(t_e_list **l_expr, t_node **tree)
 		node->type = ft_strequ(list_save->data, ">>") ? DRRED : node->type;
 		node->type = ft_strequ(list_save->data, "<") ? LRED : node->type;
 		node->type = ft_strequ(list_save->data, "<<") ? DLRED : node->type;
-		if (!move_in_list(l_expr) || !check_red(l_expr, &(node->left)))
+		if (!move_in_list(l_expr) || check_red(l_expr, &(node->left)) != TRUE)
 			*tree = save;
 		*tree = node;
 		return (TRUE);
 	}
+	if (ret_red != TRUE)
+		return (ERROR);
 	clear_node(&node);
 	*tree = save;
 	return (FALSE);
@@ -160,7 +164,7 @@ int				check_arg(t_e_list **l_expr, t_node **tree, t_node **right_node)
 	return (FALSE);
 }
 
-//checker pour le retour de check_red, il faut stopper si pas d'argumer de redirection.... ajouter un code pour si il n'y a pas de red_arg
+//checker pour le retour de check_red, il faut stopper si pas d'argumer de redirection.... ajouter un message d'errur spécifique
 int				check_next(t_e_list **l_expr, t_node **tree, t_node **right_node)
 {
 	if (DEBUG_TREE_CREATION == 1)
@@ -174,7 +178,8 @@ int				check_next(t_e_list **l_expr, t_node **tree, t_node **right_node)
 	{
 		while (save && save->left != NULL)
 			save = save->left;
-		check_red(l_expr, &(save->left));
+		if (check_red(l_expr, &(save->left)) == ERROR)
+			return (ERROR);
 		check_arg(l_expr, &save, right_node);
 		return (TRUE);
 	}
@@ -194,7 +199,7 @@ int				check_command(t_e_list **l_expr, t_node **tree)
 	red = 0;
 	if ((node = create_node(CMD)) == NULL)
 		return (FALSE);
-	if ((red = check_red(l_expr, &(node->left))) == FALSE)
+	if ((red = check_red(l_expr, &(node->left))) != TRUE)
 		*tree = save;
 	if ((*l_expr)->type == CMD) // && (!red || move_in_list(l_expr)))
 	{

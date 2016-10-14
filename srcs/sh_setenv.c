@@ -43,7 +43,7 @@ int				bi_setenv(char **arg, t_duo **env)
 	}
 	if (i == 2 || i == 3)
 	{
-		change_env(env, arg[1], arg[2]);
+		change_env(arg[1], arg[2]);
 		return (0);
 	}
 	if (i > 3)

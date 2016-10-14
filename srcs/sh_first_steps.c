@@ -25,13 +25,15 @@ static char		*get_path(t_duo *env)
 	return (path);
 }
 
-int				display_prompt(t_duo *env)
+int				display_prompt(void)
 {
 	if (DEBUG == 1)
 		printf("------- DISPLAY PROMPT ------\n");
 	char			*name;
 	char			*path;
+	t_duo			*env;
 
+	env = savior(NULL, FALSE);
 	path = get_path(env);
 	name = get_env(&env, "LOGNAME");
 	if (name)
@@ -79,13 +81,15 @@ char			**cpy_env(char **env)
 	return (cpy);
 }
 
-int				manage_tilde(t_duo **env, char **arg)
+int				manage_tilde(char **arg)
 {
 	if (DEBUG == 1)
 		printf("------- MANAGE TILDE ------\n");
 	char			*tmp;
 	char			*home_path;
+	t_duo			*env;
 
+	env = savior(NULL, FALSE);
 	tmp = ft_strsub(*arg, 1, ft_strlen(*arg));
 	if ((home_path = get_env(env, "HOME")) == NULL)
 		return (-1);

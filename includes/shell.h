@@ -106,9 +106,9 @@ t_duo					*savior(t_duo *env);
 /*
  ** sh_first_steps
  */
-int				display_prompt(t_duo *env);
+int				display_prompt(void);
 char			**cpy_env(char **env);
-int				manage_tilde(t_duo **env, char **arg);
+int				manage_tilde(char **arg);
 int				fill_path(char ***env);
 
 /*
@@ -123,6 +123,8 @@ int				add_env(char *name, char *value);
 int				change_env(char *name, char *value);
 char			*get_env(char *name);
 int				handle_builtin(char **cmd);
+
+/*
  ** sh_lexer1
  */
 int				lexer_1(char *read_buff, t_e_list **l_expr);

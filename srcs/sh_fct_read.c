@@ -77,13 +77,15 @@ int				check_after_read(t_line *stline)
 	if (DEBUG == 1)
 		printf("------- CHECK AFTER READ ------\n");
 	t_node          *tree;
-	char            **env;
+	char            **env_tbl;
+	t_duo			**env;
 
+	env = savior(NULL, FALSE);
 	if ((tree = read_n_check(SEP, stline->line, NULL)) == NULL)
 		return (-1);
 
-	env = duo_to_tbl(env_cpy, '=');
-	tree_traversal(tree, env);
+	env_tbl = duo_to_tbl(env, '=');
+	tree_traversal(tree, env_tbl);
 	return (0);
 }
 
@@ -101,7 +103,6 @@ int				fct_read(t_line *stline, t_history **history)
 	(void)history;
 	while ((ret = read(0, &key, 7)) > 0)
 	{
-		//printf("%d\n", key); // !!!!!!!!!!!!!!! PRINTF !!!!!!!!!!!!!!!!!!!
 		if (key == CTRL_D && stline->line[0] == '\0')
 			bi_exit(NULL, env);
 		else if (key == CTRL_D)

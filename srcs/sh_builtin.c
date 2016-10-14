@@ -2,14 +2,21 @@
 #include "libft.h"
 #include <stdio.h>
 
-int				add_env(t_duo **env, char *name, char *value)
+int				add_env(char *name, char *value)
 {
 	if (DEBUG == 1)
 		printf("------- ADD ENV ------\n");
+	t_duo				**env;
+
+	env = savior(NULL, FALSE);
 	if (name == NULL)
 		return (-1);
 	else
+	{
 		duo_pushback(env, name, value);
+		savior(env, TRUE);
+	}
+	free(env);
 	return (0);
 }
 
@@ -17,21 +24,21 @@ int				change_env(t_duo **env, char *name, char *value)
 {
 	if (DEBUG == 1)
 		printf("------- CHANGE ENV ------\n");
-	t_duo				*cpy;
+	t_duo				**env;
 
-	cpy = *env;
-	while (cpy)
+	env = savior(NULL, FALSE);
+	while (env)
 	{
-		if (ft_strcmp(cpy->name, name) == 0)
+		if (ft_strcmp(env->name, name) == 0)
 		{
-			free(cpy->value);
-			cpy->value = ft_strdup(value);
+			free(env->value);
+			env->value = ft_strdup(value);
 			return (1);
 		}
-		cpy = cpy->next;
+		env = env->next;
 	}
-	add_env(env, name, value);
-	free(cpy);
+	add_env(name, value);
+	free(env);
 	return (0);
 }
 
@@ -48,10 +55,11 @@ char			*get_env(char *name)
 			return (ft_strdup((*env)->value));
 		*env = (*env)->next;
 	}
+	free(env);
 	return (NULL);
 }
 
-int				handle_builtin(char **cmd, t_duo **env)
+int				handle_builtin(char **cmd)
 {
 	if (DEBUG == 1)
 		printf("------- HANDLE BUILTIN ------\n");
@@ -59,7 +67,9 @@ int				handle_builtin(char **cmd, t_duo **env)
 	static int			(*fct_tbl[])(char **cmd, t_duo **env) = {&bi_cd,
 		&bi_setenv, &bi_unsetenv, &bi_env, &bi_exit};
 	int					i;
+	t_duo				**env;
 
+	env = savior(NULL, FALSE);
 	i = 0;
 	while (i < 5 && ft_strcmp(cmd[0], bi[i]) != 0)
 		i++;
@@ -70,5 +80,6 @@ int				handle_builtin(char **cmd, t_duo **env)
 		else
 			return (1);
 	}
+	free(env);
 	return (0);
 }

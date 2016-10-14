@@ -40,14 +40,14 @@ int			main(int ac, char **av, char **env)
 	stline.line = ft_strnew(BUFF_SIZE);
 	init_term();
 	history = NULL;
-	printf("before while\n");
+//	printf("before while\n");
 	while (1)
 	{
-		printf("totopouet titi\n");
+//		printf("totopouet titi\n");
 		ft_bzero(stline.line, BUFF_SIZE + 1);
 		check_signal(1);
 		display_prompt(env_cpy);
-		printf("fct read comming\n");
+//		printf("fct read comming\n");
 		fct_read(&stline, &env_cpy, &history);
 		break ;
 	}

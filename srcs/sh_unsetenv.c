@@ -18,6 +18,7 @@ static int		del_first(t_duo **env, char *name)
 		ft_strdel(&(cpy->value));
 		free(cpy);
 		*env = tmp;
+		savior(env, TRUE);
 		return (1);
 	}
 	return (0);
@@ -43,6 +44,7 @@ static int		del_env(t_duo **env, char *name)
 			ft_strdel(&(cpy->next->value));
 			free(cpy->next);
 			cpy->next = tmp;
+			savior(env, TRUE);
 			return (1);
 		}
 		cpy = cpy->next;
