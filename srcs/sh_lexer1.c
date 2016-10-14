@@ -77,8 +77,8 @@ int						lexer_1(char *read_buff, t_e_list **l_expr)
 		if (ft_strchr(SEP, read_buff[i]))
 		{
 			if (ft_strchr(WAKA, read_buff[i]) && read_buff[i - 1]
-				&& ft_isdigit(read_buff[i - 1]) && (!read_buff[i - 2]
-				|| (read_buff[i - 2] && ft_strchr(SEP, read_buff[i - 2]))))
+					&& ft_isdigit(read_buff[i - 1]) && (!read_buff[i - 2]
+						|| (read_buff[i - 2] && ft_strchr(SEP, read_buff[i - 2]))))
 			{
 				tmp[k++] = read_buff[i];
 				if (read_buff[i + 1] && read_buff[i + 1] == read_buff[i])

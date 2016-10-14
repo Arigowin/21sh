@@ -27,6 +27,7 @@ char		**format_cmd(t_node *tree)
 	int		i;
 
 	i = 0;
+	ret = NULL;
 	tmp = tree;
 	while (tmp->left)
 	{
@@ -36,4 +37,31 @@ char		**format_cmd(t_node *tree)
 
 	ret = tree_to_tbl(tree, i);
 	return (ret);
+}
+
+int			manage_cmd(t_node *tree)
+{
+	t_intlst	*lstfd;
+	char		**cmd;
+	int			i;
+
+	i = 0;
+	if (tree->left != NULL)
+		red(tree, &lstfd);
+
+	if ((cmd = format_cmd(tree)) == NULL)
+		return (FALSE);
+
+	while (cmd[++i])
+	{
+		if (cmd[i][0] == '~')
+			manage_tilde(&cmd[i]);
+	}
+	if (handle_builtin(cmd) != 0)
+		return (FALSE);
+	if (check_home(cmd) < 0)
+		return (FALSE);
+	father_n_son(cmd);
+	free_tab(&cmd);
+	return (TRUE);
 }

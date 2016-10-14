@@ -57,7 +57,7 @@ int				handle_builtin(char **cmd, t_duo **env)
 		printf("------- HANDLE BUILTIN ------\n");
 	static const char	*bi[] = {"cd", "setenv", "unsetenv", "env", "exit"};
 	static int			(*fct_tbl[])(char **cmd, t_duo **env) = {&bi_cd,
-							&bi_setenv, &bi_unsetenv, &bi_env, &bi_exit};
+		&bi_setenv, &bi_unsetenv, &bi_env, &bi_exit};
 	int					i;
 
 	i = 0;

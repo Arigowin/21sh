@@ -26,6 +26,7 @@ SRC = sh_builtin.c \
 	  sh_tree_traversal.c \
 	  sh_red.c \
 	  sh_cmd.c \
+	  sh_pipe.c \
 	  sh_create_tree.c \
 	  sh_father_n_son.c \
 	  sh_fct_read.c \
