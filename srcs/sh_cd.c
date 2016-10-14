@@ -44,13 +44,15 @@ static int		access_home(char **arg, char *home, char *tmp)
 	return (-1);
 }
 
-static int		cd_access(char **arg, char *path, t_duo *env)
+static int		cd_access(char **arg, char *path)
 {
 	if (DEBUG_BUILTIN == 1)
 		printf("------- CD ACCESS ------\n");
 	char		*tmp;
 	char		*home;
+	t_duo		**env;
 
+	env = savior(NULL, FALSE);
 	tmp = NULL;
 	home = get_env(&env, "HOME");
 	if (path == NULL && arg[1] && arg[1][0] != '-')
@@ -74,12 +76,14 @@ static int		cd_access(char **arg, char *path, t_duo *env)
 	return (0);
 }
 
-static int		cd_home(t_duo **env)
+static int		cd_home(void)
 {
 	if (DEBUG_BUILTIN == 1)
 		printf("------- CD HOME ------\n");
 	char		*home;
+	t_duo		**env;
 
+	env = savior(NULL, FALSE);
 	if ((home = get_env(env, "HOME")) == NULL)
 	{
 		ft_putendl("21sh: cd: no $HOME variable set");

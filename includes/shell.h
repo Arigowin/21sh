@@ -119,10 +119,10 @@ int				check_signal(int loc);
 /*
 ** sh_builtin
 */
-int				add_env(t_duo **env, char *name, char *value);
-int				change_env(t_duo **env, char *name, char *value);
-char			*get_env(t_duo **env, char *name);
-int				handle_builtin(char **cmd, t_duo **env);
+int				add_env(char *name, char *value);
+int				change_env(char *name, char *value);
+char			*get_env(char *name);
+int				handle_builtin(char **cmd);
 
 /*
 ** sh_lexer1
@@ -144,35 +144,35 @@ t_node			*create_node(types type);
 /*
 ** sh_fct_read
 */
-t_node          *read_n_check(char *special, char *read_buff, char **env);
+t_node          *read_n_check(char *special, char *read_buff);
 int				check_home(char **cmd);
-int				check_after_read(t_line *stline, t_duo **env_cpy);
-int				fct_read(t_line *line, t_duo **env_cpy, t_history **history);
+int				check_after_read(t_line *stline);
+int				fct_read(t_line *line, t_history **history);
 
 /*
 ** sh_father_n_son
 */
-int				father_n_son(char **cmd, t_duo **env_cpy);
+int				father_n_son(char **cmd);
 
 /*
 ** sh_env
 */
-int				bi_env(char **arg, t_duo **env);
+int				bi_env(char **arg);
 
 /*
 ** sh_exit
 */
-int				bi_exit(char **arg, t_duo **env);
+int				bi_exit(char **arg);
 
 /*
 ** sh_setenv
 */
-int				bi_setenv(char **arg, t_duo **env);
+int				bi_setenv(char **arg);
 
 /*
 ** sh_unsetenv
 */
-int				bi_unsetenv(char **arg, t_duo **env);
+int				bi_unsetenv(char **arg);
 
 /*
 ** sh_cd

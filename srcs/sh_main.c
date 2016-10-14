@@ -6,35 +6,37 @@
 #include "shell.h"
 #include "libft.h"
 
-t_duo		*savior(t_duo *env)
+t_duo		*savior(t_duo *env, int code)
 {
 	static t_duo	*save = NULL;
 
-	if (save == NULL)
+	if ((save == NULL && env) || code == TRUE)
 		save = env;
 	return (save);
 }
 
-static int	init_env(char ***cpy, char **env, t_duo **env_cpy)
+static int	init_env(char **env, t_duo **env_cpy)
 {
-	*cpy = cpy_env(env);
-	if (!(*env))
-		fill_path(cpy);
-	*env_cpy = tbl_to_duo(*cpy, '=');
+	char			**cpy;
+
+	cpy = cpy_env(env);
+	if (!(cpy))
+		fill_path(&cpy);
+	*env_cpy = tbl_to_duo(cpy, '=');
 	savior(*env_cpy);
+	free_tab(&cpy);
 	return (0);
 }
 
 int			main(int ac, char **av, char **env)
 {
-	char			**cpy;
 	t_duo			*env_cpy;
 	t_line			stline;
 	t_history		*history;
 
 	(void)ac;
 	(void)av;
-	init_env(&cpy, env, &env_cpy);
+	init_env(env, &env_cpy);
 	stline.line = ft_strnew(BUFF_SIZE);
 	init_term();
 	history = NULL;
@@ -51,7 +53,6 @@ int			main(int ac, char **av, char **env)
 	}
 	reset_term();
 	free_duo(&env_cpy);
-	free_tab(&cpy);
 	free(stline.line);
 	return (0);
 }

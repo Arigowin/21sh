@@ -21,24 +21,24 @@ static char		*join_exe(char *s1, char *s2)
 	return (rlt);
 }
 
-static int		check_fct(char **cmd, char **env, t_duo **env_cpy)
+static int		check_fct(char **cmd)
 {
 	if (DEBUG == 1)
 		printf("------- CHECK FCT------\n");
 	char		**path = NULL;
 	char		*tmp;
+	t_duo		env;
 	int			i;
 
-	tmp = get_env(env_cpy, "PATH");
+	env = savior(NULL, FALSE);
+	tmp = get_env("PATH");
 	if (tmp == NULL)
-		fill_path(&path);
-//	else
-//		path = read_n_check(":", tmp, env);
+		return (-1);
+	else
 	i = 0;
 	while (path[i])
 	{
 		tmp = join_exe(path[i], cmd[0]);
-		// a execve tu doit lui passer la copie des variable d'env pas les variable d'en de base
 		execve(tmp, cmd, env);
 		i++;
 	}
@@ -46,7 +46,7 @@ static int		check_fct(char **cmd, char **env, t_duo **env_cpy)
 	return (0);
 }
 
-int				father_n_son(char **cmd, t_duo **env_cpy)
+int				father_n_son(char **cmd)
 {
 	if (DEBUG == 1)
 		printf("------- FATHER N SON ------\n");
@@ -62,8 +62,7 @@ int				father_n_son(char **cmd, t_duo **env_cpy)
 	if (father == 0)
 	{
 		check_signal(2);
-		// transformer env_cpy en char**
-		check_fct(cmd, NULL, env_cpy);
+		check_fct(cmd);
 		ft_putstr("21sh: ");
 		ft_putstr(cmd[0]);
 		ft_putendl(": command not found");

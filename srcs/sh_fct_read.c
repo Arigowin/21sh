@@ -25,15 +25,13 @@ int				tree_traversal_verif(t_node *tree)
 	return (0);
 }
 
-t_node          *read_n_check(char *special, char *read_buff, char **env)
+t_node          *read_n_check(char *read_buff)
 {
 	if (DEBUG == 1)
 		printf("------- READ N CHECK ------\n");
 	t_e_list		*l_expr;
 	t_node			*tree;
 
-	(void)special;
-	(void)env;
 	l_expr = NULL;
 	lexer_1(read_buff, &l_expr);
 	//	t_e_list *tmp = l_expr;
@@ -74,20 +72,18 @@ int				check_home(char **cmd)
 	return (0);
 }
 
-int				check_after_read(t_line *stline, t_duo **env_cpy)
+int				check_after_read(t_line *stline)
 {
 	if (DEBUG == 1)
 		printf("------- CHECK AFTER READ ------\n");
 	t_node          *tree;
-	char            **env;
 	int				i;
 
 	i = 0;
 	if ((tree = read_n_check(SEP, stline->line, NULL)) == NULL)
 		return (-1);
 
-	env = duo_to_tbl(*env_cpy, "=");
-	tree_traversal(tree, env);
+	tree_traversal(tree);
 	/*
 	   while (cmd[++i])
 	   {
@@ -103,13 +99,15 @@ int				check_after_read(t_line *stline, t_duo **env_cpy)
 	return (0);
 }
 
-int				fct_read(t_line *stline, t_duo **env_cpy, t_history **history)
+int				fct_read(t_line *stline, t_history **history)
 {
 	if (DEBUG == 1)
 		printf("------- FCT READ ------\n");
 	int				key;
 	int				ret;
+	t_duo			**env;
 
+	env = savoir(NULL, FALSE);
 	ret = 0;
 	stline->curs_x = 3;
 	(void)history;
@@ -117,7 +115,7 @@ int				fct_read(t_line *stline, t_duo **env_cpy, t_history **history)
 	{
 		//printf("%d\n", key); // !!!!!!!!!!!!!!! PRINTF !!!!!!!!!!!!!!!!!!!
 		if (key == CTRL_D && stline->line[0] == '\0')
-			bi_exit(NULL, env_cpy);
+			bi_exit(NULL);
 		else if (key == CTRL_D)
 			key = DEL;
 		if (event(key, stline, history) == 1)
@@ -125,8 +123,8 @@ int				fct_read(t_line *stline, t_duo **env_cpy, t_history **history)
 		key = 0;
 	}
 	if (ret <= 0)
-		bi_exit(NULL, env_cpy);
-	if (check_after_read(stline, env_cpy) == -1)
+		bi_exit(NULL);
+	if (check_after_read(stline) == -1)
 		return (-1);
 	return (0);
 }

@@ -35,20 +35,19 @@ int				change_env(t_duo **env, char *name, char *value)
 	return (0);
 }
 
-char			*get_env(t_duo **env, char *name)
+char			*get_env(char *name)
 {
 	if (DEBUG == 1)
 		printf("------- GET ENV ------\n");
-	t_duo				*cpy;
+	t_duo				**env;
 
-	cpy = *env;
-	while (cpy)
+	env = savior(NULL, FALSE);
+	while (*env)
 	{
-		if (ft_strcmp(name, cpy->name) == 0)
-			return (ft_strdup(cpy->value));
-		cpy = cpy->next;
+		if (ft_strcmp(name, (*env)->name) == 0)
+			return (ft_strdup((*env)->value));
+		*env = (*env)->next;
 	}
-	free(cpy);
 	return (NULL);
 }
 
