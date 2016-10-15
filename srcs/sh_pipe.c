@@ -83,7 +83,7 @@ int			pipe_function(t_node *tree, int in_fd)
 			}
 			close(pfd[1]);
 			close(in_fd);
-			pi(tree->right, pfd[0]);
+			pipe_function(tree->right, pfd[0]);
 		}
 	}
 }
