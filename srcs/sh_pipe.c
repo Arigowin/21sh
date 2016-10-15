@@ -4,6 +4,7 @@
 #include <stdlib.h>
 #include "shell.h"
 #include "libft.h"
+#include <sys/wait.h>
 
 //    pipeline(argv, 1, STDIN_FILENO);
 //void pipeline(char *ar[], int pos, int in_fd)
@@ -53,40 +54,60 @@
 int			pipe_function(t_node *tree, int in_fd)
 {
 	if (DEBUG_PIPE == 1)
-		printf("------- PIPE FUNCTION -------\n");
+		printf("------- PIPE FUNCTION -------(%s)-(%d)\n", tree->data, in_fd);
 	int		pfd[2];
+	int		pid;
+	int		stat_lock;
 
-	if (tree->right == NULL)
+	if (tree->right == NULL || tree->right->type == CMD_ARG)
 	{
+		printf("PIPE ERROR : if\n");
 		if (in_fd != STDIN_FILENO)
 		{
+			printf("PIPE ERROR : if if\n");
 			if (dup2(in_fd, STDIN_FILENO) != -1)
 				close(in_fd);
 			else
+			{
+				printf("PIPE ERROR : dup2(in_fd, STDIN_FILENO)\n");
 				return (FALSE);
-			manage_cmd(tree);
-			return (FALSE);
+			}
 		}
+		father_n_son(format_cmd(tree));
+		return (FALSE);
 	}
 	else
 	{
-		if (pipe(pfd) == -1)
-			return (FALSE);
-		else
+		printf("PIPE ERROR : else\n");
+		if (pipe(pfd) == -1 || (pid = fork()) == -1)
 		{
+			printf("PIPE ERROR : pipe(pfd)\n");
+			return (FALSE);
+		}
+		if (pid > 0)
+			wait(&stat_lock);
+		if (pid == 0)
+		{
+			close(pfd[0]);
 			if (dup2(in_fd, STDIN_FILENO) == -1)
-				return (FALSE);
-			if (dup2(pfd[1], STDOUT_FILENO) == -1)
-				return (FALSE);
-			else
 			{
-				manage_cmd(tree->left);
+				printf("PIPE ERROR : in else dup2(in_fd, STDIN_FILENO)\n");
 				return (FALSE);
 			}
-			close(pfd[1]);
-			close(in_fd);
-			pipe_function(tree->right, pfd[0]);
+			if (dup2(pfd[1], STDOUT_FILENO) == -1)
+			{
+				printf("PIPE ERROR : in else dup2(pdf[1], STDOUT_FILENO)\n");
+				return (FALSE);
+			}
+			else
+			{
+				father_n_son_for_pipe(format_cmd(tree->left));
+				return (FALSE);
+			}
 		}
+		close(pfd[1]);
+		close(in_fd);
+		pipe_function(tree->right, pfd[0]);
 	}
 	return (TRUE);
 }

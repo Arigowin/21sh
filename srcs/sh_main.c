@@ -51,8 +51,8 @@ int			main(int ac, char **av, char **env)
 		check_signal(1);
 		display_prompt();
 //		printf("fct read comming\n");
-		fct_read(&stline, &history);
-//		break ;
+		if (fct_read(&stline, &history) == -1)
+			break ;
 	}
 	reset_term();
 	free_duo(&env_cpy);

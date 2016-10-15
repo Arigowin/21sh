@@ -46,7 +46,7 @@ char		**format_cmd(t_node *tree)
 int			manage_cmd(t_node *tree)
 {
 	if (DEBUG_CMD == 1)
-		printf ("----- CMD -----\n");
+		printf ("----- CMD -----(%s)\n", tree->data);
 	t_intlst	*lstfd;
 	char		**cmd;
 	int			i;

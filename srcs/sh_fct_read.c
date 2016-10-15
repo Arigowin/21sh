@@ -106,8 +106,9 @@ int				fct_read(t_line *stline, t_history **history)
 			break ;
 		key = 0;
 	}
+	printf("RET READ : %d\n", ret);
 	if (ret <= 0)
-		bi_exit(NULL, &env);
+		return (-1);
 	if (check_after_read(stline) == -1)
 		return (-1);
 	return (0);

@@ -7,7 +7,7 @@ int				tree_traversal(t_node *tree)
 		printf("------- TREE TRAVERSAL -------(%d)\n", tree->type);
 	if (tree->type == PIPE)
 	{
-		pipe_function(tree->left, STDIN_FILENO);
+		pipe_function(tree, STDIN_FILENO);
 	}
 	if (tree->type == SEMI)
 	{
