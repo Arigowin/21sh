@@ -9,8 +9,8 @@ static void		fct_m_ctrl_c(int sig)
 	(void)sig;
 	env = NULL;
 	ft_putendl("");
-	env = savior(env);
-	display_prompt(env);
+	env = savior(NULL, FALSE);
+	display_prompt();
 	return ;
 }
 

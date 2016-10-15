@@ -139,7 +139,7 @@ t_node			*create_node(types type);
 /*
 ** sh_fct_read
 */
-t_node          *read_n_check(char *special, char *read_buff);
+t_node          *read_n_check(char *read_buff);
 int				check_home(char **cmd);
 int				check_after_read(t_line *stline);
 int				fct_read(t_line *line, t_history **history);

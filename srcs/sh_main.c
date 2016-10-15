@@ -23,7 +23,7 @@ static int	init_env(char **env, t_duo **env_cpy)
 	if (!(cpy))
 		fill_path(&cpy);
 	*env_cpy = tbl_to_duo(cpy, '=');
-	savior(*env_cpy);
+	savior(*env_cpy, TRUE);
 	free_tab(&cpy);
 	return (0);
 }
@@ -46,9 +46,9 @@ int			main(int ac, char **av, char **env)
 //		printf("totopouet titi\n");
 		ft_bzero(stline.line, BUFF_SIZE + 1);
 		check_signal(1);
-		display_prompt(env_cpy);
+		display_prompt();
 //		printf("fct read comming\n");
-		fct_read(&stline, &env_cpy, &history);
+		fct_read(&stline, &history);
 		break ;
 	}
 	reset_term();

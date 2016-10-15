@@ -77,15 +77,10 @@ int				check_after_read(t_line *stline)
 	if (DEBUG == 1)
 		printf("------- CHECK AFTER READ ------\n");
 	t_node          *tree;
-	char            **env_tbl;
-	t_duo			**env;
 
-	env = savior(NULL, FALSE);
-	if ((tree = read_n_check(SEP, stline->line, NULL)) == NULL)
+	if ((tree = read_n_check(stline->line)) == NULL)
 		return (-1);
-
-	env_tbl = duo_to_tbl(env, '=');
-	tree_traversal(tree, env_tbl);
+	tree_traversal(tree);
 	return (0);
 }
 
@@ -95,7 +90,7 @@ int				fct_read(t_line *stline, t_history **history)
 		printf("------- FCT READ ------\n");
 	int				key;
 	int				ret;
-	t_duo			**env;
+	t_duo			*env;
 
 	env = savior(NULL, FALSE);
 	ret = 0;
@@ -104,7 +99,7 @@ int				fct_read(t_line *stline, t_history **history)
 	while ((ret = read(0, &key, 7)) > 0)
 	{
 		if (key == CTRL_D && stline->line[0] == '\0')
-			bi_exit(NULL, env);
+			bi_exit(NULL, &env);
 		else if (key == CTRL_D)
 			key = DEL;
 		if (event(key, stline, history) == 1)
@@ -112,7 +107,7 @@ int				fct_read(t_line *stline, t_history **history)
 		key = 0;
 	}
 	if (ret <= 0)
-		bi_exit(NULL, env);
+		bi_exit(NULL, &env);
 	if (check_after_read(stline) == -1)
 		return (-1);
 	return (0);

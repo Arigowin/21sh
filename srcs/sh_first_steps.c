@@ -2,7 +2,7 @@
 #include "shell.h"
 #include "libft.h"
 
-static char		*get_path(t_duo *env)
+static char		*get_path(void)
 {
 	if (DEBUG == 1)
 		printf("------- GET PATH ------\n");
@@ -10,8 +10,8 @@ static char		*get_path(t_duo *env)
 	char			*tmp;
 	char			*home;
 
-	home = get_env(&env, "HOME");
-	path = get_env(&env, "PWD");
+	home = get_env("HOME");
+	path = get_env("PWD");
 	tmp = ft_strsub(path, 0, ft_strlen(home));
 	if (home && ft_strcmp(home, tmp) == 0)
 	{
@@ -34,8 +34,8 @@ int				display_prompt(void)
 	t_duo			*env;
 
 	env = savior(NULL, FALSE);
-	path = get_path(env);
-	name = get_env(&env, "LOGNAME");
+	path = get_path();
+	name = get_env("LOGNAME");
 	if (name)
 	{
 		ft_putstr("\033[34;1m");
@@ -91,7 +91,7 @@ int				manage_tilde(char **arg)
 
 	env = savior(NULL, FALSE);
 	tmp = ft_strsub(*arg, 1, ft_strlen(*arg));
-	if ((home_path = get_env(env, "HOME")) == NULL)
+	if ((home_path = get_env("HOME")) == NULL)
 		return (-1);
 	free(*arg);
 	if ((*arg = ft_properjoin(home_path, tmp)) == NULL)
