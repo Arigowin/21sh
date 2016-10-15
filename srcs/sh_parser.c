@@ -7,8 +7,6 @@ int				clear_node(t_node **node)
 {
 	if (DEBUG_TREE_CREATION == 1)
 		printf("------- CLEAR NODE ------\n");
-	if ((*node) && (*node)->type)
-		printf("%d \n", (*node)->type);
 	if (node && (*node) && !(*node)->left && !(*node)->right)
 	{
 		ft_strdel(&((*node)->data));
