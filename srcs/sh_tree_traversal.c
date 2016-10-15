@@ -4,15 +4,21 @@
 int				tree_traversal(t_node *tree)
 {
 	if (DEBUG_TREE == 1)
-		printf("------- TREE TRAVERSAL -------\n");
+		printf("------- TREE TRAVERSAL -------(%d)\n", tree->type);
 	if (tree->type == PIPE)
 	{
 		pipe_function(tree->left, STDIN_FILENO);
 	}
 	if (tree->type == SEMI)
 	{
-		tree_traversal(tree->left);
-		tree_traversal(tree->right);
+		if (tree->left)
+			tree_traversal(tree->left);
+		else
+			return (FALSE);
+		if (tree->right)
+			tree_traversal(tree->right);
+		else
+			return (FALSE);
 	}
 	if (tree->type == CMD)
 	{

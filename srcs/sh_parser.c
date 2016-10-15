@@ -263,7 +263,7 @@ int				check_expr(t_e_list **l_expr, t_node **tree)
 	t_node			**node_to_give;
 
 	node = NULL;
-	if ((node = create_node(EXP)) == NULL)
+	if ((node = create_node(SEMI)) == NULL)
 		return (FALSE);
 	node_to_give = (node->left == NULL ? &(node->left) : &(node->right));
 	if (check_c_pipe(l_expr, node_to_give))
