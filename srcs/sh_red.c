@@ -4,6 +4,8 @@
 
 int		rred(char *filename, int red_fd)
 {
+	if (DEBUG_RED == 1)
+		printf("------- RRED -------\n");
 	int		fd;
 
 	fd = open(filename, O_RDWR | O_CREAT, 0644);
@@ -17,6 +19,8 @@ int		rred(char *filename, int red_fd)
 
 int		lred(char *filename, int red_fd)
 {
+	if (DEBUG_RED == 1)
+		printf("------- LRED -------\n");
 	int		fd;
 
 	if ((access(filename, F_OK)) == -1)
@@ -35,6 +39,8 @@ int		lred(char *filename, int red_fd)
 
 int		red(t_node *tree, t_intlst **lstfd)
 {
+	if (DEBUG_RED == 1)
+		printf("------- RED -------\n");
 	char	*filename;
 	int		red_fd;
 

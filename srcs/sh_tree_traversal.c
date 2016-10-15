@@ -3,6 +3,8 @@
 
 int				tree_traversal(t_node *tree)
 {
+	if (DEBUG_TREE == 1)
+		printf("------- TREE TRAVERSAL -------\n");
 	if (tree->type == PIPE)
 	{
 		pipe_function(tree->left, STDIN_FILENO);

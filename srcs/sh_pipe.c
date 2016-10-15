@@ -52,6 +52,8 @@
 
 int			pipe_function(t_node *tree, int in_fd)
 {
+	if (DEBUG_PIPE == 1)
+		printf("------- PIPE FUNCTION -------\n");
 	int		pfd[2];
 
 	if (tree->right == NULL)

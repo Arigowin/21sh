@@ -1,14 +1,17 @@
 #ifndef SHELL_H
 # define SHELL_H
 
-#define DEBUG 0
+#define DEBUG 1
 #define DEBUG2 0
 #define DEBUG_BUILTIN 0
 #define DEBUG_LEXER_PARSER 0
 #define DEBUG_TREE_CREATION 0
-#define DEBUG_TREE 0
+#define DEBUG_TREE 1
 #define DEBUG_TERMCAPS 0
 #define DEBUG_HISTORY 0
+#define DEBUG_PIPE 1
+#define DEBUG_RED 1
+#define DEBUG_CMD 1
 #include <stdio.h>
 
 # define TRUE 1

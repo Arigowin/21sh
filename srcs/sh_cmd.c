@@ -3,6 +3,8 @@
 
 static char		**tree_to_tbl(t_node *tree, int nb_elem)
 {
+	if (DEBUG_CMD == 1)
+		printf ("----- TREE TO TBL -----\n");
 	int			i;
 	char		**tbl;
 
@@ -22,6 +24,8 @@ static char		**tree_to_tbl(t_node *tree, int nb_elem)
 
 char		**format_cmd(t_node *tree)
 {
+	if (DEBUG_CMD == 1)
+		printf ("----- FORMAT CMD -----\n");
 	char	**ret;
 	t_node	*tmp;
 	int		i;
@@ -41,6 +45,8 @@ char		**format_cmd(t_node *tree)
 
 int			manage_cmd(t_node *tree)
 {
+	if (DEBUG_CMD == 1)
+		printf ("----- CMD -----\n");
 	t_intlst	*lstfd;
 	char		**cmd;
 	int			i;
