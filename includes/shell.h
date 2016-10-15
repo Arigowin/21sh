@@ -2,7 +2,7 @@
 # define SHELL_H
 
 #define DEBUG 0
-#define DEBUG2 1
+#define DEBUG2 0
 #define DEBUG_BUILTIN 0
 #define DEBUG_LEXER_PARSER 0
 #define DEBUG_TREE_CREATION 0

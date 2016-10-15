@@ -19,10 +19,10 @@ static int	init_env(char **env, t_duo **env_cpy)
 {
 	char			**cpy;
 
-	cpy = cpy_env(env);
-	if (!(cpy))
+	cpy = NULL;
+	if (!(env))
 		fill_path(&cpy);
-	*env_cpy = tbl_to_duo(cpy, '=');
+	*env_cpy = tbl_to_duo((cpy != NULL ? cpy : env), '=');
 	savior(*env_cpy, TRUE);
 	free_tab(&cpy);
 	return (0);

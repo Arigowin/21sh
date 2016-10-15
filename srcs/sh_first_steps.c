@@ -72,6 +72,7 @@ char			**cpy_env(char **env)
 	while (env[i])
 	{
 		tmp = ft_strsub(env[i], 0, 6);
+		printf("--->%s\n", tmp);
 		cpy[i] = env[i];
 		free(tmp);
 		i++;
