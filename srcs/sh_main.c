@@ -52,7 +52,7 @@ int			main(int ac, char **av, char **env)
 		display_prompt();
 //		printf("fct read comming\n");
 		fct_read(&stline, &history);
-		break ;
+//		break ;
 	}
 	reset_term();
 	free_duo(&env_cpy);
