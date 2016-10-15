@@ -96,7 +96,7 @@ int				fct_read(t_line *stline, t_history **history)
 	ret = 0;
 	stline->curs_x = 3;
 	(void)history;
-	while ((ret = read(0, &key, 7)) > 0)
+	while ((ret = read(0, &key, 8)) > 0)
 	{
 		if (key == CTRL_D && stline->line[0] == '\0')
 			bi_exit(NULL, &env);
