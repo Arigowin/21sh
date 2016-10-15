@@ -130,7 +130,7 @@ int				check_red(t_e_list **l_expr, t_node **tree)
 		*tree = node;
 		return (TRUE);
 	}
-	if (ret_red != TRUE)
+	if (red_ret != TRUE)
 		return (ERROR);
 	clear_node(&node);
 	*tree = save;

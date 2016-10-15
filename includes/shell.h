@@ -93,15 +93,10 @@ typedef struct			s_node // -> node ou tree
 	struct s_node		*right;
 }						t_node;
 
-int						display_prompt(t_duo *env);
-char					**cpy_env(char **env);
-int						manage_tilde(t_duo **env, char **arg);
-int						fill_path(char ***env);
-
 /*
  ** sh_main
  */
-t_duo					*savior(t_duo *env);
+t_duo					*savior(t_duo *env, int code);
 
 /*
  ** sh_first_steps
@@ -173,7 +168,6 @@ int				bi_setenv(char **arg, t_duo **env);
  ** sh_unsetenv
  */
 int				bi_unsetenv(char **arg, t_duo **env);
->>>>>>> david
 
 /*
  ** sh_cd

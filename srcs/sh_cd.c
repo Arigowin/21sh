@@ -50,11 +50,11 @@ static int		cd_access(char **arg, char *path)
 		printf("------- CD ACCESS ------\n");
 	char		*tmp;
 	char		*home;
-	t_duo		**env;
+	t_duo		*env;
 
 	env = savior(NULL, FALSE);
 	tmp = NULL;
-	home = get_env(&env, "HOME");
+	home = get_env("HOME");
 	if (path == NULL && arg[1] && arg[1][0] != '-')
 		tmp = ft_strdup(arg[1]);
 	if (path)
@@ -81,10 +81,10 @@ static int		cd_home(void)
 	if (DEBUG_BUILTIN == 1)
 		printf("------- CD HOME ------\n");
 	char		*home;
-	t_duo		**env;
+	t_duo		*env;
 
 	env = savior(NULL, FALSE);
-	if ((home = get_env(env, "HOME")) == NULL)
+	if ((home = get_env("HOME")) == NULL)
 	{
 		ft_putendl("21sh: cd: no $HOME variable set");
 		return (-1);
@@ -104,21 +104,22 @@ int				bi_cd(char **arg, t_duo **env)
 	char		*path;
 	int			i;
 
-	if ((tmp_pwd = get_env(env, "PWD")) == NULL)
+	(void)env;
+	if ((tmp_pwd = get_env("PWD")) == NULL)
 		return (-1);
-	tmp_old_pwd = get_env(env, "OLDPWD");
+	tmp_old_pwd = get_env("OLDPWD");
 	if (!arg[1])
-		cd_home(env);
+		cd_home();
 	i = 0;
 	path = NULL;
 	i += cd_usage(arg, &path, tmp_old_pwd);
 	if (arg[1] && i != -2)
-		i += cd_access(arg, path, *env);
+		i += cd_access(arg, path);
 	ft_strdel(&path);
 	if (i < 0 || (path = getcwd(path, MAX_PATH)) == NULL)
 		return (-1);
-	change_env(env, "OLDPWD", tmp_pwd);
-	change_env(env, "PWD", path);
+	change_env("OLDPWD", tmp_pwd);
+	change_env("PWD", path);
 	ft_strdel(&path);
 	ft_strdel(&tmp_pwd);
 	ft_strdel(&tmp_old_pwd);
