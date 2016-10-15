@@ -39,8 +39,7 @@ static int		check_fct(char **cmd)
 	while (path[i])
 	{
 		tmp = join_exe(path[i], cmd[0]);
-		// remplacer NULL par char **env;
-		execve(tmp, cmd, NULL);
+		execve(tmp, cmd, duo_to_tbl(env, "="));
 		i++;
 	}
 	free(tmp);
