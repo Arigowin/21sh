@@ -27,7 +27,7 @@ static int		check_fct(char **cmd)
 		printf("------- CHECK FCT------\n");
 	char		**path = NULL;
 	char		*tmp;
-	t_duo		env;
+	t_duo		*env;
 	int			i;
 
 	env = savior(NULL, FALSE);
@@ -39,7 +39,8 @@ static int		check_fct(char **cmd)
 	while (path[i])
 	{
 		tmp = join_exe(path[i], cmd[0]);
-		execve(tmp, cmd, env);
+		// remplacer NULL par char **env;
+		execve(tmp, cmd, NULL);
 		i++;
 	}
 	free(tmp);

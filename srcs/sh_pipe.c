@@ -86,4 +86,5 @@ int			pipe_function(t_node *tree, int in_fd)
 			pipe_function(tree->right, pfd[0]);
 		}
 	}
+	return (TRUE);
 }
