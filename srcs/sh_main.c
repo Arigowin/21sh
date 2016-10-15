@@ -22,7 +22,10 @@ static int	init_env(char **env, t_duo **env_cpy)
 	cpy = NULL;
 	if (!(env))
 		fill_path(&cpy);
-	*env_cpy = tbl_to_duo((cpy != NULL ? cpy : env), '=');
+	if (cpy)
+		*env_cpy = tbl_to_duo(cpy, '=');
+	else
+		*env_cpy = tbl_to_duo(env, '=');
 	savior(*env_cpy, TRUE);
 	free_tab(&cpy);
 	return (0);

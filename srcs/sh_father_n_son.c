@@ -25,16 +25,17 @@ static int		check_fct(char **cmd)
 {
 	if (DEBUG == 1)
 		printf("------- CHECK FCT------\n");
-	char		**path = NULL;
+	char		**path;
 	char		*tmp;
 	t_duo		*env;
 	int			i;
 
+	path = NULL;
 	env = savior(NULL, FALSE);
 	tmp = get_env("PATH");
 	if (tmp == NULL)
 		return (-1);
-	else
+	path = ft_strsplit(tmp, ':');
 	i = 0;
 	while (path[i])
 	{

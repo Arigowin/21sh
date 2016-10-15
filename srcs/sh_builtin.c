@@ -38,7 +38,6 @@ int				change_env(char *name, char *value)
 		env = env->next;
 	}
 	add_env(name, value);
-	free(env);
 	return (0);
 }
 
@@ -55,7 +54,6 @@ char			*get_env(char *name)
 			return (ft_strdup(env->value));
 		env = env->next;
 	}
-	free(env);
 	return (NULL);
 }
 
@@ -80,6 +78,5 @@ int				handle_builtin(char **cmd)
 		else
 			return (1);
 	}
-	free(env);
 	return (0);
 }
