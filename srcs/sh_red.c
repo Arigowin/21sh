@@ -2,7 +2,7 @@
 #include "libft.h"
 #include "fcntl.h"
 
-int		rred(char *filename, int red_fd)
+int		rred(char *filename, int red_fd, int flags)
 {
 	if (DEBUG_RED == 1)
 		printf("------- RRED -------\n");
@@ -11,7 +11,7 @@ int		rred(char *filename, int red_fd)
 	if (red_fd == ERROR)
 		red_fd = 1;
 
-	if ((fd = open(filename, O_RDWR | O_CREAT, 0644)) == ERROR)
+	if ((fd = open(filename, flags, 0644)) == ERROR)
 		return (ERROR);
 
 	if (dup2(fd, red_fd) == ERROR)
@@ -66,7 +66,7 @@ int		red(t_node *tree, t_intlst **lstfd)
 
 	if (tree->type == RRED)
 	{
-		fd_ret = rred(filename, red_fd);
+		fd_ret = rred(filename, red_fd, O_RDWR | O_CREAT);
 		if (fd_ret != ERROR)
 			ft_intlst_add(lstfd, fd_ret);
 		else
@@ -82,8 +82,13 @@ int		red(t_node *tree, t_intlst **lstfd)
 	}
 	else if (tree->type == DRRED)
 	{
+		fd_ret = rred(filename, red_fd, O_RDWR | O_CREAT | O_APPEND);
+		if (fd_ret != ERROR)
+			ft_intlst_add(lstfd, fd_ret);
+		else
+			return (ERROR);
 	}
-	else if (tree->type == DRRED)
+	else if (tree->type == DLRED)
 	{
 	}
 

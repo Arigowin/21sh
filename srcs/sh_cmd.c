@@ -45,6 +45,8 @@ char		**format_cmd(t_node *tree)
 
 void		close_fd_red(t_intlst **lstfd, int saved_stdout, int saved_stdin)
 {
+	if (DEBUG_CMD == 1)
+		printf ("----- CLOSE FD RED -----\n");
 	t_intlst	*tmp;
 
 	while (*lstfd)
@@ -68,8 +70,10 @@ int			manage_cmd(t_node *tree)
 	int			i;
 	int			saved_stdout;
 	int			saved_stdin;
+	int 		ret;
 
 	i = 0;
+	ret = 0;
 	lstfd = NULL;
 	saved_stdout = dup(STDOUT_FILENO);
 	saved_stdin = dup(STDIN_FILENO);
@@ -87,7 +91,9 @@ int			manage_cmd(t_node *tree)
 		if (cmd[i][0] == '~')
 			manage_tilde(&cmd[i]);
 	}
-	if (handle_builtin(cmd) != 0)
+	if ((ret =handle_builtin(cmd)) == 1)
+		close_fd_red(&lstfd, saved_stdout, saved_stdin);
+	if (ret != 0)
 		return (FALSE);
 	if (check_home(cmd) < 0)
 		return (FALSE);
