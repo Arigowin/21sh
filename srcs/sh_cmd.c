@@ -43,6 +43,22 @@ char		**format_cmd(t_node *tree)
 	return (ret);
 }
 
+void		close_fd_red(t_intlst **lstfd, int saved_stdout, int saved_stdin)
+{
+	t_intlst	*tmp;
+
+	while (*lstfd)
+	{
+
+		close((*lstfd)->data);
+		tmp = *lstfd;
+		*lstfd = (*lstfd)->next;
+		free(tmp);
+	}
+	dup2(saved_stdout, STDOUT_FILENO);
+	dup2(saved_stdin, STDIN_FILENO);
+}
+
 int			manage_cmd(t_node *tree)
 {
 	if (DEBUG_CMD == 1)
@@ -50,10 +66,15 @@ int			manage_cmd(t_node *tree)
 	t_intlst	*lstfd;
 	char		**cmd;
 	int			i;
+	int			saved_stdout;
+	int			saved_stdin;
 
 	i = 0;
+	lstfd = NULL;
+	saved_stdout = dup(STDOUT_FILENO);
+	saved_stdin = dup(STDIN_FILENO);
 	if (tree->left != NULL)
-		red(tree, &lstfd);
+		red(tree->left, &lstfd);
 
 	if ((cmd = format_cmd(tree)) == NULL)
 		return (FALSE);
@@ -68,6 +89,7 @@ int			manage_cmd(t_node *tree)
 	if (check_home(cmd) < 0)
 		return (FALSE);
 	father_n_son(cmd);
-	free_tab(&cmd);
+	close_fd_red(&lstfd, saved_stdout, saved_stdin);
+	//free_tab(&cmd); // erreur de free
 	return (TRUE);
 }

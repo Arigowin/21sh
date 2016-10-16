@@ -36,11 +36,13 @@ static int		check_fct(char **cmd)
 	if (tmp == NULL)
 		return (-1);
 	path = ft_strsplit(tmp, ':');
+	free(tmp);
 	i = 0;
 	while (path[i])
 	{
 		tmp = join_exe(path[i], cmd[0]);
 		execve(tmp, cmd, duo_to_tbl(env, "="));
+		free(tmp);
 		i++;
 	}
 	free(tmp);

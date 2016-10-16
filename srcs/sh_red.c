@@ -8,13 +8,16 @@ int		rred(char *filename, int red_fd)
 		printf("------- RRED -------\n");
 	int		fd;
 
-	fd = open(filename, O_RDWR | O_CREAT, 0644);
-	if (red_fd != -1)
-		dup2(fd, red_fd);
-	else
-		dup2(fd, 1);
+	if (red_fd == -1)
+		red_fd = 1;
 
-	return (fd);
+	if ((fd = open(filename, O_RDWR | O_CREAT, 0644)) == -1)
+		return (-1);
+
+	if (dup2(fd, red_fd) == -1)
+		return (-1);
+
+	return (red_fd);
 }
 
 int		lred(char *filename, int red_fd)
@@ -23,18 +26,22 @@ int		lred(char *filename, int red_fd)
 		printf("------- LRED -------\n");
 	int		fd;
 
+	if (red_fd == -1)
+		red_fd = 0;
+
 	if ((access(filename, F_OK)) == -1)
 	{
 		printf("21sh: no such file or directory: %s\n", filename);
 		return (-1);
 	}
-	fd = open(filename, O_RDONLY);
-	if (red_fd != -1)
-		dup2(fd, red_fd);
-	else
-		dup2(fd, 0);
 
-	return (fd);
+	if ((fd = open(filename, O_RDONLY)) == -1)
+		return (-1);
+
+	if (dup2(fd, red_fd) == -1)
+		return (-1);
+
+	return (red_fd);
 }
 
 int		red(t_node *tree, t_intlst **lstfd)
@@ -43,6 +50,7 @@ int		red(t_node *tree, t_intlst **lstfd)
 		printf("------- RED -------\n");
 	char	*filename;
 	int		red_fd;
+	int		fd_ret;
 
 	filename = NULL;
 	red_fd = -1;
@@ -52,18 +60,29 @@ int		red(t_node *tree, t_intlst **lstfd)
 		filename = ft_strdup(tree->right->right->data);
 	}
 	else
+	{
 		filename = ft_strdup(tree->right->data);
+	}
 
 	if (tree->type == RRED)
-		ft_intlst_add(lstfd, rred(filename, red_fd));
+	{
+		fd_ret = rred(filename, red_fd);
+		if (fd_ret != -1)
+			ft_intlst_add(lstfd, fd_ret);
+	}
 	else if (tree->type == LRED)
-		ft_intlst_add(lstfd, lred(filename, red_fd));
-	else if (tree->type == DRRED)
 	{
+		fd_ret = lred(filename, red_fd);
+		if (fd_ret != -1)
+			ft_intlst_add(lstfd, fd_ret);
 	}
 	else if (tree->type == DRRED)
 	{
 	}
+	else if (tree->type == DRRED)
+	{
+	}
+	printf("ERROR RED : end\n");
 
 	if (tree->left)
 	{
