@@ -44,14 +44,12 @@ int				parse_error(char *data)
 int				move_in_list(t_e_list **l_expr)
 {
 	if (DEBUG_TREE_CREATION == 1)
-		printf("------- MOVE IN LIST ------\n[%s]\t", (*l_expr)->data);
+		printf("------- MOVE IN LIST ------\n[%s]\n", (*l_expr)->data);
 	if ((*l_expr) && (*l_expr)->next)
 	{
 		(*l_expr) = (*l_expr)->next;
-		printf(" --> [%s]\n", (*l_expr)->data);
 		return (TRUE);
 	}
-	printf("\n");
 	return (FALSE);
 }
 
@@ -139,7 +137,6 @@ int				check_arg(t_e_list **l_expr, t_node **tree, t_node **right_node)
 {
 	if (DEBUG_TREE_CREATION == 1)
 		printf("------- CHECK ARG ------\n");
-	printf("check arg [%s]\n", (*l_expr)->data);
 	t_node			*node;
 	t_node			*save;
 
@@ -167,8 +164,6 @@ int				check_next(t_e_list **l_expr, t_node **tree, t_node **right_node)
 {
 	if (DEBUG_TREE_CREATION == 1)
 		printf("------- CHECK C PIPE ------\n");
-	printf("------- ADD ENV ------\n");
-	printf("check next [%s]\n", (*l_expr)->data);
 	t_node			*save;
 
 	save = *tree;
@@ -308,8 +303,13 @@ t_node			*parser(t_e_list **l_expr)
 		return (NULL);
 	node = NULL;
 	t_e_list *tmp = *l_expr;
-	while(tmp){printf("[%s -> %d] --> ", (tmp)->data, (tmp)->type); tmp = (tmp)->next;}
-	printf("\n");
+
+	if (DEBUG_TREE_CREATION == 1)
+	{
+		while(tmp){printf("[%s -> %d] --> ", (tmp)->data, (tmp)->type); tmp = (tmp)->next;}
+		printf("\n");
+	}
+
 	if ((check_expr(l_expr, &node)) == FALSE)
 		clear_tree(&node);
 	return (node);

@@ -74,7 +74,10 @@ int			manage_cmd(t_node *tree)
 	saved_stdout = dup(STDOUT_FILENO);
 	saved_stdin = dup(STDIN_FILENO);
 	if (tree->left != NULL)
-		red(tree->left, &lstfd);
+	{
+		if (red(tree->left, &lstfd) == ERROR)
+			return (ERROR);
+	}
 
 	if ((cmd = format_cmd(tree)) == NULL)
 		return (FALSE);

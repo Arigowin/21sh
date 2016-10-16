@@ -31,9 +31,7 @@ int				display_prompt(void)
 		printf("------- DISPLAY PROMPT ------\n");
 	char			*name;
 	char			*path;
-	t_duo			*env;
 
-	env = savior(NULL, FALSE);
 	path = get_path();
 	name = get_env("LOGNAME");
 	if (name)
@@ -72,7 +70,6 @@ char			**cpy_env(char **env)
 	while (env[i])
 	{
 		tmp = ft_strsub(env[i], 0, 6);
-		printf("--->%s\n", tmp);
 		cpy[i] = env[i];
 		free(tmp);
 		i++;
@@ -88,9 +85,7 @@ int				manage_tilde(char **arg)
 		printf("------- MANAGE TILDE ------\n");
 	char			*tmp;
 	char			*home_path;
-	t_duo			*env;
 
-	env = savior(NULL, FALSE);
 	tmp = ft_strsub(*arg, 1, ft_strlen(*arg));
 	if ((home_path = get_env("HOME")) == NULL)
 		return (-1);

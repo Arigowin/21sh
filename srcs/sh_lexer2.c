@@ -27,12 +27,10 @@ int				land_managment(t_e_list **tmp)
 		new = tmp2->next->next;
 		free(tmp2->next);
 		tmp2->next = new;
-		printf("dans 1er id land\n");
 		return (TRUE);
 	}
 	else if ((*tmp)->next && (*tmp)->next->data[0] == '&' && (*tmp)->next->next)
 	{
-		printf("dans 2er id land\n");
 		free((*tmp)->next->data);
 		new = (*tmp)->next->next;
 		free((*tmp)->next);

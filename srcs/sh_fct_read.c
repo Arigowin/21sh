@@ -5,8 +5,7 @@
 
 int				tree_traversal_verif(t_node *tree)
 {
-	if (DEBUG2 == 1)
-		printf("------- TREE TRAVERSAL VERIF ------\n");
+	printf("------- TREE TRAVERSAL VERIF ------\n");
 	printf("tree : %s - %d\n", tree->data, tree->type);
 	if (tree && tree->left != NULL)
 	{
@@ -18,10 +17,6 @@ int				tree_traversal_verif(t_node *tree)
 		printf("{{%s right %s}}\n", tree->data, tree->right->data);
 		tree_traversal_verif(tree->right);
 	}
-	//	ft_putstr("[");
-	//	ft_putstr(tree->data);
-	//	ft_putstr("]");
-	//	ft_putstr(" --> ");
 	return (0);
 }
 
@@ -37,14 +32,9 @@ t_node          *read_n_check(char *read_buff)
 	//	t_e_list *tmp = l_expr;
 	lexer_2(&l_expr);
 	//	tmp = l_expr;
-	printf("avant parser\n");
 	tree = parser(&l_expr);
-	printf("apres parser\n");
 	if (DEBUG2 == 1)
-	{
 		tree_traversal_verif(tree);
-		printf("\napres tree traversal verif\n");
-	}
 	//	tbl = lst_to_tbl(arg);
 	//	free_lst(&arg);
 	//	return (tbl);
@@ -106,7 +96,6 @@ int				fct_read(t_line *stline, t_history **history)
 			break ;
 		key = 0;
 	}
-	printf("RET READ : %d\n", ret);
 	if (ret <= 0)
 		return (-1);
 	if (check_after_read(stline) == -1)
