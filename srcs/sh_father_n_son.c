@@ -78,7 +78,7 @@ int				father_n_son(char **cmd)
 int				father_n_son_for_pipe(char **cmd)
 {
 	if (DEBUG == 1)
-		printf("------- FATHER N SON ------\n");
+		printf("------- FATHER N SON FOR PIPE ------\n");
 
 	check_fct(cmd);
 

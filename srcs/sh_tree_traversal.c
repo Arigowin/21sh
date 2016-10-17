@@ -3,6 +3,12 @@
 
 int				tree_traversal(t_node *tree)
 {
+	int			saved_stdout;
+	int			saved_stdin;
+
+	saved_stdout = dup(STDOUT_FILENO);
+	saved_stdin = dup(STDIN_FILENO);
+
 	if (DEBUG_TREE == 1)
 		printf("------- TREE TRAVERSAL -------(%d)\n", tree->type);
 	if (tree->type == PIPE)
@@ -24,6 +30,9 @@ int				tree_traversal(t_node *tree)
 	{
 		manage_cmd(tree);
 	}
+
+	dup2(saved_stdout, STDOUT_FILENO);
+	dup2(saved_stdin, STDIN_FILENO);
 
 	return (TRUE);
 }
