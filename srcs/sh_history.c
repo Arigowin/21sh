@@ -43,20 +43,23 @@ int					nav_history(int key, t_history **history, t_line *stline)
 		printf("------- HISTORY ------\n");
 	int		i;
 
-	i = (key == DOWN ? -1 : 0);
-	if (key == DOWN && *history && (*history)->next)
+	if (*history)
 	{
-		*history = (*history)->next;
-		i = 0;
+		i = (key == DOWN ? -1 : 0);
+		if (key == DOWN && *history && (*history)->next)
+		{
+			*history = (*history)->next;
+			i = 0;
+		}
+		while (stline->curs_x > 3)
+			backspace(stline);
+		while (i >= 0 && ((*history)->line)[i])
+		{
+			insert(stline, ((*history)->line)[i], ++(stline->curs_x) - 4);
+			i++;
+		}
+		if (key == UP && *history && (*history)->prev)
+			*history = (*history)->prev;
 	}
-	while (stline->curs_x > 3)
-		backspace(stline);
-	while (i >= 0 && ((*history)->line)[i])
-	{
-		insert(stline, ((*history)->line)[i], ++(stline->curs_x) - 4);
-		i++;
-	}
-	if (key == UP && *history && (*history)->prev)
-		*history = (*history)->prev;
 	return (0);
 }

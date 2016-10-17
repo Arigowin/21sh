@@ -44,6 +44,30 @@ static int	insert2(t_line *stline, char c, int pos, char **tmp)
 	return (0);
 }
 
+void		test(t_line *stline)
+{
+	if (DEBUG_TERMCAPS == 1)
+		printf("------- TEST ------\n");
+	char	*tmp1;
+	int		i;
+
+	tmp1 = ft_strdup(stline->line);
+	i = ft_strlen(stline->line) + BUFF_SIZE;
+	printf("%d\n", i);
+
+	free(stline->line);
+	stline->line = ft_strnew(i);
+
+	i = 0;
+	while (tmp1[i])
+	{
+		(stline->line)[i] = tmp1[i];
+		i++;
+	}
+
+	free(tmp1);
+}
+
 int			insert(t_line *stline, char c, int pos)
 {
 	if (DEBUG_TERMCAPS == 1)
@@ -52,6 +76,8 @@ int			insert(t_line *stline, char c, int pos)
 	int		i;
 
 	tmp = NULL;
+	if (pos % BUFF_SIZE == 0 && pos + 1 > BUFF_SIZE)
+		test(stline);
 	if (insert2(stline, c, pos, &tmp) == -1)
 		return (-1);
 	if (tmp != NULL)
