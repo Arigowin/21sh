@@ -65,9 +65,9 @@ int				father_n_son(char **cmd)
 	{
 		check_signal(2);
 		check_fct(cmd);
-		ft_putstr("21sh: ");
-		ft_putstr(cmd[0]);
-		ft_putendl(": command not found");
+		ft_putstr_fd("21sh: ", 2);
+		ft_putstr_fd(cmd[0], 2);
+		ft_putendl_fd(": command not found", 2);
 		exit(EXIT_FAILURE);
 	}
 	return (0);
@@ -80,6 +80,10 @@ int				father_n_son_for_pipe(char **cmd)
 		printf("------- FATHER N SON FOR PIPE ------\n");
 
 	check_fct(cmd);
+	ft_putstr_fd("21sh: ", 2);
+	ft_putstr_fd(cmd[0], 2);
+	ft_putendl_fd(": command not found", 2);
+	exit(EXIT_FAILURE);
 
 	return (0);
 }

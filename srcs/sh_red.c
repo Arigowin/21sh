@@ -31,7 +31,8 @@ int		lred(char *filename, int red_fd)
 
 	if ((access(filename, F_OK)) == ERROR)
 	{
-		printf("21sh: no such file or directory: %s\n", filename);
+		ft_putstr_fd("21sh: no such file or directory: ", 2);
+		ft_putendl_fd(filename, 2);
 		return (ERROR);
 	}
 
