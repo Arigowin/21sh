@@ -96,9 +96,11 @@ int				fct_read(t_line *stline, t_history **history)
 			break ;
 		key = 0;
 	}
+	if (key == RETURN && (stline->line)[0] == 0)
+		return (FALSE);
 	if (ret <= 0)
-		return (-1);
-	if (check_after_read(stline) == -1)
-		return (-1);
+		return (ERROR);
+	if (check_after_read(stline) == ERROR)
+		return (ERROR);
 	return (0);
 }

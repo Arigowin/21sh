@@ -45,7 +45,6 @@ static int		check_fct(char **cmd)
 		free(tmp);
 		i++;
 	}
-	free(tmp);
 	return (0);
 }
 
