@@ -20,6 +20,8 @@ int				event(int key, t_line *stline, t_history **history)
 		move(key, stline);
 	else if (key == UP || key == DOWN)
 		nav_history(key, history, stline);
+	else if (key == HIGHLIGHT || key == PASTE || key == COPY || key == CUTE)
+		copy_paste(key, stline);
 	else if (key != TAB)
 		insert(stline, key, ++(stline->curs_x) - 4);
 	return (0);
