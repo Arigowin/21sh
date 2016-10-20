@@ -36,6 +36,16 @@ static int		highlight(t_line *stline)
 		printf("------- HIGHLIGHT ------\n");
 	if (stline->cpy_start == -1)
 	{
+		if (stline->copy != NULL)
+		{
+			free(stline->copy);
+			stline->copy = NULL;
+		}
+		if (stline->copy == NULL)
+		{
+			stline->copy = ft_strnew(ft_strlen(stline->line));
+			stline->cpy_pos = 0;
+		}
 		if ((stline->curs_x - 3) < (int)ft_strlen(stline->line))
 		{
 			// start highlight
@@ -93,12 +103,6 @@ int				copy_paste(int key, t_line *stline)
 	if (DEBUG_COPY_PASTE == 1)
 		printf("------- COPY_PASTE ------\n");
 
-	if (stline->copy == NULL)
-	{
-		stline->copy = ft_strnew(ft_strlen(stline->line));
-		stline->cpy_pos = 0;
-		stline->cpy_start = -1;
-	}
 
 	if (key == HIGHLIGHT)
 		highlight(stline);
