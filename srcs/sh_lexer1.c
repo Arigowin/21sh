@@ -90,19 +90,15 @@ int						lexer_1(char *read_buff, t_e_list **l_expr)
 		boolean = FALSE;
 		if (read_buff[i] == QUOTE || read_buff[i] == DQUOTE)
 		{
-			printf("char (%c) \tquote (%d)\n", read_buff[i], quote);
 			quote = (quote == read_buff[i] ? 0 : read_buff[i]);
 		}
-		printf("QUOTE = (%d)\taractere actuele = (%c)\n", quote, read_buff[i]);
 		if (quote == 0 && ft_strchr(SEP, read_buff[i]))
 		{
-			printf("Premier if - char (%c)\n", read_buff[i]);
 
 			if (ft_strchr(WAKA, read_buff[i]) && read_buff[i - 1]
 					&& ft_isdigit(read_buff[i - 1]) && (!read_buff[i - 2]
 						|| (read_buff[i - 2] && ft_strchr(SEP, read_buff[i - 2]))))
 			{
-			printf("DEUXIEME if - char (%c)\n", read_buff[i]);
 				tmp[k++] = read_buff[i];
 				if (read_buff[i + 1] && read_buff[i + 1] == read_buff[i])
 				{
@@ -118,10 +114,7 @@ int						lexer_1(char *read_buff, t_e_list **l_expr)
 				in_lexer_1(&tmp, read_buff, &i, l_expr);
 		}
 		else if (quote == 0 && ft_strchr(SEP, read_buff[i]) == NULL)
-		{printf("Premier else if - char (%c)\n", read_buff[i]);
-
 			tmp[k++] = read_buff[i];
-		}
 		else if (quote != 0)
 			tmp[k++] = read_buff[i];
 	}
