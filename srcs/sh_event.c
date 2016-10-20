@@ -7,6 +7,10 @@ int				event(int key, t_line *stline, t_history **history)
 		printf("------- EVENT ------\n");
 	if (key == RETURN)
 	{
+		if (stline->copy != NULL && stline->cpy_start != -1)
+		{
+			copy_paste(HIGHLIGHT, stline);
+		}
 		if (stline->line && stline->line[0])
 			add_history(history, stline->line);
 		ft_putchar(key);
