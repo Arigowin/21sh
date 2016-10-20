@@ -14,7 +14,8 @@ int				event(int key, t_line *stline, t_history **history)
 	}
 	else if (key == RETURN && stline->quote != 0)
 	{
-		ft_putchar(key);
+//		ft_putchar(key);
+		insert(stline, '\n', ++(stline->curs_x) - 4);
 		if (stline->quote == QUOTE)
 			ft_putstr("quote> ");
 		if (stline->quote == DQUOTE)
