@@ -3,6 +3,25 @@
 #include "shell.h"
 #include "libft.h"
 
+char					*search_with_backslash(char *str, char c)
+{
+	int				i;
+
+	i = 0;
+	if (str)
+	{
+		while (str[i] != '\0')
+		{
+			if (str[i] == c && str[i - 1] && str[i - 1] != '\\')
+				return (str + i);
+			i++;
+		}
+		if (str[i] == c)
+			return (str + i);
+	}
+	return (NULL);
+}
+
 t_e_list				*expr_new(char *content)
 {
 	if (DEBUG_LEXER_PARSER == 1)
@@ -92,12 +111,12 @@ int						lexer_1(char *read_buff, t_e_list **l_expr)
 		{
 			quote = (quote == read_buff[i] ? 0 : read_buff[i]);
 		}
-		if (quote == 0 && ft_strchr(SEP, read_buff[i]))
+		if (quote == 0 && search_with_backslash(SEP, read_buff[i]))
 		{
 
-			if (ft_strchr(WAKA, read_buff[i]) && read_buff[i - 1]
+			if (search_with_backslash(WAKA, read_buff[i]) && read_buff[i - 1]
 					&& ft_isdigit(read_buff[i - 1]) && (!read_buff[i - 2]
-						|| (read_buff[i - 2] && ft_strchr(SEP, read_buff[i - 2]))))
+						|| (read_buff[i - 2] && search_with_backslash(SEP, read_buff[i - 2]))))
 			{
 				tmp[k++] = read_buff[i];
 				if (read_buff[i + 1] && read_buff[i + 1] == read_buff[i])
@@ -110,10 +129,10 @@ int						lexer_1(char *read_buff, t_e_list **l_expr)
 			expr_pushbk(l_expr, tmp);
 			ft_bzero(tmp, 1024);
 			k = 0;
-			if (!boolean && !ft_strchr(IGN, read_buff[i]))
+			if (!boolean && !search_with_backslash(IGN, read_buff[i]))
 				in_lexer_1(&tmp, read_buff, &i, l_expr);
 		}
-		else if (quote == 0 && ft_strchr(SEP, read_buff[i]) == NULL)
+		else if (quote == 0 && search_with_backslash(SEP, read_buff[i]) == NULL)
 			tmp[k++] = read_buff[i];
 		else if (quote != 0)
 			tmp[k++] = read_buff[i];
