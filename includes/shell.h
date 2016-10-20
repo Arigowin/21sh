@@ -26,6 +26,9 @@
 # define BUFF_SIZE 1024
 # define MAX_PATH 1024
 
+# define QUOTE 39
+# define DQUOTE 34
+
 # define LEFT 4479771
 # define RIGHT 4414235
 # define UP 4283163
@@ -84,6 +87,7 @@ typedef struct			s_e_list // -> l_expr
 typedef struct			s_line
 {
 	char				*line;
+	int					quote;
 	int					curs_x;
 	char				*copy;
 	int					cpy_pos;

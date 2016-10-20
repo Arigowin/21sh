@@ -41,6 +41,7 @@ int			main(int ac, char **av, char **env)
 	(void)av;
 	init_env(env, &env_cpy);
 	stline.line = ft_strnew(BUFF_SIZE);
+	stline.quote = 0;
 	stline.copy = NULL;
 	stline.cpy_start = -1;
 	init_term();

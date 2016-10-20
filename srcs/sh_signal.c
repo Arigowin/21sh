@@ -1,7 +1,7 @@
 #include <signal.h>
 #include "shell.h"
 #include "libft.h"
-
+// rajouter un savior pour stline et le free dans ctrl c
 static void		fct_m_ctrl_c(int sig)
 {
 	t_duo			*env;

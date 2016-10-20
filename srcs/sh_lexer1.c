@@ -25,10 +25,22 @@ static void				expr_pushbk(t_e_list **l_expr, char content[])
 	if (DEBUG_LEXER_PARSER == 1)
 		printf("------- EXPR PUSHBK ------\n");
 	t_e_list		*tmp;
+	char			*content_tmp;
+	int				i;
 
+	i = -1;
 	tmp = *l_expr;
+	content_tmp = NULL;
 	if (content[0] == '\0')
 		return ;
+	if (content[0] == content[ft_strlen(content) - 1] && (content [0] == QUOTE || content[0] == DQUOTE))
+	{
+		content_tmp = ft_strsub(content, 1, ft_strlen(content) - 2);
+		ft_bzero(content, 1024);
+		while (content_tmp[++i] != '\0')
+			content[i] = content_tmp[i];
+		free(content_tmp);
+	}
 	if (tmp == NULL)
 	{
 		*l_expr = expr_new(content);
@@ -66,16 +78,23 @@ int						lexer_1(char *read_buff, t_e_list **l_expr)
 	char			tmp[1024];
 	int				i;
 	int				k;
+	int				quote;
 	char			boolean;
 
 	ft_bzero(tmp, 1024);
 	i = -1;
 	k = 0;
+	quote = 0;
 	while (read_buff[++i])
 	{
 		boolean = FALSE;
-		if (ft_strchr(SEP, read_buff[i]))
+		if (read_buff[i] == QUOTE || read_buff[i] == DQUOTE)
 		{
+			quote = (quote == read_buff[i] ? 0 : read_buff[i]);
+		}
+		if (quote == 0 && ft_strchr(SEP, read_buff[i]))
+		{
+
 			if (ft_strchr(WAKA, read_buff[i]) && read_buff[i - 1]
 					&& ft_isdigit(read_buff[i - 1]) && (!read_buff[i - 2]
 						|| (read_buff[i - 2] && ft_strchr(SEP, read_buff[i - 2]))))
@@ -94,7 +113,9 @@ int						lexer_1(char *read_buff, t_e_list **l_expr)
 			if (!boolean && !ft_strchr(IGN, read_buff[i]))
 				in_lexer_1(&tmp, read_buff, &i, l_expr);
 		}
-		else if (ft_strchr(SEP, read_buff[i]) == NULL)
+		else if (quote == 0 && ft_strchr(SEP, read_buff[i]) == NULL)
+			tmp[k++] = read_buff[i];
+		else if (quote != 0)
 			tmp[k++] = read_buff[i];
 	}
 	if (ft_strlen(tmp))

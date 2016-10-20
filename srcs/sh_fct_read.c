@@ -80,6 +80,7 @@ int				fct_read(t_line *stline, t_history **history)
 		printf("------- FCT READ ------\n");
 	int				key;
 	int				ret;
+	int				event_ret;
 	t_duo			*env;
 
 	env = savior(NULL, FALSE);
@@ -92,8 +93,17 @@ int				fct_read(t_line *stline, t_history **history)
 			bi_exit(NULL, &env);
 		else if (key == CTRL_D)
 			key = DEL;
-		if (event(key, stline, history) == 1)
+		else if (key == QUOTE || key == DQUOTE) //pb ac quote
+		{
+			if (stline->quote == key)
+				stline->quote = 0;
+			else if (stline->quote == 0)
+				stline->quote = key;
+		}
+		if ((event_ret = event(key, stline, history)) == 1)
 			break ;
+		else if (event_ret == 2)
+			continue ;
 		key = 0;
 	}
 	if (key == RETURN && (stline->line)[0] == 0)

@@ -15,33 +15,39 @@ LIBHPATH =	$(LIBPATH)/includes
 CFLAGS = -g -O3 -Wall -Werror -Wextra -I $(HPATH) -I $(LIBHPATH)
 LIBS = -L $(LIBPATH) -lft -ltermcap
 
-SRC = sh_builtin.c \
+SRC = sh_main.c \
 	  sh_cd.c \
 	  sh_env.c \
-	  sh_event.c \
 	  sh_exit.c \
+	  sh_setenv.c \
+	  sh_unsetenv.c \
+	  sh_builtin.c \
 	  sh_lexer1.c \
 	  sh_lexer2.c \
 	  sh_parser.c \
-	  sh_tree_traversal.c \
-	  sh_red.c \
-	  sh_cmd.c \
-	  sh_pipe.c \
-	  sh_create_tree.c \
-	  sh_father_n_son.c \
+	  sh_event.c \
+	  sh_signal.c \
+	  sh_history.c \
 	  sh_fct_read.c \
 	  sh_first_steps.c \
+	  sh_father_n_son.c \
 	  sh_main.c \
 	  sh_modif_line.c \
 	  sh_move_in_line.c \
-	  sh_copy_paste.c \
 	  sh_setenv.c \
 	  sh_signal.c \
 	  sh_termcap.c \
 	  sh_tputs.c \
-	  sh_unsetenv.c \
+	  sh_termcap.c \
 	  sh_spec_key.c \
-	  sh_history.c
+	  sh_copy_paste.c \
+	  sh_modif_line.c \
+	  sh_move_in_line.c \
+	  sh_cmd.c \
+	  sh_red.c \
+	  sh_pipe.c \
+	  sh_create_tree.c \
+	  sh_tree_traversal.c \
 
 OFILES = $(patsubst %.c, $(OPATH)/%.o, $(SRC))
 
