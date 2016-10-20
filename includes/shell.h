@@ -12,6 +12,7 @@
 #define DEBUG_PIPE 0
 #define DEBUG_RED 0
 #define DEBUG_CMD 0
+#define DEBUG_COPY_PASTE 0
 #include <stdio.h>
 
 # define TRUE 1
@@ -37,6 +38,11 @@
 # define TAB 9
 # define RETURN 10
 # define CTRL_D 4
+
+#define HIGHLIGHT 26651 // ALT + h
+#define PASTE 30235 // ALT + v
+#define COPY 25371 // ALT + c
+#define CUTE 30747 // ALT + x
 
 // - MAC OPTION + [LEFT|RIGHT]
 // # define OP_RIGHT 344
@@ -83,6 +89,9 @@ typedef struct			s_line
 	char				*line;
 	int					quote;
 	int					curs_x;
+	char				*copy;
+	int					cpy_pos;
+	int					cpy_start;
 }						t_line;
 
 typedef struct			s_history
@@ -246,18 +255,10 @@ int				manage_cmd(t_node *tree);
  */
 int				pipe_function(t_node *tree, int in_fd);
 
+/*
+** sh_copy_paste
+*/
+int				copy_paste(int key, t_line *stline);
+
 #endif
-
-// X finir lexer
-// X implémenter parser
-// X Couper, copier et/ou coller tout ou partie d’une ligne avec la séquence de touches qui vous plaira.
-// X Ecrire ET éditer une commande sur plusieurs lignes. Dans ce cas, on apprecie-rait que ctrl+UP et ctrl+DOWN permettent de passer d’une ligne à l’autre de la commande en restant sur la même colonne ou la colonne la plus appropriée sinon.
-// X Si une partie parenthésée de la commande n’est pas refermée avant l’appui sur la touche return, le shell revient à la ligne et attend la fin de la commande. Par partie parenthésée, on entend une partie de la commande entre quotes, doubles quotes, back quotes, parenthèses, crochets, accolades, etc.
-// X ctrl+D et ctrl+C dans l’édition de la ligne (sachant que le ctrl+C pour arrêter un programme en cours, c’est bien aussi).
-
-// O Editer la ligne à l’endroit où se trouve le curseur.
-// O Déplacer le curseur vers la gauche et vers la droite pour pouvoir éditer la ligne à un endroit précis. Les nouveaux caractères doivent bien entendu s’insérer entre les caractères existants de la même manière que dans un shell ordinaire.
-// O Se déplacer par "mot" vers la gauche et vers la droite avec ctrl+LEFT et ctrl+RIGHT ou toute autre combinaison de touche raisonnable.
-// O Aller directement au début et à la fin d’une ligne avec home et end .
-// O Utiliser les fleches du haut et du bas pour naviguer dans l’historique des commandes que l’on pourra alors éditer si le coeur nous en dit (la ligne, pas l’historique, hein).
 

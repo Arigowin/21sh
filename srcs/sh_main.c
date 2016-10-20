@@ -42,6 +42,7 @@ int			main(int ac, char **av, char **env)
 	init_env(env, &env_cpy);
 	stline.line = ft_strnew(BUFF_SIZE);
 	stline.quote = 0;
+	stline.copy = NULL;
 	init_term();
 	history = NULL;
 //	printf("before while\n");

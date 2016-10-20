@@ -33,12 +33,11 @@ char		**format_cmd(t_node *tree)
 	i = 0;
 	ret = NULL;
 	tmp = tree;
-	while (tmp->left)
+	while (tmp->right)
 	{
-		tmp = tmp->left;
+		tmp = tmp->right;
 		i++;
 	}
-
 	ret = tree_to_tbl(tree, i);
 	return (ret);
 }
