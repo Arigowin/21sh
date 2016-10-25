@@ -182,6 +182,39 @@ static int		paste(t_line *stline)
 	return (TRUE);
 }
 
+static int		cute(t_line *stline)
+{
+	int		curs_start;
+	int		curs_end;
+
+	curs_start = stline->cpy_start;
+	curs_end = stline->curs_x;
+
+	tputs(tgetstr("ue", NULL), 1, my_outc);
+	stline->cpy_start = -1;
+
+	if (curs_end > curs_start)
+	{
+		spec_key(DEL, stline);
+		curs_end--;
+		while (curs_end >= curs_start)
+		{
+			backspace(stline);
+			curs_end--;
+		}
+	}
+	else
+	{
+		while (curs_end <= curs_start)
+		{
+			spec_key(DEL, stline);
+			curs_start--;
+		}
+	}
+
+	return (TRUE);
+}
+
 int				copy_paste(int key, t_line *stline)
 {
 	if (DEBUG_COPY_PASTE == 1)
@@ -200,7 +233,7 @@ int				copy_paste(int key, t_line *stline)
 	}
 	else if (key == CUTE && stline->cpy_start != -1)
 	{
-		printf("CUTE\n");
+		cute(stline);
 	}
 	return (TRUE);
 }
