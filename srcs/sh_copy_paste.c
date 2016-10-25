@@ -2,6 +2,90 @@
 #include "libft.h"
 #include <term.h>
 
+int				addtbl_left(char *tbl, char c)
+{
+	int		i;
+
+	i = 0;
+	if (tbl == NULL)
+		return (FALSE);
+	while (tbl[i])
+		i++;
+	while (i >= 0)
+	{
+		tbl[i + 1] = tbl[i];
+		i--;
+	}
+	tbl[0] = c;
+	return (TRUE);
+}
+
+int				deltbl_left(char *tbl)
+{
+	int		i;
+
+	i = 0;
+	if (tbl == NULL)
+		return (FALSE);
+	while (tbl[i])
+	{
+		tbl[i] = tbl[i + 1];
+		i++;
+	}
+	return (TRUE);
+}
+
+int				del_in_copy(t_line *stline, int dir)
+{
+	if (dir != 1 && dir != 2)
+		return (FALSE);
+	if (dir == 1) // right
+	{
+		tputs(tgetstr("ue", NULL), 1, my_outc);
+
+		ft_putchar(stline->line[stline->curs_x - 3]);
+		stline->cpy_pos--;
+		deltbl_left(stline->copy);
+
+		tputs(tgetstr("us", NULL), 1, my_outc);
+		tputs(tgetstr("le", NULL), 1, my_outc);
+	}
+	else // (dir == 2) left
+	{
+		tputs(tgetstr("ue", NULL), 1, my_outc);
+
+		ft_putchar(stline->line[stline->curs_x - 3]);
+		stline->cpy_pos--;
+		stline->copy[stline->cpy_pos] = 0;
+
+		tputs(tgetstr("us", NULL), 1, my_outc);
+		tputs(tgetstr("le", NULL), 1, my_outc);
+	}
+	return (TRUE);
+}
+
+int				add_in_copy(t_line *stline, int dir)
+{
+	if (dir != 1 && dir != 2)
+		return (FALSE);
+	if (dir == 1) // right
+	{
+		ft_putchar((stline->line)[stline->curs_x - 3]);
+		tputs(tgetstr("le", NULL), 1, my_outc);
+		stline->copy[stline->cpy_pos] =
+			(stline->line)[stline->curs_x - 3];
+		stline->cpy_pos++;
+	}
+	else // (dir == 2) left
+	{
+		ft_putchar((stline->line)[stline->curs_x - 3]);
+		tputs(tgetstr("le", NULL), 1, my_outc);
+		addtbl_left(stline->copy, (stline->line)[stline->curs_x - 3]);
+		stline->cpy_pos++;
+	}
+	return (TRUE);
+}
+
 static int		hide_highlight(t_line *stline)
 {
 	char		*tmp;
