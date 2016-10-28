@@ -266,7 +266,7 @@ int				del_in_copy(t_line *stline, int dir);
 
 /*
 x == fd x >= 0
-y == fd y >= 0 and y <= 2
+y == fd y >= 0 and y <= 2     /dev/fd (http://stackoverflow.com/questions/7082001/file-descriptors)
 cmd > file   le 1 dans file
 cmd >& y     le 1 et 2 dans x
 cmd >& file  le 1 et 2 dans file
@@ -288,4 +288,3 @@ cmd &> ... OK
 
 cmd &x> ... error si & pas de fd
 */
-
