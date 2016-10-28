@@ -8,7 +8,7 @@ int		rred(char *filename, int red_fd, int flags)
 		printf("------- RRED -------\n");
 	int		fd;
 
-	if (red_fd == ERROR)
+	if (red_fd == -1)
 		red_fd = 1;
 
 	if ((fd = open(filename, flags, 0644)) == ERROR)
@@ -26,7 +26,7 @@ int		lred(char *filename, int red_fd)
 		printf("------- LRED -------\n");
 	int		fd;
 
-	if (red_fd == ERROR)
+	if (red_fd == -1)
 		red_fd = 0;
 
 	if ((access(filename, F_OK)) == ERROR)
@@ -54,7 +54,7 @@ int		red(t_node *tree, t_intlst **lstfd)
 	int		fd_ret;
 
 	filename = NULL;
-	red_fd = ERROR;
+	red_fd = -1;
 	if (tree->right->type == RED_FD)
 	{
 		red_fd = ft_atoi(tree->right->data);
