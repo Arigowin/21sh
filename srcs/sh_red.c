@@ -154,7 +154,6 @@ int				red(t_node *tree, t_intlst **lstfd)
 	filename = NULL;
 
 	red_fd = init_red(tree, &filename);
-	printf("tree->right->data : %s, red_fd (38 == '&') : %d : %c, filename : %s\n", tree->right->data, red_fd, red_fd, filename);
 	if (tree->type == RRED || tree->type == LRED)
 		red_if(tree->type, filename, red_fd, lstfd);
 	else
