@@ -64,6 +64,8 @@ static int		lred(char *filename, int red_fd)
 
 static int		init_red(t_node *tree, char **filename)
 {
+	if (DEBUG_RED == 1)
+		printf("------- INIT RED -------\n");
 	int		red_fd;
 
 	red_fd = -1;
@@ -93,6 +95,8 @@ static int		init_red(t_node *tree, char **filename)
 
 static int		red_if(int type, char *filename, int red_fd, t_intlst **lstfd)
 {
+	if (DEBUG_RED == 1)
+		printf("------- RED IF -------\n");
 	int		fd_ret;
 
 	if (type == RRED)
@@ -123,6 +127,8 @@ static int		red_if(int type, char *filename, int red_fd, t_intlst **lstfd)
 
 static int		red_if2(int type, char *filename, int red_fd, t_intlst **lstfd)
 {
+	if (DEBUG_RED == 1)
+		printf("------- RED IF 2 -------\n");
 	int		fd_ret;
 
 	if (type == DRRED)

@@ -17,7 +17,7 @@ int				land_managment(t_e_list **tmp)
 	red_arg = NULL;
 	new = NULL;
 	tmp2 = (*tmp)->next;
-	if (tmp2 && tmp2->data[0] == '&' && tmp2->next && (ft_isstrnum(tmp2->next->data) || (ft_strlen(tmp2->next->data) == 1 && tmp2->next->data[0] == '-')))
+	if (tmp2 && tmp2->data[0] == '&' && tmp2->next) //&& (ft_isstrnum(tmp2->next->data) || (ft_strlen(tmp2->next->data) == 1 && tmp2->next->data[0] == '-')))
 	{
 		red_arg = ft_properjoin(tmp2->data, tmp2->next->data);
 		free(tmp2->data);
@@ -29,7 +29,7 @@ int				land_managment(t_e_list **tmp)
 		tmp2->next = new;
 		return (TRUE);
 	}
-	else if ((*tmp)->next && (*tmp)->next->data[0] == '&' && (*tmp)->next->next)
+	else// if ((*tmp)->next && (*tmp)->next->data[0] == '&' && (*tmp)->next->next)
 	{
 		free((*tmp)->next->data);
 		new = (*tmp)->next->next;
