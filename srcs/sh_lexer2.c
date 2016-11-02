@@ -17,7 +17,7 @@ int				land_managment(t_e_list **tmp)
 	red_arg = NULL;
 	new = NULL;
 	tmp2 = (*tmp)->next;
-	if (tmp2 && tmp2->data[0] == '&' && tmp2->next && (ft_isstrnum(tmp2->next->data) || (ft_strlen(tmp2->next->data) == 1 && tmp2->next->data[0] == '-')))
+	if (tmp2 && tmp2->data[0] == '&' && tmp2->next)// && (ft_isstrnum(tmp2->next->data) || (ft_strlen(tmp2->next->data) == 1 && tmp2->next->data[0] == '-')))
 	{
 		red_arg = ft_properjoin(tmp2->data, tmp2->next->data);
 		free(tmp2->data);
@@ -40,6 +40,28 @@ int				land_managment(t_e_list **tmp)
 	return (FALSE);
 }
 
+// echanger & avec >
+// donc echanger tmp avec tmp->next
+int				swap_list(t_e_list **tmp)
+{
+	char	*data1;
+	int		type1;
+
+	data1 = ft_strdup((*tmp)->data);
+	type1 = (*tmp)->type;
+
+	free((*tmp)->data);
+	(*tmp)->data = ft_strdup((*tmp)->next->data);
+	(*tmp)->type = (*tmp)->next->type;
+
+	(*tmp)->next->data = ft_strdup(data1);
+	(*tmp)->next->type = type1;
+
+	free(data1);
+
+	return (TRUE);
+}
+
 int				waka_lexer(t_e_list **tmp)
 {
 	if (DEBUG_LEXER_PARSER == 1)
@@ -51,26 +73,33 @@ int				waka_lexer(t_e_list **tmp)
 
 	red = NULL;
 	new = NULL;
-	elem = *tmp;
-	if (ft_isdigit((elem->data)[0]))
+	elem = (*tmp)->next;
+	if (ft_strchr((*tmp)->data, '&'))
+	{
+		(*tmp)->type = RED_FD;
+		(*tmp)->next->type = RED;
+		swap_list(tmp);
+		land_managment(&((*tmp)->next));
+	}
+	else if (ft_isdigit((elem->data)[0]))
 	{
 		fd[0] = (elem->data)[0];
 		fd[1] = '\0';
 		red = ft_strsub(elem->data, 1, ft_strlen(elem->data) - 1);
 		new = expr_new(fd);
 		new->type = RED_FD;
-		free((*tmp)->data);
-		(*tmp)->data = ft_strdup(red);
-		new->next = (*tmp)->next;
-		(*tmp)->next = new;
-		(*tmp)->type = RED;
-		land_managment(&((*tmp)->next));
+		free((*tmp)->next->data);
+		(*tmp)->next->data = ft_strdup(red);
+		new->next = (*tmp)->next->next;
+		(*tmp)->next->next = new;
+		(*tmp)->next->type = RED;
+		land_managment(&((*tmp)->next->next));
 		return (0);
 	}
 	else
 	{
-		(*tmp)->type = RED;
-		land_managment(tmp);
+		(*tmp)->next->type = RED;
+		land_managment((&(*tmp)->next));
 		return (0);
 	}
 	return (-1);
@@ -82,9 +111,10 @@ int				in_lexer_2(t_e_list **tmp, int boule)
 		printf("------- IN LEXER 2 ------\n");
 	while (*tmp && (*tmp)->next)
 	{
+		// si data == 1 OR .. OR \0 OR & AND data->next == > OR <
 		if (ft_strchr((*tmp)->next->data, '<') || ft_strchr((*tmp)->next->data, '>'))
 		{
-			waka_lexer(&((*tmp)->next));
+			waka_lexer(&(*tmp));
 		}
 		else if (boule == 1 && (!ft_strchr(SPECIAL, ((*tmp)->next->data)[0]) &&
 					((*tmp)->type == CMD || (*tmp)->type == CA || (*tmp)->type == RA)))
@@ -121,6 +151,7 @@ int				lexer_2(t_e_list **l_expr)
 
 	tmp = *l_expr;
 	boule = 0;
+
 	if (tmp && (ft_strchr(tmp->data, '<') || ft_strchr(tmp->data, '>')))
 	{
 		waka_lexer(&tmp);

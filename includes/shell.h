@@ -259,6 +259,32 @@ int				pipe_function(t_node *tree, int in_fd);
 ** sh_copy_paste
 */
 int				copy_paste(int key, t_line *stline);
+int				add_in_copy(t_line *stline, int dir);
+int				del_in_copy(t_line *stline, int dir);
 
 #endif
 
+/*
+x == fd x >= 0
+y == fd y >= 0 and y <= 2     /dev/fd (http://stackoverflow.com/questions/7082001/file-descriptors)
+cmd > file   le 1 dans file
+cmd >& y     le 1 et 2 dans x
+cmd >& file  le 1 et 2 dans file
+cmd x> file  le x dans file
+cmd x>& file le x est ignorer redirige le 1 et 2 dans file
+cmd x>& y    le x est ignorer redirige le 1 et 2 dans y
+cmd &> file  le 1 et 2 dans file
+cmd &>& file redondant 1 et 2 dans file
+cmd &>& y    redondant 1 et 2 dans x
+*/
+
+/*
+x == file or fd
+cmd > &x error bash: syntax error near unexpected token `&'
+cmd >&x == cmd >& x
+
+cmd & > ... error
+cmd &> ... OK
+
+cmd &x> ... error si & pas de fd
+*/

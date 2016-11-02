@@ -1,23 +1,67 @@
 #include <unistd.h>
 #include <stdlib.h>
-#include "shell.h"
 #include "libft.h"
+#include "shell.h"
 
-char					*search_with_backslash(char *str, char c)
+/*
+   les parametre ne vont pas tu cherche dans SEP ou IGN ou WAKA si i - 1 est un \ mais on s'en fout dans ces
+   chaines la nous ces c - 1 que l'on veut savoir si ces un \
+   */
+/*
+   char					*search_with_backslash(char *str, char c)
+   {
+//if (DEBUG_LEXER_PARSER == 0)
+printf("------- SEARCH WITH BACKSLASH ------ [%s]\n", str);
+int				i;
+
+i = 0;
+if (str)
 {
-	int				i;
+while (str[i] != '\0')
+{
+if (str[i] == c && str[i - 1] && str[i - 1] != '\\')
+{
+printf("TEST 1 : [%c], [%c]\n", c, str[i]);
+return (str + i);
+}
+i++;
+}
+if (str[i] == c)
+{
+printf("TEST 2 : [%c], [%c]\n", c, str[i]);
+return (str + i);
+}
+}
+printf("TEST 3 : [%c], [%c]\n", c, str[i]);
+return (NULL);
+}
+*/
+
+
+// str == read_buff
+// def = define IGN || WAKA || SEP || ...
+// pos == position actuel dans read_buff
+char					*search_with_backslash(char *str, char *def, int pos)
+{
+	if (DEBUG_LEXER_PARSER == 1)
+		printf("------- SEARCH WITH BACKSLASH ------ [%s]\n", def);
+	int			i;
 
 	i = 0;
-	if (str)
+	if (str && def)
 	{
-		while (str[i] != '\0')
+		while (def[i])
 		{
-			if (str[i] == c && str[i - 1] && str[i - 1] != '\\')
-				return (str + i);
+			if (def[i] == str[pos] && str[pos - 1] && str[pos - 1] != '\\')
+			{
+				return (def + i);
+			}
 			i++;
 		}
-		if (str[i] == c)
-			return (str + i);
+		if (def[i] == str[pos])
+		{
+			return (def + i);
+		}
 	}
 	return (NULL);
 }
@@ -111,33 +155,44 @@ int						lexer_1(char *read_buff, t_e_list **l_expr)
 		{
 			quote = (quote == read_buff[i] ? 0 : read_buff[i]);
 		}
-		if (quote == 0 && search_with_backslash(SEP, read_buff[i]))
+		if (quote == 0)
 		{
-
-			if (search_with_backslash(WAKA, read_buff[i]) && read_buff[i - 1]
-					&& ft_isdigit(read_buff[i - 1]) && (!read_buff[i - 2]
-						|| (read_buff[i - 2] && search_with_backslash(SEP, read_buff[i - 2]))))
+			if (search_with_backslash(read_buff, SEP, i))
+			{
+				if (search_with_backslash(read_buff, WAKA, i) && read_buff[i - 1]
+						&& ft_isdigit(read_buff[i - 1]) &&
+						(!read_buff[i - 2]
+						 || (read_buff[i - 2] && search_with_backslash(read_buff, SEP, i - 2))))
+				{
+					tmp[k++] = read_buff[i];
+					if (read_buff[i + 1] && read_buff[i + 1] == read_buff[i])
+					{
+						tmp[k++] = read_buff[i + 1];
+						i++;
+					}
+					boolean = TRUE;
+				}
+				expr_pushbk(l_expr, tmp);
+				ft_bzero(tmp, 1024);
+				k = 0;
+				if (!boolean && !search_with_backslash(read_buff, IGN, i))
+				{
+					in_lexer_1(&tmp, read_buff, &i, l_expr);
+				}
+			}
+			else
 			{
 				tmp[k++] = read_buff[i];
-				if (read_buff[i + 1] && read_buff[i + 1] == read_buff[i])
-				{
-					tmp[k++] = read_buff[i + 1];
-					i++;
-				}
-				boolean = TRUE;
 			}
-			expr_pushbk(l_expr, tmp);
-			ft_bzero(tmp, 1024);
-			k = 0;
-			if (!boolean && !search_with_backslash(IGN, read_buff[i]))
-				in_lexer_1(&tmp, read_buff, &i, l_expr);
 		}
-		else if (quote == 0 && search_with_backslash(SEP, read_buff[i]) == NULL)
+		else
+		{
 			tmp[k++] = read_buff[i];
-		else if (quote != 0)
-			tmp[k++] = read_buff[i];
+		}
 	}
 	if (ft_strlen(tmp))
+	{
 		expr_pushbk(l_expr, tmp);
+	}
 	return (0);
 }

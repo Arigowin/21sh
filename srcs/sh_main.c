@@ -43,6 +43,7 @@ int			main(int ac, char **av, char **env)
 	stline.line = ft_strnew(BUFF_SIZE);
 	stline.quote = 0;
 	stline.copy = NULL;
+	stline.cpy_start = -1;
 	init_term();
 	history = NULL;
 //	printf("before while\n");

@@ -302,10 +302,10 @@ t_node			*parser(t_e_list **l_expr)
 	if (*l_expr == NULL)
 		return (NULL);
 	node = NULL;
-	t_e_list *tmp = *l_expr;
 
 	if (DEBUG_TREE_CREATION == 1)
 	{
+		t_e_list *tmp = *l_expr;
 		while(tmp){printf("[%s -> %d] --> ", (tmp)->data, (tmp)->type); tmp = (tmp)->next;}
 		printf("\n");
 	}

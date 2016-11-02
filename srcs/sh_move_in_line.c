@@ -6,10 +6,16 @@ static void		move_left(t_line *stline)
 {
 	if (DEBUG_TERMCAPS == 1)
 		printf("------- MOVE LEFT ------\n");
+
+
 	if (stline->curs_x > 3)
 	{
+		if (stline->cpy_start != -1 && stline->curs_x > stline->cpy_start)
+			del_in_copy(stline, 2);
 		tputs(tgetstr("le", NULL), 1, my_outc);
 		stline->curs_x -= 1;
+		if (stline->cpy_start != -1 && stline->curs_x < stline->cpy_start)
+			add_in_copy(stline, 2);
 	}
 }
 
@@ -19,16 +25,12 @@ static void		move_right(t_line *stline)
 		printf("------- MOVE RIGHT ------\n");
 	if ((stline->curs_x - 3) < (int)ft_strlen(stline->line))
 	{
+		if (stline->cpy_start != -1 && stline->curs_x < stline->cpy_start)
+			del_in_copy(stline, 1);
+		tputs(tgetstr("nd", NULL), 1, my_outc);
 		stline->curs_x += 1;
-		if (stline->cpy_start == TRUE)
-		{
-			ft_putchar((stline->line)[stline->curs_x - 4]);
-			stline->copy[stline->cpy_pos] = (stline->line)[stline->curs_x - 3];
-			stline->cpy_pos++;
-		}
-		else
-			tputs(tgetstr("nd", NULL), 1, my_outc);
-
+		if (stline->cpy_start != -1 && stline->curs_x > stline->cpy_start)
+			add_in_copy(stline, 1);
 	}
 }
 
