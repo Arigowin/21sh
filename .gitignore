@@ -31,3 +31,6 @@
 # Debug files
 *.dSYM/
 21sh
+
+# tricks for linter to find includes files
+srcs/shell.h
