@@ -267,15 +267,18 @@ int				del_in_copy(t_line *stline, int dir);
 /*
 x == fd x >= 0
 y == fd y >= 0 and y <= 2     /dev/fd (http://stackoverflow.com/questions/7082001/file-descriptors)
-cmd > file   le 1 dans file
-cmd >& y     le 1 et 2 dans x
-cmd >& file  le 1 et 2 dans file
-cmd x> file  le x dans file
-cmd x>& file le x est ignorer redirige le 1 et 2 dans file
-cmd x>& y    le x est ignorer redirige le 1 et 2 dans y
-cmd &> file  le 1 et 2 dans file
-cmd &>& file redondant 1 et 2 dans file
-cmd &>& y    redondant 1 et 2 dans x
+
+	if (access("/dev/fd/3", F_OK) == -1)
+		return (-1);
+	// si access return false sa veut dire que le fd n'existe pas
+
+OK cmd > file   le 1 dans file
+OK cmd >& y     le 1 et 2 dans x
+OK cmd >& file  le 1 et 2 dans file
+OK cmd x> file  le x dans file
+OK cmd x>& file le x est ignorer redirige le 1 et 2 dans file
+OK cmd x>& y    le x est ignorer redirige le 1 et 2 dans y
+OK cmd &> file  le 1 et 2 dans file
 */
 
 /*
@@ -287,4 +290,15 @@ cmd & > ... error
 cmd &> ... OK
 
 cmd &x> ... error si & pas de fd
+
+cmd &>& file // parse error near
+cmd &>& y    // parse error near
+*/
+
+/*
+il faut gerer encore
+	<> // pas besoin de la gerer car on a pas le builtin exec
+OK	>&-
+	<&x (tout concernant <)
+	> file (sans commande)
 */
