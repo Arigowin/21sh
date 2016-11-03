@@ -17,6 +17,7 @@ int				land_managment(t_e_list **tmp)
 	red_arg = NULL;
 	new = NULL;
 	tmp2 = (*tmp)->next;
+
 	if (tmp2 && tmp2->data[0] == '&' && tmp2->next)// && (ft_isstrnum(tmp2->next->data) || (ft_strlen(tmp2->next->data) == 1 && tmp2->next->data[0] == '-')))
 	{
 		red_arg = ft_properjoin(tmp2->data, tmp2->next->data);
@@ -74,8 +75,10 @@ int				waka_lexer(t_e_list **tmp)
 	red = NULL;
 	new = NULL;
 	elem = (*tmp)->next;
-	if (ft_strchr((*tmp)->data, '&'))
+
+	if (ft_strchr((*tmp)->data, '&') && (elem->data[0] == '<' || elem->data[0] == '>'))
 	{
+		printf("OK\n");
 		(*tmp)->type = RED_FD;
 		(*tmp)->next->type = RED;
 		swap_list(tmp);

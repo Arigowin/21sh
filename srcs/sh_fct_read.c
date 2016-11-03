@@ -28,16 +28,13 @@ t_node          *read_n_check(char *read_buff)
 	t_node			*tree;
 
 	l_expr = NULL;
-	lexer_1(read_buff, &l_expr);
-	//	t_e_list *tmp = l_expr;
-	lexer_2(&l_expr);
-	//	tmp = l_expr;
+	if (lexer_1(read_buff, &l_expr) == ERROR)
+		return (NULL);
+	if (lexer_2(&l_expr) == ERROR)
+		return (NULL);
 	tree = parser(&l_expr);
 	if (DEBUG2 == 1)
 		tree_traversal_verif(tree);
-	//	tbl = lst_to_tbl(arg);
-	//	free_lst(&arg);
-	//	return (tbl);
 	return (tree);
 }
 
