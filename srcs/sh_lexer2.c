@@ -78,7 +78,6 @@ int				waka_lexer(t_e_list **tmp)
 
 	if (ft_strchr((*tmp)->data, '&') && (elem->data[0] == '<' || elem->data[0] == '>'))
 	{
-		printf("OK\n");
 		(*tmp)->type = RED_FD;
 		(*tmp)->next->type = RED;
 		swap_list(tmp);

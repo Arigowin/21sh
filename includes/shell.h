@@ -10,7 +10,7 @@
 #define DEBUG_TERMCAPS 0
 #define DEBUG_HISTORY 0
 #define DEBUG_PIPE 0
-#define DEBUG_RED 0
+#define DEBUG_RED 1
 #define DEBUG_CMD 0
 #define DEBUG_COPY_PASTE 0
 #include <stdio.h>
@@ -297,8 +297,21 @@ cmd &>& y    // parse error near
 
 /*
 il faut gerer encore
-	<> // pas besoin de la gerer car on a pas le builtin exec
-OK	>&-
-	<&x (tout concernant <)
+OK	cmd >
+	cmd <
+OK	<> // pas besoin de la gerer car on a pas le builtin exec
+OK	cmd >&-
 	> file (sans commande)
 */
+
+/*
+&< error
+<&x
+*/
+
+
+/*
+ls /tmp/ abc 2>&1 | less
+*/
+
+

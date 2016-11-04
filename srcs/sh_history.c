@@ -51,6 +51,8 @@ int					nav_history(int key, t_history **history, t_line *stline)
 			*history = (*history)->next;
 			i = 0;
 		}
+		while ((stline->curs_x - 3) < (int)ft_strlen(stline->line))
+			move(RIGHT, stline);
 		while (stline->curs_x > 3)
 			backspace(stline);
 		while (i >= 0 && ((*history)->line)[i])

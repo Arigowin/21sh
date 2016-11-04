@@ -3,17 +3,22 @@
 
 int				tree_traversal(t_node *tree)
 {
-	int			saved_stdout;
-	int			saved_stdin;
-
-	saved_stdout = dup(STDOUT_FILENO);
-	saved_stdin = dup(STDIN_FILENO);
-
 	if (DEBUG_TREE == 1)
 		printf("------- TREE TRAVERSAL -------(%d)\n", tree->type);
+	int			saved_std[3];
+
 	if (tree->type == PIPE)
 	{
+		saved_std[0] = dup(STDIN_FILENO);
+		saved_std[1] = dup(STDOUT_FILENO);
+		saved_std[2] = dup(STDERR_FILENO);
 		pipe_function(tree, STDIN_FILENO);
+		dup2(saved_std[0], STDIN_FILENO);
+		dup2(saved_std[1], STDOUT_FILENO);
+		dup2(saved_std[2], STDOUT_FILENO);
+		close(saved_std[0]);
+		close(saved_std[1]);
+		close(saved_std[2]);
 	}
 	if (tree->type == SEMI)
 	{
@@ -30,9 +35,6 @@ int				tree_traversal(t_node *tree)
 	{
 		manage_cmd(tree);
 	}
-
-	dup2(saved_stdout, STDOUT_FILENO);
-	dup2(saved_stdin, STDIN_FILENO);
 
 	return (TRUE);
 }
