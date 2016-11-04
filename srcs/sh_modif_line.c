@@ -9,6 +9,10 @@ int			backspace(t_line *stline)
 	char	*tmp;
 	int		i;
 
+	if ((stline->line)[stline->curs_x - 4] == stline->quote)
+		stline->quote = 0;
+	else if (stline->quote == 0 && ((stline->line)[stline->curs_x - 4] == QUOTE || (stline->line)[stline->curs_x - 4] == DQUOTE))
+		stline->quote = (stline->line)[stline->curs_x - 4];
 	tmp = ft_strsub(stline->line, stline->curs_x - 3, ft_strlen(stline->line));
 	(stline->line)[stline->curs_x - 4] = 0;
 	i = 0;
