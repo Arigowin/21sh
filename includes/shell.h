@@ -113,6 +113,7 @@ typedef struct			s_node // -> node ou tree
  ** sh_main
  */
 t_duo					*savior(t_duo *env, int code);
+t_line					*savior_stline(t_line *stline, int code);
 
 /*
  ** sh_first_steps

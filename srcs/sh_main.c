@@ -15,6 +15,15 @@ t_duo		*savior(t_duo *env, int code)
 	return (save);
 }
 
+t_line		*savior_stline(t_line *stline, int code)
+{
+	static t_line	*save = NULL;
+
+	if ((save == NULL && stline) || code == TRUE)
+		save = stline;
+	return (save);
+}
+
 static int	init_env(char **env, t_duo **env_cpy)
 {
 	char			**cpy;
@@ -44,13 +53,14 @@ int			main(int ac, char **av, char **env)
 	stline.quote = 0;
 	stline.copy = NULL;
 	stline.cpy_start = -1;
+	savior_stline(&stline, TRUE);
 	init_term();
 	history = NULL;
 //	printf("before while\n");
 	while (1)
 	{
 //		printf("totopouet titi\n");
-		ft_bzero(stline.line, BUFF_SIZE + 1);
+		ft_bzero(stline.line, ft_strlen(stline.line));
 		check_signal(1);
 		display_prompt();
 //		printf("fct read comming\n");
