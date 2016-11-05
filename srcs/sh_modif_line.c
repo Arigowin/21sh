@@ -9,20 +9,20 @@ int			backspace(t_line *stline)
 	char	*tmp;
 	int		i;
 
-	if ((stline->line)[stline->curs_x - 4] == stline->quote)
+	if ((stline->line)[stline->curs_x - 1] == stline->quote)
 		stline->quote = 0;
-	else if (stline->quote == 0 && ((stline->line)[stline->curs_x - 4] == QUOTE || (stline->line)[stline->curs_x - 4] == DQUOTE))
-		stline->quote = (stline->line)[stline->curs_x - 4];
-	tmp = ft_strsub(stline->line, stline->curs_x - 3, ft_strlen(stline->line));
-	(stline->line)[stline->curs_x - 4] = 0;
+	else if (stline->quote == 0 && ((stline->line)[stline->curs_x - 1] == QUOTE || (stline->line)[stline->curs_x - 1] == DQUOTE))
+		stline->quote = (stline->line)[stline->curs_x - 1];
+	tmp = ft_strsub(stline->line, stline->curs_x, ft_strlen(stline->line));
+	(stline->line)[stline->curs_x - 1] = 0;
 	i = 0;
 	while (tmp && tmp[i])
 	{
-		(stline->line)[(stline->curs_x - 4) + i] = tmp[i];
+		(stline->line)[(stline->curs_x - 1) + i] = tmp[i];
 		i++;
 	}
-	(stline->line)[(stline->curs_x - 4) + i] = 0;
-	if (stline->curs_x > 3)
+	(stline->line)[(stline->curs_x - 1) + i] = 0;
+	if (stline->curs_x > 0)
 	{
 		(stline->curs_x)--;
 		// go left

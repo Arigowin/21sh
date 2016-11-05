@@ -55,6 +55,8 @@
 # define HOME 2117163803
 # define END 2117360411
 
+# define PRT_LEN 3
+
 # include "libft.h"
 
 typedef enum
@@ -87,8 +89,9 @@ typedef struct			s_e_list // -> l_expr
 typedef struct			s_line
 {
 	char				*line;
-	int					quote;
 	int					curs_x;
+	int					curs_y;
+	int					quote;
 	char				*copy;
 	int					cpy_pos;
 	int					cpy_start;

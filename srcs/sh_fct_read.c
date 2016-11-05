@@ -82,7 +82,7 @@ int				fct_read(t_line *stline, t_history **history)
 
 	env = savior(NULL, FALSE);
 	ret = 0;
-	stline->curs_x = 3;
+	stline->curs_x = 0;
 	(void)history;
 	while ((ret = read(0, &key, 8)) > 0)
 	{

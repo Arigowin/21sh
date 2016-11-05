@@ -18,7 +18,7 @@ static void			home(t_line *stline)
 {
 	if (DEBUG_TERMCAPS == 1)
 		printf("------- HOME ------\n");
-	while (stline->curs_x > 3)
+	while (stline->curs_x > 0)
 	{
 		tputs(tgetstr("le", NULL), 1, my_outc);
 		stline->curs_x--;
@@ -29,7 +29,7 @@ static void			end(t_line *stline)
 {
 	if (DEBUG_TERMCAPS == 1)
 		printf("------- END ------\n");
-	while ((stline->curs_x - 3) < (int)ft_strlen(stline->line))
+	while ((stline->curs_x) < (int)ft_strlen(stline->line))
 	{
 		tputs(tgetstr("nd", NULL), 1, my_outc);
 		stline->curs_x++;

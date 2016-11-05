@@ -19,7 +19,8 @@ int				event(int key, t_line *stline, t_history **history)
 	else if (key == RETURN && stline->quote != 0)
 	{
 //		ft_putchar(key);
-		insert(stline, '\n', ++(stline->curs_x) - 4);
+		spec_key(END, stline);
+		insert(stline, '\n', ++(stline->curs_x) - 1);
 		if (stline->quote == QUOTE)
 			ft_putstr("quote> ");
 		if (stline->quote == DQUOTE)
@@ -37,6 +38,6 @@ int				event(int key, t_line *stline, t_history **history)
 	else if (key == HIGHLIGHT || key == PASTE || key == COPY || key == CUTE)
 		copy_paste(key, stline);
 	else if (key != TAB)
-		insert(stline, key, ++(stline->curs_x) - 4);
+		insert(stline, key, ++(stline->curs_x) - 1);
 	return (0);
 }
