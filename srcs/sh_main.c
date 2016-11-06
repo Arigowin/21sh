@@ -40,6 +40,18 @@ static int	init_env(char **env, t_duo **env_cpy)
 	return (0);
 }
 
+static int	init(t_line *stline)
+{
+	ioctl(0, TIOCGWINSZ, &(stline->win));
+
+	if ((stline->line = ft_strnew(BUFF_SIZE)) == NULL)
+		return (ERROR);
+	stline->copy = NULL;
+	stline->cpy_start = -1;
+	savior_stline(stline, TRUE);
+	return (TRUE);
+}
+
 int			main(int ac, char **av, char **env)
 {
 	t_duo			*env_cpy;
@@ -49,21 +61,14 @@ int			main(int ac, char **av, char **env)
 	(void)ac;
 	(void)av;
 	init_env(env, &env_cpy);
-	stline.line = ft_strnew(BUFF_SIZE);
-	stline.quote = 0;
-	stline.copy = NULL;
-	stline.cpy_start = -1;
-	savior_stline(&stline, TRUE);
 	init_term();
+	init(&stline);
 	history = NULL;
-//	printf("before while\n");
 	while (1)
 	{
-//		printf("totopouet titi\n");
-		ft_bzero(stline.line, ft_strlen(stline.line));
+		reset_stline(&stline);
 		check_signal(1);
 		display_prompt();
-//		printf("fct read comming\n");
 		if (fct_read(&stline, &history) == -1)
 			break ;
 	}

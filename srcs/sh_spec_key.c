@@ -8,9 +8,9 @@ static void			del(t_line *stline)
 		printf("------- DEL ------\n");
 	int		tmp;
 
-	tmp = stline->curs_x;
+	tmp = stline->pos_line;
 	move(RIGHT, stline);
-	if (stline->curs_x != tmp)
+	if (stline->pos_line != tmp)
 		backspace(stline);
 }
 
@@ -18,22 +18,16 @@ static void			home(t_line *stline)
 {
 	if (DEBUG_TERMCAPS == 1)
 		printf("------- HOME ------\n");
-	while (stline->curs_x > 0)
-	{
-		tputs(tgetstr("le", NULL), 1, my_outc);
-		stline->curs_x--;
-	}
+	while (stline->pos_line > 0)
+		move(LEFT, stline);
 }
 
 static void			end(t_line *stline)
 {
 	if (DEBUG_TERMCAPS == 1)
 		printf("------- END ------\n");
-	while ((stline->curs_x) < (int)ft_strlen(stline->line))
-	{
-		tputs(tgetstr("nd", NULL), 1, my_outc);
-		stline->curs_x++;
-	}
+	while ((stline->pos_line) < (int)ft_strlen(stline->line))
+		move(RIGHT, stline);
 }
 
 int					spec_key(int key, t_line *stline)

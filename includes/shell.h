@@ -45,11 +45,11 @@
 #define CUTE 30747 // ALT + x
 
 // - MAC OPTION + [LEFT|RIGHT]
-// # define OP_RIGHT 344
 // # define OP_LEFT 345
-// - LINUX CTRL + [LEFT|RIGHT]
-# define OP_RIGHT 993090331
-# define OP_LEFT 993090331
+// # define OP_RIGHT 344
+// - LINUX CTRL + [a|e]
+# define OP_LEFT 1
+# define OP_RIGHT 5
 
 # define DEL 2117294875
 # define HOME 2117163803
@@ -58,6 +58,7 @@
 # define PRT_LEN 3
 
 # include "libft.h"
+#include <sys/ioctl.h>
 
 typedef enum
 {
@@ -89,8 +90,12 @@ typedef struct			s_e_list // -> l_expr
 typedef struct			s_line
 {
 	char				*line;
-	int					curs_x;
+	int					pos_line;
+	int					curs_x; //first line start at  = stline->pos_line + PRT_LEN;
+								// other line start at = 0
+								// quote line start at len of "dquote> " or "quote> "
 	int					curs_y;
+	struct winsize		win;
 	int					quote;
 	char				*copy;
 	int					cpy_pos;
@@ -209,6 +214,7 @@ int				my_outc(int c);
  ** sh_event
  */
 int				event(int key, t_line *stline, t_history **history);
+int				reset_stline(t_line *stline);
 
 /*
  ** sh_modif_line

@@ -8,27 +8,51 @@ int			backspace(t_line *stline)
 		printf("------- BACKSPACE ------\n");
 	char	*tmp;
 	int		i;
+	int		pos_sv;
 
-	if ((stline->line)[stline->curs_x - 1] == stline->quote)
+	if ((stline->line)[stline->pos_line - 1] == stline->quote)
 		stline->quote = 0;
-	else if (stline->quote == 0 && ((stline->line)[stline->curs_x - 1] == QUOTE || (stline->line)[stline->curs_x - 1] == DQUOTE))
-		stline->quote = (stline->line)[stline->curs_x - 1];
-	tmp = ft_strsub(stline->line, stline->curs_x, ft_strlen(stline->line));
-	(stline->line)[stline->curs_x - 1] = 0;
-	i = 0;
-	while (tmp && tmp[i])
-	{
-		(stline->line)[(stline->curs_x - 1) + i] = tmp[i];
-		i++;
-	}
-	(stline->line)[(stline->curs_x - 1) + i] = 0;
-	if (stline->curs_x > 0)
+	else if (stline->quote == 0 && ((stline->line)[stline->pos_line - 1] == QUOTE || (stline->line)[stline->pos_line - 1] == DQUOTE))
+		stline->quote = (stline->line)[stline->pos_line - 1];
+
+	tmp = ft_strsub(stline->line, stline->pos_line, ft_strlen(stline->line));
+	if (stline->pos_line > 0)
 	{
 		(stline->curs_x)--;
-		// go left
-		tputs(tgetstr("le", NULL), 1, my_outc);
-		// delete one character position at the cursor.
+		if (stline->curs_x < 0 && stline->curs_y > 0)
+		{
+			(stline->curs_y)--;
+			tputs(tgetstr("up", NULL), 1, my_outc);
+			while (stline->curs_x < stline->win.ws_col)
+			{
+				tputs(tgetstr("nd", NULL), 1, my_outc);
+				(stline->curs_x)++;
+			}
+		}
+
+		(stline->curs_x)++;
+		pos_sv = stline->pos_line;
+		i = stline->pos_line;
+		spec_key(END, stline);
+		while (i <= stline->pos_line)
+		{
+			tputs(tgetstr("dc", NULL), 1, my_outc);
+			move(LEFT, stline);
+			(stline->line)[stline->pos_line] = 0;
+		}
 		tputs(tgetstr("dc", NULL), 1, my_outc);
+
+		i = 0;
+		while (tmp && tmp[i])
+		{
+			insert(stline, tmp[i], ++(stline->pos_line) - 1);
+			i++;
+		}
+		while (stline->pos_line >= pos_sv)
+			move(LEFT, stline);
+
+		if (stline->curs_x == stline->win.ws_col)
+			tputs(tgetstr("nd", NULL), 1, my_outc);
 	}
 	return (0);
 }
@@ -48,7 +72,7 @@ static int	insert2(t_line *stline, char c, int pos, char **tmp)
 	return (0);
 }
 
-void		test(t_line *stline)
+static void	enlarge_line(t_line *stline)
 {
 	if (DEBUG_TERMCAPS == 1)
 		printf("------- TEST ------\n");
@@ -81,7 +105,7 @@ int			insert(t_line *stline, char c, int pos)
 
 	tmp = NULL;
 	if (pos % BUFF_SIZE == 0 && pos + 1 > BUFF_SIZE)
-		test(stline);
+		enlarge_line(stline);
 	if (insert2(stline, c, pos, &tmp) == -1)
 		return (-1);
 	if (tmp != NULL)
@@ -101,6 +125,14 @@ int			insert(t_line *stline, char c, int pos)
 		ft_putstr(tmp);
 		// restore the last saved cursor position.
 		tputs(tgetstr("rc", NULL), 1, my_outc);
+	}
+	stline->curs_x++;
+	if (stline->curs_x >= stline->win.ws_col)
+	{
+		stline->curs_x = 0;
+		stline->curs_y++;
+		tputs(tgetstr("cr", NULL), 1, my_outc);
+		tputs(tgetstr("do", NULL), 1, my_outc);
 	}
 	return (0);
 }

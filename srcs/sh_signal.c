@@ -8,7 +8,7 @@ static void		fct_m_ctrl_c(int sig)
 	t_line		*stline;
 
 	stline = savior_stline(NULL, FALSE);
-	ft_bzero(stline->line, ft_strlen(stline->line));
+	reset_stline(stline);
 	(void)sig;
 	ft_putendl("");
 	display_prompt();
