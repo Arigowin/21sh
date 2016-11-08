@@ -18,6 +18,7 @@ int			backspace(t_line *stline)
 	tmp = ft_strsub(stline->line, stline->pos_line, ft_strlen(stline->line));
 	if (stline->pos_line > 0)
 	{
+
 		(stline->curs_x)--;
 		if (stline->curs_x < 0 && stline->curs_y > 0)
 		{
@@ -28,19 +29,25 @@ int			backspace(t_line *stline)
 				tputs(tgetstr("nd", NULL), 1, my_outc);
 				(stline->curs_x)++;
 			}
-		}
-
-		(stline->curs_x)++;
-		pos_sv = stline->pos_line;
-		i = stline->pos_line;
-		spec_key(END, stline);
-		while (i <= stline->pos_line)
-		{
 			tputs(tgetstr("dc", NULL), 1, my_outc);
-			move(LEFT, stline);
+			stline->pos_line--;
 			(stline->line)[stline->pos_line] = 0;
 		}
-		tputs(tgetstr("dc", NULL), 1, my_outc);
+		else
+		{
+
+			(stline->curs_x)++;
+			pos_sv = stline->pos_line;
+			i = stline->pos_line;
+			spec_key(END, stline);
+			while (i <= stline->pos_line)
+			{
+				tputs(tgetstr("dc", NULL), 1, my_outc);
+				move(LEFT, stline);
+				tputs(tgetstr("dc", NULL), 1, my_outc);
+				(stline->line)[stline->pos_line] = 0;
+			}
+		}
 
 		i = 0;
 		while (tmp && tmp[i])
@@ -48,12 +55,15 @@ int			backspace(t_line *stline)
 			insert(stline, tmp[i], ++(stline->pos_line) - 1);
 			i++;
 		}
+
 		while (stline->pos_line >= pos_sv)
 			move(LEFT, stline);
 
 		if (stline->curs_x == stline->win.ws_col)
 			tputs(tgetstr("nd", NULL), 1, my_outc);
 	}
+	if (tmp)
+		free(tmp);
 	return (0);
 }
 
@@ -76,10 +86,10 @@ static void	enlarge_line(t_line *stline)
 {
 	if (DEBUG_TERMCAPS == 1)
 		printf("------- TEST ------\n");
-	char	*tmp1;
+	char	*tmp;
 	int		i;
 
-	tmp1 = ft_strdup(stline->line);
+	tmp = ft_strdup(stline->line);
 	i = ft_strlen(stline->line) + BUFF_SIZE;
 	printf("%d\n", i);
 
@@ -87,13 +97,13 @@ static void	enlarge_line(t_line *stline)
 	stline->line = ft_strnew(i);
 
 	i = 0;
-	while (tmp1[i])
+	while (tmp[i])
 	{
-		(stline->line)[i] = tmp1[i];
+		(stline->line)[i] = tmp[i];
 		i++;
 	}
 
-	free(tmp1);
+	free(tmp);
 }
 
 int			insert(t_line *stline, char c, int pos)
@@ -134,5 +144,7 @@ int			insert(t_line *stline, char c, int pos)
 		tputs(tgetstr("cr", NULL), 1, my_outc);
 		tputs(tgetstr("do", NULL), 1, my_outc);
 	}
+	if (tmp)
+		free(tmp);
 	return (0);
 }

@@ -34,6 +34,7 @@ SRC = sh_main.c \
 	  sh_main.c \
 	  sh_modif_line.c \
 	  sh_move_in_line.c \
+	  sh_move_up_down.c \
 	  sh_setenv.c \
 	  sh_signal.c \
 	  sh_termcap.c \

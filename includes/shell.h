@@ -33,6 +33,8 @@
 # define RIGHT 4414235
 # define UP 4283163
 # define DOWN 4348699
+# define CTRL_UP 28955 // alt + q
+# define CTRL_DOWN 30491 // alt + w
 
 # define BACKSPACE 127
 # define TAB 9
@@ -226,6 +228,11 @@ int				insert(t_line *stline, char c, int pos);
  ** sh_move_in_line
  */
 int				move(int key, t_line *stline);
+
+/*
+** sh_move_up_down
+*/
+int				move_up_down(int key, t_line *stline);
 
 /*
  ** sh_spec_key

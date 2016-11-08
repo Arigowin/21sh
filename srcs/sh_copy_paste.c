@@ -94,8 +94,7 @@ static int		hide_highlight(t_line *stline)
 
 	curs_pos = stline->pos_line;
 	tmp = ft_strdup(stline->line);
-	while ((stline->pos_line) < (int)ft_strlen(stline->line))
-		move(RIGHT, stline);
+	spec_key(END, stline);
 	while ((stline->pos_line) > 0)
 		backspace(stline);
 	i = 0;
@@ -138,6 +137,7 @@ static int		highlight(t_line *stline)
 			ft_putchar((stline->line)[stline->pos_line]);
 			stline->copy[0] = (stline->line)[stline->pos_line];
 			stline->pos_line++;
+			stline->curs_x++;
 			move(LEFT, stline);
 			stline->cpy_pos = 1;
 			stline->cpy_start = stline->pos_line;

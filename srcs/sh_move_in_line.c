@@ -60,6 +60,7 @@ static void		move_right(t_line *stline)
 			(stline->curs_x)++;
 			tputs(tgetstr("nd", NULL), 1, my_outc);
 		}
+
 		stline->pos_line += 1;
 		if (stline->cpy_start != -1 && stline->pos_line > stline->cpy_start)
 			add_in_copy(stline, 1);
