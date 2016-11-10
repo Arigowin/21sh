@@ -16,7 +16,8 @@ int			backspace(t_line *stline)
 		stline->quote = (stline->line)[stline->pos_line - 1];
 
 	tmp = ft_strsub(stline->line, stline->pos_line, ft_strlen(stline->line));
-	if (stline->pos_line > 0)
+	if ((stline->pos_line > 0 && stline->quote != 0 && stline->curs_x > 2)
+	 || (stline->pos_line > 0 && stline->quote == 0))
 	{
 
 		(stline->curs_x)--;

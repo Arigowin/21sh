@@ -8,17 +8,22 @@ static void			del(t_line *stline)
 		printf("------- DEL ------\n");
 	int		tmp;
 
-	tmp = stline->pos_line;
-	move(RIGHT, stline);
-	if (stline->pos_line != tmp)
-		backspace(stline);
+	if ((stline->pos_line > 0 && stline->quote != 0 && stline->curs_x > 2)
+	 || (stline->pos_line > 0 && stline->quote == 0))
+	{
+		tmp = stline->pos_line;
+		move(RIGHT, stline);
+		if (stline->pos_line != tmp)
+			backspace(stline);
+	}
 }
 
 static void			home(t_line *stline)
 {
 	if (DEBUG_TERMCAPS == 1)
 		printf("------- HOME ------\n");
-	while (stline->pos_line > 0)
+	while ((stline->pos_line > 0 && stline->quote != 0 && stline->curs_x > 2)
+	 || (stline->pos_line > 0 && stline->quote == 0))
 		move(LEFT, stline);
 }
 

@@ -77,9 +77,12 @@ static int			up_history(t_line *stline, t_history **history)
 	{
 		if (ft_strcmp(stline->line, (*history)->line) == 0)
 			*history = (*history)->prev;
+		else if (ft_strstr(stline->line, (*history)->line) != NULL)
+			*history = (*history)->prev;
 	}
 	spec_key(END, stline);
-	while (stline->pos_line > 0)
+	while ((stline->pos_line > 0 && stline->quote != 0 && stline->curs_x > 2)
+	 || (stline->pos_line > 0 && stline->quote == 0))
 		backspace(stline);
 	while (((*history)->line)[i])
 	{
@@ -102,7 +105,8 @@ static int			down_history(t_line *stline, t_history **history)
 		i = 0;
 	}
 	spec_key(END, stline);
-	while (stline->pos_line > 0)
+	while ((stline->pos_line > 0 && stline->quote != 0 && stline->curs_x > 2)
+	 || (stline->pos_line > 0 && stline->quote == 0))
 		backspace(stline);
 	while (i >= 0 && ((*history)->line)[i])
 	{

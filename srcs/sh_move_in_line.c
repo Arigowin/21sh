@@ -7,8 +7,8 @@ static void		move_left(t_line *stline)
 	if (DEBUG_TERMCAPS == 1)
 		printf("------- MOVE LEFT ------\n");
 
-
-	if (stline->pos_line > 0)
+	if ((stline->pos_line > 0 && stline->quote != 0 && stline->curs_x > 2)
+	 || (stline->pos_line > 0 && stline->quote == 0))
 	{
 		if (stline->cpy_start != -1 && stline->pos_line > stline->cpy_start)
 			del_in_copy(stline, 2);
@@ -73,13 +73,16 @@ static void		move_word_left(t_line *stline)
 		printf("------- MOVE WORD LEFT ------\n");
 	int		x;
 
-	if ((stline->pos_line) > 0)
+	if ((stline->pos_line > 0 && stline->quote != 0 && stline->curs_x > 2)
+	 || (stline->pos_line > 0 && stline->quote == 0))
 		move_left(stline);
 
 	x = stline->pos_line;
-	while (x > 0)
+	while ((x > 0 && stline->quote != 0 && stline->curs_x > 2)
+	 || (x > 0 && stline->quote == 0))
+	//while (x > 0 && stline->curs_x > 0)
 	{
-		if (stline->line[x - 1] == ' ' && stline->line[x] != ' ')
+		if ((stline->line[x - 1] == ' ' || stline->line[x - 1] == '\n') && stline->line[x] != ' ')
 			break ;
 		move_left(stline);
 		x = stline->pos_line;

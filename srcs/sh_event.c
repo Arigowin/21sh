@@ -27,12 +27,19 @@ int				event_return(int key, t_line *stline, t_history **history)
 	}
 	else if (key == RETURN && stline->quote != 0)
 	{
-		spec_key(END, stline);
 		insert(stline, '\n', ++(stline->pos_line) - 1);
-		if (stline->quote == QUOTE)
-			ft_putstr("quote> ");
-		if (stline->quote == DQUOTE)
-			ft_putstr("dquote> ");
+		ft_putstr("> ");
+		stline->curs_x = 2;
+	//	if (stline->quote == QUOTE)
+	//	{
+	//		ft_putstr("quote> ");
+	//		stline->curs_x = 7;
+	//	}
+	//	if (stline->quote == DQUOTE)
+	//	{
+	//		ft_putstr("dquote> ");
+	//		stline->curs_x = 8;
+	//	}
 		return (2);
 	}
 	return (0);

@@ -15,6 +15,8 @@
 #define DEBUG_COPY_PASTE 0
 #include <stdio.h>
 
+// GERER *
+
 # define TRUE 1
 # define FALSE 0
 # define ERROR -1
@@ -280,6 +282,11 @@ int				add_in_copy(t_line *stline, int dir);
 int				del_in_copy(t_line *stline, int dir);
 
 #endif
+
+/*
+ * single quote https://www.gnu.org/software/bash/manual/html_node/Single-Quotes.html
+ * double quote https://www.gnu.org/software/bash/manual/html_node/Double-Quotes.html
+ */
 
 /*
 x == fd x >= 0
