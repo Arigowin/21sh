@@ -15,8 +15,6 @@
 #define DEBUG_COPY_PASTE 0
 #include <stdio.h>
 
-// GERER *
-
 # define TRUE 1
 # define FALSE 0
 # define ERROR -1

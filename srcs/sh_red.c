@@ -35,7 +35,6 @@ static int		rred(char *filename, int red_fd[2], int flags)
 		printf("------- RRED -------\n");
 	int		fd;
 
-	printf("RED_FD : %d, %c, %d\n", red_fd[0], red_fd[0], red_fd[1]);
 	if (filename[0] == '-' && red_fd[1] == 3)
 	{
 		if (red_fd[0] == -1)
@@ -54,7 +53,7 @@ static int		rred(char *filename, int red_fd[2], int flags)
 
 	if (red_fd[1] == 2)
 	{
-		fd = atoi_char(filename[0]);
+		fd = ft_atoi(filename);
 		if (fd_exist(fd) == FALSE)
 			return (ERROR);
 	}
@@ -94,11 +93,14 @@ static int		lred(char *filename, int red_fd[2])
 	if (red_fd[0] == -1)
 		red_fd[0] = 0;
 
-	printf("TEST : %s, %d, %d\n", filename, red_fd[0], red_fd[1]);
 	if (red_fd[1] == 2)
 	{
-		fd = atoi_char(filename[0]);
+		fd = ft_atoi(filename);
+		if (red_fd[0] == '&')
+			red_fd[0] = 0;
 		if (fd_exist(red_fd[0]) == FALSE)
+			return (FALSE);
+		if (fd_exist(fd) == FALSE)
 			return (FALSE);
 	}
 	else

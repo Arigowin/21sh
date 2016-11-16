@@ -35,7 +35,6 @@ void				add_history(t_history **history, char *line)
 		new->prev = *history;
 		*history = new;
 	}
-	printf("\nHISTORY : [%s]\n", (*history)->line);
 }
 
 //int					nav_history(int key, t_history **history, t_line *stline)

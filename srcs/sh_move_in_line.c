@@ -80,7 +80,6 @@ static void		move_word_left(t_line *stline)
 	x = stline->pos_line;
 	while ((x > 0 && stline->quote != 0 && stline->curs_x > 2)
 	 || (x > 0 && stline->quote == 0))
-	//while (x > 0 && stline->curs_x > 0)
 	{
 		if ((stline->line[x - 1] == ' ' || stline->line[x - 1] == '\n') && stline->line[x] != ' ')
 			break ;
