@@ -341,4 +341,5 @@ OK	cmd >&-
 ls /tmp/ abc 2>&1 | less
 */
 
+// RETESTER TOUT car setenv segfault
 

@@ -83,7 +83,7 @@ int				fct_read(t_line *stline, t_history **history)
 	env = savior(NULL, FALSE);
 	ret = 0;
 	(void)history;
-	while ((ret = read(0, &key, 8)) > 0)
+	while ((ret = read(0, &key, sizeof(int))) > 0)
 	{
 		if (key == CTRL_D && stline->line[0] == '\0')
 			bi_exit(NULL, &env);
