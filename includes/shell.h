@@ -279,6 +279,11 @@ int				copy_paste(int key, t_line *stline);
 int				add_in_copy(t_line *stline, int dir);
 int				del_in_copy(t_line *stline, int dir);
 
+/*
+** sh_replace_dollar
+*/
+int				replace_dollar(char **str);
+
 #endif
 
 /*

@@ -6,6 +6,8 @@
 #include "shell.h"
 #include "libft.h"
 
+extern char **environ;
+
 t_duo		*savior(t_duo *env, int code)
 {
 	static t_duo	*save = NULL;
@@ -52,7 +54,7 @@ static int	init(t_line *stline)
 	return (TRUE);
 }
 
-int			main(int ac, char **av, char **env)
+int			main(int ac, char **av)
 {
 	t_duo			*env_cpy;
 	t_line			stline;
@@ -60,7 +62,7 @@ int			main(int ac, char **av, char **env)
 
 	(void)ac;
 	(void)av;
-	init_env(env, &env_cpy);
+	init_env(environ, &env_cpy);
 	init_term();
 	init(&stline);
 	history = NULL;

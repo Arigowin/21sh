@@ -53,6 +53,7 @@ int 			create_file_red(t_node *tree)
 			close(fd);
 		}
 	}
+	replace_dollar(&(tree->data));
 	if (tree->left)
 	{
 		create_file_red(tree->left);
