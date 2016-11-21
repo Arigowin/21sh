@@ -108,6 +108,5 @@ int				replace_dollar(char **str)
 		ft_strdel(&(var[2]));
 		ft_strdel(&env_content);
 	}
-	printf("END : [%s]\n", *str);
 	return (TRUE);
 }
