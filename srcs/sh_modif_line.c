@@ -10,6 +10,7 @@ int			backspace(t_line *stline)
 	int		i;
 	int		pos_sv;
 
+	pos_sv = 0;
 	if ((stline->line)[stline->pos_line - 1] == stline->quote)
 		stline->quote = 0;
 	else if (stline->quote == 0 && ((stline->line)[stline->pos_line - 1] == QUOTE || (stline->line)[stline->pos_line - 1] == DQUOTE))
