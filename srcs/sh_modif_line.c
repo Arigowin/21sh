@@ -2,7 +2,7 @@
 #include "libft.h"
 #include <term.h>
 
-int			backspace(t_line *stline)
+int			fct_backspace(t_line *stline, t_history **history)
 {
 	if (DEBUG_TERMCAPS == 1)
 		printf("------- BACKSPACE ------\n");
@@ -108,7 +108,7 @@ static void	enlarge_line(t_line *stline)
 	free(tmp);
 }
 
-int			insert(t_line *stline, char c, int pos)
+int			fct_insert(t_line *stline, char c, int pos)
 {
 	if (DEBUG_TERMCAPS == 1)
 		printf("------- INSERT ------\n");

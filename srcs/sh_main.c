@@ -6,8 +6,6 @@
 #include "shell.h"
 #include "libft.h"
 
-extern char **environ;
-
 t_duo		*savior(t_duo *env, int code)
 {
 	static t_duo	*save = NULL;
@@ -31,7 +29,7 @@ static int	init_env(char **env, t_duo **env_cpy)
 	char			**cpy;
 
 	cpy = NULL;
-	if (!(env))
+	if (tbl_len(env) == 0)
 		fill_path(&cpy);
 	if (cpy)
 		*env_cpy = tbl_to_duo(cpy, '=');
@@ -56,6 +54,7 @@ static int	init(t_line *stline)
 
 int			main(int ac, char **av)
 {
+	extern char		**environ;
 	t_duo			*env_cpy;
 	t_line			stline;
 	t_history		*history;

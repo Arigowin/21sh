@@ -9,11 +9,11 @@ int			init_term(void)
 	if (DEBUG_TERMCAPS == 1)
 		printf("------- INIT TERM ------\n");
 	struct termios	term;
-	char			*nameterm;
+	char			*term_name;
 
-	if ((nameterm = getenv("TERM")) == NULL)
-		nameterm = "xterm-256color";
-	if (tgetent(NULL, nameterm) == -1)
+	if ((term_name = getenv("TERM")) == NULL)
+		term_name = "xterm-256color";
+	if (tgetent(NULL, term_name) == -1)
 		return (-1);
 	if (tcgetattr(0, &term) == -1)
 		return (-1);

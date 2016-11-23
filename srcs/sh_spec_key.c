@@ -8,8 +8,8 @@ static void			del(t_line *stline)
 		printf("------- DEL ------\n");
 	int		tmp;
 
-	if ((stline->pos_line > 0 && stline->quote != 0 && stline->curs_x > 2)
-	 || (stline->pos_line > 0 && stline->quote == 0))
+	if ((stline->pos_line >= 0 && stline->quote != 0 && stline->curs_x > 2)
+	 || (stline->pos_line >= 0 && stline->quote == 0))
 	{
 		tmp = stline->pos_line;
 		move(RIGHT, stline);
@@ -39,7 +39,7 @@ int					spec_key(int key, t_line *stline)
 {
 	if (DEBUG_TERMCAPS == 1)
 		printf("------- SPEC KEY ------\n");
-	if (key == DEL)
+	if (key == DEL || key == CTRL_D)
 		del(stline);
 	else if (key == HOME)
 		home(stline);
