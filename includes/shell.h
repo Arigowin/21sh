@@ -222,6 +222,7 @@ int						my_outc(int c);
 */
 int						event(int key, t_line *stline, t_history **history);
 int						reset_stline(t_line *stline);
+int						fct_ctrl_d(t_line *stline, t_history **history);
 
 /*
 ** sh_modif_line
@@ -287,17 +288,17 @@ int						pipe_function(t_node *tree, int in_fd);
 /*
 ** sh_copy_paste
 */
-int						fct_cut(t_line *stline, t_history **history)
-int						fct_paste(t_line *stline, t_history **history)
-int						fct_copy(t_line *stline, t_history **history)
-int						fct_highlight(t_line *stline, t_history **history)
+int						fct_cut(t_line *stline, t_history **history);
+int						fct_paste(t_line *stline, t_history **history);
+int						fct_copy(t_line *stline, t_history **history);
+int						fct_highlight(t_line *stline, t_history **history);
 int						add_in_copy(t_line *stline, int dir);
 int						del_in_copy(t_line *stline, int dir);
 
 /*
 ** sh_replace_dollar
 */
-int				replace_dollar(char **str);
+int						replace_dollar(char **str);
 
 #endif
 
