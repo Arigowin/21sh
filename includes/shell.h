@@ -33,6 +33,8 @@
 # define RIGHT 4414235
 # define UP 4283163
 # define DOWN 4348699
+# define CTRL_UP 28955 // alt + q
+# define CTRL_DOWN 30491 // alt + w
 
 # define BACKSPACE 127
 # define TAB 9
@@ -42,20 +44,23 @@
 #define HIGHLIGHT 26651 // ALT + h
 #define PASTE 30235 // ALT + v
 #define COPY 25371 // ALT + c
-#define CUTE 30747 // ALT + x
+#define CUT 30747 // ALT + x
 
 // - MAC OPTION + [LEFT|RIGHT]
-// # define OP_RIGHT 344
 // # define OP_LEFT 345
-// - LINUX CTRL + [LEFT|RIGHT]
-# define OP_RIGHT 993090331
-# define OP_LEFT 993090331
+// # define OP_RIGHT 344
+// - LINUX CTRL + [a|e]
+# define CTRL_LEFT 1
+# define CTRL_RIGHT 5 // revoir sont fonctionnement
 
 # define DEL 2117294875
 # define HOME 2117163803
 # define END 2117360411
 
+# define PRT_LEN 3
+
 # include "libft.h"
+# include <sys/ioctl.h>
 
 typedef enum
 {
@@ -87,8 +92,13 @@ typedef struct			s_e_list // -> l_expr
 typedef struct			s_line
 {
 	char				*line;
+	int					pos_line;
+	int					curs_x; //first line start at  = stline->pos_line + PRT_LEN;
+								// other line start at = 0
+								// quote line start at len of "> "
+	int					curs_y;
+	struct winsize		win;
 	int					quote;
-	int					curs_x;
 	char				*copy;
 	int					cpy_pos;
 	int					cpy_start;
@@ -109,150 +119,162 @@ typedef struct			s_node // -> node ou tree
 	struct s_node		*right;
 }						t_node;
 
+typedef struct			s_key_fct
+{
+	int					key;
+	int					(*fct)(t_line *stline, t_history **history);
+}						t_key_fct;
+
 /*
- ** sh_main
- */
+** sh_main
+*/
 t_duo					*savior(t_duo *env, int code);
+t_line					*savior_stline(t_line *stline, int code);
 
 /*
- ** sh_first_steps
- */
-int				display_prompt(void);
-char			**cpy_env(char **env);
-int				manage_tilde(char **arg);
-int				fill_path(char ***env);
+** sh_first_steps
+*/
+int						display_prompt(void);
+char					**cpy_env(char **env);
+int						manage_tilde(char **arg);
+int						fill_path(char ***env);
 
 /*
- ** sh_signal
- */
-int				check_signal(int loc);
+** sh_signal
+*/
+int						check_signal(int loc);
 
 /*
 ** sh_builtin
 */
-int				add_env(char *name, char *value);
-int				change_env(char *name, char *value);
-char			*get_env(char *name);
-int				handle_builtin(char **cmd);
+int						add_env(char *name, char *value);
+int						change_env(char *name, char *value);
+char					*get_env(char *name);
+int						handle_builtin(char **cmd);
 
 /*
- ** sh_lexer1
- */
-int				lexer_1(char *read_buff, t_e_list **l_expr);
-t_e_list		*expr_new(char *content);
+** sh_lexer1
+*/
+int						lexer_1(char *read_buff, t_e_list **l_expr);
+t_e_list				*expr_new(char *content);
 
 /*
- ** sh_lexer2
- */
-int				lexer_2(t_e_list **l_expr);
+** sh_lexer2
+*/
+int						lexer_2(t_e_list **l_expr);
 
 /*
- ** sh_create_tree
- */
-t_node			*create_node(types type);
-//int				add_node(char *data, types type, t_node **node, int side); // 0 pour right - 1 pour left
+** sh_create_tree
+*/
+t_node					*create_node(types type);
 
 /*
 ** sh_fct_read
 */
-t_node          *read_n_check(char *read_buff);
-int				check_home(char **cmd);
-int				check_after_read(t_line *stline);
-int				fct_read(t_line *line, t_history **history);
+t_node					*read_n_check(char *read_buff);
+int						check_home(char **cmd);
+int						check_after_read(t_line *stline);
+int						fct_read(t_line *line, t_history **history);
 
 /*
 ** sh_father_n_son
 */
-int				father_n_son(char **cmd);
-int				father_n_son_for_pipe(char **cmd);
+int						father_n_son(char **cmd);
+int						father_n_son_for_pipe(char **cmd);
 
 /*
- ** sh_env
- */
-int				bi_env(char **arg, t_duo **env);
+** sh_env
+*/
+int						bi_env(char **arg, t_duo **env);
 
 /*
- ** sh_exit
- */
-int				bi_exit(char **arg, t_duo **env);
+** sh_exit
+*/
+int						bi_exit(char **arg, t_duo **env);
 
 /*
- ** sh_setenv
- */
-int				bi_setenv(char **arg, t_duo **env);
+** sh_setenv
+*/
+int						bi_setenv(char **arg, t_duo **env);
 
 /*
- ** sh_unsetenv
- */
-int				bi_unsetenv(char **arg, t_duo **env);
+** sh_unsetenv
+*/
+int						bi_unsetenv(char **arg, t_duo **env);
 
 /*
- ** sh_cd
- */
-int				bi_cd(char **arg, t_duo **env);
+** sh_cd
+*/
+int						bi_cd(char **arg, t_duo **env);
 /*
- ** sh_termcap
- */
-int				init_term();
-int				reset_term();
+** sh_termcap
+*/
+int						init_term();
+int						reset_term();
 
 /*
- ** sh_tputs
- */
-int				my_outc(int c);
+** sh_tputs
+*/
+int						my_outc(int c);
 
 /*
- ** sh_event
- */
-int				event(int key, t_line *stline, t_history **history);
+** sh_event
+*/
+int						event(int key, t_line *stline, t_history **history);
+int						reset_stline(t_line *stline);
 
 /*
- ** sh_modif_line
- */
-int				backspace(t_line *stline);
-int				insert(t_line *stline, char c, int pos);
+** sh_modif_line
+*/
+int						fct_backspace(t_line *stline, t_history **history);
+int						fct_insert(t_line *stline, char c, int pos);
 
 /*
- ** sh_move_in_line
- */
-int				move(int key, t_line *stline);
+** sh_move_in_line
+*/
+int						move(int key, t_line *stline);
 
 /*
- ** sh_spec_key
- */
+** sh_move_up_down
+*/
+int				move_up_down(int key, t_line *stline);
+
+/*
+** sh_spec_key
+*/
 int				spec_key(int key, t_line *stline);
 
 /*
- ** sh_history
- */
+** sh_history
+*/
 void			add_history(t_history **history, char *line);
 int				nav_history(int key, t_history **history, t_line *stline);
 
 /*
- ** sh_parser
- */
+** sh_parser
+*/
 t_node			*parser(t_e_list **l_expr);
 int				check_next(t_e_list **l_expr, t_node **tree, t_node **right_node);
 
 /*
- ** sh_tree_traversal
- */
+** sh_tree_traversal
+*/
 int				tree_traversal(t_node *tree);
 
 /*
- ** sh_red
- */
+** sh_red
+*/
 int     		red(t_node *tree, t_intlst **lstfd);
 
 /*
- ** sh_cmd
- */
+** sh_cmd
+*/
 char			**format_cmd(t_node *tree);
 int				manage_cmd(t_node *tree);
 
 /*
- ** sh_pipe
- */
+** sh_pipe
+*/
 int				pipe_function(t_node *tree, int in_fd);
 
 /*
@@ -262,7 +284,17 @@ int				copy_paste(int key, t_line *stline);
 int				add_in_copy(t_line *stline, int dir);
 int				del_in_copy(t_line *stline, int dir);
 
+/*
+** sh_replace_dollar
+*/
+int				replace_dollar(char **str);
+
 #endif
+
+/*
+ * single quote https://www.gnu.org/software/bash/manual/html_node/Single-Quotes.html
+ * double quote https://www.gnu.org/software/bash/manual/html_node/Double-Quotes.html
+ */
 
 /*
 x == fd x >= 0
@@ -297,8 +329,19 @@ cmd &>& y    // parse error near
 
 /*
 il faut gerer encore
-	<> // pas besoin de la gerer car on a pas le builtin exec
-OK	>&-
-	<&x (tout concernant <)
+	cmd <
 	> file (sans commande)
 */
+
+/*
+&< error
+*/
+
+
+/*
+Probleme de redirection de l'erreur qui devrait s'afficher dans le less
+ls /tmp/ abc 2>&1 | less
+*/
+
+// RETESTER TOUT car setenv segfault
+

@@ -1,6 +1,6 @@
 #include "shell.h"
 #include "libft.h"
-#include "fcntl.h"
+#include <fcntl.h>
 
 int				atoi_char(char c)
 {
@@ -9,6 +9,24 @@ int				atoi_char(char c)
 	tmp[0] = c;
 	tmp[1] = 0;
 	return (ft_atoi(tmp));
+}
+
+int				fd_exist(int fd)
+{
+	if (DEBUG_RED == 1)
+		printf("------------ FD EXIST ------------\n");
+
+	if (fd >= 0 && fd <= 2)
+		return (TRUE);
+	if (isatty(fd) == 0)
+	{
+		ft_putstr("21sh: ");
+		ft_putstr(ft_itoa(fd));
+		ft_putendl(": Bad file descriptor");
+		return (FALSE);
+	}
+
+	return (TRUE);
 }
 
 static int		rred(char *filename, int red_fd[2], int flags)
@@ -35,7 +53,9 @@ static int		rred(char *filename, int red_fd[2], int flags)
 
 	if (red_fd[1] == 2)
 	{
-		fd = atoi_char(filename[0]);
+		fd = ft_atoi(filename);
+		if (fd_exist(fd) == FALSE)
+			return (ERROR);
 	}
 	else
 	{
@@ -48,14 +68,18 @@ static int		rred(char *filename, int red_fd[2], int flags)
 	else if (red_fd[0] == '&')
 	{
 		red_fd[0] = STDOUT_FILENO;
-		if (dup2(fd, STDIN_FILENO) == ERROR)
+		if (dup2(fd, STDERR_FILENO) == ERROR)
 			return (ERROR);
 	}
 	else
 		red_fd[0] = atoi_char(red_fd[0]);
 
+	if (fd_exist(red_fd[0]) == FALSE)
+		return (ERROR);
 	if (dup2(fd, red_fd[0]) == ERROR)
 		return (ERROR);
+	if (fd < 0 || fd > 2)
+		close(fd);
 
 	return (red_fd[0]);
 }
@@ -69,16 +93,27 @@ static int		lred(char *filename, int red_fd[2])
 	if (red_fd[0] == -1)
 		red_fd[0] = 0;
 
-	if ((access(filename, F_OK)) == ERROR)
+	if (red_fd[1] == 2)
 	{
-		ft_putstr_fd("21sh: no such file or directory: ", 2);
-		ft_putendl_fd(filename, 2);
-		return (ERROR);
+		fd = ft_atoi(filename);
+		if (red_fd[0] == '&')
+			red_fd[0] = 0;
+		if (fd_exist(red_fd[0]) == FALSE)
+			return (FALSE);
+		if (fd_exist(fd) == FALSE)
+			return (FALSE);
 	}
-
-	if ((fd = open(filename, O_RDONLY)) == ERROR)
-		return (ERROR);
-
+	else
+	{
+		if ((access(filename, F_OK)) == ERROR)
+		{
+			ft_putstr_fd("21sh: no such file or directory: ", 2);
+			ft_putendl_fd(filename, 2);
+			return (ERROR);
+		}
+		if ((fd = open(filename, O_RDONLY)) == ERROR)
+			return (ERROR);
+	}
 	if (dup2(fd, red_fd[0]) == ERROR)
 		return (ERROR);
 
@@ -116,13 +151,11 @@ static int		init_red(t_node *tree, char **filename, int red_fd[2])
 	}
 	else if ((tree->right->data)[0] == '&')
 	{
-		red_fd[0] = -1;
+		red_fd[0] = '&';
 		if (ft_isdigit((tree->right->data)[1]))
 			red_fd[1] = 2;
-		if ((tree->right->data)[1] == '-')
-		{
+		else if ((tree->right->data)[1] == '-')
 			red_fd[1] = 3;
-		}
 		*filename = ft_strsub(tree->right->data, 1,
 				ft_strlen(tree->right->data) - 1);
 	}
@@ -139,7 +172,7 @@ static int		red_if(int type, char *filename, int red_fd[2], t_intlst **lstfd)
 
 	if (type == RRED)
 	{
-		fd_ret = rred(filename, red_fd, O_RDWR | O_CREAT);
+		fd_ret = rred(filename, red_fd, O_WRONLY | O_TRUNC | O_CREAT);
 		if (fd_ret != ERROR)
 		{
 			ft_intlst_add(lstfd, fd_ret);
@@ -171,7 +204,7 @@ static int		red_if2(int type, char *filename, int red_fd[2], t_intlst **lstfd)
 
 	if (type == DRRED)
 	{
-		fd_ret = rred(filename, red_fd, O_RDWR | O_CREAT | O_APPEND);
+		fd_ret = rred(filename, red_fd, O_WRONLY | O_APPEND | O_CREAT);
 		if (fd_ret != ERROR)
 		{
 			ft_intlst_add(lstfd, fd_ret);
@@ -195,18 +228,27 @@ int				red(t_node *tree, t_intlst **lstfd)
 	char		*filename;
 
 	filename = NULL;
+	red_fd[0] = -1;
+	red_fd[1] = -1;
 
 	init_red(tree, &filename, red_fd);
 	if (tree->type == RRED || tree->type == LRED)
-		red_if(tree->type, filename, red_fd, lstfd);
+	{
+		if (red_if(tree->type, filename, red_fd, lstfd) == ERROR)
+			return (ERROR);
+	}
 	else
-		red_if2(tree->type, filename, red_fd, lstfd);
+	{
+		if (red_if2(tree->type, filename, red_fd, lstfd) == ERROR)
+			return (ERROR);
+	}
 
 	if (tree->left)
 	{
-		red(tree->left, lstfd);
+		if (red(tree->left, lstfd) == ERROR)
+			return (ERROR);
 		return (TRUE);
 	}
 	else
-		return(FALSE) ;
+		return(FALSE);
 }

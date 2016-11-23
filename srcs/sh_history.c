@@ -37,29 +37,92 @@ void				add_history(t_history **history, char *line)
 	}
 }
 
+//int					nav_history(int key, t_history **history, t_line *stline)
+//{
+//	if (DEBUG_HISTORY == 1)
+//		printf("------- HISTORY ------\n");
+//	int		i;
+//
+//	if (history && *history)
+//	{
+//		i = (key == DOWN ? -1 : 0);
+//		if (key == DOWN && *history && (*history)->next)
+//		{
+//			*history = (*history)->next;
+//			i = 0;
+//		}
+//		spec_key(END, stline);
+//		while (stline->pos_line > 0)
+//			backspace(stline);
+//		while (i >= 0 && ((*history)->line)[i])
+//		{
+//			insert(stline, ((*history)->line)[i], ++(stline->pos_line) - 1);
+//			i++;
+//		}
+//		if (key == UP && *history && (*history)->prev)
+//			*history = (*history)->prev;
+//	}
+//	return (0);
+//}
+
+static int			up_history(t_line *stline, t_history **history)
+{
+	if (DEBUG_HISTORY == 1)
+		printf("---------------- UP HISTORY --------------------------\n");
+	int		i;
+
+	i = 0;
+	if ((*history)->prev)
+	{
+		if (ft_strcmp(stline->line, (*history)->line) == 0)
+			*history = (*history)->prev;
+		else if (ft_strstr(stline->line, (*history)->line) != NULL)
+			*history = (*history)->prev;
+	}
+	spec_key(END, stline);
+	while ((stline->pos_line > 0 && stline->quote != 0 && stline->curs_x > 2)
+	 || (stline->pos_line > 0 && stline->quote == 0))
+		backspace(stline);
+	while (((*history)->line)[i])
+	{
+		insert(stline, ((*history)->line)[i], ++(stline->pos_line) - 1);
+		i++;
+	}
+	return (0);
+}
+
+static int			down_history(t_line *stline, t_history **history)
+{
+	if (DEBUG_HISTORY == 1)
+		printf("---------------- DOWN HISTORY --------------------------\n");
+	int		i;
+
+	i = -1;
+	if ((*history)->next)
+	{
+		*history = (*history)->next;
+		i = 0;
+	}
+	spec_key(END, stline);
+	while ((stline->pos_line > 0 && stline->quote != 0 && stline->curs_x > 2)
+	 || (stline->pos_line > 0 && stline->quote == 0))
+		backspace(stline);
+	while (i >= 0 && ((*history)->line)[i])
+	{
+		insert(stline, ((*history)->line)[i], ++(stline->pos_line) - 1);
+		i++;
+	}
+	return (0);
+}
+
 int					nav_history(int key, t_history **history, t_line *stline)
 {
 	if (DEBUG_HISTORY == 1)
-		printf("------- HISTORY ------\n");
-	int		i;
+		printf("---------------- NAV HISTORY --------------------------\n");
 
-	if (*history)
-	{
-		i = (key == DOWN ? -1 : 0);
-		if (key == DOWN && *history && (*history)->next)
-		{
-			*history = (*history)->next;
-			i = 0;
-		}
-		while (stline->curs_x > 3)
-			backspace(stline);
-		while (i >= 0 && ((*history)->line)[i])
-		{
-			insert(stline, ((*history)->line)[i], ++(stline->curs_x) - 4);
-			i++;
-		}
-		if (key == UP && *history && (*history)->prev)
-			*history = (*history)->prev;
-	}
+	if (key == UP && *history != NULL)
+		up_history(stline, history);
+	else if (key == DOWN && *history != NULL)
+		down_history(stline, history);
 	return (0);
 }

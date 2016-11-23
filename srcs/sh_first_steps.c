@@ -108,7 +108,7 @@ int				fill_path(char ***env)
 		return (-1);
 	if ((tmp = getcwd(tmp, MAX_PATH)) == NULL)
 		return (-1);
-	(*env)[0] = "PATH=/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin";
+	(*env)[0] = ft_strdup("PATH=/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin");
 	(*env)[1] = ft_properjoin("PWD=", tmp);
 	(*env)[2] = NULL;
 	free(tmp);

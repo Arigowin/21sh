@@ -34,6 +34,7 @@ SRC = sh_main.c \
 	  sh_main.c \
 	  sh_modif_line.c \
 	  sh_move_in_line.c \
+	  sh_move_up_down.c \
 	  sh_setenv.c \
 	  sh_signal.c \
 	  sh_termcap.c \
@@ -48,6 +49,7 @@ SRC = sh_main.c \
 	  sh_pipe.c \
 	  sh_create_tree.c \
 	  sh_tree_traversal.c \
+	  sh_replace_dollar.c
 
 OFILES = $(patsubst %.c, $(OPATH)/%.o, $(SRC))
 

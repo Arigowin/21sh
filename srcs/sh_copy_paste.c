@@ -43,7 +43,7 @@ int				del_in_copy(t_line *stline, int dir)
 	{
 		tputs(tgetstr("ue", NULL), 1, my_outc);
 
-		ft_putchar(stline->line[stline->curs_x - 3]);
+		ft_putchar(stline->line[stline->pos_line]);
 		stline->cpy_pos--;
 		deltbl_left(stline->copy);
 
@@ -54,7 +54,7 @@ int				del_in_copy(t_line *stline, int dir)
 	{
 		tputs(tgetstr("ue", NULL), 1, my_outc);
 
-		ft_putchar(stline->line[stline->curs_x - 3]);
+		ft_putchar(stline->line[stline->pos_line]);
 		stline->cpy_pos--;
 		stline->copy[stline->cpy_pos] = 0;
 
@@ -70,17 +70,17 @@ int				add_in_copy(t_line *stline, int dir)
 		return (FALSE);
 	if (dir == 1) // right
 	{
-		ft_putchar((stline->line)[stline->curs_x - 3]);
+		ft_putchar((stline->line)[stline->pos_line]);
 		tputs(tgetstr("le", NULL), 1, my_outc);
 		stline->copy[stline->cpy_pos] =
-			(stline->line)[stline->curs_x - 3];
+			(stline->line)[stline->pos_line];
 		stline->cpy_pos++;
 	}
 	else // (dir == 2) left
 	{
-		ft_putchar((stline->line)[stline->curs_x - 3]);
+		ft_putchar((stline->line)[stline->pos_line]);
 		tputs(tgetstr("le", NULL), 1, my_outc);
-		addtbl_left(stline->copy, (stline->line)[stline->curs_x - 3]);
+		addtbl_left(stline->copy, (stline->line)[stline->pos_line]);
 		stline->cpy_pos++;
 	}
 	return (TRUE);
@@ -92,23 +92,22 @@ static int		hide_highlight(t_line *stline)
 	int			i;
 	int			curs_pos;
 
-	curs_pos = stline->curs_x;
+	curs_pos = stline->pos_line;
 	tmp = ft_strdup(stline->line);
-	while ((stline->curs_x - 3) < (int)ft_strlen(stline->line))
-		move(RIGHT, stline);
-	while ((stline->curs_x) > 3)
+	spec_key(END, stline);
+	while ((stline->pos_line) > 0)
 		backspace(stline);
 	i = 0;
 	while (tmp[i])
 	{
-		insert(stline, tmp[i], ++(stline->curs_x) - 4);
+		insert(stline, tmp[i], ++(stline->pos_line) - 1);
 		i++;
 	}
-	while (stline->curs_x != curs_pos)
+	while (stline->pos_line != curs_pos)
 	{
-		if (stline->curs_x > curs_pos)
+		if (stline->pos_line > curs_pos)
 			move(LEFT, stline);
-		else if (stline->curs_x < curs_pos)
+		else if (stline->pos_line < curs_pos)
 			move(RIGHT, stline);
 	}
 	return (TRUE);
@@ -130,17 +129,18 @@ static int		highlight(t_line *stline)
 			stline->copy = ft_strnew(ft_strlen(stline->line));
 			stline->cpy_pos = 0;
 		}
-		if ((stline->curs_x - 3) < (int)ft_strlen(stline->line))
+		if ((stline->pos_line) < (int)ft_strlen(stline->line))
 		{
 			// start highlight
 			tputs(tgetstr("us", NULL), 1, my_outc);
 
-			ft_putchar((stline->line)[stline->curs_x - 3]);
-			stline->copy[0] = (stline->line)[stline->curs_x - 3];
+			ft_putchar((stline->line)[stline->pos_line]);
+			stline->copy[0] = (stline->line)[stline->pos_line];
+			stline->pos_line++;
 			stline->curs_x++;
 			move(LEFT, stline);
 			stline->cpy_pos = 1;
-			stline->cpy_start = stline->curs_x;
+			stline->cpy_start = stline->pos_line;
 
 			return (TRUE);
 		}
@@ -175,7 +175,7 @@ static int		paste(t_line *stline)
 	i = 0;
 	while (stline->copy[i])
 	{
-		insert(stline, stline->copy[i], ++(stline->curs_x) - 4);
+		insert(stline, stline->copy[i], ++(stline->pos_line) - 1);
 		i++;
 	}
 	tputs(tgetstr("ue", NULL), 1, my_outc);
@@ -188,7 +188,7 @@ static int		cute(t_line *stline)
 	int		curs_end;
 
 	curs_start = stline->cpy_start;
-	curs_end = stline->curs_x;
+	curs_end = stline->pos_line;
 
 	tputs(tgetstr("ue", NULL), 1, my_outc);
 	stline->cpy_start = -1;

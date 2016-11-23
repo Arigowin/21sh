@@ -42,7 +42,7 @@ char		**format_cmd(t_node *tree)
 	return (ret);
 }
 
-void		close_fd_red(t_intlst **lstfd, int saved_stdout, int saved_stdin)
+void		close_fd_red(t_intlst **lstfd, int saved_std[3])
 {
 	if (DEBUG_CMD == 1)
 		printf ("----- CLOSE FD RED -----\n");
@@ -50,14 +50,20 @@ void		close_fd_red(t_intlst **lstfd, int saved_stdout, int saved_stdin)
 
 	while (*lstfd)
 	{
-
 		close((*lstfd)->data);
 		tmp = *lstfd;
 		*lstfd = (*lstfd)->next;
 		free(tmp);
 	}
-	dup2(saved_stdout, STDOUT_FILENO);
-	dup2(saved_stdin, STDIN_FILENO);
+	if (saved_std[0] != -1 || saved_std[1] != -1 || saved_std[2] != -1)
+	{
+		dup2(saved_std[0], STDIN_FILENO);
+		dup2(saved_std[1], STDOUT_FILENO);
+		dup2(saved_std[2], STDERR_FILENO);
+		close(saved_std[0]);
+		close(saved_std[1]);
+		close(saved_std[2]);
+	}
 }
 
 int			manage_cmd(t_node *tree)
@@ -67,19 +73,25 @@ int			manage_cmd(t_node *tree)
 	t_intlst	*lstfd;
 	char		**cmd;
 	int			i;
-	int			saved_stdout;
-	int			saved_stdin;
+	int			saved_std[3];
 	int 		ret;
 
+	saved_std[0] = -1;
+	saved_std[1] = -1;
+	saved_std[2] = -1;
 	i = 0;
 	ret = 0;
 	lstfd = NULL;
-	saved_stdout = dup(STDOUT_FILENO);
-	saved_stdin = dup(STDIN_FILENO);
 	if (tree->left != NULL)
 	{
+		saved_std[0] = dup(STDIN_FILENO);
+		saved_std[1] = dup(STDOUT_FILENO);
+		saved_std[2] = dup(STDERR_FILENO);
 		if (red(tree->left, &lstfd) == ERROR)
+		{
+			close_fd_red(&lstfd, saved_std);
 			return (ERROR);
+		}
 	}
 
 	if ((cmd = format_cmd(tree)) == NULL)
@@ -90,14 +102,14 @@ int			manage_cmd(t_node *tree)
 		if (cmd[i][0] == '~')
 			manage_tilde(&cmd[i]);
 	}
-	if ((ret =handle_builtin(cmd)) == 1)
-		close_fd_red(&lstfd, saved_stdout, saved_stdin);
+	if ((ret = handle_builtin(cmd)) == 1 || ret != 0)
+		close_fd_red(&lstfd, saved_std);
 	if (ret != 0)
 		return (FALSE);
 	if (check_home(cmd) < 0)
 		return (FALSE);
 	father_n_son(cmd);
-	close_fd_red(&lstfd, saved_stdout, saved_stdin);
+	close_fd_red(&lstfd, saved_std);
 	//free_tab(&cmd); // erreur de free
 	return (TRUE);
 }

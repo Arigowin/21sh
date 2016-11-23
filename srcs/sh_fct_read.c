@@ -78,25 +78,9 @@ int				fct_read(t_line *stline, t_history **history)
 	int				key;
 	int				ret;
 	int				event_ret;
-	t_duo			*env;
-
-	env = savior(NULL, FALSE);
 	ret = 0;
-	stline->curs_x = 3;
-	(void)history;
-	while ((ret = read(0, &key, 8)) > 0)
+	while ((ret = read(0, &key, sizeof(int))) > 0)
 	{
-		if (key == CTRL_D && stline->line[0] == '\0')
-			bi_exit(NULL, &env);
-		else if (key == CTRL_D)
-			key = DEL;
-		else if (key == QUOTE || key == DQUOTE) //pb ac quote
-		{
-			if (stline->quote == key)
-				stline->quote = 0;
-			else if (stline->quote == 0)
-				stline->quote = key;
-		}
 		if ((event_ret = event(key, stline, history)) == 1)
 			break ;
 		else if (event_ret == 2)

@@ -1,15 +1,17 @@
-#include <signal.h>
 #include "shell.h"
 #include "libft.h"
+#include <signal.h>
+
 // rajouter un savior pour stline et le free dans ctrl c
 static void		fct_m_ctrl_c(int sig)
 {
-	t_duo			*env;
+	t_line		*stline;
 
+	stline = savior_stline(NULL, FALSE);
+	spec_key(END, stline);
+	reset_stline(stline);
 	(void)sig;
-	env = NULL;
 	ft_putendl("");
-	env = savior(NULL, FALSE);
 	display_prompt();
 	return ;
 }

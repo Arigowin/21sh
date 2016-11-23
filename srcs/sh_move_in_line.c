@@ -7,14 +7,32 @@ static void		move_left(t_line *stline)
 	if (DEBUG_TERMCAPS == 1)
 		printf("------- MOVE LEFT ------\n");
 
-
-	if (stline->curs_x > 3)
+	if ((stline->pos_line > 0 && stline->quote != 0 && stline->curs_x > 2)
+	 || (stline->pos_line > 0 && stline->quote == 0))
 	{
-		if (stline->cpy_start != -1 && stline->curs_x > stline->cpy_start)
+		if (stline->cpy_start != -1 && stline->pos_line > stline->cpy_start)
 			del_in_copy(stline, 2);
-		tputs(tgetstr("le", NULL), 1, my_outc);
-		stline->curs_x -= 1;
-		if (stline->cpy_start != -1 && stline->curs_x < stline->cpy_start)
+
+		(stline->curs_x)--;
+		if (stline->curs_x < 0 && stline->curs_y > 0)
+		{
+			tputs(tgetstr("up", NULL), 1, my_outc);
+			stline->curs_x = 0;
+			(stline->curs_y)--;
+
+			while (stline->curs_x < stline->win.ws_col)
+			{
+				tputs(tgetstr("nd", NULL), 1, my_outc);
+				(stline->curs_x)++;
+			}
+			tputs(tgetstr("nd", NULL), 1, my_outc);
+			(stline->curs_x)--;
+		}
+		else
+			tputs(tgetstr("le", NULL), 1, my_outc);
+
+		stline->pos_line -= 1;
+		if (stline->cpy_start != -1 && stline->pos_line < stline->cpy_start)
 			add_in_copy(stline, 2);
 	}
 }
@@ -23,13 +41,28 @@ static void		move_right(t_line *stline)
 {
 	if (DEBUG_TERMCAPS == 1)
 		printf("------- MOVE RIGHT ------\n");
-	if ((stline->curs_x - 3) < (int)ft_strlen(stline->line))
+
+
+	if ((stline->pos_line) < (int)ft_strlen(stline->line))
 	{
-		if (stline->cpy_start != -1 && stline->curs_x < stline->cpy_start)
+		if (stline->cpy_start != -1 && stline->pos_line < stline->cpy_start)
 			del_in_copy(stline, 1);
-		tputs(tgetstr("nd", NULL), 1, my_outc);
-		stline->curs_x += 1;
-		if (stline->cpy_start != -1 && stline->curs_x > stline->cpy_start)
+
+		if (stline->curs_x >= stline->win.ws_col - 1)
+		{
+			(stline->curs_x) = 0;
+			(stline->curs_y)++;
+			tputs(tgetstr("cr", NULL), 1, my_outc);
+			tputs(tgetstr("do", NULL), 1, my_outc);
+		}
+		else
+		{
+			(stline->curs_x)++;
+			tputs(tgetstr("nd", NULL), 1, my_outc);
+		}
+
+		stline->pos_line += 1;
+		if (stline->cpy_start != -1 && stline->pos_line > stline->cpy_start)
 			add_in_copy(stline, 1);
 	}
 }
@@ -40,20 +73,19 @@ static void		move_word_left(t_line *stline)
 		printf("------- MOVE WORD LEFT ------\n");
 	int		x;
 
-	if ((stline->curs_x) > 3)
+	if ((stline->pos_line > 0 && stline->quote != 0 && stline->curs_x > 2)
+	 || (stline->pos_line > 0 && stline->quote == 0))
+		move_left(stline);
+
+	x = stline->pos_line;
+	while ((x > 0 && stline->quote != 0 && stline->curs_x > 2)
+	 || (x > 0 && stline->quote == 0))
 	{
-		tputs(tgetstr("le", NULL), 1, my_outc);
-		stline->curs_x--;
-	}
-	x = stline->curs_x - 3;
-	while (x > 0)
-	{
-		if (stline->line[x - 1] == ' ' && stline->line[x] != ' ')
+		if ((stline->line[x - 1] == ' ' || stline->line[x - 1] == '\n') && stline->line[x] != ' ')
 			break ;
-		tputs(tgetstr("le", NULL), 1, my_outc);
-		x--;
+		move_left(stline);
+		x = stline->pos_line;
 	}
-	stline->curs_x = x + 3;
 }
 
 static void		move_word_right(t_line *stline)
@@ -62,20 +94,17 @@ static void		move_word_right(t_line *stline)
 		printf("------- MOVE WORD RIGHT ------\n");
 	int		x;
 
-	if ((stline->curs_x - 3) < (int)ft_strlen(stline->line))
-	{
-		tputs(tgetstr("nd", NULL), 1, my_outc);
-		stline->curs_x++;
-	}
-	x = stline->curs_x - 3;
+	if ((stline->pos_line) < (int)ft_strlen(stline->line))
+		move_right(stline);
+
+	x = stline->pos_line;
 	while ((x) < (int)ft_strlen(stline->line))
 	{
 		if (stline->line[x + 1] == ' ' && stline->line[x] != ' ')
 			break ;
-		tputs(tgetstr("nd", NULL), 1, my_outc);
-		x++;
+		move_right(stline);
+		x = stline->pos_line;
 	}
-	stline->curs_x = x + 3;
 }
 
 int				move(int key, t_line *stline)

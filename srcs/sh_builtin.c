@@ -16,7 +16,6 @@ int				add_env(char *name, char *value)
 		duo_pushback(&env, name, value);
 		savior(env, TRUE);
 	}
-	free(env);
 	return (0);
 }
 

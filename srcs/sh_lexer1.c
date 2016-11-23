@@ -50,6 +50,13 @@ char					*search_with_backslash(char *str, char *def, int pos)
 	i = 0;
 	if (str && def)
 	{
+	//	if (ft_strchr(def, str[pos]) && str[pos - 1])
+	//	{
+	//		if (str[pos - 1] != '\\')
+	//			return (TRUE);
+	//		else if (str[pos - 1] == '\\')
+	//			return (FALSE);
+	//	}
 		while (def[i])
 		{
 			if (def[i] == str[pos] && str[pos - 1] && str[pos - 1] != '\\')
