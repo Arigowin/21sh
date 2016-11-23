@@ -4,6 +4,9 @@
 
 int				addtbl_left(char *tbl, char c)
 {
+	if (DEBUG_COPY_PASTE == 1)
+		printf("------- ADDTBL_LEFT ------\n");
+
 	int		i;
 
 	i = 0;
@@ -22,6 +25,9 @@ int				addtbl_left(char *tbl, char c)
 
 int				deltbl_left(char *tbl)
 {
+	if (DEBUG_COPY_PASTE == 1)
+		printf("------- DELTBL_LEFT ------\n");
+
 	int		i;
 
 	i = 0;
@@ -37,6 +43,9 @@ int				deltbl_left(char *tbl)
 
 int				del_in_copy(t_line *stline, int dir)
 {
+	if (DEBUG_COPY_PASTE == 1)
+		printf("------- DEL_IN_COPY ------\n");
+
 	if (dir != 1 && dir != 2)
 		return (FALSE);
 	if (dir == 1) // right
@@ -66,6 +75,9 @@ int				del_in_copy(t_line *stline, int dir)
 
 int				add_in_copy(t_line *stline, int dir)
 {
+	if (DEBUG_COPY_PASTE == 1)
+		printf("------- ADD_IN_COPY ------\n");
+
 	if (dir != 1 && dir != 2)
 		return (FALSE);
 	if (dir == 1) // right
@@ -88,6 +100,9 @@ int				add_in_copy(t_line *stline, int dir)
 
 static int		hide_highlight(t_line *stline)
 {
+	if (DEBUG_COPY_PASTE == 1)
+		printf("------- HIDE_HIGHLIGHT ------\n");
+
 	char		*tmp;
 	int			i;
 	int			curs_pos;
@@ -113,10 +128,11 @@ static int		hide_highlight(t_line *stline)
 	return (TRUE);
 }
 
-static int		highlight(t_line *stline)
+int		fct_highlight(t_line *stline, t_history **history)
 {
 	if (DEBUG_COPY_PASTE == 1)
 		printf("------- HIGHLIGHT ------\n");
+
 	if (stline->cpy_start == -1)
 	{
 		if (stline->copy != NULL)
@@ -133,7 +149,6 @@ static int		highlight(t_line *stline)
 		{
 			// start highlight
 			tputs(tgetstr("us", NULL), 1, my_outc);
-
 			ft_putchar((stline->line)[stline->pos_line]);
 			stline->copy[0] = (stline->line)[stline->pos_line];
 			stline->pos_line++;
@@ -158,21 +173,29 @@ static int		highlight(t_line *stline)
 	return (FALSE);
 }
 
-static int		copy(t_line *stline)
+int		fct_copy(t_line *stline, t_history **history)
 {
+	if (DEBUG_COPY_PASTE == 1)
+		printf("------- COPY ------\n");
+
+	if (stline->cpy_start == -1)
+		return (FALSE);
 	tputs(tgetstr("ue", NULL), 1, my_outc);
 	stline->cpy_start = -1;
 	hide_highlight(stline);
 	return (TRUE);
 }
 
-static int		paste(t_line *stline)
+int		fct_paste(t_line *stline, t_history **history)
 {
 	if (DEBUG_COPY_PASTE == 1)
 		printf("------- PASTE ------\n");
+
 	int		i;
 
 	i = 0;
+	if (!stline->cpy || stline->cpy_start != -1)
+		return (FALSE);
 	while (stline->copy[i])
 	{
 		insert(stline, stline->copy[i], ++(stline->pos_line) - 1);
@@ -182,14 +205,19 @@ static int		paste(t_line *stline)
 	return (TRUE);
 }
 
-static int		cute(t_line *stline)
+int		fct_cut(t_line *stline, t_history **history)
 {
+	if (DEBUG_COPY_PASTE == 1)
+		printf("------- PASTE ------\n");
+
 	int		curs_start;
 	int		curs_end;
 
 	curs_start = stline->cpy_start;
 	curs_end = stline->pos_line;
 
+	if (stline->cpy_start == -1)
+		return (FALSE);
 	tputs(tgetstr("ue", NULL), 1, my_outc);
 	stline->cpy_start = -1;
 
@@ -215,25 +243,24 @@ static int		cute(t_line *stline)
 	return (TRUE);
 }
 
-int				copy_paste(int key, t_line *stline)
-{
-	if (DEBUG_COPY_PASTE == 1)
-		printf("------- COPY_PASTE ------\n");
-
-
-	if (key == HIGHLIGHT)
-		highlight(stline);
-	else if (key == PASTE && stline->copy && stline->cpy_start == -1)
-	{
-		paste(stline);
-	}
-	else if (key == COPY && stline->cpy_start != -1)
-	{
-		copy(stline);
-	}
-	else if (key == CUTE && stline->cpy_start != -1)
-	{
-		cute(stline);
-	}
-	return (TRUE);
-}
+//int				copy_paste(int key, t_line *stline)
+//{
+//	if (DEBUG_COPY_PASTE == 1)
+//		printf("------- COPY_PASTE ------\n");
+//
+//	if (key == HIGHLIGHT)
+//		fct_highlight(stline);
+//	else if (key == PASTE && stline->copy && stline->cpy_start == -1)
+//	{
+//		fct_paste(stline);
+//	}
+//	else if (key == COPY && stline->cpy_start != -1)
+//	{
+//		fct_copy(stline);
+//	}
+//	else if (key == CUT && stline->cpy_start != -1)
+//	{
+//		fct_cut(stline);
+//	}
+//	return (TRUE);
+//}
