@@ -6,6 +6,8 @@ int			fct_ctrl_up(t_line *stline, t_history **history)
 {
 	if (DEBUG_TERMCAPS == 1)
 		printf("------------------ MOVE CTRL UP -------------------\n");
+
+	(void)history;
 	if (stline->curs_y < 1)
 		return (FALSE);
 	stline->curs_y--;
@@ -27,9 +29,11 @@ int			fct_ctrl_down(t_line *stline, t_history **history)
 {
 	if (DEBUG_TERMCAPS == 1)
 		printf("------------------ MOVE CTRL DOWN -------------------\n");
+
 	int		nb_ligne;
 	int		i;
 
+	(void)history;
 	nb_ligne = (ft_strlen(stline->line) + PRT_LEN) - 1;
 	nb_ligne = nb_ligne / stline->win.ws_col;
 	if (nb_ligne <= stline->curs_y)

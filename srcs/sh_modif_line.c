@@ -41,11 +41,11 @@ int			fct_backspace(t_line *stline, t_history **history)
 			(stline->curs_x)++;
 			pos_sv = stline->pos_line;
 			i = stline->pos_line;
-			spec_key(END, stline);
+			fct_end(stline, history);
 			while (i <= stline->pos_line)
 			{
 				tputs(tgetstr("dc", NULL), 1, my_outc);
-				move(LEFT, stline);
+				fct_left(stline, history);
 				tputs(tgetstr("dc", NULL), 1, my_outc);
 				(stline->line)[stline->pos_line] = 0;
 			}
@@ -54,12 +54,12 @@ int			fct_backspace(t_line *stline, t_history **history)
 		i = 0;
 		while (tmp && tmp[i])
 		{
-			insert(stline, tmp[i], ++(stline->pos_line) - 1);
+			fct_insert(stline, tmp[i], ++(stline->pos_line) - 1);
 			i++;
 		}
 
 		while (stline->pos_line >= pos_sv)
-			move(LEFT, stline);
+			fct_left(stline, history);
 
 		if (stline->curs_x == stline->win.ws_col)
 			tputs(tgetstr("nd", NULL), 1, my_outc);
