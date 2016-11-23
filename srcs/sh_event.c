@@ -54,7 +54,7 @@ int				event(int key, t_line *stline, t_history **history)
 	{
 		{RETURN, fct_return}, {BACKSPACE, fct_backspace}, {END, fct_end},
 		{HOME, fct_home}, {DEL, fct_del}, {CTRL_D, fct_ctrl_d},
-		{LEFT, fct_left}, {RIGHT, fct_right}, {UP, fct_UP}, {DOWN, fct_down},
+		{LEFT, fct_left}, {RIGHT, fct_right}, {UP, fct_up}, {DOWN, fct_down},
 		{CTRL_LEFT, fct_ctrl_left}, {CTRL_RIGHT, fct_ctrl_right},
 		{CTRL_UP, fct_ctrl_up}, {CTRL_DOWN, fct_ctrl_down}, {CUT, fct_cut},
 		{HIGHLIGHT, fct_highlight}, {PASTE, fct_paste}, {COPY, fct_copy}

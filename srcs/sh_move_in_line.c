@@ -2,7 +2,7 @@
 #include "libft.h"
 #include <term.h>
 
-static void		move_left(t_line *stline)
+int			fct_left(t_line *stline, t_history **history)
 {
 	if (DEBUG_TERMCAPS == 1)
 		printf("------- MOVE LEFT ------\n");
@@ -12,14 +12,12 @@ static void		move_left(t_line *stline)
 	{
 		if (stline->cpy_start != -1 && stline->pos_line > stline->cpy_start)
 			del_in_copy(stline, 2);
-
 		(stline->curs_x)--;
 		if (stline->curs_x < 0 && stline->curs_y > 0)
 		{
 			tputs(tgetstr("up", NULL), 1, my_outc);
 			stline->curs_x = 0;
 			(stline->curs_y)--;
-
 			while (stline->curs_x < stline->win.ws_col)
 			{
 				tputs(tgetstr("nd", NULL), 1, my_outc);
@@ -30,18 +28,16 @@ static void		move_left(t_line *stline)
 		}
 		else
 			tputs(tgetstr("le", NULL), 1, my_outc);
-
 		stline->pos_line -= 1;
 		if (stline->cpy_start != -1 && stline->pos_line < stline->cpy_start)
 			add_in_copy(stline, 2);
 	}
 }
 
-static void		move_right(t_line *stline)
+int			fct_right(t_line *stline, t_history **history)
 {
 	if (DEBUG_TERMCAPS == 1)
 		printf("------- MOVE RIGHT ------\n");
-
 
 	if ((stline->pos_line) < (int)ft_strlen(stline->line))
 	{
@@ -67,7 +63,7 @@ static void		move_right(t_line *stline)
 	}
 }
 
-static void		move_word_left(t_line *stline)
+int			fct_ctrl_left(t_line *stline, t_history **history)
 {
 	if (DEBUG_TERMCAPS == 1)
 		printf("------- MOVE WORD LEFT ------\n");
@@ -88,7 +84,7 @@ static void		move_word_left(t_line *stline)
 	}
 }
 
-static void		move_word_right(t_line *stline)
+int			fct_ctrl_right(t_line *stline, t_history **history)
 {
 	if (DEBUG_TERMCAPS == 1)
 		printf("------- MOVE WORD RIGHT ------\n");
@@ -105,21 +101,4 @@ static void		move_word_right(t_line *stline)
 		move_right(stline);
 		x = stline->pos_line;
 	}
-}
-
-int				move(int key, t_line *stline)
-{
-	if (DEBUG_TERMCAPS == 1)
-		printf("------- MOVE ------\n");
-	if (key == LEFT)
-		move_left(stline);
-	else if (key == RIGHT)
-		move_right(stline);
-	else if (key == OP_RIGHT)
-		move_word_right(stline);
-	else if (key == OP_LEFT)
-		move_word_left(stline);
-	else
-		return (-1);
-	return (0);
 }
