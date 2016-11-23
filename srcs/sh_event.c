@@ -11,46 +11,46 @@ int				reset_stline(t_line *stline)
 	return (TRUE);
 }
 
-int				event_return(int key, t_line *stline, t_history **history)
+int				fct_return(t_line *stline, t_history **history)
 {
-	spec_key(END, stline);
-	if (key == RETURN && stline->quote == 0)
+	fct_end(stline, history);
+	if (stline->quote == 0)
 	{
 		if (stline->copy != NULL && stline->cpy_start != -1)
-			copy_paste(HIGHLIGHT, stline);
+			fct_highlight(stline, history);
 
 		if (stline->line && stline->line[0])
 			add_history(history, stline->line);
-
-		ft_putchar(key);
+		ft_putchar('\n');
 		return (1);
 	}
-	else if (key == RETURN && stline->quote != 0)
+	else
 	{
-		insert(stline, '\n', ++(stline->pos_line) - 1);
+		fct_insert(stline, '\n', ++(stline->pos_line) - 1);
 		ft_putstr("> ");
 		stline->curs_x = 2;
-		//	if (stline->quote == QUOTE)
-		//	{
-		//		ft_putstr("quote> ");
-		//		stline->curs_x = 7;
-		//	}
-		//	if (stline->quote == DQUOTE)
-		//	{
-		//		ft_putstr("dquote> ");
-		//		stline->curs_x = 8;
-		//	}
 		return (2);
 	}
 	return (0);
+}
+
+int						fct_ctrl_d(t_line *stline, t_history **history)
+{
+	t_duo			*env;
+
+	env = savior(NULL, FALSE);
+	if (stline->line[0] == '\0')
+		bi_exit(NULL, &env);
+	else
+		fct_del(stline, history);
 }
 
 int				event(int key, t_line *stline, t_history **history)
 {
 	if (DEBUG == 1)
 		printf("------- EVENT ------\n");
-	t_duo			*env;
-	static const t_key		tbl_keys[] =
+	int				i;
+	static t_key_fct		tbl_keys[18] =
 	{
 		{RETURN, fct_return}, {BACKSPACE, fct_backspace}, {END, fct_end},
 		{HOME, fct_home}, {DEL, fct_del}, {CTRL_D, fct_ctrl_d},
@@ -60,24 +60,14 @@ int				event(int key, t_line *stline, t_history **history)
 		{HIGHLIGHT, fct_highlight}, {PASTE, fct_paste}, {COPY, fct_copy}
 	};
 
-	env = savior(NULL, FALSE);
-	if (key == RETURN)
-		return (event_return(key, stline, history));
-	else if (key == BACKSPACE)
-		backspace(stline);
-	else if (key == CTRL_D && stline->line[0] == '\0')
-		bi_exit(NULL, &env);
-	else if (key == END || key == HOME || key == DEL || key == CTRL_D)
-		spec_key(key, stline);
-	else if (key == LEFT || key == RIGHT || key == OP_RIGHT || key == OP_LEFT)
-		move(key, stline);
-	else if (key == CTRL_UP || key == CTRL_DOWN)
-		move_up_down(key, stline);
-	else if (key == UP || key == DOWN)
-		nav_history(key, history, stline);
-	else if (key == HIGHLIGHT || key == PASTE || key == COPY || key == CUT)
-		copy_paste(key, stline);
-	else if (key != TAB && key < 256)
+	i = 0;
+	while(i < 19)
+	{
+		if (tbl_keys[i].key == key)
+			return(tbl_keys[i].fct(stline, history));
+		i++;
+	}
+	if (key != TAB && key < 256)
 	{
 		if (key == QUOTE || key == DQUOTE) //pb ac quote
 		{
@@ -86,7 +76,7 @@ int				event(int key, t_line *stline, t_history **history)
 			else if (stline->quote == 0)
 				stline->quote = key;
 		}
-		insert(stline, key, ++(stline->pos_line) - 1);
+		fct_insert(stline, key, ++(stline->pos_line) - 1);
 	}
 
 #include <term.h>
