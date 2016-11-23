@@ -79,13 +79,13 @@ int				fct_down(t_line *stline, t_history **history)
 		*history = (*history)->next;
 		i = 0;
 	}
-	spec_key(END, stline);
+	fct_end(stline, history);
 	while ((stline->pos_line > 0 && stline->quote != 0 && stline->curs_x > 2)
 	 || (stline->pos_line > 0 && stline->quote == 0))
-		backspace(stline);
+		fct_backspace(stline, history);
 	while (i >= 0 && ((*history)->line)[i])
 	{
-		insert(stline, ((*history)->line)[i], ++(stline->pos_line) - 1);
+		fct_insert(stline, ((*history)->line)[i], ++(stline->pos_line) - 1);
 		i++;
 	}
 	return (0);

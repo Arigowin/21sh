@@ -43,6 +43,7 @@ int						fct_ctrl_d(t_line *stline, t_history **history)
 		bi_exit(NULL, &env);
 	else
 		fct_del(stline, history);
+	return (TRUE);
 }
 
 int				event(int key, t_line *stline, t_history **history)

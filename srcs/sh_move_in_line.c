@@ -33,6 +33,7 @@ int			fct_left(t_line *stline, t_history **history)
 		if (stline->cpy_start != -1 && stline->pos_line < stline->cpy_start)
 			add_in_copy(stline, 2);
 	}
+	return (TRUE);
 }
 
 int			fct_right(t_line *stline, t_history **history)
@@ -63,6 +64,7 @@ int			fct_right(t_line *stline, t_history **history)
 		if (stline->cpy_start != -1 && stline->pos_line > stline->cpy_start)
 			add_in_copy(stline, 1);
 	}
+	return (TRUE);
 }
 
 int			fct_ctrl_left(t_line *stline, t_history **history)
@@ -85,6 +87,7 @@ int			fct_ctrl_left(t_line *stline, t_history **history)
 		fct_left(stline, history);
 		x = stline->pos_line;
 	}
+	return (TRUE);
 }
 
 int			fct_ctrl_right(t_line *stline, t_history **history)
@@ -105,4 +108,5 @@ int			fct_ctrl_right(t_line *stline, t_history **history)
 		fct_right(stline, history);
 		x = stline->pos_line;
 	}
+	return (TRUE);
 }
