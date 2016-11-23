@@ -8,7 +8,7 @@ static void		fct_m_ctrl_c(int sig)
 	t_line		*stline;
 
 	stline = savior_stline(NULL, FALSE);
-	spec_key(END, stline);
+	fct_end(stline, NULL);
 	reset_stline(stline);
 	(void)sig;
 	ft_putendl("");
