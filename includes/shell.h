@@ -232,50 +232,57 @@ int						fct_insert(t_line *stline, char c, int pos);
 /*
 ** sh_move_in_line
 */
-int						move(int key, t_line *stline);
+int						fct_left(t_line *stline, t_history **history);
+int						fct_right(t_line *stline, t_history **history);
+int						fct_ctrl_left(t_line *stline, t_history **history);
+int						fct_ctrl_right(t_line *stline, t_history **history);
 
 /*
 ** sh_move_up_down
 */
-int				move_up_down(int key, t_line *stline);
+int						fct_ctrl_down(t_line *stline, t_history **history);
+int						fct_ctrl_up(t_line *stline, t_history **history);
 
 /*
 ** sh_spec_key
 */
-int				spec_key(int key, t_line *stline);
+int						fct_end(t_line *stline, t_history **history);
+int						fct_home(t_line *stline, t_history **history);
+int						fct_del(t_line *stline, t_history **history);
 
 /*
 ** sh_history
 */
-void			add_history(t_history **history, char *line);
-int				nav_history(int key, t_history **history, t_line *stline);
+void					add_history(t_history **history, char *line);
+int						fct_down(t_line *stline, t_history **history);
+int						fct_up(t_line *stline, t_history **history);
 
 /*
 ** sh_parser
 */
-t_node			*parser(t_e_list **l_expr);
-int				check_next(t_e_list **l_expr, t_node **tree, t_node **right_node);
+t_node					*parser(t_e_list **l_expr);
+int						check_next(t_e_list **l_expr, t_node **tree, t_node **right_node);
 
 /*
 ** sh_tree_traversal
 */
-int				tree_traversal(t_node *tree);
+int						tree_traversal(t_node *tree);
 
 /*
 ** sh_red
 */
-int     		red(t_node *tree, t_intlst **lstfd);
+int     				red(t_node *tree, t_intlst **lstfd);
 
 /*
 ** sh_cmd
 */
-char			**format_cmd(t_node *tree);
-int				manage_cmd(t_node *tree);
+char					**format_cmd(t_node *tree);
+int						manage_cmd(t_node *tree);
 
 /*
 ** sh_pipe
 */
-int				pipe_function(t_node *tree, int in_fd);
+int						pipe_function(t_node *tree, int in_fd);
 
 /*
 ** sh_copy_paste

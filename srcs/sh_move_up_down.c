@@ -2,7 +2,7 @@
 #include "libft.h"
 #include <term.h>
 
-static int	move_ctrl_up(t_line *stline)
+int			fct_ctrl_up(t_line *stline, t_history **history)
 {
 	if (DEBUG_TERMCAPS == 1)
 		printf("------------------ MOVE CTRL UP -------------------\n");
@@ -23,7 +23,7 @@ static int	move_ctrl_up(t_line *stline)
 	return (TRUE);
 }
 
-static int	move_ctrl_down(t_line *stline)
+int			fct_ctrl_down(t_line *stline, t_history **history)
 {
 	if (DEBUG_TERMCAPS == 1)
 		printf("------------------ MOVE CTRL DOWN -------------------\n");
@@ -52,16 +52,5 @@ static int	move_ctrl_down(t_line *stline)
 		tputs(tgetstr("nd", NULL), 1, my_outc);
 		i--;
 	}
-	return (TRUE);
-}
-
-int			move_up_down(int key, t_line *stline)
-{
-	if (DEBUG_TERMCAPS == 1)
-		printf("------------------ MOVE UP DOWN -------------------\n");
-	if (key == CTRL_UP)
-		move_ctrl_up(stline);
-	else if (key == CTRL_DOWN)
-		move_ctrl_down(stline);
 	return (TRUE);
 }
