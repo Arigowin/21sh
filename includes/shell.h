@@ -280,9 +280,12 @@ int				pipe_function(t_node *tree, int in_fd);
 /*
 ** sh_copy_paste
 */
-int				copy_paste(int key, t_line *stline);
-int				add_in_copy(t_line *stline, int dir);
-int				del_in_copy(t_line *stline, int dir);
+int						fct_cut(t_line *stline, t_history **history)
+int						fct_paste(t_line *stline, t_history **history)
+int						fct_copy(t_line *stline, t_history **history)
+int						fct_highlight(t_line *stline, t_history **history)
+int						add_in_copy(t_line *stline, int dir);
+int						del_in_copy(t_line *stline, int dir);
 
 /*
 ** sh_replace_dollar
