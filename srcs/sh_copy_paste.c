@@ -98,7 +98,7 @@ int				add_in_copy(t_line *stline, int dir)
 	return (TRUE);
 }
 
-static int		hide_highlight(t_line *stline)
+static int		hide_highlight(t_line *stline, t_history **history)
 {
 	if (DEBUG_COPY_PASTE == 1)
 		printf("------- HIDE_HIGHLIGHT ------\n");
@@ -109,21 +109,21 @@ static int		hide_highlight(t_line *stline)
 
 	curs_pos = stline->pos_line;
 	tmp = ft_strdup(stline->line);
-	spec_key(END, stline);
+	fct_end(stline, history);
 	while ((stline->pos_line) > 0)
-		backspace(stline);
+		fct_backspace(stline, history);
 	i = 0;
 	while (tmp[i])
 	{
-		insert(stline, tmp[i], ++(stline->pos_line) - 1);
+		fct_insert(stline, tmp[i], ++(stline->pos_line) - 1);
 		i++;
 	}
 	while (stline->pos_line != curs_pos)
 	{
 		if (stline->pos_line > curs_pos)
-			move(LEFT, stline);
+			fct_left(stline, history);
 		else if (stline->pos_line < curs_pos)
-			move(RIGHT, stline);
+			fct_right(stline, history);
 	}
 	return (TRUE);
 }
@@ -153,7 +153,7 @@ int		fct_highlight(t_line *stline, t_history **history)
 			stline->copy[0] = (stline->line)[stline->pos_line];
 			stline->pos_line++;
 			stline->curs_x++;
-			move(LEFT, stline);
+			fct_left(stline, history);
 			stline->cpy_pos = 1;
 			stline->cpy_start = stline->pos_line;
 
@@ -167,7 +167,7 @@ int		fct_highlight(t_line *stline, t_history **history)
 		stline->copy = NULL;
 		stline->cpy_pos = 0;
 		stline->cpy_start = -1;
-		hide_highlight(stline);
+		hide_highlight(stline, history);
 		return (TRUE);
 	}
 	return (FALSE);
@@ -182,7 +182,7 @@ int		fct_copy(t_line *stline, t_history **history)
 		return (FALSE);
 	tputs(tgetstr("ue", NULL), 1, my_outc);
 	stline->cpy_start = -1;
-	hide_highlight(stline);
+	hide_highlight(stline, history);
 	return (TRUE);
 }
 
@@ -194,11 +194,12 @@ int		fct_paste(t_line *stline, t_history **history)
 	int		i;
 
 	i = 0;
-	if (!stline->cpy || stline->cpy_start != -1)
+	(void)history;
+	if (!stline->copy || stline->cpy_start != -1)
 		return (FALSE);
 	while (stline->copy[i])
 	{
-		insert(stline, stline->copy[i], ++(stline->pos_line) - 1);
+		fct_insert(stline, stline->copy[i], ++(stline->pos_line) - 1);
 		i++;
 	}
 	tputs(tgetstr("ue", NULL), 1, my_outc);
@@ -223,11 +224,11 @@ int		fct_cut(t_line *stline, t_history **history)
 
 	if (curs_end > curs_start)
 	{
-		spec_key(DEL, stline);
+		fct_del(stline, history);
 		curs_end--;
 		while (curs_end >= curs_start)
 		{
-			backspace(stline);
+			fct_backspace(stline, history);
 			curs_end--;
 		}
 	}
@@ -235,7 +236,7 @@ int		fct_cut(t_line *stline, t_history **history)
 	{
 		while (curs_end <= curs_start)
 		{
-			spec_key(DEL, stline);
+			fct_del(stline, history);
 			curs_start--;
 		}
 	}
