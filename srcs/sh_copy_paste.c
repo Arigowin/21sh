@@ -51,22 +51,18 @@ int				del_in_copy(t_line *stline, int dir)
 	if (dir == 1) // right
 	{
 		tputs(tgetstr("ue", NULL), 1, my_outc);
-
 		ft_putchar(stline->line[stline->pos_line]);
 		stline->cpy_pos--;
 		deltbl_left(stline->copy);
-
 		tputs(tgetstr("us", NULL), 1, my_outc);
 		tputs(tgetstr("le", NULL), 1, my_outc);
 	}
 	else // (dir == 2) left
 	{
 		tputs(tgetstr("ue", NULL), 1, my_outc);
-
 		ft_putchar(stline->line[stline->pos_line]);
 		stline->cpy_pos--;
 		stline->copy[stline->cpy_pos] = 0;
-
 		tputs(tgetstr("us", NULL), 1, my_outc);
 		tputs(tgetstr("le", NULL), 1, my_outc);
 	}

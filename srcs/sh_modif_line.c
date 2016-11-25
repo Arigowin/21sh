@@ -6,24 +6,25 @@ int			fct_backspace(t_line *stline, t_history **history)
 {
 	if (DEBUG_TERMCAPS == 1)
 		printf("------- BACKSPACE ------\n");
-	char	*tmp;
+	char	*end_line;
 	int		i;
-	int		pos_sv;
+	int		save_pos;
 
-	pos_sv = 0;
+	save_pos = 0;
 	if ((stline->line)[stline->pos_line - 1] == stline->quote)
 		stline->quote = 0;
-	else if (stline->quote == 0 && ((stline->line)[stline->pos_line - 1] == QUOTE || (stline->line)[stline->pos_line - 1] == DQUOTE))
+	else if (stline->quote == 0 && ((stline->line)[stline->pos_line - 1] == QUOTE ||
+				(stline->line)[stline->pos_line - 1] == DQUOTE))
 		stline->quote = (stline->line)[stline->pos_line - 1];
 
-	tmp = ft_strsub(stline->line, stline->pos_line, ft_strlen(stline->line));
+	end_line = ft_strsub(stline->line, stline->pos_line, ft_strlen(stline->line));
 	if ((stline->pos_line > 0 && stline->quote != 0 && stline->curs_x > 2)
 	 || (stline->pos_line > 0 && stline->quote == 0))
 	{
 
-		(stline->curs_x)--;
 		if (stline->curs_x < 0 && stline->curs_y > 0)
 		{
+			(stline->curs_x)--;
 			(stline->curs_y)--;
 			tputs(tgetstr("up", NULL), 1, my_outc);
 			while (stline->curs_x < stline->win.ws_col)
@@ -37,9 +38,7 @@ int			fct_backspace(t_line *stline, t_history **history)
 		}
 		else
 		{
-
-			(stline->curs_x)++;
-			pos_sv = stline->pos_line;
+			save_pos = stline->pos_line;
 			i = stline->pos_line;
 			fct_end(stline, history);
 			while (i <= stline->pos_line)
@@ -50,22 +49,19 @@ int			fct_backspace(t_line *stline, t_history **history)
 				(stline->line)[stline->pos_line] = 0;
 			}
 		}
-
 		i = 0;
-		while (tmp && tmp[i])
+		while (end_line && end_line[i])
 		{
-			fct_insert(stline, tmp[i], ++(stline->pos_line) - 1);
+			fct_insert(stline, end_line[i], ++(stline->pos_line) - 1);
 			i++;
 		}
-
-		while (stline->pos_line >= pos_sv)
+		while (stline->pos_line >= save_pos)
 			fct_left(stline, history);
-
 		if (stline->curs_x == stline->win.ws_col)
 			tputs(tgetstr("nd", NULL), 1, my_outc);
 	}
-	if (tmp)
-		free(tmp);
+	if (end_line)
+		free(end_line);
 	return (0);
 }
 

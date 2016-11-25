@@ -3,6 +3,8 @@
 
 int				reset_stline(t_line *stline)
 {
+	if (DEBUG == 1)
+		printf("------- RESET STLINE ------\n");
 	ft_bzero(stline->line, ft_strlen(stline->line));
 	stline->pos_line = 0;
 	stline->curs_x = PRT_LEN - 1;
@@ -13,29 +15,32 @@ int				reset_stline(t_line *stline)
 
 int				fct_return(t_line *stline, t_history **history)
 {
+	if (DEBUG_KEY == 1)
+		printf("------- FCT RETURN ------\n");
 	fct_end(stline, history);
 	if (stline->quote == 0)
 	{
 		if (stline->copy != NULL && stline->cpy_start != -1)
 			fct_highlight(stline, history);
-
 		if (stline->line && stline->line[0])
 			add_history(history, stline->line);
 		ft_putchar('\n');
-		return (1);
+		return (BREAK);
 	}
 	else
 	{
 		fct_insert(stline, '\n', ++(stline->pos_line) - 1);
 		ft_putstr("> ");
 		stline->curs_x = 2;
-		return (2);
+		return (CONTINUE);
 	}
 	return (0);
 }
 
 int						fct_ctrl_d(t_line *stline, t_history **history)
 {
+	if (DEBUG_KEY == 1)
+		printf("------- FCT CTRL D ------\n");
 	t_duo			*env;
 
 	env = savior(NULL, FALSE);
@@ -51,6 +56,7 @@ int				event(int key, t_line *stline, t_history **history)
 	if (DEBUG == 1)
 		printf("------- EVENT ------\n");
 	int				i;
+	int				ret;
 	static t_key_fct		tbl_keys[18] =
 	{
 		{RETURN, fct_return}, {BACKSPACE, fct_backspace}, {END, fct_end},
@@ -61,32 +67,32 @@ int				event(int key, t_line *stline, t_history **history)
 		{HIGHLIGHT, fct_highlight}, {PASTE, fct_paste}, {COPY, fct_copy}
 	};
 
-#include <term.h>
-	char *res;
-	tputs(tgetstr("sc", NULL), 1, my_outc);
-	res = tgetstr("cm", NULL);
-	tputs(tgoto(res, 75, 0), 1, my_outc);
-	tputs(tgetstr("ce", NULL), 1, my_outc);
-	ft_putstr("x :");
-	ft_putnbr(stline->curs_x);
-	ft_putstr(" y :");
-	ft_putnbr(stline->curs_y);
-	ft_putstr(" pos_line :");
-	ft_putnbr(stline->pos_line);
-	tputs(tgetstr("rc", NULL), 1, my_outc);
+//#include <term.h>
+//	char *res;
+//	tputs(tgetstr("sc", NULL), 1, my_outc);
+//	res = tgetstr("cm", NULL);
+//	tputs(tgoto(res, 75, 0), 1, my_outc);
+//	tputs(tgetstr("ce", NULL), 1, my_outc);
+//	ft_putstr("x :");
+//	ft_putnbr(stline->curs_x);
+//	ft_putstr(" y :");
+//	ft_putnbr(stline->curs_y);
+//	ft_putstr(" pos_line :");
+//	ft_putnbr(stline->pos_line);
+//	tputs(tgetstr("rc", NULL), 1, my_outc);
 
 	i = 0;
+	ret = 0;
 	while(i < 19)
 	{
 		if (tbl_keys[i].key == key)
 		{
-			if (tbl_keys[i].fct(stline, history) == ERROR)
-				return (ERROR);
-			return (0);
+			ret = tbl_keys[i].fct(stline, history);
+			return (ret);
 		}
 		i++;
 	}
-	if (key != TAB && key < 256)
+	if (key != TAB && key > 31 && key < 128)
 	{
 		if (key == QUOTE || key == DQUOTE) //pb ac quote
 		{
@@ -97,6 +103,5 @@ int				event(int key, t_line *stline, t_history **history)
 		}
 		fct_insert(stline, key, ++(stline->pos_line) - 1);
 	}
-
 	return (0);
 }

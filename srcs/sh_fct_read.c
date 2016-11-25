@@ -78,12 +78,13 @@ int				fct_read(t_line *stline, t_history **history)
 	int				key;
 	int				ret;
 	int				event_ret;
+
 	ret = 0;
 	while ((ret = read(0, &key, sizeof(int))) > 0)
 	{
-		if ((event_ret = event(key, stline, history)) == 1)
+		if ((event_ret = event(key, stline, history)) == BREAK)
 			break ;
-		else if (event_ret == 2)
+		else if (event_ret == CONTINUE)
 			continue ;
 		key = 0;
 	}

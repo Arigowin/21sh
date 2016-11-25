@@ -13,11 +13,14 @@
 #define DEBUG_RED 0
 #define DEBUG_CMD 0
 #define DEBUG_COPY_PASTE 0
+#define DEBUG_KEY 0
 #include <stdio.h>
 
 # define TRUE 1
 # define FALSE 0
 # define ERROR -1
+# define BREAK 2
+# define CONTINUE 3
 
 # define IGN " \t\n" // j'ai enlevé le \0 des IGN
 # define SEP "|&;>< \t\n\0"

@@ -52,15 +52,13 @@ static int	init(t_line *stline)
 	return (TRUE);
 }
 
-int			main(int ac, char **av)
+int			main(void)
 {
 	extern char		**environ;
 	t_duo			*env_cpy;
 	t_line			stline;
 	t_history		*history;
 
-	(void)ac;
-	(void)av;
 	init_env(environ, &env_cpy);
 	init_term();
 	init(&stline);
