@@ -60,7 +60,8 @@ int			main(void)
 	t_history		*history;
 
 	init_env(environ, &env_cpy);
-	init_term();
+	if (init_term() == ERROR)
+		return (ERROR);
 	init(&stline);
 	history = NULL;
 	while (1)
