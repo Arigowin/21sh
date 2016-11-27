@@ -16,4 +16,7 @@ script:
 addons:
   apt:
     packages:
-      - gcc-multilib
+        - gcc-multilib
+
+notifications:
+    slack: dwarfoftherap:XvMGuDfbjzM8bvWTA1vEfPTK
