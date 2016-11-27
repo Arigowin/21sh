@@ -13,14 +13,13 @@ int			init_term(void)
 
 	if ((term_name = getenv("TERM")) == NULL)
 		term_name = "xterm-256color";
-	if (tgetent(NULL, term_name) == -1)
-		return (-1);
+	tgetent(NULL, term_name);
 	if (tcgetattr(0, &term) == -1)
 		return (-1);
 	term.c_lflag &= ~(ICANON | ECHO);
 	term.c_cc[VMIN] = 1;
 	term.c_cc[VTIME] = 0;
-	if (tcsetattr(1, TCSADRAIN, &term) == -1)
+	if (tcsetattr(0, TCSADRAIN, &term) == -1)
 		return (-1);
 	return (0);
 }
@@ -34,7 +33,7 @@ int			reset_term(void)
 	if (tcgetattr(0, &term) == -1)
 		return (-1);
 	term.c_lflag |= (ICANON | ECHO);
-	if (tcsetattr(1, TCSANOW, &term) == -1)
+	if (tcsetattr(0, TCSANOW, &term) == -1)
 		return (-1);
 	return (1);
 }

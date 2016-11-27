@@ -83,7 +83,7 @@ int				event(int key, t_line *stline, t_history **history)
 
 	i = 0;
 	ret = 0;
-	while(i < 19)
+	while(i < 18)
 	{
 		if (tbl_keys[i].key == key)
 		{
