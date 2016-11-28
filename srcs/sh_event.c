@@ -29,7 +29,7 @@ int				fct_return(t_line *stline, t_history **history)
 	}
 	else
 	{
-		fct_insert(stline, '\n', ++(stline->pos_line) - 1);
+		fct_insert(stline, '\n');
 		ft_putstr("> ");
 		stline->curs_x = 2;
 		return (CONTINUE);
@@ -88,7 +88,7 @@ int				event(int key, t_line *stline, t_history **history)
 	if (key != TAB && key > 31 && key < 128)
 	{
 		handle_quote(key, stline);
-		fct_insert(stline, key, ++(stline->pos_line) - 1);
+		fct_insert(stline, key);
 	}
 	return (0);
 }

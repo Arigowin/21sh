@@ -231,7 +231,7 @@ int						fct_ctrl_d(t_line *stline, t_history **history);
 ** sh_modif_line
 */
 int						fct_backspace(t_line *stline, t_history **history);
-int						fct_insert(t_line *stline, char c, int pos);
+int						fct_insert(t_line *stline, char c);
 
 /*
 ** sh_move_in_line
