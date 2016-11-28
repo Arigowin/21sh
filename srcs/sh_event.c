@@ -21,7 +21,7 @@ int				fct_return(t_line *stline, t_history **history)
 	if (stline->quote == 0)
 	{
 		if (stline->copy != NULL && stline->cpy_start != -1)
-			fct_highlight(stline, history);
+			fct_underline(stline, history);
 		if (stline->line && stline->line[0])
 			add_history(history, stline->line);
 		ft_putchar('\n');
@@ -75,7 +75,7 @@ int				event(int key, t_line *stline, t_history **history)
 		{LEFT, fct_left}, {RIGHT, fct_right}, {UP, fct_up}, {DOWN, fct_down},
 		{CTRL_LEFT, fct_ctrl_left}, {CTRL_RIGHT, fct_ctrl_right},
 		{CTRL_UP, fct_ctrl_up}, {CTRL_DOWN, fct_ctrl_down}, {CUT, fct_cut},
-		{HIGHLIGHT, fct_highlight}, {PASTE, fct_paste}, {COPY, fct_copy}
+		{UNDERLINE, fct_underline}, {PASTE, fct_paste}, {COPY, fct_copy}
 	};
 
 	i = 0;

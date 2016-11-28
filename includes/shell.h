@@ -44,7 +44,7 @@
 # define RETURN 10
 # define CTRL_D 4
 
-#define HIGHLIGHT 26651 // ALT + h
+#define UNDERLINE 26651 // ALT + h
 #define PASTE 30235 // ALT + v
 #define COPY 25371 // ALT + c
 #define CUT 30747 // ALT + x
@@ -262,6 +262,16 @@ int						fct_down(t_line *stline, t_history **history);
 int						fct_up(t_line *stline, t_history **history);
 
 /*
+** sh_copy_paste
+*/
+int						fct_cut(t_line *stline, t_history **history);
+int						fct_paste(t_line *stline, t_history **history);
+int						fct_copy(t_line *stline, t_history **history);
+int						fct_underline(t_line *stline, t_history **history);
+int						add_in_copy(t_line *stline, int dir);
+int						del_in_copy(t_line *stline, int dir);
+
+/*
 ** sh_parser
 */
 t_node					*parser(t_e_list **l_expr);
@@ -287,16 +297,6 @@ int						manage_cmd(t_node *tree);
 ** sh_pipe
 */
 int						pipe_function(t_node *tree, int in_fd);
-
-/*
-** sh_copy_paste
-*/
-int						fct_cut(t_line *stline, t_history **history);
-int						fct_paste(t_line *stline, t_history **history);
-int						fct_copy(t_line *stline, t_history **history);
-int						fct_highlight(t_line *stline, t_history **history);
-int						add_in_copy(t_line *stline, int dir);
-int						del_in_copy(t_line *stline, int dir);
 
 /*
 ** sh_replace_dollar

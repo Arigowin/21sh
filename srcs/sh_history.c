@@ -40,7 +40,7 @@ void				add_history(t_history **history, char *line)
 int					fct_up(t_line *stline, t_history **history)
 {
 	if (DEBUG_HISTORY == 1)
-		printf("---------------- UP HISTORY --------------------------\n");
+		printf("---------------- FCT UP --------------------------\n");
 	int		i;
 
 	if (*history == NULL)
@@ -68,7 +68,7 @@ int					fct_up(t_line *stline, t_history **history)
 int				fct_down(t_line *stline, t_history **history)
 {
 	if (DEBUG_HISTORY == 1)
-		printf("---------------- DOWN HISTORY --------------------------\n");
+		printf("---------------- FCT DOWN --------------------------\n");
 	int		i;
 
 	if (*history == NULL)

@@ -2,7 +2,7 @@
 #include "libft.h"
 #include <term.h>
 
-int				addtbl_left(char *tbl, char c)
+static int			addtbl_left(char *tbl, char c)
 {
 	if (DEBUG_COPY_PASTE == 1)
 		printf("------- ADDTBL_LEFT ------\n");
@@ -23,7 +23,7 @@ int				addtbl_left(char *tbl, char c)
 	return (TRUE);
 }
 
-int				deltbl_left(char *tbl)
+static int			deltbl_left(char *tbl)
 {
 	if (DEBUG_COPY_PASTE == 1)
 		printf("------- DELTBL_LEFT ------\n");
@@ -80,8 +80,7 @@ int				add_in_copy(t_line *stline, int dir)
 	{
 		ft_putchar((stline->line)[stline->pos_line]);
 		tputs(tgetstr("le", NULL), 1, my_outc);
-		stline->copy[stline->cpy_pos] =
-			(stline->line)[stline->pos_line];
+		stline->copy[stline->cpy_pos] = (stline->line)[stline->pos_line];
 		stline->cpy_pos++;
 	}
 	else // (dir == 2) left
@@ -94,7 +93,7 @@ int				add_in_copy(t_line *stline, int dir)
 	return (TRUE);
 }
 
-static int		hide_highlight(t_line *stline, t_history **history)
+static int		hide_underline(t_line *stline, t_history **history)
 {
 	if (DEBUG_COPY_PASTE == 1)
 		printf("------- HIDE_HIGHLIGHT ------\n");
@@ -124,7 +123,7 @@ static int		hide_highlight(t_line *stline, t_history **history)
 	return (TRUE);
 }
 
-int		fct_highlight(t_line *stline, t_history **history)
+int				fct_underline(t_line *stline, t_history **history)
 {
 	if (DEBUG_COPY_PASTE == 1)
 		printf("------- HIGHLIGHT ------\n");
@@ -152,7 +151,6 @@ int		fct_highlight(t_line *stline, t_history **history)
 			fct_left(stline, history);
 			stline->cpy_pos = 1;
 			stline->cpy_start = stline->pos_line;
-
 			return (TRUE);
 		}
 	}
@@ -163,7 +161,7 @@ int		fct_highlight(t_line *stline, t_history **history)
 		stline->copy = NULL;
 		stline->cpy_pos = 0;
 		stline->cpy_start = -1;
-		hide_highlight(stline, history);
+		hide_underline(stline, history);
 		return (TRUE);
 	}
 	return (FALSE);
@@ -178,7 +176,7 @@ int		fct_copy(t_line *stline, t_history **history)
 		return (FALSE);
 	tputs(tgetstr("ue", NULL), 1, my_outc);
 	stline->cpy_start = -1;
-	hide_highlight(stline, history);
+	hide_underline(stline, history);
 	return (TRUE);
 }
 
@@ -236,28 +234,5 @@ int		fct_cut(t_line *stline, t_history **history)
 			curs_start--;
 		}
 	}
-
 	return (TRUE);
 }
-
-//int				copy_paste(int key, t_line *stline)
-//{
-//	if (DEBUG_COPY_PASTE == 1)
-//		printf("------- COPY_PASTE ------\n");
-//
-//	if (key == HIGHLIGHT)
-//		fct_highlight(stline);
-//	else if (key == PASTE && stline->copy && stline->cpy_start == -1)
-//	{
-//		fct_paste(stline);
-//	}
-//	else if (key == COPY && stline->cpy_start != -1)
-//	{
-//		fct_copy(stline);
-//	}
-//	else if (key == CUT && stline->cpy_start != -1)
-//	{
-//		fct_cut(stline);
-//	}
-//	return (TRUE);
-//}
