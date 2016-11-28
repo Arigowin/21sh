@@ -38,7 +38,7 @@ char		**format_cmd(t_node *tree)
 		tmp = tmp->right;
 		i++;
 	}
-	ret = tree_to_tbl(tree, i);
+	ret = tree_to_tbl(tree, i + 1);
 	return (ret);
 }
 

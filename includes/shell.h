@@ -60,7 +60,7 @@
 # define HOME 2117163803
 # define END 2117360411
 
-# define PRT_LEN 3
+# define PRT_LEN 2
 
 # include "libft.h"
 # include <sys/ioctl.h>
