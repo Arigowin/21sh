@@ -98,7 +98,7 @@ int			fct_ctrl_right(t_line *stline, t_history **history)
 	x = stline->pos_line;
 	while ((x) < (int)ft_strlen(stline->line))
 	{
-		if (stline->line[x + 1] == ' ' && stline->line[x] != ' ')
+		if (stline->line[x - 1] == ' ' && stline->line[x] != ' ')
 			break ;
 		fct_right(stline, history);
 		x = stline->pos_line;
