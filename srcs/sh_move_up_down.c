@@ -9,13 +9,12 @@ int			fct_ctrl_up(t_line *stline, t_history **history)
 
 	(void)history;
 	if (stline->curs_y < 1)
-		return (FALSE);
+		return (TRUE);
 	stline->curs_y--;
 	stline->pos_line -= (stline->win.ws_col);
 	if (stline->pos_line < 0)
 	{
 		stline->pos_line = 0;
-
 		if (stline->curs_x == 0)
 			tputs(tgetstr("nd", NULL), 1, my_outc);
 		tputs(tgetstr("nd", NULL), 1, my_outc);
@@ -34,10 +33,9 @@ int			fct_ctrl_down(t_line *stline, t_history **history)
 	int		i;
 
 	(void)history;
-	nb_ligne = (ft_strlen(stline->line) + PRT_LEN);
-	nb_ligne = nb_ligne / stline->win.ws_col;
+	nb_ligne = (ft_strlen(stline->line) + PRT_LEN) / stline->win.ws_col;
 	if (nb_ligne <= stline->curs_y)
-		return (FALSE);
+		return (TRUE);
 	stline->curs_y++;
 	if ((int)ft_strlen(stline->line) >= (stline->pos_line + stline->win.ws_col))
 	{
@@ -47,14 +45,11 @@ int			fct_ctrl_down(t_line *stline, t_history **history)
 	else
 	{
 		stline->pos_line = ft_strlen(stline->line);
-		i = (stline->pos_line - (stline->win.ws_col * nb_ligne))+ 2;
+		i = (stline->pos_line - (stline->win.ws_col * nb_ligne)) + PRT_LEN;
 		stline->curs_x = i;
 	}
 	tputs(tgetstr("do", NULL), 1, my_outc);
-	while (i > 0)
-	{
+	while (i-- > 0)
 		tputs(tgetstr("nd", NULL), 1, my_outc);
-		i--;
-	}
 	return (TRUE);
 }
