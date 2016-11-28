@@ -34,7 +34,7 @@ int			fct_ctrl_down(t_line *stline, t_history **history)
 	int		i;
 
 	(void)history;
-	nb_ligne = (ft_strlen(stline->line) + PRT_LEN) - 1;
+	nb_ligne = (ft_strlen(stline->line) + PRT_LEN);
 	nb_ligne = nb_ligne / stline->win.ws_col;
 	if (nb_ligne <= stline->curs_y)
 		return (FALSE);

@@ -7,7 +7,7 @@ int				reset_stline(t_line *stline)
 		printf("------- RESET STLINE ------\n");
 	ft_bzero(stline->line, ft_strlen(stline->line));
 	stline->pos_line = 0;
-	stline->curs_x = PRT_LEN - 1;
+	stline->curs_x = PRT_LEN;
 	stline->curs_y = 0;
 	stline->quote = 0;
 	return (TRUE);
