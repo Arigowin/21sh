@@ -54,7 +54,7 @@
 // # define OP_RIGHT 344
 // - LINUX CTRL + [a|e]
 # define CTRL_LEFT 1
-# define CTRL_RIGHT 5 // revoir sont fonctionnement
+# define CTRL_RIGHT 5
 
 # define DEL 2117294875
 # define HOME 2117163803

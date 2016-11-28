@@ -17,14 +17,14 @@ t_duo		*savior(t_duo *env, int code)
 
 t_line		*savior_stline(t_line *stline, int code)
 {
-	static t_line	*save = NULL;
+	static t_line	*save = NULL; // ATTENTION STATIC !!
 
 	if ((save == NULL && stline) || code == TRUE)
 		save = stline;
 	return (save);
 }
 
-static int	init_env(char **env, t_duo **env_cpy)
+static int	init_env(char **env, t_duo **env_cpy) //ok
 {
 	char			**cpy;
 
@@ -59,10 +59,10 @@ int			main(void)
 	t_line			stline;
 	t_history		*history;
 
-	init_env(environ, &env_cpy);
-	if (init_term() == ERROR)
+	init_env(environ, &env_cpy); //l27
+	if (init_term() == ERROR) //sh_termcap
 		return (ERROR);
-	init(&stline);
+	init(&stline); //static , l23
 	history = NULL;
 	while (1)
 	{
@@ -72,7 +72,7 @@ int			main(void)
 		if (fct_read(&stline, &history) == -1)
 			break ;
 	}
-	reset_term();
+	reset_term(); //sh_termcap
 	free_duo(&env_cpy);
 	free(stline.line);
 	return (0);
