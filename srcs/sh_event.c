@@ -51,12 +51,23 @@ int						fct_ctrl_d(t_line *stline, t_history **history)
 	return (TRUE);
 }
 
+int				handle_quote(int key, t_line *stline)
+{
+	if (key == QUOTE || key == DQUOTE) //pb ac quote
+	{
+		if (stline->quote == key)
+			stline->quote = 0;
+		else if (stline->quote == 0)
+			stline->quote = key;
+	}
+	return(TRUE);
+}
+
 int				event(int key, t_line *stline, t_history **history)
 {
 	if (DEBUG == 1)
 		printf("------- EVENT ------\n");
 	int				i;
-	int				ret;
 	static t_key_fct		tbl_keys[18] =
 	{
 		{RETURN, fct_return}, {BACKSPACE, fct_backspace}, {END, fct_end},
@@ -66,6 +77,21 @@ int				event(int key, t_line *stline, t_history **history)
 		{CTRL_UP, fct_ctrl_up}, {CTRL_DOWN, fct_ctrl_down}, {CUT, fct_cut},
 		{HIGHLIGHT, fct_highlight}, {PASTE, fct_paste}, {COPY, fct_copy}
 	};
+
+	i = 0;
+	while(i < 18)
+	{
+		if (tbl_keys[i].key == key)
+			return(tbl_keys[i].fct(stline, history));
+		i++;
+	}
+	if (key != TAB && key > 31 && key < 128)
+	{
+		handle_quote(key, stline);
+		fct_insert(stline, key, ++(stline->pos_line) - 1);
+	}
+	return (0);
+}
 
 //#include <term.h>
 //	char *res;
@@ -81,27 +107,3 @@ int				event(int key, t_line *stline, t_history **history)
 //	ft_putnbr(stline->pos_line);
 //	tputs(tgetstr("rc", NULL), 1, my_outc);
 
-	i = 0;
-	ret = 0;
-	while(i < 18)
-	{
-		if (tbl_keys[i].key == key)
-		{
-			ret = tbl_keys[i].fct(stline, history);
-			return (ret);
-		}
-		i++;
-	}
-	if (key != TAB && key > 31 && key < 128)
-	{
-		if (key == QUOTE || key == DQUOTE) //pb ac quote
-		{
-			if (stline->quote == key)
-				stline->quote = 0;
-			else if (stline->quote == 0)
-				stline->quote = key;
-		}
-		fct_insert(stline, key, ++(stline->pos_line) - 1);
-	}
-	return (0);
-}
