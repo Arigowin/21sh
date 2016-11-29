@@ -123,36 +123,49 @@ static int		hide_underline(t_line *stline, t_history **history)
 	return (TRUE);
 }
 
+static int		init_underline(t_line *stline)
+{
+	if (stline->copy != NULL)
+	{
+		free(stline->copy);
+		stline->copy = NULL;
+	}
+	if (stline->copy == NULL)
+	{
+		stline->copy = ft_strnew(ft_strlen(stline->line));
+		stline->cpy_pos = 0;
+	}
+	return (TRUE);
+}
+
+static int		underline(t_line *stline, t_history **history)
+{
+	// start underline
+	tputs(tgetstr("us", NULL), 1, my_outc);
+	ft_putchar((stline->line)[stline->pos_line]);
+	stline->copy[0] = (stline->line)[stline->pos_line];
+	stline->pos_line++;
+	stline->curs_x++;
+	fct_left(stline, history);
+	stline->cpy_pos = 1;
+	stline->cpy_start = stline->pos_line;
+	return (TRUE);
+}
+
 int				fct_underline(t_line *stline, t_history **history)
 {
 	if (DEBUG_COPY_PASTE == 1)
 		printf("------- HIGHLIGHT ------\n");
+	int			len;
 
+	len = ft_strlen(stline->line);
 	if (stline->cpy_start == -1)
 	{
-		if (stline->copy != NULL)
-		{
-			free(stline->copy);
-			stline->copy = NULL;
-		}
-		if (stline->copy == NULL)
-		{
-			stline->copy = ft_strnew(ft_strlen(stline->line));
-			stline->cpy_pos = 0;
-		}
-		if ((stline->pos_line) < (int)ft_strlen(stline->line))
-		{
-			// start highlight
-			tputs(tgetstr("us", NULL), 1, my_outc);
-			ft_putchar((stline->line)[stline->pos_line]);
-			stline->copy[0] = (stline->line)[stline->pos_line];
-			stline->pos_line++;
-			stline->curs_x++;
+		init_underline(stline);
+		if (stline->pos_line == len)
 			fct_left(stline, history);
-			stline->cpy_pos = 1;
-			stline->cpy_start = stline->pos_line;
-			return (TRUE);
-		}
+		if ((stline->pos_line) < len)
+			underline(stline, history);
 	}
 	else
 	{
@@ -210,21 +223,15 @@ int		fct_cut(t_line *stline, t_history **history)
 
 	curs_start = stline->cpy_start;
 	curs_end = stline->pos_line;
-
 	if (stline->cpy_start == -1)
 		return (FALSE);
 	tputs(tgetstr("ue", NULL), 1, my_outc);
 	stline->cpy_start = -1;
-
 	if (curs_end > curs_start)
 	{
 		fct_del(stline, history);
-		curs_end--;
-		while (curs_end >= curs_start)
-		{
+		while (--curs_end >= curs_start)
 			fct_backspace(stline, history);
-			curs_end--;
-		}
 	}
 	else
 	{
