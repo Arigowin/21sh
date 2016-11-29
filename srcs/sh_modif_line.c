@@ -46,6 +46,7 @@ int					delete_char(t_line *stline, int i, int *save_pos)
 	}
 	return (TRUE);
 }
+
 int					fct_backspace(t_line *stline, t_history **history)
 {
 	if (DEBUG_TERMCAPS == 1)
