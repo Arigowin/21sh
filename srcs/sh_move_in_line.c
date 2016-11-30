@@ -11,8 +11,8 @@ int			fct_left(t_line *stline, t_history **history)
 	if ((stline->pos_line > 0 && stline->quote != 0 && stline->curs_x > 2)
 			|| (stline->pos_line > 0 && stline->quote == 0))
 	{
-		if (stline->cpy_start != -1 && stline->pos_line > stline->cpy_start)
-			del_in_copy(stline, 2);
+		if (stline->copy.start != -1 && stline->pos_line > stline->copy.start)
+			del_in_copy(stline, LEFT);
 		(stline->curs_x)--;
 		if (stline->curs_x < 0 && stline->curs_y > 0)
 		{
@@ -27,22 +27,24 @@ int			fct_left(t_line *stline, t_history **history)
 		else
 			tputs(tgetstr("le", NULL), 1, my_outc);
 		(stline->pos_line)--;
-		if (stline->cpy_start != -1 && stline->pos_line < stline->cpy_start)
-			add_in_copy(stline, 2);
+		if (stline->copy.start != -1 && stline->pos_line < stline->copy.start)
+			add_in_copy(stline, LEFT);
 	}
 	return (TRUE);
 }
 
 int			fct_right(t_line *stline, t_history **history)
 {
-	if (DEBUG_TERMCAPS == 1)
-		printf("------- MOVE RIGHT ------\n");
+//	if (DEBUG_TERMCAPS == 1)
+//		printf("------- MOVE RIGHT ------\n");
 
 	(void)history;
-	if ((stline->pos_line) < (int)ft_strlen(stline->line))
+	if ((stline->copy.start == -1 && (stline->pos_line)
+		< (int)ft_strlen(stline->line)) || (stline->copy.start != -1
+		&& (stline->pos_line) < (int)ft_strlen(stline->line) - 1))
 	{
-		if (stline->cpy_start != -1 && stline->pos_line < stline->cpy_start)
-			del_in_copy(stline, 1);
+		if (stline->copy.start != -1 && stline->pos_line < stline->copy.start)
+			del_in_copy(stline, RIGHT);
 		if (stline->curs_x >= stline->win.ws_col - 1)
 		{
 			(stline->curs_x) = 0;
@@ -56,8 +58,8 @@ int			fct_right(t_line *stline, t_history **history)
 			tputs(tgetstr("nd", NULL), 1, my_outc);
 		}
 		(stline->pos_line)++;
-		if (stline->cpy_start != -1 && stline->pos_line > stline->cpy_start)
-			add_in_copy(stline, 1);
+		if (stline->copy.start != -1 && stline->pos_line > stline->copy.start)
+			add_in_copy(stline, RIGHT);
 	}
 	return (TRUE);
 }

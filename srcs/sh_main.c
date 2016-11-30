@@ -46,8 +46,9 @@ static int	init(t_line *stline)
 
 	if ((stline->line = ft_strnew(BUFF_SIZE)) == NULL)
 		return (ERROR);
-	stline->copy = NULL;
-	stline->cpy_start = -1;
+	stline->copy.cpy = NULL;
+	stline->copy.start = -1;
+	stline->copy.bkup = NULL;
 	savior_stline(stline, TRUE);
 	return (TRUE);
 }

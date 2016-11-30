@@ -44,7 +44,7 @@
 # define RETURN 10
 # define CTRL_D 4
 
-#define UNDERLINE 26651 // ALT + h
+#define HIGHLIGHT 26651 // ALT + h
 #define PASTE 30235 // ALT + v
 #define COPY 25371 // ALT + c
 #define CUT 30747 // ALT + x
@@ -61,6 +61,9 @@
 # define END 2117360411
 
 # define PRT_LEN 2
+
+# define COLOR "\033[0;30;46m"
+# define RESET_COLOR "\033[0m"
 
 # include "libft.h"
 # include <sys/ioctl.h>
@@ -92,6 +95,14 @@ typedef struct			s_e_list // -> l_expr
 	struct s_e_list		*next;
 }						t_e_list;
 
+typedef struct			s_copy
+{
+	char				*cpy;
+	char				*bkup;
+	int					pos;
+	int					start;
+}						t_copy;
+
 typedef struct			s_line
 {
 	char				*line;
@@ -101,10 +112,8 @@ typedef struct			s_line
 								// quote line start at len of "> "
 	int					curs_y;
 	struct winsize		win;
+	struct s_copy		copy;
 	int					quote;
-	char				*copy;
-	int					cpy_pos;
-	int					cpy_start;
 }						t_line;
 
 typedef struct			s_history
@@ -267,7 +276,7 @@ int						fct_up(t_line *stline, t_history **history);
 int						fct_cut(t_line *stline, t_history **history);
 int						fct_paste(t_line *stline, t_history **history);
 int						fct_copy(t_line *stline, t_history **history);
-int						fct_underline(t_line *stline, t_history **history);
+int						fct_highlight(t_line *stline, t_history **history);
 int						add_in_copy(t_line *stline, int dir);
 int						del_in_copy(t_line *stline, int dir);
 

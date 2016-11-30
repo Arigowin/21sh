@@ -1,16 +1,19 @@
 #include "shell.h"
 #include "libft.h"
 #include <signal.h>
+#include <term.h>
 
 static void		fct_m_ctrl_c(int sig)
 {
 	t_line		*stline;
 
 	stline = savior_stline(NULL, FALSE);
+	if (stline->copy.start != -1)
+		fct_highlight(stline, NULL);
 	fct_end(stline, NULL);
 	reset_stline(stline);
 	(void)sig;
-	ft_putendl("");
+	ft_putchar_color(RESET_COLOR, '\n');
 	display_prompt();
 	return ;
 }

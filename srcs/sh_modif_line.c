@@ -55,6 +55,8 @@ int					fct_backspace(t_line *stline, t_history **history)
 	int					save_pos;
 
 	save_pos = 0;
+	if (stline->copy.start != -1)
+		return (FALSE);
 	handle_delete_quote(stline);
 	eol = ft_strsub(stline->line, stline->pos_line, ft_strlen(stline->line));
 	if ((stline->pos_line > 0 && stline->quote != 0 && stline->curs_x > 2)
@@ -74,16 +76,19 @@ int					fct_backspace(t_line *stline, t_history **history)
 	}
 	if (eol)
 		free(eol);
-	return (0);
+	return (TRUE);
 }
 
-static void			enlarge_line(t_line *stline)
+static int			enlarge_line(t_line *stline)
 {
 	if (DEBUG_TERMCAPS == 1)
 		printf("------- ENLARGE LINE ------\n");
 	char				*tmp;
 	int					i;
 
+	if (!(stline->pos_line % BUFF_SIZE == 0
+				&& stline->pos_line + 1 > BUFF_SIZE))
+		return (FALSE);
 	tmp = ft_strdup(stline->line);
 	i = ft_strlen(stline->line) + BUFF_SIZE;
 	free(stline->line);
@@ -95,6 +100,7 @@ static void			enlarge_line(t_line *stline)
 		i++;
 	}
 	free(tmp);
+	return (TRUE);
 }
 
 int					insert_char(t_line *stline, char c, char *end_line)
@@ -129,8 +135,9 @@ int					fct_insert(t_line *stline, char c)
 	char				*end_line;
 
 	end_line = NULL;
-	if (stline->pos_line % BUFF_SIZE == 0 && stline->pos_line + 1 > BUFF_SIZE)
-		enlarge_line(stline);
+	if (stline->copy.start != -1)
+		return (FALSE);
+	enlarge_line(stline);
 	if ((stline->line)[stline->pos_line] == '\0')
 		(stline->line)[stline->pos_line] = c;
 	else if (!(end_line = ft_strsub(stline->line, stline->pos_line,

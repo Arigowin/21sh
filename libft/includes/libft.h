@@ -13,6 +13,8 @@
 #ifndef LIBFT_H
 # define LIBFT_H
 
+# define DEFAULT_COLOR "\033[0m"
+
 # include <unistd.h>
 # include <stdlib.h>
 # include <string.h>
@@ -90,6 +92,11 @@ void				ft_putstr_fd(char const *s, int fd);
 void				ft_putnbr_fd(int n, int fd);
 void				ft_putendl_fd(char const *s, int fd);
 void				ft_putchar_fd(char c, int fd);
+void				ft_putchar_color(char *color, char c);
+void				ft_putstr_color(char *color, char *s);
+void				ft_putnbr_color(char *color, int n);
+void				ft_putchar_color_fd(int fd, char *color, char c);
+void				ft_putstr_color_fd(int fd, char *color, char *s);
 
 t_list				*ft_lstnew(char *content);
 void				ft_lstdelone(t_list **alst, void (*del)(void *, size_t));
