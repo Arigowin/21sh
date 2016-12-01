@@ -3,41 +3,6 @@
 #include "libft.h"
 #include "shell.h"
 
-/*
-   les parametre ne vont pas tu cherche dans SEP ou IGN ou WAKA si i - 1 est un \ mais on s'en fout dans ces
-   chaines la nous ces c - 1 que l'on veut savoir si ces un \
-   */
-/*
-   char					*search_with_backslash(char *str, char c)
-   {
-//if (DEBUG_LEXER_PARSER == 0)
-printf("------- SEARCH WITH BACKSLASH ------ [%s]\n", str);
-int				i;
-
-i = 0;
-if (str)
-{
-while (str[i] != '\0')
-{
-if (str[i] == c && str[i - 1] && str[i - 1] != '\\')
-{
-printf("TEST 1 : [%c], [%c]\n", c, str[i]);
-return (str + i);
-}
-i++;
-}
-if (str[i] == c)
-{
-printf("TEST 2 : [%c], [%c]\n", c, str[i]);
-return (str + i);
-}
-}
-printf("TEST 3 : [%c], [%c]\n", c, str[i]);
-return (NULL);
-}
-*/
-
-
 // str == read_buff
 // def = define IGN || WAKA || SEP || ...
 // pos == position actuel dans read_buff
