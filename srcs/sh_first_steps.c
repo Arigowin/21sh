@@ -79,24 +79,6 @@ char			**cpy_env(char **env)
 	return (cpy);
 }
 
-int				manage_tilde(char **arg)
-{
-	if (DEBUG == 1)
-		printf("------- MANAGE TILDE ------\n");
-	char			*tmp;
-	char			*home_path;
-
-	tmp = ft_strsub(*arg, 1, ft_strlen(*arg));
-	if ((home_path = get_env("HOME")) == NULL)
-		return (-1);
-	free(*arg);
-	if ((*arg = ft_properjoin(home_path, tmp)) == NULL)
-		return (-1);
-	free(home_path);
-	free(tmp);
-	return (0);
-}
-
 int				fill_path(char ***env)
 {
 	if (DEBUG == 1)

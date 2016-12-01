@@ -18,7 +18,8 @@ int				fct_return(t_line *stline, t_history **history)
 	if (DEBUG_KEY == 1)
 		printf("------- FCT RETURN ------\n");
 	fct_end(stline, history);
-	if (stline->quote == 0)
+	if (stline->quote == 0 || ((stline->line[stline->pos_line - 1])
+				&& (stline->line[stline->pos_line - 1]) != '\\'))
 	{
 		if (stline->copy.cpy != NULL && stline->copy.start != -1)
 			fct_highlight(stline, history);

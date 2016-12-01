@@ -3,41 +3,6 @@
 #include "libft.h"
 #include "shell.h"
 
-// str == read_buff
-// def = define IGN || WAKA || SEP || ...
-// pos == position actuel dans read_buff
-char					*search_with_backslash(char *str, char *def, int pos)
-{
-	if (DEBUG_LEXER_PARSER == 1)
-		printf("------- SEARCH WITH BACKSLASH ------ [%s]\n", def);
-	int			i;
-
-	i = 0;
-	if (str && def)
-	{
-	//	if (ft_strchr(def, str[pos]) && str[pos - 1])
-	//	{
-	//		if (str[pos - 1] != '\\')
-	//			return (TRUE);
-	//		else if (str[pos - 1] == '\\')
-	//			return (FALSE);
-	//	}
-		while (def[i])
-		{
-			if (def[i] == str[pos] && str[pos - 1] && str[pos - 1] != '\\')
-			{
-				return (def + i);
-			}
-			i++;
-		}
-		if (def[i] == str[pos])
-		{
-			return (def + i);
-		}
-	}
-	return (NULL);
-}
-
 t_e_list				*expr_new(char *content)
 {
 	if (DEBUG_LEXER_PARSER == 1)
@@ -54,7 +19,7 @@ t_e_list				*expr_new(char *content)
 	new->data = ft_strdup(content);
 	return (new);
 }
-
+/*
 static void				expr_pushbk(t_e_list **l_expr, char content[])
 {
 	if (DEBUG_LEXER_PARSER == 1)
@@ -85,86 +50,169 @@ static void				expr_pushbk(t_e_list **l_expr, char content[])
 		tmp = tmp->next;
 	tmp->next = expr_new(content);
 }
+*/
 
-static int				in_lexer_1(char (*tmp)[], char *r_buff, int *i,
-		t_e_list **l_exp)
+int						concat(char **dest, char *s1, char *s2)
+{
+	if (!(dest && *dest))
+		return (-1);
+	while (s1 && *s1)
+	{
+		add_in_tbl(dest, *s1);
+		(*s1)++;
+	}
+	while (s2 && *s2)
+	{
+		add_in_tbl(dest, *s2);
+		(*s2)++;
+	}
+	return (0);
+}
+
+int					lexer_dollar(char **read_buff, char **data_tmp)
+{
+	char 				*env_name;
+	char 				*env_val;
+	char 				*tmp;
+
+	env_val = NULL;
+	env_name = NULL;
+	tmp = NULL;
+	(**read_buff)++;
+	if ((env_name = ft_strnew(ft_strlen(*read_buff))) == NULL)
+		return (ERROR);
+	while (ft_strchr(SEP, **read_buff))
+	{
+		add_in_tbl(&env_name, **read_buff);
+		(**read_buff)++;
+	}
+	if ((env_val = get_env(env_name)) == NULL)
+		return (FALSE);
+	if (*data_tmp && (tmp = ft_strdup(*data_tmp)) == NULL)
+		return (ERROR);
+	ft_strdel(data_tmp);
+	if ((*data_tmp = ft_strnew(ft_strlen(tmp) + ft_strlen(env_val)
+			+ ft_strlen(*read_buff))) == NULL)
+		return (ERROR);
+	concat(data_tmp, tmp, env_val);
+	return (TRUE);
+}
+
+int					lexer_tilde(char **read_buff, char **data_tmp, int *bln)
+{
+	char 				*env_val;
+	char 				*tmp;
+
+	env_val = NULL;
+	tmp = NULL;
+	if ((env_val = get_env("HOME")) == NULL)
+		return (FALSE);
+	if (*data_tmp && (tmp = ft_strdup(*data_tmp)) == NULL)
+		return (ERROR);
+	ft_strdel(data_tmp);
+	if ((*data_tmp = ft_strnew(ft_strlen(tmp) + ft_strlen(env_val)
+			+ ft_strlen(*read_buff))) == NULL)
+		return (ERROR);
+	concat(data_tmp, tmp, env_val);
+	*bln = TRUE;
+	return (TRUE);
+}
+
+int					lexer_backslash(char **read_buff, char **data_tmp)
 {
 	if (DEBUG_LEXER_PARSER == 1)
-		printf("------- IN LEXER 1 ------\n");
-	int				j;
+		printf("------- LEXER BACKSLASH ------\n");
 
-	j = 1;
-	(*tmp)[0] = r_buff[(*i)];
-	if (r_buff[(*i) + j] && r_buff[(*i) + j] == r_buff[(*i)]
-			&& r_buff[(*i)] != '\0')
+	if ((*read_buff)[0] == '\\' && (*read_buff)[1] && (*read_buff)[1] == '\n')
+		(**read_buff)++;
+	(**read_buff)++;
+	add_in_tbl(data_tmp, **read_buff);
+	return (TRUE);
+}
+
+int					lexer_standard(char **read_buff, char **data_tmp,
+					int *bln)
+{
+	if (DEBUG_LEXER_PARSER == 1)
+		printf("------- LEXER STANDARD ------\n");
+
+	if (**read_buff == DQUOTE)
+		return (FALSE);
+	if (**read_buff == '\\')
+		lexer_backslash(read_buff, data_tmp);
+	else if (**read_buff == '$')
+		lexer_dollar(read_buff, data_tmp);
+	else if (**read_buff == '~' && bln == FALSE)
+		lexer_tilde(read_buff, data_tmp, bln);
+	return (TRUE);
+}
+
+
+int					lexer_quote(char curr_char, char **data_tmp)
+{
+	if (DEBUG_LEXER_PARSER == 1)
+		printf("------- LEXER QUOTE ------\n");
+
+	if (curr_char != QUOTE)
+		add_in_tbl(data_tmp, curr_char);
+	return (TRUE);
+}
+
+
+int					lexer_dquote(char **read_buff, char **data_tmp)
+{
+	if (DEBUG_LEXER_PARSER == 1)
+		printf("------- LEXER DQUOTE ------\n");
+
+	if (**read_buff == DQUOTE)
+		return (FALSE);
+	if (**read_buff == '\\')
+		lexer_backslash(read_buff, data_tmp);
+	else if (**read_buff == '$')
+		lexer_dollar(read_buff, data_tmp);
+	return (TRUE);
+}
+
+states				get_state(states state, char **read_buff)
+{
+	if (DEBUG_LEXER_PARSER == 1)
+		printf("------- GET STATE ------\n");
+	if (state == STANDARD && **read_buff == '"')
+		return (IN_DQUOTE);
+	if (state == STANDARD && **read_buff == '\'')
+		return (IN_QUOTE);
+	if (state == STANDARD && **read_buff == '\\')
+		return (W_BACKSLASH);
+	if ((state == IN_DQUOTE && **read_buff == '"') || (state == IN_QUOTE && **read_buff == '\''))
 	{
-		(*tmp)[j] = r_buff[(*i) + j];
-		(*i)++;
+		(*read_buff)++;
+		return (STANDARD);
 	}
-	expr_pushbk(l_exp, *tmp);
-	ft_bzero(*tmp, j + 1);
-	return (0);
+	return (state);
 }
 
 int						lexer_1(char *read_buff, t_e_list **l_expr)
 {
 	if (DEBUG_LEXER_PARSER == 1)
-		printf("------- LEXER 1 ------\n");
-	char			tmp[1024];
-	int				i;
-	int				k;
-	int				quote;
-	char			boolean;
+		printf("------- IN LEXER 1 ------\n");
+	int						bln;
+	states					state;
+	char 					*data_tmp;
 
-	ft_bzero(tmp, 1024);
-	i = -1;
-	k = 0;
-	quote = 0;
-	while (read_buff[++i])
+	(void)l_expr;
+	bln = FALSE;
+	state = STANDARD;
+	data_tmp = ft_strnew(ft_strlen(read_buff));
+	while (read_buff && *read_buff)
 	{
-		boolean = FALSE;
-		if (read_buff[i] == QUOTE || read_buff[i] == DQUOTE)
-		{
-			quote = (quote == read_buff[i] ? 0 : read_buff[i]);
-		}
-		if (quote == 0)
-		{
-			if (search_with_backslash(read_buff, SEP, i))
-			{
-				if (search_with_backslash(read_buff, WAKA, i) && read_buff[i - 1]
-						&& ft_isdigit(read_buff[i - 1]) &&
-						(!read_buff[i - 2]
-						 || (read_buff[i - 2] && search_with_backslash(read_buff, SEP, i - 2))))
-				{
-					tmp[k++] = read_buff[i];
-					if (read_buff[i + 1] && read_buff[i + 1] == read_buff[i])
-					{
-						tmp[k++] = read_buff[i + 1];
-						i++;
-					}
-					boolean = TRUE;
-				}
-				expr_pushbk(l_expr, tmp);
-				ft_bzero(tmp, 1024);
-				k = 0;
-				if (!boolean && !search_with_backslash(read_buff, IGN, i))
-				{
-					in_lexer_1(&tmp, read_buff, &i, l_expr);
-				}
-			}
-			else
-			{
-				tmp[k++] = read_buff[i];
-			}
-		}
-		else
-		{
-			tmp[k++] = read_buff[i];
-		}
+		state = get_state(state, &read_buff);
+		if (state == STANDARD)
+			lexer_standard(&read_buff, &data_tmp, &bln);
+		else if (state == IN_QUOTE)
+			lexer_quote(*read_buff, &data_tmp);
+		else if (state == IN_DQUOTE)
+			lexer_dquote(&read_buff, &data_tmp);
+		read_buff++;
 	}
-	if (ft_strlen(tmp))
-	{
-		expr_pushbk(l_expr, tmp);
-	}
-	return (0);
+	return (TRUE);
 }

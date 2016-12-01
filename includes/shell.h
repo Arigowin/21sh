@@ -1,19 +1,19 @@
 #ifndef SHELL_H
 # define SHELL_H
 
-#define DEBUG 0
-#define DEBUG2 0
-#define DEBUG_BUILTIN 0
-#define DEBUG_LEXER_PARSER 0
-#define DEBUG_TREE_CREATION 0
-#define DEBUG_TREE 0
-#define DEBUG_TERMCAPS 0
-#define DEBUG_HISTORY 0
-#define DEBUG_PIPE 0
-#define DEBUG_RED 0
-#define DEBUG_CMD 0
-#define DEBUG_COPY_PASTE 0
-#define DEBUG_KEY 0
+#define DEBUG 1
+#define DEBUG2 1
+#define DEBUG_BUILTIN 1
+#define DEBUG_LEXER_PARSER 1
+#define DEBUG_TREE_CREATION 1
+#define DEBUG_TREE 1
+#define DEBUG_TERMCAPS 1
+#define DEBUG_HISTORY 1
+#define DEBUG_PIPE 1
+#define DEBUG_RED 1
+#define DEBUG_CMD 1
+#define DEBUG_COPY_PASTE 1
+#define DEBUG_KEY 1
 #include <stdio.h>
 
 # define TRUE 1
@@ -88,6 +88,14 @@ typedef enum
 	SEMI
 } 						types;
 
+typedef enum
+{
+	STANDARD,
+	IN_QUOTE,
+	IN_DQUOTE,
+	W_BACKSLASH
+}						states;
+
 typedef struct			s_e_list // -> l_expr
 {
 	char				*data;
@@ -148,7 +156,6 @@ t_line					*savior_stline(t_line *stline, int code);
 */
 int						display_prompt(void);
 char					**cpy_env(char **env);
-int						manage_tilde(char **arg);
 int						fill_path(char ***env);
 
 /*
@@ -306,11 +313,6 @@ int						manage_cmd(t_node *tree);
 ** sh_pipe
 */
 int						pipe_function(t_node *tree, int in_fd);
-
-/*
-** sh_replace_dollar
-*/
-int						replace_dollar(char **str);
 
 #endif
 

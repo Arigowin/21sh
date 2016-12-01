@@ -72,14 +72,12 @@ int			manage_cmd(t_node *tree)
 		printf ("----- CMD -----(%s)\n", tree->data);
 	t_intlst	*lstfd;
 	char		**cmd;
-	int			i;
 	int			saved_std[3];
 	int 		ret;
 
 	saved_std[0] = -1;
 	saved_std[1] = -1;
 	saved_std[2] = -1;
-	i = 0;
 	ret = 0;
 	lstfd = NULL;
 	if (tree->left != NULL)
@@ -97,11 +95,6 @@ int			manage_cmd(t_node *tree)
 	if ((cmd = format_cmd(tree)) == NULL)
 		return (FALSE);
 
-	while (cmd[++i])
-	{
-		if (cmd[i][0] == '~')
-			manage_tilde(&cmd[i]);
-	}
 	if ((ret = handle_builtin(cmd)) == 1 || ret != 0)
 		close_fd_red(&lstfd, saved_std);
 	if (ret != 0)
