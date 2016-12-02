@@ -99,8 +99,8 @@ int			manage_cmd(t_node *tree)
 		close_fd_red(&lstfd, saved_std);
 	if (ret != 0)
 		return (FALSE);
-	if (check_home(cmd) < 0)
-		return (FALSE);
+//	if (check_home(cmd) < 0)
+//		return (FALSE);
 	father_n_son(cmd);
 	close_fd_red(&lstfd, saved_std);
 	//free_tab(&cmd); // erreur de free

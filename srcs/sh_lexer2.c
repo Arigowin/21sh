@@ -67,6 +67,10 @@ int				waka_lexer(t_e_list **tmp)
 {
 	if (DEBUG_LEXER_PARSER == 1)
 		printf("------- WAKA LEXER ------\n");
+(void)tmp;
+return (TRUE);
+
+	/*
 	t_e_list		*elem;
 	char			fd[2];
 	char			*red;
@@ -105,6 +109,7 @@ int				waka_lexer(t_e_list **tmp)
 		return (0);
 	}
 	return (-1);
+	*/
 }
 
 int				in_lexer_2(t_e_list **tmp, int boule)

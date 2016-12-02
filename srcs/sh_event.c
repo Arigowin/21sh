@@ -18,8 +18,15 @@ int				fct_return(t_line *stline, t_history **history)
 	if (DEBUG_KEY == 1)
 		printf("------- FCT RETURN ------\n");
 	fct_end(stline, history);
-	if (stline->quote == 0 || ((stline->line[stline->pos_line - 1])
-				&& (stline->line[stline->pos_line - 1]) != '\\'))
+	if (stline->quote != 0 || ((stline->line[stline->pos_line - 1])
+		&& (stline->line[stline->pos_line - 1]) == '\\'))
+	{
+		fct_insert(stline, '\n');
+		ft_putstr("> ");
+		stline->curs_x = 2;
+		return (CONTINUE);
+	}
+	else
 	{
 		if (stline->copy.cpy != NULL && stline->copy.start != -1)
 			fct_highlight(stline, history);
@@ -27,13 +34,6 @@ int				fct_return(t_line *stline, t_history **history)
 			add_history(history, stline->line);
 		ft_putchar('\n');
 		return (BREAK);
-	}
-	else
-	{
-		fct_insert(stline, '\n');
-		ft_putstr("> ");
-		stline->curs_x = 2;
-		return (CONTINUE);
 	}
 	return (0);
 }
@@ -54,6 +54,10 @@ int						fct_ctrl_d(t_line *stline, t_history **history)
 
 int				handle_quote(int key, t_line *stline)
 {
+	if (DEBUG == 1)
+		printf("------- HANDLE QUOTE ------\n");
+	if (stline->line[stline->pos_line - 1] &&  stline->line[stline->pos_line - 1] == '\\')
+		return (FALSE);
 	if (key == QUOTE || key == DQUOTE) //pb ac quote
 	{
 		if (stline->quote == key)
@@ -107,4 +111,3 @@ int				event(int key, t_line *stline, t_history **history)
 //	ft_putstr(" pos_line :");
 //	ft_putnbr(stline->pos_line);
 //	tputs(tgetstr("rc", NULL), 1, my_outc);
-
