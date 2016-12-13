@@ -2,10 +2,10 @@
 #include "libft.h"
 #include <term.h>
 
-static int			addtbl_left(char *tbl, char c)
+int					str_addleft(char *tbl, char c)
 {
 	if (DEBUG_COPY_PASTE == 1)
-		printf("------- ADDTBL_LEFT ------\n");
+		printf("------- str_addleft ------\n");
 
 	int		i;
 
@@ -23,10 +23,10 @@ static int			addtbl_left(char *tbl, char c)
 	return (TRUE);
 }
 
-static int			deltbl_left(char *tbl)
+static int			str_delleft(char *tbl)
 {
 	if (DEBUG_COPY_PASTE == 1)
-		printf("------- DELTBL_LEFT ------\n");
+		printf("------- str_delleft ------\n");
 
 	int		i;
 
@@ -54,7 +54,7 @@ int				del_in_copy(t_line *stline, int dir)
 	tputs(tgetstr("le", NULL), 1, my_outc);
 	stline->copy.pos--;
 	if (dir == RIGHT)
-		deltbl_left(stline->copy.cpy);
+		str_delleft(stline->copy.cpy);
 	else
 		stline->copy.cpy[stline->copy.pos] = '\0';
 	tputs(tgetstr("mr", NULL), 1, my_outc);
@@ -78,7 +78,7 @@ int				add_in_copy(t_line *stline, int dir)
 	}
 	else
 	{
-		addtbl_left(stline->copy.cpy, (stline->line)[stline->pos_line]);
+		str_addleft(stline->copy.cpy, (stline->line)[stline->pos_line]);
 		stline->copy.pos++;
 	}
 	tputs(tgetstr("me", NULL), 1, my_outc);

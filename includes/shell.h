@@ -4,7 +4,7 @@
 #define DEBUG 0
 #define DEBUG2 0
 #define DEBUG_BUILTIN 0
-#define DEBUG_LEXER_PARSER 0
+#define DEBUG_LEXER_PARSER 1
 #define DEBUG_TREE_CREATION 0
 #define DEBUG_TREE 0
 #define DEBUG_TERMCAPS 0
@@ -280,6 +280,7 @@ int						fct_up(t_line *stline, t_history **history);
 /*
 ** sh_copy_paste
 */
+int						str_addleft(char *tbl, char c);
 int						fct_cut(t_line *stline, t_history **history);
 int						fct_paste(t_line *stline, t_history **history);
 int						fct_copy(t_line *stline, t_history **history);
@@ -346,10 +347,8 @@ cmd >&x == cmd >& x
 cmd & > ... error
 cmd &> ... OK
 
-cmd &x> ... error si & pas de fd
-
-cmd &>& file // parse error near
-cmd &>& y    // parse error near
+cmd &>& file
+cmd &>& y
 */
 
 /*
@@ -367,6 +366,4 @@ il faut gerer encore
 Probleme de redirection de l'erreur qui devrait s'afficher dans le less
 ls /tmp/ abc 2>&1 | less
 */
-
-// RETESTER TOUT car setenv segfault
 

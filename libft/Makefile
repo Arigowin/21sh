@@ -38,7 +38,9 @@ SRC = ft_memset.c \
 	  ft_strnstr.c \
 	  ft_strcmp.c \
 	  ft_strncmp.c \
+	  ft_strncount.c \
 	  ft_atoi.c \
+	  ft_atoi_long.c \
 	  ft_isalpha.c \
 	  ft_isdigit.c \
 	  ft_isstrnum.c \

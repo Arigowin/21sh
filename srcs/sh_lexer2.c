@@ -6,147 +6,117 @@
 #define RA RED_ARG
 #define CA CMD_ARG
 
-int				land_managment(t_e_list **tmp)
+static int			waka_land_handler(t_e_list **l_expr, char (*tmp)[], int *i)
 {
 	if (DEBUG_LEXER_PARSER == 1)
-		printf("------- LAND MANAGMENT ------\n");
-	t_e_list		*new;
-	t_e_list		*tmp2;
-	char			*red_arg;
+		printf("------- WAKA LAND HANDLER ------\n");
 
-	red_arg = NULL;
-	new = NULL;
-	tmp2 = (*tmp)->next;
-
-	if (tmp2 && tmp2->data[0] == '&' && tmp2->next)// && (ft_isstrnum(tmp2->next->data) || (ft_strlen(tmp2->next->data) == 1 && tmp2->next->data[0] == '-')))
+	if (ft_strncount((*l_expr)->data, '&') > 1)
+		return (ERROR);
+	if ((*l_expr)->data[ft_strlen((*l_expr)->data) - 1] == '&')
 	{
-		red_arg = ft_properjoin(tmp2->data, tmp2->next->data);
-		free(tmp2->data);
-		tmp2->data = ft_strdup(red_arg);
-		tmp2->type = RA;
-		free(tmp2->next->data);
-		new = tmp2->next->next;
-		free(tmp2->next);
-		tmp2->next = new;
-		return (TRUE);
+		(*l_expr)->data[ft_strlen((*l_expr)->data) - 1] = '\0';
+		str_addleft((*l_expr)->next->data, '&');
+		(*l_expr)->next->type = RED_ARG;
 	}
-	else if ((*tmp)->next && (*tmp)->next->data[0] == '&' && (*tmp)->next->next)
+	if ((*l_expr)->data[0] == '&')
 	{
-		free((*tmp)->next->data);
-		new = (*tmp)->next->next;
-		free((*tmp)->next);
-		(*tmp)->next = new;
-		return (TRUE);
+		(*tmp)[(*i)++] = '&';
 	}
-	return (FALSE);
-}
-
-// echanger & avec >
-// donc echanger tmp avec tmp->next
-int				swap_list(t_e_list **tmp)
-{
-	char	*data1;
-	int		type1;
-
-	data1 = ft_strdup((*tmp)->data);
-	type1 = (*tmp)->type;
-
-	free((*tmp)->data);
-	(*tmp)->data = ft_strdup((*tmp)->next->data);
-	(*tmp)->type = (*tmp)->next->type;
-
-	(*tmp)->next->data = ft_strdup(data1);
-	(*tmp)->next->type = type1;
-
-	free(data1);
-
 	return (TRUE);
 }
 
-int				waka_lexer(t_e_list **tmp)
+static int			red_fd_copy(t_e_list **l_expr, char (*tmp)[], int *i)
+{
+	while (*i < 11 && ft_isdigit(((*l_expr)->data)[*i]))
+	{
+		(*tmp)[*i] = ((*l_expr)->data)[*i];
+		(*i)++;
+	}
+	return (TRUE);
+}
+
+static int			waka_lexer(t_e_list **l_expr)
 {
 	if (DEBUG_LEXER_PARSER == 1)
 		printf("------- WAKA LEXER ------\n");
-(void)tmp;
-return (TRUE);
 
-	/*
-	t_e_list		*elem;
-	char			fd[2];
-	char			*red;
+	int				i;
+	char			tmp[11];
+	char			*tmp2;
 	t_e_list		*new;
 
-	red = NULL;
+	i = 0;
 	new = NULL;
-	elem = (*tmp)->next;
-
-	if (ft_strchr((*tmp)->data, '&') && (elem->data[0] == '<' || elem->data[0] == '>'))
-	{
-		(*tmp)->type = RED_FD;
-		(*tmp)->next->type = RED;
-		swap_list(tmp);
-		land_managment(&((*tmp)->next));
-	}
-	else if (ft_isdigit((elem->data)[0]))
-	{
-		fd[0] = (elem->data)[0];
-		fd[1] = '\0';
-		red = ft_strsub(elem->data, 1, ft_strlen(elem->data) - 1);
-		new = expr_new(fd);
-		new->type = RED_FD;
-		free((*tmp)->next->data);
-		(*tmp)->next->data = ft_strdup(red);
-		new->next = (*tmp)->next->next;
-		(*tmp)->next->next = new;
-		(*tmp)->next->type = RED;
-		land_managment(&((*tmp)->next->next));
-		return (0);
-	}
-	else
-	{
-		(*tmp)->next->type = RED;
-		land_managment((&(*tmp)->next));
-		return (0);
-	}
-	return (-1);
-	*/
+	ft_bzero(tmp, 11);
+	if (waka_land_handler(l_expr, &tmp, &i) == ERROR)
+		return (ERROR);
+	if (ft_strchr(WAKA, ((*l_expr)->data)[0]))
+		return (TRUE);
+	red_fd_copy(l_expr, &tmp, &i);
+	if ((tmp2 = ft_strsub((*l_expr)->data, i, ft_strlen((*l_expr)->data) - i)) == NULL)
+		return (ERROR);
+	ft_strdel(&((*l_expr)->data));
+	if (((*l_expr)->data = ft_strdup(tmp2)) == NULL
+			|| (tmp[0] == '\0' || (tmp[0] != '\0' && (new = expr_new(tmp)) == NULL)))
+		return (ERROR);
+	new->type = RED_FD;
+	new->next = (*l_expr)->next;
+	(*l_expr)->next = new;
+	return (TRUE);
 }
 
-int				in_lexer_2(t_e_list **tmp, int boule)
+static int				type_analyzer2(t_e_list **l_expr, int *boule)
 {
 	if (DEBUG_LEXER_PARSER == 1)
-		printf("------- IN LEXER 2 ------\n");
-	while (*tmp && (*tmp)->next)
+		printf("------- TYPE ANALYZER2 ------\n");
+
+	if (((*l_expr)->next->data)[0] == ';')
 	{
-		// si data == 1 OR .. OR \0 OR & AND data->next == > OR <
-		if (ft_strchr((*tmp)->next->data, '<') || ft_strchr((*tmp)->next->data, '>'))
-		{
-			waka_lexer(&(*tmp));
-		}
-		else if (boule == 1 && (!ft_strchr(SPECIAL, ((*tmp)->next->data)[0]) &&
-					((*tmp)->type == CMD || (*tmp)->type == CA || (*tmp)->type == RA)))
-			(*tmp)->next->type = CA;
-		else if (((*tmp)->type == RED && (*tmp)->next->type != RED_FD) || (*tmp)->type == RED_FD)
-			(*tmp)->next->type = RA;
-		else if (((*tmp)->next->data)[0] == ';')
-		{
-			(*tmp)->next->type = SEMI;
-			boule = 0;
-		}
-		else if (((*tmp)->next->data)[0] == '|')
-		{
-			(*tmp)->next->type = PIPE;
-			boule = 0;
-		}
-		else if (boule == 0 && ((ft_strchr(SPECIAL, ((*tmp)->data)[0])
-						&& !ft_strchr("><", ((*tmp)->next->data)[0])) || (*tmp)->type == RA))
-		{
-			boule = 1;
-			(*tmp)->next->type = CMD;
-		}
-		*tmp = (*tmp)->next;
+		(*l_expr)->next->type = SEMI;
+		*boule = 0;
 	}
-	return (0);
+	else if (((*l_expr)->next->data)[0] == '|')
+	{
+		(*l_expr)->next->type = PIPE;
+		*boule = 0;
+	}
+	else if (*boule == 0 && ((ft_strchr(SPECIAL, ((*l_expr)->data)[0])
+					&& !ft_strchr("><", ((*l_expr)->next->data)[0])) || (*l_expr)->type == RA))
+	{
+		*boule = 1;
+		(*l_expr)->next->type = CMD;
+	}
+	return (TRUE);
+}
+
+static int			type_analyzer(t_e_list **l_expr, int boule)
+{
+	if (DEBUG_LEXER_PARSER == 1)
+		printf("------- TYPE ANALYZER ------\n");
+
+	while (*l_expr && (*l_expr)->next)
+	{
+		if (ft_strchr((*l_expr)->next->data, '<')
+				|| ft_strchr((*l_expr)->next->data, '>'))
+		{
+			if (waka_lexer(&((*l_expr)->next)) == ERROR)
+				return (ERROR);
+			(*l_expr)->next->type = RED;
+		}
+		else if (boule == 1 && (!ft_strchr(SPECIAL, ((*l_expr)->next->data)[0])
+					&& ((*l_expr)->type == CMD || (*l_expr)->type == CA
+						|| (*l_expr)->type == RA)))
+			(*l_expr)->next->type = CA;
+		else if (!ft_strchr(SPECIAL, ((*l_expr)->next->data)[0])
+				&& (((*l_expr)->type == RED && (*l_expr)->next->type != RED_FD)
+					|| (*l_expr)->type == RED_FD))
+			(*l_expr)->next->type = RA;
+		else
+			type_analyzer2(l_expr, &boule);
+		*l_expr = (*l_expr)->next;
+	}
+	return (TRUE);
 }
 
 int				lexer_2(t_e_list **l_expr)
@@ -158,18 +128,28 @@ int				lexer_2(t_e_list **l_expr)
 
 	tmp = *l_expr;
 	boule = 0;
-
 	if (tmp && (ft_strchr(tmp->data, '<') || ft_strchr(tmp->data, '>')))
 	{
 		waka_lexer(&tmp);
-		tmp = tmp->next;
+		tmp->type = RED;
 	}
 	else if (tmp)
 	{
 		tmp->type = CMD;
 		boule = 1;
 	}
-	in_lexer_2(&tmp, boule);
+	type_analyzer(&tmp, boule);
 
-	return (0);
+	if (DEBUG_LEXER_PARSER == 1)
+	{
+		t_e_list *tmp2 = *l_expr;
+		while (tmp2)
+		{
+			printf("[%s-%d] -> ", tmp2->data, tmp2->type);
+			tmp2 = tmp2->next;
+		}
+		printf("\n");
+	}
+
+	return (TRUE);
 }
