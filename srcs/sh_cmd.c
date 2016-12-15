@@ -56,14 +56,7 @@ void		close_fd_red(t_intlst **lstfd, int saved_std[3])
 		free(tmp);
 	}
 	if (saved_std[0] != -1 || saved_std[1] != -1 || saved_std[2] != -1)
-	{
-		dup2(saved_std[0], STDIN_FILENO);
-		dup2(saved_std[1], STDOUT_FILENO);
-		dup2(saved_std[2], STDERR_FILENO);
-		close(saved_std[0]);
-		close(saved_std[1]);
-		close(saved_std[2]);
-	}
+		reset_std_fd(saved_std);
 }
 
 int			manage_cmd(t_node *tree)
@@ -82,9 +75,7 @@ int			manage_cmd(t_node *tree)
 	lstfd = NULL;
 	if (tree->left != NULL)
 	{
-		saved_std[0] = dup(STDIN_FILENO);
-		saved_std[1] = dup(STDOUT_FILENO);
-		saved_std[2] = dup(STDERR_FILENO);
+		init_std_fd(&saved_std);
 		if (red(tree->left, &lstfd) == ERROR)
 		{
 			close_fd_red(&lstfd, saved_std);

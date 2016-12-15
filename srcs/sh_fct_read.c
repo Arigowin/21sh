@@ -64,10 +64,13 @@ int				check_after_read(t_line *stline)
 	if (DEBUG == 1)
 		printf("------- CHECK AFTER READ ------\n");
 	t_node          *tree;
+	t_lst_fd		*lstfd;
 
+	lstfd = NULL;
 	if ((tree = read_n_check(stline->line)) == NULL)
 		return (-1);
-	tree_traversal(tree);
+	manage_red_file(&lstfd, tree);
+	tree_traversal(tree, &lstfd);
 	return (0);
 }
 

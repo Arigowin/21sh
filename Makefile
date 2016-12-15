@@ -46,6 +46,7 @@ SRC = sh_main.c \
 	  sh_move_in_line.c \
 	  sh_cmd.c \
 	  sh_red.c \
+	  sh_manage_fd.c \
 	  sh_pipe.c \
 	  sh_create_tree.c \
 	  sh_tree_traversal.c

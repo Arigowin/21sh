@@ -29,9 +29,7 @@ int 			create_file_red(t_node *tree)
 					boolean = FALSE;
 			}
 			else
-			{
 				filename = ft_strdup(tree->right->right->data);
-			}
 		}
 		else
 		{
@@ -42,10 +40,8 @@ int 			create_file_red(t_node *tree)
 				if (filename[0] == '-' || ft_isstrnum(filename))
 					boolean = FALSE;
 			}
-			else
-			{
-				filename = ft_strdup(tree->right->data);
-			}
+		else
+			filename = ft_strdup(tree->right->data);
 		}
 		if (boolean)
 		{
@@ -54,17 +50,13 @@ int 			create_file_red(t_node *tree)
 		}
 	}
 	if (tree->left)
-	{
 		create_file_red(tree->left);
-	}
 	if (tree->right)
-	{
 		create_file_red(tree->right);
-	}
 	return (TRUE);
 }
 
-int				tree_traversal(t_node *tree)
+int				tree_traversal(t_node *tree, t_lst_fd **lstfd)
 {
 	if (DEBUG_TREE == 1)
 		printf("------- TREE TRAVERSAL -------(%d)\n", tree->type);
@@ -72,33 +64,23 @@ int				tree_traversal(t_node *tree)
 
 	if (tree->type == PIPE)
 	{
-		create_file_red(tree);
-		saved_std[0] = dup(STDIN_FILENO);
-		saved_std[1] = dup(STDOUT_FILENO);
-		saved_std[2] = dup(STDERR_FILENO);
+		init_std_fd(&saved_std);
 		pipe_function(tree, STDIN_FILENO);
-		dup2(saved_std[0], STDIN_FILENO);
-		dup2(saved_std[1], STDOUT_FILENO);
-		dup2(saved_std[2], STDOUT_FILENO);
-		close(saved_std[0]);
-		close(saved_std[1]);
-		close(saved_std[2]);
+		reset_std_fd(saved_std);
 	}
 	if (tree->type == SEMI)
 	{
-		create_file_red(tree->left);
 		if (tree->left)
-			tree_traversal(tree->left);
+			tree_traversal(tree->left, lstfd);
 		else
-			return (FALSE);
+			return (ERROR);
 		if (tree->right)
-			tree_traversal(tree->right);
+			tree_traversal(tree->right, lstfd);
 		else
-			return (FALSE);
+			return (ERROR);
 	}
 	if (tree->type == CMD)
 	{
-		create_file_red(tree);
 		manage_cmd(tree);
 	}
 

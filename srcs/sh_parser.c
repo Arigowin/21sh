@@ -57,7 +57,7 @@ static int		filled_red_arg(t_e_list **l_expr, t_node **node)
 {
 	if (DEBUG_TREE_CREATION == 1)
 		printf("------- FILLED RED ARG ------\n");
-	if (((*node)->data = ft_strdup((*l_expr)->data)) == NULL)
+	if (((*node)->data = ft_strdup_ignchar((*l_expr)->data, '\\')) == NULL)
 	{
 		clear_node(node);
 		return (FALSE);
@@ -112,7 +112,7 @@ int				check_red(t_e_list **l_expr, t_node **tree)
 	if ((*l_expr)->type == RED && (node = create_node(RED)) != NULL
 			&& move_in_list(l_expr) && ((red_ret = check_red_arg(l_expr, &(node->right))) == TRUE))
 	{
-		if ((node->data = ft_strdup(list_save->data)) == NULL)
+		if ((node->data = ft_strdup_ignchar(list_save->data, '\\')) == NULL)
 		{
 			clear_node(&node);
 			return (FALSE);
@@ -144,7 +144,7 @@ int				check_arg(t_e_list **l_expr, t_node **tree, t_node **right_node)
 	save = *tree;
 	if ((*l_expr)->type == CMD_ARG && ((node = create_node(CMD_ARG)) != NULL))
 	{
-		if ((node->data = ft_strdup((*l_expr)->data)) == NULL)
+		if ((node->data = ft_strdup_ignchar((*l_expr)->data, '\\')) == NULL)
 		{
 			clear_node(&node);
 			return (FALSE);
@@ -196,7 +196,7 @@ int				check_command(t_e_list **l_expr, t_node **tree)
 		*tree = save;
 	if ((*l_expr)->type == CMD) // && (!red || move_in_list(l_expr)))
 	{
-		if ((node->data = ft_strdup((*l_expr)->data)) == NULL)
+		if ((node->data = ft_strdup_ignchar((*l_expr)->data, '\\')) == NULL)
 		{
 			clear_node(&node);
 			return (FALSE);
@@ -228,7 +228,7 @@ int				check_c_pipe(t_e_list **l_expr, t_node **tree)
 	{
 		if ((*l_expr)->type == PIPE)
 		{
-			node->data = ft_strdup((*l_expr)->data);
+			node->data = ft_strdup_ignchar((*l_expr)->data, '\\');
 			*tree = node;
 			if (!(move_in_list(l_expr) && check_c_pipe(l_expr, &(node->right))))
 			{
@@ -272,7 +272,7 @@ int				check_expr(t_e_list **l_expr, t_node **tree)
 		}
 		if ((*l_expr)->type == SEMI)
 		{
-			node->data = ft_strdup((*l_expr)->data);
+			node->data = ft_strdup_ignchar((*l_expr)->data, '\\');
 			*tree = node;
 			if (!(move_in_list(l_expr) && check_expr(l_expr, &(node->right))))
 			{

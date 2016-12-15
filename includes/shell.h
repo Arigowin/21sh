@@ -145,6 +145,13 @@ typedef struct			s_key_fct
 	int					(*fct)(t_line *stline, t_history **history);
 }						t_key_fct;
 
+typedef struct			s_lst_fd
+{
+	int					fd;
+	char				*filename;
+	struct s_lst_fd		*next;
+}						t_lst_fd;
+
 /*
 ** sh_main
 */
@@ -297,12 +304,20 @@ int						check_next(t_e_list **l_expr, t_node **tree, t_node **right_node);
 /*
 ** sh_tree_traversal
 */
-int						tree_traversal(t_node *tree);
+int						tree_traversal(t_node *tree, t_lst_fd **lstfd);
 
 /*
 ** sh_red
 */
 int     				red(t_node *tree, t_intlst **lstfd);
+
+/*
+** sh_manage_fd
+*/
+int						init_std_fd(int (*std_fd)[]);
+int						reset_std_fd(int std_fd[]);
+int						lstfd_pushbck(t_lst_fd **lstfd, int fd, char *filename);
+int						manage_red_file(t_lst_fd **lstfd, t_node *tree);
 
 /*
 ** sh_cmd
@@ -314,6 +329,7 @@ int						manage_cmd(t_node *tree);
 ** sh_pipe
 */
 int						pipe_function(t_node *tree, int in_fd);
+
 
 #endif
 
