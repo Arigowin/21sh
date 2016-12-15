@@ -298,19 +298,21 @@ t_node			*parser(t_e_list **l_expr)
 	if (DEBUG_TREE_CREATION == 1)
 		printf("------- PARSER ------\n");
 	t_node			*node;
+	t_e_list		*head_l_expr;
 
 	if (*l_expr == NULL)
 		return (NULL);
+	head_l_expr = *l_expr;
 	node = NULL;
+	if ((check_expr(l_expr, &node)) == FALSE)
+		clear_tree(&node);
 
 	if (DEBUG_TREE_CREATION == 1)
 	{
-		t_e_list *tmp = *l_expr;
+		t_e_list *tmp = head_l_expr;
 		while(tmp){printf("[%s -> %d] --> ", (tmp)->data, (tmp)->type); tmp = (tmp)->next;}
 		printf("\n");
 	}
-
-	if ((check_expr(l_expr, &node)) == FALSE)
-		clear_tree(&node);
+	
 	return (node);
 }
