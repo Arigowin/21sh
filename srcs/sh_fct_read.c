@@ -69,7 +69,6 @@ int				check_after_read(t_line *stline)
 	lstfd = NULL;
 	if ((tree = read_n_check(stline->line)) == NULL)
 		return (-1);
-	manage_red_file(&lstfd, tree);
 	tree_traversal(tree, &lstfd);
 	return (0);
 }

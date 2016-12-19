@@ -16,8 +16,6 @@ int				fd_exist(int fd)
 	if (DEBUG_RED == 1)
 		printf("------------ FD EXIST ------------\n");
 
-	if (fd >= 0 && fd <= 2)
-		return (TRUE);
 	if (isatty(fd) == 0)
 	{
 		ft_putstr("21sh: ");

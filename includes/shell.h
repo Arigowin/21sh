@@ -2,15 +2,15 @@
 # define SHELL_H
 
 #define DEBUG 0
-#define DEBUG2 1
+#define DEBUG2 0
 #define DEBUG_BUILTIN 0
 #define DEBUG_LEXER_PARSER 0
-#define DEBUG_TREE_CREATION 1
+#define DEBUG_TREE_CREATION 0
 #define DEBUG_TREE 0
 #define DEBUG_TERMCAPS 0
 #define DEBUG_HISTORY 0
 #define DEBUG_PIPE 0
-#define DEBUG_RED 0
+#define DEBUG_RED 1
 #define DEBUG_CMD 0
 #define DEBUG_COPY_PASTE 0
 #define DEBUG_KEY 0
@@ -309,6 +309,7 @@ int						tree_traversal(t_node *tree, t_lst_fd **lstfd);
 /*
 ** sh_red
 */
+int						fd_exist(int fd);
 int     				red(t_node *tree, t_intlst **lstfd);
 
 /*

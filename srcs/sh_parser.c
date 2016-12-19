@@ -313,6 +313,6 @@ t_node			*parser(t_e_list **l_expr)
 		while(tmp){printf("[%s -> %d] --> ", (tmp)->data, (tmp)->type); tmp = (tmp)->next;}
 		printf("\n");
 	}
-	
+
 	return (node);
 }
