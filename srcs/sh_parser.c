@@ -69,6 +69,7 @@ int				check_red_arg(t_e_list **l_expr, t_node **tree)
 {
 	if (DEBUG_TREE_CREATION == 1)
 		printf("------- CHECK RED_ARG ------\n[%s]\n", (*l_expr)->data);
+
 	t_node			*node;
 	t_node			*save;
 
@@ -81,12 +82,16 @@ int				check_red_arg(t_e_list **l_expr, t_node **tree)
 		*tree = node;
 		return (TRUE);
 	}
-	else if ((*l_expr)->type == RED_FD && ((node = create_node(RED_FD)) != NULL))
+	else if ((*l_expr)->type == RED_FD && (*l_expr)->next &&
+	(*l_expr)->next->type != RED_FD && ((node = create_node(RED_FD)) != NULL))
 	{
 		if (filled_red_arg(l_expr, &node) == FALSE)
 			return (FALSE);
 		if (!move_in_list(l_expr) || !check_red_arg(l_expr, &(node->right)))
+		{
 			*tree = save;
+			return (FALSE);
+		}
 		*tree = node;
 		return (TRUE);
 	}
@@ -100,6 +105,7 @@ int				check_red(t_e_list **l_expr, t_node **tree)
 {
 	if (DEBUG_TREE_CREATION == 1)
 		printf("------- CHECK RED ------\n[%s]\n", (*l_expr)->data);
+
 	t_node			*node;
 	t_node			*save;
 	t_e_list		*list_save;

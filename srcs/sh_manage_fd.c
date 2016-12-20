@@ -82,26 +82,26 @@ int					check_file_name(char **filename, char *str)
 }
 
 int					right_red_fd_pushbk(t_lst_fd **lstfd, int flags,
-					char *filename)
+		char *filename)
 {
 	if (DEBUG_RED == 1)
 		printf("------- RIGHT RED FD PUSHBCK -------\n");
 
 	int 				fd;
 
-	if ((access(filename, W_OK)) == ERROR)
+	if (access(filename, F_OK) != ERROR && access(filename, W_OK) == ERROR)
 	{printf("NON!!!!!!!!\n");
 		return (ERROR);
 	}
 	if ((fd = open(filename, flags,
-			S_IRUSR | S_IWUSR | S_IRGRP | S_IROTH)) == ERROR)
+					S_IRUSR | S_IWUSR | S_IRGRP | S_IROTH)) == ERROR)
 		return (ERROR);
 	lstfd_pushbck(lstfd, fd, filename);
 	return (TRUE);
 }
 
 int					right_red_fd(t_lst_fd **lstfd, t_node *tree,
-					t_node *red_arg)
+		t_node *red_arg)
 {
 	if (DEBUG_RED == 1)
 		printf("------- RIGHT RED FD -------\n");
@@ -182,6 +182,21 @@ int					left_red_fd(t_lst_fd **lstfd, t_node *red_arg)
 	return (TRUE);
 }
 
+static int		red_travesal(t_lst_fd **lstfd, t_node **tree)
+{
+	if (*tree && (*tree)->left)
+	{
+		if ((manage_red_file(lstfd, (*tree)->left)) == ERROR)
+			return (ERROR);
+	}
+	if (*tree && (*tree)->right)
+	{
+		if ((manage_red_file(lstfd, (*tree)->right)) == ERROR)
+			return (ERROR);
+	}
+	return (TRUE);
+}
+
 int					manage_red_file(t_lst_fd **lstfd, t_node *tree)
 {
 	if (DEBUG_RED == 1)
@@ -190,24 +205,21 @@ int					manage_red_file(t_lst_fd **lstfd, t_node *tree)
 	t_node		*red_arg;
 
 	red_arg = NULL;
-	if (tree && tree->left)
+	if (!tree || (tree->type == RRED || tree->type == DRRED
+				|| tree->type == LRED || tree->type == DLRED))
 	{
-		if ((manage_red_file(lstfd, tree->left)) == ERROR)
-			return (ERROR);
+		if (!tree->right)
+			return (FALSE);
+		red_arg = (tree->right->type == RED_ARG ? tree->right
+				: tree->right->right);
+		if (tree->type == RRED || tree->type == DRRED)
+			right_red_fd(lstfd, tree, red_arg);
+		if (tree->type == LRED)
+			left_red_fd(lstfd, red_arg);
+		if (tree->type == DLRED)
+			;
 	}
-	if (tree && tree->right)
-	{
-		if ((manage_red_file(lstfd, tree->right)) == ERROR)
-			return (ERROR);
-	}
-	if (!tree || !tree->right)
-		return (FALSE);
-	red_arg = (tree->right->type == RED_ARG ? tree->right : tree->right->right);
-	if (tree->type == RRED || tree->type == DRRED)
-		return (right_red_fd(lstfd, tree, red_arg));
-	 if (tree->type == LRED)
-		return (left_red_fd(lstfd, red_arg));
-	if (tree->type == DLRED)
-		;
+	if (red_travesal(lstfd, &tree) == ERROR)
+		return (ERROR);
 	return (TRUE);
 }

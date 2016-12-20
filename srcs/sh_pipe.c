@@ -6,7 +6,7 @@
 #include "libft.h"
 #include <sys/wait.h>
 
-int			pipe_function(t_node *tree, int in_fd)
+int			pipe_function(t_node *tree, int in_fd, t_lst_fd **lstfd)
 {
 	if (DEBUG_PIPE == 1)
 		printf("------- PIPE FUNCTION -------(%s)-(%d)\n", tree->data, in_fd);
@@ -23,7 +23,7 @@ int			pipe_function(t_node *tree, int in_fd)
 			else
 				return (FALSE);
 		}
-		manage_cmd(tree);
+		manage_cmd(tree, lstfd);
 		return (FALSE);
 	}
 	else
@@ -47,7 +47,7 @@ int			pipe_function(t_node *tree, int in_fd)
 		}
 		close(pfd[1]);
 		close(in_fd);
-		pipe_function(tree->right, pfd[0]);
+		pipe_function(tree->right, pfd[0], lstfd);
 	}
 	return (TRUE);
 }

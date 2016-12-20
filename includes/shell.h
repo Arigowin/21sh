@@ -4,7 +4,7 @@
 #define DEBUG 0
 #define DEBUG2 0
 #define DEBUG_BUILTIN 0
-#define DEBUG_LEXER_PARSER 0
+#define DEBUG_LEXER_PARSER 1
 #define DEBUG_TREE_CREATION 0
 #define DEBUG_TREE 0
 #define DEBUG_TERMCAPS 0
@@ -310,7 +310,7 @@ int						tree_traversal(t_node *tree, t_lst_fd **lstfd);
 ** sh_red
 */
 int						fd_exist(int fd);
-int     				red(t_node *tree, t_intlst **lstfd);
+int     				redirect(t_node *tree, t_lst_fd **lstfd);
 
 /*
 ** sh_manage_fd
@@ -324,12 +324,12 @@ int						manage_red_file(t_lst_fd **lstfd, t_node *tree);
 ** sh_cmd
 */
 char					**format_cmd(t_node *tree);
-int						manage_cmd(t_node *tree);
+int						manage_cmd(t_node *tree, t_lst_fd **lstfd);
 
 /*
 ** sh_pipe
 */
-int						pipe_function(t_node *tree, int in_fd);
+int						pipe_function(t_node *tree, int in_fd, t_lst_fd **lfd);
 
 
 #endif

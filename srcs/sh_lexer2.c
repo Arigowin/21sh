@@ -2,7 +2,6 @@
 #include <stdlib.h>
 #include "shell.h"
 #include "libft.h"
-
 #define RA RED_ARG
 #define CA CMD_ARG
 
@@ -11,23 +10,37 @@ static int			waka_land_handler(t_e_list **l_expr, char (*tmp)[], int *i)
 	if (DEBUG_LEXER_PARSER == 1)
 		printf("------- WAKA LAND HANDLER ------\n");
 
+	t_e_list			*new;
+
+	new = NULL;
 	if (ft_strncount((*l_expr)->data, '&') > 1)
 		return (ERROR);
 	if ((*l_expr)->data[ft_strlen((*l_expr)->data) - 1] == '&')
 	{
 		(*l_expr)->data[ft_strlen((*l_expr)->data) - 1] = '\0';
-		str_addleft((*l_expr)->next->data, '&');
-		(*l_expr)->next->type = RED_ARG;
+		if (ft_isstrnum((*l_expr)->next->data))
+		{
+			str_addleft((*l_expr)->next->data, '&');
+			(*l_expr)->next->type = RED_ARG;
+		}
+		else
+		{
+			new = expr_new("&");
+			new->type = RED_FD;
+			new->next = (*l_expr)->next;
+			(*l_expr)->next = new;
+		}
 	}
 	if ((*l_expr)->data[0] == '&')
-	{
 		(*tmp)[(*i)++] = '&';
-	}
 	return (TRUE);
 }
 
 static int			red_fd_copy(t_e_list **l_expr, char (*tmp)[], int *i)
 {
+	if (DEBUG_LEXER_PARSER == 1)
+		printf("------- RED FD COPY ------\n");
+
 	while (*i < 11 && ft_isdigit(((*l_expr)->data)[*i]))
 	{
 		(*tmp)[*i] = ((*l_expr)->data)[*i];

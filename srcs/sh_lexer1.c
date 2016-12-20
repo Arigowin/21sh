@@ -89,13 +89,14 @@ int 				manage_sep(char **read_buff, char **data_tmp,
 	if (ft_strchr(SPECIAL, **read_buff))
 	{
 		add_in_tbl(data_tmp, **read_buff);
-		if (ft_strchr(WAKA, **read_buff) && ((**read_buff) + 1)
-				&& ((**read_buff) + 1) == (**read_buff))
+		if (ft_strchr(WAKA, **read_buff) && (*(*read_buff + 1))
+				&& (*(*read_buff + 1)) == (**read_buff))
 		{
 			(*read_buff)++;
 			add_in_tbl(data_tmp, **read_buff);
 		}
-		if ((**read_buff == '&' && ft_strchr(WAKA, (*(*read_buff + 1)))) || (ft_strchr(WAKA, **read_buff) && (*(*read_buff + 1)) == '&'))
+		if ((**read_buff == '&' && ft_strchr(WAKA, (*(*read_buff + 1))))
+		|| (ft_strchr(WAKA, **read_buff) && (*(*read_buff + 1)) == '&'))
 			return (TRUE);
 		expr_pushbk(l_expr, *data_tmp);
 		ft_bzero(*data_tmp, ft_strlen(*data_tmp));
