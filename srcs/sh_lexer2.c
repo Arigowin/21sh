@@ -18,7 +18,8 @@ static int			waka_land_handler(t_e_list **l_expr, char (*tmp)[], int *i)
 	if ((*l_expr)->data[ft_strlen((*l_expr)->data) - 1] == '&')
 	{
 		(*l_expr)->data[ft_strlen((*l_expr)->data) - 1] = '\0';
-		if (ft_isstrnum((*l_expr)->next->data))
+		if (ft_isstrnum((*l_expr)->next->data)
+		|| ft_strcmp((*l_expr)->next->data, "-") == 0)
 		{
 			str_addleft((*l_expr)->next->data, '&');
 			(*l_expr)->next->type = RED_ARG;

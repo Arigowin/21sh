@@ -41,8 +41,8 @@ int				fd_exist(int fd)
    red_fd[0] = STDOUT_FILENO;
    else if (red_fd[0] == '&')
    {
-	   red_fd[0] = STDOUT_FILENO;
-	   close(STDERR_FILENO);
+   red_fd[0] = STDOUT_FILENO;
+   close(STDERR_FILENO);
    }
    else
    red_fd[0] = atoi_char(red_fd[0]);
@@ -64,22 +64,22 @@ int				fd_exist(int fd)
    }
 
    if (red_fd[0] == -1)
-	   red_fd[0] = STDOUT_FILENO;
+   red_fd[0] = STDOUT_FILENO;
    else if (red_fd[0] == '&')
    {
-	   red_fd[0] = STDOUT_FILENO;
-	   if (dup2(fd, STDERR_FILENO) == ERROR)
-		   return (ERROR);
+   red_fd[0] = STDOUT_FILENO;
+   if (dup2(fd, STDERR_FILENO) == ERROR)
+   return (ERROR);
    }
    else
-	   red_fd[0] = atoi_char(red_fd[0]);
+   red_fd[0] = atoi_char(red_fd[0]);
 
    if (fd_exist(red_fd[0]) == FALSE)
-	   return (ERROR);
+   return (ERROR);
    if (dup2(fd, red_fd[0]) == ERROR)
-	   return (ERROR);
+   return (ERROR);
    if (fd < 0 || fd > 2)
-	   close(fd);
+   close(fd);
 
    return (red_fd[0]);
    }
@@ -220,22 +220,49 @@ static int		red_if2(int type, char *filename, int red_fd[2], t_intlst **lstfd)
 
 	return (FALSE);
 }
-*/
 
-int				right_red(t_node *tree, t_lst_fd **lstfd)
+int				left_red(t_node *tree, t_lst_fd **lstfd)
 {
 	if (DEBUG_RED == 1)
 		printf("------- RIGHT RED -------\n");
 
 	int				fd;
 
-	fd = STDOUT_FILENO;
+	fd = STDIN_FILENO;
+	//	if (tree->type == RED_FD && ft_strcmp(tree->data, "&") != 0)
+	//		fd = ft_atoi(tree->data);
+	//	else if (tree->type == RED_FD && ft_strcmp(tree->data, "&") == 0)
+	return (ERROR);
+	//	if (tree->right && tree->type == RED_FD)
+	//		tree = tree->right;
+	//	if ((*lstfd)->fd == -1)
+	//	{
+	//		close(fd);
+	//		return (TRUE);
+	//	}
+	//	if (dup2((*lstfd)->fd, fd) == ERROR)
+	//		return (ERROR);
+	close((*lstfd)->fd);
+	//	(*lstfd)->fd = fd;
+	//	return (TRUE);
+}
+*/
+
+int				simple_red(t_node *tree, t_lst_fd **lstfd, int stdfd)
+{
+	if (DEBUG_RED == 1)
+		printf("------- RIGHT RED -------\n");
+
+	int				fd;
+
+	fd = stdfd;
 	if (tree->type == RED_FD && ft_strcmp(tree->data, "&") != 0)
 		fd = ft_atoi(tree->data);
 	else if (tree->type == RED_FD && ft_strcmp(tree->data, "&") == 0)
 	{
-		printf("test, %d\n", fd);
-		if (dup2((*lstfd)->fd, STDERR_FILENO) == ERROR)
+		// if STDIN_FILENO
+		// 		bash: file: ambiguous redirect
+		if (stdfd == STDIN_FILENO || dup2((*lstfd)->fd, STDERR_FILENO) == ERROR)
 			return (ERROR);
 	}
 	if (tree->right && tree->type == RED_FD)
@@ -247,8 +274,10 @@ int				right_red(t_node *tree, t_lst_fd **lstfd)
 	}
 	if (dup2((*lstfd)->fd, fd) == ERROR)
 		return (ERROR);
-	close((*lstfd)->fd);
-
+	if ((*lstfd)->fd > STDERR_FILENO && (stdfd == STDOUT_FILENO
+	|| (((*lstfd)->filename)[0] != '&' && (*lstfd)->fd != -1)))
+		close((*lstfd)->fd);
+	(*lstfd)->fd = fd;
 	return (TRUE);
 }
 
@@ -257,13 +286,14 @@ int				redirect(t_node *tree, t_lst_fd **lstfd)
 	if (DEBUG_RED == 1)
 		printf("------- RED -------\n");
 
-	if (tree && tree->right && (tree->type == RRED || tree->type == DRRED))
+	int				fd;
+
+	fd = (tree->type == LRED ? STDIN_FILENO : STDOUT_FILENO);
+	if (tree && tree->right && (tree->type != DLRED ))//|| tree->type == DRRED))
 	{
-		if (right_red(tree->right, lstfd) == ERROR)
+		if (simple_red(tree->right, lstfd, fd) == ERROR)
 			return (ERROR);
 	}
-	else if (tree && tree->right && tree->type == LRED)
-		;
 	else if (tree && tree->right && tree->type == DLRED)
 		;
 
@@ -273,7 +303,6 @@ int				redirect(t_node *tree, t_lst_fd **lstfd)
 		if (redirect(tree->left, lstfd) == ERROR)
 			return (ERROR);
 	}
-
 
 	return (TRUE);
 	//	int			red_fd[2];

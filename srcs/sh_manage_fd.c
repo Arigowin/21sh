@@ -4,28 +4,75 @@
 #define	FD 3
 #define CLOSE 4
 
-int					init_std_fd(int (*std_fd)[])
-{
-	if (DEBUG_RED == 1)
-		printf("------- INIT STD FD -------\n");
-
-	(*std_fd)[0] = dup(STDIN_FILENO);
-	(*std_fd)[1] = dup(STDOUT_FILENO);
-	(*std_fd)[2] = dup(STDERR_FILENO);
-	return (TRUE);
-}
-
-int					reset_std_fd(int std_fd[])
+int					reset_std_fd(void)
 {
 	if (DEBUG_RED == 1)
 		printf("------- RESET STD FD -------\n");
 
-	dup2(std_fd[0], STDIN_FILENO);
-	dup2(std_fd[1], STDOUT_FILENO);
-	dup2(std_fd[2], STDERR_FILENO);
-	close(std_fd[0]);
-	close(std_fd[1]);
-	close(std_fd[2]);
+	int					fd;
+
+	fd = -1;
+	printf("OK1\n");
+	if ((fd = open("/dev/stdin", O_RDONLY)) == -1)
+	{
+		printf("OK2\n");
+		return (FALSE);
+	}
+	printf("OK3\n");
+	if (dup2(fd, STDIN_FILENO) == -1)
+	{
+		printf("OK4\n");
+		return (FALSE);
+	}
+	if (fd > STDERR_FILENO)
+		close(fd);
+
+	if ((fd = open("/dev/stdout", O_WRONLY)) == -1)
+	{
+		printf("OK5\n");
+		return (FALSE);
+	}
+	printf("OK6\n");
+	if (dup2(fd, STDOUT_FILENO) == -1)
+	{
+		printf("OK7\n");
+		return (FALSE);
+	}
+	if (fd > STDERR_FILENO)
+		close(fd);
+
+	if ((fd = open("/dev/stderr", O_WRONLY)) == -1)
+	{
+		printf("OK8\n");
+		return (FALSE);
+	}
+	printf("OK9\n");
+	if (dup2(fd, STDERR_FILENO) == -1)
+	{
+		printf("OK10\n");
+		return (FALSE);
+	}
+	if (fd > STDERR_FILENO)
+		close(fd);
+	return (TRUE);
+}
+
+int					close_lstfd(t_lst_fd **lstfd)
+{
+	if (DEBUG_RED == 1)
+		printf ("----- CLOSE LSTFD -----\n");
+	t_lst_fd			*tmp;
+
+	tmp = NULL;
+	while (*lstfd)
+	{
+		if ((*lstfd)->fd != -1)
+			close((*lstfd)->fd);
+		free((*lstfd)->filename);
+		tmp = *lstfd;
+		*lstfd = (*lstfd)->next;
+		free(tmp);
+	}
 	return (TRUE);
 }
 
@@ -75,7 +122,10 @@ int					check_file_name(char **filename, char *str)
 	if ((*filename = ft_strsub(str, 1, ft_strlen(str))) == NULL)
 		return (ERROR);
 	if (ft_isstrnum(*filename))
+	{
+		str_addleft(*filename, '&');
 		return (FD);
+	}
 	if (ft_strcmp(*filename, "-") == 0)
 		return (CLOSE);
 	return (TRUE);
@@ -123,7 +173,7 @@ int					right_red_fd(t_lst_fd **lstfd, t_node *tree,
 	if (ret_fn == ERROR)
 		return (ERROR);
 	else if (ret_fn == FD)
-		lstfd_pushbck(lstfd, ft_atoi(filename), filename);
+		lstfd_pushbck(lstfd, ft_atoi((filename) + 1), filename);
 	else if (ret_fn == CLOSE)
 		lstfd_pushbck(lstfd, -1, red_arg->data);
 	else
@@ -174,7 +224,7 @@ int					left_red_fd(t_lst_fd **lstfd, t_node *red_arg)
 	if (ret_fn == ERROR || ret_fn == TRUE)
 		return (ERROR);
 	else if (ret_fn == FD)
-		lstfd_pushbck(lstfd, ft_atoi(filename), filename);
+		lstfd_pushbck(lstfd, ft_atoi((filename) + 1), filename);
 	else if (ret_fn == CLOSE)
 		lstfd_pushbck(lstfd, -1, red_arg->data);
 	else

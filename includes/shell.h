@@ -4,7 +4,7 @@
 #define DEBUG 0
 #define DEBUG2 0
 #define DEBUG_BUILTIN 0
-#define DEBUG_LEXER_PARSER 1
+#define DEBUG_LEXER_PARSER 0
 #define DEBUG_TREE_CREATION 0
 #define DEBUG_TREE 0
 #define DEBUG_TERMCAPS 0
@@ -315,8 +315,8 @@ int     				redirect(t_node *tree, t_lst_fd **lstfd);
 /*
 ** sh_manage_fd
 */
-int						init_std_fd(int (*std_fd)[]);
-int						reset_std_fd(int std_fd[]);
+int						reset_std_fd(void);
+int						close_lstfd(t_lst_fd **lstfd);
 int						lstfd_pushbck(t_lst_fd **lstfd, int fd, char *filename);
 int						manage_red_file(t_lst_fd **lstfd, t_node *tree);
 
