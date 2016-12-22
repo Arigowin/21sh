@@ -56,10 +56,29 @@ char			*get_env(char *name)
 	return (NULL);
 }
 
+int				is_builtin(char **cmd)
+{
+//	if (DEBUG == 1)
+		printf("------- IS BUILTIN ------\n");
+
+	static const char	*bi[] = {"cd", "setenv", "unsetenv", "env", "exit"};
+	int					i;
+
+	i = 0;
+	while (i < 5)
+	{
+		if (ft_strcmp(cmd[0], bi[i]) == 0)
+			return (i);
+		i++;
+	}
+	return (-1);
+}
+
 int				handle_builtin(char **cmd)
 {
 	if (DEBUG == 1)
 		printf("------- HANDLE BUILTIN ------\n");
+
 	static const char	*bi[] = {"cd", "setenv", "unsetenv", "env", "exit"};
 	static int			(*fct_tbl[])(char **cmd, t_duo **env) = {&bi_cd,
 		&bi_setenv, &bi_unsetenv, &bi_env, &bi_exit};
@@ -72,10 +91,10 @@ int				handle_builtin(char **cmd)
 		i++;
 	if (i < 5 && ft_strcmp(cmd[0], bi[i]) == 0)
 	{
-		if (fct_tbl[i](cmd, &env) == -1)
-			return (-1);
+		if (fct_tbl[i](cmd, &env) == ERROR)
+			return (ERROR);
 		else
-			return (1);
+			return (TRUE);
 	}
-	return (0);
+	return (FALSE);
 }

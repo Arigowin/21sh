@@ -80,14 +80,14 @@ int				fct_read(t_line *stline, t_history **history)
 	int				key;
 	int				ret;
 	int				event_ret;
-	char			*var1 = "ls";
-	char			*var2 = "-l";
-	char			*var3 = "/dev/fd/";
-	char			*(cmd[]) = {var1, var2, var3, NULL};
+//	char			*var1 = "ls";
+//	char			*var2 = "-l";
+//	char			*var3 = "/dev/fd/";
+//	char			*(cmd[]) = {var1, var2, var3, NULL};
 
 	ret = 0;
 	key = 0;
-	father_n_son(cmd);
+//	father_n_son(cmd);
 	while ((ret = read(STDIN_FILENO, &key, sizeof(int))) > 0)
 	{
 		if ((event_ret = event(key, stline, history)) == BREAK)

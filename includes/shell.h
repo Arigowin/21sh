@@ -1,7 +1,7 @@
 #ifndef SHELL_H
 # define SHELL_H
 
-#define DEBUG 0
+#define DEBUG 1
 #define DEBUG2 0
 #define DEBUG_BUILTIN 0
 #define DEBUG_LEXER_PARSER 0
@@ -176,6 +176,7 @@ int						check_signal(int loc);
 int						add_env(char *name, char *value);
 int						change_env(char *name, char *value);
 char					*get_env(char *name);
+int						is_builtin(char **cmd);
 int						handle_builtin(char **cmd);
 
 /*
@@ -207,6 +208,7 @@ int						fct_read(t_line *line, t_history **history);
 */
 int						father_n_son(char **cmd);
 int						father_n_son_for_pipe(char **cmd);
+int						handle_fork(t_node *tree, t_lst_fd **lstfd);
 
 /*
 ** sh_env

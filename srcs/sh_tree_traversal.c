@@ -41,7 +41,7 @@ int				tree_traversal(t_node *tree, t_lst_fd **lstfd)
 		if ((manage_cmd(tree, lstfd)) == ERROR)
 			return (ERROR);
 		close_lstfd(&saved_lstfd);
-		reset_std_fd();
+//		reset_std_fd();
 	}
 	return (TRUE);
 }
