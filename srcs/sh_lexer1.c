@@ -245,29 +245,39 @@ states				get_state(states state, char **read_buff)
 	return (state);
 }
 
-int						lexer_1(char *read_buff, t_e_list **l_expr)
+int 					finite_state_atomaton(char **read_buff, t_e_list **l_expr
+						,char **data_tmp)
 {
-	if (DEBUG_LEXER_PARSER == 1)
-		printf("------- LEXER 1 ------\n");
+//	if (DEBUG_LEXER_PARSER == 1)
+		printf("------- FINITE STATE AUTOMATON ------\n");
 	int						bln;
 	states					state;
+
+	bln = FALSE;
+	state = STANDARD;
+	while (*read_buff && **read_buff)
+	{
+		state = get_state(state, read_buff);
+		if (state == STANDARD)
+			lexer_standard(read_buff, data_tmp, &bln, l_expr);
+		else if (state == IN_QUOTE)
+			lexer_quote(**read_buff, data_tmp);
+		else if (state == IN_DQUOTE)
+			lexer_dquote(read_buff, data_tmp);
+		(*read_buff)++;
+	}
+	return (TRUE);
+}
+
+int						lexer_1(char *read_buff, t_e_list **l_expr)
+{
+//	if (DEBUG_LEXER_PARSER == 1)
+		printf("------- LEXER 1 ------\n");
 	char 					*data_tmp;
 
 	(void)l_expr;
-	bln = FALSE;
-	state = STANDARD;
 	data_tmp = ft_strnew(ft_strlen(read_buff));
-	while (read_buff && *read_buff)
-	{
-		state = get_state(state, &read_buff);
-		if (state == STANDARD)
-			lexer_standard(&read_buff, &data_tmp, &bln, l_expr);
-		else if (state == IN_QUOTE)
-			lexer_quote(*read_buff, &data_tmp);
-		else if (state == IN_DQUOTE)
-			lexer_dquote(&read_buff, &data_tmp);
-		read_buff++;
-	}
+	finite_state_atomaton(&read_buff, l_expr, &data_tmp);
 	if (*data_tmp)
 	{
 		expr_pushbk(l_expr, data_tmp);

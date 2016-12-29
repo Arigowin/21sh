@@ -33,7 +33,7 @@ t_node          *read_n_check(char *read_buff)
 	if (lexer_2(&l_expr) == ERROR)
 		return (NULL);
 	tree = parser(&l_expr);
-//	if (DEBUG2 == 1)
+	if (DEBUG2 == 1)
 		tree_traversal_verif(tree);
 	return (tree);
 }
@@ -99,7 +99,7 @@ int				fct_read(t_line *stline, t_history **history)
 	printf("read ret : %d\n", ret);
 	if (key == RETURN && (stline->line)[0] == 0)
 		return (FALSE);
-	if (ret <= 0)
+	if (ret <= 0) // il faut pas un < strict?
 		return (ERROR);
 	if (check_after_read(stline) == ERROR)
 		return (ERROR);
