@@ -268,7 +268,7 @@ int				check_expr(t_e_list **l_expr, t_node **tree)
 
 	node = NULL;
 	if ((node = create_node(SEMI)) == NULL)
-		return (FALSE);
+		return (ERROR);
 	node_to_give = (node->left == NULL ? &(node->left) : &(node->right));
 	if (check_c_pipe(l_expr, node_to_give))
 	{
@@ -277,18 +277,15 @@ int				check_expr(t_e_list **l_expr, t_node **tree)
 			printf("error in check expr\n");
 			parse_error((*l_expr)->data);
 			clear_node(&node);
-			return (FALSE);
+			return (ERROR);
 		}
 		if ((*l_expr)->type == SEMI)
 		{
 			node->data = ft_strdup_ignchar((*l_expr)->data, '\\');
 			*tree = node;
-			if (!(move_in_list(l_expr) && check_expr(l_expr, &(node->right))))
-			{
-				printf("error in check expr\n");
-				parse_error((*l_expr)->data);
-				clear_node(&node);
-			}
+			if (move_in_list(l_expr))
+				if (check_expr(l_expr, &(node->right)) == ERROR)
+					return (ERROR);
 			*tree = node;
 			return (TRUE);
 		}
@@ -299,7 +296,7 @@ int				check_expr(t_e_list **l_expr, t_node **tree)
 	printf("error in check expr - pouet!!!!!\n");
 	parse_error((*l_expr)->data);
 	clear_node(&node);
-	return (FALSE);
+	return (ERROR);
 }
 
 t_node			*parser(t_e_list **l_expr)
