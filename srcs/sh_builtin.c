@@ -58,7 +58,7 @@ char			*get_env(char *name)
 
 int				is_builtin(char **cmd)
 {
-//	if (DEBUG == 1)
+	if (DEBUG == 1)
 		printf("------- IS BUILTIN ------\n");
 
 	static const char	*bi[] = {"cd", "setenv", "unsetenv", "env", "exit"};

@@ -6,6 +6,15 @@
 #include "shell.h"
 #include "libft.h"
 
+char		*savior_tty(char *tty, int code)
+{
+	static char 	*save = NULL;
+
+	if ((save == NULL && tty) || code == TRUE)
+		save = tty;
+	return (save);
+}
+
 t_duo		*savior(t_duo *env, int code)
 {
 	static t_duo	*save = NULL;
@@ -35,6 +44,7 @@ static int	init_env(char **env, t_duo **env_cpy) //ok
 		*env_cpy = tbl_to_duo(cpy, '=');
 	else
 		*env_cpy = tbl_to_duo(env, '=');
+	del_env(env_cpy, "OLDPWD");
 	savior(*env_cpy, TRUE);
 	free_tab(&cpy);
 	return (0);

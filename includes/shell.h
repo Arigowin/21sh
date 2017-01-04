@@ -157,6 +157,7 @@ typedef struct			s_lst_fd
 */
 t_duo					*savior(t_duo *env, int code);
 t_line					*savior_stline(t_line *stline, int code);
+char					*savior_tty(char *tty, int code);
 
 /*
 ** sh_first_steps
@@ -228,6 +229,7 @@ int						bi_setenv(char **arg, t_duo **env);
 /*
 ** sh_unsetenv
 */
+int						del_env(t_duo **env, char *name);
 int						bi_unsetenv(char **arg, t_duo **env);
 
 /*
@@ -317,7 +319,6 @@ int     				redirect(t_node *tree, t_lst_fd **lstfd);
 /*
 ** sh_manage_fd
 */
-int						reset_std_fd(void);
 int						close_lstfd(t_lst_fd **lstfd);
 int						lstfd_pushbck(t_lst_fd **lstfd, int fd, char *filename);
 int						manage_red_file(t_lst_fd **lstfd, t_node *tree);

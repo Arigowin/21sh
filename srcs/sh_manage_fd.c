@@ -3,60 +3,8 @@
 #include "libft.h"
 #define	FD 3
 #define CLOSE 4
-
-int					reset_std_fd(void)
-{
-	if (DEBUG_RED == 1)
-		printf("------- RESET STD FD -------\n");
-
-	int					fd;
-
-	fd = -1;
-	printf("OK1\n");
-	if ((fd = open("/dev/stdin", O_RDONLY)) == -1)
-	{
-		printf("OK2\n");
-		return (FALSE);
-	}
-	printf("OK3\n");
-	if (dup2(fd, STDIN_FILENO) == -1)
-	{
-		printf("OK4\n");
-		return (FALSE);
-	}
-	if (fd > STDERR_FILENO)
-		close(fd);
-
-	if ((fd = open("/dev/stdout", O_WRONLY)) == -1)
-	{
-		printf("OK5\n");
-		return (FALSE);
-	}
-	printf("OK6\n");
-	if (dup2(fd, STDOUT_FILENO) == -1)
-	{
-		printf("OK7\n");
-		return (FALSE);
-	}
-	if (fd > STDERR_FILENO)
-		close(fd);
-
-	if ((fd = open("/dev/stderr", O_WRONLY)) == -1)
-	{
-		printf("OK8\n");
-		return (FALSE);
-	}
-	printf("OK9\n");
-	if (dup2(fd, STDERR_FILENO) == -1)
-	{
-		printf("OK10\n");
-		return (FALSE);
-	}
-	if (fd > STDERR_FILENO)
-		close(fd);
-	return (TRUE);
-}
-
+/*
+*/
 int					close_lstfd(t_lst_fd **lstfd)
 {
 	if (DEBUG_RED == 1)

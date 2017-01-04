@@ -100,25 +100,17 @@ int				check_builtin(t_node *tree, t_lst_fd **lstfd, char **cmd)
 
 	int			ret;
 
+	(void)tree;
 	ret = -1;
 	if (is_builtin(cmd) != -1)
 	{
-		printf("OK2\n");
 		if ((ret = handle_builtin(cmd)) == ERROR)
 		{
-			printf("OK3\n");
 			close_lstfd(lstfd);
-			if (tree->left != NULL)
-				exit(ret);
 			return (ERROR);
 		}
-		printf("OK4\n");
-		if (tree->left != NULL)
-			exit(ret);
-		printf("OK5\n");
 		return (TRUE);
 	}
-	printf("OK6\n");
 	return (FALSE);
 }
 
@@ -140,19 +132,14 @@ int				father(void)
 	return (WEXITSTATUS(stat_loc));
 }
 
-int				son(t_node *tree, t_lst_fd **lstfd, char **cmd)
+int				son(char **cmd) //t_node *tree, t_lst_fd **lstfd, char **cmd)
 {
 	if (DEBUG == 1)
 		printf("------- SON ------\n");
 
-	if (tree->left != NULL)
-		if (redirect(tree->left, lstfd) == ERROR)
-			//			close_fd_red(&lstfd, saved_std);
-			return (ERROR);
-
-	printf("WHY????????\n");
-	if (check_builtin(tree, lstfd, cmd) == TRUE)
-		return (TRUE);
+//	printf("WHY????????\n");
+//	if (check_builtin(tree, lstfd, cmd) == TRUE)
+//		return (TRUE);
 	check_signal(2);
 	check_fct(cmd);
 	// appeler la fonction d'erreur
@@ -175,23 +162,22 @@ int				handle_fork(t_node *tree, t_lst_fd **lstfd)
 	cmd = NULL;
 	if ((cmd = format_cmd(tree)) == NULL)
 		return (ERROR);
-//	if (tree->left == NULL)
-//	{
-		if (check_builtin(tree, lstfd, cmd) == TRUE)
+	if (tree->left != NULL)
+	{
+		if (redirect(tree->left, lstfd) == ERROR)
 		{
-			printf("OK1\n");
-			return (TRUE);
+			//			close_fd_red(&lstfd, saved_std);
+			return (ERROR);
 		}
-//	}
+	}
+	if (check_builtin(tree, lstfd, cmd) == TRUE)
+		return (TRUE);
 	if ((fpid = fork()) < 0)
 		return (ERROR);
 	if (fpid == 0)
-	{
-		son(tree, lstfd, cmd);
-	}
+		son(cmd);
+	//	son(tree, lstfd, cmd);
 	else
-	{
 		father();
-	}
 	return (TRUE);
 }

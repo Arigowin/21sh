@@ -54,31 +54,6 @@ int				display_prompt(void)
 	return (0);
 }
 
-char			**cpy_env(char **env)
-{
-	if (DEBUG == 1)
-		printf("------- CPY ENV ------\n");
-	char			**cpy;
-	char			*tmp;
-	int				i;
-
-	cpy = NULL;
-	tmp = NULL;
-	i = 0;
-	if ((cpy = (char **)malloc(sizeof(char *) * (tbl_len(env) + 1))) == NULL)
-		return (NULL);
-	while (env[i])
-	{
-		tmp = ft_strsub(env[i], 0, 6);
-		cpy[i] = env[i];
-		free(tmp);
-		i++;
-	}
-	cpy[i] = NULL;
-	i = 0;
-	return (cpy);
-}
-
 int				fill_path(char ***env)
 {
 	if (DEBUG == 1)
