@@ -233,6 +233,7 @@ states				get_state(states state, char **read_buff)
 {
 	if (DEBUG_LEXER_PARSER == 1)
 		printf("------- GET STATE ------\n");
+
 	if (state == STANDARD && **read_buff == '"')
 		return (IN_DQUOTE);
 	if (state == STANDARD && **read_buff == '\'')
@@ -248,7 +249,7 @@ states				get_state(states state, char **read_buff)
 int 					finite_state_atomaton(char **read_buff, t_e_list **l_expr
 						,char **data_tmp)
 {
-//	if (DEBUG_LEXER_PARSER == 1)
+	if (DEBUG_LEXER_PARSER == 1)
 		printf("------- FINITE STATE AUTOMATON ------\n");
 	int						bln;
 	states					state;
@@ -271,11 +272,10 @@ int 					finite_state_atomaton(char **read_buff, t_e_list **l_expr
 
 int						lexer_1(char *read_buff, t_e_list **l_expr)
 {
-//	if (DEBUG_LEXER_PARSER == 1)
+	if (DEBUG_LEXER_PARSER == 1)
 		printf("------- LEXER 1 ------\n");
 	char 					*data_tmp;
 
-	(void)l_expr;
 	data_tmp = ft_strnew(ft_strlen(read_buff));
 	finite_state_atomaton(&read_buff, l_expr, &data_tmp);
 	if (*data_tmp)
