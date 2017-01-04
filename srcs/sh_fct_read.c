@@ -33,7 +33,7 @@ t_node          *read_n_check(char *read_buff)
 	if (lexer_2(&l_expr) == ERROR)
 		return (NULL);
 	tree = parser(&l_expr);
-	if (DEBUG2 == 1)
+//	if (DEBUG2 == 1)
 		tree_traversal_verif(tree);
 	return (tree);
 }

@@ -101,12 +101,13 @@ int				check_builtin(t_node *tree, t_lst_fd **lstfd, char **cmd)
 	int			ret;
 
 	(void)tree;
+	(void)lstfd;
 	ret = -1;
 	if (is_builtin(cmd) != -1)
 	{
 		if ((ret = handle_builtin(cmd)) == ERROR)
 		{
-			close_lstfd(lstfd);
+			//close_lstfd(lstfd);
 			return (ERROR);
 		}
 		return (TRUE);

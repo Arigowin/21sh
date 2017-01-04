@@ -4,7 +4,8 @@
 #define DEBUG 0
 #define DEBUG2 0
 #define DEBUG_BUILTIN 0
-#define DEBUG_LEXER_PARSER 0
+#define DEBUG_LEXER_PARSER 1
+#define DEBUG_PARSER 1
 #define DEBUG_TREE_CREATION 0
 #define DEBUG_TREE 0
 #define DEBUG_TERMCAPS 0

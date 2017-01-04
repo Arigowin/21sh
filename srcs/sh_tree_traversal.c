@@ -53,7 +53,7 @@ int				tree_traversal(t_node *tree, t_lst_fd **lstfd)
 		if ((pipe_function(tree, STDIN_FILENO, lstfd)) == ERROR)
 			return (ERROR);
 	}
-	if (tree->type == CMD)
+	if (tree->type == CMD || (tree->type >= RRED && tree->type <= DLRED))
 	{
 		if ((manage_red_file(lstfd, tree)) == ERROR)
 			return (ERROR);
@@ -61,9 +61,11 @@ int				tree_traversal(t_node *tree, t_lst_fd **lstfd)
 
 		t_lst_fd *tmp = *lstfd;while(tmp){printf("[filename->%s]--[fd->%d]\n", tmp->filename, tmp->fd);tmp=tmp->next;}
 
-		if ((manage_cmd(tree, lstfd)) == ERROR)
-			return (ERROR);
-		close_lstfd(&saved_lstfd);
+		if (tree->type == CMD)
+			if ((manage_cmd(tree, lstfd)) == ERROR)
+				return (ERROR);
+		*lstfd = saved_lstfd;
+		close_lstfd(lstfd);
 		reset_std_fd();
 	}
 
