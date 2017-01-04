@@ -1,7 +1,7 @@
 #ifndef SHELL_H
 # define SHELL_H
 
-#define DEBUG 1
+#define DEBUG 0
 #define DEBUG2 0
 #define DEBUG_BUILTIN 0
 #define DEBUG_LEXER_PARSER 0

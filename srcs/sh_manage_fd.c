@@ -66,7 +66,7 @@ int					close_lstfd(t_lst_fd **lstfd)
 	tmp = NULL;
 	while (*lstfd)
 	{
-		if ((*lstfd)->fd != -1)
+		if ((*lstfd)->fd > 2)
 			close((*lstfd)->fd);
 		free((*lstfd)->filename);
 		tmp = *lstfd;

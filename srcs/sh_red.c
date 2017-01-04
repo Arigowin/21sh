@@ -248,7 +248,7 @@ int				left_red(t_node *tree, t_lst_fd **lstfd)
 }
 */
 
-int				simple_red(t_node *tree, t_lst_fd **lstfd, int stdfd)
+int				left_right_red(t_node *tree, t_lst_fd **lstfd, int stdfd)
 {
 	if (DEBUG_RED == 1)
 		printf("------- RIGHT RED -------\n");
@@ -277,7 +277,7 @@ int				simple_red(t_node *tree, t_lst_fd **lstfd, int stdfd)
 	if ((*lstfd)->fd > STDERR_FILENO && (stdfd == STDOUT_FILENO
 	|| (((*lstfd)->filename)[0] != '&' && (*lstfd)->fd != -1)))
 		close((*lstfd)->fd);
-	(*lstfd)->fd = fd;
+//	(*lstfd)->fd = fd;
 	return (TRUE);
 }
 
@@ -291,7 +291,7 @@ int				redirect(t_node *tree, t_lst_fd **lstfd)
 	fd = (tree->type == LRED ? STDIN_FILENO : STDOUT_FILENO);
 	if (tree && tree->right && (tree->type != DLRED ))//|| tree->type == DRRED))
 	{
-		if (simple_red(tree->right, lstfd, fd) == ERROR)
+		if (left_right_red(tree->right, lstfd, fd) == ERROR)
 			return (ERROR);
 	}
 	else if (tree && tree->right && tree->type == DLRED)
