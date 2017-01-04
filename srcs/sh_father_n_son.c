@@ -174,10 +174,12 @@ int				handle_fork(t_node *tree, t_lst_fd **lstfd)
 		return (TRUE);
 	if ((fpid = fork()) < 0)
 		return (ERROR);
+	reset_term();
 	if (fpid == 0)
 		son(cmd);
 	//	son(tree, lstfd, cmd);
 	else
 		father();
+	init_term();
 	return (TRUE);
 }
