@@ -67,7 +67,7 @@ int					fct_backspace(t_line *stline, t_history **history)
 		delete_char(stline, i, &save_pos);
 		while (eol && eol[i])
 		{
-			fct_insert(stline, eol[i]);
+			fct_insert(stline, eol[i], &(stline->line), &(stline->pos_line));
 			i++;
 		}
 		while (stline->pos_line >= save_pos)
@@ -104,7 +104,7 @@ static int			enlarge_line(t_line *stline)
 	return (TRUE);
 }
 
-int					insert_char(t_line *stline, char c, char *end_line)
+int					insert_char(char c, char *end_line, char **str, int *pos)
 {
 	if (DEBUG_TERMCAPS == 1)
 		printf("------- INSERT CHAR ------\n");
@@ -115,21 +115,21 @@ int					insert_char(t_line *stline, char c, char *end_line)
 	tputs(tgetstr("ce", NULL), 1, my_outc);
 	// save the current cursor position
 	tputs(tgetstr("sc", NULL), 1, my_outc);
-	(stline->line)[stline->pos_line] = c;
-	i = stline->pos_line + 1;
-	while (end_line[i - stline->pos_line - 1] != 0)
+	(*str)[(*pos)] = c;
+	i = (*pos) + 1;
+	while (end_line[i - (*pos) - 1] != 0)
 	{
-		(stline->line)[i] = end_line[i - stline->pos_line - 1];
+		(*str)[i] = end_line[i - (*pos) - 1];
 		i++;
 	}
-	(stline->line)[i] = '\0';
+	(*str)[i] = '\0';
 	ft_putstr(end_line);
 	// restore the last saved cursor position.
 	tputs(tgetstr("rc", NULL), 1, my_outc);
 	return(TRUE);
 }
 
-int					fct_insert(t_line *stline, char c)
+int					fct_insert(t_line *stline, char c, char **str, int *pos)
 {
 	if (DEBUG_TERMCAPS == 1)
 		printf("------- INSERT ------\n");
@@ -139,16 +139,15 @@ int					fct_insert(t_line *stline, char c)
 	if (stline->copy.start != -1)
 		return (FALSE);
 	enlarge_line(stline);
-	if ((stline->line)[stline->pos_line] == '\0')
-		(stline->line)[stline->pos_line] = c;
-	else if (!(end_line = ft_strsub(stline->line, stline->pos_line,
-					ft_strlen(stline->line))))
-		return (-1);
+	if ((*str)[(*pos)] == '\0')
+		(*str)[(*pos)] = c;
+	else if (!(end_line = ft_strsub(*str, (*pos), ft_strlen(*str))))
+		return (ERROR);
 	ft_putchar(c);
 	if (end_line != NULL)
-		insert_char(stline, c, end_line);
+		insert_char(c, end_line, str, pos);
 	stline->curs_x++;
-	stline->pos_line++;
+	(*pos)++;
 	if (stline->curs_x >= stline->win.ws_col)
 	{
 		stline->curs_x = 0;

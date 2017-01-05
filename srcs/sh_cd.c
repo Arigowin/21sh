@@ -8,21 +8,21 @@ static int		cd_usage(char **arg, char **path, char *tmp_old_pwd)
 		printf("------- CD USAGE ------\n");
 	if (arg[1] && arg[2])
 	{
-		ft_putendl("21sh: cd: too many arguments.");
+		ft_putendl_fd("21sh: cd: too many arguments.", 2);
 		return (-1);
 	}
 	if (arg[1] && arg[1][0] == '-' && arg[1][1])
 	{
-		ft_putstr("21sh: cd: -");
-		ft_putchar(arg[1][1]);
-		ft_putendl(": invalid option\ncd: usage: cd [dir]");
+		ft_putstr_fd("21sh: cd: -", 2);
+		ft_putchar_fd(arg[1][1], 2);
+		ft_putendl_fd(": invalid option\ncd: usage: cd [dir]", 2);
 		return (-1);
 	}
 	if (arg[1] && arg[1][0] == '-')
 	{
 		if (((*path) = ft_strdup(tmp_old_pwd)) == NULL)
 		{
-			ft_putendl("21sh: cd: variable $OLDPWD not set");
+			ft_putendl_fd("21sh: cd: variable $OLDPWD not set", 2);
 			return (-2);
 		}
 	}

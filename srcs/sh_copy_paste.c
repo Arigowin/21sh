@@ -102,7 +102,7 @@ static int		hide_highlight(t_line *stline, t_history **history)
 	i = 0;
 	while (tmp[i])
 	{
-		fct_insert(stline, tmp[i]);
+		fct_insert(stline, tmp[i], &(stline->line), &(stline->pos_line));
 		i++;
 	}
 	while (stline->pos_line != curs_pos)
@@ -201,7 +201,8 @@ int		fct_paste(t_line *stline, t_history **history)
 		return (FALSE);
 	while (stline->copy.cpy[i])
 	{
-		fct_insert(stline, stline->copy.cpy[i]);
+		fct_insert(stline, stline->copy.cpy[i], &(stline->line),
+					&(stline->pos_line));
 		i++;
 	}
 	tputs(tgetstr("me", NULL), 1, my_outc);

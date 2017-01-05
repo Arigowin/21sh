@@ -59,6 +59,9 @@ static int	init(t_line *stline)
 	stline->copy.cpy = NULL;
 	stline->copy.start = -1;
 	stline->copy.bkup = NULL;
+	stline->hrd.nb = 0;
+	stline->hrd.deli = NULL;
+	stline->hrd.ptr = NULL;
 	savior_stline(stline, TRUE);
 	return (TRUE);
 }

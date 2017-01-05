@@ -10,6 +10,9 @@ int				reset_stline(t_line *stline)
 	stline->curs_x = PRT_LEN;
 	stline->curs_y = 0;
 	stline->quote = 0;
+	stline->hrd.nb = 0;
+	stline->hrd.ptr = NULL;
+	// liste a free hrd.del
 	return (TRUE);
 }
 
@@ -17,14 +20,22 @@ int				fct_return(t_line *stline, t_history **history)
 {
 	if (DEBUG_KEY == 1)
 		printf("------- FCT RETURN ------\n");
+
 	fct_end(stline, history);
 	if (stline->quote != 0 || ((stline->line[stline->pos_line - 1])
 		&& (stline->line[stline->pos_line - 1]) == '\\'))
 	{
-		fct_insert(stline, '\n');
+		fct_insert(stline, '\n', &(stline->line), &(stline->pos_line));
 		ft_putstr("> ");
 		stline->curs_x = 2;
 		return (CONTINUE);
+	}
+	else if (stline->hrd.nb > 0)
+	{
+		return_heredoc(stline);
+		if (stline->hrd.nb > 0)
+			return (CONTINUE);
+		return (BREAK);
 	}
 	else
 	{
@@ -35,7 +46,7 @@ int				fct_return(t_line *stline, t_history **history)
 		ft_putchar('\n');
 		return (BREAK);
 	}
-	return (0);
+	return (FALSE);
 }
 
 int						fct_ctrl_d(t_line *stline, t_history **history)
@@ -93,7 +104,8 @@ int				event(int key, t_line *stline, t_history **history)
 	if (key != TAB && key > 31 && key < 128)
 	{
 		handle_quote(key, stline);
-		fct_insert(stline, key);
+		fct_insert(stline, key, &(stline->line), &(stline->pos_line));
+		fill_heredoc(stline);
 	}
 	return (0);
 }

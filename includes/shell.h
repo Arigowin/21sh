@@ -4,17 +4,18 @@
 #define DEBUG 0
 #define DEBUG2 0
 #define DEBUG_BUILTIN 0
-#define DEBUG_LEXER_PARSER 1
-#define DEBUG_PARSER 1
+#define DEBUG_LEXER_PARSER 0
+#define DEBUG_PARSER 0
 #define DEBUG_TREE_CREATION 0
 #define DEBUG_TREE 0
 #define DEBUG_TERMCAPS 0
 #define DEBUG_HISTORY 0
 #define DEBUG_PIPE 0
-#define DEBUG_RED 1
+#define DEBUG_RED 0
 #define DEBUG_CMD 0
 #define DEBUG_COPY_PASTE 0
 #define DEBUG_KEY 0
+#define DEBUG_HEREDOC 1
 #include <stdio.h>
 
 # define TRUE 1
@@ -112,6 +113,13 @@ typedef struct			s_copy
 	int					start;
 }						t_copy;
 
+typedef struct			s_heredoc
+{
+	int					nb;
+	char				*ptr;
+	struct s_list		*deli;
+}						t_heredoc;
+
 typedef struct			s_line
 {
 	char				*line;
@@ -122,6 +130,7 @@ typedef struct			s_line
 	int					curs_y;
 	struct winsize		win;
 	struct s_copy		copy;
+	struct s_heredoc	hrd;
 	int					quote;
 }						t_line;
 
@@ -259,7 +268,8 @@ int						fct_ctrl_d(t_line *stline, t_history **history);
 ** sh_modif_line
 */
 int						fct_backspace(t_line *stline, t_history **history);
-int						fct_insert(t_line *stline, char c);
+int						fct_insert(t_line *stline, char c, char **str,
+						int *pos);
 
 /*
 ** sh_move_in_line
@@ -334,6 +344,13 @@ int						manage_cmd(t_node *tree, t_lst_fd **lstfd);
 ** sh_pipe
 */
 int						pipe_function(t_node *tree, int in_fd, t_lst_fd **lfd);
+
+/*
+** sh_heredoc
+*/
+int						fill_heredoc(t_line *stline);
+int						return_heredoc(t_line *stline);
+
 
 
 #endif

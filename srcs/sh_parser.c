@@ -199,7 +199,7 @@ int				check_command(t_e_list **l_expr, t_node **tree)
 		return (FALSE);
 	if ((red = check_red(l_expr, &(node->left))) != TRUE)
 		*tree = save;
-	printf("red = (%d\n",red);
+	//printf("red = (%d\n",red);
 	if ((*l_expr)->type == CMD) // && (!red || move_in_list(l_expr)))
 	{
 		if ((node->data = ft_strdup_ignchar((*l_expr)->data, '\\')) == NULL)

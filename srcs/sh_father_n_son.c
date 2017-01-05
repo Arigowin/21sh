@@ -95,8 +95,8 @@ int				father_n_son_for_pipe(char **cmd)
 
 int				check_builtin(t_node *tree, t_lst_fd **lstfd, char **cmd)
 {
-	//	if (DEBUG == 1)
-	printf("------- CHECK BUILTIN ------\n");
+	if (DEBUG == 1)
+		printf("------- CHECK BUILTIN ------\n");
 
 	int			ret;
 
@@ -138,9 +138,9 @@ int				son(char **cmd) //t_node *tree, t_lst_fd **lstfd, char **cmd)
 	if (DEBUG == 1)
 		printf("------- SON ------\n");
 
-//	printf("WHY????????\n");
-//	if (check_builtin(tree, lstfd, cmd) == TRUE)
-//		return (TRUE);
+	//	printf("WHY????????\n");
+	//	if (check_builtin(tree, lstfd, cmd) == TRUE)
+	//		return (TRUE);
 	check_signal(2);
 	check_fct(cmd);
 	// appeler la fonction d'erreur
@@ -158,9 +158,11 @@ int				handle_fork(t_node *tree, t_lst_fd **lstfd)
 
 	pid_t			fpid;
 	char			**cmd;
+	int				ret;
 
 	fpid = -1;
 	cmd = NULL;
+	ret = 0;
 	if ((cmd = format_cmd(tree)) == NULL)
 		return (ERROR);
 	if (tree->left != NULL)
@@ -171,8 +173,10 @@ int				handle_fork(t_node *tree, t_lst_fd **lstfd)
 			return (ERROR);
 		}
 	}
-	if (check_builtin(tree, lstfd, cmd) == TRUE)
+	if ((ret = check_builtin(tree, lstfd, cmd)) == TRUE)
 		return (TRUE);
+	if (ret == ERROR)
+		return (ERROR);
 	if ((fpid = fork()) < 0)
 		return (ERROR);
 	reset_term();

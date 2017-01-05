@@ -7,16 +7,22 @@ static int		is_valid(char *str)
 		printf("------- IS VALID ------\n");
 	int			i;
 
-	i = 0;
+	i = -1;
+	if (str[++i] != '_' &&  ft_isalpha(str[i]) == FALSE)
+	{
+		ft_putstr_fd("21sh: setenv: '", 2);
+		ft_putstr_fd(str, 2);
+		ft_putendl_fd("': not a valid identifier", 2);
+		return (ERROR);
+	}
 	while (str[i])
 	{
-		if (str[i] != '_' && str[i] != '/' && str[i] != ':' && str[i] != '-'
-				&& str[i] != ',' && ft_isalnum(str[i]) == 0)
+		if (str[i] != '_' && str[i] != '.' && ft_isalnum(str[i]) == FALSE)
 		{
-			ft_putstr("21sh: setenv: '");
-			ft_putstr(str);
-			ft_putendl("': not a valid identifier");
-			return (-1);
+			ft_putstr_fd("21sh: setenv: '", 2);
+			ft_putstr_fd(str, 2);
+			ft_putendl_fd("': not a valid identifier", 2);
+			return (ERROR);
 		}
 		i++;
 	}
@@ -32,8 +38,8 @@ int				bi_setenv(char **arg, t_duo **env)
 	i = 0;
 	while (arg[i])
 	{
-		if (is_valid(arg[i]) != 0)
-			return (-1);
+		if (i == 1 && is_valid(arg[i]) != 0)
+			return (ERROR);
 		i++;
 	}
 	if (i < 2)
@@ -48,8 +54,8 @@ int				bi_setenv(char **arg, t_duo **env)
 	}
 	if (i > 3)
 	{
-		ft_putendl("21sh: setenv: too many arguments.");
-		return (-1);
+		ft_putendl_fd("21sh: setenv: too many arguments.", 2);
+		return (ERROR);
 	}
 	return (0);
 }
