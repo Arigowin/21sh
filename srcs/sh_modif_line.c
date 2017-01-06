@@ -101,29 +101,13 @@ static int			enlarge_line(char **str, int *pos)
 	return (TRUE);
 }
 
-int					insert_char(char c, char *end_line, char **str, int *pos, t_line *stline)
+static int			screen_up(char **str, t_line *stline)
 {
-	if (DEBUG_TERMCAPS == 1)
-		printf("------- INSERT CHAR ------\n");
-	int					i;
 	int					nb_line;
+	int					i;
 
 	i = 0;
-	// ce == shift + d in vim
-	tputs(tgetstr("ce", NULL), 1, my_outc);
-	// save the current cursor position
-	(*str)[*pos] = c;
-	i = (*pos) + 1;
-	while (end_line[i - (*pos) - 1] != 0)
-	{
-		(*str)[i] = end_line[i - (*pos) - 1];
-		i++;
-	}
-	(*str)[i] = '\0';
-
-
 	nb_line = (ft_strlen(*str) + PRT_LEN) / stline->win.ws_col;
-
 	if (nb_line && ((ft_strlen(*str) + PRT_LEN) / nb_line) % stline->win.ws_col == 0)
 	{
 		i = nb_line - stline->curs_y;
@@ -134,18 +118,34 @@ int					insert_char(char c, char *end_line, char **str, int *pos, t_line *stline
 		}
 
 		i = nb_line - stline->curs_y;
-		while (i > 0)
-		{
+		while (i-- > 0)
 			tputs(tgetstr("up", NULL), 1, my_outc);
-			i--;
-		}
 		i = stline->curs_x;
 		while (i-- > 0)
 			tputs(tgetstr("nd", NULL), 1, my_outc);
-		tputs(tgetstr("nd", NULL), 1, my_outc);
 	}
+	return (TRUE);
+}
 
+int					insert_char(char c, char *end_line, char **str, int *pos)
+{
+	if (DEBUG_TERMCAPS == 1)
+		printf("------- INSERT CHAR ------\n");
+	int					i;
 
+	i = 0;
+	// ce == shift + d in vim
+	tputs(tgetstr("ce", NULL), 1, my_outc);
+	(*str)[*pos] = c;
+	i = (*pos) + 1;
+	while (end_line[i - (*pos) - 1] != 0)
+	{
+		(*str)[i] = end_line[i - (*pos) - 1];
+		i++;
+	}
+	(*str)[i] = '\0';
+
+	// save the current cursor position
 	tputs(tgetstr("sc", NULL), 1, my_outc);
 	ft_putstr(end_line);
 	// restore the last saved cursor position.
@@ -168,9 +168,10 @@ int					fct_insert(char c, char **str, int *pos, t_line *stline)
 		(*str)[*pos] = c;
 	else if (!(end_line = ft_strsub(*str, *pos, ft_strlen(*str))))
 		return (ERROR);
+	screen_up(str, stline);
 	ft_putchar(c);
 	if (end_line != NULL)
-		insert_char(c, end_line, str, pos, stline);
+		insert_char(c, end_line, str, pos);
 	stline->curs_x++;
 	(*pos)++;
 	if (stline->curs_x >= stline->win.ws_col)
