@@ -2,25 +2,24 @@
 #include "libft.h"
 #include <term.h>
 
-int					handle_delete_quote(t_line *stline)
+int					handle_delete_quote(char **str, int *pos, t_line *stline)
 {
 	if (DEBUG_TERMCAPS == 1)
 		printf("------- HANDLE DELETE QUOTE ------\n");
-	int					pos;
 
-	pos = stline->pos_line;
-	if ((stline->line)[pos - 1] == stline->quote)
+	if ((*str)[*pos - 1] == stline->quote)
 		stline->quote = 0;
-	else if (stline->quote == 0 && ((stline->line)[pos - 1] == QUOTE
-			|| (stline->line)[pos - 1] == DQUOTE))
-		stline->quote = (stline->line)[pos - 1];
+	else if (stline->quote == 0 && ((*str)[*pos - 1] == QUOTE
+	|| (*str)[*pos - 1] == DQUOTE))
+		stline->quote = (*str)[*pos - 1];
 	return (TRUE);
 }
 
-int					delete_char(t_line *stline, int i, int *save_pos)
+int					delete_char(char **str, int *pos, int i, t_line *stline)
 {
 	if (DEBUG_TERMCAPS == 1)
 		printf("------- DELETE_CHAR ------\n");
+
 	if (stline->curs_x < 0 && stline->curs_y > 0)
 	{
 		(stline->curs_x)--;
@@ -29,28 +28,29 @@ int					delete_char(t_line *stline, int i, int *save_pos)
 		while (stline->curs_x++ < stline->win.ws_col)
 			tputs(tgetstr("nd", NULL), 1, my_outc);
 		tputs(tgetstr("dc", NULL), 1, my_outc);
-		(stline->line)[--stline->pos_line] = '\0';
+		(*str)[--(*pos)] = '\0';
 	}
 	else
 	{
-		(*save_pos) = stline->pos_line;
-		i = stline->pos_line;
-		fct_end(stline, NULL);
-		while (i <= stline->pos_line)
+		i = (*pos);
+		fct_end(str, pos, stline, NULL);
+		while (i <= (*pos))
 		{
 			tputs(tgetstr("dc", NULL), 1, my_outc);
-			fct_left(stline, NULL);
+			fct_left(str, pos, stline, NULL);
 			tputs(tgetstr("dc", NULL), 1, my_outc);
-			(stline->line)[stline->pos_line] = '\0';
+			(*str)[(*pos)] = '\0';
 		}
 	}
 	return (TRUE);
 }
 
-int					fct_backspace(t_line *stline, t_history **history)
+// attention on a modifier pas sur que ca fonctionne !!!!
+int					fct_backspace(char **str, int *pos, t_line *stline, t_history **history)
 {
 	if (DEBUG_TERMCAPS == 1)
 		printf("------- BACKSPACE ------\n");
+
 	char				*eol;
 	int					i;
 	int					save_pos;
@@ -58,20 +58,17 @@ int					fct_backspace(t_line *stline, t_history **history)
 	save_pos = 0;
 	if (stline->copy.start != -1)
 		return (FALSE);
-	handle_delete_quote(stline);
-	eol = ft_strsub(stline->line, stline->pos_line, ft_strlen(stline->line));
-	if ((stline->pos_line > 0 && stline->quote != 0 && stline->curs_x > 2)
-			|| (stline->pos_line > 0 && stline->quote == 0))
+	handle_delete_quote(str, pos, stline);
+	eol = ft_strsub(*str, (*pos), ft_strlen(*str));
+	if (left_move_cdt(*pos, stline))
 	{
 		i = 0;
-		delete_char(stline, i, &save_pos);
-		while (eol && eol[i])
-		{
-			fct_insert(stline, eol[i], &(stline->line), &(stline->pos_line));
-			i++;
-		}
-		while (stline->pos_line >= save_pos)
-			fct_left(stline, history);
+		save_pos = *pos;
+		delete_char(str, pos, i, stline);
+		while (eol && eol[i]) // !!!!
+			fct_insert(eol[i++], str, pos, stline);
+		while ((*pos) >= save_pos)
+			fct_left(str, pos, stline, history);
 		if (stline->curs_x == stline->win.ws_col)
 			tputs(tgetstr("nd", NULL), 1, my_outc);
 	}
@@ -80,24 +77,24 @@ int					fct_backspace(t_line *stline, t_history **history)
 	return (TRUE);
 }
 
-static int			enlarge_line(t_line *stline)
+static int			enlarge_line(char **str, int *pos)
 {
 	if (DEBUG_TERMCAPS == 1)
 		printf("------- ENLARGE LINE ------\n");
+
 	char				*tmp;
 	int					i;
 
-	if (!(stline->pos_line % BUFF_SIZE == 0
-				&& stline->pos_line + 1 > BUFF_SIZE))
+	if (!((*pos) % BUFF_SIZE == 0 && (*pos) + 1 > BUFF_SIZE))
 		return (FALSE);
-	tmp = ft_strdup(stline->line);
-	i = ft_strlen(stline->line) + BUFF_SIZE;
-	free(stline->line);
-	stline->line = ft_strnew(i);
+	tmp = ft_strdup(*str);
+	i = ft_strlen(*str) + BUFF_SIZE;
+	ft_strdel(str);
+	*str = ft_strnew(i);
 	i = 0;
 	while (tmp[i])
 	{
-		(stline->line)[i] = tmp[i];
+		(*str)[i] = tmp[i];
 		i++;
 	}
 	free(tmp);
@@ -129,16 +126,17 @@ int					insert_char(char c, char *end_line, char **str, int *pos)
 	return(TRUE);
 }
 
-int					fct_insert(t_line *stline, char c, char **str, int *pos)
+int					fct_insert(char c, char **str, int *pos, t_line *stline)
 {
 	if (DEBUG_TERMCAPS == 1)
 		printf("------- INSERT ------\n");
+
 	char				*end_line;
 
 	end_line = NULL;
 	if (stline->copy.start != -1)
 		return (FALSE);
-	enlarge_line(stline);
+	enlarge_line(str, pos);
 	if ((*str)[(*pos)] == '\0')
 		(*str)[(*pos)] = c;
 	else if (!(end_line = ft_strsub(*str, (*pos), ft_strlen(*str))))

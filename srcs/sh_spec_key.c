@@ -2,7 +2,7 @@
 #include "libft.h"
 #include <term.h>
 
-int			fct_del(t_line *stline, t_history **history)
+int			fct_del(char **str, int *pos, t_line *stline, t_history **history)
 {
 	if (DEBUG_TERMCAPS == 1)
 		printf("------- DEL ------\n");
@@ -11,38 +11,37 @@ int			fct_del(t_line *stline, t_history **history)
 
 	if (stline->copy.start != -1)
 		return (FALSE);
-	if ((stline->pos_line >= 0 && stline->quote != 0 && stline->curs_x > 2)
-	 || (stline->pos_line >= 0 && stline->quote == 0))
+	if ((stline->curs_x >= 2 && stline->curs_y == 0)
+	|| (stline->curs_x >= 0 && stline->curs_y > 0))
 	{
-		tmp = stline->pos_line;
-		fct_right(stline, history);
-		if (stline->pos_line != tmp)
-			fct_backspace(stline, history);
+		tmp = (*pos);
+		fct_right(str, pos, stline, history);
+		if ((*pos) != tmp)
+			fct_backspace(str, pos, stline, history);
 	}
 	return (TRUE);
 }
 
-int			fct_home(t_line *stline, t_history **history)
+int			fct_home(char **str, int *pos, t_line *stline, t_history **history)
 {
 	if (DEBUG_TERMCAPS == 1)
 		printf("------- HOME ------\n");
-	while ((stline->pos_line > 0 && stline->quote != 0 && stline->curs_x > 2)
-	 || (stline->pos_line > 0 && stline->quote == 0))
+	while (left_move_cdt(*pos, stline))
 	{
-		fct_left(stline, history);
+		fct_left(str, pos, stline, history);
 	}
 	return (TRUE);
 }
 
-int			fct_end(t_line *stline, t_history **history)
+int			fct_end(char **str, int *pos, t_line *stline, t_history **history)
 {
 	if (DEBUG_TERMCAPS == 1)
 		printf("------- END ------\n");
-	while ((stline->copy.start == -1 && (stline->pos_line)
-		< (int)ft_strlen(stline->line)) || (stline->copy.start != -1
-		&& (stline->pos_line) < (int)ft_strlen(stline->line) - 1))
+	while ((stline->copy.start == -1 && ((*pos))
+				< (int)ft_strlen(*str)) || (stline->copy.start != -1
+				&& ((*pos)) < (int)ft_strlen(*str) - 1))
 	{
-		fct_right(stline, history);
+		fct_right(str, pos, stline, history);
 	}
 	return (TRUE);
 }

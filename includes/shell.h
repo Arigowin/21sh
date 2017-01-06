@@ -2,7 +2,7 @@
 # define SHELL_H
 
 #define DEBUG 0
-#define DEBUG2 0
+#define DEBUG_TREE_VERIF 0
 #define DEBUG_BUILTIN 0
 #define DEBUG_LEXER_PARSER 0
 #define DEBUG_PARSER 0
@@ -15,7 +15,7 @@
 #define DEBUG_CMD 0
 #define DEBUG_COPY_PASTE 0
 #define DEBUG_KEY 0
-#define DEBUG_HEREDOC 1
+#define DEBUG_HEREDOC 0
 #include <stdio.h>
 
 # define TRUE 1
@@ -51,9 +51,6 @@
 #define COPY 25371 // ALT + c
 #define CUT 30747 // ALT + x
 
-// - MAC OPTION + [LEFT|RIGHT]
-// # define OP_LEFT 345
-// # define OP_RIGHT 344
 // - LINUX CTRL + [a|e]
 # define CTRL_LEFT 1
 # define CTRL_RIGHT 5
@@ -152,7 +149,8 @@ typedef struct			s_node // -> node ou tree
 typedef struct			s_key_fct
 {
 	int					key;
-	int					(*fct)(t_line *stline, t_history **history);
+	int					(*fct)(char **str, int *pos, t_line *stline,
+							t_history **history);
 }						t_key_fct;
 
 typedef struct			s_lst_fd
@@ -262,53 +260,70 @@ int						my_outc(int c);
 */
 int						event(int key, t_line *stline, t_history **history);
 int						reset_stline(t_line *stline);
-int						fct_ctrl_d(t_line *stline, t_history **history);
+int						fct_ctrl_d(char **s, int *pos, t_line *stline,
+						t_history **history);
 
 /*
 ** sh_modif_line
 */
-int						fct_backspace(t_line *stline, t_history **history);
-int						fct_insert(t_line *stline, char c, char **str,
-						int *pos);
+int						fct_backspace(char **s, int *pos, t_line *stline,
+						t_history **history);
+int						fct_insert(char c, char **s, int *pos, t_line *stline);
 
 /*
 ** sh_move_in_line
 */
-int						fct_left(t_line *stline, t_history **history);
-int						fct_right(t_line *stline, t_history **history);
-int						fct_ctrl_left(t_line *stline, t_history **history);
-int						fct_ctrl_right(t_line *stline, t_history **history);
+int						left_move_cdt(int pos, t_line *stline);
+int						fct_left(char **s, int *pos, t_line *stline,
+						t_history **history);
+int						fct_right(char **s, int *pos, t_line *stline,
+						t_history **history);
+int						fct_ctrl_left(char **s, int *pos, t_line *stline,
+						t_history **history);
+int						fct_ctrl_right(char **s, int *pos, t_line *stline,
+						t_history **history);
 
 /*
 ** sh_move_up_down
 */
-int						fct_ctrl_down(t_line *stline, t_history **history);
-int						fct_ctrl_up(t_line *stline, t_history **history);
+int						fct_ctrl_down(char **s, int *pos, t_line *stline,
+						t_history **history);
+int						fct_ctrl_up(char **s, int *pos, t_line *stline,
+						t_history **history);
 
 /*
 ** sh_spec_key
 */
-int						fct_end(t_line *stline, t_history **history);
-int						fct_home(t_line *stline, t_history **history);
-int						fct_del(t_line *stline, t_history **history);
+int						fct_end(char **s, int *pos, t_line *stline,
+						t_history **history);
+int						fct_home(char **s, int *pos, t_line *stline,
+						t_history **history);
+int						fct_del(char **s, int *pos, t_line *stline,
+						t_history **history);
 
 /*
 ** sh_history
 */
 void					add_history(t_history **history, char *line);
-int						fct_down(t_line *stline, t_history **history);
-int						fct_up(t_line *stline, t_history **history);
+int						fct_down(char **s, int *pos, t_line *stline,
+						t_history **history);
+int						fct_up(char **s, int *pos, t_line *stline,
+						t_history **history);
 
 /*
 ** sh_copy_paste
 */
 int						str_addleft(char *tbl, char c);
-int						fct_cut(t_line *stline, t_history **history);
-int						fct_paste(t_line *stline, t_history **history);
-int						fct_copy(t_line *stline, t_history **history);
-int						fct_highlight(t_line *stline, t_history **history);
-int						add_in_copy(t_line *stline, int dir);
-int						del_in_copy(t_line *stline, int dir);
+int						fct_cut(char **s, int *pos, t_line *stline,
+						t_history **history);
+int						fct_paste(char **s, int *pos, t_line *stline,
+						t_history **history);
+int						fct_copy(char **s, int *pos, t_line *stline,
+						t_history **history);
+int						fct_highlight(char **s, int *pos, t_line *stline,
+						t_history **history);
+int						add_in_copy(char **s, int *pos, t_line *stline, int dir);
+int						del_in_copy(char **s, int *pos, t_line *stline, int dir);
 
 /*
 ** sh_parser

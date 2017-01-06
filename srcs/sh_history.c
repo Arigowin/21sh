@@ -37,7 +37,7 @@ void				add_history(t_history **history, char *line)
 	}
 }
 
-int					fct_up(t_line *stline, t_history **history)
+int					fct_up(char **str, int *pos, t_line *stline, t_history **history)
 {
 	if (DEBUG_HISTORY == 1)
 		printf("---------------- FCT UP --------------------------\n");
@@ -48,25 +48,23 @@ int					fct_up(t_line *stline, t_history **history)
 	i = 0;
 	if ((*history)->prev)
 	{
-		if (ft_strcmp(stline->line, (*history)->line) == 0)
+		if (ft_strcmp(*str, (*history)->line) == 0)
 			*history = (*history)->prev;
-		else if (ft_strstr(stline->line, (*history)->line) != NULL)
+		else if (ft_strstr(*str, (*history)->line) != NULL)
 			*history = (*history)->prev;
 	}
-	fct_end(stline, history);
-	while ((stline->pos_line > 0 && stline->quote != 0 && stline->curs_x > 2)
-	 || (stline->pos_line > 0 && stline->quote == 0))
-		fct_backspace(stline, history);
+	fct_end(str, pos, stline, history);
+	while (left_move_cdt(*pos, stline))
+		fct_backspace(str, pos, stline, history);
 	while (((*history)->line)[i])
 	{
-		fct_insert(stline, ((*history)->line)[i], &(stline->line),
-				&(stline->pos_line));
+		fct_insert( ((*history)->line)[i], str, pos, stline);
 		i++;
 	}
 	return (0);
 }
 
-int				fct_down(t_line *stline, t_history **history)
+int				fct_down(char **str, int *pos, t_line *stline, t_history **history)
 {
 	if (DEBUG_HISTORY == 1)
 		printf("---------------- FCT DOWN --------------------------\n");
@@ -80,14 +78,12 @@ int				fct_down(t_line *stline, t_history **history)
 		*history = (*history)->next;
 		i = 0;
 	}
-	fct_end(stline, history);
-	while ((stline->pos_line > 0 && stline->quote != 0 && stline->curs_x > 2)
-	 || (stline->pos_line > 0 && stline->quote == 0))
-		fct_backspace(stline, history);
+	fct_end(str, pos, stline, history);
+	while (left_move_cdt(*pos, stline))
+		fct_backspace(str, pos, stline, history);
 	while (i >= 0 && ((*history)->line)[i])
 	{
-		fct_insert(stline, ((*history)->line)[i], &(stline->line),
-				&(stline->pos_line));
+		fct_insert(((*history)->line)[i], str, pos, stline);
 		i++;
 	}
 	return (0);

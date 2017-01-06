@@ -9,8 +9,8 @@ static void		fct_m_ctrl_c(int sig)
 
 	stline = savior_stline(NULL, FALSE);
 	if (stline->copy.start != -1)
-		fct_highlight(stline, NULL);
-	fct_end(stline, NULL);
+		fct_highlight(&(stline->line), &(stline->pos_line), stline, NULL);
+	fct_end(&(stline->line), &(stline->pos_line), stline, NULL);
 	reset_stline(stline);
 	(void)sig;
 	ft_putchar_color(RESET_COLOR, '\n');

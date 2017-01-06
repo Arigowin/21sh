@@ -6,7 +6,7 @@ int				reset_stline(t_line *stline)
 	if (DEBUG == 1)
 		printf("------- RESET STLINE ------\n");
 	ft_bzero(stline->line, ft_strlen(stline->line));
-	stline->pos_line = 0;
+	stline->pos_line	= 0;
 	stline->curs_x = PRT_LEN;
 	stline->curs_y = 0;
 	stline->quote = 0;
@@ -16,18 +16,18 @@ int				reset_stline(t_line *stline)
 	return (TRUE);
 }
 
-int				fct_return(t_line *stline, t_history **history)
+int				fct_return(char **str, int *pos, t_line *stline, t_history **history)
 {
 	if (DEBUG_KEY == 1)
 		printf("------- FCT RETURN ------\n");
 
-	fct_end(stline, history);
-	if (stline->quote != 0 || ((stline->line[stline->pos_line - 1])
-		&& (stline->line[stline->pos_line - 1]) == '\\'))
+	fct_end(str, pos, stline, history);
+	if (stline->quote != 0 || ((*str)[*pos - 1] && (*str)[*pos - 1] == '\\'))
 	{
-		fct_insert(stline, '\n', &(stline->line), &(stline->pos_line));
+		fct_insert('\n', str, pos, stline);
 		ft_putstr("> ");
 		stline->curs_x = 2;
+		stline->curs_y = 0;
 		return (CONTINUE);
 	}
 	else if (stline->hrd.nb > 0)
@@ -40,34 +40,34 @@ int				fct_return(t_line *stline, t_history **history)
 	else
 	{
 		if (stline->copy.cpy != NULL && stline->copy.start != -1)
-			fct_highlight(stline, history);
-		if (stline->line && stline->line[0])
-			add_history(history, stline->line);
+			fct_highlight(str, pos, stline, history);
+		if (*str && (*str)[0])
+			add_history(history, *str);
 		ft_putchar('\n');
 		return (BREAK);
 	}
 	return (FALSE);
 }
 
-int						fct_ctrl_d(t_line *stline, t_history **history)
+int						fct_ctrl_d(char **str, int *pos, t_line *stline, t_history **history)
 {
 	if (DEBUG_KEY == 1)
 		printf("------- FCT CTRL D ------\n");
 	t_duo			*env;
 
 	env = savior(NULL, FALSE);
-	if (stline->line[0] == '\0')
+	if (*str[0] == '\0')
 		bi_exit(NULL, &env);
 	else
-		fct_del(stline, history);
+		fct_del(str, pos, stline, history);
 	return (TRUE);
 }
 
-int				handle_quote(int key, t_line *stline)
+int				handle_quote(int key, char **str, int *pos, t_line *stline)
 {
 	if (DEBUG == 1)
 		printf("------- HANDLE QUOTE ------\n");
-	if (stline->line[stline->pos_line - 1] &&  stline->line[stline->pos_line - 1] == '\\')
+	if ((*str)[(*pos) - 1] &&  (*str)[(*pos) - 1] == '\\')
 		return (FALSE);
 	if (key == QUOTE || key == DQUOTE) //pb ac quote
 	{
@@ -83,7 +83,8 @@ int				event(int key, t_line *stline, t_history **history)
 {
 	if (DEBUG == 1)
 		printf("------- EVENT ------\n");
-	int				i;
+
+	int						i;
 	static t_key_fct		tbl_keys[18] =
 	{
 		{RETURN, fct_return}, {BACKSPACE, fct_backspace}, {END, fct_end},
@@ -94,32 +95,32 @@ int				event(int key, t_line *stline, t_history **history)
 		{HIGHLIGHT, fct_highlight}, {PASTE, fct_paste}, {COPY, fct_copy}
 	};
 
-	i = 0;
-	while(i < 18)
+	i = -1;
+	while(++i < 18)
 	{
 		if (tbl_keys[i].key == key)
-			return(tbl_keys[i].fct(stline, history));
-		i++;
+			return(tbl_keys[i].fct(&(stline->line), &(stline->pos_line),
+						stline, history));
 	}
 	if (key != TAB && key > 31 && key < 128)
 	{
-		handle_quote(key, stline);
-		fct_insert(stline, key, &(stline->line), &(stline->pos_line));
+		handle_quote(key, &(stline->line), &(stline->pos_line), stline);
+		fct_insert(key, &(stline->line), &(stline->pos_line), stline);
 		fill_heredoc(stline);
 	}
+
+#include <term.h>
+	char *res;
+	tputs(tgetstr("sc", NULL), 1, my_outc);
+	res = tgetstr("cm", NULL);
+	tputs(tgoto(res, 75, 0), 1, my_outc);
+	tputs(tgetstr("ce", NULL), 1, my_outc);
+	ft_putstr("x :");
+	ft_putnbr(stline->curs_x);
+	ft_putstr(" y :");
+	ft_putnbr(stline->curs_y);
+	ft_putstr(" pos_line :");
+	ft_putnbr(stline->pos_line);
+	tputs(tgetstr("rc", NULL), 1, my_outc);
 	return (0);
 }
-
-//#include <term.h>
-//	char *res;
-//	tputs(tgetstr("sc", NULL), 1, my_outc);
-//	res = tgetstr("cm", NULL);
-//	tputs(tgoto(res, 75, 0), 1, my_outc);
-//	tputs(tgetstr("ce", NULL), 1, my_outc);
-//	ft_putstr("x :");
-//	ft_putnbr(stline->curs_x);
-//	ft_putstr(" y :");
-//	ft_putnbr(stline->curs_y);
-//	ft_putstr(" pos_line :");
-//	ft_putnbr(stline->pos_line);
-//	tputs(tgetstr("rc", NULL), 1, my_outc);
