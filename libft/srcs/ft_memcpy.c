@@ -13,9 +13,9 @@
 #include <string.h>
 #include "libft.h"
 
-void			*ft_memcpy(void *s1, const void *s2, size_t n)
+void			*ft_memcpy(void *s1, const void *s2, int n)
 {
-	size_t		i;
+	int		i;
 	char		*save_ptr;
 	const char	*save_ptr_2;
 

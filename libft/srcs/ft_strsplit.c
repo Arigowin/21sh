@@ -12,10 +12,10 @@
 
 #include "libft.h"
 
-static size_t		ft_words_count(const char *s, char c)
+static int		ft_words_count(const char *s, char c)
 {
-	size_t		cpt;
-	size_t		nb_w;
+	int		cpt;
+	int		nb_w;
 
 	cpt = 0;
 	nb_w = 0;
@@ -38,11 +38,11 @@ static size_t		ft_words_count(const char *s, char c)
 
 char				**ft_strsplit(const char *s, char c)
 {
-	size_t		cpt1;
-	size_t		cpt2;
+	int		cpt1;
+	int		cpt2;
 	char		*tmp;
 	char		**tab;
-	size_t		i;
+	int		i;
 
 	cpt1 = 0;
 	cpt2 = 0;

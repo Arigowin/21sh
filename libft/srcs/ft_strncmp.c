@@ -13,7 +13,7 @@
 #include <string.h>
 #include "libft.h"
 
-int							ft_strncmp(const char *s1, const char *s2, size_t n)
+int							ft_strncmp(const char *s1, const char *s2, int n)
 {
 	const unsigned char		*tmp_s1;
 	const unsigned char		*tmp_s2;

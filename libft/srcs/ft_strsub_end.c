@@ -15,7 +15,7 @@
 char	*ft_strsub_end(char const *s, char c)
 {
 	int		i;
-	size_t	cpt;
+	int	cpt;
 	char	*tmp;
 
 	i = 0;

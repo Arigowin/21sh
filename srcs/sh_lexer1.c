@@ -166,7 +166,7 @@ int					lexer_backslash(char **read_buff, char **data_tmp)
 
 	if (**read_buff == '\\' && (*(*read_buff + 1)) && (*(*read_buff + 1)) == '\n')
 	{
-		(*read_buff) += 2;
+		(*read_buff) += 1;
 	}
 	else
 	{

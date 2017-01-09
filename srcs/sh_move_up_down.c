@@ -7,15 +7,20 @@ int			fct_ctrl_up(char **str, int *pos, t_line *stline, t_history **history)
 	if (DEBUG_TERMCAPS == 1)
 		printf("------------------ MOVE CTRL UP -------------------\n");
 
+	char			*tmp;
+	int				rel_pos;
+
 	(void)history;
 	(void)str;
+	tmp = ft_strrchr(*str, '\n');
 	if (stline->curs_y < 1)
 		return (TRUE);
 	stline->curs_y--;
 	(*pos) -= (stline->win.ws_col);
-	if ((*pos) < 0)
+	rel_pos = (tmp != NULL ? *pos - (ft_strlen(*str) - ft_strlen(tmp)) : *pos);
+	if (rel_pos < 0)
 	{
-		(*pos) = 0;
+		(*pos) = (tmp != NULL ? (ft_strlen(*str) - ft_strlen(tmp)) + 1 : 0);
 		if (stline->curs_x == 0)
 			tputs(tgetstr("nd", NULL), 1, my_outc);
 		tputs(tgetstr("nd", NULL), 1, my_outc);
@@ -25,32 +30,44 @@ int			fct_ctrl_up(char **str, int *pos, t_line *stline, t_history **history)
 	return (TRUE);
 }
 
-int			fct_ctrl_down(char **str, int *pos, t_line *stline, t_history **history)
+static int			down_term(int i, t_line *stline)
+{
+	tputs(tgetstr("do", NULL), 1, my_outc);
+	stline->curs_y++;
+	while (i-- > 0)
+		tputs(tgetstr("nd", NULL), 1, my_outc);
+	return (TRUE);
+}
+
+int					fct_ctrl_down(char **str, int *pos, t_line *stline,
+					t_history **history)
 {
 	if (DEBUG_TERMCAPS == 1)
 		printf("------------------ MOVE CTRL DOWN -------------------\n");
 
-	int		nb_ligne;
-	int		i;
+	int			nb_ligne;
+	int			last_line;
+	int			rel_pos;
+	char		*tmp;
 
 	(void)history;
-	nb_ligne = (ft_strlen(*str) + PRT_LEN) / stline->win.ws_col;
-	if (nb_ligne <= stline->curs_y)
+	tmp = ft_strrchr(*str, '\n');
+	last_line = (tmp != NULL ? ft_strlen(tmp + 1) : ft_strlen(*str));
+	rel_pos = (tmp != NULL ? *pos - (ft_strlen(*str) - ft_strlen(tmp)) : *pos);
+	nb_ligne = (last_line + PRT_LEN) / stline->win.ws_col;
+	if (stline->curs_y >= nb_ligne )
 		return (TRUE);
-	stline->curs_y++;
-	if ((int)ft_strlen(*str) >= ((*pos) + stline->win.ws_col))
+	if (last_line >= (rel_pos + stline->win.ws_col))
 	{
 		(*pos) += stline->win.ws_col;
-		i = stline->curs_x;
+		rel_pos = stline->curs_x;
 	}
 	else
 	{
 		(*pos) = ft_strlen(*str);
-		i = ((*pos) - (stline->win.ws_col * nb_ligne)) + PRT_LEN;
-		stline->curs_x = i;
+		rel_pos = (tmp ? *pos - (ft_strlen(*str) - ft_strlen(tmp + 1)) : *pos);
+		rel_pos = (rel_pos - (stline->win.ws_col * nb_ligne)) + PRT_LEN;
+		stline->curs_x = rel_pos;
 	}
-	tputs(tgetstr("do", NULL), 1, my_outc);
-	while (i-- > 0)
-		tputs(tgetstr("nd", NULL), 1, my_outc);
-	return (TRUE);
+	return (down_term(rel_pos, stline));
 }

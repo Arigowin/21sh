@@ -4,10 +4,10 @@
 
 char				*ft_strdup_ignchar(const char *s1, char c)
 {
-	size_t			i;
-	size_t			j;
+	int			i;
+	int			j;
 	char			*rlt;
-	size_t			str_len;
+	int			str_len;
 
 	i = 0;
 	j = 0;

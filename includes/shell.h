@@ -121,6 +121,7 @@ typedef struct			s_line
 {
 	char				*line;
 	int					pos_line;
+	int					multi_pos;
 	int					curs_x; //first line start at  = stline->pos_line + PRT_LEN;
 								// other line start at = 0
 								// quote line start at len of "> "

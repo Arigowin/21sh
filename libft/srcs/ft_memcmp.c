@@ -13,7 +13,7 @@
 #include <string.h>
 #include "libft.h"
 
-int						ft_memcmp(const void *s1, const void *s2, size_t n)
+int						ft_memcmp(const void *s1, const void *s2, int n)
 {
 	const unsigned char	*tmp;
 	const unsigned char	*tmp_2;

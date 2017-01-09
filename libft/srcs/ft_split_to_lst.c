@@ -15,8 +15,8 @@
 t_list		*ft_split_to_lst(const char *s, char c)
 {
 	t_list		*tab;
-	size_t		cpt1;
-	size_t		cpt2;
+	int		cpt1;
+	int		cpt2;
 	char		*tmp;
 
 	cpt1 = 0;

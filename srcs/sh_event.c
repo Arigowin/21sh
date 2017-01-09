@@ -6,7 +6,8 @@ int				reset_stline(t_line *stline)
 	if (DEBUG == 1)
 		printf("------- RESET STLINE ------\n");
 	ft_bzero(stline->line, ft_strlen(stline->line));
-	stline->pos_line	= 0;
+	stline->pos_line = 0;
+	stline->multi_pos = 0;
 	stline->curs_x = PRT_LEN;
 	stline->curs_y = 0;
 	stline->quote = 0;
@@ -22,6 +23,7 @@ int				fct_return(char **str, int *pos, t_line *stline, t_history **history)
 		printf("------- FCT RETURN ------\n");
 
 	fct_end(str, pos, stline, history);
+	stline->multi_pos = 0;
 	if (stline->quote != 0 || ((*str)[*pos - 1] && (*str)[*pos - 1] == '\\'))
 	{
 		fct_insert('\n', str, pos, stline);
@@ -113,7 +115,7 @@ int				event(int key, t_line *stline, t_history **history)
 	char *res;
 	tputs(tgetstr("sc", NULL), 1, my_outc);
 	res = tgetstr("cm", NULL);
-	tputs(tgoto(res, 75, 0), 1, my_outc);
+	tputs(tgoto(res, 3, 0), 1, my_outc);
 	tputs(tgetstr("ce", NULL), 1, my_outc);
 	ft_putstr("x :");
 	ft_putnbr(stline->curs_x);

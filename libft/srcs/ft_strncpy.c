@@ -13,9 +13,9 @@
 #include <string.h>
 #include "libft.h"
 
-char			*ft_strncpy(char *dst, const char *src, size_t n)
+char			*ft_strncpy(char *dst, const char *src, int n)
 {
-	size_t		i;
+	int		i;
 
 	i = 0;
 	if (!dst || !src)

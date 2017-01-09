@@ -14,7 +14,7 @@
 
 void	ft_putstr_fd(char const *s, int fd)
 {
-	size_t	cpt;
+	int	cpt;
 
 	cpt = 0;
 	while (s && s[cpt] != '\0')
