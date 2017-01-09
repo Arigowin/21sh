@@ -12,7 +12,7 @@
 
 #include "libft.h"
 
-int			free_duo(t_duo **tab)
+int				free_duo(t_duo **tab)
 {
 	t_duo			*tmp;
 	t_duo			*tmp2;

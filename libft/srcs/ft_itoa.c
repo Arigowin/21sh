@@ -14,7 +14,7 @@
 
 static int		ft_put_tbl(unsigned int n, int len, int sign, char **str)
 {
-	int		cpt;
+	int				cpt;
 
 	if (n > 9)
 		cpt = ft_put_tbl(n / 10, len + 1, sign, str);
@@ -30,7 +30,7 @@ static int		ft_put_tbl(unsigned int n, int len, int sign, char **str)
 
 char			*ft_itoa(int n)
 {
-	char	*str;
+	char			*str;
 
 	if (n < 0)
 	{

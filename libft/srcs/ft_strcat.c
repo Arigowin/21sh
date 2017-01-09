@@ -14,7 +14,7 @@
 
 char		*ft_strcat(char *s1, const char *s2)
 {
-	char	*tmp;
+	char		*tmp;
 
 	tmp = s1;
 	while (s1 && *s1)

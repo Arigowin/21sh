@@ -12,9 +12,9 @@
 
 #include "libft.h"
 
-void	*ft_memalloc(int size)
+void		*ft_memalloc(int size)
 {
-	void	*tmp;
+	void		*tmp;
 
 	if (size != 0)
 	{

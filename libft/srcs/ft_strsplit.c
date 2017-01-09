@@ -14,8 +14,8 @@
 
 static int		ft_words_count(const char *s, char c)
 {
-	int		cpt;
-	int		nb_w;
+	int				cpt;
+	int				nb_w;
 
 	cpt = 0;
 	nb_w = 0;

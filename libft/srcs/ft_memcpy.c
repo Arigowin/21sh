@@ -15,9 +15,9 @@
 
 void			*ft_memcpy(void *s1, const void *s2, int n)
 {
-	int		i;
-	char		*save_ptr;
-	const char	*save_ptr_2;
+	int				i;
+	char			*save_ptr;
+	const char		*save_ptr_2;
 
 	i = 0;
 	save_ptr = s1;

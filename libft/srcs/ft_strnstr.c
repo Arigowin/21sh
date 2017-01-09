@@ -13,12 +13,12 @@
 #include <string.h>
 #include "libft.h"
 
-char			*ft_strnstr(const char *s1, const char *s2, int n)
+char				*ft_strnstr(const char *s1, const char *s2, int n)
 {
-	const char	*save_ptr;
-	const char	*save_ptr_2;
-	int		i;
-	int		j;
+	const char			*save_ptr;
+	const char			*save_ptr_2;
+	int					i;
+	int					j;
 
 	i = 0;
 	if (*s2 == '\0')

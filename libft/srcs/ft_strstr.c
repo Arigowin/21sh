@@ -15,8 +15,8 @@
 
 char			*ft_strstr(const char *s1, const char *s2)
 {
-	const char	*tmp;
-	const char	*tmp_2;
+	const char		*tmp;
+	const char		*tmp_2;
 
 	tmp_2 = s2;
 	if (*s2 == '\0')

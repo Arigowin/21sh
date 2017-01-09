@@ -13,7 +13,7 @@
 #include "libft.h"
 #include <unistd.h>
 
-void	ft_putchar_color(char *color, char c)
+void		ft_putchar_color(char *color, char c)
 {
 	write(1, color, ft_strlen(color));
 	write(1, &c, 1);

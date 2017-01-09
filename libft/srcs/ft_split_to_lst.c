@@ -12,12 +12,12 @@
 
 #include "libft.h"
 
-t_list		*ft_split_to_lst(const char *s, char c)
+t_list			*ft_split_to_lst(const char *s, char c)
 {
-	t_list		*tab;
-	int		cpt1;
-	int		cpt2;
-	char		*tmp;
+	t_list			*tab;
+	int				cpt1;
+	int				cpt2;
+	char			*tmp;
 
 	cpt1 = 0;
 	cpt2 = 0;

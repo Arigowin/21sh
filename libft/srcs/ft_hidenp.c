@@ -12,10 +12,10 @@
 
 #include "libft.h"
 
-int		ft_hidenp(char *hiden, char *str)
+int			ft_hidenp(char *hiden, char *str)
 {
-	int		cpt;
-	int		cpt_str;
+	int			cpt;
+	int			cpt_str;
 
 	cpt = 0;
 	cpt_str = 0;

@@ -15,8 +15,8 @@
 
 void				*ft_memchr(const void *s, int c, int n)
 {
-	int			i;
-	const char		*tmp;
+	int					i;
+	const char			*tmp;
 
 	i = 0;
 	if (s != NULL)

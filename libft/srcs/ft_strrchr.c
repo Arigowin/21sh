@@ -15,7 +15,7 @@
 
 char		*ft_strrchr(const char *s, int c)
 {
-	char	*tmp;
+	char		*tmp;
 
 	if (!s)
 		return (NULL);

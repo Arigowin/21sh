@@ -12,9 +12,9 @@
 
 #include "libft.h"
 
-void	ft_free_tbl_s(char **tbl)
+void		ft_free_tbl_s(char **tbl)
 {
-	int		i;
+	int			i;
 
 	i = 0;
 	while (tbl != NULL)

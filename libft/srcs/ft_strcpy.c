@@ -14,7 +14,7 @@
 
 char		*ft_strcpy(char *s1, const char *s2)
 {
-	char	*tmp;
+	char		*tmp;
 
 	if (!s1 || !s2)
 		return (NULL);

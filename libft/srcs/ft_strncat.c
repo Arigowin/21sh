@@ -15,7 +15,7 @@
 
 char			*ft_strncat(char *s1, const char *s2, int n)
 {
-	char		*tmp;
+	char			*tmp;
 
 	tmp = s1;
 	if (!s1 || !s2)

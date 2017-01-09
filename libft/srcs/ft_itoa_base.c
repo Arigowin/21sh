@@ -14,8 +14,8 @@
 
 static int		ft_puttbl(unsigned int n, char *len_sign, char **str, size_t b)
 {
-	int		cpt;
-	char	*tbl_b;
+	int				cpt;
+	char			*tbl_b;
 
 	tbl_b = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ";
 	if (n > (b - 1))
@@ -35,8 +35,8 @@ static int		ft_puttbl(unsigned int n, char *len_sign, char **str, size_t b)
 
 char			*ft_itoa_base(int n, int b)
 {
-	char	*str;
-	char	*len_sign;
+	char			*str;
+	char			*len_sign;
 
 	str = NULL;
 	len_sign = ft_strnew(2);

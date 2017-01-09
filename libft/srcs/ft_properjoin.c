@@ -13,9 +13,9 @@
 #include <stdlib.h>
 #include "libft.h"
 
-char	*ft_properjoin(char *s1, char *s2)
+char		*ft_properjoin(char *s1, char *s2)
 {
-	char	*ret;
+	char		*ret;
 
 	if (s1 == NULL && s2 == NULL)
 		return (NULL);

@@ -14,8 +14,8 @@
 
 void			*ft_memccpy(void *dst, const void *src, int c, int n)
 {
-	char		*tmp_dst;
-	char		*tmp_src;
+	char			*tmp_dst;
+	char			*tmp_src;
 
 	if (dst && src)
 	{

@@ -13,9 +13,9 @@
 #include <stdlib.h>
 #include "libft.h"
 
-int		duo_count(t_duo *lst)
+int			duo_count(t_duo *lst)
 {
-	int		cpt;
+	int			cpt;
 
 	cpt = 0;
 	while (lst)

@@ -12,10 +12,10 @@
 
 #include "libft.h"
 
-char	*ft_strtrim(char const *s)
+char		*ft_strtrim(char const *s)
 {
-	int	cpt1;
-	int	cpt2;
+	int			cpt1;
+	int			cpt2;
 
 	cpt1 = 0;
 	if (!s)

@@ -10,22 +10,22 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-static char		ft_toupper(char c)
+static char			toupper_modif(char c)
 {
 	if (c >= 'a' && c <= 'f')
 		return (c - 32);
 	return (c);
 }
 
-static int		ft_isnummax(char c, int base)
+static int			ft_isnummax(char c, int base)
 {
 	return ((c >= 'A' && c <= 'F') || (c >= '0' && c < (base + '0')));
 }
 
-static int		ft_base_change(char c)
+static int			ft_base_change(char c)
 {
-	int				i;
-	static char		tbl_base[16] = {"0123456789ABCDEF"};
+	int					i;
+	static char			tbl_base[16] = {"0123456789ABCDEF"};
 
 	i = 0;
 	while (tbl_base[i] != c)
@@ -33,11 +33,11 @@ static int		ft_base_change(char c)
 	return (i);
 }
 
-int				ft_atoi_base(char *str, int base)
+int					ft_atoi_base(char *str, int base)
 {
-	int				nb;
-	int				cpt;
-	int				sign;
+	int					nb;
+	int					cpt;
+	int					sign;
 
 	nb = 0;
 	cpt = 0;
@@ -52,10 +52,10 @@ int				ft_atoi_base(char *str, int base)
 	}
 	else if (str[cpt] == '+')
 		cpt++;
-	while (str[cpt] != '\0' && ft_isnummax(ft_toupper(str[cpt]), base) != 0)
+	while (str[cpt] != '\0' && ft_isnummax(toupper_modif(str[cpt]), base) != 0)
 	{
 		nb *= base;
-		nb += ft_base_change(ft_toupper(str[cpt]));
+		nb += ft_base_change(toupper_modif(str[cpt]));
 		cpt++;
 	}
 	return (nb * sign);

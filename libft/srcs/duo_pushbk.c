@@ -14,7 +14,7 @@
 
 static t_duo		*duo_new(char *name, char *value)
 {
-	t_duo			*new;
+	t_duo				*new;
 
 	if ((new = (t_duo *)malloc(sizeof(t_duo))) == NULL)
 		return (NULL);
@@ -30,7 +30,7 @@ static t_duo		*duo_new(char *name, char *value)
 
 int					duo_pushback(t_duo **lst, char *name, char *value)
 {
-	t_duo			*tmp;
+	t_duo				*tmp;
 
 	tmp = *lst;
 	if (tmp == NULL)

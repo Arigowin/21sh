@@ -12,7 +12,7 @@
 
 #include "libft.h"
 
-int			free_lst(t_list **tab)
+int				free_lst(t_list **tab)
 {
 	t_list			*tmp;
 	t_list			*tmp2;

@@ -12,10 +12,10 @@
 
 #include "libft.h"
 
-char	*ft_strsub(char const *s, int start, int len)
+char		*ft_strsub(char const *s, int start, int len)
 {
-	int	cpt;
-	char	*tmp;
+	int			cpt;
+	char		*tmp;
 
 	cpt = 0;
 	tmp = NULL;

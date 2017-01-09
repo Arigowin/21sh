@@ -14,10 +14,10 @@
 
 t_duo				*tbl_to_duo(char **tbl, char c)
 {
-	int				i;
-	char			*tmp_name;
-	char			*tmp_value;
-	t_duo			*lst;
+	int					i;
+	char				*tmp_name;
+	char				*tmp_value;
+	t_duo				*lst;
 
 	lst = NULL;
 	i = 0;
