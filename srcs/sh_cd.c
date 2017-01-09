@@ -2,10 +2,11 @@
 #include "shell.h"
 #include "libft.h"
 
-static int		cd_usage(char **arg, char **path, char *tmp_old_pwd)
+static int			cd_usage(char **arg, char **path, char *tmp_old_pwd)
 {
 	if (DEBUG_BUILTIN == 1)
 		printf("------- CD USAGE ------\n");
+
 	if (arg[1] && arg[2])
 	{
 		ft_putendl_fd("21sh: cd: too many arguments.", 2);
@@ -29,10 +30,11 @@ static int		cd_usage(char **arg, char **path, char *tmp_old_pwd)
 	return (0);
 }
 
-static int		access_home(char **arg, char *home, char *tmp)
+static int			access_home(char **arg, char *home, char *tmp)
 {
 	if (DEBUG_BUILTIN == 1)
 		printf("------- ACCESS HOME ------\n");
+
 	ft_putstr("21sh: cd: ");
 	if (home == NULL && !arg[1])
 		ft_putendl("no $HOME variable set");
@@ -44,12 +46,13 @@ static int		access_home(char **arg, char *home, char *tmp)
 	return (-1);
 }
 
-static int		cd_access(char **arg, char *path)
+static int			cd_access(char **arg, char *path)
 {
 	if (DEBUG_BUILTIN == 1)
 		printf("------- CD ACCESS ------\n");
-	char		*tmp;
-	char		*home;
+
+	char				*tmp;
+	char				*home;
 
 	tmp = NULL;
 	home = get_env("HOME");
@@ -74,11 +77,12 @@ static int		cd_access(char **arg, char *path)
 	return (0);
 }
 
-static int		cd_home(void)
+static int			cd_home(void)
 {
 	if (DEBUG_BUILTIN == 1)
 		printf("------- CD HOME ------\n");
-	char		*home;
+
+	char				*home;
 
 	if ((home = get_env("HOME")) == NULL)
 	{
@@ -91,14 +95,15 @@ static int		cd_home(void)
 	return (0);
 }
 
-int				bi_cd(char **arg, t_duo **env)
+int					bi_cd(char **arg, t_duo **env)
 {
 	if (DEBUG_BUILTIN == 1)
 		printf("------- BI CD ------\n");
-	char		*tmp_pwd;
-	char		*tmp_old_pwd;
-	char		*path;
-	int			i;
+
+	char				*tmp_pwd;
+	char				*tmp_old_pwd;
+	char				*path;
+	int					i;
 
 	(void)env;
 	if ((tmp_pwd = get_env("PWD")) == NULL)

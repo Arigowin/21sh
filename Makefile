@@ -16,14 +16,17 @@ CFLAGS = -g -O3 -Wall -Werror -Wextra -I $(HPATH) -I $(LIBHPATH)
 LIBS = -L $(LIBPATH) -lft -ltermcap
 
 SRC = sh_main.c \
+	  sh_saviors.c \
+	  sh_init.c \
 	  sh_cd.c \
 	  sh_env.c \
 	  sh_exit.c \
 	  sh_setenv.c \
 	  sh_unsetenv.c \
 	  sh_builtin.c \
-	  sh_lexer1.c \
-	  sh_lexer2.c \
+	  sh_lexer1.c\
+	  sh_lexer2.c\
+	  sh_t_e_list_mngt.c \
 	  sh_parser.c \
 	  sh_event.c \
 	  sh_signal.c \
@@ -42,6 +45,8 @@ SRC = sh_main.c \
 	  sh_termcap.c \
 	  sh_spec_key.c \
 	  sh_copy_paste.c \
+	  sh_add_del_in_cpy.c \
+	  sh_highlight.c \
 	  sh_modif_line.c \
 	  sh_move_in_line.c \
 	  sh_cmd.c \
@@ -88,6 +93,9 @@ re: fclean all
 
 norm: all
 	norminette **/*.[ch]
+
+#	  sh_tokenizer.c \
+	  sh_lexer.c \#
 
 # lil memo
 # $@ = rule's name

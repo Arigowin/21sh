@@ -3,11 +3,11 @@
 #include "shell.h"
 #include "libft.h"
 
-t_node			*create_node(types type)
+t_node				*create_node(types type)
 {
 	if (DEBUG_TREE == 1)
 		printf("------- CREATE NODE ------\n");
-	t_node			*new;
+	t_node				*new;
 
 	if ((new = (t_node *)malloc(sizeof(t_node))) == NULL)
 		return (NULL);

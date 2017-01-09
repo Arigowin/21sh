@@ -5,7 +5,8 @@ static t_history	*new_history(char *line)
 {
 	if (DEBUG_HISTORY == 1)
 		printf("------- NEW HISTORY ------\n");
-	t_history	*new;
+
+	t_history			*new;
 
 	if ((new = (t_history *)malloc(sizeof(t_history))) == NULL)
 		return (NULL);
@@ -22,7 +23,8 @@ void				add_history(t_history **history, char *line)
 {
 	if (DEBUG_HISTORY == 1)
 		printf("------- ADD HISTORY ------\n");
-	t_history	*new;
+
+	t_history			*new;
 
 	while (*history && (*history)->next != NULL)
 		(*history) = (*history)->next;
@@ -37,11 +39,13 @@ void				add_history(t_history **history, char *line)
 	}
 }
 
-int					fct_up(char **str, int *pos, t_line *stline, t_history **history)
+int					history_up(char **str, int *pos, t_line *stline,
+					t_history **history)
 {
 	if (DEBUG_HISTORY == 1)
-		printf("---------------- FCT UP --------------------------\n");
-	int		i;
+		printf("---------------- HISTORY UP --------------------------\n");
+
+	int					i;
 
 	if (*history == NULL)
 		return (FALSE);
@@ -64,11 +68,13 @@ int					fct_up(char **str, int *pos, t_line *stline, t_history **history)
 	return (0);
 }
 
-int				fct_down(char **str, int *pos, t_line *stline, t_history **history)
+int					history_down(char **str, int *pos, t_line *stline,
+					t_history **history)
 {
 	if (DEBUG_HISTORY == 1)
-		printf("---------------- FCT DOWN --------------------------\n");
-	int		i;
+		printf("---------------- HISTORY DOWN --------------------------\n");
+
+	int					i;
 
 	if (*history == NULL)
 		return (FALSE);

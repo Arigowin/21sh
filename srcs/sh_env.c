@@ -1,12 +1,13 @@
 #include "shell.h"
 #include "libft.h"
 
-static int		print_modified_env(char **arg, t_duo **env)
+static int			print_modified_env(char **arg, t_duo **env)
 {
 	if (DEBUG_BUILTIN == 1)
 		printf("------- PRINT MODIFIED ENV ------\n");
-	t_duo		*cpy;
-	int			i;
+
+	t_duo				*cpy;
+	int					i;
 
 	cpy = *env;
 	i = 0;
@@ -31,11 +32,12 @@ static int		print_modified_env(char **arg, t_duo **env)
 	return (0);
 }
 
-int				bi_env(char **arg, t_duo **env)
+int					bi_env(char **arg, t_duo **env)
 {
 	if (DEBUG_BUILTIN == 1)
 		printf("------- BI ENV ------\n");
-	t_duo			*cpy;
+
+	t_duo				*cpy;
 
 	cpy = *env;
 	if (arg[1])

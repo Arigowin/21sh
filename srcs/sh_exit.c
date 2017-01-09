@@ -2,11 +2,11 @@
 #include "shell.h"
 #include "libft.h"
 
-int				bi_exit(char **arg, t_duo **env)
+int					bi_exit(char **arg, t_duo **env)
 {
 	if (DEBUG_BUILTIN == 1)
 		printf("------- BI EXIT ------\n");
-	int			i;
+	int					i;
 
 	i = 0;
 	if (arg && arg[1] && arg[2])

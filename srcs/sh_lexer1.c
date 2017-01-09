@@ -4,48 +4,12 @@
 #include "libft.h"
 #include "shell.h"
 
-t_e_list				*expr_new(char *content)
-{
-	if (DEBUG_LEXER_PARSER == 1)
-		printf("------- EXPR NEW ------\n");
-	t_e_list		*new;
 
-	if ((new = (t_e_list *)malloc(sizeof(t_e_list))) == NULL)
-		return (NULL);
-	new->data = NULL;
-	new->type = NONE;
-	new->next = NULL;
-	if ((new->data = ft_strdup(content)) == NULL)
-		return (NULL);
-	return (new);
-}
-
-int 					expr_pushbk(t_e_list **l_expr, char *data_tmp)
+int					concat(char **dest, char *s1, char *s2)
 {
 	if (DEBUG_LEXER_PARSER == 1)
 		printf("------- EXPR PUSHBK ------\n");
 
-	t_e_list				*tmp;
-
-	tmp = NULL;
-	if (data_tmp == NULL && *data_tmp == '\0')
-		return (FALSE);
-	if (!(l_expr && *l_expr))
-	{
-		if ((*l_expr = expr_new(data_tmp)) == NULL)
-			return (ERROR);
-		return (TRUE);
-	}
-	tmp = *l_expr;
-	while (tmp->next)
-		tmp = tmp->next;
-	if ((tmp->next = expr_new(data_tmp)) == NULL)
-		return (ERROR);
-	return (TRUE);
-}
-
-int						concat(char **dest, char *s1, char *s2)
-{
 	if (!(dest && *dest))
 		return (-1);
 	while (s1 && *s1)
@@ -64,18 +28,18 @@ int						concat(char **dest, char *s1, char *s2)
 static int			pushbck_cdt(char **read_buff, char **data_tmp)
 {
 	return (**data_tmp
-			&& (!(ft_strchr(WAKA, (*data_tmp)[ft_strlen(*data_tmp) - 1])
-					&& **read_buff == '&'))
-			&& (!((*data_tmp)[ft_strlen((*data_tmp)	- 1)] == '&'
-					&& ft_strchr(WAKA, **read_buff)))
-			&& (!(ft_isstrnum(*data_tmp)
-					&& ft_strchr(WAKA, **read_buff)
-					&& ft_strlen(*data_tmp) <= 10
-					&& ft_atoi_long(*data_tmp) <= INT_MAX)));
+		&& (!(ft_strchr(WAKA, (*data_tmp)[ft_strlen(*data_tmp) - 1])
+				&& **read_buff == '&'))
+		&& (!((*data_tmp)[ft_strlen((*data_tmp)	- 1)] == '&'
+				&& ft_strchr(WAKA, **read_buff)))
+		&& (!(ft_isstrnum(*data_tmp)
+				&& ft_strchr(WAKA, **read_buff)
+				&& ft_strlen(*data_tmp) <= 10
+				&& ft_atoi_long(*data_tmp) <= INT_MAX)));
 }
 
 int 				manage_sep(char **read_buff, char **data_tmp,
-		t_e_list **l_expr)
+					t_e_list **l_expr)
 {
 	if (DEBUG_LEXER_PARSER == 1)
 		printf("------- MANAGE SEP ------\n");
@@ -85,7 +49,6 @@ int 				manage_sep(char **read_buff, char **data_tmp,
 		expr_pushbk(l_expr, *data_tmp);
 		ft_bzero(*data_tmp, ft_strlen(*data_tmp));
 	}
-
 	if (ft_strchr(SPECIAL, **read_buff))
 	{
 		add_in_tbl(data_tmp, **read_buff);
@@ -104,7 +67,7 @@ int 				manage_sep(char **read_buff, char **data_tmp,
 	return (TRUE);
 }
 
-int					lexer_dollar(char **read_buff, char **data_tmp)
+int					tok_dollar(char **read_buff, char **data_tmp)
 {
 	if (DEBUG_LEXER_PARSER == 1)
 		printf("------- LEXER DOLLAR ------\n");
@@ -136,7 +99,7 @@ int					lexer_dollar(char **read_buff, char **data_tmp)
 	return (TRUE);
 }
 
-int					lexer_tilde(char **read_buff, char **data_tmp, int *bln)
+int					tok_tilde(char **read_buff, char **data_tmp, int *bln)
 {
 	if (DEBUG_LEXER_PARSER == 1)
 		printf("------- LEXER TILDE ------\n");
@@ -159,7 +122,7 @@ int					lexer_tilde(char **read_buff, char **data_tmp, int *bln)
 	return (TRUE);
 }
 
-int					lexer_backslash(char **read_buff, char **data_tmp)
+int					tok_backslash(char **read_buff, char **data_tmp)
 {
 	if (DEBUG_LEXER_PARSER == 1)
 		printf("------- LEXER BACKSLASH ------\n");
@@ -177,8 +140,8 @@ int					lexer_backslash(char **read_buff, char **data_tmp)
 	return (TRUE);
 }
 
-int					lexer_standard(char **read_buff, char **data_tmp,
-		int *bln, t_e_list **l_expr)
+int					tok_standard(char **read_buff, char **data_tmp,
+					int *bln, t_e_list **l_expr)
 {
 	if (DEBUG_LEXER_PARSER == 1)
 		printf("------- LEXER STANDARD ------\n");
@@ -186,11 +149,11 @@ int					lexer_standard(char **read_buff, char **data_tmp,
 	if (**read_buff == DQUOTE)
 		return (FALSE);
 	if (**read_buff == '\\')
-		lexer_backslash(read_buff, data_tmp);
+		tok_backslash(read_buff, data_tmp);
 	else if (**read_buff == '$')
-		lexer_dollar(read_buff, data_tmp);
+		tok_dollar(read_buff, data_tmp);
 	else if (**read_buff == '~' && *bln == FALSE)
-		lexer_tilde(read_buff, data_tmp, bln);
+		tok_tilde(read_buff, data_tmp, bln);
 	else if (ft_strchr(SEP, **read_buff))
 	{
 		*bln = FALSE;
@@ -202,7 +165,7 @@ int					lexer_standard(char **read_buff, char **data_tmp,
 }
 
 
-int					lexer_quote(char curr_char, char **data_tmp)
+int					tok_quote(char curr_char, char **data_tmp)
 {
 	if (DEBUG_LEXER_PARSER == 1)
 		printf("------- LEXER QUOTE ------\n");
@@ -213,7 +176,7 @@ int					lexer_quote(char curr_char, char **data_tmp)
 }
 
 
-int					lexer_dquote(char **read_buff, char **data_tmp)
+int					tok_dquote(char **read_buff, char **data_tmp)
 {
 	if (DEBUG_LEXER_PARSER == 1)
 		printf("------- LEXER DQUOTE ------\n");
@@ -221,9 +184,9 @@ int					lexer_dquote(char **read_buff, char **data_tmp)
 	if (**read_buff == DQUOTE)
 		return (FALSE);
 	if (**read_buff == '\\')
-		lexer_backslash(read_buff, data_tmp);
+		tok_backslash(read_buff, data_tmp);
 	else if (**read_buff == '$')
-		lexer_dollar(read_buff, data_tmp);
+		tok_dollar(read_buff, data_tmp);
 	else
 		add_in_tbl(data_tmp, **read_buff);
 	return (TRUE);
@@ -246,13 +209,13 @@ states				get_state(states state, char **read_buff)
 	return (state);
 }
 
-int 					finite_state_atomaton(char **read_buff, t_e_list **l_expr
-						,char **data_tmp)
+int 				finite_state_atomaton(char **read_buff, t_e_list **l_expr,
+					char **data_tmp)
 {
 	if (DEBUG_LEXER_PARSER == 1)
 		printf("------- FINITE STATE AUTOMATON ------\n");
-	int						bln;
-	states					state;
+	int					bln;
+	states				state;
 
 	bln = FALSE;
 	state = STANDARD;
@@ -260,21 +223,21 @@ int 					finite_state_atomaton(char **read_buff, t_e_list **l_expr
 	{
 		state = get_state(state, read_buff);
 		if (state == STANDARD)
-			lexer_standard(read_buff, data_tmp, &bln, l_expr);
+			tok_standard(read_buff, data_tmp, &bln, l_expr);
 		else if (state == IN_QUOTE)
-			lexer_quote(**read_buff, data_tmp);
+			tok_quote(**read_buff, data_tmp);
 		else if (state == IN_DQUOTE)
-			lexer_dquote(read_buff, data_tmp);
+			tok_dquote(read_buff, data_tmp);
 		(*read_buff)++;
 	}
 	return (TRUE);
 }
 
-int						lexer_1(char *read_buff, t_e_list **l_expr)
+int					tokenizer(char *read_buff, t_e_list **l_expr)
 {
 	if (DEBUG_LEXER_PARSER == 1)
 		printf("------- LEXER 1 ------\n");
-	char 					*data_tmp;
+	char 				*data_tmp;
 
 	data_tmp = ft_strnew(ft_strlen(read_buff));
 	finite_state_atomaton(&read_buff, l_expr, &data_tmp);

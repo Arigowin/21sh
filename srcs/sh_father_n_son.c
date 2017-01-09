@@ -6,12 +6,13 @@
 #include "shell.h"
 #include "libft.h"
 
-static char		*join_exe(char *s1, char *s2)
+static char			*join_exe(char *s1, char *s2)
 {
 	if (DEBUG == 1)
 		printf("------- JOIN EXE ------\n");
-	char		*rlt;
-	char		*tmp;
+
+	char				*rlt;
+	char				*tmp;
 
 	if (s2[0] == '/' || (s2[0] == '.' && s2[1] == '/'))
 		return (s2);
@@ -21,16 +22,16 @@ static char		*join_exe(char *s1, char *s2)
 	return (rlt);
 }
 
-static int		check_fct(char **cmd)
+static int			check_fct(char **cmd)
 {
 	if (DEBUG == 1)
 		printf("------- CHECK FCT------\n");
 
-	char		**path;
-	char		*tmp;
-	t_duo		*env;
-	int			i;
-	char		**tbl_env;
+	char				**path;
+	char				*tmp;
+	t_duo				*env;
+	int					i;
+	char				**tbl_env;
 
 	path = NULL;
 	env = savior(NULL, FALSE);
@@ -51,12 +52,15 @@ static int		check_fct(char **cmd)
 	return (0);
 }
 
-int				father_n_son(char **cmd)
+// regrouper ac father_and_son_for_pipe en rajoutant un boolean dans le prototype
+// + demander explication pour for_pipe
+int					father_n_son(char **cmd)
 {
 	if (DEBUG == 1)
 		printf("------- FATHER N SON ------\n");
-	pid_t		father;
-	int			stat_loc;
+
+	pid_t				father;
+	int					stat_loc;
 
 	if ((father = fork()) < 0)
 		return (ERROR);
@@ -78,8 +82,7 @@ int				father_n_son(char **cmd)
 	return (TRUE);
 }
 
-
-int				father_n_son_for_pipe(char **cmd)
+int					father_n_son_for_pipe(char **cmd)
 {
 	if (DEBUG == 1)
 		printf("------- FATHER N SON FOR PIPE ------\n");
@@ -93,12 +96,13 @@ int				father_n_son_for_pipe(char **cmd)
 	return (0);
 }
 
-int				check_builtin(t_node *tree, t_lst_fd **lstfd, char **cmd)
+// virer tree et lstfd ???
+int					check_builtin(t_node *tree, t_lst_fd **lstfd, char **cmd)
 {
 	if (DEBUG == 1)
 		printf("------- CHECK BUILTIN ------\n");
 
-	int			ret;
+	int					ret;
 
 	(void)tree;
 	(void)lstfd;
@@ -115,12 +119,12 @@ int				check_builtin(t_node *tree, t_lst_fd **lstfd, char **cmd)
 	return (FALSE);
 }
 
-int				father(void)
+int					father(void)
 {
 	if (DEBUG == 1)
 		printf("------- FATHER ------\n");
 
-	int			stat_loc;
+	int					stat_loc;
 
 	stat_loc = 0;
 	check_signal(3);
@@ -133,7 +137,7 @@ int				father(void)
 	return (WEXITSTATUS(stat_loc));
 }
 
-int				son(char **cmd) //t_node *tree, t_lst_fd **lstfd, char **cmd)
+int					son(char **cmd) //t_node *tree, t_lst_fd **lstfd, char **cmd)
 {
 	if (DEBUG == 1)
 		printf("------- SON ------\n");
@@ -151,14 +155,14 @@ int				son(char **cmd) //t_node *tree, t_lst_fd **lstfd, char **cmd)
 	return (FALSE);
 }
 
-int				handle_fork(t_node *tree, t_lst_fd **lstfd)
+int					handle_fork(t_node *tree, t_lst_fd **lstfd)
 {
 	if (DEBUG == 1)
 		printf("------- HANDLE FORK ------\n");
 
-	pid_t			fpid;
-	char			**cmd;
-	int				ret;
+	pid_t				fpid;
+	char				**cmd;
+	int					ret;
 
 	fpid = -1;
 	cmd = NULL;

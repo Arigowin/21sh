@@ -162,11 +162,17 @@ typedef struct			s_lst_fd
 }						t_lst_fd;
 
 /*
-** sh_main
+** sh_savior
 */
 t_duo					*savior(t_duo *env, int code);
 t_line					*savior_stline(t_line *stline, int code);
 char					*savior_tty(char *tty, int code);
+
+/*
+** sh_savior
+*/
+int						init(t_line *stline);
+int						init_env(char **env, t_duo **env_cpy);
 
 /*
 ** sh_first_steps
@@ -190,15 +196,20 @@ int						is_builtin(char **cmd);
 int						handle_builtin(char **cmd);
 
 /*
-** sh_lexer1
+** sh_t_e_list_mngt
 */
-int						lexer_1(char *read_buff, t_e_list **l_expr);
 t_e_list				*expr_new(char *content);
+int 					expr_pushbk(t_e_list **l_expr, char *data_tmp);
 
 /*
-** sh_lexer2
+** sh_tokenizer
 */
-int						lexer_2(t_e_list **l_expr);
+int						tokenizer(char *read_buff, t_e_list **l_expr);
+
+/*
+** sh_lexer
+*/
+int						lexer(t_e_list **l_expr);
 
 /*
 ** sh_create_tree
@@ -245,6 +256,7 @@ int						bi_unsetenv(char **arg, t_duo **env);
 ** sh_cd
 */
 int						bi_cd(char **arg, t_duo **env);
+
 /*
 ** sh_termcap
 */
@@ -262,75 +274,76 @@ int						my_outc(int c);
 int						event(int key, t_line *stline, t_history **history);
 int						reset_stline(t_line *stline);
 int						fct_ctrl_d(char **s, int *pos, t_line *stline,
-						t_history **history);
+							t_history **history);
 
 /*
 ** sh_modif_line
 */
 int						fct_backspace(char **s, int *pos, t_line *stline,
-						t_history **history);
+							t_history **history);
 int						fct_insert(char c, char **s, int *pos, t_line *stline);
 
 /*
 ** sh_move_in_line
 */
 int						left_move_cdt(int pos, t_line *stline);
-int						fct_left(char **s, int *pos, t_line *stline,
-						t_history **history);
-int						fct_right(char **s, int *pos, t_line *stline,
-						t_history **history);
+int						fct_left(char **s, int *pos, t_line *l,	t_history **h);
+int						fct_right(char **s, int *pos, t_line *l,t_history **h);
 int						fct_ctrl_left(char **s, int *pos, t_line *stline,
-						t_history **history);
+							t_history **history);
 int						fct_ctrl_right(char **s, int *pos, t_line *stline,
-						t_history **history);
+							t_history **history);
 
 /*
 ** sh_move_up_down
 */
 int						fct_ctrl_down(char **s, int *pos, t_line *stline,
-						t_history **history);
-int						fct_ctrl_up(char **s, int *pos, t_line *stline,
-						t_history **history);
+							t_history **hstory);
+int						fct_ctrl_up(char **s, int *p, t_line *l, t_history **h);
 
 /*
 ** sh_spec_key
 */
-int						fct_end(char **s, int *pos, t_line *stline,
-						t_history **history);
-int						fct_home(char **s, int *pos, t_line *stline,
-						t_history **history);
-int						fct_del(char **s, int *pos, t_line *stline,
-						t_history **history);
+int						fct_end(char **s, int *pos, t_line *l, t_history **h);
+int						fct_home(char **s, int *pos, t_line *l,	t_history **h);
+int						fct_del(char **s, int *pos, t_line *l, t_history **h);
 
 /*
 ** sh_history
 */
-void					add_history(t_history **history, char *line);
-int						fct_down(char **s, int *pos, t_line *stline,
-						t_history **history);
-int						fct_up(char **s, int *pos, t_line *stline,
-						t_history **history);
+void					add_history(t_history **h, char *line);
+int						history_down(char **s, int *pos, t_line *l,	t_history **h);
+int						history_up(char **s, int *pos, t_line *l, t_history **h);
 
 /*
 ** sh_copy_paste
 */
-int						str_addleft(char *tbl, char c);
-int						fct_cut(char **s, int *pos, t_line *stline,
-						t_history **history);
-int						fct_paste(char **s, int *pos, t_line *stline,
-						t_history **history);
-int						fct_copy(char **s, int *pos, t_line *stline,
-						t_history **history);
+int						fct_cut(char **s, int *pos, t_line *l, t_history **h);
+int						fct_paste(char **s, int *pos, t_line *l, t_history **h);
+int						fct_copy(char **s, int *pos, t_line *l,	t_history **h);
 int						fct_highlight(char **s, int *pos, t_line *stline,
-						t_history **history);
-int						add_in_copy(char **s, int *pos, t_line *stline, int dir);
-int						del_in_copy(char **s, int *pos, t_line *stline, int dir);
+							t_history **history);
+
+/*
+** sh_add-del_in_copy
+*/
+int						str_addleft(char *tbl, char c);
+int						add_in_copy(char **s, int *p, t_line *stline, int dir);
+int						del_in_copy(char **s, int *p, t_line *stline, int dir);
+
+/*
+** sh_highlight
+*/
+int						hide_highlight(char **str, int *pos, t_line *stline,
+							t_history **history);
+int						fct_highlight(char **str, int *pos, t_line *stline,
+							t_history **history);
 
 /*
 ** sh_parser
 */
 t_node					*parser(t_e_list **l_expr);
-int						check_next(t_e_list **l_expr, t_node **tree, t_node **right_node);
+int						check_next(t_e_list **l_expr, t_node **t, t_node **r_n);
 
 /*
 ** sh_tree_traversal
@@ -340,6 +353,7 @@ int						tree_traversal(t_node *tree, t_lst_fd **lstfd);
 /*
 ** sh_red
 */
+
 int						fd_exist(int fd);
 int     				redirect(t_node *tree, t_lst_fd **lstfd);
 

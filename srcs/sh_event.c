@@ -1,10 +1,11 @@
 #include "shell.h"
 #include "libft.h"
 
-int				reset_stline(t_line *stline)
+int					reset_stline(t_line *stline)
 {
 	if (DEBUG == 1)
 		printf("------- RESET STLINE ------\n");
+
 	ft_bzero(stline->line, ft_strlen(stline->line));
 	stline->pos_line = 0;
 	stline->multi_pos = 0;
@@ -17,7 +18,8 @@ int				reset_stline(t_line *stline)
 	return (TRUE);
 }
 
-int				fct_return(char **str, int *pos, t_line *stline, t_history **history)
+int					fct_return(char **str, int *pos, t_line *stline,
+					t_history **history)
 {
 	if (DEBUG_KEY == 1)
 		printf("------- FCT RETURN ------\n");
@@ -51,11 +53,12 @@ int				fct_return(char **str, int *pos, t_line *stline, t_history **history)
 	return (FALSE);
 }
 
-int						fct_ctrl_d(char **str, int *pos, t_line *stline, t_history **history)
+int					fct_ctrl_d(char **str, int *pos, t_line *stline, t_history **history)
 {
 	if (DEBUG_KEY == 1)
 		printf("------- FCT CTRL D ------\n");
-	t_duo			*env;
+
+	t_duo				*env;
 
 	env = savior(NULL, FALSE);
 	if (*str[0] == '\0')
@@ -65,10 +68,11 @@ int						fct_ctrl_d(char **str, int *pos, t_line *stline, t_history **history)
 	return (TRUE);
 }
 
-int				handle_quote(int key, char **str, int *pos, t_line *stline)
+int					handle_quote(int key, char **str, int *pos, t_line *stline)
 {
 	if (DEBUG == 1)
 		printf("------- HANDLE QUOTE ------\n");
+
 	if ((*str)[(*pos) - 1] &&  (*str)[(*pos) - 1] == '\\')
 		return (FALSE);
 	if (key == QUOTE || key == DQUOTE) //pb ac quote
@@ -81,17 +85,17 @@ int				handle_quote(int key, char **str, int *pos, t_line *stline)
 	return(TRUE);
 }
 
-int				event(int key, t_line *stline, t_history **history)
+int					event(int key, t_line *stline, t_history **history)
 {
 	if (DEBUG == 1)
 		printf("------- EVENT ------\n");
 
-	int						i;
-	static t_key_fct		tbl_keys[18] =
+	int					i;
+	static t_key_fct	tbl_keys[18] =
 	{
-		{RETURN, fct_return}, {BACKSPACE, fct_backspace}, {END, fct_end},
-		{HOME, fct_home}, {DEL, fct_del}, {CTRL_D, fct_ctrl_d},
-		{LEFT, fct_left}, {RIGHT, fct_right}, {UP, fct_up}, {DOWN, fct_down},
+		{RETURN, fct_return}, {BACKSPACE, fct_backspace}, {DOWN, history_down},
+		{HOME, fct_home}, {DEL, fct_del}, {CTRL_D, fct_ctrl_d}, {END, fct_end},
+		{LEFT, fct_left}, {RIGHT, fct_right}, {UP, history_up},
 		{CTRL_LEFT, fct_ctrl_left}, {CTRL_RIGHT, fct_ctrl_right},
 		{CTRL_UP, fct_ctrl_up}, {CTRL_DOWN, fct_ctrl_down}, {CUT, fct_cut},
 		{HIGHLIGHT, fct_highlight}, {PASTE, fct_paste}, {COPY, fct_copy}
@@ -124,5 +128,6 @@ int				event(int key, t_line *stline, t_history **history)
 	ft_putstr(" pos_line :");
 	ft_putnbr(stline->pos_line);
 	tputs(tgetstr("rc", NULL), 1, my_outc);
+
 	return (0);
 }

@@ -105,7 +105,7 @@ void					ft_putstr_color_fd(int fd, char *color, char *s);
 t_list					*ft_lstnew(char *content);
 void					ft_lstdelone(t_list **alst, void (*del)(void *, int));
 void					ft_lstdel(t_list **alst, void (*del)(void *, int));
-void					ft_lstadd(t_list **alst, t_list *new);
+void					ft_lstadd(t_list **alst, t_list *new_c);
 void					ft_lstiter(t_list *lst, void (*f)(t_list *elem));
 t_list					*ft_lstmap(t_list *lst, t_list *(*f)(t_list *elem));
 
@@ -114,7 +114,7 @@ void					ft_intlst_add(t_intlst **alst, int data);
 
 void					ft_putnbrendl(int n);
 int						ft_strnlen(char *str, char c);
-void					ft_lstpushback(t_list **alst, char *new);
+void					ft_lstpushback(t_list **alst, char *new_c);
 char					*ft_itoa_base(int n, int base);
 t_list					*ft_split_to_lst(const char *s, char c);
 t_duo					*tbl_to_duo(char **tbl, char c);
@@ -127,7 +127,7 @@ int						duo_del(t_duo **lst);
 char	        		**duo_to_tbl(t_duo *lst, char *sep);
 int						free_duo(t_duo **lst);
 int						free_lst(t_list **lst);
-int						free_tab(char ***tab);
+int						free_tab(char ***tabl);
 char					**lst_to_tbl(t_list *lst);
 int						ft_lst_count(t_list *lst);
 int						tbl_len(char **tbl);

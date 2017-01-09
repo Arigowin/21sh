@@ -1,12 +1,13 @@
 #include "shell.h"
 #include "libft.h"
 
-static char		**tree_to_tbl(t_node *tree, int nb_elem)
+static char			**tree_to_tbl(t_node *tree, int nb_elem)
 {
 	if (DEBUG_CMD == 1)
 		printf ("----- TREE TO TBL -----\n");
-	int			i;
-	char		**tbl;
+
+	int					i;
+	char				**tbl;
 
 	i = 0;
 	if ((tbl = (char **)malloc(sizeof(char *) * (nb_elem + 1))) == NULL)
@@ -22,14 +23,14 @@ static char		**tree_to_tbl(t_node *tree, int nb_elem)
 	return (tbl);
 }
 
-char		**format_cmd(t_node *tree)
+char				**format_cmd(t_node *tree)
 {
 	if (DEBUG_CMD == 1)
 		printf ("----- FORMAT CMD -----\n");
 
-	char	**ret;
-	t_node	*tmp;
-	int		i;
+	char				**ret;
+	t_node				*tmp;
+	int					i;
 
 	i = 0;
 	ret = NULL;
@@ -43,13 +44,13 @@ char		**format_cmd(t_node *tree)
 	return (ret);
 }
 
-int				manage_cmd(t_node *tree, t_lst_fd **lstfd)
+int					manage_cmd(t_node *tree, t_lst_fd **lstfd)
 {
 	if (DEBUG_CMD == 1)
 		printf ("----- CMD -----(%s)\n", tree->data);
 
-//	char			**cmd;
-//	int 			ret;
+//	char				**cmd;
+//	int 				ret;
 //
 //	ret = 0;
 //	if (tree->left != NULL)

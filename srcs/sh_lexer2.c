@@ -55,10 +55,10 @@ static int			waka_lexer(t_e_list **l_expr)
 	if (DEBUG_LEXER_PARSER == 1)
 		printf("------- WAKA LEXER ------\n");
 
-	int				i;
-	char			tmp[11];
-	char			*tmp2;
-	t_e_list		*new;
+	int					i;
+	char				tmp[11];
+	char				*tmp2;
+	t_e_list			*new;
 
 	i = 0;
 	new = NULL;
@@ -68,11 +68,12 @@ static int			waka_lexer(t_e_list **l_expr)
 	if (ft_strchr(WAKA, ((*l_expr)->data)[0]))
 		return (TRUE);
 	red_fd_copy(l_expr, &tmp, &i);
-	if ((tmp2 = ft_strsub((*l_expr)->data, i, ft_strlen((*l_expr)->data) - i)) == NULL)
+	if ((tmp2 = ft_strsub((*l_expr)->data, i, ft_strlen((*l_expr)->data) - i))
+	== NULL)
 		return (ERROR);
 	ft_strdel(&((*l_expr)->data));
 	if (((*l_expr)->data = ft_strdup(tmp2)) == NULL
-			|| (tmp[0] == '\0' || (tmp[0] != '\0' && (new = expr_new(tmp)) == NULL)))
+	|| (tmp[0] == '\0' || (tmp[0] != '\0' && (new = expr_new(tmp)) == NULL)))
 		return (ERROR);
 	new->type = RED_FD;
 	new->next = (*l_expr)->next;
@@ -80,7 +81,7 @@ static int			waka_lexer(t_e_list **l_expr)
 	return (TRUE);
 }
 
-static int				type_analyzer2(t_e_list **l_expr, int *boule)
+static int			type_analyzer2(t_e_list **l_expr, int *boule)
 {
 	if (DEBUG_LEXER_PARSER == 1)
 		printf("------- TYPE ANALYZER2 ------\n");
@@ -96,7 +97,7 @@ static int				type_analyzer2(t_e_list **l_expr, int *boule)
 		*boule = 0;
 	}
 	else if (*boule == 0 && ((ft_strchr(SPECIAL, ((*l_expr)->data)[0])
-					&& !ft_strchr("><", ((*l_expr)->next->data)[0])) || (*l_expr)->type == RA))
+	&& !ft_strchr("><", ((*l_expr)->next->data)[0])) || (*l_expr)->type == RA))
 	{
 		*boule = 1;
 		(*l_expr)->next->type = CMD;
@@ -112,19 +113,19 @@ static int			type_analyzer(t_e_list **l_expr, int boule)
 	while (*l_expr && (*l_expr)->next)
 	{
 		if (ft_strchr((*l_expr)->next->data, '<')
-				|| ft_strchr((*l_expr)->next->data, '>'))
+		|| ft_strchr((*l_expr)->next->data, '>'))
 		{
 			if (waka_lexer(&((*l_expr)->next)) == ERROR)
 				return (ERROR);
 			(*l_expr)->next->type = RED;
 		}
 		else if (boule == 1 && (!ft_strchr(SPECIAL, ((*l_expr)->next->data)[0])
-					&& ((*l_expr)->type == CMD || (*l_expr)->type == CA
-						|| (*l_expr)->type == RA)))
+		&& ((*l_expr)->type == CMD || (*l_expr)->type == CA
+		|| (*l_expr)->type == RA)))
 			(*l_expr)->next->type = CA;
 		else if (!ft_strchr(SPECIAL, ((*l_expr)->next->data)[0])
-				&& (((*l_expr)->type == RED && (*l_expr)->next->type != RED_FD)
-					|| (*l_expr)->type == RED_FD))
+		&& (((*l_expr)->type == RED && (*l_expr)->next->type != RED_FD)
+		|| (*l_expr)->type == RED_FD))
 			(*l_expr)->next->type = RA;
 		else
 			type_analyzer2(l_expr, &boule);
@@ -133,12 +134,13 @@ static int			type_analyzer(t_e_list **l_expr, int boule)
 	return (TRUE);
 }
 
-int				lexer_2(t_e_list **l_expr)
+int					lexer(t_e_list **l_expr)
 {
 	if (DEBUG_LEXER_PARSER == 1)
 		printf("------- LEXER 2 ------\n");
-	t_e_list		*tmp;
-	int				boule;
+
+	t_e_list			*tmp;
+	int					boule;
 
 	tmp = *l_expr;
 	boule = 0;
@@ -154,6 +156,7 @@ int				lexer_2(t_e_list **l_expr)
 	}
 	type_analyzer(&tmp, boule);
 
+	// DEBUG!!!!!!
 	if (DEBUG_LEXER_PARSER == 1)
 	{
 		t_e_list *tmp2 = *l_expr;
@@ -164,6 +167,6 @@ int				lexer_2(t_e_list **l_expr)
 		}
 		printf("\n");
 	}
-
+	// fin DEBUG !!!!!
 	return (TRUE);
 }

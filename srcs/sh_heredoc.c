@@ -1,7 +1,7 @@
 #include "libft.h"
 #include "shell.h"
 
-int				fill_heredoc(t_line *stline)
+int					fill_heredoc(t_line *stline)
 {
 	if (DEBUG_HEREDOC == 1)
 		printf("------------ FILL HEREDOC ----------\n");

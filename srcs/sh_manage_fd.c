@@ -3,12 +3,12 @@
 #include "libft.h"
 #define	FD 3
 #define CLOSE 4
-/*
-*/
+
 int					close_lstfd(t_lst_fd **lstfd)
 {
 	if (DEBUG_RED == 1)
 		printf ("----- CLOSE LSTFD -----\n");
+
 	t_lst_fd			*tmp;
 
 	tmp = NULL;
@@ -29,7 +29,7 @@ static t_lst_fd		*lstfd_new(int fd, char *filename)
 	if (DEBUG_RED == 1)
 		printf("------- LSTFD NEW -------\n");
 
-	t_lst_fd	*new;
+	t_lst_fd			*new;
 
 	if ((new = (t_lst_fd*)malloc(sizeof(t_lst_fd))) == NULL)
 		return (NULL);
@@ -45,8 +45,8 @@ int					lstfd_pushbck(t_lst_fd **lstfd, int fd, char *filename)
 	if (DEBUG_RED == 1)
 		printf("------- LSTFD PUSHBCK -------\n");
 
-	t_lst_fd *new;
-	t_lst_fd *tmp;
+	t_lst_fd			*new;
+	t_lst_fd			*tmp;
 
 	new = NULL;
 	tmp = *lstfd;
@@ -104,9 +104,9 @@ int					right_red_fd(t_lst_fd **lstfd, t_node *tree,
 	if (DEBUG_RED == 1)
 		printf("------- RIGHT RED FD -------\n");
 
-	int 		flags;
-	int			ret_fn;
-	char		*filename;
+	int 				flags;
+	int					ret_fn;
+	char				*filename;
 
 	filename = NULL;
 	ret_fn = FALSE;
@@ -201,7 +201,7 @@ int					manage_red_file(t_lst_fd **lstfd, t_node *tree)
 	if (DEBUG_RED == 1)
 		printf("------- MANAGE RED FILE -------\n");
 
-	t_node		*red_arg;
+	t_node				*red_arg;
 
 	red_arg = NULL;
 	//printf("data: (%s)\n", tree->data);

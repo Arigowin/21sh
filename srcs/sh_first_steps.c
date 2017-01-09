@@ -2,13 +2,14 @@
 #include "shell.h"
 #include "libft.h"
 
-static char		*get_path(void)
+static char			*get_path(void)
 {
 	if (DEBUG == 1)
 		printf("------- GET PATH ------\n");
-	char			*path;
-	char			*tmp;
-	char			*home;
+
+	char				*path;
+	char				*tmp;
+	char				*home;
 
 	home = get_env("HOME");
 	path = get_env("PWD");
@@ -25,12 +26,13 @@ static char		*get_path(void)
 	return (path);
 }
 
-int				display_prompt(void)
+int					display_prompt(void)
 {
 	if (DEBUG == 1)
 		printf("------- DISPLAY PROMPT ------\n");
-	char			*name;
-	char			*path;
+
+	char				*name;
+	char				*path;
 
 	path = get_path();
 	name = get_env("LOGNAME");
@@ -58,7 +60,8 @@ int				fill_path(char ***env)
 {
 	if (DEBUG == 1)
 		printf("------- FILL PATH ------\n");
-	char			*tmp;
+
+	char				*tmp;
 
 	tmp = NULL;
 	if (((*env) = (char **)malloc(sizeof(char *) * 3)) == NULL)
