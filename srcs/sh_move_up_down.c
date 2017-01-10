@@ -17,7 +17,7 @@ int					fct_down(char **str, int *pos, t_line *stline,
 	if (DEBUG_TERMCAPS == 1)
 		printf("------------------ MOVE CTRL DOWN -------------------\n");
 
-	int					nb_ligne;
+	int					nb_line;
 	int					last_line;
 	int					rel_pos;
 	char				*tmp;
@@ -26,8 +26,8 @@ int					fct_down(char **str, int *pos, t_line *stline,
 	tmp = ft_strrchr(*str, '\n');
 	last_line = (tmp != NULL ? ft_strlen(tmp + 1) : ft_strlen(*str));
 	rel_pos = (tmp != NULL ? *pos - (ft_strlen(*str) - ft_strlen(tmp)) : *pos);
-	nb_ligne = (last_line + PRT_LEN) / stline->win.ws_col;
-	if (stline->curs_y >= nb_ligne )
+	nb_line = (last_line + PRT_LEN) / stline->win.ws_col;
+	if (stline->curs_y >= nb_line )
 		return (TRUE);
 	if (last_line >= (rel_pos + stline->win.ws_col))
 	{
@@ -38,13 +38,14 @@ int					fct_down(char **str, int *pos, t_line *stline,
 	{
 		(*pos) = ft_strlen(*str);
 		rel_pos = (tmp ? *pos - (ft_strlen(*str) - ft_strlen(tmp + 1)) : *pos);
-		rel_pos = (rel_pos - (stline->win.ws_col * nb_ligne)) + PRT_LEN;
+		rel_pos = (rel_pos - (stline->win.ws_col * nb_line)) + PRT_LEN;
 		stline->curs_x = rel_pos;
 	}
 	return (down_term(rel_pos, stline));
 }
 
-int					fct_up(char **str, int *pos, t_line *stline, t_history **history)
+int					fct_up(char **str, int *pos, t_line *stline,
+					t_history **history)
 {
 	if (DEBUG_TERMCAPS == 1)
 		printf("------------------ MOVE CTRL UP -------------------\n");

@@ -27,33 +27,34 @@ static int			enlarge_line(char **str, int *pos)
 	return (TRUE);
 }
 
-static int			screen_up(char **str, t_line *stline)
+static int			screen_up(int *pos, char **str, t_line *stline)
 {
 	if (DEBUG_TERMCAPS == 1)
 		printf("------- SCREEN UP ------\n");
 
+	char				*line;
 	int					nb_line;
+	int					len;
+	int					rel_p;
 	int					i;
 
 	i = 0;
-	nb_line = (ft_strlen(*str) + PRT_LEN) / stline->win.ws_col;
-	if (nb_line && stline->pos_line != (int)ft_strlen(stline->line) - 1
-	&& ((ft_strlen(*str) + PRT_LEN) / nb_line) % stline->win.ws_col == 0)
+	line = ft_strrchr(*str, '\n');
+	len = (line != NULL ? ft_strlen(line + 1) : ft_strlen(*str));
+	rel_p = (line != NULL ? *pos - (ft_strlen(*str) - ft_strlen(line)) : *pos);
+	nb_line = (len + PRT_LEN) / stline->win.ws_col;
+	if (nb_line && rel_p != len && ((len + PRT_LEN) / nb_line)
+	% stline->win.ws_col == 0)
 	{
 		i = nb_line - stline->curs_y;
-		while (i > 0)
-		{
+		while (i-- > 0)
 			tputs(tgetstr("do", NULL), 1, my_outc);
-			i--;
-		}
 		i = nb_line - stline->curs_y;
 		while (i-- > 0)
 			tputs(tgetstr("up", NULL), 1, my_outc);
 		i = stline->curs_x;
 		while (i-- > 0)
-		{
 			tputs(tgetstr("nd", NULL), 1, my_outc);
-		}
 	}
 	return (TRUE);
 }
@@ -99,7 +100,7 @@ int					fct_insert(char c, char **str, int *pos, t_line *stline)
 		(*str)[*pos] = c;
 	else if (!(end_line = ft_strsub(*str, *pos, ft_strlen(*str))))
 		return (ERROR);
-	screen_up(str, stline);
+	screen_up(pos, str, stline);
 	ft_putchar(c);
 	if (end_line != NULL)
 		insert_char(c, end_line, str, pos);
