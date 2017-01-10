@@ -97,7 +97,7 @@ int					event(int key, t_line *stline, t_history **history)
 		{HOME, fct_home}, {DEL, fct_del}, {CTRL_D, fct_ctrl_d}, {END, fct_end},
 		{LEFT, fct_left}, {RIGHT, fct_right}, {UP, history_up},
 		{CTRL_LEFT, fct_ctrl_left}, {CTRL_RIGHT, fct_ctrl_right},
-		{CTRL_UP, fct_ctrl_up}, {CTRL_DOWN, fct_ctrl_down}, {CUT, fct_cut},
+		{CTRL_UP, fct_up}, {CTRL_DOWN, fct_down}, {CUT, fct_cut},
 		{HIGHLIGHT, fct_highlight}, {PASTE, fct_paste}, {COPY, fct_copy}
 	};
 

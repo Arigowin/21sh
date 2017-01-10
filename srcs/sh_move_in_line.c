@@ -2,7 +2,7 @@
 #include "libft.h"
 #include <term.h>
 
-int			left_move_cdt(int pos, t_line *stline)
+int					left_move_cdt(int pos, t_line *stline)
 {
 	return (pos > 0
 		&& ((stline->quote != 0 && stline->curs_y == 0 && stline->curs_x > 2)
@@ -11,7 +11,8 @@ int			left_move_cdt(int pos, t_line *stline)
 			|| (stline->quote == 0 && stline->curs_y > 0)));
 }
 
-int			fct_left(char **str, int *pos, t_line *stline, t_history **history)
+int					fct_left(char **str, int *pos, t_line *stline,
+					t_history **history)
 {
 	if (DEBUG_TERMCAPS == 1)
 		printf("------- MOVE LEFT ------\n");
@@ -41,7 +42,8 @@ int			fct_left(char **str, int *pos, t_line *stline, t_history **history)
 	return (TRUE);
 }
 
-int			fct_right(char **str, int *pos, t_line *stline, t_history **history)
+int					fct_right(char **str, int *pos, t_line *stline,
+					t_history **history)
 {
 	if (DEBUG_TERMCAPS == 1)
 		printf("------- MOVE RIGHT ------\n");
@@ -72,11 +74,13 @@ int			fct_right(char **str, int *pos, t_line *stline, t_history **history)
 	return (TRUE);
 }
 
-int			fct_ctrl_left(char **str, int *pos, t_line *stline, t_history **history)
+int					fct_ctrl_left(char **str, int *pos, t_line *stline,
+					t_history **history)
 {
 	if (DEBUG_TERMCAPS == 1)
 		printf("------- MOVE WORD LEFT ------\n");
-	int		x;
+
+	int					x;
 
 	(void)history;
 	if (left_move_cdt(*pos, stline))
@@ -92,11 +96,13 @@ int			fct_ctrl_left(char **str, int *pos, t_line *stline, t_history **history)
 	return (TRUE);
 }
 
-int			fct_ctrl_right(char **str, int *pos, t_line *stline, t_history **history)
+int					fct_ctrl_right(char **str, int *pos, t_line *stline,
+					t_history **history)
 {
 	if (DEBUG_TERMCAPS == 1)
 		printf("------- MOVE WORD RIGHT ------\n");
-	int		x;
+
+	int					x;
 
 	(void)history;
 	if (((*pos)) < (int)ft_strlen(*str))

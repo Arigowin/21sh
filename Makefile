@@ -24,10 +24,11 @@ SRC = sh_main.c \
 	  sh_setenv.c \
 	  sh_unsetenv.c \
 	  sh_builtin.c \
-	  sh_lexer1.c\
-	  sh_lexer2.c\
-	  sh_t_e_list_mngt.c \
+	  sh_tokenizer.c \
+	  sh_lexer.c \
+	  sh_t_e_list_handler.c \
 	  sh_parser.c \
+	  sh_parser_additional_items.c \
 	  sh_event.c \
 	  sh_signal.c \
 	  sh_history.c \
@@ -35,7 +36,8 @@ SRC = sh_main.c \
 	  sh_first_steps.c \
 	  sh_father_n_son.c \
 	  sh_main.c \
-	  sh_modif_line.c \
+	  sh_insert_in_line.c \
+	  sh_delete_in_line.c \
 	  sh_move_in_line.c \
 	  sh_move_up_down.c \
 	  sh_setenv.c \
@@ -47,13 +49,16 @@ SRC = sh_main.c \
 	  sh_copy_paste.c \
 	  sh_add_del_in_cpy.c \
 	  sh_highlight.c \
-	  sh_modif_line.c \
 	  sh_move_in_line.c \
 	  sh_cmd.c \
 	  sh_red.c \
 	  sh_manage_fd.c \
+	  sh_red_handler.c\
+	  sh_right_red.c \
+	  sh_left_red.c \
 	  sh_pipe.c \
 	  sh_create_tree.c \
+	  sh_free_tree.c \
 	  sh_tree_traversal.c \
 	  sh_heredoc.c
 

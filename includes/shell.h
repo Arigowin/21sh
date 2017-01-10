@@ -169,7 +169,7 @@ t_line					*savior_stline(t_line *stline, int code);
 char					*savior_tty(char *tty, int code);
 
 /*
-** sh_savior
+** sh_init
 */
 int						init(t_line *stline);
 int						init_env(char **env, t_duo **env_cpy);
@@ -196,7 +196,7 @@ int						is_builtin(char **cmd);
 int						handle_builtin(char **cmd);
 
 /*
-** sh_t_e_list_mngt
+** sh_t_e_list_handler
 */
 t_e_list				*expr_new(char *content);
 int 					expr_pushbk(t_e_list **l_expr, char *data_tmp);
@@ -277,12 +277,15 @@ int						fct_ctrl_d(char **s, int *pos, t_line *stline,
 							t_history **history);
 
 /*
-** sh_modif_line
+** sh_insert_in_line
+*/
+int						fct_insert(char c, char **s, int *pos, t_line *stline);
+
+/*
+** sh_delete_in_line
 */
 int						fct_backspace(char **s, int *pos, t_line *stline,
 							t_history **history);
-int						fct_insert(char c, char **s, int *pos, t_line *stline);
-
 /*
 ** sh_move_in_line
 */
@@ -297,9 +300,9 @@ int						fct_ctrl_right(char **s, int *pos, t_line *stline,
 /*
 ** sh_move_up_down
 */
-int						fct_ctrl_down(char **s, int *pos, t_line *stline,
+int						fct_down(char **s, int *pos, t_line *stline,
 							t_history **hstory);
-int						fct_ctrl_up(char **s, int *p, t_line *l, t_history **h);
+int						fct_up(char **s, int *p, t_line *l, t_history **h);
 
 /*
 ** sh_spec_key
@@ -342,8 +345,21 @@ int						fct_highlight(char **str, int *pos, t_line *stline,
 /*
 ** sh_parser
 */
+int						move_in_list(t_e_list **l_expr);
+int						parse_error(char *data);
 t_node					*parser(t_e_list **l_expr);
 int						check_next(t_e_list **l_expr, t_node **t, t_node **r_n);
+
+/*
+** sh_parser_additional_items
+*/
+int						check_red(t_e_list **l_expr, t_node **tree);
+
+/*
+** sh_free_tree
+*/
+int						clear_node(t_node **node);
+int						clear_tree(t_node **tree);
 
 /*
 ** sh_tree_traversal
@@ -362,7 +378,27 @@ int     				redirect(t_node *tree, t_lst_fd **lstfd);
 */
 int						close_lstfd(t_lst_fd **lstfd);
 int						lstfd_pushbck(t_lst_fd **lstfd, int fd, char *filename);
+int						check_file_name(char **filename, char *str);
+
+/*
+** sh_red_handler
+*/
 int						manage_red_file(t_lst_fd **lstfd, t_node *tree);
+
+/*
+** sh_right_red
+*/
+int						right_red_fd(t_lst_fd **lstfd, t_node *tree, t_node *red_arg);
+
+/*
+** sh_left_red
+*/
+int						left_red_fd(t_lst_fd **lstfd, t_node *red_arg);
+
+/*
+** sh_heredoc
+*/
+
 
 /*
 ** sh_cmd
