@@ -5,7 +5,7 @@
 #define CLOSE 4
 
 static int			right_red_fd_pushbk(t_lst_fd **lstfd, int flags,
-		char *filename)
+					char *filename)
 {
 	if (DEBUG_RED == 1)
 		printf("------- RIGHT RED FD PUSHBCK -------\n");
@@ -17,7 +17,7 @@ static int			right_red_fd_pushbk(t_lst_fd **lstfd, int flags,
 		return (ERROR);
 	}
 	if ((fd = open(filename, flags,
-					S_IRUSR | S_IWUSR | S_IRGRP | S_IROTH)) == ERROR)
+	S_IRUSR | S_IWUSR | S_IRGRP | S_IROTH)) == ERROR)
 		return (ERROR);
 	lstfd_pushbck(lstfd, fd, filename);
 	return (TRUE);
