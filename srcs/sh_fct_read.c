@@ -22,7 +22,7 @@ int					tree_traversal_verif(t_node *tree)
 	return (0);
 }
 
-t_node				*read_n_check(char *read_buff)
+t_node				*read_n_check(int *nb_hrd, char *read_buff)
 {
 	if (DEBUG == 1)
 		printf("------- READ N CHECK ------\n");
@@ -35,7 +35,7 @@ t_node				*read_n_check(char *read_buff)
 		return (NULL);
 	if (lexer(&l_expr) == ERROR)
 		return (NULL);
-	tree = parser(&l_expr);
+	tree = parser(nb_hrd, &l_expr);
 	if (DEBUG_TREE_VERIF == 1)
 		tree_traversal_verif(tree);
 	return (tree);
@@ -72,8 +72,10 @@ int					check_after_read(t_line *stline)
 	t_lst_fd			*lstfd;
 
 	lstfd = NULL;
-	if ((tree = read_n_check(stline->line)) == NULL)
+	if ((tree = read_n_check(&(stline->hrd.nb), stline->line)) == NULL)
 		return (ERROR);
+	heredoc_handler(stline, &tree);
+	printf("((%d))\n", stline->hrd.nb);
 	tree_traversal(tree, &lstfd);
 	return (TRUE);
 }
@@ -86,14 +88,9 @@ int					fct_read(t_line *stline, t_history **history)
 	int					key;
 	int					ret;
 	int					event_ret;
-//	char				*var1 = "ls";
-//	char				*var2 = "-l";
-//	char				*var3 = "/dev/fd/";
-//	char				*(cmd[]) = {var1, var2, var3, NULL};
 
 	ret = 0;
 	key = 0;
-//	father_n_son(cmd);
 	while ((ret = read(STDIN_FILENO, &key, sizeof(int))) > 0)
 	{
 		//printf("key = %d\n", key);

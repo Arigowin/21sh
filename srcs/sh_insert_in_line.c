@@ -85,7 +85,7 @@ static int			insert_char(char c, char *end_line, char **str, int *pos)
 	return(TRUE);
 }
 
-int					fct_insert(char c, char **str, int *pos, t_line *stline)
+int					fct_insert(char **str, int *pos,char c, t_line *stline)
 {
 	if (DEBUG_TERMCAPS == 1)
 		printf("------- INSERT ------\n");

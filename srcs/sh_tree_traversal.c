@@ -28,7 +28,7 @@ int					reset_std_fd(void)
 int				tree_traversal(t_node *tree, t_lst_fd **lstfd)
 {
 	if (DEBUG_TREE == 1)
-		printf("------- TREE TRAVERSAL -------(%d)\n", tree->type);
+		printf("------- TREE TRAVERSAL -------\n");
 	t_lst_fd	*saved_lstfd;
 
 	saved_lstfd = NULL;

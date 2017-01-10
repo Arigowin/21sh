@@ -20,7 +20,7 @@ int					hide_highlight(char **str, int *pos, t_line *stline,
 	i = 0;
 	while (tmp[i])
 	{
-		fct_insert(tmp[i], str, pos, stline);
+		fct_insert(str, pos, tmp[i], stline);
 		i++;
 	}
 	while ((*pos) != curs_pos)

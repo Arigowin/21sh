@@ -62,7 +62,7 @@ int					history_up(char **str, int *pos, t_line *stline,
 		fct_backspace(str, pos, stline, history);
 	while (((*history)->line)[i])
 	{
-		fct_insert( ((*history)->line)[i], str, pos, stline);
+		fct_insert(str, pos, ((*history)->line)[i], stline);
 		i++;
 	}
 	return (0);
@@ -89,7 +89,7 @@ int					history_down(char **str, int *pos, t_line *stline,
 		fct_backspace(str, pos, stline, history);
 	while (i >= 0 && ((*history)->line)[i])
 	{
-		fct_insert(((*history)->line)[i], str, pos, stline);
+		fct_insert(str, pos, ((*history)->line)[i], stline);
 		i++;
 	}
 	return (0);

@@ -6,6 +6,7 @@
 #define DEBUG_BUILTIN 0
 #define DEBUG_LEXER_PARSER 0
 #define DEBUG_PARSER 0
+#define DEBUG_SAVIOR 0
 #define DEBUG_TREE_CREATION 0
 #define DEBUG_TREE 0
 #define DEBUG_TERMCAPS 0
@@ -71,21 +72,21 @@ typedef enum
 {
 	NONE,
 	EXP,
+	SEMI,
+	PIPE,
+	CMD,
+	CMD_ARG,
 	RED,
 	RED_FD,
 	RED_ARG,
-	CMD,
-	CMD_ARG,
-	PIPE,
-	LAND,
-	LDOR,
-	LDAND,
 	RRED,
 	LRED,
 	DRRED,
 	DLRED,
-	SEMI,
-	ECHAP
+	DLRED_DOC,
+	LAND,
+	LDOR,
+	LDAND
 } 						types;
 
 typedef enum
@@ -113,23 +114,22 @@ typedef struct			s_copy
 typedef struct			s_heredoc
 {
 	int					nb;
-	char				*ptr;
-	struct s_list		*deli;
+	int 				pos;
+	char				*line;
 }						t_heredoc;
 
 typedef struct			s_line
 {
-	char				*line;
-	int					pos_line;
-	int					multi_pos;
-	int					curs_x; //first line start at  = stline->pos_line + PRT_LEN;
+	int					pos;
+	int					curs_x; //first line start at  = stline->pos + PRT_LEN;
 								// other line start at = 0
 								// quote line start at len of "> "
 	int					curs_y;
+	int					quote;
+	char				*line;
 	struct winsize		win;
 	struct s_copy		copy;
 	struct s_heredoc	hrd;
-	int					quote;
 }						t_line;
 
 typedef struct			s_history
@@ -171,8 +171,9 @@ char					*savior_tty(char *tty, int code);
 /*
 ** sh_init
 */
-int						init(t_line *stline);
 int						init_env(char **env, t_duo **env_cpy);
+int						init_stline(t_line *stline);
+int						reset_stline(t_line *stline);
 
 /*
 ** sh_first_steps
@@ -219,7 +220,6 @@ t_node					*create_node(types type);
 /*
 ** sh_fct_read
 */
-t_node					*read_n_check(char *read_buff);
 int						check_home(char **cmd);
 int						check_after_read(t_line *stline);
 int						fct_read(t_line *line, t_history **history);
@@ -272,14 +272,13 @@ int						my_outc(int c);
 ** sh_event
 */
 int						event(int key, t_line *stline, t_history **history);
-int						reset_stline(t_line *stline);
 int						fct_ctrl_d(char **s, int *pos, t_line *stline,
 							t_history **history);
 
 /*
 ** sh_insert_in_line
 */
-int						fct_insert(char c, char **s, int *pos, t_line *stline);
+int						fct_insert(char **s, int *pos,char c, t_line *stline);
 
 /*
 ** sh_delete_in_line
@@ -347,13 +346,13 @@ int						fct_highlight(char **str, int *pos, t_line *stline,
 */
 int						move_in_list(t_e_list **l_expr);
 int						parse_error(char *data);
-t_node					*parser(t_e_list **l_expr);
-int						check_next(t_e_list **l_expr, t_node **t, t_node **r_n);
+t_node					*parser(int *nb_hrd, t_e_list **l_expr);
 
 /*
 ** sh_parser_additional_items
 */
-int						check_red(t_e_list **l_expr, t_node **tree);
+int						check_red(int *nb_hrd, t_e_list **l_expr, t_node **tree);
+int						check_next(int *nb_hrd, t_e_list **l_expr, t_node **t, t_node **r_n);
 
 /*
 ** sh_free_tree
@@ -388,7 +387,8 @@ int						manage_red_file(t_lst_fd **lstfd, t_node *tree);
 /*
 ** sh_right_red
 */
-int						right_red_fd(t_lst_fd **lstfd, t_node *tree, t_node *red_arg);
+int						right_red_fd(t_lst_fd **lstfd, t_node *tree,
+							t_node *red_arg);
 
 /*
 ** sh_left_red
@@ -398,6 +398,7 @@ int						left_red_fd(t_lst_fd **lstfd, t_node *red_arg);
 /*
 ** sh_heredoc
 */
+int 					heredoc_handler(t_line *stline, t_node **tree);
 
 
 /*

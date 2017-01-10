@@ -28,7 +28,7 @@ int					fct_paste(char **str, int *pos, t_line *stline, t_history **history)
 		return (FALSE);
 	while (stline->copy.cpy[i])
 	{
-		fct_insert(stline->copy.cpy[i], str, pos, stline);
+		fct_insert(str, pos, stline->copy.cpy[i], stline);
 		i++;
 	}
 	tputs(tgetstr("me", NULL), 1, my_outc);

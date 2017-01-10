@@ -22,7 +22,7 @@ int					check_red_arg(t_e_list **l_expr, t_node **tree)
 	if (DEBUG_PARSER == 1)
 		printf("------- CHECK RED_ARG ------\n[%s]\n", (*l_expr)->data);
 
-	t_node				*node;
+	t_node		 		*node;
 	t_node				*save;
 
 	node = NULL;
@@ -54,7 +54,7 @@ int					check_red_arg(t_e_list **l_expr, t_node **tree)
 }
 
 //longeur ok si clear_node (l99) go in retun et si no need pour les 3 der lignes
-int					check_red(t_e_list **l_expr, t_node **tree)
+int					check_red(int *nb_hrd, t_e_list **l_expr, t_node **tree)
 {
 	if (DEBUG_PARSER == 1)
 		printf("------- CHECK RED ------\n[%s]\n", (*l_expr)->data);
@@ -64,7 +64,6 @@ int					check_red(t_e_list **l_expr, t_node **tree)
 	t_e_list			*list_save;
 	int					red_ret;
 
-	node = NULL;
 	save = *tree;
 	list_save = *l_expr;
 	red_ret = TRUE;
@@ -80,7 +79,8 @@ int					check_red(t_e_list **l_expr, t_node **tree)
 		node->type = ft_strequ(list_save->data, ">>") ? DRRED : node->type;
 		node->type = ft_strequ(list_save->data, "<") ? LRED : node->type;
 		node->type = ft_strequ(list_save->data, "<<") ? DLRED : node->type;
-		if (!move_in_list(l_expr) || check_red(l_expr, &(node->left)) != TRUE)
+		*nb_hrd += (node->type == DLRED ? 1 : 0);
+		if (!move_in_list(l_expr) || check_red(nb_hrd, l_expr, &(node->left)) != TRUE)
 			*tree = save;
 		*tree = node;
 		return (TRUE);
@@ -93,7 +93,7 @@ int					check_red(t_e_list **l_expr, t_node **tree)
 	return (FALSE);
 }
 
-int					check_arg(t_e_list **l_expr, t_node **tree,
+int					check_arg(int *nb_hrd, t_e_list **l_expr, t_node **tree,
 					t_node **right_node)
 {
 	if (DEBUG_PARSER == 1)
@@ -113,7 +113,7 @@ int					check_arg(t_e_list **l_expr, t_node **tree,
 		}
 		//		if (!move_in_list(*l_expr) || !check_arg(l_expr, &(node->right)))
 		//			*tree = save;
-		check_next(l_expr, &save, &(node->right));
+		check_next(nb_hrd, l_expr, &save, &(node->right));
 		*right_node = node;
 		return (TRUE);
 	}
@@ -122,7 +122,7 @@ int					check_arg(t_e_list **l_expr, t_node **tree,
 }
 
 //checker pour le retour de check_red, il faut stopper si pas d'argumer de redirection.... ajouter un message d'errur spécifique
-int					check_next(t_e_list **l_expr, t_node **tree,
+int					check_next(int *nb_hrd, t_e_list **l_expr, t_node **tree,
 					t_node **right_node)
 {
 	if (DEBUG_PARSER == 1)
@@ -135,9 +135,9 @@ int					check_next(t_e_list **l_expr, t_node **tree,
 	{
 		while (save && save->left != NULL)
 			save = save->left;
-		if (check_red(l_expr, &(save->left)) == ERROR)
+		if (check_red(nb_hrd, l_expr, &(save->left)) == ERROR)
 			return (ERROR);
-		check_arg(l_expr, &save, right_node);
+		check_arg(nb_hrd, l_expr, &save, right_node);
 		return (TRUE);
 	}
 	return (FALSE);

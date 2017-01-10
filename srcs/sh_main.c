@@ -17,7 +17,7 @@ int					main(void)
 	init_env(environ, &env_cpy); //l27
 	if (init_term() == ERROR) //sh_termcap
 		return (ERROR);
-	init(&stline); //static , l23
+	init_stline(&stline); //static , l23
 	history = NULL;
 	while (1)
 	{

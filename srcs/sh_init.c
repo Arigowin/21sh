@@ -18,18 +18,35 @@ int					init_env(char **env, t_duo **env_cpy) //ok
 	return (0);
 }
 
-int					init(t_line *stline)
+int					init_stline(t_line *stline)
 {
 	ioctl(0, TIOCGWINSZ, &(stline->win));
 
 	if ((stline->line = ft_strnew(BUFF_SIZE)) == NULL)
 		return (ERROR);
+	if ((stline->hrd.line = ft_strnew(BUFF_SIZE)) == NULL)
+		return (ERROR);
 	stline->copy.cpy = NULL;
 	stline->copy.start = -1;
 	stline->copy.bkup = NULL;
 	stline->hrd.nb = 0;
-	stline->hrd.deli = NULL;
-	stline->hrd.ptr = NULL;
+	stline->hrd.pos = 0;
 	savior_stline(stline, TRUE);
+	return (TRUE);
+}
+
+int					reset_stline(t_line *stline)
+{
+	if (DEBUG == 1)
+		printf("------- RESET STLINE ------\n");
+
+	ft_bzero(stline->line, ft_strlen(stline->line));
+	ft_bzero(stline->hrd.line, ft_strlen(stline->hrd.line));
+	stline->pos = 0;
+	stline->curs_x = PRT_LEN;
+	stline->curs_y = 0;
+	stline->quote = 0;
+	stline->hrd.nb = 0;
+	stline->hrd.pos = 0;
 	return (TRUE);
 }

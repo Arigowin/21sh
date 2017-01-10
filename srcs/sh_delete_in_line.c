@@ -66,7 +66,7 @@ int					fct_backspace(char **str, int *pos, t_line *stline, t_history **history)
 		save_pos = *pos;
 		delete_char(str, pos, i, stline);
 		while (eol && eol[i]) // !!!!
-			fct_insert(eol[i++], str, pos, stline);
+			fct_insert(str, pos, eol[i++], stline);
 		while ((*pos) >= save_pos)
 			fct_left(str, pos, stline, history);
 		if (stline->curs_x == stline->win.ws_col)

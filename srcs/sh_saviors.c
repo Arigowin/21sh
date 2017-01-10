@@ -3,6 +3,9 @@
 
 char				*savior_tty(char *tty, int code)
 {
+	if (DEBUG_SAVIOR == 1)
+		printf("------- SAVIOR TTY -------\n");
+
 	static char 		*save = NULL;
 
 	if ((save == NULL && tty) || code == TRUE)
@@ -12,6 +15,9 @@ char				*savior_tty(char *tty, int code)
 
 t_duo				*savior(t_duo *env, int code)
 {
+	if (DEBUG_SAVIOR == 1)
+		printf("------- SAVIOR -------\n");
+
 	static t_duo		*save = NULL;
 
 	if ((save == NULL && env) || code == TRUE)
@@ -21,7 +27,10 @@ t_duo				*savior(t_duo *env, int code)
 
 t_line				*savior_stline(t_line *stline, int code)
 {
-	static t_line	*save = NULL; // ATTENTION STATIC !!
+	if (DEBUG_SAVIOR == 1)
+		printf("------- SAVIOR STLINE -------\n");
+
+	static t_line	*save = NULL;
 
 	if ((save == NULL && stline) || code == TRUE)
 		save = stline;

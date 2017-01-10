@@ -67,7 +67,7 @@ int 				manage_sep(char **read_buff, char **data_tmp,
 	return (TRUE);
 }
 
-int					tok_dollar(char **read_buff, char **data_tmp)
+int					token_dollar(char **read_buff, char **data_tmp)
 {
 	if (DEBUG_LEXER_PARSER == 1)
 		printf("------- LEXER DOLLAR ------\n");
@@ -99,7 +99,7 @@ int					tok_dollar(char **read_buff, char **data_tmp)
 	return (TRUE);
 }
 
-int					tok_tilde(char **read_buff, char **data_tmp, int *bln)
+int					token_tilde(char **read_buff, char **data_tmp, int *bln)
 {
 	if (DEBUG_LEXER_PARSER == 1)
 		printf("------- LEXER TILDE ------\n");
@@ -122,7 +122,7 @@ int					tok_tilde(char **read_buff, char **data_tmp, int *bln)
 	return (TRUE);
 }
 
-int					tok_backslash(char **read_buff, char **data_tmp)
+int					token_backslash(char **read_buff, char **data_tmp)
 {
 	if (DEBUG_LEXER_PARSER == 1)
 		printf("------- LEXER BACKSLASH ------\n");
@@ -140,7 +140,7 @@ int					tok_backslash(char **read_buff, char **data_tmp)
 	return (TRUE);
 }
 
-int					tok_standard(char **read_buff, char **data_tmp,
+int					token_standard(char **read_buff, char **data_tmp,
 					int *bln, t_e_list **l_expr)
 {
 	if (DEBUG_LEXER_PARSER == 1)
@@ -149,11 +149,11 @@ int					tok_standard(char **read_buff, char **data_tmp,
 	if (**read_buff == DQUOTE)
 		return (FALSE);
 	if (**read_buff == '\\')
-		tok_backslash(read_buff, data_tmp);
+		token_backslash(read_buff, data_tmp);
 	else if (**read_buff == '$')
-		tok_dollar(read_buff, data_tmp);
+		token_dollar(read_buff, data_tmp);
 	else if (**read_buff == '~' && *bln == FALSE)
-		tok_tilde(read_buff, data_tmp, bln);
+		token_tilde(read_buff, data_tmp, bln);
 	else if (ft_strchr(SEP, **read_buff))
 	{
 		*bln = FALSE;
@@ -165,7 +165,7 @@ int					tok_standard(char **read_buff, char **data_tmp,
 }
 
 
-int					tok_quote(char curr_char, char **data_tmp)
+int					token_quote(char curr_char, char **data_tmp)
 {
 	if (DEBUG_LEXER_PARSER == 1)
 		printf("------- LEXER QUOTE ------\n");
@@ -175,8 +175,7 @@ int					tok_quote(char curr_char, char **data_tmp)
 	return (TRUE);
 }
 
-
-int					tok_dquote(char **read_buff, char **data_tmp)
+int					token_dquote(char **read_buff, char **data_tmp)
 {
 	if (DEBUG_LEXER_PARSER == 1)
 		printf("------- LEXER DQUOTE ------\n");
@@ -184,9 +183,9 @@ int					tok_dquote(char **read_buff, char **data_tmp)
 	if (**read_buff == DQUOTE)
 		return (FALSE);
 	if (**read_buff == '\\')
-		tok_backslash(read_buff, data_tmp);
+		token_backslash(read_buff, data_tmp);
 	else if (**read_buff == '$')
-		tok_dollar(read_buff, data_tmp);
+		token_dollar(read_buff, data_tmp);
 	else
 		add_in_tbl(data_tmp, **read_buff);
 	return (TRUE);
@@ -201,7 +200,8 @@ states				get_state(states state, char **read_buff)
 		return (IN_DQUOTE);
 	if (state == STANDARD && **read_buff == '\'')
 		return (IN_QUOTE);
-	if ((state == IN_DQUOTE && **read_buff == '"') || (state == IN_QUOTE && **read_buff == '\''))
+	if ((state == IN_DQUOTE && **read_buff == '"')
+	|| (state == IN_QUOTE && **read_buff == '\''))
 	{
 		(*read_buff)++;
 		return (STANDARD);
@@ -223,11 +223,11 @@ int 				finite_state_atomaton(char **read_buff, t_e_list **l_expr,
 	{
 		state = get_state(state, read_buff);
 		if (state == STANDARD)
-			tok_standard(read_buff, data_tmp, &bln, l_expr);
+			token_standard(read_buff, data_tmp, &bln, l_expr);
 		else if (state == IN_QUOTE)
-			tok_quote(**read_buff, data_tmp);
+			token_quote(**read_buff, data_tmp);
 		else if (state == IN_DQUOTE)
-			tok_dquote(read_buff, data_tmp);
+			token_dquote(read_buff, data_tmp);
 		(*read_buff)++;
 	}
 	return (TRUE);

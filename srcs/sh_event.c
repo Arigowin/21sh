@@ -1,23 +1,6 @@
 #include "shell.h"
 #include "libft.h"
 
-int					reset_stline(t_line *stline)
-{
-	if (DEBUG == 1)
-		printf("------- RESET STLINE ------\n");
-
-	ft_bzero(stline->line, ft_strlen(stline->line));
-	stline->pos_line = 0;
-	stline->multi_pos = 0;
-	stline->curs_x = PRT_LEN;
-	stline->curs_y = 0;
-	stline->quote = 0;
-	stline->hrd.nb = 0;
-	stline->hrd.ptr = NULL;
-	// liste a free hrd.del
-	return (TRUE);
-}
-
 int					fct_return(char **str, int *pos, t_line *stline,
 					t_history **history)
 {
@@ -25,22 +8,21 @@ int					fct_return(char **str, int *pos, t_line *stline,
 		printf("------- FCT RETURN ------\n");
 
 	fct_end(str, pos, stline, history);
-	stline->multi_pos = 0;
 	if (stline->quote != 0 || ((*str)[*pos - 1] && (*str)[*pos - 1] == '\\'))
 	{
-		fct_insert('\n', str, pos, stline);
+		fct_insert(str, pos, '\n', stline);
 		ft_putstr("> ");
 		stline->curs_x = 2;
 		stline->curs_y = 0;
 		return (CONTINUE);
 	}
-	else if (stline->hrd.nb > 0)
-	{
-		return_heredoc(stline);
-		if (stline->hrd.nb > 0)
-			return (CONTINUE);
-		return (BREAK);
-	}
+//	else if (stline->hrd.nb > 0)
+//	{
+//		return_heredoc(stline);
+//		if (stline->hrd.nb > 0)
+//			return (CONTINUE);
+//		return (BREAK);
+//	}
 	else
 	{
 		if (stline->copy.cpy != NULL && stline->copy.start != -1)
@@ -85,7 +67,8 @@ int					handle_quote(int key, char **str, int *pos, t_line *stline)
 	return(TRUE);
 }
 
-int					event(int key, t_line *stline, t_history **history)
+//passera a la norme en coupant les ternaires et virer les accolades
+int					event(int k, t_line *stline, t_history **history)
 {
 	if (DEBUG == 1)
 		printf("------- EVENT ------\n");
@@ -103,16 +86,16 @@ int					event(int key, t_line *stline, t_history **history)
 
 	i = -1;
 	while(++i < 18)
+		if (tbl_keys[i].key == k)
+			return(tbl_keys[i].fct((stline->hrd.nb > 0 ? &(stline->hrd.line)
+			: &(stline->line)),	(stline->hrd.nb > 0 ? &(stline->hrd.pos)
+			: &(stline->pos)), stline, history));
+	if (k != TAB && k > 31 && k < 128)
 	{
-		if (tbl_keys[i].key == key)
-			return(tbl_keys[i].fct(&(stline->line), &(stline->pos_line),
-						stline, history));
-	}
-	if (key != TAB && key > 31 && key < 128)
-	{
-		handle_quote(key, &(stline->line), &(stline->pos_line), stline);
-		fct_insert(key, &(stline->line), &(stline->pos_line), stline);
-		fill_heredoc(stline);
+		if (stline->hrd.nb == -1)
+			handle_quote(k, &(stline->line), &(stline->pos), stline);
+		fct_insert((stline->hrd.nb > 0 ? &(stline->hrd.line) : &(stline->line)),
+		(stline->hrd.nb > 0 ? &(stline->hrd.pos) : &(stline->pos)), k, stline);
 	}
 
 #include <term.h>
@@ -125,8 +108,8 @@ int					event(int key, t_line *stline, t_history **history)
 	ft_putnbr(stline->curs_x);
 	ft_putstr(" y :");
 	ft_putnbr(stline->curs_y);
-	ft_putstr(" pos_line :");
-	ft_putnbr(stline->pos_line);
+	ft_putstr(" pos :");
+	ft_putnbr(stline->pos);
 	tputs(tgetstr("rc", NULL), 1, my_outc);
 
 	return (0);
