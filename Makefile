@@ -35,6 +35,7 @@ SRC = sh_main.c \
 	  sh_fct_read.c \
 	  sh_first_steps.c \
 	  sh_father_n_son.c \
+	  sh_cmd_line_assemble.c \
 	  sh_main.c \
 	  sh_insert_in_line.c \
 	  sh_delete_in_line.c \

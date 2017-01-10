@@ -1,7 +1,7 @@
 #include "shell.h"
 #include "libft.h"
 
-static int			print_modified_env(char **arg, t_duo **env)
+static int			print_env(char **arg, t_duo **env)
 {
 	if (DEBUG_BUILTIN == 1)
 		printf("------- PRINT MODIFIED ENV ------\n");
@@ -42,7 +42,7 @@ int					bi_env(char **arg, t_duo **env)
 	cpy = *env;
 	if (arg[1])
 	{
-		if (print_modified_env(arg, env) == -1)
+		if (print_env(arg, env) == -1)
 		{
 			ft_putstr("21sh :env :");
 			ft_putstr(arg[1]);

@@ -1,11 +1,12 @@
 #include "shell.h"
 #include "libft.h"
 
-static int		is_valid(char *str)
+static int			is_valid(char *str)
 {
 	if (DEBUG_BUILTIN == 1)
 		printf("------- IS VALID ------\n");
-	int			i;
+
+	int					i;
 
 	i = -1;
 	if (str[++i] != '_' &&  ft_isalpha(str[i]) == FALSE)
@@ -29,11 +30,12 @@ static int		is_valid(char *str)
 	return (0);
 }
 
-int				bi_setenv(char **arg, t_duo **env)
+int					bi_setenv(char **arg, t_duo **env)
 {
 	if (DEBUG_BUILTIN == 1)
 		printf("------- BI SETENV ------\n");
-	int			i;
+
+	int					i;
 
 	i = 0;
 	while (arg[i])

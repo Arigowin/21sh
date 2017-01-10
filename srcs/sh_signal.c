@@ -3,9 +3,9 @@
 #include <signal.h>
 #include <term.h>
 
-static void		fct_m_ctrl_c(int sig)
+static void			fct_m_ctrl_c(int sig)
 {
-	t_line		*stline;
+	t_line				*stline;
 
 	stline = savior_stline(NULL, FALSE);
 	if (stline->copy.start != -1)
@@ -18,20 +18,20 @@ static void		fct_m_ctrl_c(int sig)
 	return ;
 }
 
-static void		fct_ctrl_void(int sig)
+static void			fct_ctrl_void(int sig)
 {
 	(void)sig;
 	ft_putendl("");
 	return ;
 }
 
-static void		fct_true_void(int sig)
+static void			fct_true_void(int sig)
 {
 	(void)sig;
 	return ;
 }
 
-int				check_signal(int loc)
+int					check_signal(int loc)
 {
 	if (loc == 1)
 	{

@@ -6,13 +6,13 @@
 #include "libft.h"
 #include <sys/wait.h>
 
-int			pipe_function(t_node *tree, int in_fd, t_lst_fd **lstfd)
+int					pipe_function(t_node *tree, int in_fd, t_lst_fd **lstfd)
 {
 	if (DEBUG_PIPE == 1)
 		printf("------- PIPE FUNCTION -------(%s)-(%d)\n", tree->data, in_fd);
-	int		pfd[2];
-	int		pid;
-	int		stat_lock;
+	int					pfd[2];
+	int					pid;
+	int					stat_lock;
 
 	if (tree->right == NULL || tree->right->type == CMD_ARG)
 	{

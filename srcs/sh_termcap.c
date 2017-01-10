@@ -5,12 +5,13 @@
 #include <fcntl.h>
 #include <stdlib.h>
 
-int			init_term(void)
+int					init_term(void)
 {
 	if (DEBUG_TERMCAPS == 1)
 		printf("------- INIT TERM ------\n");
-	struct termios	term;
-	char			*term_name;
+
+	struct termios		term;
+	char				*term_name;
 
 	if ((term_name = getenv("TERM")) == NULL)
 		term_name = "xterm";
@@ -26,11 +27,12 @@ int			init_term(void)
 	return (0);
 }
 
-int			reset_term(void)
+int					reset_term(void)
 {
 	if (DEBUG_TERMCAPS == 1)
 		printf("------- RESET TERM ------\n");
-	struct termios	term;
+
+	struct termios		term;
 
 	if (tcgetattr(0, &term) == -1)
 		return (-1);

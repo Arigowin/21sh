@@ -30,7 +30,7 @@ t_line				*savior_stline(t_line *stline, int code)
 	if (DEBUG_SAVIOR == 1)
 		printf("------- SAVIOR STLINE -------\n");
 
-	static t_line	*save = NULL;
+	static t_line		*save = NULL;
 
 	if ((save == NULL && stline) || code == TRUE)
 		save = stline;

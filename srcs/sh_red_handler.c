@@ -3,6 +3,9 @@
 
 static int		red_travesal(t_lst_fd **lstfd, t_node **tree)
 {
+	if (DEBUG_RED == 1)
+		printf("------- RED TRAVERSAL -------\n");
+
 	// printf ("data : (%s-%d)\n", (*tree)->data, (*tree)->type);
 	if (*tree && (*tree)->left)
 	{

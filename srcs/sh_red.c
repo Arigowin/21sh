@@ -2,7 +2,7 @@
 #include "libft.h"
 #include <fcntl.h>
 
-int				fd_exist(int fd)
+int					fd_exist(int fd)
 {
 	if (DEBUG_RED == 1)
 		printf("------------ FD EXIST ------------\n");
@@ -17,12 +17,12 @@ int				fd_exist(int fd)
 	return (TRUE);
 }
 
-int				left_right_red(t_node *tree, t_lst_fd **lstfd, int stdfd)
+int					left_right_red(t_node *tree, t_lst_fd **lstfd, int stdfd)
 {
 	if (DEBUG_RED == 1)
 		printf("------- RIGHT RED -------\n");
 
-	int				fd;
+	int					fd;
 
 	fd = stdfd;
 	if (tree->type == RED_FD && ft_strcmp(tree->data, "&") != 0)
@@ -49,12 +49,12 @@ int				left_right_red(t_node *tree, t_lst_fd **lstfd, int stdfd)
 	return (TRUE);
 }
 
-int				redirect(t_node *tree, t_lst_fd **lstfd)
+int					redirect(t_node *tree, t_lst_fd **lstfd)
 {
 	if (DEBUG_RED == 1)
 		printf("------- RED -------\n");
 
-	int				fd;
+	int					fd;
 
 	fd = (tree->type == LRED ? STDIN_FILENO : STDOUT_FILENO);
 	if (tree && tree->right && (tree->type != DLRED))
@@ -71,6 +71,5 @@ int				redirect(t_node *tree, t_lst_fd **lstfd)
 		if (redirect(tree->left, lstfd) == ERROR)
 			return (ERROR);
 	}
-
 	return (TRUE);
 }

@@ -11,7 +11,7 @@ int					sh_error(int ret_code, char *msg, int out)
 {
 	t_duo				**env;
 
-	env = savior(NULL, FALSE);
+	*env = savior(NULL, FALSE);
 	if (ret_code == TRUE)
 		return (TRUE);
 	else if (ret_code == FALSE)

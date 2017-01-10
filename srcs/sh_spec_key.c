@@ -2,12 +2,12 @@
 #include "libft.h"
 #include <term.h>
 
-int			fct_del(char **str, int *pos, t_line *stline, t_history **history)
+int					fct_del(char **str, int *pos, t_line *stline, t_history **history)
 {
 	if (DEBUG_TERMCAPS == 1)
 		printf("------- DEL ------\n");
 
-	int		tmp;
+	int					tmp;
 
 	if (stline->copy.start != -1)
 		return (FALSE);
@@ -22,10 +22,11 @@ int			fct_del(char **str, int *pos, t_line *stline, t_history **history)
 	return (TRUE);
 }
 
-int			fct_home(char **str, int *pos, t_line *stline, t_history **history)
+int					fct_home(char **str, int *pos, t_line *stline, t_history **history)
 {
 	if (DEBUG_TERMCAPS == 1)
 		printf("------- HOME ------\n");
+
 	while (left_move_cdt(*pos, stline))
 	{
 		fct_left(str, pos, stline, history);
@@ -33,10 +34,11 @@ int			fct_home(char **str, int *pos, t_line *stline, t_history **history)
 	return (TRUE);
 }
 
-int			fct_end(char **str, int *pos, t_line *stline, t_history **history)
+int					fct_end(char **str, int *pos, t_line *stline, t_history **history)
 {
 	if (DEBUG_TERMCAPS == 1)
 		printf("------- END ------\n");
+
 	while ((stline->copy.start == -1 && ((*pos))
 				< (int)ft_strlen(*str)) || (stline->copy.start != -1
 				&& ((*pos)) < (int)ft_strlen(*str) - 1))

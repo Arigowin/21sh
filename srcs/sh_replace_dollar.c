@@ -2,11 +2,11 @@
 #include "libft.h"
 #include <stdio.h>
 
-static char		*save_start(char *str, int *i)
+static char			*save_start(char *str, int *i)
 {
 	if (DEBUG == 1)
 		printf("----------- SAVE START ----------\n");
-	char		*start;
+	char				*start;
 
 	*i = 0;
 	start = NULL;
@@ -23,11 +23,11 @@ static char		*save_start(char *str, int *i)
 }
 
 
-static char		*save_env(char *str, int i, int *j)
+static char			*save_env(char *str, int i, int *j)
 {
 	if (DEBUG == 1)
 		printf("----------- SAVE ENV ----------\n");
-	char	*env;
+	char				*env;
 
 	env = NULL;
 	while (str[*j] && str[*j] != ' ' && str[*j] != '/')
@@ -37,11 +37,11 @@ static char		*save_env(char *str, int i, int *j)
 	return (env);
 }
 
-static char		*save_end(char *str, int j)
+static char			*save_end(char *str, int j)
 {
 	if (DEBUG == 1)
 		printf("----------- SAVE END ----------\n");
-	char	*end;
+	char				*end;
 
 	end = NULL;
 	if (str[j + 1])

@@ -206,6 +206,15 @@ int 					expr_pushbk(t_e_list **l_expr, char *data_tmp);
 ** sh_tokenizer
 */
 int						tokenizer(char *read_buff, t_e_list **l_expr);
+int					token_dquote(char **read_buff, char **data_tmp);
+int					token_quote(char curr_char, char **data_tmp);
+int					token_standard(char **read_buff, char **data_tmp, int *bln, t_e_list **l_expr);
+
+/*
+** sh_finite_state_atomaton
+*/
+int 					finite_state_atomaton(char **read_buff,
+							t_e_list **l_expr, char **data_tmp);
 
 /*
 ** sh_lexer
@@ -230,6 +239,11 @@ int						fct_read(t_line *line, t_history **history);
 int						father_n_son(char **cmd);
 int						father_n_son_for_pipe(char **cmd);
 int						handle_fork(t_node *tree, t_lst_fd **lstfd);
+
+/*
+** sh_cmd_line_assemble
+*/
+int						check_fct(char **cmd);
 
 /*
 ** sh_env
@@ -417,8 +431,6 @@ int						pipe_function(t_node *tree, int in_fd, t_lst_fd **lfd);
 */
 int						fill_heredoc(t_line *stline);
 int						return_heredoc(t_line *stline);
-
-
 
 #endif
 
