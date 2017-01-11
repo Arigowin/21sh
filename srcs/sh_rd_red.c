@@ -59,14 +59,16 @@ int					redirect(t_node *tree, t_lst_fd **lstfd)
 	fd = (tree->type == LRED ? STDIN_FILENO : STDOUT_FILENO);
 	if (tree && tree->right && (tree->type != DLRED))
 	{
+		printf("ARRRRRRRRRGGGGGGGGGH!\n");
 		if (left_right_red(tree->right, lstfd, fd) == ERROR)
 			return (ERROR);
 	}
 	else if (tree && tree->right && tree->type == DLRED)
-		;
+		printf("ARRRRRRRRRGGGGGGGGGH!------2\n");
 
-	if (tree && tree->left && (*lstfd)->next)
+	if (tree && tree->left && lstfd && *lstfd && (*lstfd)->next)
 	{
+		printf("ARRRRRRRRRGGGGGGGGGH!------3\n");
 		*lstfd = (*lstfd)->next;
 		if (redirect(tree->left, lstfd) == ERROR)
 			return (ERROR);

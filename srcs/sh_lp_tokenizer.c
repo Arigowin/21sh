@@ -80,7 +80,7 @@ int					tokenizer(char *read_buff, t_e_list **l_expr)
 		ft_bzero(data_tmp, ft_strlen(data_tmp));
 	}
 
-	// DEBUG !!!!!!!!!
+	// ANTIBUG !!!!!!!!!
 	if (DEBUG_LEXER_PARSER == 1)
 	{
 		t_e_list *tmp = *l_expr;
@@ -91,7 +91,7 @@ int					tokenizer(char *read_buff, t_e_list **l_expr)
 		}
 		printf("\n");
 	}
-	// fin  DEBUG !!!!!!!!!
+	// fin  ANTIBUG !!!!!!!!!
 
 	return (TRUE);
 }

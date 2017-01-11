@@ -3,6 +3,16 @@
 
 /*FICHIER A REPRENDRE -- RECLASSER LES FOCNTIONS PAR UTILITE */
 
+int 				mini_prt_handler(char **str, int *pos, t_line *stline)
+{
+	if ((*str)[0] != '\0')
+		fct_insert(str, pos, '\n', stline);
+	ft_putstr("> ");
+	stline->curs_x = 2;
+	stline->curs_y = 0;
+	return (CONTINUE);
+}
+
 int					fct_return(char **str, int *pos, t_line *stline,
 					t_history **history)
 {
@@ -10,21 +20,15 @@ int					fct_return(char **str, int *pos, t_line *stline,
 		printf("------- FCT RETURN ------\n");
 
 	fct_end(str, pos, stline, history);
-	if (stline->quote != 0 || ((*str)[*pos - 1] && (*str)[*pos - 1] == '\\'))
+	if (stline->quote != 0 || ((*str)[*pos - 1] && (*str)[*pos - 1] == '\\') || stline->hrd.nb > 0)
 	{
-		fct_insert(str, pos, '\n', stline);
-		ft_putstr("> ");
-		stline->curs_x = 2;
-		stline->curs_y = 0;
-		return (CONTINUE);
+		if (stline->hrd.nb > 0)
+		{
+			if (check_end_heredoc(stline) == BREAK)
+				return (BREAK);
+		}
+		return (mini_prt_handler(str, pos, stline));
 	}
-//	else if (stline->hrd.nb > 0)
-//	{
-//		return_heredoc(stline);
-//		if (stline->hrd.nb > 0)
-//			return (CONTINUE);
-//		return (BREAK);
-//	}
 	else
 	{
 		if (stline->copy.cpy != NULL && stline->copy.start != -1)
@@ -89,14 +93,14 @@ int					event(int k, t_line *stline, t_history **history)
 	while(++i < 18)
 		if (tbl_keys[i].key == k)
 			return(tbl_keys[i].fct((stline->hrd.nb > 0 ? &(stline->hrd.line)
-			: &(stline->line)),	(stline->hrd.nb > 0 ? &(stline->hrd.pos)
-			: &(stline->pos)), stline, history));
+							: &(stline->line)),	(stline->hrd.nb > 0 ? &(stline->hrd.pos)
+							: &(stline->pos)), stline, history));
 	if (k != TAB && k > 31 && k < 128)
 	{
-		if (stline->hrd.nb == 0)
+		if (stline->hrd.nb <= 0)
 			handle_quote(k, &(stline->line), &(stline->pos), stline);
 		fct_insert((stline->hrd.nb > 0 ? &(stline->hrd.line) : &(stline->line)),
-		(stline->hrd.nb > 0 ? &(stline->hrd.pos) : &(stline->pos)), k, stline);
+				(stline->hrd.nb > 0 ? &(stline->hrd.pos) : &(stline->pos)), k, stline);
 	}
 
 #include <term.h>

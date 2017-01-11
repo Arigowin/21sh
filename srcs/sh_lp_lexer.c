@@ -156,7 +156,7 @@ int					lexer(t_e_list **l_expr)
 	}
 	type_analyzer(&tmp, boule);
 
-	// DEBUG!!!!!!
+	// ANTIBUG!!!!!!
 	if (DEBUG_LEXER_PARSER == 1)
 	{
 		t_e_list *tmp2 = *l_expr;
@@ -167,6 +167,6 @@ int					lexer(t_e_list **l_expr)
 		}
 		printf("\n");
 	}
-	// fin DEBUG !!!!!
+	// fin ANTIBUG !!!!!
 	return (TRUE);
 }

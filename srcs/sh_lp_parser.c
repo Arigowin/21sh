@@ -164,14 +164,14 @@ t_node				*parser(int *nb_hrd, t_e_list **l_expr)
 	if ((check_expr(nb_hrd, l_expr, &node)) == FALSE)
 		clear_tree(&node);
 
-	// DEBUG !!!!!!!!!
+	// ANTIBUG !!!!!!!!!
 	if (DEBUG_PARSER == 1)
 	{
 		t_e_list *tmp = head_l_expr;
 		while(tmp){printf("[%s -> %d] --> ", (tmp)->data, (tmp)->type); tmp = (tmp)->next;}
 		printf("\n");
 	}
-	// fin DEBUG !!!!!!!!!
+	// fin ANTIBUG !!!!!!!!!
 
 	return (node);
 }

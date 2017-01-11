@@ -3,7 +3,7 @@
 #include "shell.h"
 #include "libft.h"
 
-//ONLY FOR DEBUG
+//ONLY FOR ANTIBUG
 int					tree_traversal_verif(t_node *tree)
 {
 	printf("------- TREE TRAVERSAL VERIF ------\n");
@@ -41,46 +41,28 @@ t_node				*read_n_check(int *nb_hrd, char *read_buff)
 	return (tree);
 }
 
-int					check_home(char **cmd)
-{
-	if (DEBUG == 1)
-		printf("------- CHECK HOME ------\n");
-
-	int					i;
-
-	i = 0;
-	while (cmd[i])
-	{
-		if (cmd[i][0] == '~')
-		{
-			ft_putstr("21sh: ");
-			ft_putstr(cmd[0]);
-			ft_putendl(": no $HOME variable set");
-			return (-1);
-		}
-		i++;
-	}
-	return (0);
-}
-
-int					check_after_read(t_line *stline)
+int					check_after_read(t_line *stline, t_history **history)
 {
 	if (DEBUG == 1)
 		printf("------- CHECK AFTER READ ------\n");
 
 	t_node				*tree;
+	t_node				*node;
 	t_lst_fd			*lstfd;
 
 	lstfd = NULL;
 	if ((tree = read_n_check(&(stline->hrd.nb), stline->line)) == NULL)
 		return (ERROR);
-	heredoc_handler(stline, &tree);
-	printf("((%d))\n", stline->hrd.nb);
+	node = tree;
+	heredoc_handler(stline, &node, history);
+	printf("((%d))\n", stline->hrd.nb); // ANTIBUG!!!!!!!!!!
+	node = tree;
+	tree_traversal_verif(node);
 	tree_traversal(tree, &lstfd);
 	return (TRUE);
 }
 
-int					fct_read(t_line *stline, t_history **history)
+int					fct_read(int hrd, t_line *stline, t_history **history)
 {
 	if (DEBUG == 1)
 		printf("------- FCT READ ------\n");
@@ -105,7 +87,9 @@ int					fct_read(t_line *stline, t_history **history)
 		return (FALSE);
 	if (ret <= 0) // il faut pas un < strict?
 		return (ERROR);
-	if (check_after_read(stline) == ERROR)
+	if (hrd == TRUE)
+		return (TRUE);
+	if (check_after_read(stline, history) == ERROR)
 		return (ERROR);
-	return (0);
+	return (TRUE);
 }

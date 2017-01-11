@@ -19,12 +19,12 @@ int					main(void)
 		return (ERROR);
 	init_stline(&stline); //static , l23
 	history = NULL;
-	while (1)
+	while (TRUE)
 	{
 		reset_stline(&stline);
 		check_signal(1);
 		display_prompt();
-		if (fct_read(&stline, &history) == -1)
+		if (fct_read(FALSE, &stline, &history) == ERROR)
 			break ;
 	}
 	reset_term(); //sh_termcap

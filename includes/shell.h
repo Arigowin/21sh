@@ -103,6 +103,14 @@ typedef struct			s_e_list // -> l_expr
 	struct s_e_list		*next;
 }						t_e_list;
 
+typedef struct			s_node // -> node ou tree
+{
+	char				*data;
+	types				type;
+	struct s_node		*left;
+	struct s_node		*right;
+}						t_node;
+
 typedef struct			s_copy
 {
 	char				*cpy;
@@ -115,7 +123,9 @@ typedef struct			s_heredoc
 {
 	int					nb;
 	int 				pos;
+	struct s_node		*deli;
 	char				*line;
+	char 				*ptr;
 }						t_heredoc;
 
 typedef struct			s_line
@@ -138,14 +148,6 @@ typedef struct			s_history
 	struct s_history	*prev;
 	struct s_history	*next;
 }						t_history;
-
-typedef struct			s_node // -> node ou tree
-{
-	char				*data;
-	types				type;
-	struct s_node		*left;
-	struct s_node		*right;
-}						t_node;
 
 typedef struct			s_key_fct
 {
@@ -235,9 +237,8 @@ t_node					*create_node(types type);
 /*
 ** sh_fct_read
 */
-int						check_home(char **cmd);
-int						check_after_read(t_line *stline);
-int						fct_read(t_line *line, t_history **history);
+int						check_after_read(t_line *stline, t_history **history);
+int						fct_read(int hrd, t_line *line, t_history **history);
 
 /*
 ** sh_father_n_son
@@ -287,6 +288,7 @@ int						reset_term();
 /*
 ** sh_event
 */
+int 					mini_prt_handler(char **str, int *pos, t_line *stline);
 int						event(int key, t_line *stline, t_history **history);
 int						fct_ctrl_d(char **s, int *pos, t_line *stline,
 							t_history **history);
@@ -417,7 +419,7 @@ int						left_red_fd(t_lst_fd **lstfd, t_node *red_arg);
 /*
 ** sh_heredoc
 */
-int 					heredoc_handler(t_line *stline, t_node **tree);
+int 					heredoc_handler(t_line *l, t_node **t, t_history **h);
 
 
 /*
@@ -434,6 +436,7 @@ int						pipe_function(t_node *tree, int in_fd, t_lst_fd **lfd);
 /*
 ** sh_heredoc
 */
+int						check_end_heredoc(t_line *stline);
 int						fill_heredoc(t_line *stline);
 int						return_heredoc(t_line *stline);
 

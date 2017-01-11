@@ -31,6 +31,8 @@ int					init_stline(t_line *stline)
 	stline->copy.bkup = NULL;
 	stline->hrd.nb = 0;
 	stline->hrd.pos = 0;
+	stline->hrd.ptr = NULL;
+	stline->hrd.deli = NULL;
 	savior_stline(stline, TRUE);
 	return (TRUE);
 }
@@ -48,5 +50,7 @@ int					reset_stline(t_line *stline)
 	stline->quote = 0;
 	stline->hrd.nb = 0;
 	stline->hrd.pos = 0;
+	stline->hrd.ptr = NULL;
+	stline->hrd.deli = NULL;
 	return (TRUE);
 }
