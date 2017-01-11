@@ -22,7 +22,6 @@ SRC = sh_main.c \
 	  sh_signal.c \
 	  sh_first_steps.c \
 	  \
-	  sh_saviors.c \
 	  sh_bi_builtin.c \
 	  sh_bi_cd.c \
 	  sh_bi_env.c \

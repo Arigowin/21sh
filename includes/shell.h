@@ -330,8 +330,9 @@ int						fct_del(char **s, int *pos, t_line *l, t_history **h);
 ** sh_history
 */
 void					add_history(t_history **h, char *line);
-int						history_down(char **s, int *pos, t_line *l,	t_history **h);
-int						history_up(char **s, int *pos, t_line *l, t_history **h);
+int						history_down(char **str, int *pos, t_line *stline,
+	   						t_history **history);
+int						history_up(char **s, int *p, t_line *l, t_history **h);
 
 /*
 ** sh_copy_paste
@@ -367,8 +368,9 @@ t_node					*parser(int *nb_hrd, t_e_list **l_expr);
 /*
 ** sh_parser_additional_items
 */
-int						check_red(int *nb_hrd, t_e_list **l_expr, t_node **tree);
-int						check_next(int *nb_hrd, t_e_list **l_expr, t_node **t, t_node **r_n);
+int						check_red(int *nb_hrd, t_e_list **l_expr, t_node **t);
+int						check_next(int *nb_hrd, t_e_list **l_expr, t_node **t,
+							t_node **r_n);
 
 /*
 ** sh_free_tree
