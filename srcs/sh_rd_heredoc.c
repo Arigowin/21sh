@@ -38,7 +38,9 @@ int					heredoc_handler(t_line *stline, t_node **tree,
 {
 	if (DEBUG_HEREDOC == 1)
 		printf("------------ HEREDOC HANDLER ----------\n");
+	int 				len;
 
+	len = 0;
 	if (stline->hrd.nb <= 0)
 		return (FALSE);
 	if ((*tree)->type == DLRED)
@@ -48,11 +50,16 @@ int					heredoc_handler(t_line *stline, t_node **tree,
 		//printf("((%d))\n", stline->hrd.nb); // ANTIBUG!!!!!!!!!!
 		stline->hrd.ptr = stline->hrd.line;
 		mini_prt_handler(&(stline->hrd.line), &(stline->hrd.pos), stline);
-		if (fct_read(TRUE, stline, history) == ERROR ||
-		(stline->hrd.deli->right = create_node(DLRED_DOC)) == NULL ||
-		(stline->hrd.deli->right->data = ft_strsub(stline->hrd.line, 0,
-		(ft_strlen(stline->hrd.line) - (ft_strlen(stline->hrd.deli->data) + 1)))) == NULL)
+		if (fct_read(TRUE, stline, history) == ERROR)
 			return (ERROR);
+		if ((stline->hrd.deli->right = create_node(DLRED_DOC)) == NULL)
+			return (ERROR);
+		printf("{{{%p}}}\n", (*tree)->right->right);
+		len = (ft_strlen(stline->hrd.line) - (ft_strlen(stline->hrd.deli->data) + 1));
+		if (tree && (*tree) && (*tree)->right && (*tree)->right->type == RED_ARG)
+			(*tree)->right->right->data = ft_strsub(stline->hrd.line, 0, len);
+		else
+			(*tree)->right->right->right->data = ft_strsub(stline->hrd.line, 0, len);
 
 		//ANTIBUG
 		if (stline->hrd.line)
@@ -66,49 +73,3 @@ int					heredoc_handler(t_line *stline, t_node **tree,
 		return (ERROR);
 	return (TRUE);
 }
-
-/*
-   int					fill_heredoc(t_line *stline)
-   {
-   if (DEBUG_HEREDOC == 1)
-   printf("------------ FILL HEREDOC ----------\n");
-//
-//	if (stline->pos > 1 && (stline->hrd.ptr) != NULL)
-//		printf("adresse : %p, line : %c, nb : %d, ptr : [%c], [%s]\n", stline->hrd.ptr, stline->line[stline->pos - 1], stline->hrd.nb, *(stline->hrd.ptr), ft_strchr(IGN, stline->line[stline->pos - 1]));
-
-char				*tmp;
-
-tmp = NULL;
-if (stline->line[stline->pos - 1] && stline->line[stline->pos - 2]
-&& stline->line[stline->pos - 1] == '<'
-&& stline->line[stline->pos - 2] == '<')
-{
-(stline->hrd.nb)++;
-stline->hrd.ptr = &(stline->line[stline->pos - 1]);
-}
-else if (stline->hrd.ptr != NULL && *(stline->hrd.ptr) == '<'
-&& ft_strchr(IGN, stline->line[stline->pos - 1]) == NULL)
-{
-stline->hrd.ptr = &(stline->line[stline->pos - 1]);
-}
-else if (stline->hrd.ptr != NULL && *(stline->hrd.ptr) != '<'
-&& ft_strchr(SEP, stline->line[stline->pos - 1]) != NULL)
-{
-tmp = ft_strsub(stline->hrd.ptr, 0, ft_strlen(stline->hrd.ptr) - 1);
-ft_lstadd(&(stline->hrd.deli), ft_lstnew(tmp));
-ft_strdel(&tmp);
-stline->hrd.ptr = NULL;
-}
-return (TRUE);
-}
-
-int			return_heredoc(t_line *stline)
-{
-if (DEBUG_HEREDOC == 1)
-printf("------------ RETURN HEREDOC ----------\n");
-
-if (stline->hrd.nb > 0)
-stline->hrd.start = TRUE;
-return (TRUE);
-}
-*/

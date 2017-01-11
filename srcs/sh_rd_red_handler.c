@@ -30,7 +30,7 @@ int					manage_red_file(t_lst_fd **lstfd, t_node *tree)
 	red_arg = NULL;
 	//printf("data: (%s)\n", tree->data);
 	if (!tree || (tree->type == RRED || tree->type == DRRED
-				|| tree->type == LRED || tree->type == DLRED))
+				|| tree->type == LRED))
 	{
 		if (!tree->right)
 			return (FALSE);
@@ -40,8 +40,6 @@ int					manage_red_file(t_lst_fd **lstfd, t_node *tree)
 			right_red_fd(lstfd, tree, red_arg);
 		if (tree->type == LRED)
 			left_red_fd(lstfd, red_arg);
-		if (tree->type == DLRED)
-			;
 	}
 	if (red_travesal(lstfd, &tree) == ERROR)
 		return (ERROR);

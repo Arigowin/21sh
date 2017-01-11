@@ -49,6 +49,39 @@ int					left_right_red(t_node *tree, t_lst_fd **lstfd, int stdfd)
 	return (TRUE);
 }
 
+int					heredoc_red(t_node *tree, int fd)
+{
+	if (DEBUG_RED == 1)
+		printf("------- RED -------\n");
+	char				*str;
+
+	str = NULL;
+//	if (tree->right && tree->right->type == RED_FD && tree->right->right && tree->right->right->right)
+	if (tree->right->type == RED_FD)
+	{printf("right right right\n");
+		str = ft_strdup(tree->right->right->right->data);
+	}
+	else
+	{printf("right %p\n", tree->right);
+	printf("right right %p\n", tree->right->right);
+	printf("right right data %p\n", tree->right->right->data);
+	printf("right right data %s\n", tree->right->right->data);
+		str = ft_strdup(tree->right->right->data);
+	printf("right right toto\n");
+	}
+//	else if (tree->right && tree->right->right)
+//		str = ft_strdup(tree->right->right->data);
+	if (tree->right && tree->right->type == RED_FD
+	&& ft_strcmp(tree->right->data, "&"))
+		fd = ft_atoi(tree->right->data);
+	printf("(((%p)))\n", str);
+	if (str)
+		write(fd, str, ft_strlen(str));
+	else
+		return (ERROR);
+	return (TRUE);
+}
+
 int					redirect(t_node *tree, t_lst_fd **lstfd)
 {
 	if (DEBUG_RED == 1)
@@ -56,19 +89,22 @@ int					redirect(t_node *tree, t_lst_fd **lstfd)
 
 	int					fd;
 
-	fd = (tree->type == LRED ? STDIN_FILENO : STDOUT_FILENO);
+	fd = ((tree->type == LRED || tree->type == DLRED) ? STDIN_FILENO : STDOUT_FILENO);
 	if (tree && tree->right && (tree->type != DLRED))
 	{
-		printf("ARRRRRRRRRGGGGGGGGGH!\n");
+			printf("vFUGEPIUFGEVHFVEHPFVEFPEZVFEZHFVPEZYFUVHZ----1\n");
 		if (left_right_red(tree->right, lstfd, fd) == ERROR)
 			return (ERROR);
 	}
 	else if (tree && tree->right && tree->type == DLRED)
-		printf("ARRRRRRRRRGGGGGGGGGH!------2\n");
-
+	{
+			printf("vFUGEPIUFGEVHFVEHPFVEFPEZVFEZHFVPEZYFUVHZ---2\n");
+		if (heredoc_red(tree->right, fd) == ERROR)
+			return (ERROR);
+	}
 	if (tree && tree->left && lstfd && *lstfd && (*lstfd)->next)
 	{
-		printf("ARRRRRRRRRGGGGGGGGGH!------3\n");
+			printf("vFUGEPIUFGEVHFVEHPFVEFPEZVFEZHFVPEZYFUVHZ----3\n");
 		*lstfd = (*lstfd)->next;
 		if (redirect(tree->left, lstfd) == ERROR)
 			return (ERROR);
