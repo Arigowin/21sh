@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include <limits.h>
 #include "shell.h"
+#include "libft.h"
 
 static int			pushbck_cdt(char **read_buff, char **data_tmp)
 {

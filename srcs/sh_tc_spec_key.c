@@ -1,6 +1,6 @@
+#include <term.h>
 #include "shell.h"
 #include "libft.h"
-#include <term.h>
 
 int					fct_del(char **str, int *pos, t_line *stline, t_history **history)
 {

@@ -1,6 +1,6 @@
+#include <fcntl.h>
 #include "shell.h"
 #include "libft.h"
-#include <fcntl.h>
 
 // créer 3 fct tree_travers_semi tree_travers_pipe tree_travers_cmd
 int					tree_traversal(t_node *tree, t_lst_fd **lstfd)

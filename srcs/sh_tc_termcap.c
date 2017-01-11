@@ -4,6 +4,7 @@
 #include <fcntl.h>
 #include <stdlib.h>
 #include "shell.h"
+#include "libft.h"
 
 int					my_outc(int c)
 {

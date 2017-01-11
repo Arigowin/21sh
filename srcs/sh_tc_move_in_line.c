@@ -1,6 +1,6 @@
+#include <term.h>
 #include "shell.h"
 #include "libft.h"
-#include <term.h>
 
 int					left_move_cdt(int pos, t_line *stline)
 {

@@ -1,6 +1,6 @@
+#include <term.h>
 #include "shell.h"
 #include "libft.h"
-#include <term.h>
 
 static int			down_term(int i, t_line *stline)
 {

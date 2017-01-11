@@ -285,10 +285,6 @@ int						init_term();
 int						reset_term();
 
 /*
-** sh_tputs
-*/
-
-/*
 ** sh_event
 */
 int						event(int key, t_line *stline, t_history **history);

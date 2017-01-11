@@ -1,4 +1,5 @@
 #include "shell.h"
+#include "libft.h"
 
 static states		get_state(states state, char **read_buff)
 {

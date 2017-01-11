@@ -1,10 +1,10 @@
 #include <stdio.h>
 #include <unistd.h>
 #include <sys/types.h>
+#include <sys/wait.h>
 #include <stdlib.h>
 #include "shell.h"
 #include "libft.h"
-#include <sys/wait.h>
 
 int					pipe_function(t_node *tree, int in_fd, t_lst_fd **lstfd)
 {

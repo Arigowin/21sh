@@ -1,6 +1,6 @@
+#include <term.h>
 #include "shell.h"
 #include "libft.h"
-#include <term.h>
 
 int					hide_highlight(char **str, int *pos, t_line *stline,
 					t_history **history)

@@ -1,6 +1,23 @@
 #include <stdlib.h>
+#include <unistd.h>
 #include "shell.h"
 #include "libft.h"
+
+t_node				*create_node(types type)
+{
+	if (DEBUG_TREE == 1)
+		printf("------- CREATE NODE ------\n");
+	t_node				*new;
+
+	if ((new = (t_node *)malloc(sizeof(t_node))) == NULL)
+		return (NULL);
+	new->data = NULL;
+	new->type = type;
+	new->left = NULL;
+	new->right = NULL;
+	//	printf("end create node\n");
+	return (new);
+}
 
 int					clear_node(t_node **node)
 {

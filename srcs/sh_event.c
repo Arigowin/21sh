@@ -1,6 +1,8 @@
 #include "shell.h"
 #include "libft.h"
 
+/*FICHIER A REPRENDRE -- RECLASSER LES FOCNTIONS PAR UTILITE */
+
 int					fct_return(char **str, int *pos, t_line *stline,
 					t_history **history)
 {
@@ -57,7 +59,7 @@ int					handle_quote(int key, char **str, int *pos, t_line *stline)
 
 	if ((*str)[(*pos) - 1] &&  (*str)[(*pos) - 1] == '\\')
 		return (FALSE);
-	if (key == QUOTE || key == DQUOTE) //pb ac quote
+	if (key == QUOTE || key == DQUOTE)
 	{
 		if (stline->quote == key)
 			stline->quote = 0;
@@ -67,7 +69,6 @@ int					handle_quote(int key, char **str, int *pos, t_line *stline)
 	return(TRUE);
 }
 
-//passera a la norme en coupant les ternaires et virer les accolades
 int					event(int k, t_line *stline, t_history **history)
 {
 	if (DEBUG == 1)
@@ -92,7 +93,7 @@ int					event(int k, t_line *stline, t_history **history)
 			: &(stline->pos)), stline, history));
 	if (k != TAB && k > 31 && k < 128)
 	{
-		if (stline->hrd.nb == -1)
+		if (stline->hrd.nb == 0)
 			handle_quote(k, &(stline->line), &(stline->pos), stline);
 		fct_insert((stline->hrd.nb > 0 ? &(stline->hrd.line) : &(stline->line)),
 		(stline->hrd.nb > 0 ? &(stline->hrd.pos) : &(stline->pos)), k, stline);

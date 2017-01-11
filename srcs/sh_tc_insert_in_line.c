@@ -1,6 +1,6 @@
+#include <term.h>
 #include "shell.h"
 #include "libft.h"
-#include <term.h>
 
 
 static int			enlarge_line(char **str, int *pos)

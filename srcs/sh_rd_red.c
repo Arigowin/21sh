@@ -1,6 +1,6 @@
+#include <fcntl.h>
 #include "shell.h"
 #include "libft.h"
-#include <fcntl.h>
 
 int					fd_exist(int fd)
 {
