@@ -2,34 +2,13 @@
 #include "libft.h"
 #include <fcntl.h>
 
-int					reset_std_fd(void)
-{
-	if (DEBUG_RED == 1)
-		printf("------- RESET STD FD -------\n");
-
-	int					fd;
-	int					std_fd;
-
-	fd = -1;
-	std_fd = STDIN_FILENO;
-	while (std_fd <= STDERR_FILENO)
-	{
-		if ((fd = open(savior_tty(NULL, FALSE), O_RDWR)) == -1)
-			return (FALSE);
-		if (dup2(fd, std_fd) == -1)
-			return (FALSE);
-		if (fd > STDERR_FILENO)
-			close(fd);
-		std_fd++;
-	}
-	return (TRUE);
-}
-
-int				tree_traversal(t_node *tree, t_lst_fd **lstfd)
+// créer 3 fct tree_travers_semi tree_travers_pipe tree_travers_cmd
+int					tree_traversal(t_node *tree, t_lst_fd **lstfd)
 {
 	if (DEBUG_TREE == 1)
 		printf("------- TREE TRAVERSAL -------\n");
-	t_lst_fd	*saved_lstfd;
+
+	t_lst_fd			*saved_lstfd;
 
 	saved_lstfd = NULL;
 	savior_tty(ttyname(0), TRUE);

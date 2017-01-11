@@ -203,18 +203,24 @@ t_e_list				*expr_new(char *content);
 int 					expr_pushbk(t_e_list **l_expr, char *data_tmp);
 
 /*
+** sh_finite_state_automaton
+*/
+int 					finite_state_automaton(char **read_buff,
+							t_e_list **l_expr, char **data_tmp);
+/*
 ** sh_tokenizer
 */
+int						concat(char **dest, char *s1, char *s2);
+int 					token_sep(char **read_buff, char **data_tmp,
+							t_e_list **l_expr);
 int						tokenizer(char *read_buff, t_e_list **l_expr);
-int					token_dquote(char **read_buff, char **data_tmp);
-int					token_quote(char curr_char, char **data_tmp);
-int					token_standard(char **read_buff, char **data_tmp, int *bln, t_e_list **l_expr);
 
 /*
-** sh_finite_state_atomaton
+** sh_tokenizer_spec
 */
-int 					finite_state_atomaton(char **read_buff,
-							t_e_list **l_expr, char **data_tmp);
+int						token_backslash(char **buff, char **data_tmp);
+int						token_dollar(char **read_buff, char **data_tmp);
+int						token_tilde(char **buff, char **data_tmp, int *bln);
 
 /*
 ** sh_lexer
@@ -274,13 +280,13 @@ int						bi_cd(char **arg, t_duo **env);
 /*
 ** sh_termcap
 */
+int						my_outc(int c);
 int						init_term();
 int						reset_term();
 
 /*
 ** sh_tputs
 */
-int						my_outc(int c);
 
 /*
 ** sh_event
@@ -392,6 +398,7 @@ int     				redirect(t_node *tree, t_lst_fd **lstfd);
 int						close_lstfd(t_lst_fd **lstfd);
 int						lstfd_pushbck(t_lst_fd **lstfd, int fd, char *filename);
 int						check_file_name(char **filename, char *str);
+int						reset_std_fd(void);
 
 /*
 ** sh_red_handler

@@ -78,3 +78,26 @@ int					check_file_name(char **filename, char *str)
 		return (CLOSE);
 	return (TRUE);
 }
+
+int					reset_std_fd(void)
+{
+	if (DEBUG_RED == 1)
+		printf("------- RESET STD FD -------\n");
+
+	int					fd;
+	int					std_fd;
+
+	fd = -1;
+	std_fd = STDIN_FILENO;
+	while (std_fd <= STDERR_FILENO)
+	{
+		if ((fd = open(savior_tty(NULL, FALSE), O_RDWR)) == -1)
+			return (FALSE);
+		if (dup2(fd, std_fd) == -1)
+			return (FALSE);
+		if (fd > STDERR_FILENO)
+			close(fd);
+		std_fd++;
+	}
+	return (TRUE);
+}

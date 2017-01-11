@@ -25,6 +25,8 @@ SRC = sh_main.c \
 	  sh_unsetenv.c \
 	  sh_builtin.c \
 	  sh_tokenizer.c \
+	  sh_tokenizer_spec.c \
+	  sh_finite_state_automaton.c \
 	  sh_lexer.c \
 	  sh_t_e_list_handler.c \
 	  sh_parser.c \
@@ -44,7 +46,6 @@ SRC = sh_main.c \
 	  sh_setenv.c \
 	  sh_signal.c \
 	  sh_termcap.c \
-	  sh_tputs.c \
 	  sh_termcap.c \
 	  sh_spec_key.c \
 	  sh_copy_paste.c \

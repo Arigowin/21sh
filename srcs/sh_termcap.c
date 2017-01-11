@@ -1,9 +1,15 @@
-#include "shell.h"
 #include <term.h>
 #include <termios.h>
 #include <unistd.h>
 #include <fcntl.h>
 #include <stdlib.h>
+#include "shell.h"
+
+int					my_outc(int c)
+{
+	ft_putchar(c);
+	return (0);
+}
 
 int					init_term(void)
 {

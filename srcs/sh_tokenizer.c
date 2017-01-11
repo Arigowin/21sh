@@ -1,9 +1,20 @@
 #include <unistd.h>
 #include <stdlib.h>
 #include <limits.h>
-#include "libft.h"
 #include "shell.h"
 
+static int			pushbck_cdt(char **read_buff, char **data_tmp)
+{
+	return (**data_tmp
+		&& (!(ft_strchr(WAKA, (*data_tmp)[ft_strlen(*data_tmp) - 1])
+				&& **read_buff == '&'))
+		&& (!((*data_tmp)[ft_strlen((*data_tmp)	- 1)] == '&'
+				&& ft_strchr(WAKA, **read_buff)))
+		&& (!(ft_isstrnum(*data_tmp)
+				&& ft_strchr(WAKA, **read_buff)
+				&& ft_strlen(*data_tmp) <= 10
+				&& ft_atoi_long(*data_tmp) <= INT_MAX)));
+}
 
 int					concat(char **dest, char *s1, char *s2)
 {
@@ -25,24 +36,11 @@ int					concat(char **dest, char *s1, char *s2)
 	return (0);
 }
 
-static int			pushbck_cdt(char **read_buff, char **data_tmp)
-{
-	return (**data_tmp
-		&& (!(ft_strchr(WAKA, (*data_tmp)[ft_strlen(*data_tmp) - 1])
-				&& **read_buff == '&'))
-		&& (!((*data_tmp)[ft_strlen((*data_tmp)	- 1)] == '&'
-				&& ft_strchr(WAKA, **read_buff)))
-		&& (!(ft_isstrnum(*data_tmp)
-				&& ft_strchr(WAKA, **read_buff)
-				&& ft_strlen(*data_tmp) <= 10
-				&& ft_atoi_long(*data_tmp) <= INT_MAX)));
-}
-
-int 				manage_sep(char **read_buff, char **data_tmp,
+int 				token_sep(char **read_buff, char **data_tmp,
 					t_e_list **l_expr)
 {
 	if (DEBUG_LEXER_PARSER == 1)
-		printf("------- MANAGE SEP ------\n");
+		printf("------- TOKEN SEP ------\n");
 
 	if (pushbck_cdt(read_buff, data_tmp))
 	{
@@ -67,130 +65,6 @@ int 				manage_sep(char **read_buff, char **data_tmp,
 	return (TRUE);
 }
 
-int					token_dollar(char **read_buff, char **data_tmp)
-{
-	if (DEBUG_LEXER_PARSER == 1)
-		printf("------- LEXER DOLLAR ------\n");
-
-	char 				*env_name;
-	char 				*env_val;
-	char 				*tmp;
-
-	env_val = NULL;
-	tmp = NULL;
-	(*read_buff)++;
-	if ((env_name = ft_strnew(ft_strlen(*read_buff))) == NULL)
-		return (ERROR);
-	while (ft_strchr(SEP, **read_buff) == NULL)
-	{
-		add_in_tbl(&env_name, **read_buff);
-		(*read_buff)++;
-	}
-	(*read_buff)--;
-	if ((env_val = get_env(env_name)) == NULL)
-		return (FALSE);
-	if (*data_tmp && (tmp = ft_strdup(*data_tmp)) == NULL)
-		return (ERROR);
-	ft_strdel(data_tmp);
-	if ((*data_tmp = ft_strnew(ft_strlen(tmp) + ft_strlen(env_val)
-					+ ft_strlen(*read_buff))) == NULL)
-		return (ERROR);
-	concat(data_tmp, tmp, env_val);
-	return (TRUE);
-}
-
-int					token_tilde(char **read_buff, char **data_tmp, int *bln)
-{
-	if (DEBUG_LEXER_PARSER == 1)
-		printf("------- LEXER TILDE ------\n");
-
-	char 				*env_val;
-	char 				*tmp;
-
-	env_val = NULL;
-	tmp = NULL;
-	if ((env_val = get_env("HOME")) == NULL)
-		return (FALSE);
-	if (*data_tmp && (tmp = ft_strdup(*data_tmp)) == NULL)
-		return (ERROR);
-	ft_strdel(data_tmp);
-	if ((*data_tmp = ft_strnew(ft_strlen(tmp) + ft_strlen(env_val)
-					+ ft_strlen(*read_buff))) == NULL)
-		return (ERROR);
-	concat(data_tmp, tmp, env_val);
-	*bln = TRUE;
-	return (TRUE);
-}
-
-int					token_backslash(char **read_buff, char **data_tmp)
-{
-	if (DEBUG_LEXER_PARSER == 1)
-		printf("------- LEXER BACKSLASH ------\n");
-
-	if (**read_buff == '\\' && (*(*read_buff + 1)) && (*(*read_buff + 1)) == '\n')
-	{
-		(*read_buff) += 1;
-	}
-	else
-	{
-		add_in_tbl(data_tmp, **read_buff);
-		(*read_buff)++;
-		add_in_tbl(data_tmp, **read_buff);
-	}
-	return (TRUE);
-}
-
-int					token_standard(char **read_buff, char **data_tmp,
-					int *bln, t_e_list **l_expr)
-{
-	if (DEBUG_LEXER_PARSER == 1)
-		printf("------- LEXER STANDARD ------\n");
-
-	if (**read_buff == DQUOTE)
-		return (FALSE);
-	if (**read_buff == '\\')
-		token_backslash(read_buff, data_tmp);
-	else if (**read_buff == '$')
-		token_dollar(read_buff, data_tmp);
-	else if (**read_buff == '~' && *bln == FALSE)
-		token_tilde(read_buff, data_tmp, bln);
-	else if (ft_strchr(SEP, **read_buff))
-	{
-		*bln = FALSE;
-		manage_sep(read_buff, data_tmp, l_expr);
-	}
-	else
-		add_in_tbl(data_tmp, **read_buff);
-	return (TRUE);
-}
-
-
-int					token_quote(char curr_char, char **data_tmp)
-{
-	if (DEBUG_LEXER_PARSER == 1)
-		printf("------- LEXER QUOTE ------\n");
-
-	if (curr_char != QUOTE)
-		add_in_tbl(data_tmp, curr_char);
-	return (TRUE);
-}
-
-int					token_dquote(char **read_buff, char **data_tmp)
-{
-	if (DEBUG_LEXER_PARSER == 1)
-		printf("------- LEXER DQUOTE ------\n");
-
-	if (**read_buff == DQUOTE)
-		return (FALSE);
-	if (**read_buff == '\\')
-		token_backslash(read_buff, data_tmp);
-	else if (**read_buff == '$')
-		token_dollar(read_buff, data_tmp);
-	else
-		add_in_tbl(data_tmp, **read_buff);
-	return (TRUE);
-}
-
 int					tokenizer(char *read_buff, t_e_list **l_expr)
 {
 	if (DEBUG_LEXER_PARSER == 1)
@@ -198,13 +72,14 @@ int					tokenizer(char *read_buff, t_e_list **l_expr)
 	char 				*data_tmp;
 
 	data_tmp = ft_strnew(ft_strlen(read_buff));
-	finite_state_atomaton(&read_buff, l_expr, &data_tmp);
+	finite_state_automaton(&read_buff, l_expr, &data_tmp);
 	if (*data_tmp)
 	{
 		expr_pushbk(l_expr, data_tmp);
 		ft_bzero(data_tmp, ft_strlen(data_tmp));
 	}
 
+	// DEBUG !!!!!!!!!
 	if (DEBUG_LEXER_PARSER == 1)
 	{
 		t_e_list *tmp = *l_expr;
@@ -215,6 +90,7 @@ int					tokenizer(char *read_buff, t_e_list **l_expr)
 		}
 		printf("\n");
 	}
+	// fin  DEBUG !!!!!!!!!
 
 	return (TRUE);
 }

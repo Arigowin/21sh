@@ -2,12 +2,13 @@
 #include "shell.h"
 #include "libft.h"
 
-static int		del_first(t_duo **env, char *name)
+static int			del_first(t_duo **env, char *name)
 {
 	if (DEBUG_BUILTIN == 1)
 		printf("------- DEL FIRST ------\n");
-	t_duo		*cpy;
-	t_duo		*tmp;
+
+	t_duo				*cpy;
+	t_duo				*tmp;
 
 	cpy = *env;
 	tmp = NULL;
@@ -28,8 +29,9 @@ int					del_env(t_duo **env, char *name)
 {
 	if (DEBUG_BUILTIN == 1)
 		printf("------- DEL ENV ------\n");
-	t_duo		*cpy;
-	t_duo		*tmp;
+
+	t_duo				*cpy;
+	t_duo				*tmp;
 
 	if (del_first(env, name) == 1)
 		return (1);
@@ -52,11 +54,12 @@ int					del_env(t_duo **env, char *name)
 	return (-1);
 }
 
-int				bi_unsetenv(char **arg, t_duo **env)
+int					bi_unsetenv(char **arg, t_duo **env)
 {
 	if (DEBUG_BUILTIN == 1)
 		printf("------- BI UNSETENV ------\n");
-	int			i;
+
+	int					i;
 
 	i = 1;
 	if (!arg[i])
@@ -65,6 +68,7 @@ int				bi_unsetenv(char **arg, t_duo **env)
 	{
 		if (del_env(env, arg[i]) == -1)
 		{
+			//return (fct error)
 			ft_putstr("21sh: unsetenv: '");
 			ft_putstr(arg[i]);
 			ft_putendl("': undefined variable");
