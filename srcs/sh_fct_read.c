@@ -55,10 +55,9 @@ int					check_after_read(t_line *stline, t_history **history)
 		return (ERROR);
 	node = tree;
 	heredoc_handler(stline, &node, history);
-	printf("((%d))\n", stline->hrd.nb); // ANTIBUG!!!!!!!!!!
 //	node = tree;
-	tree_traversal_verif(node);
-	tree_traversal_verif(tree);
+//	tree_traversal_verif(node);
+//	tree_traversal_verif(tree);
 	tree_traversal(tree, &lstfd);
 	return (TRUE);
 }

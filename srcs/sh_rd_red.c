@@ -57,28 +57,22 @@ int					heredoc_red(t_node *tree, int fd)
 
 	str = NULL;
 //	if (tree->right && tree->right->type == RED_FD && tree->right->right && tree->right->right->right)
-	if (tree->right->type == RED_FD)
-	{printf("right right right\n");
-		str = ft_strdup(tree->right->right->right->data);
-	}
-	else
-	{printf("right %p\n", tree->right);
-	printf("right right %p\n", tree->right->right);
-	printf("right right data %p\n", tree->right->right->data);
-	printf("right right data %s\n", tree->right->right->data);
+	if (tree->type == RED_FD)
 		str = ft_strdup(tree->right->right->data);
-	printf("right right toto\n");
+	else
+	{
+		str = ft_strdup(tree->right->data);
 	}
 //	else if (tree->right && tree->right->right)
 //		str = ft_strdup(tree->right->right->data);
-	if (tree->right && tree->right->type == RED_FD
-	&& ft_strcmp(tree->right->data, "&"))
-		fd = ft_atoi(tree->right->data);
-	printf("(((%p)))\n", str);
+	if (tree && tree->type == RED_FD
+	&& ft_strcmp(tree->data, "&"))
+		fd = ft_atoi(tree->data);
+printf("FD : [[[%d]]]\n", fd);
 	if (str)
 		write(fd, str, ft_strlen(str));
-	else
-		return (ERROR);
+//	else
+//		return (ERROR);
 	return (TRUE);
 }
 
@@ -92,19 +86,16 @@ int					redirect(t_node *tree, t_lst_fd **lstfd)
 	fd = ((tree->type == LRED || tree->type == DLRED) ? STDIN_FILENO : STDOUT_FILENO);
 	if (tree && tree->right && (tree->type != DLRED))
 	{
-			printf("vFUGEPIUFGEVHFVEHPFVEFPEZVFEZHFVPEZYFUVHZ----1\n");
 		if (left_right_red(tree->right, lstfd, fd) == ERROR)
 			return (ERROR);
 	}
 	else if (tree && tree->right && tree->type == DLRED)
 	{
-			printf("vFUGEPIUFGEVHFVEHPFVEFPEZVFEZHFVPEZYFUVHZ---2\n");
 		if (heredoc_red(tree->right, fd) == ERROR)
 			return (ERROR);
 	}
 	if (tree && tree->left && lstfd && *lstfd && (*lstfd)->next)
 	{
-			printf("vFUGEPIUFGEVHFVEHPFVEFPEZVFEZHFVPEZYFUVHZ----3\n");
 		*lstfd = (*lstfd)->next;
 		if (redirect(tree->left, lstfd) == ERROR)
 			return (ERROR);

@@ -9,13 +9,11 @@ static int			tree_trav_hrd(t_line *stline, t_node **tree,
 
 	if (*tree && (*tree)->left)
 	{
-		printf("**tree_trav_hrd left**\n");
 		if (heredoc_handler(stline, &((*tree)->left), history) == ERROR)
 			return (ERROR);
 	}
 	if (*tree && (*tree)->right)
 	{
-		printf("**tree_trav_hrd right**\n");
 		if (heredoc_handler(stline, &((*tree)->right), history) == ERROR)
 			return (ERROR);
 	}
@@ -54,7 +52,6 @@ int					heredoc_handler(t_line *stline, t_node **tree,
 			return (ERROR);
 		if ((stline->hrd.deli->right = create_node(DLRED_DOC)) == NULL)
 			return (ERROR);
-		printf("{{{%p}}}\n", (*tree)->right->right);
 		len = (ft_strlen(stline->hrd.line) - (ft_strlen(stline->hrd.deli->data) + 1));
 		if (tree && (*tree) && (*tree)->right && (*tree)->right->type == RED_ARG)
 			(*tree)->right->right->data = ft_strsub(stline->hrd.line, 0, len);
@@ -63,12 +60,10 @@ int					heredoc_handler(t_line *stline, t_node **tree,
 
 		//ANTIBUG
 		if (stline->hrd.line)
-			printf("\nline heredoc :[%s]\ntree (%s)\n", stline->hrd.line, stline->hrd.deli->right->data);
 		ft_bzero(stline->hrd.line, ft_strlen(stline->hrd.line));
 		stline->hrd.pos = 0;
 		(stline->hrd.nb)--;
 	}
-	printf("YOPYOPYOP\n");
 	if ((tree_trav_hrd(stline, tree, history)) == ERROR)
 		return (ERROR);
 	return (TRUE);

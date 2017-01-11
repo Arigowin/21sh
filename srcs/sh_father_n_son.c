@@ -129,7 +129,6 @@ int					handle_fork(t_node *tree, t_lst_fd **lstfd)
 	{
 		if (redirect(tree->left, lstfd) == ERROR)
 		{
-			printf("vFUGEPIUFGEVHFVEHPFVEFPEZVFEZHFVPEZYFUVHZ\n");
 			//			close_fd_red(&lstfd, saved_std);
 			return (ERROR);
 		}
