@@ -55,9 +55,6 @@ int					check_after_read(t_line *stline, t_history **history)
 		return (ERROR);
 	node = tree;
 	heredoc_handler(stline, &node, history);
-//	node = tree;
-//	tree_traversal_verif(node);
-//	tree_traversal_verif(tree);
 	tree_traversal(tree, &lstfd);
 	return (TRUE);
 }
@@ -75,14 +72,12 @@ int					fct_read(int hrd, t_line *stline, t_history **history)
 	key = 0;
 	while ((ret = read(STDIN_FILENO, &key, sizeof(int))) > 0)
 	{
-		//printf("key = %d\n", key);
 		if ((event_ret = event(key, stline, history)) == BREAK)
 			break ;
 		else if (event_ret == CONTINUE)
 			continue ;
 		key = 0;
 	}
-//	printf("read ret : %d\n", ret);
 	if (key == RETURN && (stline->line)[0] == 0)
 		return (FALSE);
 	if (ret <= 0) // il faut pas un < strict?
