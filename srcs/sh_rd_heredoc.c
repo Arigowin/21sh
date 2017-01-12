@@ -54,9 +54,9 @@ int					heredoc_handler(t_line *stline, t_node **tree,
 			return (ERROR);
 		len = (ft_strlen(stline->hrd.line) - (ft_strlen(stline->hrd.deli->data) + 1));
 		if (tree && (*tree) && (*tree)->right && (*tree)->right->type == RED_ARG)
-			(*tree)->right->right->data = ft_strsub(stline->hrd.line, 0, len);
+			(*tree)->right->right->data = ft_strsub(stline->hrd.line, 0, len + 1);
 		else
-			(*tree)->right->right->right->data = ft_strsub(stline->hrd.line, 0, len);
+			(*tree)->right->right->data = ft_strsub(stline->hrd.line, 0, len + 1);
 
 		//ANTIBUG
 		if (stline->hrd.line)

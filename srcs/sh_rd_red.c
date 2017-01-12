@@ -53,26 +53,28 @@ int					heredoc_red(t_node *tree, int fd)
 {
 	if (DEBUG_RED == 1)
 		printf("------- RED -------\n");
+
 	char				*str;
+	int					pipe_fd[2];
 
 	str = NULL;
-//	if (tree->right && tree->right->type == RED_FD && tree->right->right && tree->right->right->right)
 	if (tree->type == RED_FD)
 		str = ft_strdup(tree->right->right->data);
 	else
 	{
 		str = ft_strdup(tree->right->data);
 	}
-//	else if (tree->right && tree->right->right)
-//		str = ft_strdup(tree->right->right->data);
 	if (tree && tree->type == RED_FD
 	&& ft_strcmp(tree->data, "&"))
 		fd = ft_atoi(tree->data);
-printf("FD : [[[%d]]]\n", fd);
+	printf("FD : [[[%d]]]\n", fd);
+	if (pipe(pipe_fd) == ERROR)
+		return (ERROR);
 	if (str)
-		write(fd, str, ft_strlen(str));
-//	else
-//		return (ERROR);
+		write(pipe_fd[1], str, ft_strlen(str));
+	dup2(pipe_fd[0], fd);
+	close(pipe_fd[0]);
+	close(pipe_fd[1]);
 	return (TRUE);
 }
 
