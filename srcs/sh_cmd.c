@@ -49,31 +49,6 @@ int					manage_cmd(t_node *tree, t_lst_fd **lstfd)
 	if (DEBUG_CMD == 1)
 		printf ("----- CMD -----(%s)\n", tree->data);
 
-//	char				**cmd;
-//	int 				ret;
-//
-//	ret = 0;
-//	if (tree->left != NULL)
-//	{
-//		if (redirect(tree->left, lstfd) == ERROR)
-//		{
-////			close_fd_red(&lstfd, saved_std);
-//			return (ERROR);
-//		}
-//	}
-//
-//	if ((cmd = format_cmd(tree)) == NULL)
-//		return (FALSE);
-
-//	if ((ret = handle_builtin(cmd)) == 1 || ret != 0)
-//	{
-////		close_fd_red(&lstfd, saved_std);
-//	}
-//	if (ret != 0)
-//		return (FALSE);
-	//father_n_son(cmd);
-	handle_fork(tree, lstfd);
-//	close_fd_red(&lstfd, saved_std);
-	//free_tab(&cmd); // erreur de free
+	handle_fork(-1, -1, tree, lstfd);
 	return (TRUE);
 }

@@ -6,52 +6,6 @@
 #include "shell.h"
 #include "libft.h"
 
-
-// regrouper ac father_and_son_for_pipe en rajoutant un boolean dans le prototype
-// + demander explication pour for_pipe
-int					father_n_son(char **cmd)
-{
-	if (DEBUG == 1)
-		printf("------- FATHER N SON ------\n");
-
-	pid_t				father;
-	int					stat_loc;
-
-	if ((father = fork()) < 0)
-		return (ERROR);
-	if (father > 0)
-	{
-		check_signal(3);
-		wait(&stat_loc);
-	}
-	if (father == 0)
-	{
-		check_signal(2);
-		check_fct(cmd);
-		// appeler la fonction d'erreur
-		ft_putstr_fd("21sh: ", 2);
-		ft_putstr_fd(cmd[0], 2);
-		ft_putendl_fd(": command not found", 2);
-		exit(EXIT_FAILURE);
-	}
-	return (TRUE);
-}
-
-// inclure cette fct dans handle_fork ???? c'est exactement ce qui se passe dans son, sauf pour l'appel a signal (qui doit manquer ici...)
-int					father_n_son_for_pipe(char **cmd)
-{
-	if (DEBUG == 1)
-		printf("------- FATHER N SON FOR PIPE ------\n");
-
-	check_fct(cmd);
-	ft_putstr_fd("21sh: ", 2);
-	ft_putstr_fd(cmd[0], 2);
-	ft_putendl_fd(": command not found", 2);
-	exit(EXIT_FAILURE);
-
-	return (0);
-}
-
 // virer tree et lstfd ???
 int					check_builtin(t_node *tree, t_lst_fd **lstfd, char **cmd)
 {
@@ -80,7 +34,7 @@ int					father(void)
 	if (DEBUG == 1)
 		printf("------- FATHER ------\n");
 
-	int					stat_loc;
+	int						stat_loc;
 
 	stat_loc = 0;
 	check_signal(3);
@@ -93,7 +47,7 @@ int					father(void)
 	return (WEXITSTATUS(stat_loc));
 }
 
-int					son(char **cmd) //t_node *tree, t_lst_fd **lstfd, char **cmd)
+int					son(int fd_in, int fd_out, char **cmd)
 {
 	if (DEBUG == 1)
 		printf("------- SON ------\n");
@@ -102,6 +56,19 @@ int					son(char **cmd) //t_node *tree, t_lst_fd **lstfd, char **cmd)
 	//	if (check_builtin(tree, lstfd, cmd) == TRUE)
 	//		return (TRUE);
 	check_signal(2);
+	if (fd_in != -1 && fd_out != -1)
+	{
+		if (fd_in != STDIN_FILENO)
+		{
+			dup2(fd_in, STDIN_FILENO);
+			close(fd_in);
+		}
+		if (fd_out != STDOUT_FILENO)
+		{
+			dup2(fd_out, STDOUT_FILENO);
+			close(fd_out);
+		}
+	}
 	check_fct(cmd);
 	// appeler la fonction d'erreur
 	ft_putstr_fd("21sh: ", 2);
@@ -111,7 +78,7 @@ int					son(char **cmd) //t_node *tree, t_lst_fd **lstfd, char **cmd)
 	return (FALSE);
 }
 
-int					handle_fork(t_node *tree, t_lst_fd **lstfd)
+int					handle_fork(int fd_in, int fd_out, t_node *tree, t_lst_fd **lstfd)
 {
 	if (DEBUG == 1)
 		printf("------- HANDLE FORK ------\n");
@@ -141,8 +108,7 @@ int					handle_fork(t_node *tree, t_lst_fd **lstfd)
 		return (ERROR);
 	reset_term();
 	if (fpid == 0)
-		son(cmd);
-	//	son(tree, lstfd, cmd);
+		son(fd_in, fd_out, cmd);
 	else
 		father();
 	init_term();

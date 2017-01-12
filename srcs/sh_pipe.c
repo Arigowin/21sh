@@ -6,48 +6,35 @@
 #include "shell.h"
 #include "libft.h"
 
-int					pipe_function(t_node *tree, int in_fd, t_lst_fd **lstfd)
+int					pipe_function(int fd_in, int fd_out, t_node *tree,
+					t_lst_fd **lstfd)
 {
 	if (DEBUG_PIPE == 1)
-		printf("------- PIPE FUNCTION -------(%s)-(%d)\n", tree->data, in_fd);
+		printf("------- PIPE FUNCTION -------\n");
+
 	int					pfd[2];
-	int					pid;
-	int					stat_lock;
 
 	if (tree->right == NULL || tree->right->type == CMD_ARG)
 	{
-		if (in_fd != STDIN_FILENO)
+		if (fd_in != STDIN_FILENO)
 		{
-			if (dup2(in_fd, STDIN_FILENO) != -1)
-				close(in_fd);
-			else
-				return (FALSE);
+			if (dup2(fd_in, STDIN_FILENO) == ERROR)
+				return (ERROR);
 		}
-		manage_cmd(tree, lstfd);
-		return (FALSE);
+		if (handle_fork(fd_in, fd_out, tree, lstfd) == ERROR)
+			return (ERROR);
 	}
 	else
 	{
-		if (pipe(pfd) == -1 || (pid = fork()) == -1)
-			return (FALSE);
-		if (pid > 0)
-			wait(&stat_lock);
-		if (pid == 0)
-		{
-			close(pfd[0]);
-			if (dup2(in_fd, STDIN_FILENO) == -1)
-				return (FALSE);
-			if (dup2(pfd[1], STDOUT_FILENO) == -1)
-				return (FALSE);
-			else
-			{
-				father_n_son_for_pipe(format_cmd(tree->left));
-				return (FALSE);
-			}
-		}
+		if (pipe(pfd) == ERROR)
+			return (ERROR);
+		fd_out = pfd[1];
+		if (handle_fork(fd_in, fd_out, tree->left, lstfd) == ERROR)
+			return (ERROR);
 		close(pfd[1]);
-		close(in_fd);
-		pipe_function(tree->right, pfd[0], lstfd);
+		fd_in = pfd[0];
+		if (pipe_function(fd_in, fd_out, tree->right, lstfd) == ERROR)
+			return (ERROR);
 	}
 	return (TRUE);
 }

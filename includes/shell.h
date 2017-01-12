@@ -245,7 +245,7 @@ int						fct_read(int hrd, t_line *line, t_history **history);
 */
 int						father_n_son(char **cmd);
 int						father_n_son_for_pipe(char **cmd);
-int						handle_fork(t_node *tree, t_lst_fd **lstfd);
+int						handle_fork(int fd_in, int fd_out, t_node *tree, t_lst_fd **lstfd);
 
 /*
 ** sh_cmd_line_assemble
@@ -431,7 +431,8 @@ int						manage_cmd(t_node *tree, t_lst_fd **lstfd);
 /*
 ** sh_pipe
 */
-int						pipe_function(t_node *tree, int in_fd, t_lst_fd **lfd);
+int					pipe_function(int fd_in, int fd_out, t_node *tree,
+						t_lst_fd **lstfd);
 
 /*
 ** sh_heredoc
