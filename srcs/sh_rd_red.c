@@ -5,7 +5,7 @@
 int					fd_exist(int fd)
 {
 	if (DEBUG_RED == 1)
-		printf("------------ FD EXIST ------------\n");
+		ft_putendl_fd("------------ FD EXIST ------------", 2);
 
 	if (isatty(fd) == 0)
 	{
@@ -20,7 +20,7 @@ int					fd_exist(int fd)
 int					left_right_red(t_node *tree, t_lst_fd **lstfd, int stdfd)
 {
 	if (DEBUG_RED == 1)
-		printf("------- RIGHT RED -------\n");
+		ft_putendl_fd("------- RIGHT RED -------", 2);
 
 	int					fd;
 
@@ -52,7 +52,7 @@ int					left_right_red(t_node *tree, t_lst_fd **lstfd, int stdfd)
 int					heredoc_red(t_node *tree, int fd)
 {
 	if (DEBUG_RED == 1)
-		printf("------- RED -------\n");
+		ft_putendl_fd("------- RED -------", 2);
 
 	char				*str;
 	int					pipe_fd[2];
@@ -67,7 +67,7 @@ int					heredoc_red(t_node *tree, int fd)
 	if (tree && tree->type == RED_FD
 	&& ft_strcmp(tree->data, "&"))
 		fd = ft_atoi(tree->data);
-	printf("FD : [[[%d]]]\n", fd);
+	ft_putendl_fd("FD : [[[%d]]]\n", fd);
 	if (pipe(pipe_fd) == ERROR)
 		return (ERROR);
 	if (str)
@@ -81,7 +81,7 @@ int					heredoc_red(t_node *tree, int fd)
 int					redirect(t_node *tree, t_lst_fd **lstfd)
 {
 	if (DEBUG_RED == 1)
-		printf("------- RED -------\n");
+		ft_putendl_fd("------- RED -------", 2);
 
 	int					fd;
 

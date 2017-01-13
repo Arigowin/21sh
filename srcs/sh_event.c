@@ -17,7 +17,7 @@ int					fct_return(char **str, int *pos, t_line *stline,
 					t_history **history)
 {
 	if (DEBUG_KEY == 1)
-		printf("------- FCT RETURN ------\n");
+		ft_putendl_fd("------- FCT RETURN ------", 2);
 
 	fct_end(str, pos, stline, history);
 	if (stline->quote != 0 || ((*str)[*pos - 1] && (*str)[*pos - 1] == '\\') || stline->hrd.nb > 0)
@@ -44,7 +44,7 @@ int					fct_return(char **str, int *pos, t_line *stline,
 int					fct_ctrl_d(char **str, int *pos, t_line *stline, t_history **history)
 {
 	if (DEBUG_KEY == 1)
-		printf("------- FCT CTRL D ------\n");
+		ft_putendl_fd("------- FCT CTRL D ------", 2);
 
 	t_duo				*env;
 
@@ -59,7 +59,7 @@ int					fct_ctrl_d(char **str, int *pos, t_line *stline, t_history **history)
 int					handle_quote(int key, char **str, int *pos, t_line *stline)
 {
 	if (DEBUG == 1)
-		printf("------- HANDLE QUOTE ------\n");
+		ft_putendl_fd("------- HANDLE QUOTE ------", 2);
 
 	if ((*str)[(*pos) - 1] &&  (*str)[(*pos) - 1] == '\\')
 		return (FALSE);
@@ -76,7 +76,7 @@ int					handle_quote(int key, char **str, int *pos, t_line *stline)
 int					event(int k, t_line *stline, t_history **history)
 {
 	if (DEBUG == 1)
-		printf("------- EVENT ------\n");
+		ft_putendl_fd("------- EVENT ------", 2);
 
 	int					i;
 	static t_key_fct	tbl_keys[18] =

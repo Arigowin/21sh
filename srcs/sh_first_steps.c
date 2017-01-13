@@ -5,7 +5,7 @@
 static char			*get_path(void)
 {
 	if (DEBUG == 1)
-		printf("------- GET PATH ------\n");
+		ft_putendl_fd("------- GET PATH ------", 2);
 
 	char				*path;
 	char				*tmp;
@@ -29,7 +29,7 @@ static char			*get_path(void)
 int					display_prompt(void)
 {
 	if (DEBUG == 1)
-		printf("------- DISPLAY PROMPT ------\n");
+		ft_putendl_fd("------- DISPLAY PROMPT ------", 2);
 
 	char				*name;
 	char				*path;
@@ -59,7 +59,7 @@ int					display_prompt(void)
 int				fill_path(char ***env)
 {
 	if (DEBUG == 1)
-		printf("------- FILL PATH ------\n");
+		ft_putendl_fd("------- FILL PATH ------", 2);
 
 	char				*tmp;
 

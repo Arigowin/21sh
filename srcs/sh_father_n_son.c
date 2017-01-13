@@ -7,10 +7,10 @@
 #include "libft.h"
 
 // virer tree et lstfd ???
-int					check_builtin(t_node *tree, t_lst_fd **lstfd, char **cmd)
+int					check_builtin(t_node *tree, t_lst_fd **lstfd, char **cmd, int fd_in, int fd_out)
 {
 	if (DEBUG == 1)
-		printf("------- CHECK BUILTIN ------\n");
+		ft_putendl_fd("------- CHECK BUILTIN ------", 2);
 
 	int					ret;
 
@@ -19,6 +19,19 @@ int					check_builtin(t_node *tree, t_lst_fd **lstfd, char **cmd)
 	ret = -1;
 	if (is_builtin(cmd) != -1)
 	{
+		if (fd_in != -1 && fd_out != -1)
+		{
+			if (fd_in != STDIN_FILENO)
+			{
+				dup2(fd_in, STDIN_FILENO);
+				close(fd_in);
+			}
+			if (fd_out != STDOUT_FILENO)
+			{
+				dup2(fd_out, STDOUT_FILENO);
+				close(fd_out);
+			}
+		}
 		if ((ret = handle_builtin(cmd)) == ERROR)
 		{
 			//close_lstfd(lstfd);
@@ -32,7 +45,7 @@ int					check_builtin(t_node *tree, t_lst_fd **lstfd, char **cmd)
 int					father(void)
 {
 	if (DEBUG == 1)
-		printf("------- FATHER ------\n");
+		ft_putendl_fd("------- FATHER ------", 2);
 
 	int						stat_loc;
 
@@ -50,9 +63,9 @@ int					father(void)
 int					son(int fd_in, int fd_out, char **cmd)
 {
 	if (DEBUG == 1)
-		printf("------- SON ------\n");
+		ft_putendl_fd("------- SON ------", 2);
 
-	//	printf("WHY????????\n");
+	//	ft_putendl_fd("WHY????????\n");
 	//	if (check_builtin(tree, lstfd, cmd) == TRUE)
 	//		return (TRUE);
 	check_signal(2);
@@ -81,7 +94,7 @@ int					son(int fd_in, int fd_out, char **cmd)
 int					handle_fork(int fd_in, int fd_out, t_node *tree, t_lst_fd **lstfd)
 {
 	if (DEBUG == 1)
-		printf("------- HANDLE FORK ------\n");
+		ft_putendl_fd("------- HANDLE FORK ------", 2);
 
 	pid_t				fpid;
 	char				**cmd;
@@ -100,7 +113,7 @@ int					handle_fork(int fd_in, int fd_out, t_node *tree, t_lst_fd **lstfd)
 			return (ERROR);
 		}
 	}
-	if ((ret = check_builtin(tree, lstfd, cmd)) == TRUE)
+	if ((ret = check_builtin(tree, lstfd, cmd, fd_in, fd_out)) == TRUE)
 		return (TRUE);
 	if (ret == ERROR)
 		return (ERROR);

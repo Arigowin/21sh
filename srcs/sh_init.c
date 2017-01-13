@@ -40,7 +40,7 @@ int					init_stline(t_line *stline)
 int					reset_stline(t_line *stline)
 {
 	if (DEBUG == 1)
-		printf("------- RESET STLINE ------\n");
+		ft_putendl_fd("------- RESET STLINE ------", 2);
 
 	ft_bzero(stline->line, ft_strlen(stline->line));
 	ft_bzero(stline->hrd.line, ft_strlen(stline->hrd.line));

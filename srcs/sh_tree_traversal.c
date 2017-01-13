@@ -6,7 +6,7 @@
 int					tree_traversal(t_node *tree, t_lst_fd **lstfd)
 {
 	if (DEBUG_TREE == 1)
-		printf("------- TREE TRAVERSAL -------\n");
+		ft_putendl_fd("------- TREE TRAVERSAL -------", 2);
 
 	t_lst_fd			*saved_lstfd;
 

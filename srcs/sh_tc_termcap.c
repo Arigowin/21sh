@@ -15,7 +15,7 @@ int					my_outc(int c)
 int					init_term(void)
 {
 	if (DEBUG_TERMCAPS == 1)
-		printf("------- INIT TERM ------\n");
+		ft_putendl_fd("------- INIT TERM ------", 2);
 
 	struct termios		term;
 	char				*term_name;
@@ -37,7 +37,7 @@ int					init_term(void)
 int					reset_term(void)
 {
 	if (DEBUG_TERMCAPS == 1)
-		printf("------- RESET TERM ------\n");
+		ft_putendl_fd("------- RESET TERM ------", 2);
 
 	struct termios		term;
 

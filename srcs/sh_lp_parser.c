@@ -7,7 +7,7 @@
 int					parse_error(char *data)
 {
 	if (DEBUG_PARSER == 1)
-		printf("------- PARSE ERROR ------\n");
+		ft_putendl_fd("------- PARSE ERROR ------", 2);
 
 	ft_putstr("21sh: parse error near \"");
 	ft_putstr(data);
@@ -18,7 +18,7 @@ int					parse_error(char *data)
 int					move_in_list(t_e_list **l_expr)
 {
 	if (DEBUG_PARSER == 1)
-		printf("------- MOVE IN LIST ------\n[%s]\n", (*l_expr)->data);
+		ft_putendl_fd("------- MOVE IN LIST ------\n", 2);
 
 	if ((*l_expr) && (*l_expr)->next)
 	{
@@ -33,7 +33,7 @@ int					move_in_list(t_e_list **l_expr)
 int					check_command(int *nb_hrd, t_e_list **l_expr, t_node **tree)
 {
 	if (DEBUG_PARSER == 1)
-		printf("------- CHECK COMMAND -----\n[%s]\n", (*l_expr)->data);
+		ft_putendl_fd("------- CHECK COMMAND -----\n", 2);
 
 	t_node				*save;
 	t_node				*node;
@@ -45,7 +45,7 @@ int					check_command(int *nb_hrd, t_e_list **l_expr, t_node **tree)
 		return (FALSE);
 	if ((red = check_red(nb_hrd, l_expr, &(node->left))) != TRUE)
 		*tree = save;
-	//printf("red = (%d\n",red);
+	//ft_putendl_fd("red = (%d\n",red);
 	if ((*l_expr)->type == CMD) // && (!red || move_in_list(l_expr)))
 	{
 		if ((node->data = ft_strdup_ignchar((*l_expr)->data, '\\')) == NULL)
@@ -62,7 +62,7 @@ int					check_command(int *nb_hrd, t_e_list **l_expr, t_node **tree)
 		*tree = node->left;
 		return (TRUE);
 	}
-	printf("error in check cmd\n");
+	ft_putendl_fd("error in check cmd\n", 2);
 	parse_error((*l_expr)->data);
 	clear_node(&node);
 	return (FALSE);
@@ -72,7 +72,7 @@ int					check_command(int *nb_hrd, t_e_list **l_expr, t_node **tree)
 int					check_c_pipe(int *nb_hrd, t_e_list **l_expr, t_node **tree)
 {
 	if (DEBUG_PARSER == 1)
-		printf("------- CHECK C PIPE ------\n");
+		ft_putendl_fd("------- CHECK C PIPE ------", 2);
 
 	t_node				*node;
 	t_node				**node_to_give;
@@ -89,7 +89,7 @@ int					check_c_pipe(int *nb_hrd, t_e_list **l_expr, t_node **tree)
 			*tree = node;
 			if (!(move_in_list(l_expr) && check_c_pipe(nb_hrd, l_expr, &(node->right))))
 			{
-				printf("error in check cpipe\n");
+				ft_putendl_fd("error in check cpipe\n", 2);
 				parse_error((*l_expr)->data);
 				clear_node(&node);
 				return (FALSE);
@@ -101,7 +101,7 @@ int					check_c_pipe(int *nb_hrd, t_e_list **l_expr, t_node **tree)
 		clear_node(&node);
 		return (TRUE);
 	}
-	printf("error in check cpipe\n");
+	ft_putendl_fd("error in check cpipe\n", 2);
 	parse_error((*l_expr)->data);
 	clear_node(&node);
 	return (FALSE);
@@ -111,7 +111,7 @@ int					check_c_pipe(int *nb_hrd, t_e_list **l_expr, t_node **tree)
 int					check_expr(int *nb_hrd, t_e_list **l_expr, t_node **tree)
 {
 	if (DEBUG_PARSER == 1)
-		printf("------- CHECK EXPR ------\n");
+		ft_putendl_fd("------- CHECK EXPR ------", 2);
 
 	t_node				*node;
 	t_node				**node_to_give;
@@ -124,7 +124,7 @@ int					check_expr(int *nb_hrd, t_e_list **l_expr, t_node **tree)
 	{
 		if ((*l_expr)->type == SEMI && ft_strlen((*l_expr)->data) != 1)
 		{
-			printf("error in check expr\n");
+			ft_putendl_fd("error in check expr\n", 2);
 			parse_error((*l_expr)->data);
 			clear_node(&node);
 			return (ERROR);
@@ -143,7 +143,7 @@ int					check_expr(int *nb_hrd, t_e_list **l_expr, t_node **tree)
 		clear_node(&node);
 		return (TRUE);
 	}
-	printf("error in check expr - pouet!!!!!\n");
+	ft_putendl_fd("error in check expr - pouet!!!!!\n", 2);
 	parse_error((*l_expr)->data);
 	clear_node(&node);
 	return (ERROR);
@@ -152,7 +152,7 @@ int					check_expr(int *nb_hrd, t_e_list **l_expr, t_node **tree)
 t_node				*parser(int *nb_hrd, t_e_list **l_expr)
 {
 	if (DEBUG_PARSER == 1)
-		printf("------- PARSER ------\n");
+		ft_putendl_fd("------- PARSER ------", 2);
 
 	t_node				*node;
 	t_e_list			*head_l_expr;
@@ -169,7 +169,7 @@ t_node				*parser(int *nb_hrd, t_e_list **l_expr)
 	{
 		t_e_list *tmp = head_l_expr;
 		while(tmp){printf("[%s -> %d] --> ", (tmp)->data, (tmp)->type); tmp = (tmp)->next;}
-		printf("\n");
+		ft_putendl("\n");
 	}
 	// fin ANTIBUG !!!!!!!!!
 

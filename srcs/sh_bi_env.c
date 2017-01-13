@@ -4,7 +4,7 @@
 static int			print_env(char **arg, t_duo **env)
 {
 	if (DEBUG_BUILTIN == 1)
-		printf("------- PRINT MODIFIED ENV ------\n");
+		ft_putendl_fd("------- PRINT MODIFIED ENV ------", 2);
 
 	t_duo				*cpy;
 	int					i;
@@ -35,7 +35,7 @@ static int			print_env(char **arg, t_duo **env)
 int					bi_env(char **arg, t_duo **env)
 {
 	if (DEBUG_BUILTIN == 1)
-		printf("------- BI ENV ------\n");
+		ft_putendl_fd("------- BI ENV ------", 2);
 
 	t_duo				*cpy;
 

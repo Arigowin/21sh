@@ -5,7 +5,7 @@
 int					fct_copy(char **str, int *pos, t_line *stline, t_history **history)
 {
 	if (DEBUG_COPY_PASTE == 1)
-		printf("------- COPY ------\n");
+		ft_putendl_fd("------- COPY ------", 2);
 
 	if (stline->copy.start == -1)
 		return (FALSE);
@@ -18,7 +18,7 @@ int					fct_copy(char **str, int *pos, t_line *stline, t_history **history)
 int					fct_paste(char **str, int *pos, t_line *stline, t_history **history)
 {
 	if (DEBUG_COPY_PASTE == 1)
-		printf("------- PASTE ------\n");
+		ft_putendl_fd("------- PASTE ------", 2);
 
 	int					i;
 
@@ -38,7 +38,7 @@ int					fct_paste(char **str, int *pos, t_line *stline, t_history **history)
 int					fct_cut(char **str, int *pos, t_line *stline, t_history **history)
 {
 	if (DEBUG_COPY_PASTE == 1)
-		printf("------- PASTE ------\n");
+		ft_putendl_fd("------- PASTE ------", 2);
 
 	int					curs_start;
 	int					curs_end;

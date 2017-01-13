@@ -15,7 +15,7 @@ int					fct_left(char **str, int *pos, t_line *stline,
 					t_history **history)
 {
 	if (DEBUG_TERMCAPS == 1)
-		printf("------- MOVE LEFT ------\n");
+		ft_putendl_fd("------- MOVE LEFT ------", 2);
 
 	(void)history;
 	if (left_move_cdt(*pos, stline))
@@ -46,7 +46,7 @@ int					fct_right(char **str, int *pos, t_line *stline,
 					t_history **history)
 {
 	if (DEBUG_TERMCAPS == 1)
-		printf("------- MOVE RIGHT ------\n");
+		ft_putendl_fd("------- MOVE RIGHT ------", 2);
 
 	(void)history;
 	if ((stline->copy.start == -1 && ((*pos))
@@ -78,7 +78,7 @@ int					fct_ctrl_left(char **str, int *pos, t_line *stline,
 					t_history **history)
 {
 	if (DEBUG_TERMCAPS == 1)
-		printf("------- MOVE WORD LEFT ------\n");
+		ft_putendl_fd("------- MOVE WORD LEFT ------", 2);
 
 	int					x;
 
@@ -100,7 +100,7 @@ int					fct_ctrl_right(char **str, int *pos, t_line *stline,
 					t_history **history)
 {
 	if (DEBUG_TERMCAPS == 1)
-		printf("------- MOVE WORD RIGHT ------\n");
+		ft_putendl_fd("------- MOVE WORD RIGHT ------", 2);
 
 	int					x;
 

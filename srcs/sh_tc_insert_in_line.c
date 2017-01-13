@@ -6,7 +6,7 @@
 static int			enlarge_line(char **str, int *pos)
 {
 	if (DEBUG_TERMCAPS == 1)
-		printf("------- ENLARGE LINE ------\n");
+		ft_putendl_fd("------- ENLARGE LINE ------", 2);
 
 	char				*tmp;
 	int					i;
@@ -30,7 +30,7 @@ static int			enlarge_line(char **str, int *pos)
 static int			screen_up(int *pos, char **str, t_line *stline)
 {
 	if (DEBUG_TERMCAPS == 1)
-		printf("------- SCREEN UP ------\n");
+		ft_putendl_fd("------- SCREEN UP ------", 2);
 
 	char				*line;
 	int					nb_line;
@@ -62,7 +62,7 @@ static int			screen_up(int *pos, char **str, t_line *stline)
 static int			insert_char(char c, char *end_line, char **str, int *pos)
 {
 	if (DEBUG_TERMCAPS == 1)
-		printf("------- INSERT CHAR ------\n");
+		ft_putendl_fd("------- INSERT CHAR ------", 2);
 
 	int					i;
 
@@ -88,7 +88,7 @@ static int			insert_char(char c, char *end_line, char **str, int *pos)
 int					fct_insert(char **str, int *pos,char c, t_line *stline)
 {
 	if (DEBUG_TERMCAPS == 1)
-		printf("------- INSERT ------\n");
+		ft_putendl_fd("------- INSERT ------", 2);
 
 	char				*end_line;
 

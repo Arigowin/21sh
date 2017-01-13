@@ -7,7 +7,7 @@
 t_e_list			*expr_new(char *content)
 {
 	if (DEBUG_LEXER_PARSER == 1)
-		printf("------- EXPR NEW ------\n");
+		ft_putendl_fd("------- EXPR NEW ------", 2);
 
 	t_e_list			*new;
 
@@ -24,7 +24,7 @@ t_e_list			*expr_new(char *content)
 int 				expr_pushbk(t_e_list **l_expr, char *data_tmp)
 {
 	if (DEBUG_LEXER_PARSER == 1)
-		printf("------- EXPR PUSHBK ------\n");
+		ft_putendl_fd("------- EXPR PUSHBK ------", 2);
 
 	t_e_list			*tmp;
 

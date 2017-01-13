@@ -4,9 +4,9 @@
 static int		red_travesal(t_lst_fd **lstfd, t_node **tree)
 {
 	if (DEBUG_RED == 1)
-		printf("------- RED TRAVERSAL -------\n");
+		ft_putendl_fd("------- RED TRAVERSAL -------", 2);
 
-	// printf ("data : (%s-%d)\n", (*tree)->data, (*tree)->type);
+	// ft_putendl_fd ("data : (%s-%d)\n", (*tree)->data, (*tree)->type);
 	if (*tree && (*tree)->left)
 	{
 		if ((manage_red_file(lstfd, (*tree)->left)) == ERROR)
@@ -23,12 +23,12 @@ static int		red_travesal(t_lst_fd **lstfd, t_node **tree)
 int					manage_red_file(t_lst_fd **lstfd, t_node *tree)
 {
 	if (DEBUG_RED == 1)
-		printf("------- MANAGE RED FILE -------\n");
+		ft_putendl_fd("------- MANAGE RED FILE -------", 2);
 
 	t_node				*red_arg;
 
 	red_arg = NULL;
-	//printf("data: (%s)\n", tree->data);
+	//ft_putendl_fd("data: (%s)\n", tree->data);
 	if (!tree || (tree->type == RRED || tree->type == DRRED
 				|| tree->type == LRED))
 	{

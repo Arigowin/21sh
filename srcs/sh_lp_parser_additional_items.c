@@ -6,7 +6,7 @@
 static int			filled_red_arg(t_e_list **l_expr, t_node **node)
 {
 	if (DEBUG_PARSER == 1)
-		printf("------- FILLED RED ARG ------\n");
+		ft_putendl_fd("------- FILLED RED ARG ------", 2);
 
 	if (((*node)->data = ft_strdup_ignchar((*l_expr)->data, '\\')) == NULL)
 	{
@@ -20,7 +20,7 @@ static int			filled_red_arg(t_e_list **l_expr, t_node **node)
 int					check_red_arg(t_e_list **l_expr, t_node **tree)
 {
 	if (DEBUG_PARSER == 1)
-		printf("------- CHECK RED_ARG ------\n[%s]\n", (*l_expr)->data);
+		ft_putendl_fd("------- CHECK RED_ARG ------\n", 2);
 
 	t_node		 		*node;
 	t_node				*save;
@@ -57,7 +57,7 @@ int					check_red_arg(t_e_list **l_expr, t_node **tree)
 int					check_red(int *nb_hrd, t_e_list **l_expr, t_node **tree)
 {
 	if (DEBUG_PARSER == 1)
-		printf("------- CHECK RED ------\n[%s]\n", (*l_expr)->data);
+		ft_putendl_fd("------- CHECK RED ------\n", 2);
 
 	t_node				*node;
 	t_node				*save;
@@ -97,7 +97,7 @@ int					check_arg(int *nb_hrd, t_e_list **l_expr, t_node **tree,
 					t_node **right_node)
 {
 	if (DEBUG_PARSER == 1)
-		printf("------- CHECK ARG ------\n");
+		ft_putendl_fd("------- CHECK ARG ------", 2);
 
 	t_node				*node;
 	t_node				*save;
@@ -126,7 +126,7 @@ int					check_next(int *nb_hrd, t_e_list **l_expr, t_node **tree,
 					t_node **right_node)
 {
 	if (DEBUG_PARSER == 1)
-		printf("------- CHECK C PIPE ------\n");
+		ft_putendl_fd("------- CHECK C PIPE ------", 2);
 
 	t_node				*save;
 

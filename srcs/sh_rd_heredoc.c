@@ -5,7 +5,7 @@ static int			tree_trav_hrd(t_line *stline, t_node **tree,
 					t_history **history)
 {
 	if (DEBUG_HEREDOC == 1)
-		printf("------------ TREE TRAV HRD ----------\n");
+		ft_putendl_fd("------------ TREE TRAV HRD ----------", 2);
 
 	if (*tree && (*tree)->left)
 	{
@@ -23,7 +23,7 @@ static int			tree_trav_hrd(t_line *stline, t_node **tree,
 int					check_end_heredoc(t_line *stline)
 {
 	if (DEBUG_HEREDOC == 1)
-		printf("------------ CHECK END HEREDOC ----------\n");
+		ft_putendl_fd("------------ CHECK END HEREDOC ----------", 2);
 
 	if (ft_strcmp(stline->hrd.deli->data, stline->hrd.ptr) == 0)
 		return (BREAK);
@@ -34,7 +34,7 @@ int					check_end_heredoc(t_line *stline)
 int					fill_hrd_content(t_line *stline, t_node **tree)
 {
 	if (DEBUG_HEREDOC == 1)
-		printf("------------ FILL HRD CONTENT ----------\n");
+		ft_putendl_fd("------------ FILL HRD CONTENT ----------", 2);
 
 	int 				len;
 
@@ -59,7 +59,7 @@ int					heredoc_handler(t_line *stline, t_node **tree,
 					t_history **history)
 {
 	if (DEBUG_HEREDOC == 1)
-		printf("------------ HEREDOC HANDLER ----------\n");
+		ft_putendl_fd("------------ HEREDOC HANDLER ----------", 2);
 
 	if (stline->hrd.nb <= 0)
 		return (FALSE);

@@ -4,7 +4,7 @@
 static t_history	*new_history(char *line)
 {
 	if (DEBUG_HISTORY == 1)
-		printf("------- NEW HISTORY ------\n");
+		ft_putendl_fd("------- NEW HISTORY ------", 2);
 
 	t_history			*new;
 
@@ -22,7 +22,7 @@ static t_history	*new_history(char *line)
 void				add_history(t_history **history, char *line)
 {
 	if (DEBUG_HISTORY == 1)
-		printf("------- ADD HISTORY ------\n");
+		ft_putendl_fd("------- ADD HISTORY ------", 2);
 
 	t_history			*new;
 
@@ -43,7 +43,7 @@ int					history_up(char **str, int *pos, t_line *stline,
 					t_history **history)
 {
 	if (DEBUG_HISTORY == 1)
-		printf("---------------- HISTORY UP --------------------------\n");
+		ft_putendl_fd("---------------- HISTORY UP --------------------------", 2);
 
 	int					i;
 
@@ -72,7 +72,7 @@ int					history_down(char **str, int *pos, t_line *stline,
 					t_history **history)
 {
 	if (DEBUG_HISTORY == 1)
-		printf("---------------- HISTORY DOWN --------------------------\n");
+		ft_putendl_fd("---------------- HISTORY DOWN --------------------------", 2);
 
 	int					i;
 

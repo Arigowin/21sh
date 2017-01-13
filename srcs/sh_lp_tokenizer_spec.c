@@ -4,7 +4,7 @@
 int					token_backslash(char **read_buff, char **data_tmp)
 {
 	if (DEBUG_LEXER_PARSER == 1)
-		printf("------- LEXER BACKSLASH ------\n");
+		ft_putendl_fd("------- LEXER BACKSLASH ------", 2);
 
 	if (**read_buff == '\\' && (*(*read_buff + 1)) && (*(*read_buff + 1)) == '\n')
 	{
@@ -22,7 +22,7 @@ int					token_backslash(char **read_buff, char **data_tmp)
 int					token_dollar(char **read_buff, char **data_tmp)
 {
 	if (DEBUG_LEXER_PARSER == 1)
-		printf("------- LEXER DOLLAR ------\n");
+		ft_putendl_fd("------- LEXER DOLLAR ------", 2);
 
 	char 				*env_name;
 	char 				*env_val;
@@ -54,7 +54,7 @@ int					token_dollar(char **read_buff, char **data_tmp)
 int					token_tilde(char **read_buff, char **data_tmp, int *bln)
 {
 	if (DEBUG_LEXER_PARSER == 1)
-		printf("------- LEXER TILDE ------\n");
+		ft_putendl_fd("------- LEXER TILDE ------", 2);
 
 	char 				*env_val;
 	char 				*tmp;

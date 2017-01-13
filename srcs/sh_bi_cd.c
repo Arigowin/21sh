@@ -5,7 +5,7 @@
 static int			cd_usage(char **arg, char **path, char *tmp_old_pwd)
 {
 	if (DEBUG_BUILTIN == 1)
-		printf("------- CD USAGE ------\n");
+		ft_putendl_fd("------- CD USAGE ------", 2);
 
 	if (arg[1] && arg[2])
 	{
@@ -33,7 +33,7 @@ static int			cd_usage(char **arg, char **path, char *tmp_old_pwd)
 static int			access_home(char **arg, char *home, char *tmp)
 {
 	if (DEBUG_BUILTIN == 1)
-		printf("------- ACCESS HOME ------\n");
+		ft_putendl_fd("------- ACCESS HOME ------", 2);
 
 	ft_putstr("21sh: cd: ");
 	if (home == NULL && !arg[1])
@@ -49,7 +49,7 @@ static int			access_home(char **arg, char *home, char *tmp)
 static int			cd_access(char **arg, char *path)
 {
 	if (DEBUG_BUILTIN == 1)
-		printf("------- CD ACCESS ------\n");
+		ft_putendl_fd("------- CD ACCESS ------", 2);
 
 	char				*tmp;
 	char				*home;
@@ -80,7 +80,7 @@ static int			cd_access(char **arg, char *path)
 static int			cd_home(void)
 {
 	if (DEBUG_BUILTIN == 1)
-		printf("------- CD HOME ------\n");
+		ft_putendl_fd("------- CD HOME ------", 2);
 
 	char				*home;
 
@@ -98,7 +98,7 @@ static int			cd_home(void)
 int					bi_cd(char **arg, t_duo **env)
 {
 	if (DEBUG_BUILTIN == 1)
-		printf("------- BI CD ------\n");
+		ft_putendl_fd("------- BI CD ------", 2);
 
 	char				*tmp_pwd;
 	char				*tmp_old_pwd;

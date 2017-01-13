@@ -4,7 +4,7 @@
 static char			*join_exe(char *s1, char *s2)
 {
 	if (DEBUG == 1)
-		printf("------- JOIN EXE ------\n");
+		ft_putendl_fd("------- JOIN EXE ------", 2);
 
 	char				*rlt;
 	char				*tmp;
@@ -20,7 +20,7 @@ static char			*join_exe(char *s1, char *s2)
 int					check_fct(char **cmd)
 {
 	if (DEBUG == 1)
-		printf("------- CHECK FCT------\n");
+		ft_putendl_fd("------- CHECK FCT------", 2);
 
 	char				**path;
 	char				*tmp;

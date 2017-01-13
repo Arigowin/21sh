@@ -15,7 +15,7 @@ int					fct_down(char **str, int *pos, t_line *stline,
 					t_history **history)
 {
 	if (DEBUG_TERMCAPS == 1)
-		printf("------------------ MOVE CTRL DOWN -------------------\n");
+		ft_putendl_fd("------------------ MOVE CTRL DOWN -------------------", 2);
 
 	int					nb_line;
 	int					last_line;
@@ -48,7 +48,7 @@ int					fct_up(char **str, int *pos, t_line *stline,
 					t_history **history)
 {
 	if (DEBUG_TERMCAPS == 1)
-		printf("------------------ MOVE CTRL UP -------------------\n");
+		ft_putendl_fd("------------------ MOVE CTRL UP -------------------", 2);
 
 	char				*tmp;
 	int					rel_pos;

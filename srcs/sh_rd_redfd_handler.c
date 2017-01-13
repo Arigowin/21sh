@@ -7,7 +7,7 @@
 static t_lst_fd		*lstfd_new(int fd, char *filename)
 {
 	if (DEBUG_RED == 1)
-		printf("------- LSTFD NEW -------\n");
+		ft_putendl_fd("------- LSTFD NEW -------", 2);
 
 	t_lst_fd			*new;
 
@@ -23,7 +23,7 @@ static t_lst_fd		*lstfd_new(int fd, char *filename)
 int					close_lstfd(t_lst_fd **lstfd)
 {
 	if (DEBUG_RED == 1)
-		printf ("----- CLOSE LSTFD -----\n");
+		ft_putendl_fd ("----- CLOSE LSTFD -----", 2);
 
 	t_lst_fd			*tmp;
 
@@ -43,7 +43,7 @@ int					close_lstfd(t_lst_fd **lstfd)
 int					lstfd_pushbck(t_lst_fd **lstfd, int fd, char *filename)
 {
 	if (DEBUG_RED == 1)
-		printf("------- LSTFD PUSHBCK -------\n");
+		ft_putendl_fd("------- LSTFD PUSHBCK -------", 2);
 
 	t_lst_fd			*new;
 	t_lst_fd			*tmp;
@@ -65,7 +65,7 @@ int					lstfd_pushbck(t_lst_fd **lstfd, int fd, char *filename)
 int					check_file_name(char **filename, char *str)
 {
 	if (DEBUG_RED == 1)
-		printf("------- CHECK FILE NAME -------\n");
+		ft_putendl_fd("------- CHECK FILE NAME -------", 2);
 
 	if ((*filename = ft_strsub(str, 1, ft_strlen(str))) == NULL)
 		return (ERROR);
@@ -82,7 +82,7 @@ int					check_file_name(char **filename, char *str)
 int					reset_std_fd(void)
 {
 	if (DEBUG_RED == 1)
-		printf("------- RESET STD FD -------\n");
+		ft_putendl_fd("------- RESET STD FD -------", 2);
 
 	int					fd;
 	int					std_fd;

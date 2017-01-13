@@ -8,12 +8,12 @@ static int			right_red_fd_pushbk(t_lst_fd **lstfd, int flags,
 					char *filename)
 {
 	if (DEBUG_RED == 1)
-		printf("------- RIGHT RED FD PUSHBCK -------\n");
+		ft_putendl_fd("------- RIGHT RED FD PUSHBCK -------", 2);
 
 	int 				fd;
 
 	if (access(filename, F_OK) != ERROR && access(filename, W_OK) == ERROR)
-	{printf("NON!!!!!!!!\n");
+	{ft_putendl("NON!!!!!!!!\n");
 		return (ERROR);
 	}
 	if ((fd = open(filename, flags,
@@ -27,7 +27,7 @@ int					right_red_fd(t_lst_fd **lstfd, t_node *tree,
 					t_node *red_arg)
 {
 	if (DEBUG_RED == 1)
-		printf("------- RIGHT RED FD -------\n");
+		ft_putendl_fd("------- RIGHT RED FD -------", 2);
 
 	int 				flags;
 	int					ret_fn;

@@ -5,7 +5,7 @@
 static int			delete_char(char **str, int *pos, int i, t_line *stline)
 {
 	if (DEBUG_TERMCAPS == 1)
-		printf("------- DELETE_CHAR ------\n");
+		ft_putendl_fd("------- DELETE_CHAR ------", 2);
 
 	if (stline->curs_x < 0 && stline->curs_y > 0)
 	{
@@ -35,7 +35,7 @@ static int			delete_char(char **str, int *pos, int i, t_line *stline)
 static int			delete_in_quote(char **str, int *pos, t_line *stline)
 {
 	if (DEBUG_TERMCAPS == 1)
-		printf("------- HANDLE DELETE QUOTE ------\n");
+		ft_putendl_fd("------- HANDLE DELETE QUOTE ------", 2);
 
 	if ((*str)[*pos - 1] == stline->quote)
 		stline->quote = 0;
@@ -49,7 +49,7 @@ static int			delete_in_quote(char **str, int *pos, t_line *stline)
 int					fct_backspace(char **str, int *pos, t_line *stline, t_history **history)
 {
 	if (DEBUG_TERMCAPS == 1)
-		printf("------- BACKSPACE ------\n");
+		ft_putendl_fd("------- BACKSPACE ------", 2);
 
 	char				*eol;
 	int					i;

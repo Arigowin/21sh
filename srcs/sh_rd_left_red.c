@@ -7,7 +7,7 @@
 static int			left_red_fd_pushbk(t_lst_fd **lstfd, char *filename)
 {
 	if (DEBUG_RED == 1)
-		printf("------- LEFT RED FD PUSHBCK -------\n");
+		ft_putendl_fd("------- LEFT RED FD PUSHBCK -------", 2);
 
 	int 				fd;
 
@@ -33,7 +33,7 @@ static int			left_red_fd_pushbk(t_lst_fd **lstfd, char *filename)
 int					left_red_fd(t_lst_fd **lstfd, t_node *red_arg)
 {
 	if (DEBUG_RED == 1)
-		printf("------- LEFT RED FD -------\n");
+		ft_putendl_fd("------- LEFT RED FD -------", 2);
 
 	int					ret_fn;
 	char				*filename;

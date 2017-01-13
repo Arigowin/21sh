@@ -20,7 +20,7 @@ static int			pushbck_cdt(char **read_buff, char **data_tmp)
 int					concat(char **dest, char *s1, char *s2)
 {
 	if (DEBUG_LEXER_PARSER == 1)
-		printf("------- EXPR PUSHBK ------\n");
+		ft_putendl_fd("------- EXPR PUSHBK ------", 2);
 
 	if (!(dest && *dest))
 		return (-1);
@@ -41,7 +41,7 @@ int 				token_sep(char **read_buff, char **data_tmp,
 					t_e_list **l_expr)
 {
 	if (DEBUG_LEXER_PARSER == 1)
-		printf("------- TOKEN SEP ------\n");
+		ft_putendl_fd("------- TOKEN SEP ------", 2);
 
 	if (pushbck_cdt(read_buff, data_tmp))
 	{
@@ -69,7 +69,7 @@ int 				token_sep(char **read_buff, char **data_tmp,
 int					tokenizer(char *read_buff, t_e_list **l_expr)
 {
 	if (DEBUG_LEXER_PARSER == 1)
-		printf("------- LEXER 1 ------\n");
+		ft_putendl_fd("------- LEXER 1 ------", 2);
 	char 				*data_tmp;
 
 	data_tmp = ft_strnew(ft_strlen(read_buff));
@@ -89,7 +89,7 @@ int					tokenizer(char *read_buff, t_e_list **l_expr)
 			printf("[%s] -> ", tmp->data);
 			tmp = tmp->next;
 		}
-		printf("\n");
+		ft_putendl("");
 	}
 	// fin  ANTIBUG !!!!!!!!!
 

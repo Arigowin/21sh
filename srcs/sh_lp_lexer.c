@@ -8,7 +8,7 @@
 static int			waka_land_handler(t_e_list **l_expr, char (*tmp)[], int *i)
 {
 	if (DEBUG_LEXER_PARSER == 1)
-		printf("------- WAKA LAND HANDLER ------\n");
+		ft_putendl_fd("------- WAKA LAND HANDLER ------", 2);
 
 	t_e_list			*new;
 
@@ -40,7 +40,7 @@ static int			waka_land_handler(t_e_list **l_expr, char (*tmp)[], int *i)
 static int			red_fd_copy(t_e_list **l_expr, char (*tmp)[], int *i)
 {
 	if (DEBUG_LEXER_PARSER == 1)
-		printf("------- RED FD COPY ------\n");
+		ft_putendl_fd("------- RED FD COPY ------", 2);
 
 	while (*i < 11 && ft_isdigit(((*l_expr)->data)[*i]))
 	{
@@ -53,7 +53,7 @@ static int			red_fd_copy(t_e_list **l_expr, char (*tmp)[], int *i)
 static int			waka_lexer(t_e_list **l_expr)
 {
 	if (DEBUG_LEXER_PARSER == 1)
-		printf("------- WAKA LEXER ------\n");
+		ft_putendl_fd("------- WAKA LEXER ------", 2);
 
 	int					i;
 	char				tmp[11];
@@ -84,7 +84,7 @@ static int			waka_lexer(t_e_list **l_expr)
 static int			type_analyzer2(t_e_list **l_expr, int *boule)
 {
 	if (DEBUG_LEXER_PARSER == 1)
-		printf("------- TYPE ANALYZER2 ------\n");
+		ft_putendl_fd("------- TYPE ANALYZER2 ------", 2);
 
 	if (((*l_expr)->next->data)[0] == ';')
 	{
@@ -108,7 +108,7 @@ static int			type_analyzer2(t_e_list **l_expr, int *boule)
 static int			type_analyzer(t_e_list **l_expr, int boule)
 {
 	if (DEBUG_LEXER_PARSER == 1)
-		printf("------- TYPE ANALYZER ------\n");
+		ft_putendl_fd("------- TYPE ANALYZER ------", 2);
 
 	while (*l_expr && (*l_expr)->next)
 	{
@@ -137,7 +137,7 @@ static int			type_analyzer(t_e_list **l_expr, int boule)
 int					lexer(t_e_list **l_expr)
 {
 	if (DEBUG_LEXER_PARSER == 1)
-		printf("------- LEXER 2 ------\n");
+		ft_putendl_fd("------- LEXER 2 ------", 2);
 
 	t_e_list			*tmp;
 	int					boule;
@@ -165,7 +165,7 @@ int					lexer(t_e_list **l_expr)
 			printf("[%s-%d] -> ", tmp2->data, tmp2->type);
 			tmp2 = tmp2->next;
 		}
-		printf("\n");
+		ft_putendl("");
 	}
 	// fin ANTIBUG !!!!!
 	return (TRUE);

@@ -10,7 +10,7 @@ int					pipe_function(int fd_in, int fd_out, t_node *tree,
 					t_lst_fd **lstfd)
 {
 	if (DEBUG_PIPE == 1)
-		printf("------- PIPE FUNCTION -------\n");
+		ft_putendl_fd("------- PIPE FUNCTION -------", 2);
 
 	int					pfd[2];
 

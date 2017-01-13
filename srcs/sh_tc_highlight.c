@@ -6,7 +6,7 @@ int					hide_highlight(char **str, int *pos, t_line *stline,
 					t_history **history)
 {
 	if (DEBUG_COPY_PASTE == 1)
-		printf("------- HIDE_HIGHLIGHT ------\n");
+		ft_putendl_fd("------- HIDE_HIGHLIGHT ------", 2);
 
 	char				*tmp;
 	int					i;
@@ -37,7 +37,7 @@ int					hide_highlight(char **str, int *pos, t_line *stline,
 static int			init_highlight(char **str, int *pos, t_line *stline)
 {
 	if (DEBUG_COPY_PASTE == 1)
-		printf("------- INIT HIGHLIGHT ------\n");
+		ft_putendl_fd("------- INIT HIGHLIGHT ------", 2);
 
 	(void)pos;
 	if (stline->copy.cpy != NULL)
@@ -54,7 +54,7 @@ static int			highlight(char **str, int *pos, t_line *stline,
 					t_history **history)
 {
 	if (DEBUG_COPY_PASTE == 1)
-		printf("------- HIGHLIGHT ------\n");
+		ft_putendl_fd("------- HIGHLIGHT ------", 2);
 
 	// start highlight
 	tputs(tgetstr("mr", NULL), 1, my_outc);
@@ -74,7 +74,7 @@ int					fct_highlight(char **str, int *pos, t_line *stline,
 					t_history **history)
 {
 	if (DEBUG_COPY_PASTE == 1)
-		printf("------- FCT HIGHLIGHT ------\n");
+		ft_putendl_fd("------- FCT HIGHLIGHT ------", 2);
 
 	int					len;
 

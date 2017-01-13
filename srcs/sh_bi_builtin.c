@@ -5,7 +5,7 @@
 int					add_env(char *name, char *value)
 {
 	if (DEBUG == 1)
-		printf("------- ADD ENV ------\n");
+		ft_putendl_fd("------- ADD ENV ------", 2);
 	t_duo				*env;
 
 	env = savior(NULL, FALSE);
@@ -22,7 +22,7 @@ int					add_env(char *name, char *value)
 int					change_env(char *name, char *value)
 {
 	if (DEBUG == 1)
-		printf("------- CHANGE ENV ------\n");
+		ft_putendl_fd("------- CHANGE ENV ------", 2);
 	t_duo				*env;
 
 	env = savior(NULL, FALSE);
@@ -43,7 +43,7 @@ int					change_env(char *name, char *value)
 char				*get_env(char *name)
 {
 	if (DEBUG == 1)
-		printf("------- GET ENV ------\n");
+		ft_putendl_fd("------- GET ENV ------", 2);
 	t_duo				*env;
 
 	env = savior(NULL, FALSE);
@@ -59,7 +59,7 @@ char				*get_env(char *name)
 int					is_builtin(char **cmd)
 {
 	if (DEBUG == 1)
-		printf("------- IS BUILTIN ------\n");
+		ft_putendl_fd("------- IS BUILTIN ------", 2);
 
 	static const char	*bi[] = {"cd", "setenv", "unsetenv", "env", "exit"};
 	int					i;
@@ -77,7 +77,7 @@ int					is_builtin(char **cmd)
 int					handle_builtin(char **cmd)
 {
 	if (DEBUG == 1)
-		printf("------- HANDLE BUILTIN ------\n");
+		ft_putendl_fd("------- HANDLE BUILTIN ------", 2);
 
 	int					i;
 	t_duo				*env;

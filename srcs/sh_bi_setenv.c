@@ -4,7 +4,7 @@
 static int			is_valid(char *str)
 {
 	if (DEBUG_BUILTIN == 1)
-		printf("------- IS VALID ------\n");
+		ft_putendl_fd("------- IS VALID ------", 2);
 
 	int					i;
 
@@ -33,7 +33,7 @@ static int			is_valid(char *str)
 int					bi_setenv(char **arg, t_duo **env)
 {
 	if (DEBUG_BUILTIN == 1)
-		printf("------- BI SETENV ------\n");
+		ft_putendl_fd("------- BI SETENV ------", 2);
 
 	int					i;
 

@@ -5,7 +5,7 @@
 int					fct_del(char **str, int *pos, t_line *stline, t_history **history)
 {
 	if (DEBUG_TERMCAPS == 1)
-		printf("------- DEL ------\n");
+		ft_putendl_fd("------- DEL ------", 2);
 
 	int					tmp;
 
@@ -25,7 +25,7 @@ int					fct_del(char **str, int *pos, t_line *stline, t_history **history)
 int					fct_home(char **str, int *pos, t_line *stline, t_history **history)
 {
 	if (DEBUG_TERMCAPS == 1)
-		printf("------- HOME ------\n");
+		ft_putendl_fd("------- HOME ------", 2);
 
 	while (left_move_cdt(*pos, stline))
 	{
@@ -37,7 +37,7 @@ int					fct_home(char **str, int *pos, t_line *stline, t_history **history)
 int					fct_end(char **str, int *pos, t_line *stline, t_history **history)
 {
 	if (DEBUG_TERMCAPS == 1)
-		printf("------- END ------\n");
+		ft_putendl_fd("------- END ------", 2);
 
 	while ((stline->copy.start == -1 && ((*pos))
 				< (int)ft_strlen(*str)) || (stline->copy.start != -1

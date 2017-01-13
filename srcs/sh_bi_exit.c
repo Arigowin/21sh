@@ -5,7 +5,7 @@
 int					bi_exit(char **arg, t_duo **env)
 {
 	if (DEBUG_BUILTIN == 1)
-		printf("------- BI EXIT ------\n");
+		ft_putendl_fd("------- BI EXIT ------", 2);
 	int					i;
 
 	i = 0;
