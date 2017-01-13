@@ -6,30 +6,41 @@
 #include "shell.h"
 #include "libft.h"
 
+#include <errno.h>
+#include <string.h>
+
 // virer tree et lstfd ???
-int					check_builtin(t_node *tree, t_lst_fd **lstfd, char **cmd, int fd_in, int fd_out)
+int					check_builtin(char **cmd, int fd_in, int fd_out)
 {
 	if (DEBUG == 1)
 		ft_putendl_fd("------- CHECK BUILTIN ------", 2);
 
 	int					ret;
 
-	(void)tree;
-	(void)lstfd;
 	ret = -1;
 	if (is_builtin(cmd) != -1)
 	{
 		if (fd_in != -1 && fd_out != -1)
 		{
-			if (fd_in != STDIN_FILENO)
-			{
-				dup2(fd_in, STDIN_FILENO);
-				close(fd_in);
-			}
+	ft_putendl_fd("fd_in", 2);
+	ft_putnbr_fd(fd_in, 2);
+	ft_putendl_fd("", 2);
+	ft_putendl_fd("fd_out", 2);
+	ft_putnbr_fd(fd_out, 2);
+	ft_putendl_fd("", 2);
 			if (fd_out != STDOUT_FILENO)
 			{
-				dup2(fd_out, STDOUT_FILENO);
+				ft_putendl_fd("TATA2", 2);
+				if (dup2(fd_out, STDOUT_FILENO) == ERROR)
+					ft_putendl_fd("ERROR4", 2);
 				close(fd_out);
+			}
+			if (fd_in != STDIN_FILENO)
+			{
+				ft_putendl_fd("TATA1", 2);
+				if (dup2(fd_in, STDIN_FILENO) == ERROR)
+					ft_putendl_fd("ERROR3", 2);
+				close(fd_in);
 			}
 		}
 		if ((ret = handle_builtin(cmd)) == ERROR)
@@ -71,15 +82,27 @@ int					son(int fd_in, int fd_out, char **cmd)
 	check_signal(2);
 	if (fd_in != -1 && fd_out != -1)
 	{
-		if (fd_in != STDIN_FILENO)
-		{
-			dup2(fd_in, STDIN_FILENO);
-			close(fd_in);
-		}
+	ft_putendl_fd("fd_in", 2);
+	ft_putnbr_fd(fd_in, 2);
+	ft_putendl_fd("", 2);
+	ft_putendl_fd("fd_out", 2);
+	ft_putnbr_fd(fd_out, 2);
+	ft_putendl_fd("", 2);
+
 		if (fd_out != STDOUT_FILENO)
 		{
-			dup2(fd_out, STDOUT_FILENO);
+			ft_putendl_fd("TITI2", 2);
+			if (dup2(fd_out, STDOUT_FILENO) == ERROR)
+				ft_putendl_fd("ERROR2", 2);
+	//		perror(strerror(errno));
 			close(fd_out);
+		}
+		if (fd_in != STDIN_FILENO)
+		{
+			ft_putendl_fd("TITI1", 2);
+			if (dup2(fd_in, STDIN_FILENO) == ERROR)
+				ft_putendl_fd("ERROR1", 2);
+			close(fd_in);
 		}
 	}
 	check_fct(cmd);
@@ -113,7 +136,7 @@ int					handle_fork(int fd_in, int fd_out, t_node *tree, t_lst_fd **lstfd)
 			return (ERROR);
 		}
 	}
-	if ((ret = check_builtin(tree, lstfd, cmd, fd_in, fd_out)) == TRUE)
+	if ((ret = check_builtin(cmd, fd_in, fd_out)) == TRUE)
 		return (TRUE);
 	if (ret == ERROR)
 		return (ERROR);
