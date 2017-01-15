@@ -1,22 +1,22 @@
 #ifndef SHELL_H
 # define SHELL_H
 
-#define DEBUG 1
-#define DEBUG_TREE_VERIF 1
-#define DEBUG_BUILTIN 1
-#define DEBUG_LEXER_PARSER 1
-#define DEBUG_PARSER 1
-#define DEBUG_SAVIOR 1
-#define DEBUG_TREE_CREATION 1
-#define DEBUG_TREE 1
-#define DEBUG_TERMCAPS 1
-#define DEBUG_HISTORY 1
-#define DEBUG_PIPE 1
-#define DEBUG_RED 1
-#define DEBUG_CMD 1
-#define DEBUG_COPY_PASTE 1
-#define DEBUG_KEY 1
-#define DEBUG_HEREDOC 1
+#define DEBUG 0
+#define DEBUG_TREE_VERIF 0
+#define DEBUG_BUILTIN 0
+#define DEBUG_LEXER_PARSER 0
+#define DEBUG_PARSER 0
+#define DEBUG_SAVIOR 0
+#define DEBUG_TREE_CREATION 0
+#define DEBUG_TREE 0
+#define DEBUG_TERMCAPS 0
+#define DEBUG_HISTORY 0
+#define DEBUG_PIPE 0
+#define DEBUG_RED 0
+#define DEBUG_CMD 0
+#define DEBUG_COPY_PASTE 0
+#define DEBUG_KEY 0
+#define DEBUG_HEREDOC 0
 #include <stdio.h>
 
 # define TRUE 1
@@ -168,7 +168,7 @@ typedef struct			s_lst_fd
 */
 t_duo					*savior(t_duo *env, int code);
 t_line					*savior_stline(t_line *stline, int code);
-char					*savior_tty(char *tty, int code);
+char					*savior_tty(char *tty, int code, int in);
 
 /*
 ** sh_init
@@ -245,7 +245,7 @@ int						fct_read(int hrd, t_line *line, t_history **history);
 */
 int						father_n_son(char **cmd);
 int						father_n_son_for_pipe(char **cmd);
-int						handle_fork(int fd_in, int fd_out, t_node *tree, t_lst_fd **lstfd);
+int						handle_fork(int pipefd_tab[2][2], t_node *tree, t_lst_fd **lstfd);
 
 /*
 ** sh_cmd_line_assemble
@@ -383,7 +383,7 @@ int						clear_tree(t_node **tree);
 /*
 ** sh_tree_traversal
 */
-int						tree_traversal(t_node *tree, t_lst_fd **lstfd);
+int						tree_traversal(t_node *tree, t_lst_fd **lstfd, int pipefd[2][2]);
 
 /*
 ** sh_red
@@ -426,12 +426,12 @@ int 					heredoc_handler(t_line *l, t_node **t, t_history **h);
 ** sh_cmd
 */
 char					**format_cmd(t_node *tree);
-int						manage_cmd(t_node *tree, t_lst_fd **lstfd);
+int						manage_cmd(int pipefd_tab[2][2], t_node *tree, t_lst_fd **lstfd);
 
 /*
 ** sh_pipe
 */
-int					pipe_function(int fd_in, int fd_out, t_node *tree,
+int					pipe_function(int pipefd_tab[2][2], t_node *tree,
 						t_lst_fd **lstfd);
 
 /*

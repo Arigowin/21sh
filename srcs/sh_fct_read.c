@@ -49,13 +49,18 @@ int					check_after_read(t_line *stline, t_history **history)
 	t_node				*tree;
 	t_node				*node;
 	t_lst_fd			*lstfd;
+	int					pipefd_tab[2][2];
 
 	lstfd = NULL;
+	pipefd_tab[0][0] = -2;
+	pipefd_tab[0][1] = -2;
+	pipefd_tab[1][0] = -2;
+	pipefd_tab[1][1] = -2;
 	if ((tree = read_n_check(&(stline->hrd.nb), stline->line)) == NULL)
 		return (ERROR);
 	node = tree;
 	heredoc_handler(stline, &node, history);
-	tree_traversal(tree, &lstfd);
+	tree_traversal(tree, &lstfd, pipefd_tab);
 	return (TRUE);
 }
 

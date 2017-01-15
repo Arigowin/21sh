@@ -3,7 +3,7 @@
 #include "libft.h"
 
 // créer 3 fct tree_travers_semi tree_travers_pipe tree_travers_cmd
-int					tree_traversal(t_node *tree, t_lst_fd **lstfd)
+int					tree_traversal(t_node *tree, t_lst_fd **lstfd, int pipefd_tab[2][2])
 {
 	if (DEBUG_TREE == 1)
 		ft_putendl_fd("------- TREE TRAVERSAL -------", 2);
@@ -11,30 +11,48 @@ int					tree_traversal(t_node *tree, t_lst_fd **lstfd)
 	t_lst_fd			*saved_lstfd;
 
 	saved_lstfd = NULL;
-	savior_tty(ttyname(0), TRUE);
+	savior_tty(ttyname(0), TRUE, TRUE);
+	savior_tty(ttyname(1), TRUE, FALSE);
+
 	if (tree->type == SEMI)
 	{
 		if (tree->left)
-			if ((tree_traversal(tree->left, lstfd)) == ERROR)
+			if ((tree_traversal(tree->left, lstfd, pipefd_tab)) == ERROR)
 				return (ERROR);
 		if (tree->right)
-			if ((tree_traversal(tree->right, lstfd)) == ERROR)
+			if ((tree_traversal(tree->right, lstfd, pipefd_tab)) == ERROR)
 				return (ERROR);
 	}
+
 	if (tree->type == PIPE)
 	{
 		if ((manage_red_file(lstfd, tree)) == ERROR)
 			return (ERROR);
 		saved_lstfd = *lstfd;
 
-		t_lst_fd *tmp = *lstfd;while(tmp){printf("[filename->%s]--[fd->%d]\n", tmp->filename, tmp->fd);tmp=tmp->next;}
+//		t_lst_fd *tmp = *lstfd;while(tmp){printf("[filename->%s]--[fd->%d]\n", tmp->filename, tmp->fd);tmp=tmp->next;}
 
-		if ((pipe_function(STDIN_FILENO, -1, tree, lstfd)) == ERROR)
+		if ((pipe_function(pipefd_tab, tree, lstfd)) == ERROR)
 				return (ERROR);
-		*lstfd = saved_lstfd;
-		close_lstfd(lstfd);
-		reset_std_fd();
+		if (tree->left->type == CMD)
+		{
+			if ((tree_traversal(tree->left, lstfd, pipefd_tab)) == ERROR)
+				return (ERROR);
+		}
+		if (tree->right->type == CMD)
+		{
+			pipefd_tab[0][0] = pipefd_tab[1][0];
+			pipefd_tab[0][1] = pipefd_tab[1][1];
+			pipefd_tab[1][0] = -2;
+			pipefd_tab[1][1] = -2;
+		}
+		if ((tree_traversal(tree->right, lstfd, pipefd_tab)) == ERROR)
+				return (ERROR);
+	//	*lstfd = saved_lstfd;
+//		close_lstfd(lstfd);
+//		reset_std_fd();
 	}
+
 	if (tree->type == CMD || (tree->type >= RRED && tree->type <= DLRED))
 	{
 		if ((manage_red_file(lstfd, tree)) == ERROR)
@@ -44,12 +62,11 @@ int					tree_traversal(t_node *tree, t_lst_fd **lstfd)
 		t_lst_fd *tmp = *lstfd;while(tmp){printf("[filename->%s]--[fd->%d]\n", tmp->filename, tmp->fd);tmp=tmp->next;}
 
 		if (tree->type == CMD)
-			if ((manage_cmd(tree, lstfd)) == ERROR)
+			if ((manage_cmd(pipefd_tab, tree, lstfd)) == ERROR)
 				return (ERROR);
 		*lstfd = saved_lstfd;
 		close_lstfd(lstfd);
 		reset_std_fd();
 	}
-
 	return (TRUE);
 }

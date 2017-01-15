@@ -91,7 +91,7 @@ int					reset_std_fd(void)
 	std_fd = STDIN_FILENO;
 	while (std_fd <= STDERR_FILENO)
 	{
-		if ((fd = open(savior_tty(NULL, FALSE), O_RDWR)) == -1)
+		if ((fd = open(savior_tty(NULL, FALSE, TRUE), O_RDWR)) == -1)
 			return (FALSE);
 		if (dup2(fd, std_fd) == -1)
 			return (FALSE);
