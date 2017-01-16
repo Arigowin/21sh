@@ -34,18 +34,6 @@ int					tree_traversal(t_node *tree, t_lst_fd **lstfd, int pipefd_tab[2][2])
 
 		if ((pipe_function(pipefd_tab, tree, lstfd)) == ERROR)
 				return (ERROR);
-		if (tree->left->type == CMD)
-		{
-			if ((tree_traversal(tree->left, lstfd, pipefd_tab)) == ERROR)
-				return (ERROR);
-		}
-		if (tree->right->type == CMD)
-		{
-			pipefd_tab[0][0] = pipefd_tab[1][0];
-			pipefd_tab[0][1] = pipefd_tab[1][1];
-			pipefd_tab[1][0] = -2;
-			pipefd_tab[1][1] = -2;
-		}
 		if ((tree_traversal(tree->right, lstfd, pipefd_tab)) == ERROR)
 				return (ERROR);
 	//	*lstfd = saved_lstfd;
