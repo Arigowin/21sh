@@ -133,7 +133,7 @@ int					handle_fork(int pipefd_tab[2][2], t_node *tree, t_lst_fd **lstfd)
 		//			close_fd_red(&lstfd, saved_std);
 		return (ERROR);
 	}
-	if (pipefd_tab[1][0] < 0 && (ret = check_builtin(cmd, pipefd_tab, lstfd)) == TRUE)
+	if (pipefd_tab[0][0] < 0 && pipefd_tab[1][0] < 0 && (ret = check_builtin(cmd, pipefd_tab, lstfd)) == TRUE)
 		return (TRUE);
 	if (ret == ERROR)
 		return (ERROR);

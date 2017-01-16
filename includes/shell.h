@@ -21,6 +21,7 @@
 
 # define TRUE 1
 # define FALSE 0
+# define SYS_CALL_FAIL -3
 # define ERROR -1
 # define BREAK 2
 # define CONTINUE 3

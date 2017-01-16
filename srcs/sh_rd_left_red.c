@@ -25,7 +25,11 @@ static int			left_red_fd_pushbk(t_lst_fd **lstfd, char *filename)
 		return (ERROR);
 	}
 	if ((fd = open(filename, O_RDONLY)) == ERROR)
-		return (ERROR);
+	{
+		printf("fd dans left red fd pushbk :  (%d)\n", fd);
+		lstfd_pushbck(lstfd, -1, filename);
+		return (SYS_CALL_FAIL);
+	}
 	lstfd_pushbck(lstfd, fd, filename);
 	return (TRUE);
 }
