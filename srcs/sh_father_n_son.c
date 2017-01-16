@@ -99,7 +99,10 @@ int					son(char **cmd, int pipefd_tab[2][2], t_lst_fd **lstfd)
 	//	ft_putendl_fd("WHY????????\n");
 	pfd_handler(pipefd_tab);
 	if (check_builtin(cmd, pipefd_tab, lstfd) == TRUE)
+	{
+		exit(EXIT_SUCCESS);
 		return (TRUE);
+	}
 	check_signal(2);
 	dprintf(2, "cmd : (%s)\n", cmd[0]);
 	check_fct(cmd);
