@@ -49,7 +49,6 @@ int					check_builtin(char **cmd, int pipefd_tab[2][2], t_lst_fd **lstfd)
 	ret = -1;
 	if (is_builtin(cmd) != -1)
 	{
-	//	pfd_handler(pipefd_tab);
 		if ((ret = handle_builtin(cmd)) == ERROR)
 		{
 			close_lstfd(lstfd);
@@ -96,7 +95,6 @@ int					son(char **cmd, int pipefd_tab[2][2], t_lst_fd **lstfd)
 	if (DEBUG == 1)
 		ft_putendl_fd("------- SON ------", 2);
 
-	//	ft_putendl_fd("WHY????????\n");
 	pfd_handler(pipefd_tab);
 	if (check_builtin(cmd, pipefd_tab, lstfd) == TRUE)
 	{
@@ -135,24 +133,17 @@ int					handle_fork(int pipefd_tab[2][2], t_node *tree, t_lst_fd **lstfd)
 		//			close_fd_red(&lstfd, saved_std);
 		return (ERROR);
 	}
-	if (pipefd_tab[1][0] < 0 && (ret = check_builtin(cmd, pipefd_tab, lstfd)) == TRUE) // + verif si il n'y a pas de pipe
-	{
-		dprintf(2, "built-in before fork");
+	if (pipefd_tab[1][0] < 0 && (ret = check_builtin(cmd, pipefd_tab, lstfd)) == TRUE)
 		return (TRUE);
-	}
 	if (ret == ERROR)
 		return (ERROR);
 	if ((fpid = fork()) < 0)
 		return (ERROR);
 	reset_term();
 	if (fpid == 0)
-	{
 		son(cmd, pipefd_tab, lstfd);
-	}
 	else
-	{
 		father(pipefd_tab);
-	}
 	init_term();
 	return (TRUE);
 }
