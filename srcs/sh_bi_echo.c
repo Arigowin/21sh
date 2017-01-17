@@ -10,12 +10,14 @@ int					bi_echo(char **arg, t_duo **env)
 	(void)env;
 	int i;
 
-	i = 1;
+	i = 0;
+	/*
 	while (arg && arg[i])
 	{
 		ft_putendl_fd(arg[i], 1);
 		i++;
 	}
+	*/
 	if (!arg[i])
 		ft_putendl_fd("", 1);
 	return (TRUE);
