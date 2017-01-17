@@ -6,8 +6,8 @@ static int		red_travesal(t_lst_fd **lstfd, t_node **tree)
 	if (DEBUG_RED == 1)
 		ft_putendl_fd("------- RED TRAVERSAL -------", 2);
 
-	// ft_putendl_fd ("data : (%s-%d)\n", (*tree)->data, (*tree)->type);
-	if (*tree && (*tree)->left)
+//	dprintf (2, "data : (%s-%d)\n", (*tree)->data, (*tree)->type);
+	if (*tree && (*tree)->left) //avant > right
 	{
 		if ((manage_red_file(lstfd, (*tree)->left)) == ERROR)
 			return (ERROR);
