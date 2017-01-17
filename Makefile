@@ -26,6 +26,7 @@ SRC = sh_main.c \
 	  sh_bi_cd.c \
 	  sh_bi_env.c \
 	  sh_bi_exit.c \
+	  sh_bi_echo.c \
 	  sh_bi_setenv.c \
 	  sh_bi_unsetenv.c \
 	  \
