@@ -1,82 +1,36 @@
 #include <stdio.h>
-#include <unistd.h>
-#include <sys/types.h>
-#include <sys/wait.h>
-#include <stdlib.h>
 #include <fcntl.h>
 #include "shell.h"
 #include "libft.h"
 
-int					pipe_function(int fd_in, int fd_out, t_node *tree,
-					t_lst_fd **lstfd)
+
+
+int					pipe_function(int pipefd_tab[2][2], t_node *tree,
+		t_global_fd **globalfd)
 {
 	if (DEBUG_PIPE == 1)
 		ft_putendl_fd("------- PIPE FUNCTION -------", 2);
 
 	int					pfd[2];
-	int					fd;
 
-	if (tree->right == NULL || tree->right->type == CMD_ARG)
+	if (pipefd_tab && pipefd_tab[1] && pipefd_tab[1][0] > 0)
 	{
-		ft_putendl_fd("TOTO1", 2);
-	ft_putendl_fd("fd_in", 2);
-	ft_putnbr_fd(fd_in, 2);
-	ft_putendl_fd("", 2);
-	ft_putendl_fd("fd_out", 2);
-	ft_putnbr_fd(fd_out, 2);
-	ft_putendl_fd("", 2);
-		if (fd_in != STDIN_FILENO)
-		{
-			if (dup2(fd_in, STDIN_FILENO) == ERROR)
-				return (ERROR);
-		}
-		if (fd_out != STDOUT_FILENO)
-		{
-			if ((fd_out = open(savior_tty(NULL, FALSE), O_RDWR)) == -1)
-				return (FALSE);
-			if (dup2(fd_out, STDOUT_FILENO) == -1)
-				return (FALSE);
-			if (fd_out > STDERR_FILENO)
-				close(fd_out);
-		}
-		if (handle_fork(fd_in, fd_out, tree, lstfd) == ERROR)
-			return (ERROR);
+		pipefd_tab[0][0] = pipefd_tab[1][0];
+		pipefd_tab[0][1] = pipefd_tab[1][1];
 	}
-	else
+	if (pipe(pfd) == ERROR)
+		return (ERROR);
+	pipefd_tab[1][0] = pfd[0];
+	pipefd_tab[1][1] = pfd[1];
+	if (tree->left->type == CMD)
+		if ((tree_traversal(tree->left, globalfd, pipefd_tab)) == ERROR)
+			return (ERROR);
+	if (tree->right->type == CMD)
 	{
-		ft_putendl_fd("TOTO3", 2);
-		if (pipe(pfd) == ERROR)
-			return (ERROR);
-	ft_putendl_fd("pfd1", 2);
-	ft_putnbr_fd(pfd[1], 2);
-	ft_putendl_fd("", 2);
-	ft_putendl_fd("pfd0", 2);
-	ft_putnbr_fd(pfd[0], 2);
-	ft_putendl_fd("", 2);
-	ft_putendl_fd("fd_in", 2);
-	ft_putnbr_fd(fd_in, 2);
-	ft_putendl_fd("", 2);
-	ft_putendl_fd("fd_out", 2);
-	ft_putnbr_fd(fd_out, 2);
-	ft_putendl_fd("", 2);
-
-		fd_out = pfd[1];
-		if (handle_fork(fd_in, fd_out, tree->left, lstfd) == ERROR)
-			return (ERROR);
-
-		close(pfd[1]);
-		if ((fd = open(savior_tty(NULL, FALSE), O_RDWR)) == -1)
-			return (FALSE);
-		if (dup2(fd, STDOUT_FILENO) == -1)
-			return (FALSE);
-		if (fd > STDERR_FILENO)
-			close(fd);
-		fd_in = pfd[0];
-
-		if (pipe_function(fd_in, fd_out, tree->right, lstfd) == ERROR)
-			return (ERROR);
+		pipefd_tab[0][0] = pipefd_tab[1][0];
+		pipefd_tab[0][1] = pipefd_tab[1][1];
+		pipefd_tab[1][0] = -2;
+		pipefd_tab[1][1] = -2;
 	}
-	close(pfd[0]);
-	close(pfd[1]);
 	return (TRUE);
 }

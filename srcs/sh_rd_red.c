@@ -17,10 +17,10 @@ int					fd_exist(int fd)
 	return (TRUE);
 }
 
-int					left_right_red(t_node *tree, t_lst_fd **lstfd, int stdfd)
+int					left_right_red(t_node *tree, t_lst_fd *lstfd, int stdfd)
 {
 	if (DEBUG_RED == 1)
-		ft_putendl_fd("------- RIGHT RED -------", 2);
+		ft_putendl_fd("------- LEFT RIGHT RED -------", 2);
 
 	int					fd;
 
@@ -31,28 +31,28 @@ int					left_right_red(t_node *tree, t_lst_fd **lstfd, int stdfd)
 	{
 		// if STDIN_FILENO
 		// 		bash: file: ambiguous redirect
-		if (stdfd == STDIN_FILENO || dup2((*lstfd)->fd, STDERR_FILENO) == ERROR)
+		if (stdfd == STDIN_FILENO || dup2(lstfd->fd, STDERR_FILENO) == ERROR)
 			return (ERROR);
 	}
 	if (tree->right && tree->type == RED_FD)
 		tree = tree->right;
-	if ((*lstfd)->fd == -1)
+	if (lstfd->fd == -1)
 	{
 		close(fd);
 		return (TRUE);
 	}
-	if (dup2((*lstfd)->fd, fd) == ERROR)
+	if (dup2(lstfd->fd, fd) == ERROR)
 		return (ERROR);
-	if ((*lstfd)->fd > STDERR_FILENO && (stdfd == STDOUT_FILENO
-	|| (((*lstfd)->filename)[0] != '&' && (*lstfd)->fd != -1)))
-		close((*lstfd)->fd);
+	if (lstfd->fd > STDERR_FILENO && (stdfd == STDOUT_FILENO
+	|| ((lstfd->filename)[0] != '&' && lstfd->fd != -1)))
+		close(lstfd->fd);
 	return (TRUE);
 }
 
 int					heredoc_red(t_node *tree, int fd)
 {
 	if (DEBUG_RED == 1)
-		ft_putendl_fd("------- RED -------", 2);
+		ft_putendl_fd("------- HEREDOC RED -------", 2);
 
 	char				*str;
 	int					pipe_fd[2];
@@ -78,12 +78,18 @@ int					heredoc_red(t_node *tree, int fd)
 	return (TRUE);
 }
 
-int					redirect(t_node *tree, t_lst_fd **lstfd)
+int					redirect(t_node *tree, t_lst_fd *lstfd)
 {
 	if (DEBUG_RED == 1)
 		ft_putendl_fd("------- RED -------", 2);
 
 	int					fd;
+
+	if (lstfd == NULL)
+		return (FALSE);
+
+//	dprintf(2, "(global : %p) (lstfd: %p)\n", *globalfd, (*globalfd)->lstfd);
+//	dprintf(2, "[[%s]]\n", (*globalfd)->lstfd->filename);
 
 	fd = ((tree->type == LRED || tree->type == DLRED) ? STDIN_FILENO : STDOUT_FILENO);
 	if (tree && tree->right && (tree->type != DLRED))
@@ -96,10 +102,10 @@ int					redirect(t_node *tree, t_lst_fd **lstfd)
 		if (heredoc_red(tree->right, fd) == ERROR)
 			return (ERROR);
 	}
-	if (tree && tree->left && lstfd && *lstfd && (*lstfd)->next)
+	if (tree && tree->left && lstfd)
 	{
-		*lstfd = (*lstfd)->next;
-		if (redirect(tree->left, lstfd) == ERROR)
+		ft_putendl_fd("TEST2", 2);
+		if (redirect(tree->left, lstfd->next) == ERROR)
 			return (ERROR);
 	}
 	return (TRUE);

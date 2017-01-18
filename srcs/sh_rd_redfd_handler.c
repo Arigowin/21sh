@@ -62,6 +62,82 @@ int					lstfd_pushbck(t_lst_fd **lstfd, int fd, char *filename)
 	return (TRUE);
 }
 
+int					lstfd_pushfront(t_lst_fd **lstfd, int fd, char *filename)
+{
+	if (DEBUG_RED == 1)
+		ft_putendl_fd("------- LSTFD PUSHFRONT -------", 2);
+
+	t_lst_fd			*new;
+
+	new = NULL;
+	if (lstfd && !(*lstfd))
+		*lstfd = lstfd_new(fd, filename);
+	else
+	{
+		new = lstfd_new(fd, filename);
+		new->next = *lstfd;
+		*lstfd = new;
+	}
+		//t_lst_fd *tmp = *lstfd;while(tmp){printf("lstfd :[filename->%s]--[fd->%d] =>", tmp->filename, tmp->fd);tmp=tmp->next;} printf("\n");
+	return (TRUE);
+}
+
+t_lst_fd			*lstfd_insert(t_lst_fd **lstfd, t_lst_fd **tmpfd, int fd, char *filename)
+{
+	if (DEBUG_RED == 1)
+		ft_putendl_fd("------- LSTFD INSERT -------", 2);
+
+	t_lst_fd			*new;
+
+	new = NULL;
+	if (lstfd && !(*lstfd))
+	{
+		*lstfd = lstfd_new(fd, filename);
+		return (*lstfd);
+	}
+	else if (lstfd && *lstfd && tmpfd && *tmpfd)
+	{
+		new = lstfd_new(fd, filename);
+		new->next = (*tmpfd)->next;
+		(*tmpfd)->next = new;
+	}
+
+//	//ANTIBUG
+//		t_lst_fd *tmp = *lstfd;while(tmp){printf("lstfd :[filename->%s]--[fd->%d] =>", tmp->filename, tmp->fd);tmp=tmp->next;} printf("\n");
+////end ANTIBUG
+
+	return (new);
+}
+
+int					insert_in_lstfd(t_lst_fd **lstfd, t_lst_fd **tmpfd, int fd, char *filename, int insert)
+{
+	int 				ret;
+
+	ret = -1;
+	if (*lstfd && *tmpfd)
+		dprintf(2, "IN INSERT lstfd : (%s) tmpfd : (%s)\n", (*lstfd)->filename, (*tmpfd)->filename);
+	t_lst_fd *tmp = *lstfd; while(tmp) {printf("[%s]->", tmp->filename); tmp=tmp->next;}printf("\n");
+	if (insert == TRUE)
+	{
+		if ((*tmpfd = lstfd_insert(lstfd, tmpfd, fd, filename)) == NULL)
+			return (ERROR);
+		tmpfd = lstfd;
+	}
+	else
+	{
+			//if (*lstfd && *tmpfd)printf("IN INSERT AVANT PUSHFRONT lstfd : (%s) tmpfd : (%s)\n", (*lstfd)->filename, (*tmpfd)->filename);
+		ret = lstfd_pushfront(lstfd, fd, filename);
+			//if (*lstfd && *tmpfd)printf("IN INSERT APRES PUSHFRONT lstfd : (%s) tmpfd : (%s)\n", (*lstfd)->filename, (*tmpfd)->filename);
+	//	tmpfd = lstfd;
+	//	if (*lstfd && *tmpfd)
+	//		printf("IN INSERT 2 lstfd : (%s) tmpfd : (%s)\n", (*lstfd)->filename, (*tmpfd)->filename);
+		return (ret);
+	}
+	//if (*lstfd && *tmpfd)
+	//printf("IN INSERT 3 lstfd : (%s) tmpfd : (%s)\n", (*lstfd)->filename, (*tmpfd)->filename);
+	return (TRUE);
+}
+
 int					check_file_name(char **filename, char *str)
 {
 	if (DEBUG_RED == 1)
@@ -91,7 +167,7 @@ int					reset_std_fd(void)
 	std_fd = STDIN_FILENO;
 	while (std_fd <= STDERR_FILENO)
 	{
-		if ((fd = open(savior_tty(NULL, FALSE), O_RDWR)) == -1)
+		if ((fd = open(savior_tty(NULL, FALSE, TRUE), O_RDWR)) == -1)
 			return (FALSE);
 		if (dup2(fd, std_fd) == -1)
 			return (FALSE);

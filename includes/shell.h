@@ -2,25 +2,26 @@
 # define SHELL_H
 
 #define DEBUG 0
-#define DEBUG_TREE_VERIF 1
-#define DEBUG_BUILTIN 1 
-#define DEBUG_LEXER_PARSER 1 
-#define DEBUG_PARSER 1
+#define DEBUG_TREE_VERIF 0
+#define DEBUG_BUILTIN 0
+#define DEBUG_LEXER_PARSER 0
+#define DEBUG_PARSER 0
 #define DEBUG_SAVIOR 0
-#define DEBUG_TREE_CREATION 1
-#define DEBUG_TREE 1
+#define DEBUG_TREE_CREATION 0
+#define DEBUG_TREE 0
 #define DEBUG_TERMCAPS 0
 #define DEBUG_HISTORY 0
-#define DEBUG_PIPE 0
+#define DEBUG_PIPE 1
 #define DEBUG_RED 1
-#define DEBUG_CMD 1
-#define DEBUG_COPY_PASTE 1
-#define DEBUG_KEY 1
+#define DEBUG_CMD 0
+#define DEBUG_COPY_PASTE 0
+#define DEBUG_KEY 0
 #define DEBUG_HEREDOC 0
 #include <stdio.h>
 
 # define TRUE 1
 # define FALSE 0
+# define SYS_CALL_FAIL -3
 # define ERROR -1
 # define BREAK 2
 # define CONTINUE 3
@@ -163,12 +164,18 @@ typedef struct			s_lst_fd
 	struct s_lst_fd		*next;
 }						t_lst_fd;
 
+typedef struct			s_global_fd
+{
+	struct s_lst_fd		*lstfd;
+	struct s_global_fd	*next;
+}						t_global_fd;
+
 /*
 ** sh_savior
 */
 t_duo					*savior(t_duo *env, int code);
 t_line					*savior_stline(t_line *stline, int code);
-char					*savior_tty(char *tty, int code);
+char					*savior_tty(char *tty, int code, int in);
 
 /*
 ** sh_init
@@ -245,7 +252,7 @@ int						fct_read(int hrd, t_line *line, t_history **history);
 */
 int						father_n_son(char **cmd);
 int						father_n_son_for_pipe(char **cmd);
-int						handle_fork(int fd_in, int fd_out, t_node *tree, t_lst_fd **lstfd);
+int						handle_fork(int pipefd_tab[2][2], t_node *tree, t_global_fd **globalfd);
 
 /*
 ** sh_cmd_line_assemble
@@ -388,38 +395,43 @@ int						clear_tree(t_node **tree);
 /*
 ** sh_tree_traversal
 */
-int						tree_traversal(t_node *tree, t_lst_fd **lstfd);
+int						tree_traversal(t_node *tree, t_global_fd **globalfd, int pipefd[2][2]);
 
 /*
 ** sh_red
 */
 
 int						fd_exist(int fd);
-int     				redirect(t_node *tree, t_lst_fd **lstfd);
+int     				redirect(t_node *tree, t_lst_fd *lstfd);
 
 /*
 ** sh_manage_fd
 */
 int						close_lstfd(t_lst_fd **lstfd);
 int						lstfd_pushbck(t_lst_fd **lstfd, int fd, char *filename);
+int						lstfd_pushfront(t_lst_fd **lstfd, int fd, char *name);
+int						insert_in_lstfd(t_lst_fd **lstfd, t_lst_fd **tmpfd, int fd, char *filename, int insert);
 int						check_file_name(char **filename, char *str);
 int						reset_std_fd(void);
 
 /*
 ** sh_red_handler
 */
-int						manage_red_file(t_lst_fd **lstfd, t_node *tree);
+int						manage_red_file(t_lst_fd **lstfd, t_lst_fd **tmpfd, t_node *tree);
+
+
+t_lst_fd				*lstfd_insert(t_lst_fd **lstfd, t_lst_fd **tmpfd, int fd, char *filename);
 
 /*
 ** sh_right_red
 */
-int						right_red_fd(t_lst_fd **lstfd, t_node *tree,
-							t_node *red_arg);
+int						right_red_fd(t_lst_fd **lstfd, t_lst_fd **tmpfd, t_node *tree,
+							t_node *red_arg, int insert);
 
 /*
 ** sh_left_red
 */
-int						left_red_fd(t_lst_fd **lstfd, t_node *red_arg);
+int						left_red_fd(t_lst_fd **lstfd, t_lst_fd **tmpfd, t_node *red_arg, int insert);
 
 /*
 ** sh_heredoc
@@ -431,13 +443,13 @@ int 					heredoc_handler(t_line *l, t_node **t, t_history **h);
 ** sh_cmd
 */
 char					**format_cmd(t_node *tree);
-int						manage_cmd(t_node *tree, t_lst_fd **lstfd);
+int						manage_cmd(int pipefd_tab[2][2], t_node *tree, t_global_fd **globalfd);
 
 /*
 ** sh_pipe
 */
-int					pipe_function(int fd_in, int fd_out, t_node *tree,
-						t_lst_fd **lstfd);
+int						pipe_function(int pipefd_tab[2][2], t_node *tree,
+						t_global_fd **globalfd);
 
 /*
 ** sh_heredoc

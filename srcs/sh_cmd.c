@@ -44,11 +44,11 @@ char				**format_cmd(t_node *tree)
 	return (ret);
 }
 
-int					manage_cmd(t_node *tree, t_lst_fd **lstfd)
+int					manage_cmd(int pipefd_tab[2][2], t_node *tree, t_global_fd **globalfd)
 {
 	if (DEBUG_CMD == 1)
 		ft_putendl_fd ("----- CMD -----\n", 2);
 
-	handle_fork(-1, -1, tree, lstfd);
+	handle_fork(pipefd_tab, tree, globalfd);
 	return (TRUE);
 }
