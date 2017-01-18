@@ -4,7 +4,7 @@
 #define	FD 3
 #define CLOSE 4
 
-static int			left_red_fd_pushbk(t_lst_fd **lstfd, char *filename)
+static int			left_red_fd_pushbk(t_lst_fd **lstfd, t_lst_fd **tmpfd, char *filename, int insert)
 {
 	if (DEBUG_RED == 1)
 		ft_putendl_fd("------- LEFT RED FD PUSHBCK -------", 2);
@@ -26,15 +26,17 @@ static int			left_red_fd_pushbk(t_lst_fd **lstfd, char *filename)
 	}
 	if ((fd = open(filename, O_RDONLY)) == ERROR)
 	{
-		printf("fd dans left red fd pushbk :  (%d)\n", fd);
-		lstfd_pushbck(lstfd, -1, filename);
+		//printf("fd dans left red fd pushbk :  (%d)\n", fd);
+		insert_in_lstfd(lstfd, tmpfd, -1, filename, insert); // -1 a la place de filename?
 		return (SYS_CALL_FAIL);
 	}
-	lstfd_pushbck(lstfd, fd, filename);
+	//if (*lstfd && *tmpfd)printf("BEFORE INSERT (%s)(%s)\n", (*lstfd)->filename,  (*tmpfd)->filename);
+	insert_in_lstfd(lstfd, tmpfd, fd, filename, insert);
+	//printf("AFTER INSERT (%s)(%s)\n", (*lstfd)->filename,  (*tmpfd)->filename);
 	return (TRUE);
 }
 
-int					left_red_fd(t_lst_fd **lstfd, t_node *red_arg)
+int					left_red_fd(t_lst_fd **lstfd, t_lst_fd **tmpfd, t_node *red_arg, int insert)
 {
 	if (DEBUG_RED == 1)
 		ft_putendl_fd("------- LEFT RED FD -------", 2);
@@ -51,10 +53,10 @@ int					left_red_fd(t_lst_fd **lstfd, t_node *red_arg)
 	if (ret_fn == ERROR || ret_fn == TRUE)
 		return (ERROR);
 	else if (ret_fn == FD)
-		lstfd_pushbck(lstfd, ft_atoi((filename) + 1), filename);
+		insert_in_lstfd(lstfd, tmpfd, ft_atoi((filename) + 1), filename, insert);
 	else if (ret_fn == CLOSE)
-		lstfd_pushbck(lstfd, -1, red_arg->data);
+		insert_in_lstfd(lstfd, tmpfd, -1, red_arg->data, insert);
 	else
-		return (left_red_fd_pushbk(lstfd, filename));
+		return (left_red_fd_pushbk(lstfd, tmpfd, filename, insert));
 	return (TRUE);
 }

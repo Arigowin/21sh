@@ -48,10 +48,10 @@ int					check_after_read(t_line *stline, t_history **history)
 
 	t_node				*tree;
 	t_node				*node;
-	t_lst_fd			*lstfd;
+	t_global_fd			*globalfd;
 	int					pipefd_tab[2][2];
 
-	lstfd = NULL;
+	globalfd = NULL;
 	pipefd_tab[0][0] = -2;
 	pipefd_tab[0][1] = -2;
 	pipefd_tab[1][0] = -2;
@@ -60,7 +60,7 @@ int					check_after_read(t_line *stline, t_history **history)
 		return (ERROR);
 	node = tree;
 	heredoc_handler(stline, &node, history);
-	tree_traversal(tree, &lstfd, pipefd_tab);
+	tree_traversal(tree, &globalfd, pipefd_tab);
 	return (TRUE);
 }
 

@@ -17,22 +17,22 @@ int 				pfd_handler(int pipefd_tab[2][2])
 	if (pipefd_tab && pipefd_tab[0][0] < 0 && pipefd_tab[1][0] >= 0)
 	{
 		close(pipefd_tab[1][0]);
-		if (dup2(pipefd_tab[1][1], 1) == ERROR)
+		if (dup2(pipefd_tab[1][1], STDOUT_FILENO) == ERROR)
 			return (ERROR);
 	}
 	if (pipefd_tab && pipefd_tab[0][0] >= 0 && pipefd_tab[1][0] >= 0)
 	{
 		close(pipefd_tab[0][1]);
-		if(dup2(pipefd_tab[0][0], 0) == ERROR)
+		if(dup2(pipefd_tab[0][0], STDIN_FILENO) == ERROR)
 			return (ERROR);
 		close(pipefd_tab[1][0]);
-		if (dup2(pipefd_tab[1][1], 1) == ERROR)
+		if (dup2(pipefd_tab[1][1], STDOUT_FILENO) == ERROR)
 			return (ERROR);
 	}
 	if (pipefd_tab && pipefd_tab[0][0] >= 0 && pipefd_tab[1][0] < 0)
 	{
 		close(pipefd_tab[0][1]);
-		if(dup2(pipefd_tab[0][0], 0) == ERROR)
+		if(dup2(pipefd_tab[0][0], STDIN_FILENO) == ERROR)
 			return (ERROR);
 	}
 	return (TRUE);
@@ -42,10 +42,10 @@ int					check_builtin(char **cmd, int pipefd_tab[2][2], t_lst_fd **lstfd)
 {
 	if (DEBUG == 1)
 		ft_putendl_fd("------- CHECK BUILTIN ------", 2);
-	(void)*pipefd_tab;
 
 	int					ret;
 
+	(void)*pipefd_tab;
 	ret = -1;
 	if (is_builtin(cmd) != -1)
 	{
@@ -76,7 +76,6 @@ int					father(int pipefd_tab[2][2])
 
 	int						stat_loc;
 
-	(void)pipefd_tab;
 	stat_loc = 0;
 	check_signal(3);
 	pfd_close(pipefd_tab);
@@ -90,13 +89,16 @@ int					father(int pipefd_tab[2][2])
 	return (WEXITSTATUS(stat_loc));
 }
 
-int					son(char **cmd, int pipefd_tab[2][2], t_lst_fd **lstfd)
+int					son(char **cmd, int pipefd_tab[2][2], t_node *tree, t_global_fd **globalfd)
 {
 	if (DEBUG == 1)
 		ft_putendl_fd("------- SON ------", 2);
 
 	pfd_handler(pipefd_tab);
-	if (check_builtin(cmd, pipefd_tab, lstfd) == TRUE)
+	if (pipefd_tab[0][0] >= 0 && pipefd_tab[1][0] >= 0 && redirect(tree->left, (*globalfd)->lstfd) == ERROR)
+
+		return (ERROR);
+	if (check_builtin(cmd, pipefd_tab, NULL) == TRUE)
 	{
 		dprintf(2, "built-in in son");
 		exit(EXIT_SUCCESS);
@@ -114,7 +116,7 @@ int					son(char **cmd, int pipefd_tab[2][2], t_lst_fd **lstfd)
 	return (FALSE);
 }
 
-int					handle_fork(int pipefd_tab[2][2], t_node *tree, t_lst_fd **lstfd)
+int					handle_fork(int pipefd_tab[2][2], t_node *tree, t_global_fd **globalfd)
 {
 	if (DEBUG == 1)
 		ft_putendl_fd("------- HANDLE FORK ------", 2);
@@ -125,23 +127,27 @@ int					handle_fork(int pipefd_tab[2][2], t_node *tree, t_lst_fd **lstfd)
 
 	fpid = -1;
 	cmd = NULL;
-	ret = 0;
+	ret = -1;
 	if ((cmd = format_cmd(tree)) == NULL)
 		return (ERROR);
-	if (tree->left && redirect(tree->left, lstfd) == ERROR)
+	if (pipefd_tab[0][0] < 0 && pipefd_tab[1][0] < 0)
 	{
-		//			close_fd_red(&lstfd, saved_std);
-		return (ERROR);
+		// fonction
+		if (tree->left && redirect(tree->left, (*globalfd)->lstfd) == ERROR)
+		{
+			//			close_fd_red(&lstfd, saved_std);
+			return (ERROR);
+		}
+		if ((ret = check_builtin(cmd, pipefd_tab, NULL)) == TRUE)
+			return (TRUE);
+		if (ret == ERROR)
+			return (ERROR);
 	}
-	if (pipefd_tab[0][0] < 0 && pipefd_tab[1][0] < 0 && (ret = check_builtin(cmd, pipefd_tab, lstfd)) == TRUE)
-		return (TRUE);
-	if (ret == ERROR)
-		return (ERROR);
 	if ((fpid = fork()) < 0)
 		return (ERROR);
 	reset_term();
 	if (fpid == 0)
-		son(cmd, pipefd_tab, lstfd);
+		son(cmd, pipefd_tab, tree, globalfd);
 	else
 		father(pipefd_tab);
 	init_term();
