@@ -6,7 +6,7 @@
 /*   By: avacher <avacher@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/12/08 21:03:13 by avacher           #+#    #+#             */
-/*   Updated: 2015/12/12 12:49:47 by avacher          ###   ########.fr       */
+/*   Updated: 2017/01/19 20:44:46 by naymatrice       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,12 +20,12 @@ int				free_duo(t_duo **tab)
 	tmp = *tab;
 	while (tmp)
 	{
+		free(tmp->name);
+		free(tmp->value);
 		tmp2 = tmp;
 		tmp = tmp->next;
-		free(tmp2->name);
-		free(tmp2->value);
 		free(tmp2);
 	}
-	free(*tab);
+	*tab = NULL;
 	return (0);
 }
