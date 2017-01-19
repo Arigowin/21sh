@@ -99,12 +99,10 @@ int					son(char **cmd, int pipefd_tab[2][2], t_node *tree, t_global_fd **global
 		return (ERROR);
 	if (check_builtin(cmd, pipefd_tab, NULL) == TRUE)
 	{
-		dprintf(2, "built-in in son");
 		exit(EXIT_SUCCESS);
 		return (TRUE);
 	}
 	check_signal(2);
-	dprintf(2, "cmd : (%s)\n", cmd[0]);
 	check_fct(cmd);
 
 	// appeler la fonction d'erreur

@@ -26,13 +26,10 @@ static int			left_red_fd_pushbk(t_lst_fd **lstfd, t_lst_fd **tmpfd, char *filena
 	}
 	if ((fd = open(filename, O_RDONLY)) == ERROR)
 	{
-		//printf("fd dans left red fd pushbk :  (%d)\n", fd);
 		insert_in_lstfd(lstfd, tmpfd, -1, filename, insert); // -1 a la place de filename?
 		return (SYS_CALL_FAIL);
 	}
-	//if (*lstfd && *tmpfd)printf("BEFORE INSERT (%s)(%s)\n", (*lstfd)->filename,  (*tmpfd)->filename);
 	insert_in_lstfd(lstfd, tmpfd, fd, filename, insert);
-	//printf("AFTER INSERT (%s)(%s)\n", (*lstfd)->filename,  (*tmpfd)->filename);
 	return (TRUE);
 }
 
