@@ -131,25 +131,6 @@ int					handle_fork(int pipefd_tab[2][2], t_node *tree, t_global_fd **globalfd)
 		return (ERROR);
 	if (pipefd_tab[0][0] < 0 && pipefd_tab[1][0] < 0)
 	{
-		//Debug
-		dprintf(2, "dans le if de handle fork");
-		if (cmd)
-	dprintf(2, "cmd : (%s)\t", cmd[0]);
-		else
-			dprintf(2, "no cmd");
-		if ( tree && tree->left )
-		{
-dprintf(2, "red : (%s)\t", tree->left->data);
-dprintf(2, "red arg (%s)\t", tree->left->right->data);
-		}
-		else
-			dprintf(2, "no red");
-if(globalfd && *globalfd)
-dprintf(2, "red fd (%s)\n", (*globalfd)->lstfd->filename);
-		else
-			dprintf(2, "no gfd");
-		//fin debug
-
 		// interieur du if a mettre dans une fonction
 		if (tree && tree->left && redirect(tree->left, (*globalfd)->lstfd) == ERROR)
 		{

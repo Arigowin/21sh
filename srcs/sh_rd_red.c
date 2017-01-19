@@ -67,7 +67,6 @@ int					heredoc_red(t_node *tree, int fd)
 	if (tree && tree->type == RED_FD
 	&& ft_strcmp(tree->data, "&"))
 		fd = ft_atoi(tree->data);
-	ft_putendl_fd("FD : [[[%d]]]\n", fd);
 	if (pipe(hrd_fd) == ERROR)
 		return (ERROR);
 	if (str)
@@ -87,9 +86,6 @@ int					redirect(t_node *tree, t_lst_fd *lstfd)
 
 	if (lstfd == NULL)
 		return (FALSE);
-
-	dprintf(2, "(lstfd in redirect: (%p))\t", lstfd);
-	dprintf(2, "[[%s]]\n", lstfd->filename);
 
 	fd = ((tree->type == LRED || tree->type == DLRED) ? STDIN_FILENO : STDOUT_FILENO);
 	if (tree && tree->right && (tree->type != DLRED))
