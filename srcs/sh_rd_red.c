@@ -55,7 +55,7 @@ int					heredoc_red(t_node *tree, int fd)
 		ft_putendl_fd("------- HEREDOC RED -------", 2);
 
 	char				*str;
-	int					pipe_fd[2];
+	int					hrd_fd[2];
 
 	str = NULL;
 	if (tree->type == RED_FD)
@@ -68,13 +68,13 @@ int					heredoc_red(t_node *tree, int fd)
 	&& ft_strcmp(tree->data, "&"))
 		fd = ft_atoi(tree->data);
 	ft_putendl_fd("FD : [[[%d]]]\n", fd);
-	if (pipe(pipe_fd) == ERROR)
+	if (pipe(hrd_fd) == ERROR)
 		return (ERROR);
 	if (str)
-		write(pipe_fd[1], str, ft_strlen(str));
-	dup2(pipe_fd[0], fd);
-	close(pipe_fd[0]);
-	close(pipe_fd[1]);
+		write(hrd_fd[1], str, ft_strlen(str));
+	dup2(hrd_fd[0], fd);
+	close(hrd_fd[0]);
+	close(hrd_fd[1]);
 	return (TRUE);
 }
 
@@ -88,8 +88,8 @@ int					redirect(t_node *tree, t_lst_fd *lstfd)
 	if (lstfd == NULL)
 		return (FALSE);
 
-//	dprintf(2, "(global : %p) (lstfd: %p)\n", *globalfd, (*globalfd)->lstfd);
-//	dprintf(2, "[[%s]]\n", (*globalfd)->lstfd->filename);
+	dprintf(2, "(lstfd in redirect: (%p))\t", lstfd);
+	dprintf(2, "[[%s]]\n", lstfd->filename);
 
 	fd = ((tree->type == LRED || tree->type == DLRED) ? STDIN_FILENO : STDOUT_FILENO);
 	if (tree && tree->right && (tree->type != DLRED))

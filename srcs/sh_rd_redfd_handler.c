@@ -59,6 +59,9 @@ int					lstfd_pushbck(t_lst_fd **lstfd, int fd, char *filename)
 		new = lstfd_new(fd, filename);
 		tmp->next = new;
 	}
+	//DEBUG
+//	if (tmp){dprintf(2, "filename ds lstfd pushbck ((%s))\n", tmp->filename);}
+
 	return (TRUE);
 }
 

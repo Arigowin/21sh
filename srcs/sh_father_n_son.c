@@ -61,7 +61,7 @@ int					check_builtin(char **cmd, int pipefd_tab[2][2], t_lst_fd **lstfd)
 
 int 				pfd_close(int pipefd_tab[2][2])
 {
-	if (pipefd_tab)
+	if (pipefd_tab && pipefd_tab[0][0] >= 0)
 	{
 		close(pipefd_tab[0][0]);
 		close(pipefd_tab[0][1]);
@@ -95,8 +95,7 @@ int					son(char **cmd, int pipefd_tab[2][2], t_node *tree, t_global_fd **global
 		ft_putendl_fd("------- SON ------", 2);
 
 	pfd_handler(pipefd_tab);
-	if (pipefd_tab[0][0] >= 0 && pipefd_tab[1][0] >= 0 && redirect(tree->left, (*globalfd)->lstfd) == ERROR)
-
+	if ((pipefd_tab[0][0] >= 0 || pipefd_tab[1][0] >= 0) && tree && tree->left && redirect(tree->left, (*globalfd)->lstfd) == ERROR)
 		return (ERROR);
 	if (check_builtin(cmd, pipefd_tab, NULL) == TRUE)
 	{
@@ -132,12 +131,33 @@ int					handle_fork(int pipefd_tab[2][2], t_node *tree, t_global_fd **globalfd)
 		return (ERROR);
 	if (pipefd_tab[0][0] < 0 && pipefd_tab[1][0] < 0)
 	{
-		// fonction
-		if (tree->left && redirect(tree->left, (*globalfd)->lstfd) == ERROR)
+		//Debug
+		dprintf(2, "dans le if de handle fork");
+		if (cmd)
+	dprintf(2, "cmd : (%s)\t", cmd[0]);
+		else
+			dprintf(2, "no cmd");
+		if ( tree && tree->left )
+		{
+dprintf(2, "red : (%s)\t", tree->left->data);
+dprintf(2, "red arg (%s)\t", tree->left->right->data);
+		}
+		else
+			dprintf(2, "no red");
+if(globalfd && *globalfd)
+dprintf(2, "red fd (%s)\n", (*globalfd)->lstfd->filename);
+		else
+			dprintf(2, "no gfd");
+		//fin debug
+
+		// interieur du if a mettre dans une fonction
+		if (tree && tree->left && redirect(tree->left, (*globalfd)->lstfd) == ERROR)
 		{
 			//			close_fd_red(&lstfd, saved_std);
 			return (ERROR);
 		}
+		else if (tree->left)
+			*globalfd = (*globalfd)->next;
 		if ((ret = check_builtin(cmd, pipefd_tab, NULL)) == TRUE)
 			return (TRUE);
 		if (ret == ERROR)

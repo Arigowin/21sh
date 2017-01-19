@@ -11,6 +11,10 @@ t_global_fd			*new_globalfd(void)
 
 	new = NULL;
 	new = (t_global_fd *)malloc(sizeof(t_global_fd));
+	new->next = NULL;
+	new->lstfd = NULL;
+//	new->lstfd = (t_lst_fd *)malloc(sizeof(t_lst_fd));
+//	new->lstfd->next = NULL;
 	return (new);
 }
 
@@ -54,10 +58,15 @@ int 				check_red_arg2(t_node *tree, t_global_fd **globalfd, types type)
 		flags = O_WRONLY | O_APPEND | O_CREAT;
 	if ((filename = ft_strdup(tree->data)) == NULL)
 		return(ERROR);
+	//ANTIBUG
+//	if (filename){dprintf(2, "filename in check_red_arg2 (%s)\n", filename);}
+
 	if (type == LRED && access(filename, F_OK) != ERROR && access(filename, W_OK) == ERROR)
 		return (ERROR);
 	if ((fd = open(filename, flags,	S_IRUSR | S_IWUSR | S_IRGRP | S_IROTH)) == ERROR)
 		return (ERROR);
+		//ANTIBUG
+//	if (fd){dprintf(2, "fd in check_red_arg2 (%d)\n", fd);}
 	lstfd_pushbck(&((*globalfd)->lstfd), fd, filename);
 	return (TRUE);
 }
@@ -86,11 +95,27 @@ int					fd_open(t_node *tree, t_global_fd **globalfd, types type)
 		ft_putendl_fd("------- FD OPEN -------", 2);
 
 	if (*globalfd == NULL)
-		pushfront_globalfd(globalfd);
+		if ((*globalfd = new_globalfd()) == NULL)
+			return (ERROR);
 	if (tree->data && tree->data[0] == '&')
 		check_fd_red(tree, globalfd); //, type);
 	else
 		check_red_arg2(tree, globalfd, type);
+
+//	//ANTIBUG
+//	t_global_fd *tmpglo = *globalfd;
+//	t_lst_fd *tmp = NULL;
+//	while (tmpglo)
+//	{
+//		tmp = tmpglo->lstfd;
+//		while(tmp){
+//			printf("in fd open [filename->%s]--[fd->%d]\n", tmp->filename, tmp->fd);
+//			tmp=tmp->next;
+//		}
+//		printf("next\n");
+//		tmpglo = tmpglo->next;
+//	}
+
 	return (TRUE);
 }
 
@@ -116,6 +141,21 @@ int					manage_red_fd(t_node *tree, t_global_fd **globalfd, types type)
 	if (tree && tree->left)
 		manage_red_fd(tree->left, globalfd, NONE);
 
+
+//	//ANTIBUG
+//	t_global_fd *tmpglo = *globalfd;
+//	t_lst_fd *tmp = NULL;
+//	while (tmpglo)
+//	{
+//		tmp = tmpglo->lstfd;
+//		while(tmp){
+//			printf("in manage red fd [filename->%s]--[fd->%d]\n", tmp->filename, tmp->fd);
+//			tmp=tmp->next;
+//		}
+//		printf("next\n");
+//		tmpglo = tmpglo->next;
+//	}
+
 	return (TRUE);
 }
 
@@ -125,9 +165,9 @@ int					tree_traversal(t_node *tree, t_global_fd **globalfd, int pipefd_tab[2][2
 //	if (DEBUG_TREE == 0)
 		ft_putendl_fd("------- TREE TRAVERSAL -------", 2);
 
-	t_global_fd			*saved_globalfd;
+//	t_global_fd			*saved_globalfd;
 
-	saved_globalfd = NULL;
+//	saved_globalfd = NULL;
 	savior_tty(ttyname(0), TRUE, TRUE);
 	savior_tty(ttyname(1), TRUE, FALSE);
 
@@ -143,24 +183,39 @@ int					tree_traversal(t_node *tree, t_global_fd **globalfd, int pipefd_tab[2][2
 
 	if (*globalfd == NULL)
 		manage_red_fd(tree, globalfd, NONE);
-	saved_globalfd = *globalfd;
+//	saved_globalfd = *globalfd;
 
-	t_global_fd *tmpglo = *globalfd;
-	t_lst_fd *tmp = NULL;
-	while (tmpglo)
-	{
-		tmp = tmpglo->lstfd;
-		while(tmp){
-			printf("dans pipe ap manage red [filename->%s]--[fd->%d]\n", tmp->filename, tmp->fd);
-			tmp=tmp->next;
-		}
-		printf("next\n");
-		tmpglo = tmpglo->next;
-	}
+//	//ANTIBUG
+//	t_global_fd *tmpglo = *globalfd;
+//	t_lst_fd *tmp = NULL;
+//	while (tmpglo)
+//	{
+//		tmp = tmpglo->lstfd;
+//		while(tmp){
+//			printf("manage red [filename->%s]--[fd->%d]\n", tmp->filename, tmp->fd);
+//			tmp=tmp->next;
+//		}
+//		printf("next\n");
+//		tmpglo = tmpglo->next;
+//	}
 	//bi_exit(NULL, NULL);
 
 	if (tree->type == PIPE)
 	{
+
+//	//ANTIBUG
+//	t_global_fd *tmpglo = *globalfd;
+//	t_lst_fd *tmp = NULL;
+//	while (tmpglo)
+//	{
+//		tmp = tmpglo->lstfd;
+//		while(tmp){
+//			printf("in pipe [filename->%s]--[fd->%d]\n", tmp->filename, tmp->fd);
+//			tmp=tmp->next;
+//		}
+//		printf("next\n");
+//		tmpglo = tmpglo->next;
+//	}
 //		if ((manage_red_file(lstfd, tmpfd, tree)) == ERROR)
 //			return (ERROR);
 //		saved_lstfd = *lstfd;
@@ -171,8 +226,8 @@ int					tree_traversal(t_node *tree, t_global_fd **globalfd, int pipefd_tab[2][2
 				return (ERROR);
 		if ((tree_traversal(tree->right, globalfd, pipefd_tab)) == ERROR)
 				return (ERROR);
-		if (globalfd && *globalfd && saved_globalfd)
-			*globalfd = saved_globalfd;
+//		if (globalfd && *globalfd && saved_globalfd)
+//			*globalfd = saved_globalfd;
 //		*lstfd = saved_lstfd;
 		//close_lstfd(lstfd);
 		reset_std_fd();
@@ -189,12 +244,12 @@ int					tree_traversal(t_node *tree, t_global_fd **globalfd, int pipefd_tab[2][2
 		if (tree->type == CMD)
 			if ((manage_cmd(pipefd_tab, tree, globalfd)) == ERROR)
 				return (ERROR);
-		if (tree->left != NULL)
+		if (tree->left != NULL && (*globalfd))
 			(*globalfd) = (*globalfd)->next;
 		if (pipefd_tab[0][0] < 0 && pipefd_tab[1][0] < 0)
 		{
-			if (globalfd && *globalfd && saved_globalfd)
-				*globalfd = saved_globalfd;
+	//		if (globalfd && *globalfd && saved_globalfd)
+	//			*globalfd = saved_globalfd;
 //			*lstfd = saved_lstfd;
 //			close_lstfd(lstfd);
 			reset_std_fd();
