@@ -14,6 +14,7 @@ int 				pfd_handler(int pipefd_tab[2][2])
 	if (DEBUG == 1)
 		ft_putendl_fd("------- PFD HANDLER ------", 2);
 
+	dprintf(2, "pfd 00 : (%d)\tpfd 01 : (%d)\tpfd 10 : (%d)\tpfd 11 : (%d)\n", pipefd_tab[0][0], pipefd_tab[0][1], pipefd_tab[1][0], pipefd_tab[1][1]);
 	if (pipefd_tab && pipefd_tab[0][0] < 0 && pipefd_tab[1][0] >= 0)
 	{
 		close(pipefd_tab[1][0]);
@@ -38,7 +39,8 @@ int 				pfd_handler(int pipefd_tab[2][2])
 	return (TRUE);
 }
 
-int					check_builtin(char **cmd, int pipefd_tab[2][2], t_lst_fd **lstfd)
+int					check_builtin(char **cmd, int pipefd_tab[2][2],
+					t_lst_fd **lstfd)
 {
 	if (DEBUG == 1)
 		ft_putendl_fd("------- CHECK BUILTIN ------", 2);
@@ -61,7 +63,7 @@ int					check_builtin(char **cmd, int pipefd_tab[2][2], t_lst_fd **lstfd)
 
 int 				pfd_close(int pipefd_tab[2][2])
 {
-	if (pipefd_tab)
+	if (pipefd_tab && pipefd_tab[0][0] >= 0)
 	{
 		close(pipefd_tab[0][0]);
 		close(pipefd_tab[0][1]);
@@ -89,23 +91,22 @@ int					father(int pipefd_tab[2][2])
 	return (WEXITSTATUS(stat_loc));
 }
 
-int					son(char **cmd, int pipefd_tab[2][2], t_node *tree, t_global_fd **globalfd)
+int					son(char **cmd, int pipefd_tab[2][2], t_node *tree,
+					t_global_fd **globalfd)
 {
 	if (DEBUG == 1)
 		ft_putendl_fd("------- SON ------", 2);
 
 	pfd_handler(pipefd_tab);
-	if (pipefd_tab[0][0] >= 0 && pipefd_tab[1][0] >= 0 && redirect(tree->left, (*globalfd)->lstfd) == ERROR)
-
+	if ((pipefd_tab[0][0] >= 0 || pipefd_tab[1][0] >= 0) && tree && tree->left
+	&& redirect(tree->left, (*globalfd)->lstfd) == ERROR)
 		return (ERROR);
 	if (check_builtin(cmd, pipefd_tab, NULL) == TRUE)
 	{
-		dprintf(2, "built-in in son");
 		exit(EXIT_SUCCESS);
 		return (TRUE);
 	}
 	check_signal(2);
-	dprintf(2, "cmd : (%s)\n", cmd[0]);
 	check_fct(cmd);
 
 	// appeler la fonction d'erreur
@@ -116,7 +117,8 @@ int					son(char **cmd, int pipefd_tab[2][2], t_node *tree, t_global_fd **global
 	return (FALSE);
 }
 
-int					handle_fork(int pipefd_tab[2][2], t_node *tree, t_global_fd **globalfd)
+int					handle_fork(int pipefd_tab[2][2], t_node *tree,
+					t_global_fd **globalfd)
 {
 	if (DEBUG == 1)
 		ft_putendl_fd("------- HANDLE FORK ------", 2);
@@ -132,12 +134,14 @@ int					handle_fork(int pipefd_tab[2][2], t_node *tree, t_global_fd **globalfd)
 		return (ERROR);
 	if (pipefd_tab[0][0] < 0 && pipefd_tab[1][0] < 0)
 	{
-		// fonction
-		if (tree->left && redirect(tree->left, (*globalfd)->lstfd) == ERROR)
+		// interieur du if a mettre dans une fonction
+		if (tree && tree->left && redirect(tree->left, (*globalfd)->lstfd) == ERROR)
 		{
 			//			close_fd_red(&lstfd, saved_std);
 			return (ERROR);
 		}
+		else if (tree->left)
+			*globalfd = (*globalfd)->next;
 		if ((ret = check_builtin(cmd, pipefd_tab, NULL)) == TRUE)
 			return (TRUE);
 		if (ret == ERROR)

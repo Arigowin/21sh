@@ -6,12 +6,10 @@ static int		red_travesal(t_lst_fd **lstfd, t_lst_fd **tmpfd, t_node **tree)
 //	if (DEBUG_RED == 1)
 		ft_putendl_fd("------- RED TRAVERSAL -------", 2);
 
-	//dprintf (2, "data : (%s-%d)\n", (*tree)->data, (*tree)->type);
 	if (tree && *tree && (*tree)->right && ((*tree)->right->type == CMD || (*tree)->right->type == PIPE))
 	{
 		if ((manage_red_file(lstfd, tmpfd, (*tree)->right)) == ERROR)
 			return (ERROR);
-//	tmpfd = lstfd;
 	}
 	if (tree && *tree && (*tree)->left && (*tree)->left->type == CMD)
 	{
@@ -34,17 +32,6 @@ int					manage_red_file(t_lst_fd **lstfd, t_lst_fd **tmpfd, t_node *tree)
 	tmp = tree->left;
 	red_arg = NULL;
 	ret = -1;
-//	printf("test (data : [%s])\n", tree->data);
-	//ANTIBUG
-	t_lst_fd	*tmp23 = *lstfd;
-	//while (tmp23)
-	//{
-	//	printf("fd name (%s)->(%d) ->", tmp23->filename, tmp23->fd);
-	//	tmp23 = tmp23->next;
-	//}
-	//printf("\n");
-	//ANTIBUG
-
 	if (tree && tree->right && tree->right->type != CMD_ARG)
 		manage_red_file(lstfd, tmpfd, tree->right);
 	if (tmp != NULL && (tmp->type == RRED || tmp->type == DRRED
@@ -64,11 +51,8 @@ int					manage_red_file(t_lst_fd **lstfd, t_lst_fd **tmpfd, t_node *tree)
 		}
 		if (tmp->type == LRED)
 		{
-			//printf("left red\n");
 			if ((ret = left_red_fd(lstfd, tmpfd, red_arg, insert)) == ERROR)
-			{//printf("left red error\n");
 				return (ERROR);
-			}
 			if (ret == SYS_CALL_FAIL)
 				return (SYS_CALL_FAIL);
 		}
@@ -77,16 +61,5 @@ int					manage_red_file(t_lst_fd **lstfd, t_lst_fd **tmpfd, t_node *tree)
 	}
 	if (red_travesal(lstfd, tmpfd, &tree) == ERROR)
 		return (ERROR);
-
-	//ANTIBUG
-	tmp23 = *lstfd;
-	while (tmp23)
-	{
-		//printf("fd name (%s)->(%d) ->", tmp23->filename, tmp23->fd);
-		tmp23 = tmp23->next;
-	}
-	//printf("\n");
-	//ANTIBUG
-
 	return (TRUE);
 }

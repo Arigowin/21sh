@@ -7,6 +7,7 @@ int					fd_exist(int fd)
 	if (DEBUG_RED == 1)
 		ft_putendl_fd("------------ FD EXIST ------------", 2);
 
+	dprintf(2, "fd in fd exist : (%d)\n", fd);
 	if (isatty(fd) == 0)
 	{
 		ft_putstr("21sh: ");
@@ -25,6 +26,7 @@ int					left_right_red(t_node *tree, t_lst_fd *lstfd, int stdfd)
 	int					fd;
 
 	fd = stdfd;
+	dprintf(2, "fd in left right red : (%d)\n", lstfd->fd);
 	if (tree->type == RED_FD && ft_strcmp(tree->data, "&") != 0)
 		fd = ft_atoi(tree->data);
 	else if (tree->type == RED_FD && ft_strcmp(tree->data, "&") == 0)
@@ -41,8 +43,10 @@ int					left_right_red(t_node *tree, t_lst_fd *lstfd, int stdfd)
 		close(fd);
 		return (TRUE);
 	}
+	dprintf(2, "fd in left right red-bis : (%d)\n", lstfd->fd);
 	if (dup2(lstfd->fd, fd) == ERROR)
 		return (ERROR);
+	dprintf(2, "fd  apres dup2: (%d)\n", lstfd->fd);
 	if (lstfd->fd > STDERR_FILENO && (stdfd == STDOUT_FILENO
 	|| ((lstfd->filename)[0] != '&' && lstfd->fd != -1)))
 		close(lstfd->fd);
@@ -55,7 +59,7 @@ int					heredoc_red(t_node *tree, int fd)
 		ft_putendl_fd("------- HEREDOC RED -------", 2);
 
 	char				*str;
-	int					pipe_fd[2];
+	int					hrd_fd[2];
 
 	str = NULL;
 	if (tree->type == RED_FD)
@@ -67,14 +71,13 @@ int					heredoc_red(t_node *tree, int fd)
 	if (tree && tree->type == RED_FD
 	&& ft_strcmp(tree->data, "&"))
 		fd = ft_atoi(tree->data);
-	ft_putendl_fd("FD : [[[%d]]]\n", fd);
-	if (pipe(pipe_fd) == ERROR)
+	if (pipe(hrd_fd) == ERROR)
 		return (ERROR);
 	if (str)
-		write(pipe_fd[1], str, ft_strlen(str));
-	dup2(pipe_fd[0], fd);
-	close(pipe_fd[0]);
-	close(pipe_fd[1]);
+		write(hrd_fd[1], str, ft_strlen(str));
+	dup2(hrd_fd[0], fd);
+	close(hrd_fd[0]);
+	close(hrd_fd[1]);
 	return (TRUE);
 }
 
@@ -88,12 +91,10 @@ int					redirect(t_node *tree, t_lst_fd *lstfd)
 	if (lstfd == NULL)
 		return (FALSE);
 
-//	dprintf(2, "(global : %p) (lstfd: %p)\n", *globalfd, (*globalfd)->lstfd);
-//	dprintf(2, "[[%s]]\n", (*globalfd)->lstfd->filename);
-
 	fd = ((tree->type == LRED || tree->type == DLRED) ? STDIN_FILENO : STDOUT_FILENO);
 	if (tree && tree->right && (tree->type != DLRED))
 	{
+		dprintf(2, "fd in redirect : (%d)\n", lstfd->fd);
 		if (left_right_red(tree->right, lstfd, fd) == ERROR)
 			return (ERROR);
 	}

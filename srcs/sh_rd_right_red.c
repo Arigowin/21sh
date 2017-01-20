@@ -19,9 +19,7 @@ static int			right_red_fd_pushbk(t_lst_fd **lstfd, t_lst_fd **tmpfd, int flags,
 	if ((fd = open(filename, flags,
 	S_IRUSR | S_IWUSR | S_IRGRP | S_IROTH)) == ERROR)
 		return (ERROR);
-	//if (*lstfd && *tmpfd)printf("BEFORE INSERT (%s)(%s)\n", (*lstfd)->filename,  (*tmpfd)->filename);
 	insert_in_lstfd(lstfd, tmpfd, fd, filename, insert);
-	//if (*lstfd && *tmpfd)printf("AFTER INSERT (%s)(%s)\n", (*lstfd)->filename,  (*tmpfd)->filename);
 	return (TRUE);
 }
 

@@ -59,6 +59,7 @@ int					lstfd_pushbck(t_lst_fd **lstfd, int fd, char *filename)
 		new = lstfd_new(fd, filename);
 		tmp->next = new;
 	}
+
 	return (TRUE);
 }
 
@@ -78,7 +79,6 @@ int					lstfd_pushfront(t_lst_fd **lstfd, int fd, char *filename)
 		new->next = *lstfd;
 		*lstfd = new;
 	}
-		//t_lst_fd *tmp = *lstfd;while(tmp){printf("lstfd :[filename->%s]--[fd->%d] =>", tmp->filename, tmp->fd);tmp=tmp->next;} printf("\n");
 	return (TRUE);
 }
 
@@ -101,11 +101,6 @@ t_lst_fd			*lstfd_insert(t_lst_fd **lstfd, t_lst_fd **tmpfd, int fd, char *filen
 		new->next = (*tmpfd)->next;
 		(*tmpfd)->next = new;
 	}
-
-//	//ANTIBUG
-//		t_lst_fd *tmp = *lstfd;while(tmp){printf("lstfd :[filename->%s]--[fd->%d] =>", tmp->filename, tmp->fd);tmp=tmp->next;} printf("\n");
-////end ANTIBUG
-
 	return (new);
 }
 
@@ -114,9 +109,6 @@ int					insert_in_lstfd(t_lst_fd **lstfd, t_lst_fd **tmpfd, int fd, char *filena
 	int 				ret;
 
 	ret = -1;
-	if (*lstfd && *tmpfd)
-		dprintf(2, "IN INSERT lstfd : (%s) tmpfd : (%s)\n", (*lstfd)->filename, (*tmpfd)->filename);
-	t_lst_fd *tmp = *lstfd; while(tmp) {printf("[%s]->", tmp->filename); tmp=tmp->next;}printf("\n");
 	if (insert == TRUE)
 	{
 		if ((*tmpfd = lstfd_insert(lstfd, tmpfd, fd, filename)) == NULL)
@@ -125,16 +117,9 @@ int					insert_in_lstfd(t_lst_fd **lstfd, t_lst_fd **tmpfd, int fd, char *filena
 	}
 	else
 	{
-			//if (*lstfd && *tmpfd)printf("IN INSERT AVANT PUSHFRONT lstfd : (%s) tmpfd : (%s)\n", (*lstfd)->filename, (*tmpfd)->filename);
 		ret = lstfd_pushfront(lstfd, fd, filename);
-			//if (*lstfd && *tmpfd)printf("IN INSERT APRES PUSHFRONT lstfd : (%s) tmpfd : (%s)\n", (*lstfd)->filename, (*tmpfd)->filename);
-	//	tmpfd = lstfd;
-	//	if (*lstfd && *tmpfd)
-	//		printf("IN INSERT 2 lstfd : (%s) tmpfd : (%s)\n", (*lstfd)->filename, (*tmpfd)->filename);
 		return (ret);
 	}
-	//if (*lstfd && *tmpfd)
-	//printf("IN INSERT 3 lstfd : (%s) tmpfd : (%s)\n", (*lstfd)->filename, (*tmpfd)->filename);
 	return (TRUE);
 }
 
