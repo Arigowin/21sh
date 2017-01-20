@@ -8,6 +8,7 @@ static int			is_valid(char *str)
 
 	int					i;
 
+	/*
 	i = -1;
 	if (str[++i] != '_' &&  ft_isalpha(str[i]) == FALSE)
 	{
@@ -27,7 +28,27 @@ static int			is_valid(char *str)
 		}
 		i++;
 	}
-	return (0);
+	++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+	*/
+	i = 0;
+
+	if (*(str + i) != '_' || ft_isalpha(*(str + i)) == FALSE)
+	{
+		/* MSG ret: ERROR exit: ? msg: "cf ci dessous" */
+		ft_putstr_fd("setenv: Variable name must begin with a letter.", 2);
+		return (ERROR);
+	}
+	while (*(str + i))
+	{
+		if (ft_isalnum(*(str + i)) == FALSE)
+		{
+			/* MSG ret: ERROR exit: ? msg: "cf ci dessous" */
+			ft_putstr_fd("setenv: Variable name must contain alphanumeric characters.", 2);
+			return (ERROR);
+		}
+		i++;
+	}
+	return (TRUE);
 }
 
 int					bi_setenv(char **arg, t_duo **env)
@@ -40,24 +61,30 @@ int					bi_setenv(char **arg, t_duo **env)
 	i = 0;
 	while (arg[i])
 	{
-		if (i == 1 && is_valid(arg[i]) != 0)
+		if (i == 1 && !is_valid(arg[i]))
 			return (ERROR);
+		/* MSG ret: ERROR exit: FALSE msg: "" */
+		// en cas d erreur on aura deja ecris l erreur dans is_valid
 		i++;
 	}
-	if (i < 2)
+	// on affiche env si on a 1 seul arg et que arg[0] == env ou setenv
+	if (i < 2) 
 	{
 		bi_env(arg, env);
-		return (0);
+		return (TRUE);
 	}
+	// on change env si on a 2 ou 3 arg et que arg[1] existe dans env
 	if (i == 2 || i == 3)
 	{
 		change_env(arg[1], arg[2]);
-		return (0);
+		return (TRUE);
 	}
+	// erreur si plus de 3 args
 	if (i > 3)
 	{
 		ft_putendl_fd("21sh: setenv: too many arguments.", 2);
 		return (ERROR);
+		/* MSG ret: ERROR exit: FALSE msg: "" */
 	}
-	return (0);
+	return (TRUE);
 }
