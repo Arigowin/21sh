@@ -149,20 +149,25 @@ int					check_expr(int *nb_hrd, t_e_list **l_expr, t_node **tree)
 	return (ERROR);
 }
 
-t_node				*parser(int *nb_hrd, t_e_list **l_expr)
+int					parser(int *nb_hrd, t_e_list **l_expr, t_node **tree)
 {
 	if (DEBUG_PARSER == 1)
 		ft_putendl_fd("------- PARSER ------", 2);
 
-	t_node				*node;
 	t_e_list			*head_l_expr;
+	int					ret;
 
 	if (*l_expr == NULL)
-		return (NULL);
+		return (FALSE);
 	head_l_expr = *l_expr;
-	node = NULL;
-	if ((check_expr(nb_hrd, l_expr, &node)) == FALSE)
-		clear_tree(&node);
+	ret = check_expr(nb_hrd, l_expr, tree);
+	if (ret == FALSE)
+		return (FALSE);
+	if (ret == ERROR)
+	{
+		clear_tree(tree);
+		return (ERROR);
+	}
 
 	// ANTIBUG !!!!!!!!!
 	if (DEBUG_PARSER == 1)
@@ -173,5 +178,5 @@ t_node				*parser(int *nb_hrd, t_e_list **l_expr)
 	}
 	// fin ANTIBUG !!!!!!!!!
 
-	return (node);
+	return (TRUE);
 }

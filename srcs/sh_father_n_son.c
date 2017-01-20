@@ -98,8 +98,10 @@ int					son(char **cmd, int pipefd_tab[2][2], t_node *tree,
 		ft_putendl_fd("------- SON ------", 2);
 
 	pfd_handler(pipefd_tab);
+	if (globalfd && *globalfd)
+	dprintf(2, "tttttttttttttttttttttttttttttt (%p)\n", (*globalfd)->lstfd);
 	if ((pipefd_tab[0][0] >= 0 || pipefd_tab[1][0] >= 0) && tree && tree->left
-	&& redirect(tree->left, (*globalfd)->lstfd) == ERROR)
+	&& globalfd && *globalfd && redirect(tree->left, (*globalfd)->lstfd) == ERROR)
 		return (ERROR);
 	if (check_builtin(cmd, pipefd_tab, NULL) == TRUE)
 	{
@@ -130,6 +132,8 @@ int					handle_fork(int pipefd_tab[2][2], t_node *tree,
 	fpid = -1;
 	cmd = NULL;
 	ret = -1;
+	if (globalfd && *globalfd)
+	dprintf(2, "kkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkk (%p)\n", (*globalfd)->lstfd);
 	if ((cmd = format_cmd(tree)) == NULL)
 		return (ERROR);
 	if (pipefd_tab[0][0] < 0 && pipefd_tab[1][0] < 0)

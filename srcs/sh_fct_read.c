@@ -22,23 +22,26 @@ int					tree_traversal_verif(t_node *tree)
 	return (0);
 }
 
-t_node				*read_n_check(int *nb_hrd, char *read_buff)
+int					read_n_check(int *nb_hrd, char *read_buff, t_node **tree)
 {
 	if (DEBUG == 1)
 		ft_putendl_fd("------- READ N CHECK ------", 2);
 
 	t_e_list			*l_expr;
-	t_node				*tree;
+	int					ret;
 
 	l_expr = NULL;
-	if (tokenizer(read_buff, &l_expr) == ERROR)
-		return (NULL);
-	if (lexer(&l_expr) == ERROR)
-		return (NULL);
-	tree = parser(nb_hrd, &l_expr);
+	if (tree == NULL || read_buff == NULL)
+		return (ERROR);
+	if ((ret = tokenizer(read_buff, &l_expr)) != TRUE)
+		return (ret);
+	if ((ret = lexer(&l_expr)) != TRUE)
+		return (ret);
+	if ((ret = parser(nb_hrd, &l_expr, tree)) != TRUE)
+		return (ret);
 	if (DEBUG_TREE_VERIF == 1)
-		tree_traversal_verif(tree);
-	return (tree);
+		tree_traversal_verif(*tree);
+	return (TRUE);
 }
 
 int					check_after_read(t_line *stline, t_history **history)
@@ -50,14 +53,15 @@ int					check_after_read(t_line *stline, t_history **history)
 	t_node				*node;
 	t_global_fd			*globalfd;
 	int					pipefd_tab[2][2];
+	int					ret;
 
 	globalfd = NULL;
 	pipefd_tab[0][0] = -2;
 	pipefd_tab[0][1] = -2;
 	pipefd_tab[1][0] = -2;
 	pipefd_tab[1][1] = -2;
-	if ((tree = read_n_check(&(stline->hrd.nb), stline->line)) == NULL)
-		return (ERROR);
+	if ((ret = read_n_check(&(stline->hrd.nb), stline->line, &tree)) != TRUE)
+		return (ret);
 	node = tree;
 	heredoc_handler(stline, &node, history);
 	tree_traversal(tree, &globalfd, pipefd_tab);

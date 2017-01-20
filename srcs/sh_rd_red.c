@@ -88,9 +88,13 @@ int					redirect(t_node *tree, t_lst_fd *lstfd)
 
 	int					fd;
 
-	if (lstfd == NULL)
+dprintf(2, "mmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmm\n");
+	if (lstfd == NULL )
 		return (FALSE);
-
+dprintf(2, "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb\n");
+	if (tree == NULL)
+		return (FALSE);
+dprintf(2, "lllllllllllllllllllllllllllllllllllllllllllllllllllllllllll\n");
 	fd = ((tree->type == LRED || tree->type == DLRED) ? STDIN_FILENO : STDOUT_FILENO);
 	if (tree && tree->right && (tree->type != DLRED))
 	{

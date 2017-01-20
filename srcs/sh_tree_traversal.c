@@ -11,8 +11,8 @@ t_global_fd			*new_globalfd(void)
 
 	new = NULL;
 	new = (t_global_fd *)malloc(sizeof(t_global_fd));
-	new->next = NULL;
 	new->lstfd = NULL;
+	new->next = NULL;
 	return (new);
 }
 
@@ -52,13 +52,17 @@ int 				check_red_arg2(t_node *tree, t_global_fd **globalfd, types type)
 
 	if (type == RRED)
 		flags = O_WRONLY | O_TRUNC | O_CREAT;
-	else
+	else if (type == DRRED)
 		flags = O_WRONLY | O_APPEND | O_CREAT;
+	else if (type == LRED)
+		flags = O_RDONLY;
 	if ((filename = ft_strdup(tree->data)) == NULL)
 		return(ERROR);
 	//filename = ft_strdup("/home/kimera/42_c/21sh/Makefile");
-	if (type == LRED && access(filename, F_OK) != ERROR && access(filename, W_OK) == ERROR)
+	if (type == LRED && access(filename, F_OK) == ERROR)
 		return (ERROR);
+//	else if ((type == RRED || type == DRRED) && ((access(filename, F_OK) != ERROR && access(filename, W_OK) == ERROR)))
+//		return (ERROR);
 	if ((fd = open(filename, flags,	S_IRUSR | S_IWUSR | S_IRGRP | S_IROTH)) == ERROR)
 		return (ERROR);
 	lstfd_pushbck(&((*globalfd)->lstfd), fd, filename);
@@ -89,8 +93,10 @@ int					fd_open(t_node *tree, t_global_fd **globalfd, types type)
 		ft_putendl_fd("------- FD OPEN -------", 2);
 
 	if (*globalfd == NULL)
+	{
 		if ((*globalfd = new_globalfd()) == NULL)
 			return (ERROR);
+	}
 	if (tree->data && tree->data[0] == '&')
 		check_fd_red(tree, globalfd); //, type);
 	else
@@ -109,17 +115,19 @@ int					manage_red_fd(t_node *tree, t_global_fd **globalfd, types type)
 		fd_open(tree, globalfd, type);
 	if (tree && tree->right)
 		manage_red_fd(tree->right, globalfd, type);
-	if (tree->type == PIPE)
+	if (tree->type == PIPE && globalfd != NULL && *globalfd != NULL && (*globalfd)->lstfd != NULL)
 		pushfront_globalfd(globalfd);
 	if (tree && tree->left)
 		manage_red_fd(tree->left, globalfd, NONE);
+	if (*globalfd && (*globalfd)->lstfd == NULL)
+		*globalfd = (*globalfd)->next;
 	return (TRUE);
 }
 
 // créer 3 fct tree_travers_semi tree_travers_pipe tree_travers_cmd
 int					tree_traversal(t_node *tree, t_global_fd **globalfd, int pipefd_tab[2][2])
 {
-	if (DEBUG_TREE == 0)
+	if (DEBUG_TREE == 1)
 		ft_putendl_fd("------- TREE TRAVERSAL -------", 2);
 
 
