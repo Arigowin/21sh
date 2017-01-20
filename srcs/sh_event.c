@@ -103,6 +103,7 @@ int					event(int k, t_line *stline, t_history **history)
 				(stline->hrd.nb > 0 ? &(stline->hrd.pos) : &(stline->pos)), k, stline);
 	}
 
+	/*
 #include <term.h>
 	char *res;
 	tputs(tgetstr("sc", NULL), 1, my_outc);
@@ -116,6 +117,7 @@ int					event(int k, t_line *stline, t_history **history)
 	ft_putstr(" pos :");
 	ft_putnbr(stline->pos);
 	tputs(tgetstr("rc", NULL), 1, my_outc);
+	*/
 
 	return (0);
 }
