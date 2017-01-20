@@ -26,6 +26,9 @@ int				free_duo(t_duo **tab)
 		free(tmp2->value);
 		free(tmp2);
 	}
-	free(*tab);
+	*tab = NULL;
+	tab = NULL;
+	tmp = NULL;
+	tmp2 = NULL;
 	return (0);
 }
