@@ -171,6 +171,10 @@ typedef struct			s_global_fd
 }						t_global_fd;
 
 /*
+** sh_error
+*/
+int						sh_error(int ret_code, char *msg, int out);
+/*
 ** sh_savior
 */
 t_duo					*savior(t_duo *env, int code);
