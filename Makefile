@@ -17,6 +17,7 @@ LIBS = -L $(LIBPATH) -lft -ltermcap
 
 SRC = sh_main.c \
 	  \
+	  sh_error.c \
 	  sh_saviors.c \
 	  sh_init.c \
 	  sh_signal.c \

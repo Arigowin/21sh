@@ -14,10 +14,10 @@ int					main(void)
 	t_line	   	 		stline;
 	t_history  	 		*history;
 
-	init_env(environ, &env_cpy); //l27
-	if (init_term() == ERROR) //sh_termcap
+	init_env(environ, &env_cpy);
+	if (init_term() == ERROR)
 		return (ERROR);
-	init_stline(&stline); //static , l23
+	init_stline(&stline);
 	history = NULL;
 	while (TRUE)
 	{

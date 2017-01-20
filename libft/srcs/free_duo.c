@@ -27,5 +27,8 @@ int				free_duo(t_duo **tab)
 		free(tmp2);
 	}
 	*tab = NULL;
+	tab = NULL;
+	tmp = NULL;
+	tmp2 = NULL;
 	return (0);
 }

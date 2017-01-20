@@ -15,8 +15,8 @@
 #define DEBUG_RED 1
 #define DEBUG_CMD 1
 #define DEBUG_COPY_PASTE 0
-#define DEBUG_KEY 1
-#define DEBUG_HEREDOC 1
+#define DEBUG_KEY 0
+#define DEBUG_HEREDOC 0
 #include <stdio.h>
 
 # define TRUE 1
@@ -170,6 +170,10 @@ typedef struct			s_global_fd
 	struct s_global_fd	*next;
 }						t_global_fd;
 
+/*
+** sh_error
+*/
+int						sh_error(int ret_code, char *msg, int out);
 /*
 ** sh_savior
 */
@@ -377,7 +381,7 @@ int						fct_highlight(char **str, int *pos, t_line *stline,
 */
 int						move_in_list(t_e_list **l_expr);
 int						parse_error(char *data);
-t_node					*parser(int *nb_hrd, t_e_list **l_expr);
+int						parser(int *nb_hrd, t_e_list **l_expr, t_node **tree);
 
 /*
 ** sh_parser_additional_items

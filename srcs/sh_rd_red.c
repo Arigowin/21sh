@@ -26,7 +26,6 @@ int					left_right_red(t_node *tree, t_lst_fd *lstfd, int stdfd)
 	int					fd;
 
 	fd = stdfd;
-	dprintf(2, "fd in left right red : (%d)\n", lstfd->fd);
 	if (tree->type == RED_FD && ft_strcmp(tree->data, "&") != 0)
 		fd = ft_atoi(tree->data);
 	else if (tree->type == RED_FD && ft_strcmp(tree->data, "&") == 0)
@@ -38,15 +37,13 @@ int					left_right_red(t_node *tree, t_lst_fd *lstfd, int stdfd)
 	}
 	if (tree->right && tree->type == RED_FD)
 		tree = tree->right;
-	if (lstfd->fd == -1)
+	if (lstfd->fd == -42)
 	{
 		close(fd);
 		return (TRUE);
 	}
-	dprintf(2, "fd in left right red-bis : (%d)\n", lstfd->fd);
 	if (dup2(lstfd->fd, fd) == ERROR)
 		return (ERROR);
-	dprintf(2, "fd  apres dup2: (%d)\n", lstfd->fd);
 	if (lstfd->fd > STDERR_FILENO && (stdfd == STDOUT_FILENO
 	|| ((lstfd->filename)[0] != '&' && lstfd->fd != -1)))
 		close(lstfd->fd);
@@ -88,13 +85,12 @@ int					redirect(t_node *tree, t_lst_fd *lstfd)
 
 	int					fd;
 
-	if (lstfd == NULL)
+	dprintf(2, "77777777777777777777777777777777777777777777(%s)\n", tree->data);
+	if (lstfd == NULL || tree == NULL || (lstfd && lstfd->fd == -1))
 		return (FALSE);
-
 	fd = ((tree->type == LRED || tree->type == DLRED) ? STDIN_FILENO : STDOUT_FILENO);
 	if (tree && tree->right && (tree->type != DLRED))
 	{
-		dprintf(2, "fd in redirect : (%d)\n", lstfd->fd);
 		if (left_right_red(tree->right, lstfd, fd) == ERROR)
 			return (ERROR);
 	}
@@ -103,9 +99,8 @@ int					redirect(t_node *tree, t_lst_fd *lstfd)
 		if (heredoc_red(tree->right, fd) == ERROR)
 			return (ERROR);
 	}
-	if (tree && tree->left && lstfd)
+	if (tree && tree->left && lstfd && lstfd->fd != -1)
 	{
-		ft_putendl_fd("TEST2", 2);
 		if (redirect(tree->left, lstfd->next) == ERROR)
 			return (ERROR);
 	}
