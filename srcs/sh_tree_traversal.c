@@ -56,6 +56,7 @@ int 				check_red_arg2(t_node *tree, t_global_fd **globalfd, types type)
 		flags = O_WRONLY | O_APPEND | O_CREAT;
 	if ((filename = ft_strdup(tree->data)) == NULL)
 		return(ERROR);
+	//filename = ft_strdup("/home/kimera/42_c/21sh/Makefile");
 	if (type == LRED && access(filename, F_OK) != ERROR && access(filename, W_OK) == ERROR)
 		return (ERROR);
 	if ((fd = open(filename, flags,	S_IRUSR | S_IWUSR | S_IRGRP | S_IROTH)) == ERROR)

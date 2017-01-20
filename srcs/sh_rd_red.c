@@ -7,6 +7,7 @@ int					fd_exist(int fd)
 	if (DEBUG_RED == 1)
 		ft_putendl_fd("------------ FD EXIST ------------", 2);
 
+	dprintf(2, "fd in fd exist : (%d)\n", fd);
 	if (isatty(fd) == 0)
 	{
 		ft_putstr("21sh: ");
@@ -25,6 +26,7 @@ int					left_right_red(t_node *tree, t_lst_fd *lstfd, int stdfd)
 	int					fd;
 
 	fd = stdfd;
+	dprintf(2, "fd in left right red : (%d)\n", lstfd->fd);
 	if (tree->type == RED_FD && ft_strcmp(tree->data, "&") != 0)
 		fd = ft_atoi(tree->data);
 	else if (tree->type == RED_FD && ft_strcmp(tree->data, "&") == 0)
@@ -41,8 +43,10 @@ int					left_right_red(t_node *tree, t_lst_fd *lstfd, int stdfd)
 		close(fd);
 		return (TRUE);
 	}
+	dprintf(2, "fd in left right red-bis : (%d)\n", lstfd->fd);
 	if (dup2(lstfd->fd, fd) == ERROR)
 		return (ERROR);
+	dprintf(2, "fd  apres dup2: (%d)\n", lstfd->fd);
 	if (lstfd->fd > STDERR_FILENO && (stdfd == STDOUT_FILENO
 	|| ((lstfd->filename)[0] != '&' && lstfd->fd != -1)))
 		close(lstfd->fd);
@@ -90,6 +94,7 @@ int					redirect(t_node *tree, t_lst_fd *lstfd)
 	fd = ((tree->type == LRED || tree->type == DLRED) ? STDIN_FILENO : STDOUT_FILENO);
 	if (tree && tree->right && (tree->type != DLRED))
 	{
+		dprintf(2, "fd in redirect : (%d)\n", lstfd->fd);
 		if (left_right_red(tree->right, lstfd, fd) == ERROR)
 			return (ERROR);
 	}

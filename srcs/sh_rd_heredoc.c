@@ -65,6 +65,7 @@ int					heredoc_handler(t_line *stline, t_node **tree,
 		return (FALSE);
 	if ((*tree)->type == DLRED)
 	{
+		dprintf(2, "hhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhh\n");
 		stline->hrd.deli = ((*tree)->right->type == RED_ARG ? (*tree)->right
 													: (*tree)->right->right);
 		stline->hrd.ptr = stline->hrd.line;
