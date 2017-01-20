@@ -11,9 +11,15 @@ static char			*get_path(void)
 	char				*tmp;
 	char				*home;
 
-	home = get_env("HOME");
-	path = get_env("PWD");
-	tmp = ft_strsub(path, 0, ft_strlen(home));
+	if ((home = get_env("HOME")) == NULL)
+		/* MSG ret: NULL exit: FALSE msg: "PWD not set" */
+		return (NULL);
+	if ((path = get_env("PWD")) == NULL)
+		/* MSG ret: NULL exit: FALSE msg: "PWD not set" */
+		return (NULL);
+	if ((tmp = ft_strsub(path, 0, ft_strlen(home))) == NULL)
+		/* MSG ret: NULL exit: FALSE msg: "malloc fail" */
+		return (NULL);
 	if (home && ft_strcmp(home, tmp) == 0)
 	{
 		free(tmp);
@@ -65,10 +71,14 @@ int				fill_path(char ***env)
 
 	tmp = NULL;
 	if (((*env) = (char **)malloc(sizeof(char *) * 3)) == NULL)
-		return (-1);
+		/* MSG ret: ERROR exit: TRUE msg: "malloc fail" */
+		return (ERROR);
 	if ((tmp = getcwd(tmp, MAX_PATH)) == NULL)
-		return (-1);
-	(*env)[0] = ft_strdup("PATH=/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin");
+		/* MSG ret: ERROR exit: FALSE msg: "get current directory fail" */
+		return (ERROR);
+	if (((*env)[0] = ft_strdup("PATH=/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin")) == NULL)
+		/* MSG ret: ERROR exit: TRUE msg: "malloc fail" */
+		return (ERROR);
 	(*env)[1] = ft_properjoin("PWD=", tmp);
 	(*env)[2] = NULL;
 	free(tmp);

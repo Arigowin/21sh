@@ -1,11 +1,5 @@
-#include <unistd.h>
-#include <stdlib.h>
-#include <fcntl.h>
-#include <stdio.h>
-#include <sys/wait.h>
 #include "shell.h"
 #include "libft.h"
-
 
 int					main(void)
 {
@@ -15,8 +9,7 @@ int					main(void)
 	t_history  	 		*history;
 
 	init_env(environ, &env_cpy); //l27
-	if (init_term() == ERROR) //sh_termcap
-		return (ERROR);
+	init_term(); //sh_termcap
 	init_stline(&stline); //static , l23
 	history = NULL;
 	while (TRUE)
