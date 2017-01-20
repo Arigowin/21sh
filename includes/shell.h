@@ -3,20 +3,20 @@
 
 #define DEBUG 1
 #define DEBUG_TREE_VERIF 0
-#define DEBUG_BUILTIN 1
-#define DEBUG_LEXER_PARSER 1
-#define DEBUG_PARSER 1
-#define DEBUG_SAVIOR 1
-#define DEBUG_TREE_CREATION 1
+#define DEBUG_BUILTIN 0
+#define DEBUG_LEXER_PARSER 0
+#define DEBUG_PARSER 0
+#define DEBUG_SAVIOR 0
+#define DEBUG_TREE_CREATION 0
 #define DEBUG_TREE 1
-#define DEBUG_TERMCAPS 1
-#define DEBUG_HISTORY 1
+#define DEBUG_TERMCAPS 0
+#define DEBUG_HISTORY 0
 #define DEBUG_PIPE 1
 #define DEBUG_RED 1
 #define DEBUG_CMD 1
-#define DEBUG_COPY_PASTE 1
-#define DEBUG_KEY 1
-#define DEBUG_HEREDOC 1
+#define DEBUG_COPY_PASTE 0
+#define DEBUG_KEY 0
+#define DEBUG_HEREDOC 0
 #include <stdio.h>
 
 # define TRUE 1
