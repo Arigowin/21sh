@@ -25,8 +25,8 @@ int					check_red_arg(t_e_list **l_expr, t_node **tree)
 	t_node		 		*node;
 	t_node				*save;
 
-	node = NULL;
 	save = *tree;
+	node = NULL;
 	if ((*l_expr)->type == RED_ARG && ((node = create_node(RED_ARG)) != NULL))
 	{
 		if (filled_red_arg(l_expr, &node) == FALSE)
@@ -64,6 +64,7 @@ int					check_red(int *nb_hrd, t_e_list **l_expr, t_node **tree)
 	t_e_list			*list_save;
 	int					red_ret;
 
+	node = NULL;
 	save = *tree;
 	list_save = *l_expr;
 	red_ret = TRUE;
