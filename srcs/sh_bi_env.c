@@ -12,7 +12,7 @@ static int			print_env(char **arg, t_duo **env)
 	cpy = *env;
 	i = 0;
 	if (arg[1] && arg[2])
-		return (-1);
+		return (ERROR);
 	while (arg[1] && arg[1][i])
 	{
 		if (arg[1][i] == '=')
@@ -20,7 +20,7 @@ static int			print_env(char **arg, t_duo **env)
 		i++;
 	}
 	if (arg[1] && arg[1][i] == '\0')
-		return (-1);
+		return (ERROR);
 	while (cpy)
 	{
 		ft_putstr(cpy->name);
@@ -28,7 +28,7 @@ static int			print_env(char **arg, t_duo **env)
 		ft_putendl(cpy->value);
 		cpy = cpy->next;
 	}
-	ft_putendl(arg[1]);
+//	ft_putendl(arg[1]);
 	return (0);
 }
 
@@ -44,7 +44,7 @@ int					bi_env(char **arg, t_duo **env)
 	{
 		ft_putstr("21sh :env :");
 		ft_putstr(arg[1]);
-		ft_putstr(": No such file or directory");
+		ft_putstr(": No such file or directory\n");
 		return (FALSE);
 	}
 	print_env(arg, env);
@@ -71,5 +71,5 @@ int					bi_env(char **arg, t_duo **env)
 		}
 	}
 	*/
-	return (0);
+	return (TRUE);
 }
