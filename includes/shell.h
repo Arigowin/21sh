@@ -1,19 +1,19 @@
 #ifndef SHELL_H
 # define SHELL_H
 
-#define DEBUG 1
+#define DEBUG 0
 #define DEBUG_TREE_VERIF 0
 #define DEBUG_BUILTIN 0
 #define DEBUG_LEXER_PARSER 0
 #define DEBUG_PARSER 0
 #define DEBUG_SAVIOR 0
 #define DEBUG_TREE_CREATION 0
-#define DEBUG_TREE 1
+#define DEBUG_TREE 0
 #define DEBUG_TERMCAPS 0
 #define DEBUG_HISTORY 0
-#define DEBUG_PIPE 1
-#define DEBUG_RED 1
-#define DEBUG_CMD 1
+#define DEBUG_PIPE 0
+#define DEBUG_RED 0
+#define DEBUG_CMD 0
 #define DEBUG_COPY_PASTE 0
 #define DEBUG_KEY 0
 #define DEBUG_HEREDOC 0
@@ -201,7 +201,7 @@ int						fill_path(char ***env);
 int						check_signal(int loc);
 
 /*
-** sh_builtin
+** sh_bi_builtin
 */
 int						add_env(char *name, char *value);
 int						change_env(char *name, char *value);
@@ -216,12 +216,12 @@ t_e_list				*expr_new(char *content);
 int 					expr_pushbk(t_e_list **l_expr, char *data_tmp);
 
 /*
-** sh_finite_state_automaton
+** sh_lp_finite_state_automaton
 */
 int 					finite_state_automaton(char **read_buff,
 							t_e_list **l_expr, char **data_tmp);
 /*
-** sh_tokenizer
+** sh_lp_tokenizer
 */
 int						concat(char **dest, char *s1, char *s2);
 int 					token_sep(char **read_buff, char **data_tmp,
@@ -229,14 +229,14 @@ int 					token_sep(char **read_buff, char **data_tmp,
 int						tokenizer(char *read_buff, t_e_list **l_expr);
 
 /*
-** sh_tokenizer_spec
+** sh_lp_tokenizer_spec
 */
 int						token_backslash(char **buff, char **data_tmp);
 int						token_dollar(char **read_buff, char **data_tmp);
 int						token_tilde(char **buff, char **data_tmp, int *bln);
 
 /*
-** sh_lexer
+** sh_lp_lexer
 */
 int						lexer(t_e_list **l_expr);
 
@@ -264,38 +264,38 @@ int						handle_fork(int pipefd_tab[2][2], t_node *tree, t_global_fd **globalfd)
 int						check_fct(char **cmd);
 
 /*
-** sh_env
+** sh_bi_env
 */
 int						bi_env(char **arg, t_duo **env);
 
 /*
-** sh_exit
+** sh_bi_exit
 */
 int						bi_exit(char **arg, t_duo **env);
 
 /*
-** sh_echo
+** sh_bi_echo
 */
 int						bi_echo(char **arg, t_duo **env);
 
 /*
-** sh_setenv
+** sh_bi_setenv
 */
 int						bi_setenv(char **arg, t_duo **env);
 
 /*
-** sh_unsetenv
+** sh_bi_unsetenv
 */
 int						del_env(t_duo **env, char *name);
 int						bi_unsetenv(char **arg, t_duo **env);
 
 /*
-** sh_cd
+** sh_bi_cd
 */
 int						bi_cd(char **arg, t_duo **env);
 
 /*
-** sh_termcap
+** sh_tc_termcap
 */
 int						my_outc(int c);
 int						init_term();
@@ -310,17 +310,17 @@ int						fct_ctrl_d(char **s, int *pos, t_line *stline,
 							t_history **history);
 
 /*
-** sh_insert_in_line
+** sh_tc_insert_in_line
 */
 int						fct_insert(char **s, int *pos,char c, t_line *stline);
 
 /*
-** sh_delete_in_line
+** sh_tc_delete_in_line
 */
 int						fct_backspace(char **s, int *pos, t_line *stline,
 							t_history **history);
 /*
-** sh_move_in_line
+** sh_tc_move_in_line
 */
 int						left_move_cdt(int pos, t_line *stline);
 int						fct_left(char **s, int *pos, t_line *l,	t_history **h);
@@ -331,21 +331,21 @@ int						fct_ctrl_right(char **s, int *pos, t_line *stline,
 							t_history **history);
 
 /*
-** sh_move_up_down
+** sh_tc_move_up_down
 */
 int						fct_down(char **s, int *pos, t_line *stline,
 							t_history **hstory);
 int						fct_up(char **s, int *p, t_line *l, t_history **h);
 
 /*
-** sh_spec_key
+** sh_tc_spec_key
 */
 int						fct_end(char **s, int *pos, t_line *l, t_history **h);
 int						fct_home(char **s, int *pos, t_line *l,	t_history **h);
 int						fct_del(char **s, int *pos, t_line *l, t_history **h);
 
 /*
-** sh_history
+** sh_tc_history
 */
 void					add_history(t_history **h, char *line);
 int						history_down(char **str, int *pos, t_line *stline,
@@ -353,23 +353,21 @@ int						history_down(char **str, int *pos, t_line *stline,
 int						history_up(char **s, int *p, t_line *l, t_history **h);
 
 /*
-** sh_copy_paste
+** sh_tc_copy_paste
 */
 int						fct_cut(char **s, int *pos, t_line *l, t_history **h);
 int						fct_paste(char **s, int *pos, t_line *l, t_history **h);
 int						fct_copy(char **s, int *pos, t_line *l,	t_history **h);
-int						fct_highlight(char **s, int *pos, t_line *stline,
-							t_history **history);
 
 /*
-** sh_add-del_in_copy
+** sh_tc_add_del_in_copy
 */
 int						str_addleft(char *tbl, char c);
 int						add_in_copy(char **s, int *p, t_line *stline, int dir);
 int						del_in_copy(char **s, int *p, t_line *stline, int dir);
 
 /*
-** sh_highlight
+** sh_tc_highlight
 */
 int						hide_highlight(char **str, int *pos, t_line *stline,
 							t_history **history);
@@ -377,14 +375,14 @@ int						fct_highlight(char **str, int *pos, t_line *stline,
 							t_history **history);
 
 /*
-** sh_parser
+** sh_lp_parser
 */
 int						move_in_list(t_e_list **l_expr);
 int						parse_error(char *data);
 int						parser(int *nb_hrd, t_e_list **l_expr, t_node **tree);
 
 /*
-** sh_parser_additional_items
+** sh_lp_parser_additional_items
 */
 int						check_red(int *nb_hrd, t_e_list **l_expr, t_node **t);
 int						check_next(int *nb_hrd, t_e_list **l_expr, t_node **t,
@@ -402,14 +400,14 @@ int						clear_tree(t_node **tree);
 int						tree_traversal(t_node *tree, t_global_fd **globalfd, int pipefd[2][2]);
 
 /*
-** sh_red
+** sh_rd_red
 */
 
 int						fd_exist(int fd);
 int     				redirect(t_node *tree, t_lst_fd *lstfd);
 
 /*
-** sh_manage_fd
+** sh_rd_redfd_handler
 */
 int						close_lstfd(t_lst_fd **lstfd);
 int						lstfd_pushbck(t_lst_fd **lstfd, int fd, char *filename);
@@ -419,7 +417,7 @@ int						check_file_name(char **filename, char *str);
 int						reset_std_fd(void);
 
 /*
-** sh_red_handler
+** sh_rd_red_handler
 */
 int						manage_red_file(t_lst_fd **lstfd, t_lst_fd **tmpfd, t_node *tree);
 
@@ -427,21 +425,27 @@ int						manage_red_file(t_lst_fd **lstfd, t_lst_fd **tmpfd, t_node *tree);
 t_lst_fd				*lstfd_insert(t_lst_fd **lstfd, t_lst_fd **tmpfd, int fd, char *filename);
 
 /*
-** sh_right_red
+** sh_rd_right_red
 */
 int						right_red_fd(t_lst_fd **lstfd, t_lst_fd **tmpfd, t_node *tree,
 							t_node *red_arg, int insert);
 
 /*
-** sh_left_red
+** sh_rd_left_red
 */
 int						left_red_fd(t_lst_fd **lstfd, t_lst_fd **tmpfd, t_node *red_arg, int insert);
 
 /*
-** sh_heredoc
+** sh_rd_heredoc
 */
 int 					heredoc_handler(t_line *l, t_node **t, t_history **h);
 
+/*
+** sh_heredoc
+*/
+int						check_end_heredoc(t_line *stline);
+int						fill_heredoc(t_line *stline);
+int						return_heredoc(t_line *stline);
 
 /*
 ** sh_cmd
@@ -455,12 +459,6 @@ int						manage_cmd(int pipefd_tab[2][2], t_node *tree, t_global_fd **globalfd);
 int						pipe_function(int pipefd_tab[2][2], t_node *tree,
 						t_global_fd **globalfd);
 
-/*
-** sh_heredoc
-*/
-int						check_end_heredoc(t_line *stline);
-int						fill_heredoc(t_line *stline);
-int						return_heredoc(t_line *stline);
 
 #endif
 
@@ -513,4 +511,3 @@ il faut gerer encore
 Probleme de redirection de l'erreur qui devrait s'afficher dans le less
 ls /tmp/ abc 2>&1 | less
 */
-

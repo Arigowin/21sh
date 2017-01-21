@@ -32,9 +32,12 @@ int					check_fct(char **cmd)
 	env = savior(NULL, FALSE);
 	tbl_env = duo_to_tbl(env, "=");
 	tmp = get_env("PATH");
-	if (tmp == NULL)
-		return (-1);
-	path = ft_strsplit(tmp, ':');
+	if (tmp == NULL || tbl_env == NULL)
+		/* RET: error EXIT: true MSG: "malloc fail" */
+		return (ERROR);
+	if ((path = ft_strsplit(tmp, ':')) == NULL)
+		/* RET: error EXIT: true MSG: "malloc fail" */
+		return (ERROR);
 	free(tmp);
 	i = 0;
 	while (path[i])
@@ -44,5 +47,5 @@ int					check_fct(char **cmd)
 		free(tmp);
 		i++;
 	}
-	return (0);
+	return (TRUE);
 }

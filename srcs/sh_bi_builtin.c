@@ -10,13 +10,16 @@ int					add_env(char *name, char *value)
 
 	env = savior(NULL, FALSE);
 	if (name == NULL)
-		return (-1);
+		return (ERROR);
+/* MSG ret: ERROR exit: TRUE msg: "value not set" */
 	else
 	{
 		duo_pushback(&env, name, value);
 		savior(env, TRUE);
 	}
-	return (0);
+	return (TRUE);
+//	return (0);
+// return true au lieu de 0 pas d'impact pour l'instant
 }
 
 int					change_env(char *name, char *value)
@@ -30,14 +33,14 @@ int					change_env(char *name, char *value)
 	{
 		if (ft_strcmp(env->name, name) == 0)
 		{
-			free(env->value);
+			ft_strdel(&(env->value));
 			env->value = ft_strdup(value);
-			return (1);
+			return (TRUE);
 		}
 		env = env->next;
 	}
 	add_env(name, value);
-	return (0);
+	return (TRUE);
 }
 
 char				*get_env(char *name)
@@ -50,7 +53,7 @@ char				*get_env(char *name)
 	while (env)
 	{
 		if (ft_strcmp(name, env->name) == 0)
-			return (ft_strdup(env->value));
+			return (ft_strdup(env->value)); // MALLOC
 		env = env->next;
 	}
 	return (NULL);
@@ -71,7 +74,9 @@ int					is_builtin(char **cmd)
 			return (i);
 		i++;
 	}
-	return (-1);
+	/* MSG ret: ERROR exit: FALSE msg: "command not found: cmd." */
+	return (ERROR);
+//	return (-1);
 }
 
 int					handle_builtin(char **cmd)
@@ -91,9 +96,10 @@ int					handle_builtin(char **cmd)
 	if (i < 6 && ft_strcmp(cmd[0], bi[i]) == 0)
 	{
 		if (tbl_bi[i](cmd, &env) == ERROR)
+			/* MSG ret: ERROR exit: FALSE msg: "command not found: cmd." */
 			return (ERROR);
-		else
-			return (TRUE);
+//		else
+//			return (TRUE);
 	}
 	return (FALSE);
 }

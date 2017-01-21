@@ -6,7 +6,7 @@
 /*   By: avacher <avacher@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/01/10 10:47:52 by avacher           #+#    #+#             */
-/*   Updated: 2016/01/10 12:01:07 by avacher          ###   ########.fr       */
+/*   Updated: 2017/01/21 19:16:33 by naymatrice       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,10 +21,12 @@ static t_duo		*duo_new(char *name, char *value)
 	new->name = NULL;
 	new->value = NULL;
 	new->next = NULL;
-	if (name == NULL && value == NULL)
+	/* if (name == NULL && value == NULL) */
+	/* 	return (NULL); */
+	if (name && (new->name = ft_strdup(name)) == NULL)
 		return (NULL);
-	new->name = ft_strdup(name);
-	new->value = ft_strdup(value);
+	if (value && (new->value = ft_strdup(value)) == NULL)
+		return (NULL);
 	return (new);
 }
 
@@ -35,11 +37,13 @@ int					duo_pushback(t_duo **lst, char *name, char *value)
 	tmp = *lst;
 	if (tmp == NULL)
 	{
-		*lst = duo_new(name, value);
+		if ((*lst = duo_new(name, value)) == NULL)
+			return (-1);
 		return (0);
 	}
 	while (tmp && tmp->next)
 		tmp = tmp->next;
-	tmp->next = duo_new(name, value);
+	if ((tmp->next = duo_new(name, value)) == NULL)
+		return (-1);
 	return (0);
 }

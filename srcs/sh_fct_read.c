@@ -39,6 +39,7 @@ int					read_n_check(int *nb_hrd, char *read_buff, t_node **tree)
 		return (ret);
 	if ((ret = parser(nb_hrd, &l_expr, tree)) != TRUE)
 		return (ret);
+//	if (DEBUG_TREE_VERIF == 1 && tree && *tree)
 	if (DEBUG_TREE_VERIF == 1)
 		tree_traversal_verif(*tree);
 	return (TRUE); //return (ret);
@@ -55,6 +56,8 @@ int					check_after_read(t_line *stline, t_history **history)
 	int					pipefd_tab[2][2];
 	int					ret;
 
+	tree = NULL;
+	node = NULL;
 	globalfd = NULL;
 	pipefd_tab[0][0] = -2;
 	pipefd_tab[0][1] = -2;
@@ -87,7 +90,7 @@ int					fct_read(int hrd, t_line *stline, t_history **history)
 			continue ;
 		key = 0;
 	}
-	if (key == RETURN && (stline->line)[0] == 0)
+	if (key == RETURN && (stline->line)[0] == '\0')
 		return (FALSE);
 	if (ret <= 0) // il faut pas un < strict?
 		return (ERROR);

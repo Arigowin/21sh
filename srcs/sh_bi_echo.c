@@ -10,15 +10,16 @@ int					bi_echo(char **arg, t_duo **env)
 	(void)env;
 	int i;
 
-	i = 0;
-	/*
-	while (arg && arg[i])
+	i = 1;
+	if (tbl_len(arg) > 1)
 	{
-		ft_putendl_fd(arg[i], 1);
-		i++;
+		while (arg && arg[i])
+		{
+			ft_putstr_fd(arg[i], 1);
+			ft_putchar(' ');
+			i++;
+		}
 	}
-	*/
-	if (!arg[i])
-		ft_putendl_fd("", 1);
+	ft_putchar('\n');
 	return (TRUE);
 }

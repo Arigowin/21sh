@@ -9,7 +9,7 @@ static int			pushbck_cdt(char **read_buff, char **data_tmp)
 	return (**data_tmp
 		&& (!(ft_strchr(WAKA, (*data_tmp)[ft_strlen(*data_tmp) - 1])
 				&& **read_buff == '&'))
-		&& (!((*data_tmp)[ft_strlen((*data_tmp)	- 1)] == '&'
+		&& (!((*data_tmp)[ft_strlen(*data_tmp)	- 1] == '&'
 				&& ft_strchr(WAKA, **read_buff)))
 		&& (!(ft_isstrnum(*data_tmp)
 				&& ft_strchr(WAKA, **read_buff)

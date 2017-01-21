@@ -44,12 +44,14 @@ int					fill_hrd_content(t_line *stline, t_node **tree)
 	{
 		if (((*tree)->right->right->data = ft_strsub(stline->hrd.line, 0,
 		len + 1)) == NULL)
+			/* RET: error EXIT: true MSG: "malloc fail" */
 			return (ERROR);
 	}
 	else
 	{
 		if(((*tree)->right->right->data = ft_strsub(stline->hrd.line, 0,
 		len + 1)) == NULL)
+			/* RET: error EXIT: true MSG: "malloc fail" */
 			return (ERROR);
 	}
 	return (TRUE);
@@ -73,8 +75,10 @@ int					heredoc_handler(t_line *stline, t_node **tree,
 		if (fct_read(TRUE, stline, history) == ERROR)
 			return (ERROR);
 		if ((stline->hrd.deli->right = create_node(DLRED_DOC)) == NULL)
+			/* RET: error EXIT: true MSG: "malloc fail" */
 			return (ERROR);
 		if (fill_hrd_content(stline, tree) == ERROR)
+			/* useless return */
 			return(ERROR);
 		if (stline->hrd.line)
 			ft_bzero(stline->hrd.line, ft_strlen(stline->hrd.line));
@@ -82,6 +86,7 @@ int					heredoc_handler(t_line *stline, t_node **tree,
 		(stline->hrd.nb)--;
 	}
 	if ((tree_trav_hrd(stline, tree, history)) == ERROR)
+		/* RET: error EXIT: false MSG: "" */
 		return (ERROR);
 	return (TRUE);
 }

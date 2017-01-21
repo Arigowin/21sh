@@ -13,6 +13,8 @@ int					fd_exist(int fd)
 		ft_putstr("21sh: ");
 		ft_putstr(ft_itoa(fd));
 		ft_putendl(": Bad file descriptor");
+		/* RET: error EXIT: true MSG: "bad file descriptor" 
+		 * FREE: tree stline history globalfd */
 		return (FALSE);
 	}
 	return (TRUE);
@@ -33,6 +35,7 @@ int					left_right_red(t_node *tree, t_lst_fd *lstfd, int stdfd)
 		// if STDIN_FILENO
 		// 		bash: file: ambiguous redirect
 		if (stdfd == STDIN_FILENO || dup2(lstfd->fd, STDERR_FILENO) == ERROR)
+			/* RET: error EXIT: false MSG: "dup2 fail" */
 			return (ERROR);
 	}
 	if (tree->right && tree->type == RED_FD)
@@ -43,6 +46,7 @@ int					left_right_red(t_node *tree, t_lst_fd *lstfd, int stdfd)
 		return (TRUE);
 	}
 	if (dup2(lstfd->fd, fd) == ERROR)
+		/* RET: error EXIT: false MSG: "dup2 fail" */
 		return (ERROR);
 	if (lstfd->fd > STDERR_FILENO && (stdfd == STDOUT_FILENO
 	|| ((lstfd->filename)[0] != '&' && lstfd->fd != -1)))
@@ -69,6 +73,8 @@ int					heredoc_red(t_node *tree, int fd)
 	&& ft_strcmp(tree->data, "&"))
 		fd = ft_atoi(tree->data);
 	if (pipe(hrd_fd) == ERROR)
+		/* RET: error EXIT: false MSG: "pipe fail"
+		* FREE: str */
 		return (ERROR);
 	if (str)
 		write(hrd_fd[1], str, ft_strlen(str));
