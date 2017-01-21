@@ -39,11 +39,9 @@ int					read_n_check(int *nb_hrd, char *read_buff, t_node **tree)
 		return (ret);
 	if ((ret = parser(nb_hrd, &l_expr, tree)) != TRUE) // juste garder ret = .... et return ret
 		return (ret);
-
-	if (DEBUG_TREE_VERIF == 1) // a virer
-		tree_traversal_verif(*tree); // a virer
-
-	return (TRUE); //return (ret);
+	if (DEBUG_TREE_VERIF == 1)
+		tree_traversal_verif(*tree);
+	return (TRUE);
 }
 
 int					check_after_read(t_line *stline, t_history **history)
@@ -94,7 +92,7 @@ int					fct_read(int hrd, t_line *stline, t_history **history)
 			continue ;
 		key = 0;
 	}
-	if (key == RETURN && (stline->line)[0] == 0)
+	if (key == RETURN && (stline->line)[0] == '\0')
 		return (FALSE);
 	if (ret <= 0)
 		return (ERROR);

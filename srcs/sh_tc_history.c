@@ -9,10 +9,14 @@ static t_history	*new_history(char *line)
 	t_history			*new;
 
 	if ((new = (t_history *)malloc(sizeof(t_history))) == NULL)
+		/* RET: error EXIT: true msg: "malloc fail"
+		* FREE : history */
 		return (NULL);
 	if (line == NULL)
 		return (NULL);
 	if ((new->line = ft_strdup(line)) == NULL)
+		/* RET: error EXIT: true msg: "malloc fail"
+		 * FREE : new history */
 		return (NULL);
 	new->prev = NULL;
 	new->next = NULL;
@@ -65,7 +69,7 @@ int					history_up(char **str, int *pos, t_line *stline,
 		fct_insert(str, pos, ((*history)->line)[i], stline);
 		i++;
 	}
-	return (0);
+	return (TRUE);
 }
 
 int					history_down(char **str, int *pos, t_line *stline,
@@ -92,5 +96,5 @@ int					history_down(char **str, int *pos, t_line *stline,
 		fct_insert(str, pos, ((*history)->line)[i], stline);
 		i++;
 	}
-	return (0);
+	return (TRUE);
 }

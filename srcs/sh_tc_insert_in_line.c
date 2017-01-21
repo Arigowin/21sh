@@ -13,10 +13,14 @@ static int			enlarge_line(char **str, int *pos)
 
 	if (!((*pos) % BUFF_SIZE == 0 && (*pos) + 1 > BUFF_SIZE))
 		return (FALSE);
-	tmp = ft_strdup(*str);
+	if ((tmp = ft_strdup(*str)) == NULL)
+		/* RET: error EXIT: true msg: "malloc fail" */
+		return (ERROR);
 	i = ft_strlen(*str) + BUFF_SIZE;
 	ft_strdel(str);
-	*str = ft_strnew(i);
+	if ((*str = ft_strnew(i)) == NULL)
+		/* RET: error EXIT: true msg: "malloc fail" */
+		return (ERROR);
 	i = 0;
 	while (tmp[i])
 	{
@@ -99,6 +103,8 @@ int					fct_insert(char **str, int *pos,char c, t_line *stline)
 	if ((*str)[*pos] == '\0')
 		(*str)[*pos] = c;
 	else if (!(end_line = ft_strsub(*str, *pos, ft_strlen(*str))))
+		/* RET: error EXIT: true msg: "malloc fail"
+		* FREE : stline*/
 		return (ERROR);
 	screen_up(pos, str, stline);
 	ft_putchar(c);
@@ -114,5 +120,5 @@ int					fct_insert(char **str, int *pos,char c, t_line *stline)
 		tputs(tgetstr("do", NULL), 1, my_outc);
 	}
 	ft_strdel(&end_line);
-	return (0);
+	return (TRUE);
 }
