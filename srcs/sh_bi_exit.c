@@ -12,7 +12,7 @@ int					bi_exit(char **arg, t_duo **env)
 	if (arg && arg[1] && arg[2])
 	{
 		ft_putendl("21sh: exit : too many arguments");
-		return (-1);
+		return (ERROR);
 	}
 	while (arg && arg[1] && arg[1][i])
 	{
@@ -21,7 +21,7 @@ int					bi_exit(char **arg, t_duo **env)
 			ft_putstr("21sh :exit : ");
 			ft_putstr(arg[1]);
 			ft_putendl(": numeric argument required");
-			return (-1);
+			return (ERROR);
 		}
 		i++;
 	}

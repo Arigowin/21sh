@@ -12,7 +12,7 @@ static int			print_env(char **arg, t_duo **env)
 	cpy = *env;
 	i = 0;
 	if (arg[1] && arg[2])
-		return (-1);
+		return (ERROR);
 	while (arg[1] && arg[1][i])
 	{
 		if (arg[1][i] == '=')
@@ -20,7 +20,7 @@ static int			print_env(char **arg, t_duo **env)
 		i++;
 	}
 	if (arg[1] && arg[1][i] == '\0')
-		return (-1);
+		return (ERROR);
 	while (cpy)
 	{
 		ft_putstr(cpy->name);
