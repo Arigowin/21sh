@@ -54,7 +54,6 @@ int					fct_up(char **str, int *pos, t_line *stline,
 	int					rel_pos;
 
 	(void)history;
-	(void)str;
 	tmp = ft_strrchr(*str, '\n');
 	if (stline->curs_y < 1)
 		return (TRUE);
