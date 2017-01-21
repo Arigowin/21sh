@@ -3,6 +3,7 @@
 #include "shell.h"
 #include "libft.h"
 
+/*
 t_node				*create_node(types type)
 {
 	if (DEBUG_TREE == 1)
@@ -18,6 +19,7 @@ t_node				*create_node(types type)
 	//	ft_putendl_fd("end create node\n");
 	return (new);
 }
+*/
 
 //int				add_node(char *data, types type, t_node **node, int side)
 //{
