@@ -20,16 +20,16 @@ int					init_term(void)
 	if ((term_name = getenv("TERM")) == NULL)
 		term_name = "xterm";
 	if (tgetent(NULL, term_name) == ERROR)
-		/* MSG ret: ERROR exit: TRUE msg: "Could not access the termcap data base." */
+		/* RET: error EXIT: true MSG: "Could not access the termcap data base." */
 		return (ERROR);
 	if (tcgetattr(0, &term) == ERROR)
-		/* MSG ret: ERROR exit: TRUE msg: "Could not access the termcap data base." */
+		/* RET: error EXIT: true MSG: "Could not access the termcap data base." */
 		return (ERROR);
 	term.c_lflag &= ~(ICANON | ECHO);
 	term.c_cc[VMIN] = 1;
 	term.c_cc[VTIME] = 0;
 	if (tcsetattr(0, TCSADRAIN, &term) == ERROR)
-		/* MSG ret: ERROR exit: TRUE msg: "Could not access the termcap data base." */
+		/* RET: error EXIT: true MSG: "Could not access the termcap data base." */
 		return (ERROR);
 	return (TRUE);
 }
@@ -42,11 +42,11 @@ int					reset_term(void)
 	struct termios		term;
 
 	if (tcgetattr(0, &term) == ERROR)
-		/* MSG ret: ERROR exit: TRUE msg: "Could not access the termcap data base." */
+		/* RET: error EXIT: true MSG: "Could not access the termcap data base." */
 		return (ERROR);
 	term.c_lflag |= (ICANON | ECHO);
 	if (tcsetattr(0, TCSANOW, &term) == ERROR)
-		/* MSG ret: ERROR exit: TRUE msg: "Could not access the termcap data base." */
+		/* RET: error EXIT: true MSG: "Could not access the termcap data base." */
 		return (ERROR);
 	return (TRUE);
 }

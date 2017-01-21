@@ -13,7 +13,7 @@ int					init_env(char **env, t_duo **env_cpy) //ok
 	else
 		*env_cpy = tbl_to_duo(env, '=');
 	if (env_cpy == NULL && *env_cpy == NULL)
-		/* MSG ret: ERROR exit: TRUE msg: "malloc fail" 
+		/* RET: error EXIT: true MSG: "malloc fail" 
 		 * free: cpy */
 		return (ERROR);
 	del_env(env_cpy, "OLDPWD");
@@ -25,15 +25,15 @@ int					init_env(char **env, t_duo **env_cpy) //ok
 int					init_stline(t_line *stline)
 {
 	if (ioctl(0, TIOCGWINSZ, &(stline->win)) == ERROR)
-		/* MSG ret: ERROR exit: TRUE msg: "ioctl request window size fail" */
+		/* RET: error EXIT: true MSG: "ioctl: cannot get window size" */
 		return (ERROR);
 
 	if ((stline->line = ft_strnew(BUFF_SIZE)) == NULL)
-		/* MSG ret: ERROR exit: TRUE msg: "malloc fail" */
+		/* RET: error EXIT: true MSG: "malloc fail" */
 		return (ERROR);
 	if ((stline->hrd.line = ft_strnew(BUFF_SIZE)) == NULL)
-		/* MSG ret: ERROR exit: TRUE msg: "malloc fail" 
-		 * free: stline->line */
+		/* RET: error EXIT: true MSG: "malloc fail" 
+		 * FREE: stline->line */
 		return (ERROR);
 	stline->copy.cpy = NULL;
 	stline->copy.start = -1;
