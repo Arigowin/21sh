@@ -6,7 +6,7 @@
 /*   By: avacher <avacher@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/01/10 10:47:52 by avacher           #+#    #+#             */
-/*   Updated: 2017/01/21 18:36:46 by naymatrice       ###   ########.fr       */
+/*   Updated: 2017/01/21 19:16:33 by naymatrice       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,9 +23,9 @@ static t_duo		*duo_new(char *name, char *value)
 	new->next = NULL;
 	/* if (name == NULL && value == NULL) */
 	/* 	return (NULL); */
-	if ((new->name = ft_strdup(name)) == NULL)
+	if (name && (new->name = ft_strdup(name)) == NULL)
 		return (NULL);
-	if ((new->value = ft_strdup(value)) == NULL)
+	if (value && (new->value = ft_strdup(value)) == NULL)
 		return (NULL);
 	return (new);
 }

@@ -12,19 +12,17 @@ static int			print_env(char **arg, t_duo **env)
 
 	cpy = *env;
 	i = 0;
-	/*
-	** pas la peine de verifier
 	if (arg[1] && arg[2])
 		return (ERROR);
-	*/
 	while (arg[1] && arg[1][i])
 	{
 		if (arg[1][i] == '=')
 			break ;
 		i++;
 	}
-	if (arg[1] && arg[1][i] == '\0')
-		return (ERROR);
+//	pas la peine
+//	if ()arg[1] && arg[1][i] == '\0')
+//		return (ERROR);
 	while (cpy)
 	{
 		ft_putstr(cpy->name);
@@ -41,9 +39,9 @@ int					bi_env(char **arg, t_duo **env)
 	if (DEBUG_BUILTIN == 1)
 		ft_putendl_fd("------- BI ENV ------", 2);
 
-//	t_duo				*cpy;
+	t_duo				*cpy;
 
-//	cpy = *env;
+	cpy = *env;
 	if (tbl_len(arg) >  1) // on a env suivi par qq chose
 	{
 		ft_putstr("21sh :env :");
@@ -51,9 +49,7 @@ int					bi_env(char **arg, t_duo **env)
 		ft_putstr(": No such file or directory\n");
 		return (FALSE);
 	}
-	print_env(arg, env);
 	/* MSG ret: ERROR exit: FALSE msg: "" */
-	/*
 	if (arg[1])
 	{
 		if (print_env(arg, env) == FALSE)
@@ -74,6 +70,5 @@ int					bi_env(char **arg, t_duo **env)
 			cpy = cpy->next;
 		}
 	}
-	*/
 	return (TRUE);
 }
