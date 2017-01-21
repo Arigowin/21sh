@@ -29,7 +29,7 @@ static int			print_env(char **arg, t_duo **env)
 		cpy = cpy->next;
 	}
 	ft_putendl(arg[1]);
-	return (0);
+	return (TRUE);
 }
 
 int					bi_env(char **arg, t_duo **env)
@@ -60,5 +60,5 @@ int					bi_env(char **arg, t_duo **env)
 			cpy = cpy->next;
 		}
 	}
-	return (0);
+	return (TRUE);
 }

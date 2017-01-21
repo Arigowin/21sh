@@ -104,7 +104,7 @@ typedef struct			s_e_list // -> l_expr
 	struct s_e_list		*next;
 }						t_e_list;
 
-typedef struct			s_node // -> node ou tree
+typedef struct			s_node // -> node ou tree //-> savior
 {
 	char				*data;
 	types				type;
@@ -112,7 +112,7 @@ typedef struct			s_node // -> node ou tree
 	struct s_node		*right;
 }						t_node;
 
-typedef struct			s_copy
+typedef struct			s_copy //in sline
 {
 	char				*cpy;
 	char				*bkup;
@@ -120,7 +120,7 @@ typedef struct			s_copy
 	int					start;
 }						t_copy;
 
-typedef struct			s_heredoc
+typedef struct			s_heredoc //in sline
 {
 	int					nb;
 	int 				pos;
@@ -129,7 +129,7 @@ typedef struct			s_heredoc
 	char 				*ptr;
 }						t_heredoc;
 
-typedef struct			s_line
+typedef struct			s_line //-> savior
 {
 	int					pos;
 	int					curs_x; //first line start at  = stline->pos + PRT_LEN;
@@ -143,7 +143,7 @@ typedef struct			s_line
 	struct s_heredoc	hrd;
 }						t_line;
 
-typedef struct			s_history
+typedef struct			s_history // savior
 {
 	char				*line;
 	struct s_history	*prev;
@@ -164,7 +164,7 @@ typedef struct			s_lst_fd
 	struct s_lst_fd		*next;
 }						t_lst_fd;
 
-typedef struct			s_global_fd
+typedef struct			s_global_fd //-> savior
 {
 	struct s_lst_fd		*lstfd;
 	struct s_global_fd	*next;

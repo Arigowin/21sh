@@ -14,7 +14,7 @@ static int			waka_land_handler(t_e_list **l_expr, char (*tmp)[], int *i)
 
 	new = NULL;
 	if (ft_strncount((*l_expr)->data, '&') > 1)
-		return (ERROR);
+		return (FALSE);
 	if ((*l_expr)->data[ft_strlen((*l_expr)->data) - 1] == '&')
 	{
 		(*l_expr)->data[ft_strlen((*l_expr)->data) - 1] = '\0';
@@ -26,7 +26,10 @@ static int			waka_land_handler(t_e_list **l_expr, char (*tmp)[], int *i)
 		}
 		else
 		{
-			new = expr_new("&");
+			if ((new = expr_new("&")) == NULL)
+				return (ERROR);
+				/* MSG ret: ERROR exit: TRUE msg: "malloc fail"
+				 * free:lexpr  */
 			new->type = RED_FD;
 			new->next = (*l_expr)->next;
 			(*l_expr)->next = new;
@@ -63,7 +66,7 @@ static int			waka_lexer(t_e_list **l_expr)
 	i = 0;
 	new = NULL;
 	ft_bzero(tmp, 11);
-	if (waka_land_handler(l_expr, &tmp, &i) == ERROR)
+	if (waka_land_handler(l_expr, &tmp, &i) == ERROR)//return useless
 		return (ERROR);
 	if (ft_strchr(WAKA, ((*l_expr)->data)[0]))
 		return (TRUE);
@@ -71,10 +74,14 @@ static int			waka_lexer(t_e_list **l_expr)
 	if ((tmp2 = ft_strsub((*l_expr)->data, i, ft_strlen((*l_expr)->data) - i))
 	== NULL)
 		return (ERROR);
+		/* MSG ret: ERROR exit: TRUE msg: "malloc fail"
+		 * free: lexpr  */
 	ft_strdel(&((*l_expr)->data));
 	if (((*l_expr)->data = ft_strdup(tmp2)) == NULL
 	|| (tmp[0] == '\0' || (tmp[0] != '\0' && (new = expr_new(tmp)) == NULL)))
 		return (ERROR);
+		/* MSG ret: ERROR exit: TRUE msg: "malloc fail"
+		 * free: lexpr  */
 	new->type = RED_FD;
 	new->next = (*l_expr)->next;
 	(*l_expr)->next = new;
@@ -115,7 +122,7 @@ static int			type_analyzer(t_e_list **l_expr, int boule)
 		if (ft_strchr((*l_expr)->next->data, '<')
 		|| ft_strchr((*l_expr)->next->data, '>'))
 		{
-			if (waka_lexer(&((*l_expr)->next)) == ERROR)
+			if (waka_lexer(&((*l_expr)->next)) == ERROR)//return useless
 				return (ERROR);
 			(*l_expr)->next->type = RED;
 		}

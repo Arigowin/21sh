@@ -16,7 +16,7 @@ int					add_env(char *name, char *value)
 		duo_pushback(&env, name, value);
 		savior(env, TRUE);
 	}
-	return (0);
+	return (TRUE);
 }
 
 int					change_env(char *name, char *value)
@@ -37,7 +37,7 @@ int					change_env(char *name, char *value)
 		env = env->next;
 	}
 	add_env(name, value);
-	return (0);
+	return (TRUE);
 }
 
 char				*get_env(char *name)
