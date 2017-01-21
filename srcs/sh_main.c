@@ -14,8 +14,7 @@ int					main(void)
 	t_line	   	 		stline;
 	t_history  	 		*history;
 
-	init_env(environ, &env_cpy);
-	if (init_term() == ERROR)
+	if (init_term() == ERROR || init_env(environ, &env_cpy))
 		return (ERROR);
 	init_stline(&stline);
 	history = NULL;
@@ -24,7 +23,8 @@ int					main(void)
 		if (stline.line)
 			reset_stline(&stline);
 		check_signal(1);
-		display_prompt();
+		if (!display_prompt())
+			/* MSG ret: ERROR exit: TRUE msg: "Could not display prompt." */
 		if (fct_read(FALSE, &stline, &history) == ERROR)
 			break ;
 	}

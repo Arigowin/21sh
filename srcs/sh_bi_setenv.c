@@ -49,8 +49,8 @@ int					bi_setenv(char **arg, t_duo **env)
 	// on affiche env si on a 1 seul arg et que arg[0] == env ou setenv
 	if (i < 2) 
 	{
-		bi_env(arg, env);
-		return (TRUE);
+		return (bi_env(arg, env));
+//		return (TRUE);
 	}
 	// on change env si on a 2 ou 3 arg et que arg[1] existe dans env
 	if (i == 2 || i == 3)

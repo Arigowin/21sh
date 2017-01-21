@@ -54,7 +54,7 @@ char				*get_env(char *name)
 	while (env)
 	{
 		if (ft_strcmp(name, env->name) == 0)
-			return (ft_strdup(env->value));
+			return (ft_strdup(env->value)); // MALLOC
 		env = env->next;
 	}
 	return (NULL);

@@ -15,7 +15,7 @@ int					init_env(char **env, t_duo **env_cpy) //ok
 	del_env(env_cpy, "OLDPWD");
 	savior(*env_cpy, TRUE);
 	free_tab(&cpy);
-	return (0);
+	return (TRUE);
 }
 
 int					init_stline(t_line *stline)

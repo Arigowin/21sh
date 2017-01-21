@@ -1,6 +1,7 @@
 #include "shell.h"
 #include "libft.h"
 
+// le retour de printenv n est pas verif et n'a pas a l'etre
 static int			print_env(char **arg, t_duo **env)
 {
 	if (DEBUG_BUILTIN == 1)
@@ -11,8 +12,11 @@ static int			print_env(char **arg, t_duo **env)
 
 	cpy = *env;
 	i = 0;
+	/*
+	** pas la peine de verifier
 	if (arg[1] && arg[2])
 		return (ERROR);
+	*/
 	while (arg[1] && arg[1][i])
 	{
 		if (arg[1][i] == '=')
@@ -29,7 +33,7 @@ static int			print_env(char **arg, t_duo **env)
 		cpy = cpy->next;
 	}
 //	ft_putendl(arg[1]);
-	return (0);
+	return (TRUE);
 }
 
 int					bi_env(char **arg, t_duo **env)
