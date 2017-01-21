@@ -11,15 +11,9 @@ static char			*get_path(void)
 	char				*tmp;
 	char				*home;
 
-	if ((home = get_env("HOME")) == NULL)
-		/* RET: null EXIT: false MSG: "HOME not set" */
-		return (NULL);
-	if ((path = get_env("PWD")) == NULL)
-		/* RET: null EXIT: false MSG: "PWD not set" */
-		return (NULL);
-	if ((tmp = ft_strsub(path, 0, ft_strlen(home))) == NULL)
-		/* RET: null EXIT: false MSG: "malloc fail" */
-		return (NULL);
+	home = get_env("HOME");
+	path = get_env("PWD");
+	tmp = ft_strsub(path, 0, ft_strlen(home));
 	if (home && ft_strcmp(home, tmp) == 0)
 	{
 		free(tmp);
