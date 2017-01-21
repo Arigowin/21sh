@@ -41,7 +41,7 @@ int					read_n_check(int *nb_hrd, char *read_buff, t_node **tree)
 		return (ret);
 	if (DEBUG_TREE_VERIF == 1)
 		tree_traversal_verif(*tree);
-	return (TRUE);
+	return (TRUE); //return (ret);
 }
 
 int					check_after_read(t_line *stline, t_history **history)
