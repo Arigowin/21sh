@@ -8,8 +8,8 @@ int					main(void)
 	t_line	   	 		stline;
 	t_history  	 		*history;
 
-// return useless	
-	if (init_term() == ERROR || init_env(environ, &env_cpy) == ERROR)
+// return useless
+	if (init_env(environ, &env_cpy) == ERROR || init_term() == ERROR)
 		return (ERROR);
 	init_stline(&stline);
 	history = NULL;

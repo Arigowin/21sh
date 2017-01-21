@@ -16,9 +16,11 @@ static char			*get_path(void)
 	tmp = ft_strsub(path, 0, ft_strlen(home));
 	if (home && ft_strcmp(home, tmp) == 0)
 	{
-		free(tmp);
+		if (tmp)
+			free(tmp);
 		tmp = ft_strsub(path, ft_strlen(home), ft_strlen(path));
-		free(path);
+		if (path)
+			free(path);
 		path = ft_properjoin("~", tmp);
 	}
 	if (home)
@@ -53,8 +55,10 @@ int					display_prompt(void)
 	if (path || name)
 		ft_putchar('\n');
 	ft_putstr("\033[36m> \033[0m");
-	free(name);
-	free(path);
+	if (name)
+		free(name);
+	if (path)
+		free(path);
 	return (TRUE);
 }
 
@@ -66,7 +70,7 @@ int				fill_path(char ***env)
 	char				*tmp;
 
 	tmp = NULL;
-	if (((*env) = (char **)malloc(sizeof(char *) * 3)) == NULL)
+	if (((*env) = (char **)malloc(sizeof(char *) * 4)) == NULL)
 		/* RET: error EXIT: true MSG: "malloc fail" */
 		return (ERROR);
 	if ((tmp = getcwd(tmp, MAX_PATH)) == NULL)
@@ -76,7 +80,8 @@ int				fill_path(char ***env)
 		/* RET: error EXIT: true MSG: "malloc fail" */
 		return (ERROR);
 	(*env)[1] = ft_properjoin("PWD=", tmp);
-	(*env)[2] = NULL;
+	(*env)[2] = ft_strdup("TERM=xterm");
+	(*env)[3] = NULL;
 	if (tmp)
 		free(tmp);
 	return (TRUE);
