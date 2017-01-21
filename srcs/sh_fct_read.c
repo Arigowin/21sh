@@ -32,7 +32,7 @@ int					read_n_check(int *nb_hrd, char *read_buff, t_node **tree)
 
 	l_expr = NULL;
 	if (tree == NULL || read_buff == NULL)
-		return (ERROR);
+		return (FALSE);
 	if ((ret = tokenizer(read_buff, &l_expr)) != TRUE)
 		return (ret);
 	if ((ret = lexer(&l_expr)) != TRUE)
