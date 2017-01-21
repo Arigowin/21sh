@@ -90,7 +90,7 @@ int					fct_read(int hrd, t_line *stline, t_history **history)
 			continue ;
 		key = 0;
 	}
-	if (key == RETURN && (stline->line)[0] == 0)
+	if (key == RETURN && (stline->line)[0] == '\0')
 		return (FALSE);
 	if (ret <= 0) // il faut pas un < strict?
 		return (ERROR);
