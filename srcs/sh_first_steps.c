@@ -21,8 +21,10 @@ static char			*get_path(void)
 		free(path);
 		path = ft_properjoin("~", tmp);
 	}
-	free(home);
-	free(tmp);
+	if (home)
+		free(home);
+	if (tmp)
+		free(tmp);
 	return (path);
 }
 
@@ -34,8 +36,8 @@ int					display_prompt(void)
 	char				*name;
 	char				*path;
 
-	path = get_path();
-	name = get_env("LOGNAME");
+	path = get_path(); //free ok
+	name = get_env("LOGNAME"); //free ok
 	if (name)
 	{
 		ft_putstr("\033[34;1m");
@@ -53,7 +55,7 @@ int					display_prompt(void)
 	ft_putstr("\033[36m> \033[0m");
 	free(name);
 	free(path);
-	return (0);
+	return (TRUE);
 }
 
 int				fill_path(char ***env)
@@ -75,6 +77,7 @@ int				fill_path(char ***env)
 		return (ERROR);
 	(*env)[1] = ft_properjoin("PWD=", tmp);
 	(*env)[2] = NULL;
-	free(tmp);
-	return (0);
+	if (tmp)
+		free(tmp);
+	return (TRUE);
 }

@@ -39,10 +39,9 @@ int					read_n_check(int *nb_hrd, char *read_buff, t_node **tree)
 		return (ret);
 	if ((ret = parser(nb_hrd, &l_expr, tree)) != TRUE)
 		return (ret);
-	if (DEBUG_TREE_VERIF == 1 && tree && *tree)
+//	if (DEBUG_TREE_VERIF == 1 && tree && *tree)
+	if (DEBUG_TREE_VERIF == 1)
 		tree_traversal_verif(*tree);
-	else
-		printf("uninitialized tree\n");
 	return (TRUE);
 }
 

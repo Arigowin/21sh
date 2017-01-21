@@ -75,5 +75,5 @@ int					check_signal(int loc)
 		signal(SIGQUIT, fct_ctrl_void);
 		signal(SIGTSTP, fct_ctrl_void);
 	}
-	return (0);
+	return (TRUE);
 }

@@ -10,13 +10,15 @@ int					add_env(char *name, char *value)
 
 	env = savior(NULL, FALSE);
 	if (name == NULL)
-		return (-1);
+		return (ERROR);
 	else
 	{
 		duo_pushback(&env, name, value);
 		savior(env, TRUE);
 	}
-	return (0);
+	return (TRUE);
+//	return (0);
+// return true au lieu de 0 pas d'impact pour l'instant
 }
 
 int					change_env(char *name, char *value)
@@ -30,14 +32,16 @@ int					change_env(char *name, char *value)
 	{
 		if (ft_strcmp(env->name, name) == 0)
 		{
-			free(env->value);
-			env->value = ft_strdup(value);
-			return (1);
+			ft_strdel(&(env->value));
+			if (!(env->value = ft_strdup(value)))
+				return (ERROR);
+			/* MSG ret: ERROR exit: ? msg: "Could not access memory." */
+			return (TRUE);
 		}
 		env = env->next;
 	}
 	add_env(name, value);
-	return (0);
+	return (TRUE);
 }
 
 char				*get_env(char *name)
@@ -50,7 +54,7 @@ char				*get_env(char *name)
 	while (env)
 	{
 		if (ft_strcmp(name, env->name) == 0)
-			return (ft_strdup(env->value));
+			return (ft_strdup(env->value)); // MALLOC
 		env = env->next;
 	}
 	return (NULL);
@@ -71,7 +75,8 @@ int					is_builtin(char **cmd)
 			return (i);
 		i++;
 	}
-	return (-1);
+	return (ERROR);
+//	return (-1);
 }
 
 int					handle_builtin(char **cmd)
