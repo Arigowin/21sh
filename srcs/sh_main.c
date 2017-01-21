@@ -14,7 +14,8 @@ int					main(void)
 	history = NULL;
 	while (TRUE)
 	{
-		reset_stline(&stline);
+		if (stline.line)
+			reset_stline(&stline);
 		check_signal(1);
 		display_prompt();
 		if (fct_read(FALSE, &stline, &history) == ERROR)

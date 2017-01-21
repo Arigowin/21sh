@@ -274,6 +274,11 @@ int						bi_env(char **arg, t_duo **env);
 int						bi_exit(char **arg, t_duo **env);
 
 /*
+** sh_echo
+*/
+int						bi_echo(char **arg, t_duo **env);
+
+/*
 ** sh_setenv
 */
 int						bi_setenv(char **arg, t_duo **env);

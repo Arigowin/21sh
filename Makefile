@@ -12,7 +12,7 @@ HPATH =		$(ROOT)/includes
 LIBPATH =	$(ROOT)/libft
 LIBHPATH =	$(LIBPATH)/includes
 
-CFLAGS = -g -Wall -Werror -Wextra -I $(HPATH) -I $(LIBHPATH)
+CFLAGS = -g -O0 -Wall -Werror -Wextra -I $(HPATH) -I $(LIBHPATH)
 LIBS = -L $(LIBPATH) -lft -ltermcap
 
 SRC = sh_main.c \
@@ -27,6 +27,7 @@ SRC = sh_main.c \
 	  sh_bi_cd.c \
 	  sh_bi_env.c \
 	  sh_bi_exit.c \
+	  sh_bi_echo.c \
 	  sh_bi_setenv.c \
 	  sh_bi_unsetenv.c \
 	  \
