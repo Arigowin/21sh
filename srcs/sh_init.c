@@ -13,7 +13,7 @@ int					init_env(char **env, t_duo **env_cpy) //ok
 	else
 		*env_cpy = tbl_to_duo(env, '=');
 	if (env_cpy == NULL && *env_cpy == NULL)
-		/* MSG ret: ERROR exit: TRUE msg: "malloc fail" 
+		/* MSG ret: ERROR exit: TRUE msg: "malloc fail"
 		 * free: cpy */
 		return (ERROR);
 	del_env(env_cpy, "OLDPWD");
@@ -32,7 +32,7 @@ int					init_stline(t_line *stline)
 		/* MSG ret: ERROR exit: TRUE msg: "malloc fail" */
 		return (ERROR);
 	if ((stline->hrd.line = ft_strnew(BUFF_SIZE)) == NULL)
-		/* MSG ret: ERROR exit: TRUE msg: "malloc fail" 
+		/* MSG ret: ERROR exit: TRUE msg: "malloc fail"
 		 * free: stline->line */
 		return (ERROR);
 	stline->copy.cpy = NULL;

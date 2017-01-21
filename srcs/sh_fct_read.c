@@ -37,13 +37,11 @@ int					read_n_check(int *nb_hrd, char *read_buff, t_node **tree)
 		return (ret);
 	if ((ret = lexer(&l_expr)) != TRUE)
 		return (ret);
-	if ((ret = parser(nb_hrd, &l_expr, tree)) != TRUE)
+	if ((ret = parser(nb_hrd, &l_expr, tree)) != TRUE) // juste garder ret = .... et return ret
 		return (ret);
-	if (DEBUG_TREE_VERIF == 1 && tree && *tree)
-		tree_traversal_verif(*tree);
-	else
-		printf("uninitialized tree\n");
-	return (TRUE);
+	if (DEBUG_TREE_VERIF == 1) // a virer
+		tree_traversal_verif(*tree); // a virer
+	return (TRUE); //return (ret);
 }
 
 int					check_after_read(t_line *stline, t_history **history)
@@ -57,8 +55,6 @@ int					check_after_read(t_line *stline, t_history **history)
 	int					pipefd_tab[2][2];
 	int					ret;
 
-	tree = NULL;
-	node = NULL;
 	globalfd = NULL;
 	pipefd_tab[0][0] = -2;
 	pipefd_tab[0][1] = -2;

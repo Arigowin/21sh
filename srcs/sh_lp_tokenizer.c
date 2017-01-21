@@ -23,7 +23,7 @@ int					concat(char **dest, char *s1, char *s2)
 		ft_putendl_fd("------- EXPR PUSHBK ------", 2);
 
 	if (!(dest && *dest))
-		return (-1);
+		return (ERROR);
 	while (s1 && *s1)
 	{
 		add_in_tbl(dest, *s1);
@@ -34,7 +34,7 @@ int					concat(char **dest, char *s1, char *s2)
 		add_in_tbl(dest, *s2);
 		s2++;
 	}
-	return (0);
+	return (TRUE);
 }
 
 int 				token_sep(char **read_buff, char **data_tmp,
@@ -79,6 +79,7 @@ int					tokenizer(char *read_buff, t_e_list **l_expr)
 		expr_pushbk(l_expr, data_tmp);
 		ft_bzero(data_tmp, ft_strlen(data_tmp));
 	}
+	ft_strdel(&data_tmp);
 
 	// ANTIBUG !!!!!!!!!
 	if (DEBUG_LEXER_PARSER == 1)

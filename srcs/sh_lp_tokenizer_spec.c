@@ -33,6 +33,8 @@ int					token_dollar(char **read_buff, char **data_tmp)
 	(*read_buff)++;
 	if ((env_name = ft_strnew(ft_strlen(*read_buff))) == NULL)
 		return (ERROR);
+		/* MSG ret: ERROR exit: FALSE msg: "malloc fail"
+		 * free: read_buff + data_tmp */
 	while (ft_strchr(SEP, **read_buff) == NULL)
 	{
 		add_in_tbl(&env_name, **read_buff);
@@ -43,10 +45,14 @@ int					token_dollar(char **read_buff, char **data_tmp)
 		return (FALSE);
 	if (*data_tmp && (tmp = ft_strdup(*data_tmp)) == NULL)
 		return (ERROR);
+		/* MSG ret: ERROR exit: FALSE msg: "malloc fail"
+		 * free: read_buff + data_tmp + env_name */
 	ft_strdel(data_tmp);
 	if ((*data_tmp = ft_strnew(ft_strlen(tmp) + ft_strlen(env_val)
 					+ ft_strlen(*read_buff))) == NULL)
 		return (ERROR);
+		/* MSG ret: ERROR exit: FALSE msg: "malloc fail"
+		 * free: read_buff + data_tmp + env_name */
 	concat(data_tmp, tmp, env_val);
 	return (TRUE);
 }
@@ -65,10 +71,14 @@ int					token_tilde(char **read_buff, char **data_tmp, int *bln)
 		return (FALSE);
 	if (*data_tmp && (tmp = ft_strdup(*data_tmp)) == NULL)
 		return (ERROR);
+		/* MSG ret: ERROR exit: FALSE msg: "malloc fail"
+		 * free: read_buff + data_tmp + env_val */
 	ft_strdel(data_tmp);
 	if ((*data_tmp = ft_strnew(ft_strlen(tmp) + ft_strlen(env_val)
 					+ ft_strlen(*read_buff))) == NULL)
 		return (ERROR);
+		/* MSG ret: ERROR exit: FALSE msg: "malloc fail"
+		 * free: read_buff + data_tmp + env_val */
 	concat(data_tmp, tmp, env_val);
 	*bln = TRUE;
 	return (TRUE);
