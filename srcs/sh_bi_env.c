@@ -41,9 +41,9 @@ int					bi_env(char **arg, t_duo **env)
 	if (DEBUG_BUILTIN == 1)
 		ft_putendl_fd("------- BI ENV ------", 2);
 
-	t_duo				*cpy;
+//	t_duo				*cpy;
 
-	cpy = *env;
+//	cpy = *env;
 	if (tbl_len(arg) >  1) // on a env suivi par qq chose
 	{
 		ft_putstr("21sh :env :");
