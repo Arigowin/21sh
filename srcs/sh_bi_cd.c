@@ -26,6 +26,7 @@ static int			cd_usage(char **arg, char **path, char *tmp_old_pwd)
 		if (((*path) = ft_strdup(tmp_old_pwd)) == NULL)
 		{
 			ft_putendl_fd("21sh: cd: variable $OLDPWD not set", 2);
+			/* MSG ret: ERROR exit: FALSE msg: "cf dessus." */
 			return (-2);
 		}
 	}
