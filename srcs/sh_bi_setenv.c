@@ -8,7 +8,6 @@ static int			is_valid(char *str)
 
 	int					i;
 
-	/*
 	i = -1;
 	if (str[++i] != '_' &&  ft_isalpha(str[i]) == FALSE)
 	{
@@ -24,26 +23,6 @@ static int			is_valid(char *str)
 			ft_putstr_fd("21sh: setenv: '", 2);
 			ft_putstr_fd(str, 2);
 			ft_putendl_fd("': not a valid identifier", 2);
-			return (ERROR);
-		}
-		i++;
-	}
-	++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-	*/
-	i = 0;
-
-	if (*(str + i) != '_' || ft_isalpha(*(str + i)) == FALSE)
-	{
-		/* MSG ret: ERROR exit: ? msg: "cf ci dessous" */
-		ft_putstr_fd("setenv: Variable name must begin with a letter.", 2);
-		return (ERROR);
-	}
-	while (*(str + i))
-	{
-		if (ft_isalnum(*(str + i)) == FALSE)
-		{
-			/* MSG ret: ERROR exit: ? msg: "cf ci dessous" */
-			ft_putstr_fd("setenv: Variable name must contain alphanumeric characters.", 2);
 			return (ERROR);
 		}
 		i++;
