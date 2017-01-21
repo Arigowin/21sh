@@ -1,7 +1,6 @@
 #include "shell.h"
 #include "libft.h"
 
-/*
 static int			print_env(char **arg, t_duo **env)
 {
 	if (DEBUG_BUILTIN == 1)
@@ -32,7 +31,7 @@ static int			print_env(char **arg, t_duo **env)
 	ft_putendl(arg[1]);
 	return (0);
 }
-*/
+
 int					bi_env(char **arg, t_duo **env)
 {
 	if (DEBUG_BUILTIN == 1)
@@ -45,22 +44,24 @@ int					bi_env(char **arg, t_duo **env)
 	{
 		ft_putstr("21sh :env :");
 		ft_putstr(arg[1]);
-		ft_putendl(": No such file or directory");
-		return (ERROR);
+		ft_putstr(": No such file or directory");
+		return (FALSE);
 	}
-		/* MSG ret: ERROR exit: FALSE msg: "" */
-//	if (arg[1])
-//	{
-//		if (print_env(arg, env) == FALSE)
-//		{
-//			ft_putstr("21sh :env :");
-//			ft_putstr(arg[1]);
-//			ft_putendl(": No such file or directory");
-//			return (FALSE);
-//		}
-//	}
-//	else
-//	{
+	print_env(arg, env);
+	/* MSG ret: ERROR exit: FALSE msg: "" */
+	/*
+	if (arg[1])
+	{
+		if (print_env(arg, env) == FALSE)
+		{
+			ft_putstr("21sh :env :");
+			ft_putstr(arg[1]);
+			ft_putendl(": No such file or directory");
+			return (FALSE);
+		}
+	}
+	else
+	{
 		while (cpy)
 		{
 			ft_putstr(cpy->name);
@@ -68,6 +69,7 @@ int					bi_env(char **arg, t_duo **env)
 			ft_putendl(cpy->value);
 			cpy = cpy->next;
 		}
-//	}
+	}
+	*/
 	return (0);
 }
