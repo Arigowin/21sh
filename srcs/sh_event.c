@@ -121,5 +121,5 @@ int					event(int k, t_line *stline, t_history **history)
 	tputs(tgetstr("rc", NULL), 1, my_outc);
 	*/
 
-	return (0);
+	return (TRUE);
 }

@@ -12,9 +12,11 @@ static t_lst_fd		*lstfd_new(int fd, char *filename)
 	t_lst_fd			*new;
 
 	if ((new = (t_lst_fd*)malloc(sizeof(t_lst_fd))) == NULL)
+		/* RET: error EXIT: true MSG: "malloc fail" */
 		return (NULL);
 	new->fd = fd;
 	if ((new->filename = ft_strdup(filename)) == NULL)
+		/* RET: error EXIT: true MSG: "malloc fail" */
 		return (NULL);
 	new->next = NULL;
 	return (new);
@@ -112,6 +114,7 @@ int					insert_in_lstfd(t_lst_fd **lstfd, t_lst_fd **tmpfd, int fd, char *filena
 	if (insert == TRUE)
 	{
 		if ((*tmpfd = lstfd_insert(lstfd, tmpfd, fd, filename)) == NULL)
+			/* RET: error EXIT: true MSG: "malloc fail" */
 			return (ERROR);
 		tmpfd = lstfd;
 	}
@@ -129,6 +132,7 @@ int					check_file_name(char **filename, char *str)
 		ft_putendl_fd("------- CHECK FILE NAME -------", 2);
 
 	if ((*filename = ft_strsub(str, 1, ft_strlen(str))) == NULL)
+		/* RET: error EXIT: true MSG: "malloc fail" */
 		return (ERROR);
 	if (ft_isstrnum(*filename))
 	{
@@ -152,10 +156,12 @@ int					reset_std_fd(void)
 	std_fd = STDIN_FILENO;
 	while (std_fd <= STDERR_FILENO)
 	{
-		if ((fd = open(savior_tty(NULL, FALSE, TRUE), O_RDWR)) == -1)
-			return (FALSE);
-		if (dup2(fd, std_fd) == -1)
-			return (FALSE);
+		if ((fd = open(savior_tty(NULL, FALSE, TRUE), O_RDWR)) == ERROR)
+			/* RET: error EXIT: false MSG: "open fail" */
+			return (ERROR);
+		if (dup2(fd, std_fd) == ERROR)
+			/* RET: error EXIT: false MSG: "dup2 fail" */
+			return (ERROR);
 		if (fd > STDERR_FILENO)
 			close(fd);
 		std_fd++;

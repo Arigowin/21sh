@@ -19,21 +19,25 @@ int 				pfd_handler(int pipefd_tab[2][2])
 	{
 		close(pipefd_tab[1][0]);
 		if (dup2(pipefd_tab[1][1], STDOUT_FILENO) == ERROR)
+			/* RET: error EXIT: false MSG: "dup2 fail" */
 			return (ERROR);
 	}
 	if (pipefd_tab && pipefd_tab[0][0] >= 0 && pipefd_tab[1][0] >= 0)
 	{
 		close(pipefd_tab[0][1]);
 		if(dup2(pipefd_tab[0][0], STDIN_FILENO) == ERROR)
+			/* RET: error EXIT: false MSG: "dup2 fail" */
 			return (ERROR);
 		close(pipefd_tab[1][0]);
 		if (dup2(pipefd_tab[1][1], STDOUT_FILENO) == ERROR)
+			/* RET: error EXIT: false MSG: "dup2 fail" */
 			return (ERROR);
 	}
 	if (pipefd_tab && pipefd_tab[0][0] >= 0 && pipefd_tab[1][0] < 0)
 	{
 		close(pipefd_tab[0][1]);
 		if(dup2(pipefd_tab[0][0], STDIN_FILENO) == ERROR)
+			/* RET: error EXIT: false MSG: "dup2 fail" */
 			return (ERROR);
 	}
 	return (TRUE);
@@ -53,6 +57,7 @@ int					check_builtin(char **cmd, int pipefd_tab[2][2],
 	{
 		if ((ret = handle_builtin(cmd)) == ERROR)
 		{
+			// useless return
 			close_lstfd(lstfd);
 			return (ERROR);
 		}
@@ -102,6 +107,7 @@ int					son(char **cmd, int pipefd_tab[2][2], t_node *tree,
 	dprintf(2, "tttttttttttttttttttttttttttttt (%p)\n", (*globalfd)->lstfd);
 	if ((pipefd_tab[0][0] >= 0 || pipefd_tab[1][0] >= 0) && tree && tree->left
 	&& globalfd && *globalfd && redirect(tree->left, (*globalfd)->lstfd) == ERROR)
+		/* RET: error EXIT: false MSG: "i don't know" */
 		return (ERROR);
 	if (check_builtin(cmd, pipefd_tab, NULL) == TRUE)
 	{
@@ -110,6 +116,7 @@ int					son(char **cmd, int pipefd_tab[2][2], t_node *tree,
 	}
 	check_signal(2);
 	check_fct(cmd);
+	/* RET: error EXIT: true MSG: "command not found" */
 
 	// appeler la fonction d'erreur
 	ft_putstr_fd("21sh: ", 2);
@@ -142,6 +149,7 @@ int					handle_fork(int pipefd_tab[2][2], t_node *tree,
 		if (tree && tree->left && redirect(tree->left, (*globalfd)->lstfd) == ERROR)
 		{
 			//			close_fd_red(&lstfd, saved_std);
+			/* RET: error EXIT: false MSG: "i don't know" */
 			return (ERROR);
 		}
 		else if (tree->left)
@@ -149,9 +157,11 @@ int					handle_fork(int pipefd_tab[2][2], t_node *tree,
 		if ((ret = check_builtin(cmd, pipefd_tab, NULL)) == TRUE)
 			return (TRUE);
 		if (ret == ERROR)
+			// useless return
 			return (ERROR);
 	}
 	if ((fpid = fork()) < 0)
+		/* RET: error EXIT: true MSG: "fork fail" */
 		return (ERROR);
 	reset_term();
 	if (fpid == 0)
