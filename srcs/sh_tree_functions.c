@@ -11,11 +11,11 @@ t_node				*create_node(types type)
 
 	if ((new = (t_node *)malloc(sizeof(t_node))) == NULL)
 		return (NULL);
+		/* MSG ret: NULL exit: TRUE msg: "malloc fail" */
 	new->data = NULL;
 	new->type = type;
 	new->left = NULL;
 	new->right = NULL;
-	//	ft_putendl_fd("end create node\n");
 	return (new);
 }
 
@@ -40,11 +40,10 @@ int					clear_tree(t_node **tree)
 	if (DEBUG_PARSER == 1)
 		ft_putendl_fd("------- CLEAR TREE ------", 2);
 
-	//	ft_putendl_fd("clear tree -- [%s]\n", (*tree)->data);
 	if ((*tree) && (*tree)->left)
 		clear_tree(&((*tree)->left));
 	if ((*tree) && (*tree)->right)
 		clear_tree(&((*tree)->right));
 	clear_node(tree);
-	return (FALSE);
+	return (TRUE);
 }

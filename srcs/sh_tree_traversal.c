@@ -10,7 +10,9 @@ t_global_fd			*new_globalfd(void)
 	t_global_fd			*new;
 
 	new = NULL;
-	new = (t_global_fd *)malloc(sizeof(t_global_fd));
+	if ((new = (t_global_fd *)malloc(sizeof(t_global_fd))) == NULL)
+		return (NULL);
+		/* MSG ret: NULL exit: TRUE msg: "malloc fail" */
 	new->lstfd = NULL;
 	new->next = NULL;
 	return (new);
@@ -28,12 +30,12 @@ int					pushfront_globalfd(t_global_fd **globalfd)
 		return (ERROR);
 	if (*globalfd == NULL)
 	{
-		if ((*globalfd = new_globalfd()) == NULL)
+		if ((*globalfd = new_globalfd()) == NULL) // return useless
 			return (ERROR);
 	}
 	else
 	{
-		if ((new = new_globalfd()) == NULL)
+		if ((new = new_globalfd()) == NULL) // return useless
 			return (ERROR);
 		new->next = *globalfd;
 		*globalfd = new;
@@ -58,15 +60,16 @@ int 				check_red_arg2(t_node *tree, t_global_fd **globalfd, types type)
 		flags = O_RDONLY;
 	if ((filename = ft_strdup(tree->data)) == NULL)
 		return(ERROR);
-	//filename = ft_strdup("/home/kimera/42_c/21sh/Makefile");
+		/* MSG ret: ERROR exit: TRUE msg: "malloc fail" */
+		/* free : tree + globalfd */
 	if (type == LRED && access(filename, F_OK) == ERROR)
 		return (ERROR);
-//	else if ((type == RRED || type == DRRED) && ((access(filename, F_OK) != ERROR && access(filename, W_OK) == ERROR)))
-//		return (ERROR);
+		/* MSG ret: ERROR exit: FALSE msg: "cannot access + filename + not such file or directory " */
 	if ((fd = open(filename, flags,	S_IRUSR | S_IWUSR | S_IRGRP | S_IROTH)) == ERROR)
 	{
 		lstfd_pushbck(&((*globalfd)->lstfd), -1, filename);
 		return (ERROR);
+		/* MSG ret: ERROR exit: FALSE msg: "filename + permission denied" */
 	}
 	lstfd_pushbck(&((*globalfd)->lstfd), fd, filename);
 	return (TRUE);
@@ -82,8 +85,10 @@ int 				check_fd_red(t_node *tree, t_global_fd **globalfd) //, types type)
 
 	if ((filename = ft_strdup(tree->data)) == NULL)
 		return (ERROR);
+		/* MSG ret: ERROR exit: TRUE msg: "malloc fail" */
+		/* free : tree + globalfd */
 	if (ft_strcmp("&-", tree->data) == TRUE)
-		fd = -42; //code pour signifier qu'il faut fermer le red_fd
+		fd = -42;
 	else
 		fd = ft_atoi(filename + 1);
 	lstfd_pushbck(&((*globalfd)->lstfd), fd, filename);
@@ -100,7 +105,7 @@ int					fd_open(t_node *tree, t_global_fd **globalfd, types type)
 	ret = FALSE;
 	if (*globalfd == NULL)
 	{
-		if ((*globalfd = new_globalfd()) == NULL)
+		if ((*globalfd = new_globalfd()) == NULL) // return useless
 			return (ERROR);
 	}
 	if (tree->data && tree->data[0] == '&')
@@ -179,9 +184,7 @@ int					tree_traversal(t_node *tree, t_global_fd **globalfd, int pipefd_tab[2][2
 		printf("next\n");
 		tmpglo = tmpglo->next;
 	}
-//		if ((manage_red_file(lstfd, tmpfd, tree)) == ERROR)
-//			return (ERROR);
-//		saved_lstfd = *lstfd;
+	//  fin ANTIBUG
 
 		if ((ret = (pipe_function(pipefd_tab, tree, globalfd))) != TRUE)
 				return (ret);

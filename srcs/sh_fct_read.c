@@ -39,8 +39,10 @@ int					read_n_check(int *nb_hrd, char *read_buff, t_node **tree)
 		return (ret);
 	if ((ret = parser(nb_hrd, &l_expr, tree)) != TRUE) // juste garder ret = .... et return ret
 		return (ret);
+
 	if (DEBUG_TREE_VERIF == 1) // a virer
 		tree_traversal_verif(*tree); // a virer
+
 	return (TRUE); //return (ret);
 }
 
@@ -64,8 +66,13 @@ int					check_after_read(t_line *stline, t_history **history)
 		return (ret);
 	node = tree;
 	heredoc_handler(stline, &node, history);
-	tree_traversal(tree, &globalfd, pipefd_tab);
-	return (TRUE);
+	if ((ret = tree_traversal(tree, &globalfd, pipefd_tab)) == ERROR);
+	{
+		return (ret);
+		/* MSG ret: ERROR exit: TRUE msg: "whatever i don't have any ideas left"
+		 * free: stline + globalfd + tree + node */
+	}
+	return (ret);
 }
 
 int					fct_read(int hrd, t_line *stline, t_history **history)
@@ -89,7 +96,7 @@ int					fct_read(int hrd, t_line *stline, t_history **history)
 	}
 	if (key == RETURN && (stline->line)[0] == 0)
 		return (FALSE);
-	if (ret <= 0) // il faut pas un < strict?
+	if (ret <= 0)
 		return (ERROR);
 	if (hrd == TRUE)
 		return (TRUE);
