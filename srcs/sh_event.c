@@ -20,7 +20,9 @@ int					fct_return(char **str, int *pos, t_line *stline,
 		ft_putendl_fd("------- FCT RETURN ------", 2);
 
 	fct_end(str, pos, stline, history);
-	if (stline->quote != 0 || ((*str)[*pos - 1] && (*str)[*pos - 1] == '\\') || stline->hrd.nb > 0)
+	if (stline->quote != 0 ||
+		(*pos > 0 && (*str)[*pos - 1] && (*str)[*pos - 1] == '\\') ||
+		stline->hrd.nb > 0)
 	{
 		if (stline->hrd.nb > 0)
 		{
@@ -61,7 +63,7 @@ int					handle_quote(int key, char **str, int *pos, t_line *stline)
 	if (DEBUG == 1)
 		ft_putendl_fd("------- HANDLE QUOTE ------", 2);
 
-	if ((*str)[(*pos) - 1] &&  (*str)[(*pos) - 1] == '\\')
+	if (*pos > 0 && (*str)[(*pos) - 1] &&  (*str)[(*pos) - 1] == '\\')
 		return (FALSE);
 	if (key == QUOTE || key == DQUOTE)
 	{
