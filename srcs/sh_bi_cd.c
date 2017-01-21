@@ -10,14 +10,16 @@ static int			cd_usage(char **arg, char **path, char *tmp_old_pwd)
 	if (arg[1] && arg[2])
 	{
 		ft_putendl_fd("21sh: cd: too many arguments.", 2);
-		return (-1);
+		return (ERROR);
+		/* MSG ret: ERROR exit: FALSE msg: "cf dessus." */
 	}
 	if (arg[1] && arg[1][0] == '-' && arg[1][1])
 	{
 		ft_putstr_fd("21sh: cd: -", 2);
 		ft_putchar_fd(arg[1][1], 2);
 		ft_putendl_fd(": invalid option\ncd: usage: cd [dir]", 2);
-		return (-1);
+		/* MSG ret: ERROR exit: FALSE msg: "cf dessus." */
+		return (ERROR);
 	}
 	if (arg[1] && arg[1][0] == '-')
 	{
@@ -43,7 +45,7 @@ static int			access_home(char **arg, char *home, char *tmp)
 		ft_putstr(tmp);
 		ft_putendl(": no $HOME variable set");
 	}
-	return (-1);
+	return (ERROR);
 }
 
 static int			cd_access(char **arg, char *path)
@@ -66,11 +68,11 @@ static int			cd_access(char **arg, char *path)
 	{
 		ft_putstr("21sh: cd: ");
 		ft_putstr(tmp);
-		if ((access(tmp, F_OK)) == -1)
+		if ((access(tmp, F_OK)) == ERROR)
 			ft_putendl(": no such file or directory");
 		else
 			ft_putendl(": permission denied");
-		return (-1);
+		return (ERROR);
 	}
 	free(home);
 	ft_strdel(&tmp);
@@ -86,11 +88,13 @@ static int			cd_home(void)
 
 	if ((home = get_env("HOME")) == NULL)
 	{
-		ft_putendl("21sh: cd: no $HOME variable set");
-		return (-1);
+		ft_putendl("21sh: cd: no HOME variable set");
+		/* MSG ret: ERROR exit: FALSE msg: "cf dessus." */
+		return (ERROR);
 	}
-	if (chdir(home) == -1)
-		return (-1);
+	if (chdir(home) == ERROR)
+		return (ERROR);
+	/* MSG ret: ERROR exit: FALSE msg: "Home not accessible" */
 	free(home);
 	return (0);
 }
@@ -107,7 +111,8 @@ int					bi_cd(char **arg, t_duo **env)
 
 	(void)env;
 	if ((tmp_pwd = get_env("PWD")) == NULL)
-		return (-1);
+		/* MSG ret: ERROR exit: TRUE msg: "Could not access env $PWD." */
+		return (ERROR);
 	tmp_old_pwd = get_env("OLDPWD");
 	if (!arg[1])
 		cd_home();
@@ -118,7 +123,7 @@ int					bi_cd(char **arg, t_duo **env)
 		i += cd_access(arg, path);
 	ft_strdel(&path);
 	if (i < 0 || (path = getcwd(path, MAX_PATH)) == NULL)
-		return (-1);
+		return (FALSE);
 	change_env("OLDPWD", tmp_pwd);
 	change_env("PWD", path);
 	ft_strdel(&path);

@@ -11,7 +11,7 @@ int					add_env(char *name, char *value)
 	env = savior(NULL, FALSE);
 	if (name == NULL)
 		return (ERROR);
-/* MSG ret: ERROR exit: TRUE msg: "cannot add" */
+/* MSG ret: ERROR exit: TRUE msg: "value not set" */
 	else
 	{
 		duo_pushback(&env, name, value);
