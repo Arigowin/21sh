@@ -64,7 +64,7 @@ int					check_after_read(t_line *stline, t_history **history)
 		return (ret);
 	node = tree;
 	heredoc_handler(stline, &node, history);
-	if ((ret = tree_traversal(tree, &globalfd, pipefd_tab)) == ERROR);
+	if ((ret = tree_traversal(tree, &globalfd, pipefd_tab)) == ERROR)
 	{
 		return (ret);
 		/* MSG ret: ERROR exit: TRUE msg: "whatever i don't have any ideas left"
