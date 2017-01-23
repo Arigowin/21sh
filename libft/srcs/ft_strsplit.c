@@ -40,10 +40,8 @@ int		get_nb_word(char const *s, char c)
 char	**new_tab(char const *s, char c)
 {
 	unsigned int	nb_word;
-	unsigned int	i;
 	char			**res;
 
-	i = 0;
 	nb_word = get_nb_word(s, c);
 	if (!(res = (char **)malloc((nb_word + 1) * sizeof(char *))))
 		return (NULL);
