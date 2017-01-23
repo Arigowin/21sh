@@ -1,3 +1,4 @@
+#include <term.h>
 #include "shell.h"
 #include "libft.h"
 
@@ -81,6 +82,7 @@ int					event(int k, t_line *stline, t_history **history)
 		ft_putendl_fd("------- EVENT ------", 2);
 
 	int					i;
+	int					ret;
 	static t_key_fct	tbl_keys[18] =
 	{
 		{RETURN, fct_return}, {BACKSPACE, fct_backspace}, {DOWN, history_down},
@@ -92,21 +94,29 @@ int					event(int k, t_line *stline, t_history **history)
 	};
 
 	i = -1;
+	ret = 0;
+	tputs(tgetstr("vi", NULL), 1, my_outc);
 	while(++i < 18)
+	{
 		if (tbl_keys[i].key == k)
-			return(tbl_keys[i].fct((stline->hrd.nb > 0 ? &(stline->hrd.line)
+		{
+			ret = tbl_keys[i].fct((stline->hrd.nb > 0 ? &(stline->hrd.line)
 							: &(stline->line)),	(stline->hrd.nb > 0 ? &(stline->hrd.pos)
-							: &(stline->pos)), stline, history));
+							: &(stline->pos)), stline, history);
+			tputs(tgetstr("ve", NULL), 1, my_outc);
+			return(ret);
+		}
+	}
 	if (k != TAB && k > 31 && k < 128)
 	{
 		if (stline->hrd.nb <= 0)
 			handle_quote(k, &(stline->line), &(stline->pos), stline);
 		fct_insert((stline->hrd.nb > 0 ? &(stline->hrd.line) : &(stline->line)),
 				(stline->hrd.nb > 0 ? &(stline->hrd.pos) : &(stline->pos)), k, stline);
+		tputs(tgetstr("ve", NULL), 1, my_outc);
 	}
 
 	/*
-#include <term.h>
 	char *res;
 	tputs(tgetstr("sc", NULL), 1, my_outc);
 	res = tgetstr("cm", NULL);

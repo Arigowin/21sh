@@ -37,9 +37,9 @@ static int			delete_in_quote(char **str, int *pos, t_line *stline)
 	if (DEBUG_TERMCAPS == 1)
 		ft_putendl_fd("------- HANDLE DELETE QUOTE ------", 2);
 
-	if ((*str)[*pos - 1] == stline->quote)
+	if (*pos && *pos > 0 && (*str)[*pos - 1] == stline->quote)
 		stline->quote = 0;
-	else if (stline->quote == 0 && ((*str)[*pos - 1] == QUOTE
+	else if (*pos && *pos > 0 && stline->quote == 0 && ((*str)[*pos - 1] == QUOTE
 	|| (*str)[*pos - 1] == DQUOTE))
 		stline->quote = (*str)[*pos - 1];
 	return (TRUE);

@@ -1,0 +1,5 @@
+-Wall
+-Werror
+-Wextra
+-Iincludes
+-Ilibft/includes
