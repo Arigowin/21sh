@@ -139,20 +139,20 @@ int					handle_fork(int pipefd_tab[2][2], t_node *tree,
 	fpid = -1;
 	cmd = NULL;
 	ret = -1;
-	if (globalfd && *globalfd)
-	dprintf(2, "kkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkk (%p)\n", (*globalfd)->lstfd);
 	if ((cmd = format_cmd(tree)) == NULL)
 		return (ERROR);
 	if (pipefd_tab[0][0] < 0 && pipefd_tab[1][0] < 0)
 	{
 		// interieur du if a mettre dans une fonction
-		if (tree && tree->left && redirect(tree->left, (*globalfd)->lstfd) == ERROR)
+		if (tree && tree->left && *globalfd && redirect(tree->left, (*globalfd)->lstfd) == ERROR)
 		{
 			//			close_fd_red(&lstfd, saved_std);
 			/* RET: error EXIT: false MSG: "i don't know" */
 			return (ERROR);
 		}
-		else if (tree->left)
+		else if (tree && tree->left && tree->left->type == DLRED && redirect(tree->left, NULL) == ERROR)
+			return (ERROR);
+		else if (tree->left && *globalfd)
 			*globalfd = (*globalfd)->next;
 		if ((ret = check_builtin(cmd, pipefd_tab, NULL)) == TRUE)
 			return (TRUE);

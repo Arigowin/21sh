@@ -47,9 +47,9 @@ int					fill_hrd_content(t_line *stline, t_node **tree)
 			/* RET: error EXIT: true MSG: "malloc fail" */
 			return (ERROR);
 	}
-	else
+	else// if (tree && (*tree) && (*tree)->right && (*tree)->right->right && (*tree)->right->type == RED_ARG)
 	{
-		if(((*tree)->right->right->data = ft_strsub(stline->hrd.line, 0,
+		if(((*tree)->right->right->right->data = ft_strsub(stline->hrd.line, 0,
 		len + 1)) == NULL)
 			/* RET: error EXIT: true MSG: "malloc fail" */
 			return (ERROR);
@@ -67,7 +67,6 @@ int					heredoc_handler(t_line *stline, t_node **tree,
 		return (FALSE);
 	if ((*tree)->type == DLRED)
 	{
-		dprintf(2, "hhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhh\n");
 		stline->hrd.deli = ((*tree)->right->type == RED_ARG ? (*tree)->right
 													: (*tree)->right->right);
 		stline->hrd.ptr = stline->hrd.line;

@@ -7,13 +7,12 @@ int					fd_exist(int fd)
 	if (DEBUG_RED == 1)
 		ft_putendl_fd("------------ FD EXIST ------------", 2);
 
-	dprintf(2, "fd in fd exist : (%d)\n", fd);
 	if (isatty(fd) == 0)
 	{
 		ft_putstr("21sh: ");
 		ft_putstr(ft_itoa(fd));
 		ft_putendl(": Bad file descriptor");
-		/* RET: error EXIT: true MSG: "bad file descriptor" 
+		/* RET: error EXIT: true MSG: "bad file descriptor"
 		 * FREE: tree stline history globalfd */
 		return (FALSE);
 	}
@@ -66,9 +65,7 @@ int					heredoc_red(t_node *tree, int fd)
 	if (tree->type == RED_FD)
 		str = ft_strdup(tree->right->right->data);
 	else
-	{
 		str = ft_strdup(tree->right->data);
-	}
 	if (tree && tree->type == RED_FD
 	&& ft_strcmp(tree->data, "&"))
 		fd = ft_atoi(tree->data);
@@ -86,13 +83,12 @@ int					heredoc_red(t_node *tree, int fd)
 
 int					redirect(t_node *tree, t_lst_fd *lstfd)
 {
-	if (DEBUG_RED == 1)
-		ft_putendl_fd("------- RED -------", 2);
+//	if (DEBUG_RED == 1)
+		ft_putendl_fd("------- REDIRECT -------", 2);
 
 	int					fd;
 
-	dprintf(2, "77777777777777777777777777777777777777777777(%s)\n", tree->data);
-	if (lstfd == NULL || tree == NULL || (lstfd && lstfd->fd == -1))
+	if ((lstfd == NULL && tree->type != DLRED) || tree == NULL || (lstfd && lstfd->fd == -1))
 		return (FALSE);
 	fd = ((tree->type == LRED || tree->type == DLRED) ? STDIN_FILENO : STDOUT_FILENO);
 	if (tree && tree->right && (tree->type != DLRED))
