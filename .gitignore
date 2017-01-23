@@ -34,3 +34,10 @@
 
 # tricks for linter to find includes files
 srcs/shell.h
+
+# cscope
+GPATH
+GTAGS
+GRTAGS
+cscope.files
+cscope.out
