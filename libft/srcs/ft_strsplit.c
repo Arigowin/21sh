@@ -3,64 +3,78 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strsplit.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: avacher <avacher@student.42.fr>            +#+  +:+       +#+        */
+/*   By: nkhaldi <nkhaldi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2015/11/26 12:59:59 by avacher           #+#    #+#             */
-/*   Updated: 2015/11/29 16:27:42 by avacher          ###   ########.fr       */
+/*   Created: 2015/09/26 14:37:18 by nkhaldi           #+#    #+#             */
+/*   Updated: 2015/11/25 11:31:47 by nkhaldi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-static int		ft_words_count(const char *s, char c)
+int		get_nb_word(char const *s, char c)
 {
-	int				cpt;
-	int				nb_w;
+	unsigned int	i;
+	unsigned int	nb_word;
+	unsigned int	len;
 
-	cpt = 0;
-	nb_w = 0;
-	if (s != NULL)
+	i = 0;
+	nb_word = 0;
+	len = 0;
+	while (i < (unsigned int)ft_strlen(s))
 	{
-		while (s[cpt])
+		if (*(s + i) != c)
+			len++;
+		else if (*(s + i) == c && len > 0)
 		{
-			if (s[cpt] != c)
-			{
-				nb_w++;
-				while (s[cpt] != c && s[cpt])
-					cpt++;
-			}
-			cpt++;
+			nb_word++;
+			len = 0;
 		}
-		return (nb_w + 1);
+		i++;
 	}
-	return (0);
+	if (*(s + i) == '\0' && len > 0)
+		nb_word++;
+	return (nb_word);
 }
 
-char				**ft_strsplit(const char *s, char c)
+char	**new_tab(char const *s, char c)
 {
-	int		cpt1;
-	int		cpt2;
-	char		*tmp;
-	char		**tab;
-	int		i;
+	unsigned int	nb_word;
+	unsigned int	i;
+	char			**res;
 
-	cpt1 = 0;
-	cpt2 = 0;
 	i = 0;
-	tab = (char **)malloc(sizeof(char*) * (ft_words_count(s, c)));
-	if (ft_words_count(s, c) == 0 || tab == NULL)
+	nb_word = get_nb_word(s, c);
+	if (!(res = (char **)malloc((nb_word + 1) * sizeof(char *))))
 		return (NULL);
-	while (s[cpt1])
+	return (res);
+}
+
+char	**ft_strsplit(char const *s, char c)
+{
+	char			**res;
+	unsigned int	i;
+	unsigned int	j;
+	unsigned int	len;
+
+	i = 0;
+	j = 0;
+	len = 0;
+	res = new_tab(s, c);
+	while (*(s + i))
 	{
-		cpt1 = cpt2;
-		while (s[cpt1] && cpt2 < ft_strlen(s) && s[cpt2] != c)
-			cpt2++;
-		tmp = ft_strsub(s, cpt1, cpt2 - cpt1);
-		if (tmp != NULL && (cpt2 - cpt1) > 0)
-			tab[i++] = tmp;
-		cpt1++;
-		cpt2++;
+		if (*(s + i) != c)
+			len++;
+		else if (*(s + i) == c && len > 0)
+		{
+			*(res + j) = ft_strsub(s, i - len, len);
+			j++;
+			len = 0;
+		}
+		i++;
 	}
-	tab[i] = 0;
-	return (tab);
+	if (*(s + i) == '\0' && len > 0)
+		*(res + j++) = ft_strsub(s, i - len, len);
+	*(res + j) = NULL;
+	return (res);
 }
