@@ -41,6 +41,7 @@ int					reset_term(void)
 
 	struct termios		term;
 
+	tputs(tgetstr("ve", NULL), 1, my_outc);
 	if (tcgetattr(0, &term) == ERROR)
 		/* RET: error EXIT: true MSG: "Could not access the termcap data base." */
 		return (ERROR);
