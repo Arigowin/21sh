@@ -46,12 +46,19 @@ char				*get_env(char *name)
 	if (DEBUG == 1)
 		ft_putendl_fd("------- GET ENV ------", 2);
 	t_duo				*env;
+	char				*tmp;
 
+	tmp = NULL;
 	env = savior(NULL, FALSE);
 	while (env)
 	{
 		if (ft_strcmp(name, env->name) == 0)
-			return (ft_strdup(env->value)); // MALLOC
+		{
+			if (env->value != NULL && ((tmp = ft_strdup(env->value)) == NULL)) // MALLOC
+				return (NULL);
+				/* cf MSG + exit*/
+			return (tmp);
+		}
 		env = env->next;
 	}
 	return (NULL);
