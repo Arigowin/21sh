@@ -56,7 +56,7 @@ char				*get_env(char *name)
 		{
 			if (env->value != NULL && ((tmp = ft_strdup(env->value)) == NULL)) // MALLOC
 				return (NULL);
-				/* cf MSG + exit*/
+				/* MSG ret: NULL exit: TRUE msg: malloc error */
 			return (tmp);
 		}
 		env = env->next;
