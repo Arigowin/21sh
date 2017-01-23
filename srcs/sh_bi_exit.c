@@ -29,6 +29,7 @@ int					bi_exit(char **arg, t_duo **env)
 	ft_putendl("exit");
 	free_tab(&arg);
 	duo_del(env);
+	reset_term();
 	exit(i);
 	return (0);
 }
