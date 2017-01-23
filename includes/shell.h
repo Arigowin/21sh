@@ -138,6 +138,7 @@ typedef struct			s_line //-> savior
 	int					curs_y;
 	int					quote;
 	char				*line;
+	char				*cur_hist;
 	struct winsize		win;
 	struct s_copy		copy;
 	struct s_heredoc	hrd;
