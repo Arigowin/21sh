@@ -19,7 +19,7 @@ int					bi_echo(char **arg, t_duo **env)
 			if (arg[i + 1])
 				ft_putchar(' ');
 			i++;
-		
+		}
 	}
 	ft_putchar('\n');
 	return (TRUE);
