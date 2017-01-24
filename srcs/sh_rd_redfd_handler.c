@@ -30,7 +30,7 @@ int					close_lstfd(t_lst_fd **lstfd)
 	t_lst_fd			*tmp;
 
 	tmp = NULL;
-	while (*lstfd)
+	while (lstfd && *lstfd)
 	{
 		if ((*lstfd)->fd > 2)
 			close((*lstfd)->fd);

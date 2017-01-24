@@ -89,6 +89,7 @@ int					handle_builtin(char **cmd)
 		ft_putendl_fd("------- HANDLE BUILTIN ------", 2);
 
 	int					i;
+	int					ret;
 	t_duo				*env;
 	static const char	*bi[] = {"echo", "cd", "setenv", "unsetenv", "env", "exit"};
 	static int			(*tbl_bi[])(char **cmd, t_duo **env) = {&bi_echo, &bi_cd, &bi_setenv, &bi_unsetenv, &bi_env, &bi_exit};
@@ -99,11 +100,11 @@ int					handle_builtin(char **cmd)
 		i++;
 	if (i < 6 && ft_strcmp(cmd[0], bi[i]) == 0)
 	{
-		if (tbl_bi[i](cmd, &env) == ERROR)
+		if ((ret = tbl_bi[i](cmd, &env)) == ERROR)
 			/* MSG ret: ERROR exit: FALSE msg: "command not found: cmd." */
 			return (ERROR);
-//		else
-//			return (TRUE);
+		else
+			return (ret);
 	}
 	return (FALSE);
 }
