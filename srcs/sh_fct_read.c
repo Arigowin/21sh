@@ -48,8 +48,8 @@ int					read_n_check(int *nb_hrd, char *read_buff, t_node **tree)
 		expr_del(&l_expr);
 		return (ret);
 	}
-	if (l_expr)
-		expr_del(&l_expr);
+	//if (l_expr)
+	expr_del(&l_expr);
 	if (DEBUG_TREE_VERIF == 1)
 		tree_traversal_verif(*tree);
 	return (TRUE);

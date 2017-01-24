@@ -33,29 +33,15 @@ int				expr_del(t_e_list **new)
 	t_e_list	*tmp;
 	t_e_list	*trash;
 
-	tmp = (*new)->next;
-	trash = NULL;
+	tmp = *new;
 	while (tmp)
 	{
 		trash = tmp;
-		trash->type = NONE;
-		ft_strdel(&(trash->data));
-		trash->data = NULL;
-		trash->next = NULL;
-		free(trash);
-		trash = NULL;
 		tmp = tmp->next;
-	}
-	if (trash)
-	{
 		ft_strdel(&(trash->data));
-		trash->data = NULL;
+		free(trash);
 	}
-	if (*new)
-	{
-		ft_strdel(&((*new)->data));
-		free(*new);
-	}
+	*new = NULL;
 	return (TRUE);
 }
 
@@ -66,14 +52,18 @@ int 				expr_pushbk(t_e_list **l_expr, char *data_tmp)
 
 	t_e_list			*tmp;
 
-	tmp = NULL;
-	if (data_tmp == NULL && *data_tmp == '\0')
+	if (data_tmp == NULL || *data_tmp == '\0')
 		return (FALSE);
 	if (!(l_expr && *l_expr))
 	{
+		*l_expr = expr_new(data_tmp);
+		printf("XXXXXXXXXXXX %s\n", (*l_expr)->data);
+		return (TRUE);
+		/*
 		if ((*l_expr = expr_new(data_tmp)) == NULL) // return useless
 			return (ERROR);
 		return (TRUE);
+		*/
 	}
 	tmp = *l_expr;
 	while (tmp->next)

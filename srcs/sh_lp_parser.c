@@ -17,12 +17,16 @@ int					parse_error(char *data)
 
 int					move_in_list(t_e_list **l_expr)
 {
+	t_e_list	*trash;
 	if (DEBUG_PARSER == 1)
 		ft_putendl_fd("------- MOVE IN LIST ------\n", 2);
 
 	if ((*l_expr) && (*l_expr)->next)
 	{
+		trash = *l_expr;
 		(*l_expr) = (*l_expr)->next;
+		ft_strdel(&(trash->data));
+		free(trash);
 		return (TRUE);
 	}
 	return (FALSE);
