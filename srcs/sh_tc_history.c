@@ -43,25 +43,62 @@ void				add_history(t_history **history, char *line)
 	}
 }
 
+void				modif_history(t_history **history, char *line)
+{
+	if (DEBUG_HISTORY == 1)
+		ft_putendl_fd("------- ADD HISTORY ------", 2);
+
+	if (*history == NULL || ft_strncmp((*history)->line, line, ft_strlen((*history)->line)) != 0)
+	{
+		add_history(history, line);
+		return ;
+	}
+	ft_strdel(&((*history)->line));
+	if (((*history)->line = ft_strdup(line)) == NULL)
+		/* RET = error EXIT = true msg = "malloc fail" */
+		return ;
+}
+
 int					history_up(char **str, int *pos, t_line *stline,
 					t_history **history)
 {
 	if (DEBUG_HISTORY == 1)
-		ft_putendl_fd("---------------- HISTORY UP --------------------------", 2);
+		ft_putendl_fd("---------------- HISTORY UP -----------------------", 2);
 
 	int					i;
+	char				*tmp;
+	char				*tmpchr;
+	int					ret;
 
 	if (*history == NULL)
 		return (FALSE);
-	i = 0;
-	if ((*history)->prev)
-	{
-		if (ft_strcmp(*str, (*history)->line) == 0)
-			*history = (*history)->prev;
-		else if (ft_strstr(*str, (*history)->line) != NULL)
-			*history = (*history)->prev;
-	}
 	fct_end(str, pos, stline, history);
+	tmp = (*pos > 0 && (*str)[*pos - 1] == '\n' ? ft_strsub(*str, 0, *pos - 1) : ft_strdup(*str));
+	if ((*history)->next == NULL && *pos > 0 && ft_strcmp(tmp, (*history)->line) != 0)
+	{
+		tmpchr = ft_strrchr(tmp, '\n');
+		if (tmpchr && ft_strlen(tmpchr) > 1)
+			stline->curr_hist = ft_strdup(tmpchr + 1);
+		else if (*str && *pos > 0 && (*str)[*pos - 1] != '\n')
+			stline->curr_hist = ft_strdup(*str);
+	}
+	i = 0;
+	if ((*history)->prev && *str)
+	{
+		tmpchr = ft_strrchr(tmp, '\n');
+		if (tmpchr != NULL && ft_strlen(tmpchr) > 1)
+		{
+			(tmpchr)++;
+			if ((ret = ft_strcmp(tmpchr, (*history)->line)) == 0)
+				*history = (*history)->prev;
+		}
+		else
+		{
+			if ((ret = ft_strcmp(tmp, (*history)->line)) == 0)
+				*history = (*history)->prev;
+		}
+		ft_strdel(&tmp);
+	}
 	while (left_move_cdt(*pos, stline))
 		fct_backspace(str, pos, stline, history);
 	while (((*history)->line)[i])
@@ -73,10 +110,10 @@ int					history_up(char **str, int *pos, t_line *stline,
 }
 
 int					history_down(char **str, int *pos, t_line *stline,
-					t_history **history)
+								 t_history **history)
 {
 	if (DEBUG_HISTORY == 1)
-		ft_putendl_fd("---------------- HISTORY DOWN --------------------------", 2);
+		ft_putendl_fd("---------------- HISTORY DOWN ---------------------", 2);
 
 	int					i;
 
@@ -95,6 +132,15 @@ int					history_down(char **str, int *pos, t_line *stline,
 	{
 		fct_insert(str, pos, ((*history)->line)[i], stline);
 		i++;
+	}
+	if (i == -1 && stline->curr_hist)
+	{
+		i = 0;
+		while ((stline->curr_hist)[i])
+		{
+			fct_insert(str, pos, (stline->curr_hist)[i], stline);
+			i++;
+		}
 	}
 	return (TRUE);
 }

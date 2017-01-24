@@ -42,6 +42,7 @@ int					init_stline(t_line *stline)
 	stline->hrd.pos = 0;
 	stline->hrd.ptr = NULL;
 	stline->hrd.deli = NULL;
+	stline->curr_hist = NULL;
 	savior_stline(stline, TRUE);
 	return (TRUE);
 }
@@ -61,5 +62,6 @@ int					reset_stline(t_line *stline)
 	stline->hrd.pos = 0;
 	stline->hrd.ptr = NULL;
 	stline->hrd.deli = NULL;
+	ft_strdel(&( stline->curr_hist));
 	return (TRUE);
 }

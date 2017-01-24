@@ -138,6 +138,7 @@ typedef struct			s_line //-> savior
 	int					curs_y;
 	int					quote;
 	char				*line;
+	char				*curr_hist;
 	struct winsize		win;
 	struct s_copy		copy;
 	struct s_heredoc	hrd;
@@ -348,6 +349,7 @@ int						fct_del(char **s, int *pos, t_line *l, t_history **h);
 ** sh_tc_history
 */
 void					add_history(t_history **h, char *line);
+void					modif_history(t_history **history, char *line);
 int						history_down(char **str, int *pos, t_line *stline,
 	   						t_history **history);
 int						history_up(char **s, int *p, t_line *l, t_history **h);
