@@ -30,6 +30,9 @@ int					fct_return(char **str, int *pos, t_line *stline,
 			if (check_end_heredoc(stline) == BREAK)
 				return (BREAK);
 		}
+		ft_strdel(&(stline->curr_hist));
+		if (*str && (*str)[0] && stline->quote != 0)
+			modif_history(history, *str);
 		return (mini_prt_handler(str, pos, stline));
 	}
 	else
@@ -44,7 +47,8 @@ int					fct_return(char **str, int *pos, t_line *stline,
 	return (FALSE);
 }
 
-int					fct_ctrl_d(char **str, int *pos, t_line *stline, t_history **history)
+int					fct_ctrl_d(char **str, int *pos, t_line *stline,
+							   t_history **history)
 {
 	if (DEBUG_KEY == 1)
 		ft_putendl_fd("------- FCT CTRL D ------", 2);
