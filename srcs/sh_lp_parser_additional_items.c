@@ -90,6 +90,7 @@ int					check_red(int *nb_hrd, t_e_list **l_expr, t_node **tree)
 		node->type = ft_strequ(list_save->data, ">>") ? DRRED : node->type;
 		node->type = ft_strequ(list_save->data, "<") ? LRED : node->type;
 		node->type = ft_strequ(list_save->data, "<<") ? DLRED : node->type;
+		// TOTO
 		*nb_hrd += (node->type == DLRED ? 1 : 0);
 		if (!move_in_list(l_expr) || check_red(nb_hrd, l_expr, &(node->left)) != TRUE)
 			*tree = save;

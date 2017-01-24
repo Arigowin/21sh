@@ -15,20 +15,28 @@ int 				mini_prt_handler(char **str, int *pos, t_line *stline)
 }
 
 int					fct_return(char **str, int *pos, t_line *stline,
-					t_history **history)
+							   t_history **history)
 {
 	if (DEBUG_KEY == 1)
 		ft_putendl_fd("------- FCT RETURN ------", 2);
 
 	fct_end(str, pos, stline, history);
+	// TOTO
 	if (stline->quote != 0 ||
-		(*pos > 0 && (*str)[*pos - 1] && (*str)[*pos - 1] == '\\') ||
-		stline->hrd.nb > 0)
+		(*pos > 0 && (*str)[*pos - 1] &&
+		 (( (*str)[*pos - 1] == '\\' ) || ( (*str)[*pos - 1]) == '|' ))
+		|| stline->hrd.nb > 0) // ajout si 'pipe' a la fin de la ligne
 	{
 		if (stline->hrd.nb > 0)
 		{
 			if (check_end_heredoc(stline) == BREAK)
 				return (BREAK);
+		}
+		// TOTO
+		if (*pos > 0 && (*str)[*pos - 1] && (*str)[*pos - 1] == '|')
+		{
+			if (str)
+				BREAK;
 		}
 		return (mini_prt_handler(str, pos, stline));
 	}
@@ -84,14 +92,14 @@ int					event(int k, t_line *stline, t_history **history)
 	int					i;
 	int					ret;
 	static t_key_fct	tbl_keys[18] =
-	{
-		{RETURN, fct_return}, {BACKSPACE, fct_backspace}, {DOWN, history_down},
-		{HOME, fct_home}, {DEL, fct_del}, {CTRL_D, fct_ctrl_d}, {END, fct_end},
-		{LEFT, fct_left}, {RIGHT, fct_right}, {UP, history_up},
-		{CTRL_LEFT, fct_ctrl_left}, {CTRL_RIGHT, fct_ctrl_right},
-		{CTRL_UP, fct_up}, {CTRL_DOWN, fct_down}, {CUT, fct_cut},
-		{HIGHLIGHT, fct_highlight}, {PASTE, fct_paste}, {COPY, fct_copy}
-	};
+		{
+			{RETURN, fct_return}, {BACKSPACE, fct_backspace}, {DOWN, history_down},
+			{HOME, fct_home}, {DEL, fct_del}, {CTRL_D, fct_ctrl_d}, {END, fct_end},
+			{LEFT, fct_left}, {RIGHT, fct_right}, {UP, history_up},
+			{CTRL_LEFT, fct_ctrl_left}, {CTRL_RIGHT, fct_ctrl_right},
+			{CTRL_UP, fct_up}, {CTRL_DOWN, fct_down}, {CUT, fct_cut},
+			{HIGHLIGHT, fct_highlight}, {PASTE, fct_paste}, {COPY, fct_copy}
+		};
 
 	i = -1;
 	ret = 0;
@@ -101,8 +109,8 @@ int					event(int k, t_line *stline, t_history **history)
 		if (tbl_keys[i].key == k)
 		{
 			ret = tbl_keys[i].fct((stline->hrd.nb > 0 ? &(stline->hrd.line)
-							: &(stline->line)),	(stline->hrd.nb > 0 ? &(stline->hrd.pos)
-							: &(stline->pos)), stline, history);
+								   : &(stline->line)),	(stline->hrd.nb > 0 ? &(stline->hrd.pos)
+														 : &(stline->pos)), stline, history);
 			tputs(tgetstr("ve", NULL), 1, my_outc);
 			return(ret);
 		}
@@ -112,23 +120,23 @@ int					event(int k, t_line *stline, t_history **history)
 		if (stline->hrd.nb <= 0)
 			handle_quote(k, &(stline->line), &(stline->pos), stline);
 		fct_insert((stline->hrd.nb > 0 ? &(stline->hrd.line) : &(stline->line)),
-				(stline->hrd.nb > 0 ? &(stline->hrd.pos) : &(stline->pos)), k, stline);
+				   (stline->hrd.nb > 0 ? &(stline->hrd.pos) : &(stline->pos)), k, stline);
 		tputs(tgetstr("ve", NULL), 1, my_outc);
 	}
 
 	/*
-	char *res;
-	tputs(tgetstr("sc", NULL), 1, my_outc);
-	res = tgetstr("cm", NULL);
-	tputs(tgoto(res, 3, 0), 1, my_outc);
-	tputs(tgetstr("ce", NULL), 1, my_outc);
-	ft_putstr("x :");
-	ft_putnbr(stline->curs_x);
-	ft_putstr(" y :");
-	ft_putnbr(stline->curs_y);
-	ft_putstr(" pos :");
-	ft_putnbr(stline->pos);
-	tputs(tgetstr("rc", NULL), 1, my_outc);
+	  char *res;
+	  tputs(tgetstr("sc", NULL), 1, my_outc);
+	  res = tgetstr("cm", NULL);
+	  tputs(tgoto(res, 3, 0), 1, my_outc);
+	  tputs(tgetstr("ce", NULL), 1, my_outc);
+	  ft_putstr("x :");
+	  ft_putnbr(stline->curs_x);
+	  ft_putstr(" y :");
+	  ft_putnbr(stline->curs_y);
+	  ft_putstr(" pos :");
+	  ft_putnbr(stline->pos);
+	  tputs(tgetstr("rc", NULL), 1, my_outc);
 	*/
 
 	return (TRUE);
