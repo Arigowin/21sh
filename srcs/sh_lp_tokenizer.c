@@ -92,7 +92,7 @@ int					tokenizer(char *read_buff, t_e_list **l_expr)
 		}
 		ft_putendl("");
 	}
+	ft_strdel(&data_tmp); // MALLOC_FREE_OK // a priori
 	// fin  ANTIBUG !!!!!!!!!
-
 	return (TRUE);
 }

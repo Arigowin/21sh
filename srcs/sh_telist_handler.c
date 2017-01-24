@@ -25,6 +25,40 @@ t_e_list			*expr_new(char *content)
 	return (new);
 }
 
+int				expr_del(t_e_list **new)
+{
+	//if (DEBUG_LEXER_PARSER == 1)
+	//	ft_putendl_fd("------- EXPR DEL ------", 2);
+
+	t_e_list	*tmp;
+	t_e_list	*trash;
+
+	tmp = (*new)->next;
+	trash = NULL;
+	while (tmp)
+	{
+		trash = tmp;
+		trash->type = NONE;
+		ft_strdel(&(trash->data));
+		trash->data = NULL;
+		trash->next = NULL;
+		free(trash);
+		trash = NULL;
+		tmp = tmp->next;
+	}
+	if (trash)
+	{
+		ft_strdel(&(trash->data));
+		trash->data = NULL;
+	}
+	if (*new)
+	{
+		ft_strdel(&((*new)->data));
+		free(*new);
+	}
+	return (TRUE);
+}
+
 int 				expr_pushbk(t_e_list **l_expr, char *data_tmp)
 {
 	if (DEBUG_LEXER_PARSER == 1)

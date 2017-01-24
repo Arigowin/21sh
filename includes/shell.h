@@ -212,6 +212,7 @@ int						handle_builtin(char **cmd);
 /*
 ** sh_t_e_list_handler
 */
+int						expr_del(t_e_list **new);
 t_e_list				*expr_new(char *content);
 int 					expr_pushbk(t_e_list **l_expr, char *data_tmp);
 
