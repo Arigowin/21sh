@@ -100,6 +100,20 @@ int					event(int k, t_line *stline, t_history **history)
 	i = -1;
 	ret = 0;
 	tputs(tgetstr("vi", NULL), 1, my_outc);
+
+	char *res;
+	tputs(tgetstr("sc", NULL), 1, my_outc);
+	res = tgetstr("cm", NULL);
+	tputs(tgoto(res, 3, 0), 1, my_outc);
+	tputs(tgetstr("ce", NULL), 1, my_outc);
+	ft_putstr("x :");
+	ft_putnbr(stline->curs_x);
+	ft_putstr(" y :");
+	ft_putnbr(stline->curs_y);
+	ft_putstr(" pos :");
+	ft_putnbr(stline->pos);
+	tputs(tgetstr("rc", NULL), 1, my_outc);
+
 	while(++i < 18)
 	{
 		if (tbl_keys[i].key == k)
@@ -119,21 +133,5 @@ int					event(int k, t_line *stline, t_history **history)
 				(stline->hrd.nb > 0 ? &(stline->hrd.pos) : &(stline->pos)), k, stline);
 		tputs(tgetstr("ve", NULL), 1, my_outc);
 	}
-
-	/*
-	char *res;
-	tputs(tgetstr("sc", NULL), 1, my_outc);
-	res = tgetstr("cm", NULL);
-	tputs(tgoto(res, 3, 0), 1, my_outc);
-	tputs(tgetstr("ce", NULL), 1, my_outc);
-	ft_putstr("x :");
-	ft_putnbr(stline->curs_x);
-	ft_putstr(" y :");
-	ft_putnbr(stline->curs_y);
-	ft_putstr(" pos :");
-	ft_putnbr(stline->pos);
-	tputs(tgetstr("rc", NULL), 1, my_outc);
-	*/
-
 	return (TRUE);
 }

@@ -18,5 +18,18 @@ addons:
     packages:
         - gcc-multilib
 
+  # blocklist
+branches:
+except:
+    - naima 
+    - debugyver
+
+      # safelist
+branches:
+    only:
+        - master
+        - david
+        - Jaahd
+
 notifications:
     slack: dwarfoftherap:XvMGuDfbjzM8bvWTA1vEfPTK
