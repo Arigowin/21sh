@@ -57,10 +57,17 @@ int					bi_opt(char *arg, int *no_more, char *handled_opt)
 		*no_more = TRUE;
 	else if (arg && arg[0] && arg[0] == '-' && arg[1])
 	{
-		ft_putstr_fd(arg, 2);
-		ft_putendl_fd(": invalid option.", 2);
-	//	cd_error(1, arg); // invalid option
-		return (ERROR);
+		while (arg[i])
+		{
+			if (ft_strchr(handled_opt, arg[i]) == NULL)
+			{
+				ft_putstr_fd(arg, 2);
+				ft_putendl_fd(": invalid option.", 2);
+				//	cd_error(1, arg); // invalid option
+				return (ERROR);
+			}
+			i++;
+		}
 	}
 	return (TRUE);
 }
@@ -88,7 +95,7 @@ int					bi_cd(char **arg, t_duo **env)
 
 	while (arg[i] && arg[i][0] && arg[i][0] == '-' && arg[i][1])
 	{
-		if ((ret = bi_opt(arg[i], &no_more)) != TRUE)
+		if ((ret = bi_opt(arg[i], &no_more, "")) != TRUE)
 			break ;
 		i++;
 	}

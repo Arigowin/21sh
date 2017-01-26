@@ -149,9 +149,11 @@ int					check_expr(int *nb_hrd, t_e_list **l_expr, t_node **tree)
 			node->data = ft_strdup_ignchar((*l_expr)->data, '\\');
 			*tree = node;
 			if (move_in_list(l_expr))
+			{
 				if (check_expr(nb_hrd, l_expr, &(node->right)) == ERROR)
 					return (ERROR);
-			*tree = node;
+				*tree = node;
+			}
 			return (TRUE);
 		}
 		*tree = *node_to_give;
