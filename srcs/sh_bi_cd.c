@@ -7,11 +7,8 @@ static int			change_dir(char *path)
 //	if (DEBUG_BUILTIN == 1)
 		ft_putendl_fd("------- CHANGE DIR ------", 2);
 
-		printf("****%p*****\n", path);
-		printf("****%s*****\n", path);
 	if (chdir(path) == -1)
 	{
-		printf("********\n");
 		ft_putstr("21sh: cd: ");
 		ft_putstr(path);
 		if ((access(path, F_OK)) == ERROR)
@@ -21,7 +18,6 @@ static int			change_dir(char *path)
 		return (ERROR);
 	}
 	ft_strdel(&path);
-		printf("+++++++++\n");
 	return (TRUE);
 }
 
@@ -39,7 +35,6 @@ int					cd_home()
 		return (ERROR);
 	}
 	ret = change_dir(path);
-	printf("(((((%s)))))\n", path);
 	return (ret);
 }
 
@@ -72,51 +67,57 @@ int					bi_opt(char *arg, int *no_more, char *handled_opt)
 	return (TRUE);
 }
 
+int					check_opt(char **arg, int *i)
+{
+	int					no_more;
+	int					ret;
+
+	ret = FALSE;
+	no_more = FALSE;
+	while (arg[*i] && arg[*i][0] && arg[*i][0] == '-' && arg[*i][1])
+	{
+		if ((ret = bi_opt(arg[*i], &no_more, "")) != TRUE)
+			break ;
+		(*i)++;
+	}
+	if (ret == ERROR)
+		return (ERROR);
+	return (TRUE);
+}
+
 int					bi_cd(char **arg, t_duo **env)
 {
 //	if (DEBUG_BUILTIN == 1)
 		ft_putendl_fd("------- BI CD ------", 2);
 
-	char				*tmp_pwd;
-	char				*tmp_old_pwd;
+	char				*tmp;
 	char				*path;
-	int					no_more;
 	int					i;
 	int					ret;
 
 	i = 1;
 	ret = 0;
-	no_more = FALSE;
 	(void)env;
 	path = NULL;
-	tmp_pwd = NULL;
-	tmp_pwd = getcwd(tmp_pwd, MAX_PATH);
-	tmp_old_pwd = get_env("OLDPWD");
+	tmp = get_env("OLDPWD");
 
-	while (arg[i] && arg[i][0] && arg[i][0] == '-' && arg[i][1])
-	{
-		if ((ret = bi_opt(arg[i], &no_more, "")) != TRUE)
-			break ;
-		i++;
-	}
-	if (ret == ERROR)
+	if (check_opt(arg, &i) == ERROR)
 		return (ERROR);
-	if (arg[i])
-		printf("{{{{%s}}}}\n", arg[i]);
 	if (!arg[i] || (arg[i] && arg[i][0] == '~' && !arg[i][1]))
 		ret = cd_home();
 	else if (arg[i] && arg[i][0] == '-' && !arg[i][1])
 	{
-		if (tmp_old_pwd)
-			ret = change_dir(tmp_old_pwd);
+		if (tmp)
+			ret = change_dir(tmp);
 		else
 			ft_putendl_fd("21sh: cd: no OLD_PWD variable set.", 2);
 	}
 	else
 		ret = change_dir(arg[i]);
+	tmp = getcwd(tmp, MAX_PATH);
 	if (ret == TRUE)
 	{
-		change_env("OLDPWD", tmp_pwd);
+		change_env("OLDPWD", tmp);
 		path = getcwd(path, MAX_PATH);
 		change_env("PWD", path);
 		return (0);
