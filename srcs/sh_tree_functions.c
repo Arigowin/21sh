@@ -42,6 +42,8 @@ int					clear_tree(t_node **tree)
 	if (DEBUG_PARSER == 1)
 		ft_putendl_fd("------- CLEAR TREE ------", 2);
 
+	if (tree && *tree)
+		printf("DELETE type : %s\n", (*tree)->data);
 	if ((*tree) && (*tree)->left)
 		clear_tree(&((*tree)->left));
 	if ((*tree) && (*tree)->right)
