@@ -14,6 +14,7 @@ t_node				*create_node(types type)
 		/* MSG ret: NULL exit: TRUE msg: "malloc fail" */
 	new->data = NULL;
 	new->type = type;
+	printf("CREATE type : %d\n", new->type);
 	new->left = NULL;
 	new->right = NULL;
 	return (new);
@@ -26,6 +27,7 @@ int					clear_node(t_node **node)
 
 	if (node && (*node) && !(*node)->left && !(*node)->right)
 	{
+		printf("DELETE type : %d\n", (*node)->type);
 		ft_strdel(&((*node)->data));
 		(*node)->type = NONE;
 		free(*node);

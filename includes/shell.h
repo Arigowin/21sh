@@ -180,6 +180,7 @@ int						sh_error(int ret_code, char *msg, int out);
 t_duo					*savior(t_duo *env, int code);
 t_line					*savior_stline(t_line *stline, int code);
 char					*savior_tty(char *tty, int code, int in);
+t_node					*savior_node(t_node *node, int code);
 
 /*
 ** sh_init

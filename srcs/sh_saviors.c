@@ -47,3 +47,16 @@ t_line				*savior_stline(t_line *stline, int code)
 		save = stline;
 	return (save);
 }
+
+
+t_node				*savior_node(t_node *node, int code)
+{
+	if (DEBUG_SAVIOR == 1)
+		ft_putendl_fd("------- SAVIOR NODE -------", 2);
+
+	static t_node		*save = NULL;
+
+	if ((save == NULL && node) || code == TRUE)
+		save = node;
+	return (save);
+}
