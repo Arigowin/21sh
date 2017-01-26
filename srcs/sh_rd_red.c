@@ -103,7 +103,9 @@ int					redirect(t_node *tree, t_lst_fd *lstfd)
 	}
 	if (tree && tree->left && lstfd && lstfd->fd != -1)
 	{
-		if (redirect(tree->left, lstfd->next) == ERROR)
+		if (tree->type == DLRED && redirect(tree->left, lstfd) == ERROR)
+			return (ERROR);
+		if (tree->type != DLRED && redirect(tree->left, lstfd->next) == ERROR)
 			return (ERROR);
 	}
 	return (TRUE);

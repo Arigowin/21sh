@@ -14,7 +14,7 @@ int 				pfd_handler(int pipefd_tab[2][2])
 	if (DEBUG == 1)
 		ft_putendl_fd("------- PFD HANDLER ------", 2);
 
-	dprintf(2, "pfd 00 : (%d)\tpfd 01 : (%d)\tpfd 10 : (%d)\tpfd 11 : (%d)\n", pipefd_tab[0][0], pipefd_tab[0][1], pipefd_tab[1][0], pipefd_tab[1][1]);
+	//dprintf(2, "pfd 00 : (%d)\tpfd 01 : (%d)\tpfd 10 : (%d)\tpfd 11 : (%d)\n", pipefd_tab[0][0], pipefd_tab[0][1], pipefd_tab[1][0], pipefd_tab[1][1]);
 	if (pipefd_tab && pipefd_tab[0][0] < 0 && pipefd_tab[1][0] >= 0)
 	{
 		close(pipefd_tab[1][0]);
@@ -102,9 +102,10 @@ int					son(char **cmd, int pipefd_tab[2][2], t_node *tree,
 	if (DEBUG == 1)
 		ft_putendl_fd("------- SON ------", 2);
 
+		dprintf(2, "trololo \n");
 	pfd_handler(pipefd_tab);
 	if (globalfd && *globalfd)
-	dprintf(2, "tttttttttttttttttttttttttttttt (%p)\n", (*globalfd)->lstfd);
+	//dprintf(2, "tttttttttttttttttttttttttttttt (%p)\n", (*globalfd)->lstfd);
 	if ((pipefd_tab[0][0] >= 0 || pipefd_tab[1][0] >= 0) && tree && tree->left
 	&& globalfd && *globalfd && redirect(tree->left, (*globalfd)->lstfd) == ERROR)
 		/* RET: error EXIT: false MSG: "i don't know" */
@@ -143,6 +144,7 @@ int					handle_fork(int pipefd_tab[2][2], t_node *tree,
 		return (ERROR);
 	if (pipefd_tab[0][0] < 0 && pipefd_tab[1][0] < 0)
 	{
+		//dprintf(2, "tree : ((%s))\tlstfd : ((%s))\n", tree->left->data, (*globalfd)->lstfd->filename);
 		// interieur du if a mettre dans une fonction
 		if (tree && tree->left && *globalfd && redirect(tree->left, (*globalfd)->lstfd) == ERROR)
 		{

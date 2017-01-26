@@ -44,7 +44,6 @@ char				**format_cmd(t_node *tree)
 		i++;
 	}
 	ret = tree_to_tbl(tree, i + 1);
-	dprintf(2,"toto1\n");
 	return (ret);
 }
 
@@ -54,6 +53,5 @@ int					manage_cmd(int pipefd_tab[2][2], t_node *tree, t_global_fd **globalfd)
 		ft_putendl_fd ("----- CMD -----\n", 2);
 
 	handle_fork(pipefd_tab, tree, globalfd);
-	dprintf(2,"toto6\n");
 	return (TRUE);
 }

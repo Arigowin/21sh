@@ -172,6 +172,8 @@ int					tree_traversal(t_node *tree, t_global_fd **globalfd, int pipefd_tab[2][2
 	{
 
 	//ANTIBUG
+	if (DEBUG_ANTIBUG == 1)
+	{
 	t_global_fd *tmpglo = *globalfd;
 	t_lst_fd *tmp = NULL;
 	while (tmpglo)
@@ -185,6 +187,7 @@ int					tree_traversal(t_node *tree, t_global_fd **globalfd, int pipefd_tab[2][2
 		tmpglo = tmpglo->next;
 	}
 	//  fin ANTIBUG
+	}
 
 		if ((ret = (pipe_function(pipefd_tab, tree, globalfd))) != TRUE)
 				return (ret);
