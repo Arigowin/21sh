@@ -131,7 +131,7 @@ int					event(int k, t_line *stline, t_history **history)
 			handle_quote(k, &(stline->line), &(stline->pos), stline);
 		fct_insert((stline->hrd.nb > 0 ? &(stline->hrd.line) : &(stline->line)),
 				(stline->hrd.nb > 0 ? &(stline->hrd.pos) : &(stline->pos)), k, stline);
-		tputs(tgetstr("ve", NULL), 1, my_outc);
 	}
+	tputs(tgetstr("ve", NULL), 1, my_outc);
 	return (TRUE);
 }

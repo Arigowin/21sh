@@ -74,7 +74,6 @@ int					history_up(char **str, int *pos, t_line *stline,
 	if (*history == NULL)
 		return (FALSE);
 	fct_end(str, pos, stline, history);
-
 	tmp = (*pos > 0 && (*str)[*pos - 1] == '\n' ? ft_strsub(*str, 0, *pos - 1) : ft_strdup(*str));
 	if ((*history)->next == NULL && *pos > 0 && ft_strcmp(tmp, (*history)->line) != 0)
 	{
@@ -84,8 +83,6 @@ int					history_up(char **str, int *pos, t_line *stline,
 		else if (*str && *pos > 0 && (*str)[*pos - 1] != '\n')
 			stline->curr_hist = ft_strdup(*str);
 	}
-
-
 	i = 0;
 	if ((*history)->prev && *str)
 	{
@@ -97,13 +94,10 @@ int					history_up(char **str, int *pos, t_line *stline,
 				*history = (*history)->prev;
 		}
 		else
-		{
 			if ((ret = ft_strcmp(tmp, (*history)->line)) == 0)
 				*history = (*history)->prev;
-		}
 		ft_strdel(&tmp);
 	}
-
 	while (left_move_cdt(*pos, stline))
 		fct_backspace(str, pos, stline, history);
 	while (((*history)->line)[i])
@@ -111,13 +105,11 @@ int					history_up(char **str, int *pos, t_line *stline,
 		fct_insert(str, pos, ((*history)->line)[i], stline);
 		i++;
 	}
-
 	nb = ft_strncount(*str, '\n');
 	if (nb > 0)
 		stline->curs_y = nb;
 	if (*str != NULL)
 		stline->curs_x = ft_strlen(ft_strrchr(*str, '\n')) - 1;
-
 	return (TRUE);
 }
 
