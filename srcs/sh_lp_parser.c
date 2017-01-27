@@ -107,7 +107,7 @@ int					check_c_pipe(int *nb_hrd, t_e_list **l_expr, t_node **tree)
 				/* MSG ret: ERROR exit: FALSE msg: "parse error near + (*l_expr)->data"
 				 * free: node */
 			}
-			*tree = node;
+//			*tree = node;
 			return (TRUE);
 		}
 		*tree = *node_to_give;
@@ -153,6 +153,8 @@ int					check_expr(int *nb_hrd, t_e_list **l_expr, t_node **tree)
 		{
 			node->data = ft_strdup_ignchar((*l_expr)->data, '\\');
 			*tree = node;
+			savior_tree(*tree, TRUE);
+			clear_node(&node);
 			if (move_in_list(l_expr))
 				if (check_expr(nb_hrd, l_expr, &(node->right)) == ERROR)
 					return (ERROR);
@@ -160,6 +162,7 @@ int					check_expr(int *nb_hrd, t_e_list **l_expr, t_node **tree)
 			return (TRUE);
 		}
 		*tree = *node_to_give;
+		savior_tree(*tree, TRUE);
 		clear_node(&node);
 		return (TRUE);
 	}

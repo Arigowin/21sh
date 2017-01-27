@@ -6,7 +6,8 @@
 //ONLY FOR ANTIBUG
 int					tree_traversal_verif(t_node *tree)
 {
-	ft_putendl_fd("------- TREE TRAVERSAL VERIF ------", 2);
+	if (DEBUG_TREE_VERIF == 1)
+		ft_putendl_fd("------- TREE TRAVERSAL VERIF ------", 2);
 
 	printf("tree : %s - %d\n", tree->data, tree->type);
 	if (tree && tree->left != NULL)

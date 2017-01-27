@@ -8,9 +8,11 @@ int					bi_exit(char **arg, t_duo **env)
 		ft_putendl_fd("------- BI EXIT ------", 2);
 	int					i;
 	t_node				*node_saved;
+	t_node				*tree_saved;
 
 	i = 0;
 	node_saved = savior_node(NULL, FALSE);
+	tree_saved = savior_tree(NULL, FALSE);
 	if (arg && arg[1] && arg[2])
 	{
 		ft_putendl("21sh: exit : too many arguments");
@@ -29,6 +31,7 @@ int					bi_exit(char **arg, t_duo **env)
 	}
 	i = (arg && arg[1] ? ft_atoi(arg[1]) : 0);
 	ft_putendl("exit");
+//	clear_tree(&node_saved);
 	clear_tree(&node_saved);
 	free_tab(&arg);
 	duo_del(env);

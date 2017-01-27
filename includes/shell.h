@@ -2,7 +2,7 @@
 # define SHELL_H
 
 #define DEBUG 0
-#define DEBUG_TREE_VERIF 0
+#define DEBUG_TREE_VERIF 1
 #define DEBUG_BUILTIN 0
 #define DEBUG_LEXER_PARSER 0
 #define DEBUG_PARSER 0
@@ -181,6 +181,7 @@ t_duo					*savior(t_duo *env, int code);
 t_line					*savior_stline(t_line *stline, int code);
 char					*savior_tty(char *tty, int code, int in);
 t_node					*savior_node(t_node *node, int code);
+t_node					*savior_tree(t_node *tree, int code);
 
 /*
 ** sh_init
