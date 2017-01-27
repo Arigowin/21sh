@@ -84,7 +84,7 @@ int					history_up(char **str, int *pos, t_line *stline,
 			stline->curr_hist = ft_strdup(*str);
 	}
 	i = 0;
-	if ((*history)->prev && *str)
+	if ((*history)->prev && *str && *pos > 0)
 	{
 		tmpchr = ft_strrchr(tmp, '\n');
 		if (tmpchr != NULL && ft_strlen(tmpchr) > 1)
@@ -108,7 +108,7 @@ int					history_up(char **str, int *pos, t_line *stline,
 	nb = ft_strncount(*str, '\n');
 	if (nb > 0)
 		stline->curs_y = nb;
-	if (*str != NULL)
+	if (stline->curs_y > 0 && *str != NULL && *pos > 0)
 		stline->curs_x = ft_strlen(ft_strrchr(*str, '\n')) - 1;
 	return (TRUE);
 }
