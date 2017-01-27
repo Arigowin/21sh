@@ -89,7 +89,24 @@ static int			insert_char(char c, char *end_line, char **str, int *pos)
 	return(TRUE);
 }
 
-int					fct_insert(char **str, int *pos,char c, t_line *stline)
+static int			muli_line_insert(t_line *stline, char c)
+{
+	if (stline->mini_ptr == FALSE && c == '\n')
+	{
+		stline->curs_x = 0;
+		stline->curs_y++;
+	}
+	if (stline->curs_x >= stline->win.ws_col)
+	{
+		stline->curs_x = 0;
+		stline->curs_y++;
+		tputs(tgetstr("cr", NULL), 1, my_outc);
+		tputs(tgetstr("do", NULL), 1, my_outc);
+	}
+	return (TRUE);
+}
+
+int					fct_insert(char **str, int *pos, char c, t_line *stline)
 {
 	if (DEBUG_TERMCAPS == 1)
 		ft_putendl_fd("------- INSERT ------", 2);
@@ -112,13 +129,7 @@ int					fct_insert(char **str, int *pos,char c, t_line *stline)
 		insert_char(c, end_line, str, pos);
 	stline->curs_x++;
 	(*pos)++;
-	if (stline->curs_x >= stline->win.ws_col)
-	{
-		stline->curs_x = 0;
-		stline->curs_y++;
-		tputs(tgetstr("cr", NULL), 1, my_outc);
-		tputs(tgetstr("do", NULL), 1, my_outc);
-	}
+	muli_line_insert(stline, c);
 	ft_strdel(&end_line);
 	return (TRUE);
 }

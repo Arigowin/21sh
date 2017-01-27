@@ -11,6 +11,7 @@ int 				mini_prt_handler(char **str, int *pos, t_line *stline)
 	ft_putstr("> ");
 	stline->curs_x = 2;
 	stline->curs_y = 0;
+	stline->mini_ptr = TRUE;
 	return (CONTINUE);
 }
 

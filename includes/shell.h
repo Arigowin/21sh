@@ -49,10 +49,10 @@
 # define RETURN 10
 # define CTRL_D 4
 
-#define HIGHLIGHT 26651 // ALT + h
-#define PASTE 30235 // ALT + v
-#define COPY 25371 // ALT + c
-#define CUT 30747 // ALT + x
+# define HIGHLIGHT 26651 // ALT + h
+# define PASTE 30235 // ALT + v
+# define COPY 25371 // ALT + c
+# define CUT 30747 // ALT + x
 
 // - LINUX CTRL + [a|e]
 # define CTRL_LEFT 1
@@ -137,6 +137,7 @@ typedef struct			s_line //-> savior
 								// other line start at = 0
 								// quote line start at len of "> "
 	int					curs_y;
+	int					mini_ptr;
 	int					quote;
 	char				*line;
 	char				*curr_hist;

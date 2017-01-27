@@ -45,7 +45,6 @@ static int			delete_in_quote(char **str, int *pos, t_line *stline)
 	return (TRUE);
 }
 
-// attention on a modifier pas sur que ca fonctionne !!!!
 int					fct_backspace(char **str, int *pos, t_line *stline, t_history **history)
 {
 	if (DEBUG_TERMCAPS == 1)
@@ -65,7 +64,7 @@ int					fct_backspace(char **str, int *pos, t_line *stline, t_history **history)
 		i = 0;
 		save_pos = *pos;
 		delete_char(str, pos, i, stline);
-		while (eol && eol[i]) // !!!!
+		while (eol && eol[i])
 			fct_insert(str, pos, eol[i++], stline);
 		while ((*pos) >= save_pos)
 			fct_left(str, pos, stline, history);

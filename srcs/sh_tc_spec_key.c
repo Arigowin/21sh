@@ -11,8 +11,8 @@ int					fct_del(char **str, int *pos, t_line *stline, t_history **history)
 
 	if (stline->copy.start != -1)
 		return (FALSE);
-	if ((stline->curs_x >= 2 && stline->curs_y == 0)
-	|| (stline->curs_x >= 0 && stline->curs_y > 0))
+	if ((stline->curs_y == 0 && stline->curs_x >= 2)
+	|| (stline->curs_y > 0 && stline->curs_x >= 0))
 	{
 		tmp = (*pos);
 		fct_right(str, pos, stline, history);

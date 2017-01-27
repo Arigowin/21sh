@@ -13,12 +13,16 @@ int					left_move_cdt(int pos, t_line *stline)
 
 static int			multi_left(char **str, int *pos, t_line *stline)
 {
+	if (DEBUG_TERMCAPS == 1)
+		ft_putendl_fd("------- MULTI LEFT ------", 2);
+
 	int					nb;
 	char				*tmp;
 	char				*chr;
 
 	if ((*str)[*pos - 1] == '\n')
 	{
+		//dprintf(2, "multileft if \n");
 		if ((tmp = ft_strsub(*str, 0, ft_strlen(*str) - ft_strlen(&((*str)[*pos - 1])))) == NULL)
 			return (ERROR);
 		chr = ft_strrchr(tmp, '\n');
@@ -32,6 +36,7 @@ static int			multi_left(char **str, int *pos, t_line *stline)
 	}
 	else
 	{
+		//dprintf(2, "multileft else \n");
 		while (++(stline->curs_x) < stline->win.ws_col)
 			tputs(tgetstr("nd", NULL), 1, my_outc);
 	}

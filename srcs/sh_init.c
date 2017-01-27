@@ -27,22 +27,26 @@ int					init_stline(t_line *stline)
 	if (ioctl(0, TIOCGWINSZ, &(stline->win)) == ERROR)
 		/* RET: error EXIT: true MSG: "ioctl: cannot get window size" */
 		return (ERROR);
-
 	if ((stline->line = ft_strnew(BUFF_SIZE)) == NULL)
 		/* RET: error EXIT: true MSG: "malloc fail" */
 		return (ERROR);
-	if ((stline->hrd.line = ft_strnew(BUFF_SIZE)) == NULL)
-		/* MSG ret: ERROR exit: TRUE msg: "malloc fail"
-		 * free: stline->line */
-		return (ERROR);
+	stline->mini_ptr = FALSE;
+	stline->quote = 0;
+	stline->pos = 0;
+	stline->curs_y = 0;
+	stline->curs_x = PRT_LEN;
+	stline->curr_hist = NULL;
 	stline->copy.cpy = NULL;
-	stline->copy.start = -1;
 	stline->copy.bkup = NULL;
+	stline->copy.start = -1;
 	stline->hrd.nb = 0;
 	stline->hrd.pos = 0;
 	stline->hrd.ptr = NULL;
 	stline->hrd.deli = NULL;
-	stline->curr_hist = NULL;
+	if ((stline->hrd.line = ft_strnew(BUFF_SIZE)) == NULL)
+		/* MSG ret: ERROR exit: TRUE msg: "malloc fail"
+		 * free: stline->line */
+		return (ERROR);
 	savior_stline(stline, TRUE);
 	return (TRUE);
 }
@@ -53,15 +57,16 @@ int					reset_stline(t_line *stline)
 		ft_putendl_fd("------- RESET STLINE ------", 2);
 
 	ft_bzero(stline->line, ft_strlen(stline->line));
-	ft_bzero(stline->hrd.line, ft_strlen(stline->hrd.line));
-	stline->pos = 0;
-	stline->curs_x = PRT_LEN;
-	stline->curs_y = 0;
+	stline->mini_ptr = FALSE;
 	stline->quote = 0;
+	stline->pos = 0;
+	stline->curs_y = 0;
+	stline->curs_x = PRT_LEN;
+	ft_strdel(&( stline->curr_hist));
 	stline->hrd.nb = 0;
 	stline->hrd.pos = 0;
 	stline->hrd.ptr = NULL;
 	stline->hrd.deli = NULL;
-	ft_strdel(&( stline->curr_hist));
+	ft_bzero(stline->hrd.line, ft_strlen(stline->hrd.line));
 	return (TRUE);
 }
