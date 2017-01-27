@@ -7,6 +7,8 @@ static int			change_dir(char *path)
 //	if (DEBUG_BUILTIN == 1)
 		ft_putendl_fd("------- CHANGE DIR ------", 2);
 
+	dprintf(2, "POUET\n");
+	dprintf(2, "path ((%s))\n", path);
 	if (chdir(path) == -1)
 	{
 		ft_putstr("21sh: cd: ");
@@ -100,7 +102,6 @@ int					bi_cd(char **arg, t_duo **env)
 	(void)env;
 	path = NULL;
 	tmp = get_env("OLDPWD");
-
 	if (check_opt(arg, &i) == ERROR)
 		return (ERROR);
 	if (!arg[i] || (arg[i] && arg[i][0] == '~' && !arg[i][1]))
@@ -110,11 +111,11 @@ int					bi_cd(char **arg, t_duo **env)
 		if (tmp)
 			ret = change_dir(tmp);
 		else
-			ft_putendl_fd("21sh: cd: no OLD_PWD variable set.", 2);
+			ft_putendl_fd("21sh: cd: no OLDPWD variable set.", 2);
 	}
 	else
 		ret = change_dir(arg[i]);
-	tmp = getcwd(tmp, MAX_PATH);
+	tmp = get_env("PWD");
 	if (ret == TRUE)
 	{
 		change_env("OLDPWD", tmp);
