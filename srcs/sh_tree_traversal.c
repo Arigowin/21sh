@@ -12,7 +12,7 @@ t_global_fd			*new_globalfd(void)
 	new = NULL;
 	if ((new = (t_global_fd *)malloc(sizeof(t_global_fd))) == NULL)
 		return (NULL);
-		/* MSG ret: NULL exit: TRUE msg: "malloc fail" */
+	/* MSG ret: NULL exit: TRUE msg: "malloc fail" */
 	new->lstfd = NULL;
 	new->next = NULL;
 	return (new);
@@ -60,11 +60,11 @@ int 				check_red_arg2(t_node *tree, t_global_fd **globalfd, types type)
 		flags = O_RDONLY;
 	if ((filename = ft_strdup(tree->data)) == NULL)
 		return(ERROR);
-		/* MSG ret: ERROR exit: TRUE msg: "malloc fail" */
-		/* free : tree + globalfd */
+	/* MSG ret: ERROR exit: TRUE msg: "malloc fail" */
+	/* free : tree + globalfd */
 	if (type == LRED && access(filename, F_OK) == ERROR)
 		return (ERROR);
-		/* MSG ret: ERROR exit: FALSE msg: "cannot access + filename + not such file or directory " */
+	/* MSG ret: ERROR exit: FALSE msg: "cannot access + filename + not such file or directory " */
 	if ((fd = open(filename, flags,	S_IRUSR | S_IWUSR | S_IRGRP | S_IROTH)) == ERROR)
 	{
 		lstfd_pushbck(&((*globalfd)->lstfd), -1, filename);
@@ -85,8 +85,8 @@ int 				check_fd_red(t_node *tree, t_global_fd **globalfd) //, types type)
 
 	if ((filename = ft_strdup(tree->data)) == NULL)
 		return (ERROR);
-		/* MSG ret: ERROR exit: TRUE msg: "malloc fail" */
-		/* free : tree + globalfd */
+	/* MSG ret: ERROR exit: TRUE msg: "malloc fail" */
+	/* free : tree + globalfd */
 	if (ft_strcmp("&-", tree->data) == TRUE)
 		fd = -42;
 	else
@@ -171,25 +171,25 @@ int					tree_traversal(t_node *tree, t_global_fd **globalfd, int pipefd_tab[2][2
 	if (tree->type == PIPE)
 	{
 
-	//ANTIBUG
-	t_global_fd *tmpglo = *globalfd;
-	t_lst_fd *tmp = NULL;
-	while (tmpglo)
-	{
-		tmp = tmpglo->lstfd;
-		while(tmp){
-			printf("in pipe [filename->%s]--[fd->%d]\n", tmp->filename, tmp->fd);
-			tmp=tmp->next;
+		//ANTIBUG
+		t_global_fd *tmpglo = *globalfd;
+		t_lst_fd *tmp = NULL;
+		while (tmpglo)
+		{
+			tmp = tmpglo->lstfd;
+			while(tmp){
+				printf("in pipe [filename->%s]--[fd->%d]\n", tmp->filename, tmp->fd);
+				tmp=tmp->next;
+			}
+			printf("next\n");
+			tmpglo = tmpglo->next;
 		}
-		printf("next\n");
-		tmpglo = tmpglo->next;
-	}
-	//  fin ANTIBUG
+		//  fin ANTIBUG
 
 		if ((ret = (pipe_function(pipefd_tab, tree, globalfd))) != TRUE)
-				return (ret);
+			return (ret);
 		if ((ret = (tree_traversal(tree->right, globalfd, pipefd_tab))) != TRUE)
-				return (ret);
+			return (ret);
 		reset_std_fd();
 	}
 

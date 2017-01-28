@@ -32,7 +32,7 @@ int					bi_exit(char **arg, t_duo **env)
 	i = (arg && arg[1] ? ft_atoi(arg[1]) : 0);
 	ft_putendl("exit");
 //	clear_tree(&node_saved);
-	clear_tree(&node_saved);
+//	clear_node(&node_saved);
 	free_tab(&arg);
 	duo_del(env);
 	reset_term();
