@@ -123,61 +123,35 @@ int					manage_red_fd(t_node *tree, t_global_fd **globalfd, types type)
 	int					ret;
 
 	ret = TRUE;
-	ft_putendl("OOOOOOOOOOOOOOOOO 1");
-	printf("0000 TREE : %p\n", tree);
+//	printf(" TREE DANS MANAGED RED FD : %p\n", tree);
 	if (tree == NULL)
 		return (FALSE);
 	if (tree && (tree->type == RRED || tree->type == DRRED || tree->type == LRED || tree->type == DLRED))
 	{
-		ft_putendl("XXXXXXX CACA 1");
 		type = tree->type;
 	}
-	ft_putendl("OOOOOOOOOOOOOOOOO 2");
 	if (tree && tree->type == RED_ARG && type != DLRED)
 	{
-		ft_putendl("XXXXXXX CACA 2");
 		if ((ret = fd_open(tree, globalfd, type)) != TRUE)
-		{
-			ft_putendl("XXXXXXX PROUT 2");
 			return (ret);
-		}
 	}
-	ft_putendl("OOOOOOOOOOOOOOOOO 3");
 	if (tree && tree->right)
 	{
-		ft_putendl("XXXXXXX CACA 3");
 		if ((ret = manage_red_fd(tree->right, globalfd, type)) == ERROR)
-		{
-			ft_putendl("XXXXXXX PROUT 3");
 			return (ERROR); // au lieu de ret
-		}
 	}
-	ft_putendl("OOOOOOOOOOOOOOOOO 4");
 	if (tree && tree->type == PIPE && globalfd != NULL && *globalfd != NULL && (*globalfd)->lstfd != NULL)
 	{
-		ft_putendl("XXXXXXX CACA 4");
 		if ((ret = pushfront_globalfd(globalfd)) != TRUE)
-		{
-			ft_putendl("XXXXXXX PROUT 4");
 			return (ret);
-		}
 	}
-	ft_putendl("OOOOOOOOOOOOOOOOO 5");
 	if (ret != FALSE && tree && tree->left)
 	{
-		ft_putendl("XXXXXXX CACA 5");
 		if ((ret = manage_red_fd(tree->left, globalfd, NONE)) != TRUE)
-		{
-			ft_putendl("XXXXXXX PROUT 5");
 			return (ret);
-		}
 	}
-	ft_putendl("OOOOOOOOOOOOOOOOO 6");
 	if (globalfd && *globalfd && (*globalfd)->lstfd == NULL)
-	{
-		ft_putendl("XXXXXXX CACA 6");
 		*globalfd = (*globalfd)->next;
-	}
 	return (TRUE);
 }
 
@@ -196,6 +170,7 @@ int					tree_traversal(t_node *tree, t_global_fd **globalfd, int pipefd_tab[2][2
 
 	if (tree->type == SEMI)
 	{
+		printf("XXXXXX SEMI\n");
 		if (tree->left)
 			if ((tree_traversal(tree->left, globalfd, pipefd_tab)) == ERROR)
 				return (ERROR);
@@ -204,11 +179,12 @@ int					tree_traversal(t_node *tree, t_global_fd **globalfd, int pipefd_tab[2][2
 				return (ERROR);
 	}
 
-	if (*globalfd == NULL)
+	if (*globalfd == NULL && tree)
 		manage_red_fd(tree, globalfd, NONE);
 
 	if (tree->type == PIPE)
 	{
+		printf("XXXXXX PIPE\n");
 
 		//ANTIBUG
 		t_global_fd *tmpglo = *globalfd;
@@ -234,6 +210,7 @@ int					tree_traversal(t_node *tree, t_global_fd **globalfd, int pipefd_tab[2][2
 
 	if (tree->type == CMD || (tree->type >= RRED && tree->type <= DLRED))
 	{
+		printf("XXXXXX CMD \n");
 		if (tree->type == CMD)
 			if ((manage_cmd(pipefd_tab, tree, globalfd)) == ERROR)
 				return (ERROR);

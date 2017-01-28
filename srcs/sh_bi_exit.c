@@ -9,13 +9,11 @@ int					bi_exit(char **arg, t_duo **env)
 	int					i;
 
 	i = 0;
-	t_node				*saved_tree;
-	saved_tree = savior_node(NULL, FALSE);
-	if (saved_tree)
+	t_node *tree;
+	tree = savior_tree(NULL, FALSE);
+	//printf("bi_exit : valeur tree_savd : %p\n", tree);
+	if (tree)
 		ft_putendl("ARBRE EXISTE");
-//		tree_traversal_verif(saved_tree);
-//	ft_putendl(saved_tree->data);
-//	clear_tree(&saved_tree);
 	if (arg && arg[1] && arg[2])
 	{
 		ft_putendl("21sh: exit : too many arguments");
@@ -37,6 +35,11 @@ int					bi_exit(char **arg, t_duo **env)
 	free_tab(&arg);
 	duo_del(env);
 	reset_term();
+	clear_tree(&tree);
+	if (tree)
+		ft_putendl("ARBRE EXISTE ENCORE");
+	else
+		ft_putendl("ARBRE COUPE");
 	exit(i);
 	return (0);
 }

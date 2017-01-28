@@ -62,12 +62,13 @@ int					check_command(int *nb_hrd, t_e_list **l_expr, t_node **tree)
 		}
 		check_next(nb_hrd, l_expr, &node, &(node->right));
 		*tree = node;
-		clear_node(&node);
+//		clear_node(&node); // ce clear_node(&node) // segfault
 		return (TRUE);
 	}
 	if (red == TRUE && (*l_expr)->type != CMD)
 	{
 		*tree = node->left;
+		clear_node(&node); // ce clear ne cause pas de pb
 		return (TRUE);
 	}
 	ft_putendl_fd("error in check cmd\n", 2);
@@ -109,12 +110,12 @@ int					check_c_pipe(int *nb_hrd, t_e_list **l_expr, t_node **tree)
 				 * free: node */
 			}
 //			*tree = node;
-			clear_node(&node);
+			//	clear_node(&node);
 			return (TRUE);
 		}
 		//	clear_tree(&node);
-		clear_node(&node);
 		*tree = *node_to_give;
+		clear_node(&node); // si je clear node avant *tree = *node_to_give alors invalid read of size 8
 		//	clear_node(node_to_give); // il aime pas du tout : invalid read of size
 		return (TRUE);
 	}
@@ -194,7 +195,7 @@ int					parser(int *nb_hrd, t_e_list **l_expr, t_node **tree)
 		return (FALSE);
 	if (ret == ERROR)
 	{
-		clear_tree(tree);
+//		clear_tree(tree);
 		return (ERROR);
 	}
 

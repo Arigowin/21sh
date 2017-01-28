@@ -50,7 +50,7 @@ int					check_builtin(char **cmd, int pipefd_tab[2][2],
 		ft_putendl_fd("------- CHECK BUILTIN ------", 2);
 
 	int					ret;
-
+	
 	(void)*pipefd_tab;
 	ret = -1;
 	if (is_builtin(cmd) != -1)
@@ -154,6 +154,7 @@ int					handle_fork(int pipefd_tab[2][2], t_node *tree,
 		}
 		else if (tree->left)
 			*globalfd = (*globalfd)->next;
+		savior_tree(tree, TRUE); // TRES IMPORTANT SAVIOR TREE TRUE ICI !!!!
 		if ((ret = check_builtin(cmd, pipefd_tab, NULL)) == TRUE)
 			return (TRUE);
 		if (ret == ERROR)

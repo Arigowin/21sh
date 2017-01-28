@@ -81,14 +81,12 @@ int					check_after_read(t_line *stline, t_history **history)
 	heredoc_handler(stline, &node, history);
 	if ((ret = tree_traversal(tree, &globalfd, pipefd_tab)) == ERROR)
 	{
-//		saved_tree = savior_tree(tree, TRUE);
-//		clear_tree(&saved_tree);
+		clear_tree(&tree);
 		return (ret);
 		/* MSG ret: ERROR exit: TRUE msg: "whatever i don't have any ideas left"
 		 * free: stline + globalfd + tree + node */
 	}
-//	saved_tree = savior_tree(tree, TRUE); // inutile apparemment
-	ft_putendl("APRES TREE TRAVERSAL DANS CHECK AFTER READ");
+//	savior_tree(tree, TRUE); // inutile apparemment
 	clear_tree(&tree);
 	return (ret);
 }
