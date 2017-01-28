@@ -45,9 +45,13 @@ int					clear_tree(t_node **tree)
 	if (tree)
 	{
 		if ((*tree) && (*tree)->left)
+		{
 			clear_tree(&((*tree)->left));
+		}
 		if ((*tree) && (*tree)->right)
+		{
 			clear_tree(&((*tree)->right));
+		}
 		clear_node(tree);
 	}
 	return (TRUE);

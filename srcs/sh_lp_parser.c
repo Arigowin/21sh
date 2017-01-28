@@ -37,7 +37,7 @@ int					move_in_list(t_e_list **l_expr)
 int					check_command(int *nb_hrd, t_e_list **l_expr, t_node **tree)
 {
 	if (DEBUG_PARSER == 1)
-		ft_putendl_fd("------- CHECK COMMAND -----\n", 2);
+		ft_putendl_fd("------- CHECK COMMAND -----", 2);
 
 	t_node				*save;
 	t_node				*node;
@@ -62,6 +62,7 @@ int					check_command(int *nb_hrd, t_e_list **l_expr, t_node **tree)
 		}
 		check_next(nb_hrd, l_expr, &node, &(node->right));
 		*tree = node;
+		clear_node(&node);
 		return (TRUE);
 	}
 	if (red == TRUE && (*l_expr)->type != CMD)
@@ -108,6 +109,7 @@ int					check_c_pipe(int *nb_hrd, t_e_list **l_expr, t_node **tree)
 				 * free: node */
 			}
 //			*tree = node;
+			clear_node(&node);
 			return (TRUE);
 		}
 		//	clear_tree(&node);
@@ -165,7 +167,7 @@ int					check_expr(int *nb_hrd, t_e_list **l_expr, t_node **tree)
 		}
 		*tree = *node_to_give;
 //		savior_tree(*tree, TRUE);
-//		clear_node(&node);
+		clear_node(&node);
 		return (TRUE);
 	}
 	ft_putendl_fd("error in check expr - pouet!!!!!\n", 2);
@@ -197,12 +199,12 @@ int					parser(int *nb_hrd, t_e_list **l_expr, t_node **tree)
 	}
 
 	// ANTIBUG !!!!!!!!!
-	if (DEBUG_PARSER == 1)
-	{
-		t_e_list *tmp = head_l_expr;
-		while(tmp){printf("[%s -> %d] --> ", (tmp)->data, (tmp)->type); tmp = (tmp)->next;}
-		ft_putendl("\n");
-	}
+	/* if (DEBUG_PARSER == 1) */
+	/* { */
+	/* 	t_e_list *tmp = head_l_expr; */
+	/* 	while(tmp){printf("[%s -> %d] --> ", (tmp)->data, (tmp)->type); tmp = (tmp)->next;} */
+	/* 	ft_putendl("\n"); */
+	/* } */
 	// fin ANTIBUG !!!!!!!!!
 
 	return (TRUE);

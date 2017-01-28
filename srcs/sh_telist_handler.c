@@ -57,7 +57,6 @@ int 				expr_pushbk(t_e_list **l_expr, char *data_tmp)
 	if (!(l_expr && *l_expr))
 	{
 		*l_expr = expr_new(data_tmp);
-		printf("XXXXXXXXXXXX %s\n", (*l_expr)->data);
 		return (TRUE);
 		/*
 		if ((*l_expr = expr_new(data_tmp)) == NULL) // return useless

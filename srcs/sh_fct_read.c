@@ -51,8 +51,8 @@ int					read_n_check(int *nb_hrd, char *read_buff, t_node **tree)
 	}
 	//if (l_expr)
 	expr_del(&l_expr);
-	if (DEBUG_TREE_VERIF == 1)
-		tree_traversal_verif(*tree);
+//	if (DEBUG_TREE_VERIF == 1)
+//		tree_traversal_verif(*tree);
 	return (TRUE);
 }
 
@@ -66,7 +66,6 @@ int					check_after_read(t_line *stline, t_history **history)
 	t_global_fd			*globalfd;
 	int					pipefd_tab[2][2];
 	int					ret;
-	t_node				*saved_tree;
 
 	globalfd = NULL;
 	pipefd_tab[0][0] = -2;
@@ -75,22 +74,22 @@ int					check_after_read(t_line *stline, t_history **history)
 	pipefd_tab[1][1] = -2;
 	if ((ret = read_n_check(&(stline->hrd.nb), stline->line, &tree)) != TRUE)
 	{
-		saved_tree = savior_tree(tree, TRUE);
-		clear_tree(&saved_tree);
+		clear_tree(&tree);
 		return (ret);
 	}
 	node = tree;
 	heredoc_handler(stline, &node, history);
 	if ((ret = tree_traversal(tree, &globalfd, pipefd_tab)) == ERROR)
 	{
-		saved_tree = savior_tree(NULL, FALSE);
-		clear_tree(&saved_tree);
+//		saved_tree = savior_tree(tree, TRUE);
+//		clear_tree(&saved_tree);
 		return (ret);
 		/* MSG ret: ERROR exit: TRUE msg: "whatever i don't have any ideas left"
 		 * free: stline + globalfd + tree + node */
 	}
-	saved_tree = savior_tree(NULL, FALSE);
-	clear_tree(&saved_tree);
+//	saved_tree = savior_tree(tree, TRUE); // inutile apparemment
+	ft_putendl("APRES TREE TRAVERSAL DANS CHECK AFTER READ");
+	clear_tree(&tree);
 	return (ret);
 }
 

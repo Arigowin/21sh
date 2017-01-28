@@ -10,7 +10,7 @@ static int			filled_red_arg(t_e_list **l_expr, t_node **node)
 
 	if (((*node)->data = ft_strdup_ignchar((*l_expr)->data, '\\')) == NULL)
 	{
-		clear_node(node);
+//		clear_node(node); //ok
 		return (FALSE);
 		/* MSG ret: FALSE exit: FALSE msg: malloc fail*/
 		/* free: node */
@@ -22,7 +22,7 @@ static int			filled_red_arg(t_e_list **l_expr, t_node **node)
 int					check_red_arg(t_e_list **l_expr, t_node **tree)
 {
 	if (DEBUG_PARSER == 1)
-		ft_putendl_fd("------- CHECK RED_ARG ------\n", 2);
+		ft_putendl_fd("------- CHECK RED_ARG ------", 2);
 
 	t_node		 		*node;
 	t_node				*save;
@@ -55,7 +55,7 @@ int					check_red_arg(t_e_list **l_expr, t_node **tree)
 	}
 	ft_putendl("missing name for redirect\n");
 	parse_error((*l_expr)->data);
-	clear_node(&node);
+//	clear_node(&node);
 	return (FALSE);
 	/* MSG ret: FALSE exit: FALSE msg: missing name for redirect + (*l_expr)->data*/
 	/* free: node */
@@ -65,7 +65,7 @@ int					check_red_arg(t_e_list **l_expr, t_node **tree)
 int					check_red(int *nb_hrd, t_e_list **l_expr, t_node **tree)
 {
 	if (DEBUG_PARSER == 1)
-		ft_putendl_fd("------- CHECK RED ------\n", 2);
+		ft_putendl_fd("------- CHECK RED ------", 2);
 
 	t_node				*node;
 	t_node				*save;
@@ -81,7 +81,7 @@ int					check_red(int *nb_hrd, t_e_list **l_expr, t_node **tree)
 	{
 		if ((node->data = ft_strdup_ignchar(list_save->data, '\\')) == NULL)
 		{
-			clear_node(&node);
+			//	clear_node(&node);
 			return (FALSE);
 			/* MSG ret: FALSE exit: FALSE msg: malloc fail*/
 			/* free: node */
@@ -101,12 +101,12 @@ int					check_red(int *nb_hrd, t_e_list **l_expr, t_node **tree)
 	{
 		ft_putendl("missing name for redirect\n");
 		parse_error((*l_expr)->data);
-		clear_node(&node);
+		//	clear_node(&node);
 		return (FALSE);
 		/* MSG ret: FALSE exit: FALSE msg: missing name for redirect + (*l_expr)->data */
 		/* free: node */
 	}
-	clear_node(&node);
+//	clear_node(&node);
 	*tree = save;
 	return (FALSE);
 	/* MSG ret: FALSE exit: FALSE msg: NONE */
@@ -127,7 +127,7 @@ int					check_arg(int *nb_hrd, t_e_list **l_expr, t_node **tree,
 	{
 		if ((node->data = ft_strdup_ignchar((*l_expr)->data, '\\')) == NULL)
 		{
-			clear_node(&node);
+			//	clear_node(&node);
 			return (FALSE);
 			/* MSG ret: FALSE exit: FALSE msg: malloc fail*/
 			/* free: node */
@@ -136,7 +136,7 @@ int					check_arg(int *nb_hrd, t_e_list **l_expr, t_node **tree,
 		*right_node = node;
 		return (TRUE);
 	}
-	clear_node(&node);
+//	clear_node(&node);
 	return (FALSE);
 	/* MSG ret: FALSE exit: FALSE msg: NONE*/
 }

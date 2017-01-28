@@ -50,7 +50,7 @@ char				**format_cmd(t_node *tree)
 int					manage_cmd(int pipefd_tab[2][2], t_node *tree, t_global_fd **globalfd)
 {
 	if (DEBUG_CMD == 1)
-		ft_putendl_fd ("----- CMD -----\n", 2);
+		ft_putendl_fd ("----- CMD -----", 2);
 
 	handle_fork(pipefd_tab, tree, globalfd);
 	return (TRUE);
