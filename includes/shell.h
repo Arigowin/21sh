@@ -20,6 +20,8 @@
 #define DEBUG_HEREDOC 0
 #include <stdio.h>
 
+# define HISTORY_FILE_NAME "/.21sh_history"
+
 # define TRUE 1
 # define FALSE 0
 # define SYS_CALL_FAIL -3
@@ -177,6 +179,13 @@ typedef struct			s_global_fd //-> savior
 ** sh_error
 */
 int						sh_error(int ret_code, char *msg, int out);
+
+/*
+** sh_file_history
+*/
+int						load_history(t_history **history);
+int						save_history(void);
+
 /*
 ** sh_savior
 */
@@ -185,6 +194,7 @@ t_line					*savior_stline(t_line *stline, int code);
 char					*savior_tty(char *tty, int code, int in);
 t_node					*savior_node(t_node *node, int code);
 t_node					*savior_tree(t_node *tree, int code);
+t_history				*savior_history(t_history *env, int code);
 
 /*
 ** sh_init

@@ -15,6 +15,7 @@ int					main(void)
 		return (ERROR);
 	init_stline(&stline);
 	history = NULL;
+	load_history(&history);
 	while (TRUE)
 	{
 		if (stline.line)

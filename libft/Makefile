@@ -116,7 +116,9 @@ SRC = ft_memset.c \
 	  ft_hidenp.c \
 	  ft_swap.c \
 	  int_swap.c \
-	  intcmp.c
+	  intcmp.c \
+\
+	  get_next_line.c
 
 OBJ = $(patsubst %.c, $(OPATH)/%.o, $(SRC))
 

@@ -33,7 +33,9 @@ void				add_history(t_history **history, char *line)
 	while (*history && (*history)->next != NULL)
 		(*history) = (*history)->next;
 	if (*history == NULL)
+	{
 		*history = new_history(line);
+	}
 	else
 	{
 		new = new_history(line);
@@ -41,6 +43,7 @@ void				add_history(t_history **history, char *line)
 		new->prev = *history;
 		*history = new;
 	}
+	savior_history(*history, TRUE);
 }
 
 void				modif_history(t_history **history, char *line, int mini_prt)
