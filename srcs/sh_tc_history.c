@@ -63,7 +63,7 @@ void				modif_history(t_history **history, char *line, int mini_prt)
 }
 
 // nom a revoir
-int					history_up_move(t_history **history, char *tmp, int *pos, t_line *stline)
+int					history_up_prev(t_history **history, char *tmp, int *pos, t_line *stline)
 {
 	char				*tmpchr;
 	int					ret;
@@ -86,16 +86,54 @@ int					history_up_move(t_history **history, char *tmp, int *pos, t_line *stline
 	return (TRUE);
 }
 
+static int			nb_line_total(char *str, t_line *stline)
+{
+	char				**line;
+	int					i;
+	int					nb_line;
+	int					len;
+	int					nb;
+
+	nb = ft_strncount(str, '\n');
+	line = ft_strsplit(str, '\n');
+	i = 0;
+	nb_line = 0;
+	while (line && line[i])
+	{
+		nb_line++;
+		len = ft_strlen(line[i]);
+		if (len > stline->win.ws_col)
+		{
+			nb_line += ((len) / stline->win.ws_col) - 1;
+			nb++;
+		}
+		i++;
+	}
+	if (i - 1 < nb)
+		nb_line += (nb - i) + 1;
+	return (nb_line - 1);
+}
+
 // nom a revoir
 int					reset_pos_x_y(char **str, int *pos, t_line *stline)
 {
 	int					nb;
+	int					len;
+	int					nb_line;
 
-	nb = ft_strncount(*str, '\n');
+	nb = nb_line_total(*str, stline);
 	if (nb > 0)
 		stline->curs_y = nb;
 	if (stline->curs_y > 0 && *str != NULL && *pos > 0)
-		stline->curs_x = ft_strlen(ft_strrchr(*str, '\n')) - 1;
+	{
+		len = ft_strlen(ft_strrchr(*str, '\n')) - 1;
+		if (len > stline->win.ws_col)
+		{
+			nb_line = (len) / stline->win.ws_col;
+			len = (len - (stline->win.ws_col * nb_line));
+		}
+		stline->curs_x = len;
+	}
 	return (TRUE);
 }
 
@@ -122,7 +160,7 @@ int					history_up(char **str, int *pos, t_line *stline,
 		else if (*str && *pos > 0 && (*str)[*pos - 1] != '\n')
 			stline->curr_hist = ft_strdup(*str);
 	}
-	history_up_move(history, tmp, pos, stline);
+	history_up_prev(history, tmp, pos, stline);
 	ft_strdel(&tmp);
 	while (left_move_cdt(*pos, stline))
 		fct_backspace(str, pos, stline, history);
