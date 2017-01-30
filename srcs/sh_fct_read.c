@@ -29,9 +29,11 @@ int					read_n_check(int *nb_hrd, char *read_buff, t_node **tree)
 		ft_putendl_fd("------- READ N CHECK ------", 2);
 
 	t_e_list			*l_expr;
+	t_e_list			*save;
 	int					ret;
 
 	l_expr = NULL;
+	save = NULL;
 	if (tree == NULL || read_buff == NULL)
 		return (FALSE);
 	if ((ret = tokenizer(read_buff, &l_expr)) != TRUE)
@@ -39,18 +41,18 @@ int					read_n_check(int *nb_hrd, char *read_buff, t_node **tree)
 		expr_del(&l_expr);
 		return (ret);
 	}
+	save = l_expr;
 	if ((ret = lexer(&l_expr)) != TRUE)
 	{
-		expr_del(&l_expr);
+		expr_del(&save);
 		return (ret);
 	}
 	if ((ret = parser(nb_hrd, &l_expr, tree)) != TRUE) // juste garder ret = .... et return ret
 	{
-		expr_del(&l_expr);
+		expr_del(&save);
 		return (ret);
 	}
-	//if (l_expr)
-	expr_del(&l_expr);
+	expr_del(&save);
 //	if (DEBUG_TREE_VERIF == 1)
 //		tree_traversal_verif(*tree);
 	return (TRUE);

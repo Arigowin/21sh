@@ -17,16 +17,12 @@ int					parse_error(char *data)
 
 int					move_in_list(t_e_list **l_expr)
 {
-	t_e_list	*trash;
 	if (DEBUG_PARSER == 1)
 		ft_putendl_fd("------- MOVE IN LIST ------\n", 2);
 
 	if ((*l_expr) && (*l_expr)->next)
 	{
-		trash = *l_expr;
 		(*l_expr) = (*l_expr)->next;
-		ft_strdel(&(trash->data));
-		free(trash);
 		return (TRUE);
 	}
 	return (FALSE);
@@ -46,7 +42,10 @@ int					check_command(int *nb_hrd, t_e_list **l_expr, t_node **tree)
 	save = *tree;
 	red = 0;
 	if ((node = create_node(CMD)) == NULL)
+	{
+		clear_node(&node); // verif_si_ok
 		return (FALSE);
+	}
 	/* MSG ret: ERROR exit: FALSE msg: "malloc fail"
 		 * free: node */
 	if ((red = check_red(nb_hrd, l_expr, &(node->left))) != TRUE)
@@ -55,7 +54,7 @@ int					check_command(int *nb_hrd, t_e_list **l_expr, t_node **tree)
 	{
 		if ((node->data = ft_strdup_ignchar((*l_expr)->data, '\\')) == NULL)
 		{
-//			clear_node(&node);
+			clear_node(&node); // verif_si_ok
 			return (FALSE);
 		/* MSG ret: ERROR exit: FALSE msg: "malloc fail"
 		 * free: node */
@@ -73,7 +72,7 @@ int					check_command(int *nb_hrd, t_e_list **l_expr, t_node **tree)
 	}
 	ft_putendl_fd("error in check cmd\n", 2);
 	parse_error((*l_expr)->data);
-//	clear_node(&node);
+	clear_node(&node); // verif_si_ok
 	return (FALSE);
 	/* MSG ret: ERROR exit: FALSE msg: "parse error near + (*l_expr)->data"
 	 * free: node */
@@ -90,8 +89,11 @@ int					check_c_pipe(int *nb_hrd, t_e_list **l_expr, t_node **tree)
 
 	node = NULL;
 	if ((node = create_node(PIPE)) == NULL)
+	{
+		clear_node(&node);
 		return (FALSE);
-		/* MSG ret: FALSE exit: FALSE msg: malloc fail*/
+	}
+	/* MSG ret: FALSE exit: FALSE msg: malloc fail*/
 		/* free: node */
 	node_to_give = (node->left == NULL ? &(node->left) : &(node->right));
 	if (check_command(nb_hrd, l_expr, node_to_give))
@@ -104,16 +106,15 @@ int					check_c_pipe(int *nb_hrd, t_e_list **l_expr, t_node **tree)
 			{
 				ft_putendl_fd("error in check cpipe\n", 2);
 				parse_error((*l_expr)->data);
-//				clear_node(&node);
+				clear_node(&node);
 				return (FALSE);
 				/* MSG ret: ERROR exit: FALSE msg: "parse error near + (*l_expr)->data"
 				 * free: node */
 			}
-//			*tree = node;
-			//	clear_node(&node);
+//			*tree = node; // bis repetita
+			//	clear_node(&node); // un clear_node ici segfault
 			return (TRUE);
 		}
-		//	clear_tree(&node);
 		*tree = *node_to_give;
 		clear_node(&node); // si je clear node avant *tree = *node_to_give alors invalid read of size 8
 		//	clear_node(node_to_give); // il aime pas du tout : invalid read of size
@@ -121,7 +122,7 @@ int					check_c_pipe(int *nb_hrd, t_e_list **l_expr, t_node **tree)
 	}
 	ft_putendl_fd("error in check cpipe\n", 2);
 	parse_error((*l_expr)->data);
-//	clear_node(&node);
+	clear_node(&node);
 	return (FALSE);
 	/* MSG ret: ERROR exit: FALSE msg: "parse error near + (*l_expr)->data"
 	 * free: node */
@@ -138,8 +139,11 @@ int					check_expr(int *nb_hrd, t_e_list **l_expr, t_node **tree)
 
 	node = NULL;
 	if ((node = create_node(SEMI)) == NULL)
+	{
+		clear_node(&node);
 		return (ERROR);
-		/* MSG ret: FALSE exit: FALSE msg: malloc fail*/
+	}
+	/* MSG ret: FALSE exit: FALSE msg: malloc fail*/
 		/* free: node */
 //	savior_node(node, TRUE);
 	node_to_give = (node->left == NULL ? &(node->left) : &(node->right));
@@ -149,7 +153,7 @@ int					check_expr(int *nb_hrd, t_e_list **l_expr, t_node **tree)
 		{
 			ft_putendl_fd("error in check expr\n", 2);
 			parse_error((*l_expr)->data);
-//			clear_node(&node);
+			clear_node(&node);
 			return (ERROR);
 			/* MSG ret: ERROR exit: FALSE msg: "parse error near + (*l_expr)->data"
 			 * free: node */
@@ -163,17 +167,17 @@ int					check_expr(int *nb_hrd, t_e_list **l_expr, t_node **tree)
 			if (move_in_list(l_expr))
 				if (check_expr(nb_hrd, l_expr, &(node->right)) == ERROR)
 					return (ERROR);
-			//	*tree = node;
+			//	*tree = node; // bis repetita
+//			clear_node(&node); // un clear_node(&node) ici segfault
 			return (TRUE);
 		}
 		*tree = *node_to_give;
-//		savior_tree(*tree, TRUE);
 		clear_node(&node);
 		return (TRUE);
 	}
 	ft_putendl_fd("error in check expr - pouet!!!!!\n", 2);
 	parse_error((*l_expr)->data);
-//	clear_node(&node);
+	clear_node(&node);
 	return (ERROR);
 	/* MSG ret: ERROR exit: FALSE msg: "parse error near + (*l_expr)->data"
 	 * free: node */
@@ -194,10 +198,8 @@ int					parser(int *nb_hrd, t_e_list **l_expr, t_node **tree)
 	if (ret == FALSE)
 		return (FALSE);
 	if (ret == ERROR)
-	{
-//		clear_tree(tree);
 		return (ERROR);
-	}
+	// si erreur je free l arbre dans read_n_check la fonction qui envoi le tree
 
 	// ANTIBUG !!!!!!!!!
 	/* if (DEBUG_PARSER == 1) */

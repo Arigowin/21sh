@@ -32,12 +32,6 @@ int					fct_return(char **str, int *pos, t_line *stline,
 			if (check_end_heredoc(stline) == BREAK)
 				return (BREAK);
 		}
-		// TOTO
-		if (*pos > 0 && (*str)[*pos - 1] && (*str)[*pos - 1] == '|')
-		{
-			if (str)
-				BREAK;
-		}
 		return (mini_prt_handler(str, pos, stline));
 	}
 	else

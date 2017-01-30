@@ -72,7 +72,7 @@
 typedef enum
 {
 	NONE,
-	EXP,
+	EXP, // never used
 	SEMI,
 	PIPE,
 	CMD,
