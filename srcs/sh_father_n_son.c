@@ -6,9 +6,6 @@
 #include "shell.h"
 #include "libft.h"
 
-#include <errno.h>
-#include <string.h>
-
 int 				pfd_handler(int pipefd_tab[2][2])
 {
 	if (DEBUG == 1)
@@ -97,17 +94,16 @@ int					father(int pipefd_tab[2][2])
 }
 
 int					son(char **cmd, int pipefd_tab[2][2], t_node *tree,
-					t_global_fd **globalfd)
+					t_lst_fd **lstfd)
 {
 	if (DEBUG == 1)
 		ft_putendl_fd("------- SON ------", 2);
 
-		dprintf(2, "trololo \n");
 	pfd_handler(pipefd_tab);
-	if (globalfd && *globalfd)
-	//dprintf(2, "tttttttttttttttttttttttttttttt (%p)\n", (*globalfd)->lstfd);
+//	if (lstfd && *lstfd)
+	//dprintf(2, "tttttttttttttttttttttttttttttt (%p)\n", *lstfd);
 	if ((pipefd_tab[0][0] >= 0 || pipefd_tab[1][0] >= 0) && tree && tree->left
-	&& globalfd && *globalfd && redirect(tree->left, (*globalfd)->lstfd) == ERROR)
+	&& lstfd && *lstfd && redirect(tree->left, *lstfd) == ERROR)
 		/* RET: error EXIT: false MSG: "i don't know" */
 		return (ERROR);
 	if (check_builtin(cmd, pipefd_tab, NULL) == TRUE)
@@ -128,7 +124,7 @@ int					son(char **cmd, int pipefd_tab[2][2], t_node *tree,
 }
 
 int					handle_fork(int pipefd_tab[2][2], t_node *tree,
-					t_global_fd **globalfd)
+					t_lst_fd **lstfd)
 {
 	if (DEBUG == 1)
 		ft_putendl_fd("------- HANDLE FORK ------", 2);
@@ -144,9 +140,9 @@ int					handle_fork(int pipefd_tab[2][2], t_node *tree,
 		return (ERROR);
 	if (pipefd_tab[0][0] < 0 && pipefd_tab[1][0] < 0)
 	{
-		//dprintf(2, "tree : ((%s))\tlstfd : ((%s))\n", tree->left->data, (*globalfd)->lstfd->filename);
+		//dprintf(2, "tree : ((%s))\tlstfd : ((%s))\n", tree->left->data, (*lstfd)->filename);
 		// interieur du if a mettre dans une fonction
-		if (tree && tree->left && *globalfd && redirect(tree->left, (*globalfd)->lstfd) == ERROR)
+		if (tree && tree->left && *lstfd && redirect(tree->left, *lstfd) == ERROR)
 		{
 			//			close_fd_red(&lstfd, saved_std);
 			/* RET: error EXIT: false MSG: "i don't know" */
@@ -154,8 +150,8 @@ int					handle_fork(int pipefd_tab[2][2], t_node *tree,
 		}
 		else if (tree && tree->left && tree->left->type == DLRED && redirect(tree->left, NULL) == ERROR)
 			return (ERROR);
-		else if (tree->left && *globalfd)
-			*globalfd = (*globalfd)->next;
+//		else if (tree->left && *globalfd)
+//			*globalfd = (*globalfd)->next;
 		if ((ret = check_builtin(cmd, pipefd_tab, NULL)) == TRUE)
 			return (TRUE);
 		if (ret == ERROR)
@@ -167,7 +163,7 @@ int					handle_fork(int pipefd_tab[2][2], t_node *tree,
 		return (ERROR);
 	reset_term();
 	if (fpid == 0)
-		son(cmd, pipefd_tab, tree, globalfd);
+		son(cmd, pipefd_tab, tree, lstfd);
 	else
 		father(pipefd_tab);
 	init_term();

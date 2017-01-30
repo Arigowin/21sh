@@ -1,27 +1,16 @@
 #include "shell.h"
 #include "libft.h"
 
-char				*savior_tty(char *tty, int code, int in)
+char				*savior_tty(char *tty, int code)
 {
 	if (DEBUG_SAVIOR == 1)
 		ft_putendl_fd("------- SAVIOR TTY -------", 2);
 
-	static char 		*save_in = NULL;
-	static char 		*save_out = NULL;
+	static char 		*save_tty = NULL;
 
-	if (in == TRUE)
-	{
-		if ((save_in == NULL && tty) || code == TRUE)
-			save_in = tty;
-		return (save_in);
-	}
-	else if (in == FALSE)
-	{
-		if ((save_out == NULL && tty) || code == TRUE)
-			save_out = tty;
-		return (save_out);
-	}
-	return (NULL);
+		if ((save_tty == NULL && tty) || code == TRUE)
+			save_tty = tty;
+		return (save_tty);
 }
 
 t_duo				*savior(t_duo *env, int code)

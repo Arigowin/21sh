@@ -173,12 +173,10 @@ int					parser(int *nb_hrd, t_e_list **l_expr, t_node **tree)
 	if (DEBUG_PARSER == 1)
 		ft_putendl_fd("------- PARSER ------", 2);
 
-	t_e_list			*head_l_expr;
 	int					ret;
 
 	if (*l_expr == NULL)
 		return (FALSE);
-	head_l_expr = *l_expr;
 	ret = check_expr(nb_hrd, l_expr, tree);
 	if (ret == FALSE)
 		return (FALSE);
@@ -191,6 +189,8 @@ int					parser(int *nb_hrd, t_e_list **l_expr, t_node **tree)
 	// ANTIBUG !!!!!!!!!
 	if (DEBUG_PARSER == 1)
 	{
+		t_e_list			*head_l_expr;
+	head_l_expr = *l_expr;
 		t_e_list *tmp = head_l_expr;
 		while(tmp){printf("[%s -> %d] --> ", (tmp)->data, (tmp)->type); tmp = (tmp)->next;}
 		ft_putendl("\n");

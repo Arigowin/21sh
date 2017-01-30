@@ -4,7 +4,7 @@
 #define	FD 3
 #define CLOSE 4
 
-static t_lst_fd		*lstfd_new(int fd, char *filename)
+t_lst_fd			*lstfd_new(int fd, char *filename)
 {
 	if (DEBUG_RED == 1)
 		ft_putendl_fd("------- LSTFD NEW -------", 2);
@@ -34,11 +34,13 @@ int					close_lstfd(t_lst_fd **lstfd)
 	{
 		if ((*lstfd)->fd > 2)
 			close((*lstfd)->fd);
-		free((*lstfd)->filename);
+		ft_strdel(&((*lstfd)->filename));
 		tmp = *lstfd;
 		*lstfd = (*lstfd)->next;
 		free(tmp);
+		tmp = NULL;
 	}
+	*lstfd = NULL;
 	return (TRUE);
 }
 
@@ -156,7 +158,7 @@ int					reset_std_fd(void)
 	std_fd = STDIN_FILENO;
 	while (std_fd <= STDERR_FILENO)
 	{
-		if ((fd = open(savior_tty(NULL, FALSE, TRUE), O_RDWR)) == ERROR)
+		if ((fd = open(savior_tty(NULL, FALSE), O_RDWR)) == ERROR)
 			/* RET: error EXIT: false MSG: "open fail" */
 			return (ERROR);
 		if (dup2(fd, std_fd) == ERROR)

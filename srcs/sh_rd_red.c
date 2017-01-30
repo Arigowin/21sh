@@ -45,8 +45,8 @@ int					left_right_red(t_node *tree, t_lst_fd *lstfd, int stdfd)
 		return (TRUE);
 	}
 	if (dup2(lstfd->fd, fd) == ERROR)
-		/* RET: error EXIT: false MSG: "dup2 fail" */
 		return (ERROR);
+		/* RET: error EXIT: false MSG: "dup2 fail" */
 	if (lstfd->fd > STDERR_FILENO && (stdfd == STDOUT_FILENO
 	|| ((lstfd->filename)[0] != '&' && lstfd->fd != -1)))
 		close(lstfd->fd);
@@ -83,7 +83,7 @@ int					heredoc_red(t_node *tree, int fd)
 
 int					redirect(t_node *tree, t_lst_fd *lstfd)
 {
-//	if (DEBUG_RED == 1)
+	if (DEBUG_RED == 1)
 		ft_putendl_fd("------- REDIRECT -------", 2);
 
 	int					fd;

@@ -2,120 +2,42 @@
 #include "shell.h"
 #include "libft.h"
 
-t_global_fd			*new_globalfd(void)
+int					fd_open(t_node *tree, t_lst_fd **lstfd, types type)
 {
 	if (DEBUG_TREE == 1)
-		ft_putendl_fd("------- NEW GLOBALFD -------", 2);
-
-	t_global_fd			*new;
-
-	new = NULL;
-	if ((new = (t_global_fd *)malloc(sizeof(t_global_fd))) == NULL)
-		return (NULL);
-		/* MSG ret: NULL exit: TRUE msg: "malloc fail" */
-	new->lstfd = NULL;
-	new->next = NULL;
-	return (new);
-}
-
-int					pushfront_globalfd(t_global_fd **globalfd)
-{
-	if (DEBUG_TREE == 1)
-		ft_putendl_fd("------- PUSHFRONT GLOBALFD -------", 2);
-
-	t_global_fd			*new;
-
-	new = NULL;
-	if (globalfd == NULL)
-		return (ERROR);
-	if (*globalfd == NULL)
-	{
-		if ((*globalfd = new_globalfd()) == NULL) // return useless
-			return (ERROR);
-	}
-	else
-	{
-		if ((new = new_globalfd()) == NULL) // return useless
-			return (ERROR);
-		new->next = *globalfd;
-		*globalfd = new;
-	}
-	return (TRUE);
-}
-
-int 				check_red_arg2(t_node *tree, t_global_fd **globalfd, types type)
-{
-	if (DEBUG_TREE == 1)
-		ft_putendl_fd("------- CHECK FD ARG -------", 2);
+		ft_putendl_fd("------- FD OPEN -------", 2);
 
 	int					fd;
 	int					flags;
 	char 				*filename;
 
-	if (type == RRED)
-		flags = O_WRONLY | O_TRUNC | O_CREAT;
-	else if (type == DRRED)
-		flags = O_WRONLY | O_APPEND | O_CREAT;
-	else if (type == LRED)
-		flags = O_RDONLY;
-	if ((filename = ft_strdup(tree->data)) == NULL)
-		return(ERROR);
-		/* MSG ret: ERROR exit: TRUE msg: "malloc fail" */
-		/* free : tree + globalfd */
-	if (type == LRED && access(filename, F_OK) == ERROR)
-		return (ERROR);
-		/* MSG ret: ERROR exit: FALSE msg: "cannot access + filename + not such file or directory " */
-	if ((fd = open(filename, flags,	S_IRUSR | S_IWUSR | S_IRGRP | S_IROTH)) == ERROR)
+	filename = NULL;
+	flags = (type == LRED ? O_RDONLY : 0);
+	flags = (type == RRED ?  O_WRONLY | O_TRUNC | O_CREAT : flags);
+	flags = (type == DRRED ?  O_WRONLY | O_APPEND | O_CREAT : flags);
+	if (tree && tree->data)
+		if ((filename = ft_strdup(tree->data)) == NULL)
+			return (ERROR);
+			/* MSG ret: ERROR exit: TRUE msg: "malloc fail" */
+			/* free : tree + lstfd */
+	if (tree && tree->data && tree->data[0] == '&')
+		fd = (ft_strcmp("&-", tree->data) == TRUE ? -42 : ft_atoi(filename + 1));
+	else
 	{
-		lstfd_pushbck(&((*globalfd)->lstfd), -1, filename);
+		if (type == LRED && access(filename, F_OK) == ERROR)
+			return (ERROR);
+		if ((fd = open(filename, flags,	S_IRUSR | S_IWUSR | S_IRGRP | S_IROTH)) == ERROR)
+			fd = -1;
+	}
+	lstfd_pushbck(lstfd, fd, filename);
+	if (fd == -1)
 		return (ERROR);
 		/* MSG ret: ERROR exit: FALSE msg: "filename + permission denied" */
-	}
-	lstfd_pushbck(&((*globalfd)->lstfd), fd, filename);
+	free(filename);
 	return (TRUE);
 }
 
-int 				check_fd_red(t_node *tree, t_global_fd **globalfd) //, types type)
-{
-	if (DEBUG_TREE == 1)
-		ft_putendl_fd("------- CHECK FD RED -------", 2);
-
-	int					fd;
-	char 				*filename;
-
-	if ((filename = ft_strdup(tree->data)) == NULL)
-		return (ERROR);
-		/* MSG ret: ERROR exit: TRUE msg: "malloc fail" */
-		/* free : tree + globalfd */
-	if (ft_strcmp("&-", tree->data) == TRUE)
-		fd = -42;
-	else
-		fd = ft_atoi(filename + 1);
-	lstfd_pushbck(&((*globalfd)->lstfd), fd, filename);
-	return (TRUE);
-}
-
-int					fd_open(t_node *tree, t_global_fd **globalfd, types type)
-{
-	if (DEBUG_TREE == 1)
-		ft_putendl_fd("------- FD OPEN -------", 2);
-
-	int					ret;
-
-	ret = FALSE;
-	if (*globalfd == NULL)
-	{
-		if ((*globalfd = new_globalfd()) == NULL) // return useless
-			return (ERROR);
-	}
-	if (tree->data && tree->data[0] == '&')
-		ret = check_fd_red(tree, globalfd); //, type);
-	else
-		ret = check_red_arg2(tree, globalfd, type);
-	return (ret);
-}
-
-int					manage_red_fd(t_node *tree, t_global_fd **globalfd, types type)
+int					manage_red_fd(t_node *tree, t_lst_fd **lstfd, types type)
 {
 	if (DEBUG_TREE == 1)
 		ft_putendl_fd("------- MANAGE RED FD -------", 2);
@@ -125,25 +47,20 @@ int					manage_red_fd(t_node *tree, t_global_fd **globalfd, types type)
 	ret = TRUE;
 	if (tree && (tree->type == RRED || tree->type == DRRED || tree->type == LRED || tree->type == DLRED))
 		type = tree->type;
-	if (tree->type == RED_ARG && type != DLRED)
-		if ((ret = fd_open(tree, globalfd, type)) != TRUE)
+	if (tree && tree->type == RED_ARG && type != DLRED)
+		if ((ret = fd_open(tree, lstfd, type)) != TRUE)
 			return (ret);
+	if (tree && tree->left)
+		if (manage_red_fd(tree->left, lstfd, type) == ERROR)
+			return (ERROR);
 	if (tree && tree->right)
-		if ((ret = manage_red_fd(tree->right, globalfd, type)) == ERROR)
+		if ((ret = manage_red_fd(tree->right, lstfd, type)) != TRUE)
 			return (ret);
-	if (tree->type == PIPE && globalfd != NULL && *globalfd != NULL && (*globalfd)->lstfd != NULL)
-		if ((ret = pushfront_globalfd(globalfd)) != TRUE)
-			return (ret);
-	if (ret != FALSE && tree && tree->left)
-		if ((ret = manage_red_fd(tree->left, globalfd, NONE)) != TRUE)
-			return (ret);
-	if (*globalfd && (*globalfd)->lstfd == NULL)
-		*globalfd = (*globalfd)->next;
 	return (TRUE);
 }
 
 // créer 3 fct tree_travers_semi tree_travers_pipe tree_travers_cmd
-int					tree_traversal(t_node *tree, t_global_fd **globalfd, int pipefd_tab[2][2])
+int					tree_traversal(t_node *tree, t_lst_fd **lstfd, int pipefd_tab[2][2])
 {
 	if (DEBUG_TREE == 1)
 		ft_putendl_fd("------- TREE TRAVERSAL -------", 2);
@@ -152,60 +69,57 @@ int					tree_traversal(t_node *tree, t_global_fd **globalfd, int pipefd_tab[2][2
 
 	ret = 0;
 
-	savior_tty(ttyname(0), TRUE, TRUE);
-	savior_tty(ttyname(1), TRUE, FALSE);
+	savior_tty(ttyname(0), TRUE);
 
-	if (tree->type == SEMI)
+	if (tree && tree->type == SEMI)
 	{
-		if (tree->left)
-			if ((tree_traversal(tree->left, globalfd, pipefd_tab)) == ERROR)
+		if (tree && tree->left)
+			if ((tree_traversal(tree->left, lstfd, pipefd_tab)) == ERROR)
 				return (ERROR);
-		if (tree->right)
-			if ((tree_traversal(tree->right, globalfd, pipefd_tab)) == ERROR)
+		init_pipefd(pipefd_tab);
+		if (tree && tree->right)
+			if ((tree_traversal(tree->right, lstfd, pipefd_tab)) == ERROR)
 				return (ERROR);
 	}
 
-	if (*globalfd == NULL)
-		manage_red_fd(tree, globalfd, NONE);
+	if (tree && tree->type != SEMI && lstfd && *lstfd == NULL)
+		manage_red_fd(tree, lstfd, NONE);
 
 	if (tree->type == PIPE)
 	{
 
 	//ANTIBUG
-	if (DEBUG_ANTIBUG == 1)
-	{
-	t_global_fd *tmpglo = *globalfd;
-	t_lst_fd *tmp = NULL;
-	while (tmpglo)
-	{
-		tmp = tmpglo->lstfd;
-		while(tmp){
-			printf("in pipe [filename->%s]--[fd->%d]\n", tmp->filename, tmp->fd);
-			tmp=tmp->next;
-		}
-		printf("next\n");
-		tmpglo = tmpglo->next;
-	}
+		if (DEBUG_ANTIBUG == 1)
+		{
+			t_lst_fd *tmp = *lstfd;
+				while(tmp){
+					printf("in pipe [filename->%s]--[fd->%d]\n", tmp->filename, tmp->fd);
+					tmp=tmp->next;
+				}
+				printf("next\n");
+				tmp = tmp->next;
+			}
 	//  fin ANTIBUG
-	}
 
-		if ((ret = (pipe_function(pipefd_tab, tree, globalfd))) != TRUE)
+		if ((ret = (pipe_function(pipefd_tab, tree, lstfd))) != TRUE)
 				return (ret);
-		if ((ret = (tree_traversal(tree->right, globalfd, pipefd_tab))) != TRUE)
+		if ((ret = (tree_traversal(tree->right, lstfd, pipefd_tab))) != TRUE)
 				return (ret);
 		reset_std_fd();
+		close_lstfd(lstfd);
 	}
 
-	if (tree->type == CMD || (tree->type >= RRED && tree->type <= DLRED))
+	if (tree->type == CMD)// || (tree->type >= RRED && tree->type <= DLRED))
 	{
-		if (tree->type == CMD)
-			if ((manage_cmd(pipefd_tab, tree, globalfd)) == ERROR)
+//		if (tree->type == CMD)
+			if ((manage_cmd(pipefd_tab, tree, lstfd)) == ERROR)
 				return (ERROR);
-		if (tree->left != NULL && (*globalfd))
-			(*globalfd) = (*globalfd)->next;
+		if (tree->left != NULL && (*lstfd))
+			(*lstfd) = (*lstfd)->next;
 		if (pipefd_tab[0][0] < 0 && pipefd_tab[1][0] < 0)
 		{
 			reset_std_fd();
+			close_lstfd(lstfd);
 		}
 	}
 	return (TRUE);

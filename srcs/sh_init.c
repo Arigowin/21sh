@@ -1,6 +1,15 @@
 #include "shell.h"
 #include "libft.h"
 
+int					init_pipefd(int pipefd_tab[2][2])
+{
+	pipefd_tab[0][0] = -2;
+	pipefd_tab[0][1] = -2;
+	pipefd_tab[1][0] = -2;
+	pipefd_tab[1][1] = -2;
+	return (TRUE);
+}
+
 int					init_env(char **env, t_duo **env_cpy) //ok
 {
 	char				**cpy;

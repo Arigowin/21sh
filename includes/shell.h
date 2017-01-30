@@ -9,7 +9,7 @@
 #define DEBUG_PARSER 0
 #define DEBUG_SAVIOR 0
 #define DEBUG_TREE_CREATION 0
-#define DEBUG_TREE 0
+#define DEBUG_TREE 1
 #define DEBUG_TERMCAPS 0
 #define DEBUG_HISTORY 0
 #define DEBUG_PIPE 0
@@ -182,7 +182,7 @@ int						sh_error(int ret_code, char *msg, int out);
 */
 t_duo					*savior(t_duo *env, int code);
 t_line					*savior_stline(t_line *stline, int code);
-char					*savior_tty(char *tty, int code, int in);
+char					*savior_tty(char *tty, int code);
 
 /*
 ** sh_init
@@ -190,6 +190,7 @@ char					*savior_tty(char *tty, int code, int in);
 int						init_env(char **env, t_duo **env_cpy);
 int						init_stline(t_line *stline);
 int						reset_stline(t_line *stline);
+int						init_pipefd(int pipefd_tab[2][2]);
 
 /*
 ** sh_first_steps
@@ -259,7 +260,7 @@ int						fct_read(int hrd, t_line *line, t_history **history);
 */
 int						father_n_son(char **cmd);
 int						father_n_son_for_pipe(char **cmd);
-int						handle_fork(int pipefd_tab[2][2], t_node *tree, t_global_fd **globalfd);
+int						handle_fork(int pipefd_tab[2][2], t_node *tree, t_lst_fd **lstfd);
 
 /*
 ** sh_cmd_line_assemble
@@ -401,7 +402,7 @@ int						clear_tree(t_node **tree);
 /*
 ** sh_tree_traversal
 */
-int						tree_traversal(t_node *tree, t_global_fd **globalfd, int pipefd[2][2]);
+int						tree_traversal(t_node *tree, t_lst_fd **lstfd, int pipefd[2][2]);
 
 /*
 ** sh_rd_red
@@ -413,6 +414,7 @@ int     				redirect(t_node *tree, t_lst_fd *lstfd);
 /*
 ** sh_rd_redfd_handler
 */
+t_lst_fd				*lstfd_new(int fd, char *filename);
 int						close_lstfd(t_lst_fd **lstfd);
 int						lstfd_pushbck(t_lst_fd **lstfd, int fd, char *filename);
 int						lstfd_pushfront(t_lst_fd **lstfd, int fd, char *name);
@@ -455,13 +457,13 @@ int						return_heredoc(t_line *stline);
 ** sh_cmd
 */
 char					**format_cmd(t_node *tree);
-int						manage_cmd(int pipefd_tab[2][2], t_node *tree, t_global_fd **globalfd);
+int						manage_cmd(int pipefd_tab[2][2], t_node *tree, t_lst_fd **lstfd);
 
 /*
 ** sh_pipe
 */
 int						pipe_function(int pipefd_tab[2][2], t_node *tree,
-						t_global_fd **globalfd);
+						t_lst_fd **lstfd);
 
 
 #endif

@@ -51,20 +51,19 @@ int					check_after_read(t_line *stline, t_history **history)
 
 	t_node				*tree;
 	t_node				*node;
-	t_global_fd			*globalfd;
+	t_lst_fd			*lstfd;
 	int					pipefd_tab[2][2];
 	int					ret;
 
-	globalfd = NULL;
-	pipefd_tab[0][0] = -2;
-	pipefd_tab[0][1] = -2;
-	pipefd_tab[1][0] = -2;
-	pipefd_tab[1][1] = -2;
+	lstfd = NULL;
+	tree = NULL;
+	node = NULL;
+	init_pipefd(pipefd_tab);
 	if ((ret = read_n_check(&(stline->hrd.nb), stline->line, &tree)) != TRUE)
 		return (ret);
 	node = tree;
 	heredoc_handler(stline, &node, history);
-	if ((ret = tree_traversal(tree, &globalfd, pipefd_tab)) == ERROR)
+	if ((ret = tree_traversal(tree, &lstfd, pipefd_tab)) == ERROR)
 	{
 		return (ret);
 		/* MSG ret: ERROR exit: TRUE msg: "whatever i don't have any ideas left"
