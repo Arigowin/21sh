@@ -33,7 +33,7 @@ int					check_red_arg(t_e_list **l_expr, t_node **tree)
 	{
 		if (filled_red_arg(l_expr, &node) == FALSE)
 		{
-			printf("CLEAR ? \n");
+			// printf("CLEAR ? \n");
 			//		clear_node(&node);
 			return (FALSE);
 		}
@@ -91,7 +91,7 @@ int					check_red(int *nb_hrd, t_e_list **l_expr, t_node **tree)
 			/* free: node */
 		}
 		//	node->type = ft_strequ(list_save->data, ">") ? RRED : 0;
-		printf(">>>>>>>>>>>>>>>>>>> %p\n", list_save->data);
+		// printf(">>>>>>>>>>>>>>>>>>> %p\n", list_save->data);
 		node->type = ft_strequ(list_save->data, ">") ? RRED : RED;
 		node->type = ft_strequ(list_save->data, ">>") ? DRRED : node->type;
 		node->type = ft_strequ(list_save->data, "<") ? LRED : node->type;

@@ -170,7 +170,7 @@ int					tree_traversal(t_node *tree, t_global_fd **globalfd, int pipefd_tab[2][2
 
 	if (tree->type == SEMI)
 	{
-		printf("XXXXXX SEMI\n");
+//		printf("XXXXXX SEMI\n");
 		if (tree->left)
 			if ((tree_traversal(tree->left, globalfd, pipefd_tab)) == ERROR)
 				return (ERROR);
@@ -184,7 +184,7 @@ int					tree_traversal(t_node *tree, t_global_fd **globalfd, int pipefd_tab[2][2
 
 	if (tree->type == PIPE)
 	{
-		printf("XXXXXX PIPE\n");
+//		printf("XXXXXX PIPE\n");
 
 		//ANTIBUG
 		if (DEBUG_ANTIBUG == 1)
@@ -212,7 +212,7 @@ int					tree_traversal(t_node *tree, t_global_fd **globalfd, int pipefd_tab[2][2
 
 	if (tree->type == CMD || (tree->type >= RRED && tree->type <= DLRED))
 	{
-		printf("XXXXXX CMD \n");
+		// printf("XXXXXX CMD \n");
 		if (tree->type == CMD)
 			if ((manage_cmd(pipefd_tab, tree, globalfd)) == ERROR)
 				return (ERROR);

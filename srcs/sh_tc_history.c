@@ -50,8 +50,8 @@ void				modif_history(t_history **history, char *line, int mini_prt)
 
 	if (line == NULL)
 		return ;
-	if (*history == NULL || (ft_strncmp((*history)->line, line,
-	ft_strlen((*history)->line)) != 0 && mini_prt == FALSE))
+	if (*history == NULL || ((mini_prt == FALSE && ft_strncmp((*history)->line,
+	line, ft_strlen((*history)->line)) != 0) || (*history)->next != NULL))
 	{
 		add_history(history, line);
 		return ;

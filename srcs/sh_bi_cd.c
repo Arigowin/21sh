@@ -7,8 +7,8 @@ static int			change_dir(char *path)
 //	if (DEBUG_BUILTIN == 1)
 		ft_putendl_fd("------- CHANGE DIR ------", 2);
 
-	dprintf(2, "POUET\n");
-	dprintf(2, "path ((%s))\n", path);
+	// dprintf(2, "POUET\n");
+	// dprintf(2, "path ((%s))\n", path);
 	if (chdir(path) == -1)
 	{
 		ft_putstr("21sh: cd: ");

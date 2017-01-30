@@ -50,7 +50,7 @@ int					check_builtin(char **cmd, int pipefd_tab[2][2],
 		ft_putendl_fd("------- CHECK BUILTIN ------", 2);
 
 	int					ret;
-	
+
 	(void)*pipefd_tab;
 	ret = -1;
 	if (is_builtin(cmd) != -1)
@@ -102,7 +102,7 @@ int					son(char **cmd, int pipefd_tab[2][2], t_node *tree,
 	if (DEBUG == 1)
 		ft_putendl_fd("------- SON ------", 2);
 
-		dprintf(2, "trololo \n");
+	// dprintf(2, "trololo \n");
 	pfd_handler(pipefd_tab);
 	if (globalfd && *globalfd)
 	//dprintf(2, "tttttttttttttttttttttttttttttt (%p)\n", (*globalfd)->lstfd);
