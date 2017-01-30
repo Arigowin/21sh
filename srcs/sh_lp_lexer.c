@@ -93,21 +93,24 @@ static int			type_analyzer2(t_e_list **l_expr, int *boule)
 	if (DEBUG_LEXER_PARSER == 1)
 		ft_putendl_fd("------- TYPE ANALYZER2 ------", 2);
 
-	if (((*l_expr)->next->data)[0] == ';')
+	if (l_expr && *l_expr) // ajout naima
 	{
-		(*l_expr)->next->type = SEMI;
-		*boule = 0;
-	}
-	else if (((*l_expr)->next->data)[0] == '|')
-	{
-		(*l_expr)->next->type = PIPE;
-		*boule = 0;
-	}
-	else if (*boule == 0 && ((ft_strchr(SPECIAL, ((*l_expr)->data)[0])
-	&& !ft_strchr("><", ((*l_expr)->next->data)[0])) || (*l_expr)->type == RA))
-	{
-		*boule = 1;
-		(*l_expr)->next->type = CMD;
+		if (((*l_expr)->next->data)[0] == ';')
+		{
+			(*l_expr)->next->type = SEMI;
+			*boule = 0;
+		}
+		else if (((*l_expr)->next->data)[0] == '|') // TOTO
+		{
+			(*l_expr)->next->type = PIPE;
+			*boule = 0;
+		}
+		else if (*boule == 0 && ((ft_strchr(SPECIAL, ((*l_expr)->data)[0])
+		 && !ft_strchr("><", ((*l_expr)->next->data)[0])) || (*l_expr)->type == RA))
+		{
+			*boule = 1;
+			(*l_expr)->next->type = CMD;
+		}
 	}
 	return (TRUE);
 }
@@ -117,7 +120,7 @@ static int			type_analyzer(t_e_list **l_expr, int boule)
 	if (DEBUG_LEXER_PARSER == 1)
 		ft_putendl_fd("------- TYPE ANALYZER ------", 2);
 
-	while (*l_expr && (*l_expr)->next)
+	while (l_expr && *l_expr && (*l_expr)->next)
 	{
 		if (ft_strchr((*l_expr)->next->data, '<')
 		|| ft_strchr((*l_expr)->next->data, '>'))

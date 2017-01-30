@@ -10,7 +10,7 @@ static int			filled_red_arg(t_e_list **l_expr, t_node **node)
 
 	if (((*node)->data = ft_strdup_ignchar((*l_expr)->data, '\\')) == NULL)
 	{
-		clear_node(node);
+//		clear_node(node); //ok
 		return (FALSE);
 		/* MSG ret: FALSE exit: FALSE msg: malloc fail*/
 		/* free: node */
@@ -22,7 +22,7 @@ static int			filled_red_arg(t_e_list **l_expr, t_node **node)
 int					check_red_arg(t_e_list **l_expr, t_node **tree)
 {
 	if (DEBUG_PARSER == 1)
-		ft_putendl_fd("------- CHECK RED_ARG ------\n", 2);
+		ft_putendl_fd("------- CHECK RED_ARG ------", 2);
 
 	t_node		 		*node;
 	t_node				*save;
@@ -32,7 +32,11 @@ int					check_red_arg(t_e_list **l_expr, t_node **tree)
 	if ((*l_expr)->type == RED_ARG && ((node = create_node(RED_ARG)) != NULL))
 	{
 		if (filled_red_arg(l_expr, &node) == FALSE)
+		{
+			// printf("CLEAR ? \n");
+			//		clear_node(&node);
 			return (FALSE);
+		}
 		/* MSG ret: FALSE exit: FALSE msg: NONE*/
 		*tree = node;
 		return (TRUE);
@@ -55,7 +59,7 @@ int					check_red_arg(t_e_list **l_expr, t_node **tree)
 	}
 	ft_putendl("missing name for redirect\n");
 	parse_error((*l_expr)->data);
-	clear_node(&node);
+//	clear_node(&node);
 	return (FALSE);
 	/* MSG ret: FALSE exit: FALSE msg: missing name for redirect + (*l_expr)->data*/
 	/* free: node */
@@ -65,7 +69,7 @@ int					check_red_arg(t_e_list **l_expr, t_node **tree)
 int					check_red(int *nb_hrd, t_e_list **l_expr, t_node **tree)
 {
 	if (DEBUG_PARSER == 1)
-		ft_putendl_fd("------- CHECK RED ------\n", 2);
+		ft_putendl_fd("------- CHECK RED ------", 2);
 
 	t_node				*node;
 	t_node				*save;
@@ -81,15 +85,18 @@ int					check_red(int *nb_hrd, t_e_list **l_expr, t_node **tree)
 	{
 		if ((node->data = ft_strdup_ignchar(list_save->data, '\\')) == NULL)
 		{
-			clear_node(&node);
+			//	clear_node(&node);
 			return (FALSE);
 			/* MSG ret: FALSE exit: FALSE msg: malloc fail*/
 			/* free: node */
 		}
-		node->type = ft_strequ(list_save->data, ">") ? RRED : 0;
+		//	node->type = ft_strequ(list_save->data, ">") ? RRED : 0;
+		// printf(">>>>>>>>>>>>>>>>>>> %p\n", list_save->data);
+		node->type = ft_strequ(list_save->data, ">") ? RRED : RED;
 		node->type = ft_strequ(list_save->data, ">>") ? DRRED : node->type;
 		node->type = ft_strequ(list_save->data, "<") ? LRED : node->type;
 		node->type = ft_strequ(list_save->data, "<<") ? DLRED : node->type;
+		// TOTO
 		*nb_hrd += (node->type == DLRED ? 1 : 0);
 		if (!move_in_list(l_expr) || check_red(nb_hrd, l_expr, &(node->left)) != TRUE)
 			*tree = save;
@@ -100,12 +107,12 @@ int					check_red(int *nb_hrd, t_e_list **l_expr, t_node **tree)
 	{
 		ft_putendl("missing name for redirect\n");
 		parse_error((*l_expr)->data);
-		clear_node(&node);
+		//	clear_node(&node);
 		return (FALSE);
 		/* MSG ret: FALSE exit: FALSE msg: missing name for redirect + (*l_expr)->data */
 		/* free: node */
 	}
-	clear_node(&node);
+//	clear_node(&node);
 	*tree = save;
 	return (FALSE);
 	/* MSG ret: FALSE exit: FALSE msg: NONE */
@@ -126,7 +133,7 @@ int					check_arg(int *nb_hrd, t_e_list **l_expr, t_node **tree,
 	{
 		if ((node->data = ft_strdup_ignchar((*l_expr)->data, '\\')) == NULL)
 		{
-			clear_node(&node);
+			//	clear_node(&node);
 			return (FALSE);
 			/* MSG ret: FALSE exit: FALSE msg: malloc fail*/
 			/* free: node */
@@ -135,7 +142,7 @@ int					check_arg(int *nb_hrd, t_e_list **l_expr, t_node **tree,
 		*right_node = node;
 		return (TRUE);
 	}
-	clear_node(&node);
+//	clear_node(&node);
 	return (FALSE);
 	/* MSG ret: FALSE exit: FALSE msg: NONE*/
 }

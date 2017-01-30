@@ -20,6 +20,8 @@
 #define DEBUG_HEREDOC 0
 #include <stdio.h>
 
+# define HISTORY_FILE_NAME "/.21sh_history"
+
 # define TRUE 1
 # define FALSE 0
 # define SYS_CALL_FAIL -3
@@ -73,7 +75,7 @@
 typedef enum
 {
 	NONE,
-	EXP,
+	EXP, // never used
 	SEMI,
 	PIPE,
 	CMD,
@@ -137,7 +139,7 @@ typedef struct			s_line //-> savior
 								// other line start at = 0
 								// quote line start at len of "> "
 	int					curs_y;
-	int					mini_ptr;
+	int					mini_prt;
 	int					quote;
 	char				*line;
 	char				*curr_hist;
@@ -177,12 +179,22 @@ typedef struct			s_global_fd //-> savior
 ** sh_error
 */
 int						sh_error(int ret_code, char *msg, int out);
+
+/*
+** sh_file_history
+*/
+int						load_history(t_history **history);
+int						save_history(void);
+
 /*
 ** sh_savior
 */
 t_duo					*savior(t_duo *env, int code);
 t_line					*savior_stline(t_line *stline, int code);
 char					*savior_tty(char *tty, int code);
+t_node					*savior_node(t_node *node, int code);
+t_node					*savior_tree(t_node *tree, int code);
+t_history				*savior_history(t_history *env, int code);
 
 /*
 ** sh_init
@@ -216,6 +228,7 @@ int						handle_builtin(char **cmd);
 /*
 ** sh_t_e_list_handler
 */
+int						expr_del(t_e_list **new);
 t_e_list				*expr_new(char *content);
 int 					expr_pushbk(t_e_list **l_expr, char *data_tmp);
 
@@ -252,6 +265,7 @@ t_node					*create_node(types type);
 /*
 ** sh_fct_read
 */
+int						tree_traversal_verif(t_node *tree);
 int						check_after_read(t_line *stline, t_history **history);
 int						fct_read(int hrd, t_line *line, t_history **history);
 
@@ -352,7 +366,7 @@ int						fct_del(char **s, int *pos, t_line *l, t_history **h);
 ** sh_tc_history
 */
 void					add_history(t_history **h, char *line);
-void					modif_history(t_history **history, char *line);
+void					modif_history(t_history **history, char *line, int mini);
 int						history_down(char **str, int *pos, t_line *stline,
 	   						t_history **history);
 int						history_up(char **s, int *p, t_line *l, t_history **h);

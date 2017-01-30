@@ -1,5 +1,7 @@
 #include "shell.h"
 #include "libft.h"
+#include <curses.h>
+#include <term.h>
 
 int					main(void)
 {
@@ -13,6 +15,7 @@ int					main(void)
 		return (ERROR);
 	init_stline(&stline);
 	history = NULL;
+	load_history(&history);
 	while (TRUE)
 	{
 		if (stline.line)

@@ -25,6 +25,26 @@ t_e_list			*expr_new(char *content)
 	return (new);
 }
 
+int				expr_del(t_e_list **new)
+{
+	//if (DEBUG_LEXER_PARSER == 1)
+	//	ft_putendl_fd("------- EXPR DEL ------", 2);
+
+	t_e_list	*tmp;
+	t_e_list	*trash;
+
+	tmp = *new;
+	while (tmp)
+	{
+		trash = tmp;
+		tmp = tmp->next;
+		ft_strdel(&(trash->data));
+		free(trash);
+	}
+	*new = NULL;
+	return (TRUE);
+}
+
 int 				expr_pushbk(t_e_list **l_expr, char *data_tmp)
 {
 	if (DEBUG_LEXER_PARSER == 1)
@@ -32,14 +52,17 @@ int 				expr_pushbk(t_e_list **l_expr, char *data_tmp)
 
 	t_e_list			*tmp;
 
-	tmp = NULL;
-	if (data_tmp == NULL && *data_tmp == '\0')
+	if (data_tmp == NULL || *data_tmp == '\0')
 		return (FALSE);
 	if (!(l_expr && *l_expr))
 	{
+		*l_expr = expr_new(data_tmp);
+		return (TRUE);
+		/*
 		if ((*l_expr = expr_new(data_tmp)) == NULL) // return useless
 			return (ERROR);
 		return (TRUE);
+		*/
 	}
 	tmp = *l_expr;
 	while (tmp->next)

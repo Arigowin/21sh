@@ -22,6 +22,7 @@ SRC = sh_main.c \
 	  sh_init.c \
 	  sh_signal.c \
 	  sh_first_steps.c \
+	  sh_file_history.c \
 	  \
 	  sh_bi_builtin.c \
 	  sh_bi_cd.c \

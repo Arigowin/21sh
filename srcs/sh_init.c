@@ -39,7 +39,7 @@ int					init_stline(t_line *stline)
 	if ((stline->line = ft_strnew(BUFF_SIZE)) == NULL)
 		/* RET: error EXIT: true MSG: "malloc fail" */
 		return (ERROR);
-	stline->mini_ptr = FALSE;
+	stline->mini_prt = FALSE;
 	stline->quote = 0;
 	stline->pos = 0;
 	stline->curs_y = 0;
@@ -66,7 +66,7 @@ int					reset_stline(t_line *stline)
 		ft_putendl_fd("------- RESET STLINE ------", 2);
 
 	ft_bzero(stline->line, ft_strlen(stline->line));
-	stline->mini_ptr = FALSE;
+	stline->mini_prt = FALSE;
 	stline->quote = 0;
 	stline->pos = 0;
 	stline->curs_y = 0;

@@ -11,19 +11,19 @@ int 				mini_prt_handler(char **str, int *pos, t_line *stline)
 	ft_putstr("> ");
 	stline->curs_x = 2;
 	stline->curs_y = 0;
-	stline->mini_ptr = TRUE;
+	stline->mini_prt = TRUE;
 	return (CONTINUE);
 }
 
 int					fct_return(char **str, int *pos, t_line *stline,
-					t_history **history)
+							   t_history **history)
 {
 	if (DEBUG_KEY == 1)
 		ft_putendl_fd("------- FCT RETURN ------", 2);
 
 	fct_end(str, pos, stline, history);
 	if (stline->quote != 0 || (*pos > 0 && (*str)[*pos - 1] &&
-	(*str)[*pos - 1] == '\\') ||	stline->hrd.nb > 0)
+	(*str)[*pos - 1] == '\\') ||	stline->hrd.nb > 0) // ajout si 'pipe' a la fin de la ligne
 	{
 		if (stline->hrd.nb > 0)
 		{
@@ -32,7 +32,7 @@ int					fct_return(char **str, int *pos, t_line *stline,
 		}
 		ft_strdel(&(stline->curr_hist));
 		if (*str && (*str)[0] && stline->quote != 0)
-			modif_history(history, *str);
+			modif_history(history, *str, FALSE);
 		return (mini_prt_handler(str, pos, stline));
 	}
 	else
@@ -40,7 +40,7 @@ int					fct_return(char **str, int *pos, t_line *stline,
 		if (stline->copy.cpy != NULL && stline->copy.start != -1)
 			fct_highlight(str, pos, stline, history);
 		if (*str && (*str)[0])
-			add_history(history, *str);
+			modif_history(history, *str, stline->mini_prt);
 		ft_putchar('\n');
 		return (BREAK);
 	}
@@ -88,14 +88,14 @@ int					event(int k, t_line *stline, t_history **history)
 	int					i;
 	int					ret;
 	static t_key_fct	tbl_keys[18] =
-	{
-		{RETURN, fct_return}, {BACKSPACE, fct_backspace}, {DOWN, history_down},
-		{HOME, fct_home}, {DEL, fct_del}, {CTRL_D, fct_ctrl_d}, {END, fct_end},
-		{LEFT, fct_left}, {RIGHT, fct_right}, {UP, history_up},
-		{CTRL_LEFT, fct_ctrl_left}, {CTRL_RIGHT, fct_ctrl_right},
-		{CTRL_UP, fct_up}, {CTRL_DOWN, fct_down}, {CUT, fct_cut},
-		{HIGHLIGHT, fct_highlight}, {PASTE, fct_paste}, {COPY, fct_copy}
-	};
+		{
+			{RETURN, fct_return}, {BACKSPACE, fct_backspace}, {DOWN, history_down},
+			{HOME, fct_home}, {DEL, fct_del}, {CTRL_D, fct_ctrl_d}, {END, fct_end},
+			{LEFT, fct_left}, {RIGHT, fct_right}, {UP, history_up},
+			{CTRL_LEFT, fct_ctrl_left}, {CTRL_RIGHT, fct_ctrl_right},
+			{CTRL_UP, fct_up}, {CTRL_DOWN, fct_down}, {CUT, fct_cut},
+			{HIGHLIGHT, fct_highlight}, {PASTE, fct_paste}, {COPY, fct_copy}
+		};
 
 	i = -1;
 	ret = 0;
@@ -112,6 +112,8 @@ int					event(int k, t_line *stline, t_history **history)
 	ft_putnbr(stline->curs_y);
 	ft_putstr(" pos :");
 	ft_putnbr(stline->pos);
+	ft_putstr(" mp :");
+	ft_putnbr(stline->mini_prt);
 	tputs(tgetstr("rc", NULL), 1, my_outc);
 
 	while(++i < 18)
@@ -119,8 +121,8 @@ int					event(int k, t_line *stline, t_history **history)
 		if (tbl_keys[i].key == k)
 		{
 			ret = tbl_keys[i].fct((stline->hrd.nb > 0 ? &(stline->hrd.line)
-							: &(stline->line)),	(stline->hrd.nb > 0 ? &(stline->hrd.pos)
-							: &(stline->pos)), stline, history);
+								   : &(stline->line)),	(stline->hrd.nb > 0 ? &(stline->hrd.pos)
+														 : &(stline->pos)), stline, history);
 			tputs(tgetstr("ve", NULL), 1, my_outc);
 			return(ret);
 		}

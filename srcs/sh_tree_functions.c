@@ -14,6 +14,7 @@ t_node				*create_node(types type)
 		/* MSG ret: NULL exit: TRUE msg: "malloc fail" */
 	new->data = NULL;
 	new->type = type;
+	//printf("CREATE type : %d\n", new->type);
 	new->left = NULL;
 	new->right = NULL;
 	return (new);
@@ -24,10 +25,11 @@ int					clear_node(t_node **node)
 	if (DEBUG_PARSER == 1)
 		ft_putendl_fd("------- CLEAR NODE ------", 2);
 
-	if (node && (*node) && !(*node)->left && !(*node)->right)
+	if (node && (*node))
 	{
+	//	printf("CLEAR NODE type : %d\n", (*node)->type);
 		ft_strdel(&((*node)->data));
-		(*node)->type = NONE;
+//		(*node)->type = NONE; // pas necessaire
 		free(*node);
 		*node = NULL;
 		return (TRUE);
@@ -40,10 +42,17 @@ int					clear_tree(t_node **tree)
 	if (DEBUG_PARSER == 1)
 		ft_putendl_fd("------- CLEAR TREE ------", 2);
 
-	if ((*tree) && (*tree)->left)
-		clear_tree(&((*tree)->left));
-	if ((*tree) && (*tree)->right)
-		clear_tree(&((*tree)->right));
-	clear_node(tree);
+	if (tree)
+	{
+		if ((*tree) && (*tree)->left)
+		{
+			clear_tree(&((*tree)->left));
+		}
+		if ((*tree) && (*tree)->right)
+		{
+			clear_tree(&((*tree)->right));
+		}
+		clear_node(tree);
+	}
 	return (TRUE);
 }
