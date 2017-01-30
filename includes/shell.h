@@ -137,7 +137,7 @@ typedef struct			s_line //-> savior
 								// other line start at = 0
 								// quote line start at len of "> "
 	int					curs_y;
-	int					mini_ptr;
+	int					mini_prt;
 	int					quote;
 	char				*line;
 	char				*curr_hist;
@@ -351,7 +351,7 @@ int						fct_del(char **s, int *pos, t_line *l, t_history **h);
 ** sh_tc_history
 */
 void					add_history(t_history **h, char *line);
-void					modif_history(t_history **history, char *line);
+void					modif_history(t_history **history, char *line, int mini);
 int						history_down(char **str, int *pos, t_line *stline,
 	   						t_history **history);
 int						history_up(char **s, int *p, t_line *l, t_history **h);

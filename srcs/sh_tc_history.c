@@ -43,20 +43,61 @@ void				add_history(t_history **history, char *line)
 	}
 }
 
-void				modif_history(t_history **history, char *line)
+void				modif_history(t_history **history, char *line, int mini_prt)
 {
 	if (DEBUG_HISTORY == 1)
 		ft_putendl_fd("------- ADD HISTORY ------", 2);
 
-	if (*history == NULL || ft_strncmp((*history)->line, line, ft_strlen((*history)->line)) != 0)
+	if (line == NULL)
+		return ;
+	if (*history == NULL || (ft_strncmp((*history)->line, line,
+	ft_strlen((*history)->line)) != 0 && mini_prt == FALSE))
 	{
 		add_history(history, line);
 		return ;
 	}
 	ft_strdel(&((*history)->line));
 	if (((*history)->line = ft_strdup(line)) == NULL)
-		/* RET = error EXIT = true msg = "malloc fail" */
+		/* RET =  EXIT = true msg = "malloc fail" */
 		return ;
+}
+
+// nom a revoir
+int					history_up_move(t_history **history, char *tmp, int *pos, t_line *stline)
+{
+	char				*tmpchr;
+	int					ret;
+
+	if ((*history)->prev && tmp && *pos > 0)
+	{
+		tmpchr = ft_strrchr(tmp, '\n');
+		if (tmpchr != NULL && ft_strlen(tmpchr) > 1)
+		{
+			(tmpchr)++;
+			if (stline->mini_prt == FALSE || (ret = ft_strcmp(tmpchr, (*history)->line)) == 0)
+				*history = (*history)->prev;
+		}
+		else
+		{
+			if ((ret = ft_strcmp(tmp, (*history)->line)) == 0)
+				*history = (*history)->prev;
+		}
+		ft_strdel(&tmp);
+	}
+	return (TRUE);
+}
+
+// nom a revoir
+int					reset_pos_x_y(char **str, int *pos, t_line *stline)
+{
+	int					nb;
+
+	nb = ft_strncount(*str, '\n');
+	if (nb > 0)
+		stline->curs_y = nb;
+	if (stline->curs_y > 0 && *str != NULL && *pos > 0)
+		stline->curs_x = ft_strlen(ft_strrchr(*str, '\n')) - 1;
+	return (TRUE);
 }
 
 int					history_up(char **str, int *pos, t_line *stline,
@@ -68,8 +109,6 @@ int					history_up(char **str, int *pos, t_line *stline,
 	int					i;
 	char				*tmp;
 	char				*tmpchr;
-	int					ret;
-	int					nb;
 
 	if (*history == NULL)
 		return (FALSE);
@@ -83,33 +122,13 @@ int					history_up(char **str, int *pos, t_line *stline,
 		else if (*str && *pos > 0 && (*str)[*pos - 1] != '\n')
 			stline->curr_hist = ft_strdup(*str);
 	}
-	i = 0;
-	if ((*history)->prev && *str && *pos > 0)
-	{
-		tmpchr = ft_strrchr(tmp, '\n');
-		if (tmpchr != NULL && ft_strlen(tmpchr) > 1)
-		{
-			(tmpchr)++;
-			if ((ret = ft_strcmp(tmpchr, (*history)->line)) == 0)
-				*history = (*history)->prev;
-		}
-		else
-			if ((ret = ft_strcmp(tmp, (*history)->line)) == 0)
-				*history = (*history)->prev;
-		ft_strdel(&tmp);
-	}
+	history_up_move(history, tmp, pos, stline);
 	while (left_move_cdt(*pos, stline))
 		fct_backspace(str, pos, stline, history);
-	while (((*history)->line)[i])
-	{
+	i = -1;
+	while (((*history)->line)[++i])
 		fct_insert(str, pos, ((*history)->line)[i], stline);
-		i++;
-	}
-	nb = ft_strncount(*str, '\n');
-	if (nb > 0)
-		stline->curs_y = nb;
-	if (stline->curs_y > 0 && *str != NULL && *pos > 0)
-		stline->curs_x = ft_strlen(ft_strrchr(*str, '\n')) - 1;
+	reset_pos_x_y(str, pos, stline);
 	return (TRUE);
 }
 

@@ -91,7 +91,7 @@ static int			insert_char(char c, char *end_line, char **str, int *pos)
 
 static int			muli_line_insert(t_line *stline, char c)
 {
-	if (stline->mini_ptr == FALSE && c == '\n')
+	if (stline->mini_prt == FALSE && c == '\n')
 	{
 		stline->curs_x = 0;
 		stline->curs_y++;

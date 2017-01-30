@@ -11,7 +11,7 @@ int 				mini_prt_handler(char **str, int *pos, t_line *stline)
 	ft_putstr("> ");
 	stline->curs_x = 2;
 	stline->curs_y = 0;
-	stline->mini_ptr = TRUE;
+	stline->mini_prt = TRUE;
 	return (CONTINUE);
 }
 
@@ -33,7 +33,7 @@ int					fct_return(char **str, int *pos, t_line *stline,
 		}
 		ft_strdel(&(stline->curr_hist));
 		if (*str && (*str)[0] && stline->quote != 0)
-			modif_history(history, *str);
+			modif_history(history, *str, FALSE);
 		return (mini_prt_handler(str, pos, stline));
 	}
 	else
@@ -41,7 +41,7 @@ int					fct_return(char **str, int *pos, t_line *stline,
 		if (stline->copy.cpy != NULL && stline->copy.start != -1)
 			fct_highlight(str, pos, stline, history);
 		if (*str && (*str)[0])
-			add_history(history, *str);
+			modif_history(history, *str, stline->mini_prt);
 		ft_putchar('\n');
 		return (BREAK);
 	}
@@ -113,6 +113,8 @@ int					event(int k, t_line *stline, t_history **history)
 	ft_putnbr(stline->curs_y);
 	ft_putstr(" pos :");
 	ft_putnbr(stline->pos);
+	ft_putstr(" mp :");
+	ft_putnbr(stline->mini_prt);
 	tputs(tgetstr("rc", NULL), 1, my_outc);
 
 	while(++i < 18)
