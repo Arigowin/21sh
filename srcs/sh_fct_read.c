@@ -38,7 +38,7 @@ int					read_n_check(int *nb_hrd, char *read_buff, t_node **tree)
 		return (FALSE);
 	if ((ret = tokenizer(read_buff, &l_expr)) != TRUE)
 	{
-		expr_del(&l_expr);
+		expr_del(&save);
 		return (ret);
 	}
 	save = l_expr;
@@ -52,6 +52,7 @@ int					read_n_check(int *nb_hrd, char *read_buff, t_node **tree)
 		expr_del(&save);
 		return (ret);
 	}
+	savior_tree(*tree, TRUE);
 	expr_del(&save);
 //	if (DEBUG_TREE_VERIF == 1)
 //		tree_traversal_verif(*tree);
@@ -69,6 +70,8 @@ int					check_after_read(t_line *stline, t_history **history)
 	int					pipefd_tab[2][2];
 	int					ret;
 
+	node = NULL;
+	tree = NULL;
 	globalfd = NULL;
 	pipefd_tab[0][0] = -2;
 	pipefd_tab[0][1] = -2;

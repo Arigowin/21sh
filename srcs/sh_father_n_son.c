@@ -154,7 +154,7 @@ int					handle_fork(int pipefd_tab[2][2], t_node *tree,
 		}
 		else if (tree->left)
 			*globalfd = (*globalfd)->next;
-		savior_tree(tree, TRUE); // TRES IMPORTANT SAVIOR TREE TRUE ICI !!!!
+		//	savior_tree(tree, TRUE); // TRES IMPORTANT SAVIOR TREE TRUE ICI !!!!
 		if ((ret = check_builtin(cmd, pipefd_tab, NULL)) == TRUE)
 			return (TRUE);
 		if (ret == ERROR)

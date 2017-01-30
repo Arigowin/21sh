@@ -22,14 +22,16 @@ t_node				*create_node(types type)
 
 int					clear_node(t_node **node)
 {
-	if (DEBUG_PARSER == 1)
+	/* if (DEBUG_PARSER == 1) */
 		ft_putendl_fd("------- CLEAR NODE ------", 2);
 
 	if (node && (*node))
 	{
 		printf("CLEAR NODE type : %d\n", (*node)->type);
 		ft_strdel(&((*node)->data));
-//		(*node)->type = NONE; // pas necessaire
+		(*node)->type = NONE; // pas necessaire
+		(*node)->left = NULL;
+		(*node)->right = NULL;
 		free(*node);
 		*node = NULL;
 		return (TRUE);
@@ -42,17 +44,15 @@ int					clear_tree(t_node **tree)
 	if (DEBUG_PARSER == 1)
 		ft_putendl_fd("------- CLEAR TREE ------", 2);
 
-	if (tree)
+	if (tree && *tree)
 	{
 		if ((*tree) && (*tree)->left)
-		{
 			clear_tree(&((*tree)->left));
-		}
 		if ((*tree) && (*tree)->right)
-		{
 			clear_tree(&((*tree)->right));
-		}
 		clear_node(tree);
+		tree = NULL;
 	}
+	savior_tree(NULL, TRUE);
 	return (TRUE);
 }

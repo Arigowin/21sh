@@ -145,7 +145,6 @@ int					check_expr(int *nb_hrd, t_e_list **l_expr, t_node **tree)
 	}
 	/* MSG ret: FALSE exit: FALSE msg: malloc fail*/
 		/* free: node */
-//	savior_node(node, TRUE);
 	node_to_give = (node->left == NULL ? &(node->left) : &(node->right));
 	if (check_c_pipe(nb_hrd, l_expr, node_to_give))
 	{
@@ -188,12 +187,12 @@ int					parser(int *nb_hrd, t_e_list **l_expr, t_node **tree)
 	if (DEBUG_PARSER == 1)
 		ft_putendl_fd("------- PARSER ------", 2);
 
-	t_e_list			*head_l_expr;
+//	t_e_list			*head_l_expr;
 	int					ret;
 
 	if (*l_expr == NULL)
 		return (FALSE);
-	head_l_expr = *l_expr;
+//	head_l_expr = *l_expr; //set but not used
 	ret = check_expr(nb_hrd, l_expr, tree);
 	if (ret == FALSE)
 		return (FALSE);
