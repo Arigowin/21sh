@@ -82,7 +82,6 @@ int					history_up_move(t_history **history, char *tmp, int *pos, t_line *stline
 			if ((ret = ft_strcmp(tmp, (*history)->line)) == 0)
 				*history = (*history)->prev;
 		}
-		ft_strdel(&tmp);
 	}
 	return (TRUE);
 }
@@ -113,6 +112,7 @@ int					history_up(char **str, int *pos, t_line *stline,
 	if (*history == NULL)
 		return (FALSE);
 	fct_end(str, pos, stline, history);
+	tmp = NULL;
 	tmp = (*pos > 0 && (*str)[*pos - 1] == '\n' ? ft_strsub(*str, 0, *pos - 1) : ft_strdup(*str));
 	if ((*history)->next == NULL && *pos > 0 && ft_strcmp(tmp, (*history)->line) != 0)
 	{
@@ -123,6 +123,7 @@ int					history_up(char **str, int *pos, t_line *stline,
 			stline->curr_hist = ft_strdup(*str);
 	}
 	history_up_move(history, tmp, pos, stline);
+	ft_strdel(&tmp);
 	while (left_move_cdt(*pos, stline))
 		fct_backspace(str, pos, stline, history);
 	i = -1;
