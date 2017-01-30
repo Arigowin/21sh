@@ -5,7 +5,7 @@
 
 t_node				*create_node(types type)
 {
-	if (DEBUG_TREE == 1)
+	/* if (DEBUG_TREE == 1) */
 		ft_putendl_fd("------- CREATE NODE ------", 2);
 	t_node				*new;
 
@@ -29,7 +29,7 @@ int					clear_node(t_node **node)
 	{
 		printf("CLEAR NODE type : %d\n", (*node)->type);
 		ft_strdel(&((*node)->data));
-		(*node)->type = NONE;
+//		(*node)->type = NONE; // pas necessaire
 		free(*node);
 		*node = NULL;
 		return (TRUE);

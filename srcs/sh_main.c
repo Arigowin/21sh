@@ -1,5 +1,7 @@
 #include "shell.h"
 #include "libft.h"
+#include <curses.h>
+#include <term.h>
 
 int					main(void)
 {
