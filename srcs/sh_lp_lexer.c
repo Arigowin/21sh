@@ -98,7 +98,7 @@ static int			type_analyzer2(t_e_list **l_expr, int *boule)
 		(*l_expr)->next->type = SEMI;
 		*boule = 0;
 	}
-	else if (((*l_expr)->next->data)[0] == '|')
+	else if (((*l_expr)->next->data)[0] == '|') // TOTO
 	{
 		(*l_expr)->next->type = PIPE;
 		*boule = 0;

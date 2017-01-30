@@ -25,8 +25,9 @@ int			duo_del(t_duo **lst)
 		free(*lst);
 		*lst = tmp;
 	}
-	free((*lst)->name);
-	free((*lst)->value);
+	ft_strdel(&(*lst)->name);
+	ft_strdel(&(*lst)->value);
 	free(*lst);
+	*lst = NULL;
 	return (0);
 }

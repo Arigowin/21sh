@@ -6,7 +6,8 @@
 //ONLY FOR ANTIBUG
 int					tree_traversal_verif(t_node *tree)
 {
-	ft_putendl_fd("------- TREE TRAVERSAL VERIF ------", 2);
+	if (DEBUG_TREE_VERIF == 1)
+		ft_putendl_fd("------- TREE TRAVERSAL VERIF ------", 2);
 
 	printf("tree : %s - %d\n", tree->data, tree->type);
 	if (tree && tree->left != NULL)
@@ -34,13 +35,24 @@ int					read_n_check(int *nb_hrd, char *read_buff, t_node **tree)
 	if (tree == NULL || read_buff == NULL)
 		return (FALSE);
 	if ((ret = tokenizer(read_buff, &l_expr)) != TRUE)
+	{
+		expr_del(&l_expr);
 		return (ret);
+	}
 	if ((ret = lexer(&l_expr)) != TRUE)
+	{
+		expr_del(&l_expr);
 		return (ret);
+	}
 	if ((ret = parser(nb_hrd, &l_expr, tree)) != TRUE) // juste garder ret = .... et return ret
+	{
+		expr_del(&l_expr);
 		return (ret);
-	if (DEBUG_TREE_VERIF == 1)
-		tree_traversal_verif(*tree);
+	}
+	//if (l_expr)
+	expr_del(&l_expr);
+//	if (DEBUG_TREE_VERIF == 1)
+//		tree_traversal_verif(*tree);
 	return (TRUE);
 }
 
@@ -61,15 +73,21 @@ int					check_after_read(t_line *stline, t_history **history)
 	pipefd_tab[1][0] = -2;
 	pipefd_tab[1][1] = -2;
 	if ((ret = read_n_check(&(stline->hrd.nb), stline->line, &tree)) != TRUE)
+	{
+		clear_tree(&tree);
 		return (ret);
+	}
 	node = tree;
 	heredoc_handler(stline, &node, history);
 	if ((ret = tree_traversal(tree, &globalfd, pipefd_tab)) == ERROR)
 	{
+		clear_tree(&tree);
 		return (ret);
 		/* MSG ret: ERROR exit: TRUE msg: "whatever i don't have any ideas left"
 		 * free: stline + globalfd + tree + node */
 	}
+//	savior_tree(tree, TRUE); // inutile apparemment
+	clear_tree(&tree);
 	return (ret);
 }
 
