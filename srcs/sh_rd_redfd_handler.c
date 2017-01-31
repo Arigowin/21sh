@@ -51,17 +51,20 @@ int					close_lstfd(t_lst_fd **lstfd)
 	t_lst_fd			*tmp;
 
 	tmp = NULL;
-	while (lstfd && *lstfd)
+	if (lstfd)
 	{
-		if ((*lstfd)->fd > 2)
-			close((*lstfd)->fd);
-		ft_strdel(&((*lstfd)->filename));
-		tmp = *lstfd;
-		*lstfd = (*lstfd)->next;
-		free(tmp);
-		tmp = NULL;
+		while (lstfd && *lstfd)
+		{
+			if ((*lstfd)->fd > 2)
+				close((*lstfd)->fd);
+			ft_strdel(&((*lstfd)->filename));
+			tmp = *lstfd;
+			*lstfd = (*lstfd)->next;
+			free(tmp);
+			tmp = NULL;
+		}
+		*lstfd = NULL;
 	}
-	*lstfd = NULL;
 	return (TRUE);
 }
 

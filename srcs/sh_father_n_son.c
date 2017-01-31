@@ -43,7 +43,7 @@ int 				pfd_handler(int pipefd_tab[2][2])
 int					check_builtin(char **cmd, int pipefd_tab[2][2],
 					t_lst_fd **lstfd)
 {
-	if (DEBUG == 1)
+//	if (DEBUG == 1)
 		ft_putendl_fd("------- CHECK BUILTIN ------", 2);
 
 	int					ret;
@@ -56,8 +56,10 @@ int					check_builtin(char **cmd, int pipefd_tab[2][2],
 		{
 			// useless return
 			close_lstfd(lstfd);
+			dprintf(2, "apres appel de handle bi\n");
 			return (ERROR);
 		}
+		dprintf(2, "apres appel de handle bi -- OK\n");
 		return (TRUE);
 	}
 	return (FALSE);
@@ -96,21 +98,23 @@ int					father(int pipefd_tab[2][2])
 int					son(char **cmd, int pipefd_tab[2][2], t_node *tree,
 					t_lst_fd **lstfd)
 {
-	if (DEBUG == 1)
+//	if (DEBUG == 1)
 		ft_putendl_fd("------- SON ------", 2);
 
+dprintf(2, "tttttttttttttttttttttttttttttt (%p)\n", *lstfd);
 	pfd_handler(pipefd_tab);
 //	if (lstfd && *lstfd)
-	//dprintf(2, "tttttttttttttttttttttttttttttt (%p)\n", *lstfd);
 	if ((pipefd_tab[0][0] >= 0 || pipefd_tab[1][0] >= 0) && tree && tree->left
 	&& lstfd && *lstfd && redirect(tree->left, *lstfd) == ERROR)
 		/* RET: error EXIT: false MSG: "i don't know" */
 		return (ERROR);
+dprintf(2, "tttttttttttttttttttttttttttttt (%p)\n", *lstfd);
 	if (check_builtin(cmd, pipefd_tab, NULL) == TRUE)
 	{
 		exit(EXIT_SUCCESS);
 		return (TRUE);
 	}
+	dprintf(2, "ghijkl\n");
 	check_signal(2);
 	check_fct(cmd);
 	/* RET: error EXIT: true MSG: "command not found" */
@@ -140,6 +144,7 @@ int					handle_fork(int pipefd_tab[2][2], t_node *tree,
 		return (ERROR);
 	if (pipefd_tab[0][0] < 0 && pipefd_tab[1][0] < 0)
 	{
+		printf("ajbqerpiugrbeuiqgbreiuqvb\n");
 		//dprintf(2, "tree : ((%s))\tlstfd : ((%s))\n", tree->left->data, (*lstfd)->filename);
 		// interieur du if a mettre dans une fonction
 		if (tree && tree->left && *lstfd && redirect(tree->left, *lstfd) == ERROR)
@@ -151,12 +156,20 @@ int					handle_fork(int pipefd_tab[2][2], t_node *tree,
 		else if (tree && tree->left && tree->left->type == DLRED && redirect(tree->left, NULL) == ERROR)
 			return (ERROR);
 		savior_tree(tree, TRUE); // TRES IMPORTANT SAVIOR TREE TRUE ICI !!!!
+		printf("bvrueibvupeiqvbruibeiuqvb\n");
 		if ((ret = check_builtin(cmd, pipefd_tab, NULL)) == TRUE)
+		{printf("crntubyrubhdurtigbreiuqvb\n");
 			return (TRUE);
+		}
+		printf("drntubyrubhdurtigbreiuqvb\n");
 		if (ret == ERROR)
+		{printf("erntubyrubhdurtigbreiuqvb\n");
 			// useless return
 			return (ERROR);
+		}
 	}
+		//if (ret == ERROR)
+		printf("fnqffdbwugdbsgbudgfdsgqvb\n");
 	if ((fpid = fork()) < 0)
 		/* RET: error EXIT: true MSG: "fork fail" */
 		return (ERROR);

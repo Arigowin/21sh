@@ -19,7 +19,9 @@ static int			change_dir(char *path)
 			ft_putendl(": permission denied");
 		return (ERROR);
 	}
+	dprintf(2, "abcdef\n");
 	ft_strdel(&path);
+	dprintf(2, "ghijkl\n");
 	return (TRUE);
 }
 

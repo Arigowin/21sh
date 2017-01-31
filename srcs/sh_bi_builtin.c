@@ -79,15 +79,15 @@ int					is_builtin(char **cmd)
 			return (i);
 		i++;
 	}
-	
-	
+
+
 	/* MSG ret: ERROR exit: FALSE msg: "command not found: cmd." */
 	return (ERROR);
 }
 
 int					handle_builtin(char **cmd)
 {
-	if (DEBUG == 1)
+//	if (DEBUG == 1)
 		ft_putendl_fd("------- HANDLE BUILTIN ------", 2);
 
 	int					i;
