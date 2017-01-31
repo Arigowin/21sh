@@ -54,7 +54,6 @@ int					del_tree(t_node **tree)
 			del_tree(&((*tree)->right));
 		}
 		clear_node(tree);
-		tree = NULL;
 	}
 	return (TRUE);
 }

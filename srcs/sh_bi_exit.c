@@ -6,6 +6,7 @@ int					bi_exit(char **arg, t_duo **env)
 {
 	if (DEBUG_BUILTIN == 1)
 		ft_putendl_fd("------- BI EXIT ------", 2);
+
 	int					i;
 
 	i = 0;
@@ -37,10 +38,10 @@ int					bi_exit(char **arg, t_duo **env)
 	duo_del(env);
 	reset_term();
 	tree = NULL;
-	if (tree)
-		ft_putendl("ARBRE EXISTE ENCORE");
-	else
-		ft_putendl("ARBRE COUPE");
+	//if (tree)
+	//	ft_putendl("ARBRE EXISTE ENCORE");
+	//else
+	//	ft_putendl("ARBRE COUPE");
 	exit(i);
 	return (0);
 }
