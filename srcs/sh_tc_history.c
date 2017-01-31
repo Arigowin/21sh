@@ -34,7 +34,7 @@ void				add_history(t_history **history, char *line)
 		(*history) = (*history)->next;
 	if (*history == NULL)
 	{
-		*history = new_history(line); // MALLOC
+		*history = new_history(line);
 	}
 	else
 	{
@@ -42,7 +42,6 @@ void				add_history(t_history **history, char *line)
 		(*history)->next = new;
 		new->prev = *history;
 		*history = new;
-		free(new);
 	}
 	savior_history(*history, TRUE);
 }
@@ -55,7 +54,7 @@ void				modif_history(t_history **history, char *line, int mini_prt)
 	if (line == NULL)
 		return ;
 	if (*history == NULL || ((mini_prt == FALSE && ft_strncmp((*history)->line,
-	line, ft_strlen((*history)->line)) != 0) || (*history)->next != NULL))
+															  line, ft_strlen((*history)->line)) != 0) || (*history)->next != NULL))
 	{
 		add_history(history, line);
 		return ;
@@ -143,7 +142,7 @@ int					reset_pos_x_y(char **str, int *pos, t_line *stline)
 }
 
 int					history_up(char **str, int *pos, t_line *stline,
-					t_history **history)
+							   t_history **history)
 {
 	if (DEBUG_HISTORY == 1)
 		ft_putendl_fd("---------------- HISTORY UP -----------------------", 2);

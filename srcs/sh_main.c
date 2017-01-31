@@ -11,10 +11,10 @@ int					main(void)
 	t_history  	 		*history;
 
 // return useless
+	history = NULL;
 	if (init_env(environ, &env_cpy) == ERROR || init_term() == ERROR)
 		return (ERROR);
 	init_stline(&stline);
-	history = NULL;
 	load_history(&history);
 	while (TRUE)
 	{
