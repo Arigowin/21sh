@@ -3,104 +3,53 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dolewski <dolewski@student.42.fr>          +#+  +:+       +#+        */
+/*   By: avacher <avacher@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2015/12/16 13:16:05 by dolewski          #+#    #+#             */
-/*   Updated: 2016/01/07 13:36:26 by dolewski         ###   ########.fr       */
+/*   Created: 2015/12/28 15:19:23 by avacher           #+#    #+#             */
+/*   Updated: 2016/01/06 17:07:48 by avacher          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "get_next_line.h"
-#include <stdlib.h>
 #include <unistd.h>
-#include <limits.h>
+#include <stdlib.h>
+#include "libft.h"
+#include "get_next_line.h"
 
-int		gnl_join(char **dest, char *src)
+static int		concat_buff(char **e_buff, char **line)
 {
-	char			*tmp;
+	char			*newline;
 
-	if (*dest == NULL)
+	newline = ft_strchr(*e_buff, '\n');
+	*line = ft_strsub(*e_buff, 0, newline - *e_buff);
+	ft_strcpy(*e_buff, newline + 1);
+	return (1);
+}
+
+int				get_next_line(const int fd, char **line)
+{
+	static char		*e_buff;
+	char			buff[GNL_BUFF_SIZE + 1];
+	int				read_ret;
+
+	if (line == NULL || fd < 0 || fd > 255)
+		return (-1);
+	if (e_buff && e_buff[0] && (ft_strchr(e_buff, '\n') != NULL))
+		return (concat_buff(&(e_buff), line));
+	while ((read_ret = read(fd, buff, GNL_BUFF_SIZE)) > 0)
 	{
-		ft_strdel(dest);
-		if (!(*dest = ft_strdup(src)))
+		buff[read_ret] = '\0';
+		if ((e_buff = ft_properjoin(e_buff, buff)) == NULL)
 			return (-1);
+		if (ft_strchr(e_buff, '\n') != NULL)
+			return (concat_buff(&(e_buff), line));
 	}
-	else
+	if (read_ret == -1)
+		return (-1);
+	if (e_buff && *(e_buff))
 	{
-		if (!(tmp = ft_strjoin(*dest, src)))
-			return (-1);
-		ft_strdel(dest);
-		if ((*dest = ft_strdup(tmp)) == NULL)
-			return (-1);
-		ft_strdel(&tmp);
+		*line = ft_strdup(e_buff);
+		ft_strdel(&(e_buff));
+		return (1);
 	}
 	return (0);
-}
-
-int		gnl(char **tmp_buff, char **line)
-{
-	int		i;
-	char	*tmp;
-
-	i = 0;
-	while ((*tmp_buff)[i] != '\n')
-		i++;
-	(*tmp_buff)[i] = '\0';
-	if (gnl_join(line, *tmp_buff) == -1)
-		return (-1);
-	(*tmp_buff)[i] = '\n';
-	if ((tmp = ft_strsub(*tmp_buff, i + 1, ft_strlen(*tmp_buff))) == NULL)
-		return (-1);
-	ft_strdel(tmp_buff);
-	if (gnl_join(tmp_buff, tmp) == -1)
-		return (-1);
-	free(tmp);
-	return (1);
-}
-
-int		gnl_read(int fd, char **line, char **tmp_buff)
-{
-	int				len_buff;
-	char			buff[GNL_BUFF_SIZE + 1];
-
-	if (ft_strchr(*tmp_buff, '\n') != NULL)
-		return (gnl(tmp_buff, line));
-	while ((len_buff = read(fd, buff, GNL_BUFF_SIZE)) > 0)
-	{
-		buff[len_buff] = '\0';
-		if (gnl_join(tmp_buff, buff) == -1)
-			return (-1);
-		if (ft_strchr(*tmp_buff, '\n') != NULL)
-			return (gnl(tmp_buff, line));
-		ft_bzero(buff, GNL_BUFF_SIZE);
-	}
-	return (len_buff);
-}
-
-int		get_next_line(int const fd, char **line)
-{
-	static char		*tmp_buff;
-	int				ret;
-
-	if (line == NULL || fd < 0)
-		return (-1);
-	else
-		*line = NULL;
-	if ((ret = gnl_read(fd, line, &(tmp_buff))) == -1)
-		return (-1);
-	else if (ret == 0)
-	{
-		if (tmp_buff && tmp_buff[0])
-		{
-			if ((*line = ft_strdup(tmp_buff)) == NULL)
-				return (-1);
-			ft_strdel(&(tmp_buff));
-			return (1);
-		}
-		else if (*line)
-			return (1);
-		ft_strdel(&(tmp_buff));
-		return (0);
-	}
-	return (1);
 }

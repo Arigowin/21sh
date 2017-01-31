@@ -29,6 +29,7 @@ int					load_history(t_history **history)
 	{
 		if (line)
 			add_history(history, line);
+		ft_strdel(&line);
 	}
 	if (line)
 		add_history(history, line);
