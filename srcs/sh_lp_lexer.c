@@ -160,7 +160,7 @@ int					lexer(t_e_list **l_expr)
 		tmp->type = RED;
 	}
 	else if (tmp && ft_strcmp(tmp->data, ";") == 0)
-		tmp->type = PIPE;
+		tmp->type = SEMI;
 	else if (tmp)
 	{
 		tmp->type = CMD;

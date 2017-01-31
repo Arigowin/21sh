@@ -147,7 +147,7 @@ int					check_expr(int *nb_hrd, t_e_list **l_expr, t_node **tree)
 	/* free: node */
 	//	savior_node(node, TRUE);
 	node_to_give = (node->left == NULL ? &(node->left) : &(node->right));
-	if (check_c_pipe(nb_hrd, l_expr, node_to_give))
+	if ((*l_expr)->type == SEMI || ((*l_expr)->type != SEMI && check_c_pipe(nb_hrd, l_expr, node_to_give)))
 	{
 		if ((*l_expr)->type == SEMI && ft_strlen((*l_expr)->data) != 1)
 		{
