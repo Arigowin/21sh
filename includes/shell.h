@@ -3,12 +3,12 @@
 
 #define DEBUG 0
 #define DEBUG_ANTIBUG 0
-#define DEBUG_TREE_VERIF 0
+#define DEBUG_TREE_VERIF 1
 #define DEBUG_BUILTIN 0
-#define DEBUG_LEXER_PARSER 0
-#define DEBUG_PARSER 0
+#define DEBUG_LEXER_PARSER 1
+#define DEBUG_PARSER 1
 #define DEBUG_SAVIOR 0
-#define DEBUG_TREE_CREATION 0
+#define DEBUG_TREE_CREATION 1
 #define DEBUG_TREE 1
 #define DEBUG_TERMCAPS 0
 #define DEBUG_HISTORY 0
@@ -428,6 +428,7 @@ int     				redirect(t_node *tree, t_lst_fd *lstfd);
 /*
 ** sh_rd_redfd_handler
 */
+int						del_lstfd(t_lst_fd **lstfd);
 t_lst_fd				*lstfd_new(int fd, char *filename);
 int						close_lstfd(t_lst_fd **lstfd);
 int						lstfd_pushbck(t_lst_fd **lstfd, int fd, char *filename);

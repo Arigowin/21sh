@@ -159,6 +159,8 @@ int					lexer(t_e_list **l_expr)
 		waka_lexer(&tmp);
 		tmp->type = RED;
 	}
+	else if (tmp && ft_strcmp(tmp->data, ";") == 0)
+		tmp->type = PIPE;
 	else if (tmp)
 	{
 		tmp->type = CMD;

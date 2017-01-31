@@ -54,7 +54,7 @@ int					read_n_check(int *nb_hrd, char *read_buff, t_node **tree)
 	}
 	expr_del(&save);
 //	if (DEBUG_TREE_VERIF == 1)
-//		tree_traversal_verif(*tree);
+		tree_traversal_verif(*tree);
 	return (TRUE);
 }
 
@@ -89,6 +89,9 @@ int					check_after_read(t_line *stline, t_history **history)
 	}
 //	savior_tree(tree, TRUE); // inutile apparemment
 	clear_tree(&tree);
+	dprintf(2, "[[[[[%p]]]]]\n", lstfd);
+	del_lstfd(&lstfd);
+	//dprintf(2, "[[[[[%p]]]]]\n", lstfd);
 	return (ret);
 }
 

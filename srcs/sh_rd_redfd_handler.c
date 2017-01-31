@@ -4,22 +4,43 @@
 #define	FD 3
 #define CLOSE 4
 
+int					del_lstfd(t_lst_fd **lstfd)
+{
+//	if (DEBUG_RED == 1)
+		ft_putendl_fd("------------ DEL LSTFD -------", 2);
+
+	t_lst_fd			*tmpfd;
+
+	tmpfd = NULL;
+	while (lstfd && *lstfd)
+	{
+		tmpfd = *lstfd;
+		*lstfd = (*lstfd)->next;
+		ft_strdel(&(tmpfd->filename));
+		free(tmpfd);
+		tmpfd = NULL;
+	}
+	lstfd = NULL;
+	dprintf (2, "in del lstfd ((((%p-%p)))\n", lstfd, tmpfd);
+	return (TRUE);
+}
+
 t_lst_fd			*lstfd_new(int fd, char *filename)
 {
 	if (DEBUG_RED == 1)
 		ft_putendl_fd("------- LSTFD NEW -------", 2);
 
-	t_lst_fd			*new;
+	t_lst_fd			*new_fd;
 
-	if ((new = (t_lst_fd*)malloc(sizeof(t_lst_fd))) == NULL)
+	if ((new_fd = (t_lst_fd*)malloc(sizeof(t_lst_fd))) == NULL)
 		/* RET: error EXIT: true MSG: "malloc fail" */
 		return (NULL);
-	new->fd = fd;
-	if ((new->filename = ft_strdup(filename)) == NULL)
+	new_fd->fd = fd;
+	if ((new_fd->filename = ft_strdup(filename)) == NULL)
 		/* RET: error EXIT: true MSG: "malloc fail" */
 		return (NULL);
-	new->next = NULL;
-	return (new);
+	new_fd->next = NULL;
+	return (new_fd);
 }
 
 int					close_lstfd(t_lst_fd **lstfd)
@@ -49,10 +70,10 @@ int					lstfd_pushbck(t_lst_fd **lstfd, int fd, char *filename)
 	if (DEBUG_RED == 1)
 		ft_putendl_fd("------- LSTFD PUSHBCK -------", 2);
 
-	t_lst_fd			*new;
+	t_lst_fd			*new_fd;
 	t_lst_fd			*tmp;
 
-	new = NULL;
+	new_fd = NULL;
 	tmp = *lstfd;
 	if (!(lstfd && *lstfd))
 		*lstfd = lstfd_new(fd, filename);
@@ -60,10 +81,9 @@ int					lstfd_pushbck(t_lst_fd **lstfd, int fd, char *filename)
 	{
 		while (tmp && tmp->next)
 			tmp = tmp->next;
-		new = lstfd_new(fd, filename);
-		tmp->next = new;
+		new_fd = lstfd_new(fd, filename);
+		tmp->next = new_fd;
 	}
-
 	return (TRUE);
 }
 
@@ -72,16 +92,16 @@ int					lstfd_pushfront(t_lst_fd **lstfd, int fd, char *filename)
 	if (DEBUG_RED == 1)
 		ft_putendl_fd("------- LSTFD PUSHFRONT -------", 2);
 
-	t_lst_fd			*new;
+	t_lst_fd			*new_fd;
 
-	new = NULL;
+	new_fd = NULL;
 	if (lstfd && !(*lstfd))
 		*lstfd = lstfd_new(fd, filename);
 	else
 	{
-		new = lstfd_new(fd, filename);
-		new->next = *lstfd;
-		*lstfd = new;
+		new_fd = lstfd_new(fd, filename);
+		new_fd->next = *lstfd;
+		*lstfd = new_fd;
 	}
 	return (TRUE);
 }
@@ -91,9 +111,9 @@ t_lst_fd			*lstfd_insert(t_lst_fd **lstfd, t_lst_fd **tmpfd, int fd, char *filen
 	if (DEBUG_RED == 1)
 		ft_putendl_fd("------- LSTFD INSERT -------", 2);
 
-	t_lst_fd			*new;
+	t_lst_fd			*new_fd;
 
-	new = NULL;
+	new_fd = NULL;
 	if (lstfd && !(*lstfd))
 	{
 		*lstfd = lstfd_new(fd, filename);
@@ -101,11 +121,11 @@ t_lst_fd			*lstfd_insert(t_lst_fd **lstfd, t_lst_fd **tmpfd, int fd, char *filen
 	}
 	else if (lstfd && *lstfd && tmpfd && *tmpfd)
 	{
-		new = lstfd_new(fd, filename);
-		new->next = (*tmpfd)->next;
-		(*tmpfd)->next = new;
+		new_fd = lstfd_new(fd, filename);
+		new_fd->next = (*tmpfd)->next;
+		(*tmpfd)->next = new_fd;
 	}
-	return (new);
+	return (new_fd);
 }
 
 int					insert_in_lstfd(t_lst_fd **lstfd, t_lst_fd **tmpfd, int fd, char *filename, int insert)
