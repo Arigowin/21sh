@@ -89,7 +89,6 @@ int					check_after_read(t_line *stline, t_history **history)
 	}
 //	savior_tree(tree, TRUE); // inutile apparemment
 	del_tree(&tree);
-	dprintf(2, "[[[[[%p]]]]]\n", lstfd);
 	del_lstfd(&lstfd);
 	//dprintf(2, "[[[[[%p]]]]]\n", lstfd);
 	return (ret);

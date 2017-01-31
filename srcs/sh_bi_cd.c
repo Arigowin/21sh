@@ -1,4 +1,6 @@
 #include <unistd.h>
+#include <sys/types.h>
+#include <sys/stat.h>
 #include "shell.h"
 #include "libft.h"
 
@@ -7,21 +9,31 @@ static int			change_dir(char *path)
 //	if (DEBUG_BUILTIN == 1)
 		ft_putendl_fd("------- CHANGE DIR ------", 2);
 
+	struct stat			stat_buf;
+
 	// dprintf(2, "POUET\n");
 	// dprintf(2, "path ((%s))\n", path);
 	if (chdir(path) == -1)
 	{
 		ft_putstr("21sh: cd: ");
 		ft_putstr(path);
-		if ((access(path, F_OK)) == ERROR)
+		if (stat(path, &stat_buf) == 0)
+		{
+			if (!S_ISDIR(stat_buf.st_mode))
+				ft_putendl(": not a directory");
+		}
+		else if ((access(path, F_OK)) == ERROR)
+		{
 			ft_putendl(": no such file or directory");
+		}
 		else
+		{
 			ft_putendl(": permission denied");
+		}
+		printf("gggggggggggggggggggggg\n");
 		return (ERROR);
 	}
-	dprintf(2, "abcdef\n");
 	ft_strdel(&path);
-	dprintf(2, "ghijkl\n");
 	return (TRUE);
 }
 
