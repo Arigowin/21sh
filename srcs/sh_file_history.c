@@ -5,7 +5,7 @@
 
 int					load_history(t_history **history)
 {
-	t_duo				*env;
+//	t_duo				*env;
 	char				*home;
 	char				*path;
 	char				*line;
@@ -14,7 +14,7 @@ int					load_history(t_history **history)
 	path = NULL;
 	line = NULL;
 	fd = -1;
-	env = savior(NULL, FALSE);
+//	env = savior(NULL, FALSE);
 	home = get_env("HOME");
 	if (home)
 		path = ft_strjoin(home, HISTORY_FILE_NAME);
@@ -32,7 +32,7 @@ int					load_history(t_history **history)
 
 int					save_history(void)
 {
-	t_duo				*env;
+//	t_duo				*env;
 	char				*home;
 	char				*path;
 	int					fd;
@@ -41,7 +41,7 @@ int					save_history(void)
 	path = NULL;
 	fd = -1;
 	history = savior_history(NULL, FALSE);
-	env = savior(NULL, FALSE);
+//	env = savior(NULL, FALSE);
 	home = get_env("HOME");
 	if (home)
 		path = ft_strjoin(home, HISTORY_FILE_NAME);
