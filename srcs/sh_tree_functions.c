@@ -22,7 +22,7 @@ t_node				*create_node(types type)
 
 int					clear_node(t_node **node)
 {
-	if (DEBUG_PARSER == 1)
+	/* if (DEBUG_PARSER == 1) */
 		ft_putendl_fd("------- CLEAR NODE ------", 2);
 
 	if (node && (*node))
@@ -43,17 +43,15 @@ int					del_tree(t_node **tree)
 	if (DEBUG_PARSER == 1)
 		ft_putendl_fd("------- CLEAR TREE ------", 2);
 
-	if (tree)
+	if (tree && *tree)
 	{
 		if ((*tree) && (*tree)->left)
-		{
 			del_tree(&((*tree)->left));
-		}
 		if ((*tree) && (*tree)->right)
-		{
 			del_tree(&((*tree)->right));
-		}
 		clear_node(tree);
+		tree = NULL;
 	}
+	savior_tree(NULL, TRUE);
 	return (TRUE);
 }

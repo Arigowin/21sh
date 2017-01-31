@@ -37,19 +37,6 @@ t_line				*savior_stline(t_line *stline, int code)
 	return (save);
 }
 
-
-t_node				*savior_node(t_node *node, int code)
-{
-	if (DEBUG_SAVIOR == 1)
-		ft_putendl_fd("------- SAVIOR NODE -------", 2);
-
-	static t_node		*save = NULL;
-
-	if ((save == NULL && node) || code == TRUE)
-		save = node;
-	return (save);
-}
-
 t_node				*savior_tree(t_node *tree, int code)
 {
 	if (DEBUG_SAVIOR == 1)
@@ -57,7 +44,7 @@ t_node				*savior_tree(t_node *tree, int code)
 
 	static t_node		*save = NULL;
 
-	if ((save == NULL && tree) || code == TRUE)
+	if (save == NULL || code == TRUE)
 		save = tree;
 	return (save);
 }
