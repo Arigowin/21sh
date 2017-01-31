@@ -33,7 +33,6 @@ int					fd_open(t_node *tree, t_lst_fd **lstfd, types type)
 		if ((fd = open(filename, flags,	S_IRUSR | S_IWUSR | S_IRGRP | S_IROTH)) == ERROR)
 			fd = -1;
 	}
-	printf("((((((%p-%p))))))\n", lstfd, *lstfd);
 	lstfd_pushbck(lstfd, fd, filename);
 	if (fd == -1)
 		return (ERROR);

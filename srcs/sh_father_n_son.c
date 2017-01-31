@@ -43,7 +43,7 @@ int 				pfd_handler(int pipefd_tab[2][2])
 int					check_builtin(char **cmd, int pipefd_tab[2][2],
 					t_lst_fd **lstfd)
 {
-//	if (DEBUG == 1)
+	if (DEBUG == 1)
 		ft_putendl_fd("------- CHECK BUILTIN ------", 2);
 
 	int					ret;
@@ -96,9 +96,10 @@ int					father(int pipefd_tab[2][2])
 int					son(char **cmd, int pipefd_tab[2][2], t_node *tree,
 					t_lst_fd **lstfd)
 {
-//	if (DEBUG == 1)
+	if (DEBUG == 1)
 		ft_putendl_fd("------- SON ------", 2);
 
+	//dprintf(2, "tttttttttttttttttttttttttttttt (%p)\n", *lstfd);
 	pfd_handler(pipefd_tab);
 //	if (lstfd && *lstfd)
 	if ((pipefd_tab[0][0] >= 0 || pipefd_tab[1][0] >= 0) && tree && tree->left

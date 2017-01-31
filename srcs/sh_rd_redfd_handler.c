@@ -6,7 +6,7 @@
 
 int					del_lstfd(t_lst_fd **lstfd)
 {
-//	if (DEBUG_RED == 1)
+	if (DEBUG_RED == 1)
 		ft_putendl_fd("------------ DEL LSTFD -------", 2);
 
 	t_lst_fd			*tmpfd;
@@ -21,7 +21,6 @@ int					del_lstfd(t_lst_fd **lstfd)
 		tmpfd = NULL;
 	}
 	lstfd = NULL;
-	dprintf (2, "in del lstfd ((((%p-%p)))\n", lstfd, tmpfd);
 	return (TRUE);
 }
 

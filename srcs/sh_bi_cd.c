@@ -6,21 +6,18 @@
 
 static int			change_dir(char *path)
 {
-//	if (DEBUG_BUILTIN == 1)
+	if (DEBUG_BUILTIN == 1)
 		ft_putendl_fd("------- CHANGE DIR ------", 2);
 
 	struct stat			stat_buf;
 
-	// dprintf(2, "POUET\n");
-	// dprintf(2, "path ((%s))\n", path);
 	if (chdir(path) == -1)
 	{
 		ft_putstr("21sh: cd: ");
 		ft_putstr(path);
-		if (stat(path, &stat_buf) == 0)
+		if (stat(path, &stat_buf) == 0 && !S_ISDIR(stat_buf.st_mode))
 		{
-			if (!S_ISDIR(stat_buf.st_mode))
-				ft_putendl(": not a directory");
+			ft_putendl(": not a directory");
 		}
 		else if ((access(path, F_OK)) == ERROR)
 		{
@@ -30,7 +27,6 @@ static int			change_dir(char *path)
 		{
 			ft_putendl(": permission denied");
 		}
-		printf("gggggggggggggggggggggg\n");
 		return (ERROR);
 	}
 	ft_strdel(&path);
@@ -39,7 +35,7 @@ static int			change_dir(char *path)
 
 int					cd_home()
 {
-//	if (DEBUG_BUILTIN == 1)
+	if (DEBUG_BUILTIN == 1)
 		ft_putendl_fd("------- CD HOME ------", 2);
 
 	char 				*path;
@@ -56,7 +52,7 @@ int					cd_home()
 
 int					bi_opt(char *arg, int *no_more, char *handled_opt)
 {
-//	if (DEBUG_BUILTIN == 1)
+	if (DEBUG_BUILTIN == 1)
 		ft_putendl_fd("------- BI OPT ------", 2);
 
 	int					i;
@@ -103,7 +99,7 @@ int					check_opt(char **arg, int *i)
 
 int					bi_cd(char **arg, t_duo **env)
 {
-//	if (DEBUG_BUILTIN == 1)
+	if (DEBUG_BUILTIN == 1)
 		ft_putendl_fd("------- BI CD ------", 2);
 
 	char				*tmp;
