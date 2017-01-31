@@ -15,7 +15,7 @@ int					bi_exit(char **arg, t_duo **env)
 	tree = savior_tree(NULL, FALSE);
 	//printf("bi_exit : valeur tree_savd : %p\n", tree);
 	if (tree)
-		clear_tree(&tree);
+		del_tree(&tree);
 	if (arg && arg[1] && arg[2])
 	{
 		ft_putendl("21sh: exit : too many arguments");
