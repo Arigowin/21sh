@@ -36,7 +36,7 @@ int					bi_exit(char **arg, t_duo **env)
 	save_history();
 	duo_del(env);
 	reset_term();
-//	clear_tree(&tree);
+	tree = NULL;
 	if (tree)
 		ft_putendl("ARBRE EXISTE ENCORE");
 	else

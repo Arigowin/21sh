@@ -75,20 +75,20 @@ int					check_after_read(t_line *stline, t_history **history)
 	init_pipefd(pipefd_tab);
 	if ((ret = read_n_check(&(stline->hrd.nb), stline->line, &tree)) != TRUE)
 	{
-		clear_tree(&tree);
+		del_tree(&tree);
 		return (ret);
 	}
 	node = tree;
 	heredoc_handler(stline, &node, history);
 	if ((ret = tree_traversal(tree, &lstfd, pipefd_tab)) == ERROR)
 	{
-		clear_tree(&tree);
+		del_tree(&tree);
 		return (ret);
 		/* MSG ret: ERROR exit: TRUE msg: "whatever i don't have any ideas left"
 		 * free: stline + globalfd + tree + node */
 	}
 //	savior_tree(tree, TRUE); // inutile apparemment
-	clear_tree(&tree);
+	del_tree(&tree);
 	dprintf(2, "[[[[[%p]]]]]\n", lstfd);
 	del_lstfd(&lstfd);
 	//dprintf(2, "[[[[[%p]]]]]\n", lstfd);

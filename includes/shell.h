@@ -411,7 +411,7 @@ int						check_next(int *nb_hrd, t_e_list **l_expr, t_node **t,
 ** sh_free_tree
 */
 int						clear_node(t_node **node);
-int						clear_tree(t_node **tree);
+int						del_tree(t_node **tree);
 
 /*
 ** sh_tree_traversal
