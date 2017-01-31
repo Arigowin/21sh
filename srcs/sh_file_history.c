@@ -19,7 +19,12 @@ int					load_history(t_history **history)
 	if (home)
 		path = ft_strjoin(home, HISTORY_FILE_NAME);
 	if (path && (fd = open(path, O_RDONLY | O_CREAT,  S_IRUSR | S_IWUSR)) == ERROR)
+	{
+		ft_strdel(&path);
+		ft_strdel(&line);
+		ft_strdel(&home);
 		return (ERROR);
+	}
 	while (fd > -1 && get_next_line(fd, &line) > 0)
 	{
 		if (line)
@@ -27,6 +32,9 @@ int					load_history(t_history **history)
 	}
 	if (line)
 		add_history(history, line);
+	ft_strdel(&path);
+	ft_strdel(&line);
+	ft_strdel(&home);
 	return (TRUE);
 }
 
@@ -46,7 +54,11 @@ int					save_history(void)
 	if (home)
 		path = ft_strjoin(home, HISTORY_FILE_NAME);
 	if (path && (fd = open(path,  O_WRONLY | O_CREAT,  S_IRUSR | S_IWUSR)) == ERROR)
+	{
+		ft_strdel(&home);
+		ft_strdel(&path);
 		return (ERROR);
+	}
 	while (history && history->prev)
 		history = history->prev;
 	while (history && history->line)
@@ -55,5 +67,7 @@ int					save_history(void)
 		write(fd, "\n", 1);
 		history = history->next;
 	}
+	ft_strdel(&home);
+	ft_strdel(&path);
 	return (TRUE);
 }

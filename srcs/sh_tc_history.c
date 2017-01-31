@@ -34,7 +34,7 @@ void				add_history(t_history **history, char *line)
 		(*history) = (*history)->next;
 	if (*history == NULL)
 	{
-		*history = new_history(line);
+		*history = new_history(line); // MALLOC
 	}
 	else
 	{
@@ -42,6 +42,7 @@ void				add_history(t_history **history, char *line)
 		(*history)->next = new;
 		new->prev = *history;
 		*history = new;
+		free(new);
 	}
 	savior_history(*history, TRUE);
 }
@@ -112,6 +113,7 @@ static int			nb_line_total(char *str, t_line *stline)
 		}
 		i++;
 	}
+	free_tab(&line);
 	if (i - 1 < nb)
 		nb_line += (nb - i) + 1;
 	return (nb_line - 1);
