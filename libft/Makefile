@@ -112,6 +112,7 @@ SRC = ft_memset.c \
 	  tbl_len.c \
 	  ft_free_tbl.c \
 	  ft_properjoin.c \
+	  gnl_join.c \
 	  ft_atoi_base.c \
 	  ft_hidenp.c \
 	  ft_swap.c \

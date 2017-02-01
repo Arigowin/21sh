@@ -15,7 +15,7 @@
 #include <unistd.h>
 #include <limits.h>
 
-int		gnl_join(char **dest, char *src)
+static int		join_buff(char **dest, char *src)
 {
 	char			*tmp;
 
@@ -37,7 +37,7 @@ int		gnl_join(char **dest, char *src)
 	return (0);
 }
 
-int		gnl(char **tmp_buff, char **line)
+static int		gnl(char **tmp_buff, char **line)
 {
 	int		i;
 	char	*tmp;
@@ -46,19 +46,19 @@ int		gnl(char **tmp_buff, char **line)
 	while ((*tmp_buff)[i] != '\n')
 		i++;
 	(*tmp_buff)[i] = '\0';
-	if (gnl_join(line, *tmp_buff) == -1)
+	if (join_buff(line, *tmp_buff) == -1)
 		return (-1);
 	(*tmp_buff)[i] = '\n';
 	if ((tmp = ft_strsub(*tmp_buff, i + 1, ft_strlen(*tmp_buff))) == NULL)
 		return (-1);
 	ft_strdel(tmp_buff);
-	if (gnl_join(tmp_buff, tmp) == -1)
+	if (join_buff(tmp_buff, tmp) == -1)
 		return (-1);
 	free(tmp);
 	return (1);
 }
 
-int		gnl_read(int fd, char **line, char **tmp_buff)
+static int		gnl_read(int fd, char **line, char **tmp_buff)
 {
 	int				len_buff;
 	char			buff[GNL_BUFF_SIZE + 1];
@@ -68,7 +68,7 @@ int		gnl_read(int fd, char **line, char **tmp_buff)
 	while ((len_buff = read(fd, buff, GNL_BUFF_SIZE)) > 0)
 	{
 		buff[len_buff] = '\0';
-		if (gnl_join(tmp_buff, buff) == -1)
+		if (join_buff(tmp_buff, buff) == -1)
 			return (-1);
 		if (ft_strchr(*tmp_buff, '\n') != NULL)
 			return (gnl(tmp_buff, line));
@@ -77,7 +77,7 @@ int		gnl_read(int fd, char **line, char **tmp_buff)
 	return (len_buff);
 }
 
-int		get_next_line(int const fd, char **line)
+int				get_next_line(int const fd, char **line)
 {
 	static char		*tmp_buff;
 	int				ret;
