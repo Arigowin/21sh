@@ -113,7 +113,10 @@ int					bi_cd(char **arg, t_duo **env)
 	path = NULL;
 	tmp = get_env("OLDPWD");
 	if (check_opt(arg, &i) == ERROR)
+	{
+		ft_strdel(&tmp);
 		return (ERROR);
+	}
 	if (!arg[i] || (arg[i] && arg[i][0] == '~' && !arg[i][1]))
 		ret = cd_home();
 	else if (arg[i] && arg[i][0] == '-' && !arg[i][1])
@@ -125,13 +128,18 @@ int					bi_cd(char **arg, t_duo **env)
 	}
 	else
 		ret = change_dir(arg[i]);
+	ft_strdel(&tmp);
 	tmp = get_env("PWD");
 	if (ret == TRUE)
 	{
 		change_env("OLDPWD", tmp);
 		path = getcwd(path, MAX_PATH);
 		change_env("PWD", path);
+		ft_strdel(&tmp);
+		ft_strdel(&path);
 		return (0);
 	}
+	ft_strdel(&path);
+	ft_strdel(&tmp);
 	return (ERROR);
 }
