@@ -41,6 +41,34 @@ int					fd_open(t_node *tree, t_lst_fd **lstfd, types type)
 	return (TRUE);
 }
 
+int					file_exist(t_node *tree)
+{
+	if (DEBUG_TREE == 1)
+		ft_putendl_fd("------- FILE EXIST -------", 2);
+
+	if (tree && tree->type == LRED)
+	{
+		if (tree->right && access(tree->right->data, F_OK) == ERROR)
+		{
+			ft_putstr_fd("21sh: ", 2);
+			ft_putstr_fd(tree->right->data, 2);
+			ft_putendl_fd(": no such file or directory", 2);
+			return (ERROR);
+		}
+	}
+	if (tree && tree->right)
+	{
+		if (file_exist(tree->right) == ERROR)
+			return (ERROR);
+	}
+	if (tree && tree->left)
+	{
+		if (file_exist(tree->left) == ERROR)
+			return (ERROR);
+	}
+	return (TRUE);
+}
+
 int					manage_red_fd(t_node *tree, t_lst_fd **lstfd, types type)
 {
 	if (DEBUG_TREE == 1)
@@ -49,6 +77,7 @@ int					manage_red_fd(t_node *tree, t_lst_fd **lstfd, types type)
 	int					ret;
 
 	ret = TRUE;
+	file_exist(tree);
 	if (tree && (tree->type == RRED || tree->type == DRRED || tree->type == LRED || tree->type == DLRED))
 		type = tree->type;
 	if (tree && tree->type == RED_ARG && type != DLRED)

@@ -21,7 +21,7 @@ int					pipe_function(int pipefd_tab[2][2], t_node *tree,
 	if (pipe(pfd) == ERROR)
 		return (ERROR);
 		/* MSG ret: ERROR exit: FALSE msg: "pipe fail" */
-	dprintf(2, "in pipe  fct pfd 0((%d)) pfd 1((%d))\n", pfd[0], pfd[1]);
+	//dprintf(2, "in pipe  fct pfd 0((%d)) pfd 1((%d))\n", pfd[0], pfd[1]);
 	pipefd_tab[1][0] = pfd[0];
 	pipefd_tab[1][1] = pfd[1];
 	if (tree->left->type == CMD)
