@@ -382,6 +382,7 @@ int						fct_copy(char **s, int *pos, t_line *l,	t_history **h);
 ** sh_tc_add_del_in_copy
 */
 int						str_addleft(char *tbl, char c);
+int						str_delleft(char *tbl);
 int						add_in_copy(char **s, int *p, t_line *stline, int dir);
 int						del_in_copy(char **s, int *p, t_line *stline, int dir);
 

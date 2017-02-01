@@ -60,6 +60,18 @@ void				add_history(t_history **history, char *line)
 	savior_history(*history, TRUE);
 }
 
+static int			remove_backslach_eol(char **line)
+{
+	char				*tmp;
+
+	if (line && *line && (tmp = ft_strstr(*line, "\\\n")) != NULL)
+	{
+		str_delleft(tmp);
+		str_delleft(tmp);
+	}
+	return (TRUE);
+}
+
 void				modif_history(t_history **history, char *line, int mini_prt)
 {
 	if (DEBUG_HISTORY == 1)
@@ -67,6 +79,7 @@ void				modif_history(t_history **history, char *line, int mini_prt)
 
 	if (line == NULL)
 		return ;
+	remove_backslach_eol(&line);
 	if (*history == NULL || ((mini_prt == FALSE && ft_strncmp((*history)->line,
 															  line, ft_strlen((*history)->line)) != 0) || (*history)->next != NULL))
 	{
