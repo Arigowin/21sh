@@ -152,7 +152,10 @@ int					handle_fork(int pipefd_tab[2][2], t_node *tree,
 			return (ERROR);
 		savior_tree(tree, TRUE); // TRES IMPORTANT SAVIOR TREE TRUE ICI !!!!
 		if ((ret = check_builtin(cmd, pipefd_tab, NULL)) == TRUE)
+		{
+			free_tab(&cmd); // FREE_MALLOC_OK
 			return (TRUE);
+		}
 		if (ret == ERROR)
 			// useless return
 			return (ERROR);
