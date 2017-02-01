@@ -8,7 +8,7 @@
 
 int 				pfd_handler(int pipefd_tab[2][2])
 {
-//	if (DEBUG == 1)
+	if (DEBUG == 1)
 		ft_putendl_fd("------- PFD HANDLER ------", 2);
 
 	//dprintf(2, "pfd 00 : (%d)\tpfd 01 : (%d)\tpfd 10 : (%d)\tpfd 11 : (%d)\n", pipefd_tab[0][0], pipefd_tab[0][1], pipefd_tab[1][0], pipefd_tab[1][1]);
