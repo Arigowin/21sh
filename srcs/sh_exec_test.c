@@ -71,6 +71,7 @@ int					exec_test(int argc, char **argv, t_line *stline, t_history *history)
 	fd = open(argv[1], O_RDONLY);
 	while (fd > -1 && get_next_line(fd, &line) > 0)
 	{
+		ft_putendl("************ START CMD ************");
 		display_prompt_without_color();
 		ft_strdel(&(stline->line));
 		ft_putstr("[");
@@ -79,9 +80,11 @@ int					exec_test(int argc, char **argv, t_line *stline, t_history *history)
 		stline->line = ft_strdup(line);
 		check_after_read(stline, &history);
 		ft_strdel(&line);
+		ft_putendl("************ END CMD ************");
 	}
 	if (line)
 	{
+		ft_putendl("************START CMD ************");
 		display_prompt_without_color();
 		ft_strdel(&(stline->line));
 		ft_putstr("[");
@@ -90,8 +93,10 @@ int					exec_test(int argc, char **argv, t_line *stline, t_history *history)
 		stline->line = ft_strdup(line);
 		check_after_read(stline, &history);
 		ft_strdel(&line);
+		ft_putendl("************ END CMD ************");
 	}
 	ft_putendl("------------- END TEST -------------");
+	close(fd);
 	exit(EXIT_SUCCESS);
 	return (TRUE);
 }

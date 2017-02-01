@@ -1,0 +1,31 @@
+ls
+ls -l
+ls -l ~
+ls -l $HOME
+ls -l /home/
+ls -l /dev/fd/
+cat README.md
+cd
+ls
+cd -
+cd idunno
+mkdir noright
+chmod 000 noright
+cd noright
+env
+setenv a a
+setenv
+unsetenv a b
+echo "toto"
+echo a b c d      e      f     g
+echo bonjour > toto
+cat toto
+echo "bonjour     les \"   amis l'est "
+echo 'bonjour \les " \'amis'
+cat -n < toto
+rm toto
+ls -la
+ls -l | cat -n
+ls -l | cat -n | wc
+cd / ; ls -1 ; cd - ; ls -lA
+bonjour
