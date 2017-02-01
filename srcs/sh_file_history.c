@@ -114,6 +114,7 @@ int					load_history(t_history **history)
 		ft_strdel(&path);
 		ft_strdel(&home);
 		return (ERROR);
+	}
 	ft_strdel(&path);
 	ft_strdel(&home);
 	if (get_line_in_file(fd, history) == ERROR)
