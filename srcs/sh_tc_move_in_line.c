@@ -29,7 +29,7 @@ static int			multi_left(char **str, int *pos, t_line *stline)
 		chr = ft_strrchr(tmp, '\n');
 		nb = (chr ? ft_strlen(chr + 1) : ft_strlen(tmp));
 		if (stline->curs_y == 0)
-			nb += 2;
+			nb += PRT_LEN;
 		if (nb > stline->win.ws_col)
 		{
 			nb_line = (nb) / stline->win.ws_col;
@@ -67,8 +67,9 @@ int					fct_left(char **str, int *pos, t_line *stline,
 				stline->curs_x = -1;
 				(stline->curs_y)--;
 				multi_left(str, pos, stline);
-				tputs(tgetstr("nd", NULL), 1, my_outc);
 				(stline->curs_x)--;
+				if (stline->curs_x > 0)
+					tputs(tgetstr("nd", NULL), 1, my_outc);
 			}
 			else
 				tputs(tgetstr("le", NULL), 1, my_outc);

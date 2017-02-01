@@ -107,7 +107,6 @@ int					event(int k, t_line *stline, t_history **history)
 	ret = 0;
 	tputs(tgetstr("vi", NULL), 1, my_outc);
 
-	/*
 	char *res;
 	tputs(tgetstr("sc", NULL), 1, my_outc);
 	res = tgetstr("cm", NULL);
@@ -122,7 +121,6 @@ int					event(int k, t_line *stline, t_history **history)
 	ft_putstr(" mp :");
 	ft_putnbr(stline->mini_prt);
 	tputs(tgetstr("rc", NULL), 1, my_outc);
-	*/
 
 	while(++i < 18)
 	{
