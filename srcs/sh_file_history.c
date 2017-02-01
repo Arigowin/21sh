@@ -15,11 +15,17 @@ static int			in_quote(char **buff, char *line)
 		if ((tmp1 = ft_strjoin(line, "\n")) == NULL)
 			return (ERROR);
 		if ((tmp2 = ft_strjoin(*buff, tmp1)) == NULL)
+		{
+			ft_strdel(&tmp1);
 			return (ERROR);
+		}
 		ft_strdel(&tmp1);
 		ft_strdel(buff);
 		if ((*buff = ft_strdup(tmp2)) == NULL)
+		{
+			ft_strdel(&tmp2);
 			return (ERROR);
+		}
 		ft_strdel(&tmp2);
 	}
 	else if (line)
@@ -74,13 +80,19 @@ static int			get_line_in_file(int fd, t_history **history)
 		else if (quote != QUOTE && ft_strncount(line, DQUOTE) % 2 != 0)
 			quote = (quote == DQUOTE ? 0 : DQUOTE);
 		if (line_manager(&buff, line, &quote, history) == ERROR)
+		{
+			ft_strdel(&line);
 			return (ERROR);
+		}
 		ft_strdel(&line);
 	}
 	if (line)
 	{
 		if (line_manager(&buff, line, &quote, history) == ERROR)
+		{
+			ft_strdel(&line);
 			return (ERROR);
+		}
 		ft_strdel(&line);
 	}
 	return (TRUE);
