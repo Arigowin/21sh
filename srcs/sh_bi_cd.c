@@ -29,7 +29,6 @@ static int			change_dir(char *path)
 		}
 		return (ERROR);
 	}
-	ft_strdel(&path);
 	return (TRUE);
 }
 
@@ -47,6 +46,7 @@ int					cd_home()
 		return (ERROR);
 	}
 	ret = change_dir(path);
+	ft_strdel(&path);
 	return (ret);
 }
 
@@ -122,13 +122,15 @@ int					bi_cd(char **arg, t_duo **env)
 	else if (arg[i] && arg[i][0] == '-' && !arg[i][1])
 	{
 		if (tmp)
+		{
 			ret = change_dir(tmp);
+			ft_strdel(&tmp);
+		}
 		else
 			ft_putendl_fd("21sh: cd: no OLDPWD variable set.", 2);
 	}
 	else
 		ret = change_dir(arg[i]);
-	ft_strdel(&tmp);
 	tmp = get_env("PWD");
 	if (ret == TRUE)
 	{
