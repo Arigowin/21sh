@@ -3,7 +3,7 @@
 #include <curses.h>
 #include <term.h>
 
-int					main(void)
+int					main(int argc, char **argv)
 {
 	extern char			**environ;
 	t_duo	   	 		*env_cpy;
@@ -15,6 +15,7 @@ int					main(void)
 	if (init_env(environ, &env_cpy) == ERROR || init_term() == ERROR)
 		return (ERROR);
 	init_stline(&stline);
+	exec_test(argc, argv, &stline, history);
 	load_history(&history);
 	while (TRUE)
 	{
