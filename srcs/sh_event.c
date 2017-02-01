@@ -6,6 +6,9 @@
 
 int 				mini_prt_handler(char **str, int *pos, t_line *stline)
 {
+	if (DEBUG_KEY == 1)
+		ft_putendl_fd("------- MINI PRT HANDLER ------", 2);
+
 	if ((*str)[0] != '\0')
 		fct_insert(str, pos, '\n', stline);
 	ft_putstr("> ");
@@ -15,6 +18,26 @@ int 				mini_prt_handler(char **str, int *pos, t_line *stline)
 	return (CONTINUE);
 }
 
+int					check_end_pipe(char **str, int *pos)
+{
+	if (DEBUG_KEY == 1)
+		ft_putendl_fd("------- CHECK END PIPE ------", 2);
+
+	int					i;
+
+	i = *pos - 1;
+	while (str && *str && (*str)[i] && i > 1)
+	{
+		if ((*str)[i] != ' ' && (*str)[i] != '\t'
+				&& (*str)[i] != '\n' && (*str)[i] != '|')
+			return (FALSE);
+		if ((*str)[i] == '|' && (*str)[i - 1] != '\\')
+			return (TRUE);
+		i--;
+	}
+	return (FALSE);
+}
+
 int					fct_return(char **str, int *pos, t_line *stline,
 							   t_history **history)
 {
@@ -22,8 +45,13 @@ int					fct_return(char **str, int *pos, t_line *stline,
 		ft_putendl_fd("------- FCT RETURN ------", 2);
 
 	fct_end(str, pos, stline, history);
-	if (stline->quote != 0 || (*pos > 0 && (*str)[*pos - 1] &&
-	(*str)[*pos - 1] == '\\') ||	stline->hrd.nb > 0) // ajout si 'pipe' a la fin de la ligne
+	if (stline->quote != 0
+			||
+				(*pos > 0
+				 && (*str)[*pos - 1]
+				 && (*str)[*pos - 1] == '\\')
+			|| stline->hrd.nb > 0
+			|| check_end_pipe(str, pos)) // ajout si 'pipe' a la fin de la ligne
 	{
 		if (stline->hrd.nb > 0)
 		{

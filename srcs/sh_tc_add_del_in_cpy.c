@@ -23,7 +23,7 @@ int					str_addleft(char *tbl, char c)
 	return (TRUE);
 }
 
-static int			str_delleft(char *tbl)
+int				str_delleft(char *tbl)
 {
 	if (DEBUG_COPY_PASTE == 1)
 		ft_putendl_fd("------- str_delleft ------", 2);
