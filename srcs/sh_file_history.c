@@ -132,7 +132,7 @@ int					save_history(void)
 	char				*path;
 	int					fd;
 	t_history			*history;
-	int					end;
+	char				end;
 
 	path = NULL;
 	fd = -1;
@@ -140,9 +140,9 @@ int					save_history(void)
 	home = get_env("HOME");
 	if (home)
 		path = ft_strjoin(home, HISTORY_FILE_NAME);
+	ft_strdel(&home);
 	if (path && (fd = open(path,  O_WRONLY | O_TRUNC | O_CREAT,  S_IRUSR | S_IWUSR)) == ERROR)
 	{
-		ft_strdel(&home);
 		ft_strdel(&path);
 		return (ERROR);
 	}
@@ -156,9 +156,9 @@ int					save_history(void)
 	}
 	end = 3;
 	write(fd, &end, 1);
+	del_history(history);
 	if (fd > 2)
 		close(fd);
-	ft_strdel(&home);
 	ft_strdel(&path);
 	return (TRUE);
 }

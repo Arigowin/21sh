@@ -1,6 +1,20 @@
 #include "shell.h"
 #include "libft.h"
 
+void				del_history(t_history *histo)
+{
+	t_history *trash;
+
+	trash = NULL;
+	while (histo)
+	{
+		trash = histo;
+		histo = histo->next;
+		ft_strdel(&(trash->line));
+		free(trash);
+	}
+}
+
 static t_history	*new_history(char *line)
 {
 	if (DEBUG_HISTORY == 1)
