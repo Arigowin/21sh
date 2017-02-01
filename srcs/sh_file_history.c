@@ -100,30 +100,12 @@ int					load_history(t_history **history)
 	if (path && (fd = open(path, O_RDONLY | O_CREAT,  S_IRUSR | S_IWUSR)) == ERROR)
 	{
 		ft_strdel(&path);
-		ft_strdel(&line);
 		ft_strdel(&home);
 		return (ERROR);
-<<<<<<< HEAD
-	}
-	//ft_strdel(&path); //deja fait
-	while (fd > -1 && get_next_line(fd, &line) > 0)
-	{
-		if (line)
-			add_history(history, line);
-		ft_strdel(&line);
-	}
-	if (line)
-		add_history(history, line);
-	ft_strdel(&path);
-	ft_strdel(&line);
-	ft_strdel(&home);
-//	ft_strdel(&line); //deja fait
-=======
 	ft_strdel(&path);
 	ft_strdel(&home);
 	if (get_line_in_file(fd, history) == ERROR)
 		return (ERROR);
->>>>>>> david
 	if (fd > 2)
 		close(fd);
 	return (TRUE);
