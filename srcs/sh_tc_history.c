@@ -12,6 +12,7 @@ void				del_history(t_history *histo)
 		histo = histo->next;
 		ft_strdel(&(trash->line));
 		free(trash);
+		trash = NULL;
 	}
 }
 

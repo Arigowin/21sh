@@ -36,6 +36,7 @@ int					bi_exit(char **arg, t_duo **env)
 	ft_putendl("exit");
 	free_tab(&arg);
 	save_history();
+	del_history(savior_history(NULL, FALSE));
 	duo_del(env);
 	reset_term();
 	tree = NULL;

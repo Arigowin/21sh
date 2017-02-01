@@ -61,7 +61,7 @@ static int			line_manager(char **buff, char *line, int *quote, t_history **histo
 			ft_strdel(buff);
 		}
 		else
-			add_history(history, line);
+			add_history(history, line); // pb indirectly loss
 	}
 	return (TRUE);
 }
@@ -81,7 +81,7 @@ static int			get_line_in_file(int fd, t_history **history)
 			quote = (quote == QUOTE ? 0 : QUOTE);
 		else if (quote != QUOTE && ft_strncount(line, DQUOTE) % 2 != 0)
 			quote = (quote == DQUOTE ? 0 : DQUOTE);
-		if (line_manager(&buff, line, &quote, history) == ERROR)
+		if (line_manager(&buff, line, &quote, history) == ERROR) // indirectly loss
 		{
 			ft_strdel(&line);
 			return (ERROR);
@@ -156,7 +156,6 @@ int					save_history(void)
 	}
 	end = 3;
 	write(fd, &end, 1);
-	del_history(history);
 	if (fd > 2)
 		close(fd);
 	ft_strdel(&path);
