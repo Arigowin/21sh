@@ -58,12 +58,12 @@ int					fct_ctrl_d(char **str, int *pos, t_line *stline,
 	env = savior(NULL, FALSE);
 	if (*str[0] == '\0')
 	{
-		ft_putstr("HI_1\n");
+	//	ft_putstr("HI_1\n");
 		bi_exit(NULL, &env);
 	}
 	else
 	{
-		ft_putstr("HI_2\n");
+		//ft_putstr("HI_2\n");
 		fct_del(str, pos, stline, history);
 	}
 	return (TRUE);

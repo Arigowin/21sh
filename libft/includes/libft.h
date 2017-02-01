@@ -132,6 +132,7 @@ char					**lst_to_tbl(t_list *lst);
 int						ft_lst_count(t_list *lst);
 int						tbl_len(char **tbl);
 void					ft_free_tbl_s(char **tbl);
+char					*gnl_join(char *s1, char *s2);
 char					*ft_properjoin(char *s1, char *s2);
 int						ft_atoi_base(char *str, int base);
 int						ft_hidenp(char *hiden, char *str);

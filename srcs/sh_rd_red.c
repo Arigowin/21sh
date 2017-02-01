@@ -27,6 +27,7 @@ int					left_right_red(t_node *tree, t_lst_fd *lstfd, int stdfd)
 	int					fd;
 
 	fd = stdfd;
+		dprintf(2, "TROLORLO1\n");
 	if (tree->type == RED_FD && ft_strcmp(tree->data, "&") != 0)
 		fd = ft_atoi(tree->data);
 	else if (tree->type == RED_FD && ft_strcmp(tree->data, "&") == 0)
@@ -37,19 +38,25 @@ int					left_right_red(t_node *tree, t_lst_fd *lstfd, int stdfd)
 			/* RET: error EXIT: false MSG: "dup2 fail" */
 			return (ERROR);
 	}
+		dprintf(2, "TROLORLO2\n");
 	if (tree->right && tree->type == RED_FD)
 		tree = tree->right;
+		dprintf(2, "TROLORLO3\n");
 	if (lstfd->fd == -42)
 	{
 		close(fd);
 		return (TRUE);
 	}
+		dprintf(2, "TROLORLO4\n");
+	dprintf(2, "[%d][%d]\n", lstfd->fd, fd);
 	if (dup2(lstfd->fd, fd) == ERROR)
 		return (ERROR);
 		/* RET: error EXIT: false MSG: "dup2 fail" */
+		dprintf(2, "TROLORLO5\n");
 	if (lstfd->fd > STDERR_FILENO && (stdfd == STDOUT_FILENO
 	|| ((lstfd->filename)[0] != '&' && lstfd->fd != -1)))
-		close(lstfd->fd);
+//		close(lstfd->fd);
+		dprintf(2, "TROLORLO6\n");
 	return (TRUE);
 }
 
@@ -105,7 +112,7 @@ int					redirect(t_node *tree, t_lst_fd *lstfd)
 	{
 		if (tree->type == DLRED && redirect(tree->left, lstfd) == ERROR)
 			return (ERROR);
-		if (tree->type != DLRED && redirect(tree->left, lstfd->next) == ERROR)
+		if (lstfd->next && tree->type != DLRED && redirect(tree->left, lstfd->next) == ERROR)
 			return (ERROR);
 	}
 	return (TRUE);

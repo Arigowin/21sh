@@ -5,7 +5,6 @@
 
 int					load_history(t_history **history)
 {
-//	t_duo				*env;
 	char				*home;
 	char				*path;
 	char				*line;
@@ -14,7 +13,6 @@ int					load_history(t_history **history)
 	path = NULL;
 	line = NULL;
 	fd = -1;
-//	env = savior(NULL, FALSE);
 	home = get_env("HOME");
 	if (home)
 		path = ft_strjoin(home, HISTORY_FILE_NAME);
@@ -25,6 +23,7 @@ int					load_history(t_history **history)
 		ft_strdel(&home);
 		return (ERROR);
 	}
+	//ft_strdel(&path); //deja fait
 	while (fd > -1 && get_next_line(fd, &line) > 0)
 	{
 		if (line)
@@ -36,12 +35,14 @@ int					load_history(t_history **history)
 	ft_strdel(&path);
 	ft_strdel(&line);
 	ft_strdel(&home);
+//	ft_strdel(&line); //deja fait
+	if (fd > 2)
+		close(fd);
 	return (TRUE);
 }
 
 int					save_history(void)
 {
-//	t_duo				*env;
 	char				*home;
 	char				*path;
 	int					fd;
@@ -50,7 +51,6 @@ int					save_history(void)
 	path = NULL;
 	fd = -1;
 	history = savior_history(NULL, FALSE);
-//	env = savior(NULL, FALSE);
 	home = get_env("HOME");
 	if (home)
 		path = ft_strjoin(home, HISTORY_FILE_NAME);
@@ -60,6 +60,7 @@ int					save_history(void)
 		ft_strdel(&path);
 		return (ERROR);
 	}
+//	ft_strdel(&path); //deja fait
 	while (history && history->prev)
 		history = history->prev;
 	while (history && history->line)
@@ -68,6 +69,8 @@ int					save_history(void)
 		write(fd, "\n", 1);
 		history = history->next;
 	}
+	if (fd > 2)
+		close(fd);
 	ft_strdel(&home);
 	ft_strdel(&path);
 	return (TRUE);
