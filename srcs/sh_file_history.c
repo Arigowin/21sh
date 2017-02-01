@@ -43,6 +43,8 @@ static int			line_manager(char **buff, char *line, int *quote, t_history **histo
 	tmp = NULL;
 	if (line == NULL || quote == NULL)
 		return (ERROR);
+	if (ft_strlen(line) <= 0)
+		line = ft_strdup("\n");
 	if (*quote != 0)
 		return (in_quote(buff, line));
 	else
