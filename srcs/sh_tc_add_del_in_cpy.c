@@ -14,6 +14,7 @@ int					str_addleft(char *tbl, char c)
 		return (FALSE);
 	while (tbl[i])
 		i++;
+	i--;
 	while (i >= 0)
 	{
 		tbl[i + 1] = tbl[i];
