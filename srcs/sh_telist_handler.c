@@ -34,12 +34,14 @@ int				expr_del(t_e_list **new)
 	t_e_list	*trash;
 
 	tmp = *new;
+	trash = NULL;
 	while (tmp)
 	{
 		trash = tmp;
 		tmp = tmp->next;
 		ft_strdel(&(trash->data));
 		free(trash);
+		trash = NULL;
 	}
 	*new = NULL;
 	return (TRUE);
