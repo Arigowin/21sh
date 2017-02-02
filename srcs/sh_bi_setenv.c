@@ -1,7 +1,7 @@
 #include "shell.h"
 #include "libft.h"
 
-static int			is_valid(char *str)
+int					valid_env_name(char *str)
 {
 	if (DEBUG_BUILTIN == 1)
 		ft_putendl_fd("------- IS VALID ------", 2);
@@ -40,17 +40,17 @@ int					bi_setenv(char **arg, t_duo **env)
 	i = 0;
 	while (arg[i])
 	{
-		if (i == 1 && !is_valid(arg[i]))
+		if (i == 1 && !valid_env_name(arg[i]))
 			return (ERROR);
 		/* MSG ret: ERROR exit: FALSE msg: "" */
 		// en cas d erreur on aura deja ecris l erreur dans is_valid
 		i++;
 	}
 	// on affiche env si on a 1 seul arg et que arg[0] == env ou setenv
-	if (i < 2) 
+	if (i < 2)
 	{
 		return (bi_env(arg, env));
-//		return (TRUE);
+		//		return (TRUE);
 	}
 	// on change env si on a 2 ou 3 arg et que arg[1] existe dans env
 	if (i == 2 || i == 3)

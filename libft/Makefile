@@ -104,6 +104,7 @@ SRC = ft_memset.c \
 	  srch_begining.c \
 	  duo_pushbk.c \
 	  duo_del.c \
+	  last_duo_del.c \
 	  free_duo.c \
 	  free_tab.c \
 	  free_lst.c \
@@ -123,7 +124,7 @@ SRC = ft_memset.c \
 
 OBJ = $(patsubst %.c, $(OPATH)/%.o, $(SRC))
 
-CFLAGS = -Wall -Wextra -Werror -I $(HPATH)
+CFLAGS = -g -Wall -Wextra -Werror -I $(HPATH)
 
 ROOT =		$(shell /bin/pwd)
 OPATH =		$(ROOT)/objs

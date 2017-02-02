@@ -64,11 +64,11 @@ int					exec_test(int argc, char **argv, t_line *stline, t_history *history)
 	int					fd;
 	char				*line;
 
-	ft_putendl("------------- START TEST -------------");
 	line = NULL;
 	if (argc != 2)
 		return (FALSE);
 	fd = open(argv[1], O_RDONLY);
+	ft_putendl("------------- START TEST -------------");
 	while (fd > -1 && get_next_line(fd, &line) > 0)
 	{
 		ft_putendl("************ START CMD ************");
