@@ -223,6 +223,7 @@ int						change_env(char *name, char *value);
 char					*get_env(char *name);
 int						is_builtin(char **cmd);
 int						handle_builtin(char **cmd);
+int						check_opt(char **arg, int *i);
 
 /*
 ** sh_t_e_list_handler
