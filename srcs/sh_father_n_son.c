@@ -110,7 +110,7 @@ int					son(char **cmd, int pipefd_tab[2][2], t_node *tree,
 		return (ERROR);
 	if (check_builtin(cmd, pipefd_tab, NULL) == TRUE)
 	{
-		exit(EXIT_SUCCESS);
+		bi_exit(NULL, NULL);
 		return (TRUE);
 	}
 	check_signal(2);

@@ -42,13 +42,9 @@ static int			display_prompt_without_color(void)
 	path = get_path(); //free ok
 	name = get_env("LOGNAME"); //free ok
 	if (name)
-	{
 		ft_putstr(name);
-	}
 	if (path)
-	{
 		ft_putstr(path);
-	}
 	if (path || name)
 		ft_putchar('\n');
 	ft_putstr("> ");
@@ -97,6 +93,6 @@ int					exec_test(int argc, char **argv, t_line *stline, t_history *history)
 	}
 	ft_putendl("------------- END TEST -------------");
 	close(fd);
-	exit(EXIT_SUCCESS);
+	bi_exit(NULL, NULL);
 	return (TRUE);
 }
