@@ -51,7 +51,7 @@ int					fct_return(char **str, int *pos, t_line *stline,
 				 && (*str)[*pos - 1]
 				 && (*str)[*pos - 1] == '\\')
 			|| stline->hrd.nb > 0
-			|| check_end_pipe(str, pos)) // ajout si 'pipe' a la fin de la ligne
+			|| (*pos > 0 && check_end_pipe(str, pos))) // ajout si 'pipe' a la fin de la ligne
 	{
 		if (stline->hrd.nb > 0)
 		{
