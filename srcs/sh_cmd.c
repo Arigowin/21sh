@@ -17,7 +17,7 @@ static char			**tree_to_tbl(t_node *tree, int nb_elem)
 	{
 		if ((tbl[i] = ft_strdup(tree->data)) == NULL)
 			/* RET: error EXIT: true MSG: "malloc fail"
-			** FREE: tbl */
+			 ** FREE: tbl */
 			return (NULL);
 		tree = tree->right;
 		i++;

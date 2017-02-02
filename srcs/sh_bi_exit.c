@@ -14,7 +14,7 @@ int					bi_exit(char **arg, t_duo **env)
 	i = 0;
 	tree = NULL;
 	tree = savior_tree(NULL, FALSE);
-	hist = savior_history(NULL, FALSE);
+	hist = *(savior_history(NULL, FALSE));
 	if (tree)
 		del_tree(&tree);
 	if (arg && arg[1] && arg[2])
