@@ -43,15 +43,19 @@ int					read_n_check(int *nb_hrd, char *read_buff, t_node **tree)
 		return (ret);
 	if ((ret = parser(nb_hrd, &l_expr, tree)) != TRUE) // juste garder ret = .... et return ret
 	{
-		expr_del(&l_expr);
+		expr_del(&save);
 		return (ret);
 	}
 	savior_tree(*tree, TRUE);
-	expr_del(&l_expr);
+	printf(">>>>>>>>>>>>>>>>> l_expr->data : %s\n", l_expr->data);
+	printf(">>>>>>>>>>>>>>>>> save->data : %s\n", save->data);
+	expr_del(&save);
 	if (DEBUG_TREE_VERIF == 1)
 		tree_traversal_verif(*tree);
-	if (l_expr != NULL)
-		ft_putendl(">>>>>>>>>>> l_expr EXISTE");
+	if (l_expr == NULL)
+		ft_putendl(">>>>>>>>>>> l_expr DETRUIT");
+	if (save == NULL)
+		ft_putendl(">>>>>>>>>>> save de l_expr DETRUIT");
 	return (TRUE);
 }
 

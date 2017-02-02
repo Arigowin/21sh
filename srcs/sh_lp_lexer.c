@@ -74,14 +74,14 @@ static int			waka_lexer(t_e_list **l_expr)
 	if ((tmp2 = ft_strsub((*l_expr)->data, i, ft_strlen((*l_expr)->data) - i))
 	== NULL)
 		return (ERROR);
-		/* MSG ret: ERROR exit: TRUE msg: "malloc fail"
+	/* MSG ret: ERROR exit: TRUE msg: "malloc fail"
 		 * free: lexpr  */
 	ft_strdel(&((*l_expr)->data));
 	if (((*l_expr)->data = ft_strdup(tmp2)) == NULL
 	|| (tmp[0] == '\0' || (tmp[0] != '\0' && (new = expr_new(tmp)) == NULL)))
 		ft_strdel(&tmp2);
 		return (ERROR);
-		/* MSG ret: ERROR exit: TRUE msg: "malloc fail"
+	/* MSG ret: ERROR exit: TRUE msg: "malloc fail"
 		 * free: lexpr  */
 	new->type = RED_FD;
 	new->next = (*l_expr)->next;
