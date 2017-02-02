@@ -61,7 +61,9 @@ static int			line_manager(char **buff, char *line, int *quote, t_history **histo
 			ft_strdel(buff);
 		}
 		else
+		{
 			add_history(history, line); // pb indirectly loss
+		}
 	}
 	return (TRUE);
 }
@@ -146,6 +148,7 @@ int					save_history(void)
 		ft_strdel(&path);
 		return (ERROR);
 	}
+	ft_strdel(&path);
 	while (history && history->prev)
 		history = history->prev;
 	while (history && history->line)
@@ -158,6 +161,6 @@ int					save_history(void)
 	write(fd, &end, 1);
 	if (fd > 2)
 		close(fd);
-	ft_strdel(&path);
+	del_history(&history);
 	return (TRUE);
 }

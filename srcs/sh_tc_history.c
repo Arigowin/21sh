@@ -1,19 +1,24 @@
 #include "shell.h"
 #include "libft.h"
 
-void				del_history(t_history *histo)
+void				del_history(t_history **histo)
 {
 	t_history *trash;
+	t_history *save;
 
 	trash = NULL;
-	while (histo)
+	save = *histo;
+	while (save && save->prev)
+		save = save->prev;
+	while (save)
 	{
-		trash = histo;
-		histo = histo->next;
+		trash = save;
+		save = (save)->next;
 		ft_strdel(&(trash->line));
 		free(trash);
 		trash = NULL;
 	}
+	*histo = NULL;
 }
 
 static t_history	*new_history(char *line)
