@@ -365,7 +365,7 @@ int						fct_del(char **s, int *pos, t_line *l, t_history **h);
 /*
 ** sh_tc_history
 */
-void					del_history(t_history *history);
+void					del_history(t_history **history);
 void					add_history(t_history **h, char *line);
 void					modif_history(t_history **history, char *line, int mini);
 int						history_down(char **str, int *pos, t_line *stline,

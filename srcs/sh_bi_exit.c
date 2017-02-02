@@ -7,13 +7,14 @@ int					bi_exit(char **arg, t_duo **env)
 	if (DEBUG_BUILTIN == 1)
 		ft_putendl_fd("------- BI EXIT ------", 2);
 
-	int					i;
+	t_node			*tree;
+	t_history		*hist;
+	int				i;
 
 	i = 0;
-	t_node *tree;
 	tree = NULL;
 	tree = savior_tree(NULL, FALSE);
-	//printf("bi_exit : valeur tree_savd : %p\n", tree);
+	hist = savior_history(NULL, FALSE);
 	if (tree)
 		del_tree(&tree);
 	if (arg && arg[1] && arg[2])
@@ -36,14 +37,10 @@ int					bi_exit(char **arg, t_duo **env)
 	ft_putendl("exit");
 	free_tab(&arg);
 	save_history();
-	del_history(savior_history(NULL, FALSE));
 	duo_del(env);
 	reset_term();
 	tree = NULL;
-	if (tree)
-		ft_putendl("ARBRE EXISTE ENCORE");
-	else
-		ft_putendl("ARBRE COUPE");
+	del_history(&hist);
 	exit(i);
 	return (0);
 }
