@@ -40,7 +40,6 @@ int					token_dollar(char **read_buff, char **data_tmp)
 	{
 		add_in_tbl(&env_name, **read_buff);
 		(*read_buff)++;
-		ft_strdel(&env_name);
 	}
 	(*read_buff)--;
 	if ((env_val = get_env(env_name)) == NULL)
