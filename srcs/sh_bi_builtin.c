@@ -104,17 +104,9 @@ int					handle_builtin(char **cmd)
 	{
 		if ((ret = tbl_bi[i](cmd, &env)) == ERROR)
 			/* MSG ret: ERROR exit: FALSE msg: "command not found: cmd." */
-		{
-			if (cmd)
-				free_tab(&cmd);
 			return (ERROR);
-		}
 		else // pas necessaire ? puisqu ' on return avant
-		{
-			if (cmd)
-				free_tab(&cmd);
 			return (ret);
-		}
 	}
 	if (cmd)
 		free_tab(&cmd);

@@ -183,8 +183,11 @@ int					handle_fork(int pipefd_tab[2][2], t_node *tree,
 			return (TRUE);
 		}
 		if (ret == ERROR)
-			// useless return
-			return (ERROR);
+		{
+			printf(">>>>>>>>>>>>>>>>> GRRRRR\n");
+			free_tab(&cmd);
+			return (ERROR); // useless return
+		}
 	}
 	if ((fpid = fork()) < 0)
 		/* RET: error EXIT: true MSG: "fork fail" */
