@@ -24,6 +24,7 @@ int					fd_open(int	*fd, t_node *tree, t_lst_fd **lstfd)
 	node = NULL;
 	flags = -1;
 	ret = 0;
+	fd_save = (*fd == -2 ? 0 : fd_save);
 	if (fd_save == -1)
 	{
 		close(*fd);
@@ -154,12 +155,12 @@ int					tree_traversal(t_node *tree, t_lst_fd **lstfd, int pipefd_tab[2][2])
 		//ANTIBUG
 		if (DEBUG_ANTIBUG == 1)
 		{
+			printf("lstfd :\n");
 			t_lst_fd *tmp = *lstfd;
 			while(tmp){
 				printf("in pipe [filename->%s]--[fd->%d]\n", tmp->filename, tmp->fd);
 				tmp=tmp->next;
 			}
-			printf("next\n");
 			//tmp = tmp->next;
 		}
 		//  fin ANTIBUG

@@ -87,7 +87,7 @@ int					father(int pipefd_tab[2][2])
 	stat_loc = 0;
 	check_signal(3);
 	pfd_close(pipefd_tab);
-	if (pipefd_tab[1][0] < 0)
+	//if (pipefd_tab[1][0] < 0)
 		while (waitpid(-1, &stat_loc, WNOHANG) >= 0)
 			;
 	if (WIFSIGNALED(stat_loc))
@@ -105,11 +105,11 @@ int					son(char **cmd, int pipefd_tab[2][2], t_node *tree,
 	int 				ret;
 	int 				fd;
 
-	fd = (lstfd && *lstfd ? (*lstfd)->fd : -2);
+	fd = (lstfd && *lstfd && tree->left ? (*lstfd)->fd : -2);
 	ret = TRUE;
 	pfd_handler(pipefd_tab);
 	if ((pipefd_tab[0][0] >= 0 || pipefd_tab[1][0] >= 0) && tree && tree->left
-	&& lstfd && *lstfd && (ret = redirect(tree->left, *lstfd)))
+	&& lstfd && *lstfd && !(ret = redirect(tree->left, *lstfd)))
 	{
 		if (ret == ERROR)
 		/* RET: error EXIT: false MSG: "i don't know" */
@@ -121,10 +121,11 @@ int					son(char **cmd, int pipefd_tab[2][2], t_node *tree,
 		exit(EXIT_SUCCESS);
 	check_signal(2);
 	if (check_fct(fd, cmd) == -2)
+	{//dprintf (2, "EXIT\n");
 		exit(EXIT_SUCCESS);
-	/* RET: error EXIT: true MSG: "command not found" */
+	}
 
-	// appeler la fonction d'erreur
+	/* RET: error EXIT: true MSG: "command not found" */
 	ft_putstr_fd("21sh: ", 2);
 	ft_putstr_fd(cmd[0], 2);
 	ft_putendl_fd(": command not found", 2);
@@ -149,22 +150,30 @@ int					handle_fork(int pipefd_tab[2][2], t_node *tree,
 	fd = (lstfd && *lstfd ? (*lstfd)->fd : -2);
 	if ((cmd = format_cmd(tree)) == NULL)
 		return (ERROR);
-	//dprintf(2, "pfd (((%d-%d)))\n", pipefd_tab[0][0], pipefd_tab[1][0]);
 	if (pipefd_tab[0][0] < 0 && pipefd_tab[1][0] < 0)
 	{
-		//dprintf(2, "tree : ((%s))\tlstfd : ((%s))\n", tree->left->data, (*lstfd)->filename);
 		if (tree && tree->left && *lstfd && (ret = redirect(tree->left, *lstfd)))
 		{
 			if (ret == ERROR)
-			//			close_fd_red(&lstfd, saved_std);
+			{
 			/* RET: error EXIT: false MSG: "i don't know" */
+				reset_std_fd();
+				close_lstfd(lstfd);
+				del_lstfd(lstfd);
 				return (ERROR);
+			}
 			if (ret == FALSE)
 				return (FALSE);
 		}
 		else if (tree && tree->left && tree->left->type == DLRED && redirect(tree->left, NULL) == ERROR)
+		{
+			/* RET: error EXIT: false MSG: "i don't know" */
+			reset_std_fd();
+			close_lstfd(lstfd);
+			del_lstfd(lstfd);
 			return (ERROR);
-		savior_tree(tree, TRUE); // TRES IMPORTANT SAVIOR TREE TRUE ICI !!!!
+		}
+		//savior_tree(tree, TRUE);
 		if ((ret = check_builtin(fd, cmd, pipefd_tab, NULL)) == TRUE)
 		{
 			free_tab(&cmd); // FREE_MALLOC_OK

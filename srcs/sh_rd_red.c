@@ -26,21 +26,9 @@ int					left_right_red(t_node *tree, t_lst_fd *lstfd, int stdfd)
 		ft_putendl_fd("------- LEFT RIGHT RED -------", 2);
 
 	int					fd;
-//	int					hrd_fd[2];
 
 	fd = stdfd;
-//	if (lstfd->fd == -1)
-//	{
-//		if (pipe(hrd_fd) == ERROR)
-//			/* RET: error EXIT: false MSG: "pipe fail"
-//			 * FREE: str */
-//			return (ERROR);
-//		write(hrd_fd[1], "", 0);
-//		dup2(hrd_fd[0], fd);
-//		close(hrd_fd[0]);
-//		close(hrd_fd[1]);
-//		return (FALSE);
-//	}
+	//dprintf (2, "iiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiii\n");
 	if (tree->type == RED_FD && ft_strcmp(tree->data, "&") != 0)
 		fd = ft_atoi(tree->data);
 	else if (tree->type == RED_FD && ft_strcmp(tree->data, "&") == 0)
@@ -58,7 +46,8 @@ int					left_right_red(t_node *tree, t_lst_fd *lstfd, int stdfd)
 		close(fd);
 		return (TRUE);
 	}
-	if (dup2(lstfd->fd, fd) == ERROR)
+	//dprintf (2, "[[[[[%d-%d]]]]]\n", lstfd->fd, fd);
+	if (lstfd->fd >= 0 && dup2(lstfd->fd, fd) == ERROR)
 		return (ERROR);
 	return (TRUE);
 }
@@ -97,6 +86,7 @@ int					redirect(t_node *tree, t_lst_fd *lstfd)
 		ft_putendl_fd("------- REDIRECT -------", 2);
 
 	int					fd;
+	// dprintf (2, "oooooooooooooooooooooooooooooooooooooooooooooooooooooooooooo((%s-%d))\n", lstfd->filename, lstfd->fd);
 
 	if ((lstfd == NULL && tree->type != DLRED) || tree == NULL) // || (lstfd && lstfd->fd == -1))
 		return (FALSE);

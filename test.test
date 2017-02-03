@@ -12,6 +12,7 @@ cd idunno
 mkdir noright
 chmod 000 noright
 cd noright
+rmdir noright
 env
 setenv a a
 setenv
@@ -32,8 +33,3 @@ ls -l | cat -n
 ls -l | cat -n | wc
 cd / ; ls -1 ; cd - ; ls -lA
 bonjour
-echo "bonjour" > existe
-ls < existe < noexiste
-ls < noexiste < existe
-cat < existe < noexiste
-cat < noexiste < existe
