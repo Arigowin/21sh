@@ -37,7 +37,8 @@ int					bi_exit(char **arg, t_duo **env)
 	}
 	i = (arg && arg[1] ? ft_atoi(arg[1]) : 0);
 	ft_putendl("exit");
-	free_tab(&arg);
+	if (arg)
+		free_tab(&arg);
 	save_history();
 	duo_del(env);
 	reset_term();

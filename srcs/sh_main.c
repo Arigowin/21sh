@@ -27,7 +27,7 @@ int					main(int argc, char **argv)
 			break ;
 	}
 	reset_term();
-	free_duo(&env_cpy);
+	duo_del(&env_cpy);
 	free(stline.line);
 	return (0);
 }

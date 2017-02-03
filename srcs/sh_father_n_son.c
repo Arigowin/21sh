@@ -98,6 +98,9 @@ int					father(int pipefd_tab[2][2])
 int					son(char **cmd, int pipefd_tab[2][2], t_node *tree,
 					t_lst_fd **lstfd)
 {
+	t_duo		*env;
+
+	env = savior(NULL, FALSE);
 	if (DEBUG == 1)
 		ft_putendl_fd("------- SON ------", 2);
 
@@ -110,7 +113,7 @@ int					son(char **cmd, int pipefd_tab[2][2], t_node *tree,
 		return (ERROR);
 	if (check_builtin(cmd, pipefd_tab, NULL) == TRUE)
 	{
-		bi_exit(NULL, NULL);
+		bi_exit(NULL, &env);
 		return (TRUE);
 	}
 	check_signal(2);
