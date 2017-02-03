@@ -93,6 +93,6 @@ int					exec_test(int argc, char **argv, t_line *stline, t_history *history)
 	}
 	ft_putendl("------------- END TEST -------------");
 	close(fd);
-	bi_exit(NULL, NULL);
+	exit(EXIT_SUCCESS);
 	return (TRUE);
 }
