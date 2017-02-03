@@ -113,8 +113,8 @@ int					son(char **cmd, int pipefd_tab[2][2], t_node *tree,
 		return (ERROR);
 	if (check_builtin(cmd, pipefd_tab, NULL) == TRUE)
 	{
-		free_tab(&cmd);
-		bi_exit(NULL, &env);
+		printf(">>>>>>>>>>>>>>>>> qwerty\n");
+		exit(EXIT_SUCCESS);
 		return (TRUE);
 	}
 	check_signal(2);
@@ -175,6 +175,7 @@ int					handle_fork(int pipefd_tab[2][2], t_node *tree,
 	else
 		father(pipefd_tab);
 	init_term();
-	free_tab(&cmd); // FREE_MALLOC_OK
+	if (cmd)
+		free_tab(&cmd); // FREE_MALLOC_OK
 	return (TRUE);
 }
