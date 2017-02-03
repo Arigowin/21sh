@@ -40,7 +40,7 @@ char				**format_cmd(t_node *tree)
 	tmp = tree;
 	if (tree && tree->left && tree->left->right && ft_strcmp(tree->left->right->data, "-1") == 0)
 	{
-		dprintf(2, "data (((((((%s)))))))\n", tree->left->right->data);
+//		dprintf(2, "data (((((((%s)))))))\n", tree->left->right->data);
 		return (ret);
 	}
 	while (tmp->right)

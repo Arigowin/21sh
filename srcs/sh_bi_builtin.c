@@ -74,16 +74,13 @@ int					is_builtin(char **cmd)
 
 	i = 0;
 	if (cmd)
-	dprintf(2, "***************BI : (%s)****************************\n", cmd[0]);
+	//dprintf(2, "***************BI : (%s)****************************\n", cmd[0]);
 	while (i < 6)
 	{
 		if (ft_strcmp(cmd[0], bi[i]) == 0)
 			return (i);
 		i++;
 	}
-
-
-		dprintf(2, "POUETPOUETPOUET\n");
 	/* juste un return ERROR -> pas de message rien a faire */
 	return (ERROR);
 }

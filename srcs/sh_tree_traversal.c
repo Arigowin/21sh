@@ -84,7 +84,6 @@ int 				push_in_lstfd(t_node *tree, t_lst_fd **lstfd, int fd, int *fd_save)
 	{
 		filename = (tree->right->type == RED_ARG ? tree->right->data : tree->right->right->data);
 		lstfd_pushfront(lstfd, fd, filename);
-		ft_strdel(&filename);
 		if (fd == -1)
 			return (FALSE);
 	}
@@ -153,8 +152,8 @@ int					tree_traversal(t_node *tree, t_lst_fd **lstfd, int pipefd_tab[2][2])
 		manage_red_fd(-2, tree, lstfd, NONE);
 
 		//ANTIBUG
-	//	if (DEBUG_ANTIBUG == 0)
-	//	{
+		if (DEBUG_ANTIBUG == 1)
+		{
 			t_lst_fd *tmp = *lstfd;
 			while(tmp){
 				printf("in pipe [filename->%s]--[fd->%d]\n", tmp->filename, tmp->fd);
@@ -162,7 +161,7 @@ int					tree_traversal(t_node *tree, t_lst_fd **lstfd, int pipefd_tab[2][2])
 			}
 			printf("next\n");
 			//tmp = tmp->next;
-	//	}
+		}
 		//  fin ANTIBUG
 
 	if (tree->type == PIPE)

@@ -19,7 +19,7 @@ static char			*join_exe(char *s1, char *s2)
 
 int					check_fct(int fd, char **cmd)
 {
-//	if (DEBUG == 1)
+	if (DEBUG == 1)
 		ft_putendl_fd("------- CHECK FCT------", 2);
 
 	char				**path;
@@ -28,8 +28,23 @@ int					check_fct(int fd, char **cmd)
 	int					i;
 	char				**tbl_env;
 
+	(void)fd;
+	int					hrd_fd[2];
+
 	if (fd == -1)
-		return (FALSE);
+	{
+		if (pipe(hrd_fd) == ERROR)
+			/* RET: error EXIT: false MSG: "pipe fail"
+			 * FREE: str */
+			return (ERROR);
+		write(hrd_fd[1], "", 0);
+		dup2(hrd_fd[0], fd);
+		close(hrd_fd[0]);
+		close(hrd_fd[1]);
+		return (-2);
+	}
+//	if (fd == -1)
+//		return (FALSE);
 	path = NULL;
 	env = savior(NULL, FALSE);
 	tbl_env = duo_to_tbl(env, "=");

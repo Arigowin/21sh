@@ -29,7 +29,6 @@ static int			change_dir(char *path)
 		}
 		return (ERROR);
 	}
-	ft_strdel(&path);
 	return (TRUE);
 }
 
@@ -47,6 +46,7 @@ int					cd_home()
 		return (ERROR);
 	}
 	ret = change_dir(path);
+	ft_strdel(&path);
 	return (ret);
 }
 
@@ -113,13 +113,19 @@ int					bi_cd(char **arg, t_duo **env)
 	path = NULL;
 	tmp = get_env("OLDPWD");
 	if (check_opt(arg, &i) == ERROR)
+	{
+		ft_strdel(&tmp);
 		return (ERROR);
+	}
 	if (!arg[i] || (arg[i] && arg[i][0] == '~' && !arg[i][1]))
 		ret = cd_home();
 	else if (arg[i] && arg[i][0] == '-' && !arg[i][1])
 	{
 		if (tmp)
+		{
 			ret = change_dir(tmp);
+			ft_strdel(&tmp);
+		}
 		else
 			ft_putendl_fd("21sh: cd: no OLDPWD variable set.", 2);
 	}
@@ -131,7 +137,11 @@ int					bi_cd(char **arg, t_duo **env)
 		change_env("OLDPWD", tmp);
 		path = getcwd(path, MAX_PATH);
 		change_env("PWD", path);
+		ft_strdel(&tmp);
+		ft_strdel(&path);
 		return (0);
 	}
+	ft_strdel(&path);
+	ft_strdel(&tmp);
 	return (ERROR);
 }

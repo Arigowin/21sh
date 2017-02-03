@@ -1,6 +1,26 @@
 #include "shell.h"
 #include "libft.h"
 
+void				del_history(t_history **histo)
+{
+	t_history *trash;
+	t_history *save;
+
+	trash = NULL;
+	save = *histo;
+	while (save && save->prev)
+		save = save->prev;
+	while (save)
+	{
+		trash = save;
+		save = (save)->next;
+		ft_strdel(&(trash->line));
+		free(trash);
+		trash = NULL;
+	}
+	*histo = NULL;
+}
+
 static t_history	*new_history(char *line)
 {
 	if (DEBUG_HISTORY == 1)
@@ -46,6 +66,18 @@ void				add_history(t_history **history, char *line)
 	savior_history(*history, TRUE);
 }
 
+static int			remove_backslach_eol(char **line)
+{
+	char				*tmp;
+
+	if (line && *line && (tmp = ft_strstr(*line, "\\\n")) != NULL)
+	{
+		str_delleft(tmp);
+		str_delleft(tmp);
+	}
+	return (TRUE);
+}
+
 void				modif_history(t_history **history, char *line, int mini_prt)
 {
 	if (DEBUG_HISTORY == 1)
@@ -53,8 +85,9 @@ void				modif_history(t_history **history, char *line, int mini_prt)
 
 	if (line == NULL)
 		return ;
+	remove_backslach_eol(&line);
 	if (*history == NULL || ((mini_prt == FALSE && ft_strncmp((*history)->line,
-	line, ft_strlen((*history)->line)) != 0) || (*history)->next != NULL))
+															  line, ft_strlen((*history)->line)) != 0) || (*history)->next != NULL))
 	{
 		add_history(history, line);
 		return ;
@@ -112,6 +145,7 @@ static int			nb_line_total(char *str, t_line *stline)
 		}
 		i++;
 	}
+	free_tab(&line);
 	if (i - 1 < nb)
 		nb_line += (nb - i) + 1;
 	return (nb_line - 1);
@@ -141,7 +175,7 @@ int					reset_pos_x_y(char **str, int *pos, t_line *stline)
 }
 
 int					history_up(char **str, int *pos, t_line *stline,
-					t_history **history)
+							   t_history **history)
 {
 	if (DEBUG_HISTORY == 1)
 		ft_putendl_fd("---------------- HISTORY UP -----------------------", 2);

@@ -8,7 +8,7 @@
 
 int 				pfd_handler(int pipefd_tab[2][2])
 {
-//	if (DEBUG == 1)
+	if (DEBUG == 1)
 		ft_putendl_fd("------- PFD HANDLER ------", 2);
 
 	//dprintf(2, "pfd 00 : (%d)\tpfd 01 : (%d)\tpfd 10 : (%d)\tpfd 11 : (%d)\n", pipefd_tab[0][0], pipefd_tab[0][1], pipefd_tab[1][0], pipefd_tab[1][1]);
@@ -34,7 +34,7 @@ int 				pfd_handler(int pipefd_tab[2][2])
 	{
 		close(pipefd_tab[0][1]);
 		if(dup2(pipefd_tab[0][0], STDIN_FILENO) == ERROR)
-		{dprintf(2, "error in pfd handler\n");
+		{//dprintf(2, "error in pfd handler\n");
 			/* RET: error EXIT: false MSG: "dup2 fail" */
 			return (ERROR);
 		}
@@ -120,7 +120,8 @@ int					son(char **cmd, int pipefd_tab[2][2], t_node *tree,
 	if (lstfd && check_builtin(fd, cmd, pipefd_tab, lstfd) == TRUE)
 		exit(EXIT_SUCCESS);
 	check_signal(2);
-	check_fct(fd, cmd);
+	if (check_fct(fd, cmd) == -2)
+		exit(EXIT_SUCCESS);
 	/* RET: error EXIT: true MSG: "command not found" */
 
 	// appeler la fonction d'erreur
@@ -148,10 +149,9 @@ int					handle_fork(int pipefd_tab[2][2], t_node *tree,
 	fd = (lstfd && *lstfd ? (*lstfd)->fd : -2);
 	if ((cmd = format_cmd(tree)) == NULL)
 		return (ERROR);
-	dprintf(2, "pfd (((%d-%d)))\n", pipefd_tab[0][0], pipefd_tab[1][0]);
+	//dprintf(2, "pfd (((%d-%d)))\n", pipefd_tab[0][0], pipefd_tab[1][0]);
 	if (pipefd_tab[0][0] < 0 && pipefd_tab[1][0] < 0)
 	{
-	dprintf(2, "zzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz\n");
 		//dprintf(2, "tree : ((%s))\tlstfd : ((%s))\n", tree->left->data, (*lstfd)->filename);
 		if (tree && tree->left && *lstfd && (ret = redirect(tree->left, *lstfd)))
 		{
@@ -165,9 +165,11 @@ int					handle_fork(int pipefd_tab[2][2], t_node *tree,
 		else if (tree && tree->left && tree->left->type == DLRED && redirect(tree->left, NULL) == ERROR)
 			return (ERROR);
 		savior_tree(tree, TRUE); // TRES IMPORTANT SAVIOR TREE TRUE ICI !!!!
-	dprintf(2, "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa\n");
 		if ((ret = check_builtin(fd, cmd, pipefd_tab, NULL)) == TRUE)
+		{
+			free_tab(&cmd); // FREE_MALLOC_OK
 			return (TRUE);
+		}
 		if (ret == ERROR)
 			// useless return
 			return (ERROR);

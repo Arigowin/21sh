@@ -1,4 +1,5 @@
 #include <fcntl.h>
+#include <stdio.h>
 #include "shell.h"
 #include "libft.h"
 
@@ -25,8 +26,21 @@ int					left_right_red(t_node *tree, t_lst_fd *lstfd, int stdfd)
 		ft_putendl_fd("------- LEFT RIGHT RED -------", 2);
 
 	int					fd;
+//	int					hrd_fd[2];
 
 	fd = stdfd;
+//	if (lstfd->fd == -1)
+//	{
+//		if (pipe(hrd_fd) == ERROR)
+//			/* RET: error EXIT: false MSG: "pipe fail"
+//			 * FREE: str */
+//			return (ERROR);
+//		write(hrd_fd[1], "", 0);
+//		dup2(hrd_fd[0], fd);
+//		close(hrd_fd[0]);
+//		close(hrd_fd[1]);
+//		return (FALSE);
+//	}
 	if (tree->type == RED_FD && ft_strcmp(tree->data, "&") != 0)
 		fd = ft_atoi(tree->data);
 	else if (tree->type == RED_FD && ft_strcmp(tree->data, "&") == 0)
@@ -44,15 +58,8 @@ int					left_right_red(t_node *tree, t_lst_fd *lstfd, int stdfd)
 		close(fd);
 		return (TRUE);
 	}
-	//dprintf(2, "[%d][%d]\n", lstfd->fd, fd);
 	if (dup2(lstfd->fd, fd) == ERROR)
-	{dprintf(2, "POUETTTTTTTTTTTTTTTTTT\n");
 		return (ERROR);
-	}
-		/* RET: error EXIT: false MSG: "dup2 fail" */
-	//if (lstfd->fd > STDERR_FILENO && (stdfd == STDOUT_FILENO
-//	|| ((lstfd->filename)[0] != '&' && lstfd->fd != -1)))
-//		close(lstfd->fd);
 	return (TRUE);
 }
 
@@ -91,7 +98,7 @@ int					redirect(t_node *tree, t_lst_fd *lstfd)
 
 	int					fd;
 
-	if ((lstfd == NULL && tree->type != DLRED) || tree == NULL || (lstfd && lstfd->fd == -1))
+	if ((lstfd == NULL && tree->type != DLRED) || tree == NULL) // || (lstfd && lstfd->fd == -1))
 		return (FALSE);
 	fd = ((tree->type == LRED || tree->type == DLRED) ? STDIN_FILENO : STDOUT_FILENO);
 	if (tree && tree->right && (tree->type != DLRED))
@@ -104,7 +111,7 @@ int					redirect(t_node *tree, t_lst_fd *lstfd)
 		if (heredoc_red(tree->right, fd) == ERROR)
 			return (ERROR);
 	}
-	if (tree && tree->left && lstfd && lstfd->fd != -1)
+	if (tree && tree->left && lstfd) // && lstfd->fd != -1)
 	{
 		if (tree->type == DLRED && redirect(tree->left, lstfd) == ERROR)
 			return (ERROR);

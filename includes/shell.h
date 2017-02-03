@@ -9,11 +9,11 @@
 #define DEBUG_PARSER 0
 #define DEBUG_SAVIOR 0
 #define DEBUG_TREE_CREATION 0
-#define DEBUG_TREE 1
+#define DEBUG_TREE 0
 #define DEBUG_TERMCAPS 0
 #define DEBUG_HISTORY 0
 #define DEBUG_PIPE 0
-#define DEBUG_RED 1
+#define DEBUG_RED 0
 #define DEBUG_CMD 0
 #define DEBUG_COPY_PASTE 0
 #define DEBUG_KEY 0
@@ -223,6 +223,7 @@ int						change_env(char *name, char *value);
 char					*get_env(char *name);
 int						is_builtin(char **cmd);
 int						handle_builtin(char **cmd);
+int						check_opt(char **arg, int *i);
 
 /*
 ** sh_t_e_list_handler
@@ -364,6 +365,7 @@ int						fct_del(char **s, int *pos, t_line *l, t_history **h);
 /*
 ** sh_tc_history
 */
+void					del_history(t_history **history);
 void					add_history(t_history **h, char *line);
 void					modif_history(t_history **history, char *line, int mini);
 int						history_down(char **str, int *pos, t_line *stline,
@@ -381,6 +383,7 @@ int						fct_copy(char **s, int *pos, t_line *l,	t_history **h);
 ** sh_tc_add_del_in_copy
 */
 int						str_addleft(char *tbl, char c);
+int						str_delleft(char *tbl);
 int						add_in_copy(char **s, int *p, t_line *stline, int dir);
 int						del_in_copy(char **s, int *p, t_line *stline, int dir);
 
@@ -478,6 +481,11 @@ int						manage_cmd(int pipefd_tab[2][2], t_node *tree, t_lst_fd **lstfd);
 */
 int						pipe_function(int pipefd_tab[2][2], t_node *tree,
 						t_lst_fd **lstfd);
+
+/*
+** exec_test
+*/
+int						exec_test(int argc, char **argv, t_line *stline, t_history *history);
 
 
 #endif
