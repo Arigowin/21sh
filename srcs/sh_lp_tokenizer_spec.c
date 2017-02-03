@@ -28,6 +28,7 @@ int					token_dollar(char **read_buff, char **data_tmp)
 	char 				*env_val;
 	char 				*tmp;
 
+	env_name = NULL;
 	env_val = NULL;
 	tmp = NULL;
 	(*read_buff)++;
@@ -39,21 +40,35 @@ int					token_dollar(char **read_buff, char **data_tmp)
 	{
 		add_in_tbl(&env_name, **read_buff);
 		(*read_buff)++;
+		ft_strdel(&env_name);
 	}
 	(*read_buff)--;
 	if ((env_val = get_env(env_name)) == NULL)
+	{
+		ft_strdel(&env_name);
 		return (FALSE);
+	}
+	ft_strdel(&env_name);
 	if (*data_tmp && (tmp = ft_strdup(*data_tmp)) == NULL)
+	{
+		ft_strdel(&env_val);
 		return (ERROR);
-		/* MSG ret: ERROR exit: FALSE msg: "malloc fail"
+	}
+	/* MSG ret: ERROR exit: FALSE msg: "malloc fail"
 		 * free: read_buff + data_tmp + env_name */
-	ft_strdel(data_tmp);
+	ft_strdel(data_tmp); // c'est bien ici le free du data_tmp ?
 	if ((*data_tmp = ft_strnew(ft_strlen(tmp) + ft_strlen(env_val)
 					+ ft_strlen(*read_buff))) == NULL)
+	{
+		ft_strdel(&tmp);
+		ft_strdel(&env_val);
 		return (ERROR);
-		/* MSG ret: ERROR exit: FALSE msg: "malloc fail"
+	}
+	/* MSG ret: ERROR exit: FALSE msg: "malloc fail"
 		 * free: read_buff + data_tmp + env_name */
 	concat(data_tmp, tmp, env_val);
+	ft_strdel(&env_val);
+	ft_strdel(&tmp);
 	return (TRUE);
 }
 
@@ -70,16 +85,25 @@ int					token_tilde(char **read_buff, char **data_tmp, int *bln)
 	if ((env_val = get_env("HOME")) == NULL)
 		return (FALSE);
 	if (*data_tmp && (tmp = ft_strdup(*data_tmp)) == NULL)
+	{
+		ft_strdel(&env_val);
 		return (ERROR);
-		/* MSG ret: ERROR exit: FALSE msg: "malloc fail"
+	}
+	/* MSG ret: ERROR exit: FALSE msg: "malloc fail"
 		 * free: read_buff + data_tmp + env_val */
 	ft_strdel(data_tmp);
 	if ((*data_tmp = ft_strnew(ft_strlen(tmp) + ft_strlen(env_val)
 					+ ft_strlen(*read_buff))) == NULL)
+	{
+		ft_strdel(&env_val);
+		ft_strdel(&tmp);
 		return (ERROR);
-		/* MSG ret: ERROR exit: FALSE msg: "malloc fail"
+	}
+	/* MSG ret: ERROR exit: FALSE msg: "malloc fail"
 		 * free: read_buff + data_tmp + env_val */
 	concat(data_tmp, tmp, env_val);
 	*bln = TRUE;
+	ft_strdel(&env_val);
+	ft_strdel(&tmp);
 	return (TRUE);
 }
