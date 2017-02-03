@@ -36,7 +36,6 @@ int					bi_exit(char **arg, t_duo **env)
 		i++;
 	}
 	i = (arg && arg[1] ? ft_atoi(arg[1]) : 0);
-	ft_putendl("exit");
 	if (arg)
 		free_tab(&arg);
 	save_history();
@@ -46,6 +45,7 @@ int					bi_exit(char **arg, t_duo **env)
 	del_history(&hist);
 	ft_strdel(&(stline->hrd.line));
 	ft_strdel(&(stline->line));
+	ft_putendl("exit");
 	exit(i);
 	return (0);
 }
