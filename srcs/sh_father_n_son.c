@@ -112,11 +112,7 @@ int					son(char **cmd, int pipefd_tab[2][2], t_node *tree,
 		/* RET: error EXIT: false MSG: "i don't know" */
 		return (ERROR);
 	if (check_builtin(cmd, pipefd_tab, NULL) == TRUE)
-	{
-		printf(">>>>>>>>>>>>>>>>> qwerty\n");
 		exit(EXIT_SUCCESS);
-		return (TRUE);
-	}
 	check_signal(2);
 	check_fct(cmd);
 	/* RET: error EXIT: true MSG: "command not found" */
@@ -158,10 +154,7 @@ int					handle_fork(int pipefd_tab[2][2], t_node *tree,
 			return (ERROR);
 		savior_tree(tree, TRUE); // TRES IMPORTANT SAVIOR TREE TRUE ICI !!!!
 		if ((ret = check_builtin(cmd, pipefd_tab, NULL)) == TRUE)
-		{
-			free_tab(&cmd); // FREE_MALLOC_OK
 			return (TRUE);
-		}
 		if (ret == ERROR)
 			// useless return
 			return (ERROR);
@@ -171,7 +164,10 @@ int					handle_fork(int pipefd_tab[2][2], t_node *tree,
 		return (ERROR);
 	reset_term();
 	if (fpid == 0)
+	{
+		printf(">>>>>>>>>>>>>>>>>>>>>> YOP\n");
 		son(cmd, pipefd_tab, tree, lstfd);
+	}
 	else
 		father(pipefd_tab);
 	init_term();
