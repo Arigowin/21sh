@@ -14,7 +14,7 @@ static int			left_red_fd_pushbk(t_lst_fd **lstfd, t_lst_fd **tmpfd, char *filena
 	fd = 0;
 	if ((access(filename, F_OK)) == ERROR)
 	{
-		ft_putstr_fd("21sh: no such file or directory: ", 2);
+		ft_putstr_fd("21sh LEFT RED FD PUSHBCK: no such file or directory: ", 2);
 		ft_putendl_fd(filename, 2);
 		return (ERROR);
 	}

@@ -30,7 +30,10 @@ int					fd_open(t_node *tree, t_lst_fd **lstfd, types type)
 	else
 	{
 		if (type == LRED && access(filename, F_OK) == ERROR)
+		{
+			ft_strdel(&filename);
 			return (ERROR);
+		}
 		fd = open(filename, flags,	S_IRUSR | S_IWUSR | S_IRGRP | S_IROTH);
 	}
 	lstfd_pushbck(lstfd, fd, filename);
@@ -50,7 +53,7 @@ int					file_exist(t_node *tree)
 	{
 		if (tree->right && access(tree->right->data, F_OK) == ERROR)
 		{
-			ft_putstr_fd("21sh: ", 2);
+			ft_putstr_fd("21sh LRED : ", 2);
 			ft_putstr_fd(tree->right->data, 2);
 			ft_putendl_fd(": no such file or directory", 2);
 			return (ERROR);
