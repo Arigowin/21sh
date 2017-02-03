@@ -17,6 +17,9 @@ env
 setenv a a
 setenv
 unsetenv a b
+env a=a 1b=q 1=1 ==a toto=titi
+env
+env bonjour=aurevoir ls -l -a
 echo "toto"
 echo a b c d      e      f     g
 echo bonjour > toto
