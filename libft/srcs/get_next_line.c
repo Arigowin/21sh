@@ -49,7 +49,7 @@ static int		gnl(char **tmp_buff, char **line)
 	if (join_buff(line, *tmp_buff) == -1)
 		return (-1);
 	(*tmp_buff)[i] = '\n';
-	if ((tmp = ft_strsub(*tmp_buff, i + 1, ft_strlen(*tmp_buff))) == NULL)
+	if ((tmp = ft_strsub(*tmp_buff, i + 1, ft_strlen(*tmp_buff) - (i + 1))) == NULL)
 		return (-1);
 	ft_strdel(tmp_buff);
 	if (join_buff(tmp_buff, tmp) == -1)

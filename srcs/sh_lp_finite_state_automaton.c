@@ -83,6 +83,7 @@ int 				finite_state_automaton(char **read_buff, t_e_list **l_expr,
 	state = STANDARD;
 	while (*read_buff && **read_buff)
 	{
+		ft_putchar(**read_buff); //debug
 		state = get_state(state, read_buff);
 		if (state == STANDARD)
 			state_standard(read_buff, data_tmp, &bln, l_expr);
@@ -92,5 +93,6 @@ int 				finite_state_automaton(char **read_buff, t_e_list **l_expr,
 			state_dquote(read_buff, data_tmp);
 		(*read_buff)++;
 	}
+	ft_putendl("");
 	return (TRUE);
 }

@@ -69,14 +69,17 @@ int					exec_test(int argc, char **argv, t_line *stline, t_history *history)
 	{
 		ft_putendl("************ START CMD ************");
 		display_prompt_without_color();
-		ft_strdel(&(stline->line));
 		ft_putstr("[");
 		ft_putstr(line);
 		ft_putendl("]");
+		ft_strdel(&(stline->line));
 		stline->line = ft_strdup(line);
 		check_after_read(stline, &history);
+		printf ("line : ((%s)) stline ((%s))\n", line, stline->line);
 		ft_strdel(&line);
 		ft_putendl("************ END CMD ************");
+	ft_putendl("");
+	ft_putendl("");
 	}
 	if (line)
 	{
@@ -90,8 +93,10 @@ int					exec_test(int argc, char **argv, t_line *stline, t_history *history)
 		check_after_read(stline, &history);
 		ft_strdel(&line);
 		ft_putendl("************ END CMD ************");
+	ft_putendl("");
 	}
 	ft_putendl("------------- END TEST -------------");
+	ft_putendl("");
 	close(fd);
 	exit(EXIT_SUCCESS);
 	return (TRUE);
