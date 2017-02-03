@@ -62,6 +62,7 @@ int					fd_open(int	*fd, t_node *tree, t_lst_fd **lstfd)
 	{
 		ft_putstr_fd("21sh: ", 2);
 		ft_putstr_fd(filename, 2);
+		ft_strdel(&filename);
 		if (ret <= 0)
 			ft_putendl_fd(": no such file or directory", 2);
 		else
