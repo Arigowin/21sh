@@ -17,6 +17,8 @@ int			free_tab(char ***tab)
 	int			i;
 	int			len;
 
+	if (!tab || !*tab)
+		return (-1);
 	i = 0;
 	len = tbl_len(*tab);
 	while (i < len)

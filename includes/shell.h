@@ -279,7 +279,7 @@ int						handle_fork(int pipefd_tab[2][2], t_node *tree, t_lst_fd **lstfd);
 /*
 ** sh_cmd_line_assemble
 */
-int						check_fct(char **cmd);
+int						check_fct(int fd, char **cmd);
 
 /*
 ** sh_bi_env

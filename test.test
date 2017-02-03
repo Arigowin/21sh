@@ -33,5 +33,5 @@ ls -l | cat -n
 ls -l | cat -n | wc
 cd / ; ls -1 ; cd - ; ls -lA
 bonjour
-echo "bonjour" > existe
-rm existe
+echo "bonjour" > exist
+rm exist

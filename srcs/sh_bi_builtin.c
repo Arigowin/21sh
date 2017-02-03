@@ -73,15 +73,15 @@ int					is_builtin(char **cmd)
 	int					i;
 
 	i = 0;
+	if (cmd)
+	//dprintf(2, "***************BI : (%s)****************************\n", cmd[0]);
 	while (i < 6)
 	{
 		if (ft_strcmp(cmd[0], bi[i]) == 0)
 			return (i);
 		i++;
 	}
-
-
-	/* MSG ret: ERROR exit: FALSE msg: "command not found: cmd." */
+	/* juste un return ERROR -> pas de message rien a faire */
 	return (ERROR);
 }
 

@@ -6,93 +6,123 @@
 #include "shell.h"
 #include "libft.h"
 
-int					fd_open(t_node *tree, t_lst_fd **lstfd, types type)
+int					fd_open(int	*fd, t_node *tree, t_lst_fd **lstfd)
 {
 	if (DEBUG_TREE == 1)
 		ft_putendl_fd("------- FD OPEN -------", 2);
 
-	int					fd;
+	(void)lstfd;
+
+	static int			fd_save = 0;
+	int					ret;
 	int					flags;
 	char 				*filename;
+	types				type;
+	t_node				*node;
 
 	filename = NULL;
+	node = NULL;
 	flags = -1;
-	flags = (type == RRED ?  O_RDWR | O_TRUNC | O_CREAT : flags);
-	flags = (type == DRRED ?  O_RDWR | O_APPEND | O_CREAT : flags);
-	flags = (type == LRED ? O_RDWR : flags);
-	if (tree && tree->data)
-		if ((filename = ft_strdup(tree->data)) == NULL)
+	ret = 0;
+	fd_save = (*fd == -2 ? 0 : fd_save);
+	if (fd_save == -1)
+	{
+		close(*fd);
+		*fd = -1;
+	}
+	fd_save = *fd;
+	if ((type = tree->type) == DLRED)
+		return (FALSE);
+	if (tree && tree->right)
+		node = (tree->right->type == RED_ARG ? tree->right : tree->right->right);
+	flags = (type == RRED ?  O_WRONLY | O_TRUNC | O_CREAT : flags);
+	flags = (type == DRRED ?  O_WRONLY | O_APPEND | O_CREAT : flags);
+	flags = (type == LRED ? O_RDONLY : flags);
+	if (*fd == -1)
+		return (FALSE);
+	if (node && node->data)
+		if ((filename = ft_strdup(node->data)) == NULL)
 			return (ERROR);
 	/* MSG ret: ERROR exit: TRUE msg: "malloc fail" */
-	/* free : tree + lstfd */
-	if (tree && tree->data && tree->data[0] == '&')
-		fd = (ft_strcmp("&-", tree->data) == 0 ? -42 : ft_atoi(filename + 1));
+	/* free : node + lstfd */
+	if (node && node->data && node->data[0] == '&')
+		*fd = (ft_strcmp("&-", node->data) == 0 ? -42 : ft_atoi(filename + 1));
 	else
 	{
-		if (type == LRED && access(filename, F_OK) == ERROR)
+		if (type == LRED)
+		   ret = access(filename, F_OK);
+		*fd = ret;
+		if (ret >= 0)
 		{
-			ft_strdel(&filename);
-			return (ERROR);
+			fd_save = open(filename, flags,	S_IRUSR | S_IWUSR | S_IRGRP | S_IROTH);
+			*fd = fd_save;
 		}
-		fd = open(filename, flags,	S_IRUSR | S_IWUSR | S_IRGRP | S_IROTH);
 	}
-	lstfd_pushbck(lstfd, fd, filename);
-	ft_strdel(&filename);
-	if (fd == -1)
-		return (ERROR);
-	/* MSG ret: ERROR exit: FALSE msg: "filename + permission denied" */
-	return (TRUE);
-}
-
-int					file_exist(t_node *tree)
-{
-	if (DEBUG_TREE == 1)
-		ft_putendl_fd("------- FILE EXIST -------", 2);
-
-	if (tree && tree->type == LRED)
+	if (*fd == -1)
 	{
-		if (tree->right && access(tree->right->data, F_OK) == ERROR)
-		{
-			ft_putstr_fd("21sh LRED : ", 2);
-			ft_putstr_fd(tree->right->data, 2);
+		ft_putstr_fd("21sh: ", 2);
+		ft_putstr_fd(filename, 2);
+		if (ret <= 0)
 			ft_putendl_fd(": no such file or directory", 2);
-			return (ERROR);
-		}
-	}
-	if (tree && tree->right)
-	{
-		if (file_exist(tree->right) == ERROR)
-			return (ERROR);
-	}
-	if (tree && tree->left)
-	{
-		if (file_exist(tree->left) == ERROR)
-			return (ERROR);
+		else
+			ft_putendl_fd(": permission denied", 2);
+		return (FALSE);
 	}
 	return (TRUE);
 }
 
-int					manage_red_fd(t_node *tree, t_lst_fd **lstfd, types type)
+int 				push_in_lstfd(t_node *tree, t_lst_fd **lstfd, int fd, int *fd_save)
+{
+	char				*filename;
+
+	if (*fd_save == -1)
+	{
+		close(fd);
+		fd = -1;
+	}
+	*fd_save = fd;
+	if (tree && (tree->type == RRED || tree->type == DRRED || tree->type == LRED) && tree->right)
+	{
+		filename = (tree->right->type == RED_ARG ? tree->right->data : tree->right->right->data);
+		lstfd_pushfront(lstfd, fd, filename);
+		if (fd == -1)
+			return (FALSE);
+	}
+	return (TRUE);
+}
+
+int					manage_red_fd(int fd, t_node *tree, t_lst_fd **lstfd, types type)
 {
 	if (DEBUG_TREE == 1)
 		ft_putendl_fd("------- MANAGE RED FD -------", 2);
 
 	int					ret;
+	static int			fd_save = 0;
+	t_lst_fd			*pipe_fd;
+	t_lst_fd			*tmp;
 
-	ret = TRUE;
-	file_exist(tree);
+	pipe_fd = NULL;
+	fd_save = (fd == -2 ? 0 : fd_save);
+	if (tree && tree->type == PIPE)
+	{
+		tmp = *lstfd;
+		while (pipe_fd && tmp && tmp != pipe_fd)
+		{
+			tmp = tmp->next;
+		}
+		pipe_fd = *lstfd;
+		fd = -2;
+	}
 	if (tree && (tree->type == RRED || tree->type == DRRED || tree->type == LRED || tree->type == DLRED))
-		type = tree->type;
-	if (tree && tree->type == RED_ARG && type != DLRED)
-		if ((ret = fd_open(tree, lstfd, type)) != TRUE)
+		if ((ret = fd_open(&fd, tree, lstfd)) == ERROR)
 			return (ret);
+	if (tree && tree->right && tree->type == PIPE)
+		if ((ret = manage_red_fd(fd, tree->right, lstfd, type)) ==  ERROR)
+			fd = -1;
 	if (tree && tree->left)
-		if (manage_red_fd(tree->left, lstfd, type) == ERROR)
-			return (ERROR);
-	if (tree && tree->right)
-		if ((ret = manage_red_fd(tree->right, lstfd, type)) != TRUE)
-			return (ret);
-	return (TRUE);
+		if ((ret = manage_red_fd(fd, tree->left, lstfd, type)) == ERROR)
+			fd = -1;
+	return (push_in_lstfd(tree, lstfd, fd, &fd_save));
 }
 
 //	créer 3 fct tree_travers_semi tree_travers_pipe tree_travers_cmd
@@ -120,19 +150,19 @@ int					tree_traversal(t_node *tree, t_lst_fd **lstfd, int pipefd_tab[2][2])
 	}
 
 	if (tree && tree->type != SEMI && lstfd && *lstfd == NULL)
-		manage_red_fd(tree, lstfd, NONE);
+		manage_red_fd(-2, tree, lstfd, NONE);
 
 		//ANTIBUG
-//		if (DEBUG_ANTIBUG == 0)
-//		{
-//			t_lst_fd *tmp = *lstfd;
-//			while(tmp){
-//				printf("in pipe [filename->%s]--[fd->%d]\n", tmp->filename, tmp->fd);
-//				tmp=tmp->next;
-//			}
-//			printf("next\n");
-//			//tmp = tmp->next;
-//		}
+		if (DEBUG_ANTIBUG == 1)
+		{
+			printf("lstfd :\n");
+			t_lst_fd *tmp = *lstfd;
+			while(tmp){
+				printf("in pipe [filename->%s]--[fd->%d]\n", tmp->filename, tmp->fd);
+				tmp=tmp->next;
+			}
+			//tmp = tmp->next;
+		}
 		//  fin ANTIBUG
 
 	if (tree->type == PIPE)
