@@ -52,7 +52,7 @@ int					check_command(int *nb_hrd, t_e_list **l_expr, t_node **tree)
 		*tree = save;
 	if ((*l_expr)->type == CMD)
 	{
-		if ((node->data = ft_strdup_ignchar((*l_expr)->data, '\\')) == NULL)
+		if ((node->data = ft_strdup((*l_expr)->data)) == NULL)
 		{
 			clear_node(&node); // verif_si_ok
 			return (FALSE);
@@ -100,7 +100,7 @@ int					check_c_pipe(int *nb_hrd, t_e_list **l_expr, t_node **tree)
 	{
 		if ((*l_expr)->type == PIPE)
 		{
-			node->data = ft_strdup_ignchar((*l_expr)->data, '\\');
+			node->data = ft_strdup((*l_expr)->data);
 			*tree = node;
 			if (!(move_in_list(l_expr) && check_c_pipe(nb_hrd, l_expr, &(node->right))))
 			{
@@ -159,7 +159,7 @@ int					check_expr(int *nb_hrd, t_e_list **l_expr, t_node **tree)
 		}
 		if ((*l_expr)->type == SEMI)
 		{
-			node->data = ft_strdup_ignchar((*l_expr)->data, '\\');
+			node->data = ft_strdup((*l_expr)->data);
 			*tree = node;
 			//			clear_node(&node);
 			if (move_in_list(l_expr))

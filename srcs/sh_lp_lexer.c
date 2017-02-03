@@ -7,7 +7,7 @@
 
 static int			waka_land_handler(t_e_list **l_expr, char (*tmp)[], int *i)
 {
-	if (DEBUG_LEXER_PARSER == 1)
+	if (DEBUG_LEXER == 1)
 		ft_putendl_fd("------- WAKA LAND HANDLER ------", 2);
 
 	t_e_list			*new;
@@ -42,7 +42,7 @@ static int			waka_land_handler(t_e_list **l_expr, char (*tmp)[], int *i)
 
 static int			red_fd_copy(t_e_list **l_expr, char (*tmp)[], int *i)
 {
-	if (DEBUG_LEXER_PARSER == 1)
+	if (DEBUG_LEXER == 1)
 		ft_putendl_fd("------- RED FD COPY ------", 2);
 
 	while (*i < 11 && ft_isdigit(((*l_expr)->data)[*i]))
@@ -55,7 +55,7 @@ static int			red_fd_copy(t_e_list **l_expr, char (*tmp)[], int *i)
 
 static int			waka_lexer(t_e_list **l_expr)
 {
-	if (DEBUG_LEXER_PARSER == 1)
+	if (DEBUG_LEXER == 1)
 		ft_putendl_fd("------- WAKA LEXER ------", 2);
 
 	int					i;
@@ -94,7 +94,7 @@ static int			waka_lexer(t_e_list **l_expr)
 
 static int			type_analyzer2(t_e_list **l_expr, int *boule)
 {
-	if (DEBUG_LEXER_PARSER == 1)
+	if (DEBUG_LEXER == 1)
 		ft_putendl_fd("------- TYPE ANALYZER2 ------", 2);
 
 	if (l_expr && *l_expr) // ajout naima
@@ -121,7 +121,7 @@ static int			type_analyzer2(t_e_list **l_expr, int *boule)
 
 static int			type_analyzer(t_e_list **l_expr, int boule)
 {
-	if (DEBUG_LEXER_PARSER == 1)
+	if (DEBUG_LEXER == 1)
 		ft_putendl_fd("------- TYPE ANALYZER ------", 2);
 
 	while (l_expr && *l_expr && (*l_expr)->next)
@@ -150,7 +150,7 @@ static int			type_analyzer(t_e_list **l_expr, int boule)
 
 int					lexer(t_e_list **l_expr)
 {
-	if (DEBUG_LEXER_PARSER == 1)
+	if (DEBUG_LEXER == 1)
 		ft_putendl_fd("------- LEXER 2 ------", 2);
 
 	t_e_list			*tmp;
@@ -173,7 +173,7 @@ int					lexer(t_e_list **l_expr)
 	type_analyzer(&tmp, boule);
 
 	// ANTIBUG!!!!!!
-	if (DEBUG_LEXER_PARSER == 1)
+	if (DEBUG_LEXER == 1)
 	{
 		t_e_list *tmp2 = *l_expr;
 		while (tmp2)

@@ -3,7 +3,7 @@
 
 static states		get_state(states state, char **read_buff)
 {
-	if (DEBUG_LEXER_PARSER == 1)
+	if (DEBUG_TOKEN == 1)
 		ft_putendl_fd("------- GET STATE ------", 2);
 
 	if (state == STANDARD && **read_buff == '"')
@@ -23,8 +23,8 @@ static states		get_state(states state, char **read_buff)
 static int			state_standard(char **read_buff, char **data_tmp,
 								   int *bln, t_e_list **l_expr)
 {
-	if (DEBUG_LEXER_PARSER == 1)
-		ft_putendl_fd("------- LEXER STANDARD ------", 2);
+	if (DEBUG_TOKEN == 1)
+		ft_putendl_fd("------- STATE STANDARD ------", 2);
 
 	if (**read_buff == DQUOTE)
 		return (FALSE);
@@ -47,8 +47,8 @@ static int			state_standard(char **read_buff, char **data_tmp,
 
 static int			state_quote(char curr_char, char **data_tmp)
 {
-	if (DEBUG_LEXER_PARSER == 1)
-		ft_putendl_fd("------- LEXER QUOTE ------", 2);
+	if (DEBUG_TOKEN == 1)
+		ft_putendl_fd("------- STATE QUOTE ------", 2);
 
 	if (curr_char != QUOTE)
 		add_in_tbl(data_tmp, curr_char);
@@ -57,8 +57,8 @@ static int			state_quote(char curr_char, char **data_tmp)
 
 static int			state_dquote(char **read_buff, char **data_tmp)
 {
-	if (DEBUG_LEXER_PARSER == 1)
-		ft_putendl_fd("------- LEXER DQUOTE ------", 2);
+	if (DEBUG_TOKEN == 1)
+		ft_putendl_fd("------- STATE DQUOTE ------", 2);
 
 	if (**read_buff == DQUOTE)
 		return (FALSE);
@@ -74,7 +74,7 @@ static int			state_dquote(char **read_buff, char **data_tmp)
 int 				finite_state_automaton(char **read_buff, t_e_list **l_expr,
 										   char **data_tmp)
 {
-	if (DEBUG_LEXER_PARSER == 1)
+	if (DEBUG_TOKEN == 1)
 		ft_putendl_fd("------- FINITE STATE AUTOMATON ------", 2);
 	int					bln;
 	states				state;

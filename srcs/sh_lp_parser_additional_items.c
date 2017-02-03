@@ -8,7 +8,7 @@ static int			filled_red_arg(t_e_list **l_expr, t_node **node)
 	if (DEBUG_PARSER == 1)
 		ft_putendl_fd("------- FILLED RED ARG ------", 2);
 
-	if (((*node)->data = ft_strdup_ignchar((*l_expr)->data, '\\')) == NULL)
+	if (((*node)->data = ft_strdup((*l_expr)->data)) == NULL)
 	{
 //		clear_node(node); //ok
 		return (FALSE);
@@ -83,7 +83,7 @@ int					check_red(int *nb_hrd, t_e_list **l_expr, t_node **tree)
 	if ((*l_expr)->type == RED && (node = create_node(RED)) != NULL
 			&& move_in_list(l_expr) && ((red_ret = check_red_arg(l_expr, &(node->right))) == TRUE))
 	{
-		if ((node->data = ft_strdup_ignchar(list_save->data, '\\')) == NULL)
+		if ((node->data = ft_strdup(list_save->data)) == NULL)
 		{
 			//	clear_node(&node);
 			return (FALSE);
@@ -132,7 +132,7 @@ int					check_arg(int *nb_hrd, t_e_list **l_expr, t_node **tree,
 	if ((*l_expr)->type == CMD_ARG && ((node = create_node(CMD_ARG)) != NULL))
 	{
 		dprintf(2, "************************************** data:(%s) *********************\n", (*l_expr)->data);
-		if ((node->data = ft_strdup_ignchar((*l_expr)->data, '\\')) == NULL)
+		if ((node->data = ft_strdup((*l_expr)->data)) == NULL)
 		{
 			//	clear_node(&node);
 			return (FALSE);

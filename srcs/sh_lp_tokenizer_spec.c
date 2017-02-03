@@ -3,8 +3,8 @@
 
 int					token_backslash(char **read_buff, char **data_tmp)
 {
-	if (DEBUG_LEXER_PARSER == 1)
-		ft_putendl_fd("------- LEXER BACKSLASH ------", 2);
+	if (DEBUG_TOKEN == 1)
+		ft_putendl_fd("------- TOKEN BACKSLASH ------", 2);
 
 	if (**read_buff == '\\' && (*(*read_buff + 1)) && (*(*read_buff + 1)) == '\n')
 	{
@@ -12,7 +12,7 @@ int					token_backslash(char **read_buff, char **data_tmp)
 	}
 	else
 	{
-		add_in_tbl(data_tmp, **read_buff);
+//		add_in_tbl(data_tmp, **read_buff);
 		(*read_buff)++;
 		add_in_tbl(data_tmp, **read_buff);
 	}
@@ -21,8 +21,8 @@ int					token_backslash(char **read_buff, char **data_tmp)
 
 int					token_dollar(char **read_buff, char **data_tmp)
 {
-	if (DEBUG_LEXER_PARSER == 1)
-		ft_putendl_fd("------- LEXER DOLLAR ------", 2);
+	if (DEBUG_TOKEN == 1)
+		ft_putendl_fd("------- TOKEN DOLLAR ------", 2);
 
 	char 				*env_name;
 	char 				*env_val;
@@ -32,11 +32,12 @@ int					token_dollar(char **read_buff, char **data_tmp)
 	env_val = NULL;
 	tmp = NULL;
 	(*read_buff)++;
+	dprintf(2, ">>>>>>>>>>>>(%s)<<<<<<\n", *read_buff);
 	if ((env_name = ft_strnew(ft_strlen(*read_buff))) == NULL)
 		return (ERROR);
 		/* MSG ret: ERROR exit: FALSE msg: "malloc fail"
 		 * free: read_buff + data_tmp */
-	while (ft_strchr(SEP, **read_buff) == NULL)
+	while (ft_strchr(SEP, **read_buff) == NULL && **read_buff != QUOTE && **read_buff != DQUOTE)
 	{
 		add_in_tbl(&env_name, **read_buff);
 		(*read_buff)++;
@@ -73,8 +74,8 @@ int					token_dollar(char **read_buff, char **data_tmp)
 
 int					token_tilde(char **read_buff, char **data_tmp, int *bln)
 {
-	if (DEBUG_LEXER_PARSER == 1)
-		ft_putendl_fd("------- LEXER TILDE ------", 2);
+	if (DEBUG_TOKEN == 1)
+		ft_putendl_fd("------- TOKEN TILDE ------", 2);
 
 	char 				*env_val;
 	char 				*tmp;

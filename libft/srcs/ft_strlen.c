@@ -19,10 +19,12 @@ int				ft_strlen(const char *s)
 
 	cpt = 0;
 	if (s)
+	{
 		while (*s != '\0')
 		{
 			cpt++;
 			s++;
 		}
+	}
 	return (cpt);
 }

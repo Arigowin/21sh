@@ -157,7 +157,7 @@ int					handle_fork(int pipefd_tab[2][2], t_node *tree,
 	{
 		if (tree && tree->left && *lstfd && (ret = redirect(tree->left, *lstfd)))
 		{
-			if (ret == ERROR)
+			if (ret == ERROR || (*lstfd)->fd == -1)
 			{
 			/* RET: error EXIT: false MSG: "i don't know" */
 				reset_std_fd();

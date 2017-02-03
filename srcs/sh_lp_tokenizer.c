@@ -19,7 +19,7 @@ static int			pushbck_cdt(char **read_buff, char **data_tmp)
 
 int					concat(char **dest, char *s1, char *s2)
 {
-	if (DEBUG_LEXER_PARSER == 1)
+	if (DEBUG_TOKEN == 1)
 		ft_putendl_fd("------- EXPR PUSHBK ------", 2);
 
 	if (!(dest && *dest))
@@ -40,7 +40,7 @@ int					concat(char **dest, char *s1, char *s2)
 int 				token_sep(char **read_buff, char **data_tmp,
 					t_e_list **l_expr)
 {
-	if (DEBUG_LEXER_PARSER == 1)
+	if (DEBUG_TOKEN == 1)
 		ft_putendl_fd("------- TOKEN SEP ------", 2);
 
 	if (pushbck_cdt(read_buff, data_tmp))
@@ -68,10 +68,11 @@ int 				token_sep(char **read_buff, char **data_tmp,
 
 int					tokenizer(char *read_buff, t_e_list **l_expr)
 {
-	if (DEBUG_LEXER_PARSER == 1)
+	if (DEBUG_TOKEN == 1)
 		ft_putendl_fd("------- LEXER 1 ------", 2);
 	char 				*data_tmp;
 
+	printf ("~~~~~~~~~~(%s)~~~~~~~~~~~\n", read_buff);
 	data_tmp = ft_strnew(ft_strlen(read_buff));
 	finite_state_automaton(&read_buff, l_expr, &data_tmp);
 	if (*data_tmp)
@@ -82,7 +83,7 @@ int					tokenizer(char *read_buff, t_e_list **l_expr)
 	ft_strdel(&data_tmp);
 
 	// ANTIBUG !!!!!!!!!
-	if (DEBUG_LEXER_PARSER == 1)
+	if (DEBUG_TOKEN == 0)
 	{
 		t_e_list *tmp = *l_expr;
 		while (tmp)
@@ -90,7 +91,7 @@ int					tokenizer(char *read_buff, t_e_list **l_expr)
 			printf("[%s] -> ", tmp->data);
 			tmp = tmp->next;
 		}
-		ft_putendl("");
+		printf ("\n");
 	}
 	//ft_strdel(&data_tmp); // MALLOC_FREE_OK // a priori
 	// fin  ANTIBUG !!!!!!!!!
