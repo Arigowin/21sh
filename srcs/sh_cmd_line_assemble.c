@@ -60,6 +60,12 @@ int					check_fct(int fd, char **cmd)
 	while (path[i])
 	{
 		tmp = join_exe(path[i], cmd[0]);
+		if (access(tmp, F_OK) != ERROR && access(tmp, X_OK) == ERROR)
+		{
+			ft_putstr_fd("21sh: ", 2);
+			ft_putstr_fd(cmd[0], 2);
+			ft_putendl_fd(": Permission denied", 2);
+		}
 		execve(tmp, cmd, tbl_env);
 		free(tmp);
 		i++;

@@ -63,7 +63,7 @@ void				add_history(t_history **history, char *line)
 		new->prev = *history;
 		*history = new;
 	}
-	savior_history(*history, TRUE);
+	savior_history(history, TRUE);
 }
 
 static int			remove_backslach_eol(char **line)

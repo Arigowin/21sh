@@ -49,14 +49,14 @@ t_node				*savior_tree(t_node *tree, int code)
 	return (save);
 }
 
-t_history			*savior_history(t_history *env, int code)
+t_history			**savior_history(t_history **history, int code)
 {
 	if (DEBUG_SAVIOR == 1)
 		ft_putendl_fd("------- SAVIOR HISTORY -------", 2);
 
-	static t_history		*save = NULL;
+	static t_history		**save = NULL;
 
-	if ((save == NULL && env) || code == TRUE)
-		save = env;
+	if ((save == NULL && history) || code == TRUE)
+		save = history;
 	return (save);
 }

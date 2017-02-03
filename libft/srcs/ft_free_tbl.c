@@ -17,7 +17,7 @@ void		ft_free_tbl_s(char **tbl)
 	int			i;
 
 	i = 0;
-	while (tbl != NULL)
+	while (tbl != NULL && tbl[i] != NULL)
 	{
 		free(tbl[i]);
 		i++;

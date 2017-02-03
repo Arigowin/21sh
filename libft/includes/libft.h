@@ -124,6 +124,7 @@ char					*srch_begining(const char *str, int c);
 char					*srch_value(const char *str, int c);
 int						duo_pushback(t_duo **lst, char *name, char *value);
 int						duo_del(t_duo **lst);
+int						last_duol_del(t_duo **lst);
 char	        		**duo_to_tbl(t_duo *lst, char *sep);
 int						free_duo(t_duo **lst);
 int						free_lst(t_list **lst);

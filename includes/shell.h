@@ -193,7 +193,7 @@ t_duo					*savior(t_duo *env, int code);
 t_line					*savior_stline(t_line *stline, int code);
 char					*savior_tty(char *tty, int code);
 t_node					*savior_tree(t_node *tree, int code);
-t_history				*savior_history(t_history *env, int code);
+t_history				**savior_history(t_history **history, int code);
 
 /*
 ** sh_init
@@ -299,6 +299,7 @@ int						bi_echo(char **arg, t_duo **env);
 /*
 ** sh_bi_setenv
 */
+int						valid_env_name(char *str);
 int						bi_setenv(char **arg, t_duo **env);
 
 /*

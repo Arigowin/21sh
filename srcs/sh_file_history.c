@@ -138,7 +138,7 @@ int					save_history(void)
 
 	path = NULL;
 	fd = -1;
-	history = savior_history(NULL, FALSE);
+	history = *(savior_history(NULL, FALSE));
 	home = get_env("HOME");
 	if (home)
 		path = ft_strjoin(home, HISTORY_FILE_NAME);
