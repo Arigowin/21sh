@@ -42,7 +42,7 @@ int 				pfd_handler(int pipefd_tab[2][2])
 	return (TRUE);
 }
 
-int					check_builtin(char **cmd, int pipefd_tab[2][2],
+int					check_builtin(int fd, char **cmd, int pipefd_tab[2][2],
 					t_lst_fd **lstfd)
 {
 	if (DEBUG == 1)
@@ -50,6 +50,8 @@ int					check_builtin(char **cmd, int pipefd_tab[2][2],
 
 	int					ret;
 
+	if (fd == -1)
+		return (FALSE);
 	(void)*pipefd_tab;
 	ret = -1;
 	if (is_builtin(cmd) != -1)
@@ -100,21 +102,25 @@ int					son(char **cmd, int pipefd_tab[2][2], t_node *tree,
 {
 	if (DEBUG == 1)
 		ft_putendl_fd("------- SON ------", 2);
+	int 				ret;
+	int 				fd;
 
-	//dprintf(2, "tttttttttttttttttttttttttttttt (%p)\n", *lstfd);
+	fd = (lstfd && *lstfd ? (*lstfd)->fd : -2);
+	ret = TRUE;
 	pfd_handler(pipefd_tab);
-//	if (lstfd && *lstfd)
 	if ((pipefd_tab[0][0] >= 0 || pipefd_tab[1][0] >= 0) && tree && tree->left
-	&& lstfd && *lstfd && redirect(tree->left, *lstfd) == ERROR)
-		/* RET: error EXIT: false MSG: "i don't know" */
-		return (ERROR);
-	if (check_builtin(cmd, pipefd_tab, NULL) == TRUE)
+	&& lstfd && *lstfd && (ret = redirect(tree->left, *lstfd)))
 	{
-		exit(EXIT_SUCCESS);
-		return (TRUE);
+		if (ret == ERROR)
+		/* RET: error EXIT: false MSG: "i don't know" */
+			return (ERROR);
+		if (ret == FALSE)
+			exit(EXIT_FAILURE);
 	}
+	if (lstfd && check_builtin(fd, cmd, pipefd_tab, lstfd) == TRUE)
+		exit(EXIT_SUCCESS);
 	check_signal(2);
-	check_fct(cmd);
+	check_fct(fd, cmd);
 	/* RET: error EXIT: true MSG: "command not found" */
 
 	// appeler la fonction d'erreur
@@ -134,26 +140,33 @@ int					handle_fork(int pipefd_tab[2][2], t_node *tree,
 	pid_t				fpid;
 	char				**cmd;
 	int					ret;
+	int					fd;
 
 	fpid = -1;
 	cmd = NULL;
 	ret = -1;
+	fd = (lstfd && *lstfd ? (*lstfd)->fd : -2);
 	if ((cmd = format_cmd(tree)) == NULL)
 		return (ERROR);
+	dprintf(2, "pfd (((%d-%d)))\n", pipefd_tab[0][0], pipefd_tab[1][0]);
 	if (pipefd_tab[0][0] < 0 && pipefd_tab[1][0] < 0)
 	{
+	dprintf(2, "zzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz\n");
 		//dprintf(2, "tree : ((%s))\tlstfd : ((%s))\n", tree->left->data, (*lstfd)->filename);
-		// interieur du if a mettre dans une fonction
-		if (tree && tree->left && *lstfd && redirect(tree->left, *lstfd) == ERROR)
+		if (tree && tree->left && *lstfd && (ret = redirect(tree->left, *lstfd)))
 		{
+			if (ret == ERROR)
 			//			close_fd_red(&lstfd, saved_std);
 			/* RET: error EXIT: false MSG: "i don't know" */
-			return (ERROR);
+				return (ERROR);
+			if (ret == FALSE)
+				return (FALSE);
 		}
 		else if (tree && tree->left && tree->left->type == DLRED && redirect(tree->left, NULL) == ERROR)
 			return (ERROR);
 		savior_tree(tree, TRUE); // TRES IMPORTANT SAVIOR TREE TRUE ICI !!!!
-		if ((ret = check_builtin(cmd, pipefd_tab, NULL)) == TRUE)
+	dprintf(2, "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa\n");
+		if ((ret = check_builtin(fd, cmd, pipefd_tab, NULL)) == TRUE)
 			return (TRUE);
 		if (ret == ERROR)
 			// useless return

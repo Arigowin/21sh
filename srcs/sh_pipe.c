@@ -3,8 +3,6 @@
 #include "shell.h"
 #include "libft.h"
 
-
-
 int					pipe_function(int pipefd_tab[2][2], t_node *tree,
 		t_lst_fd **lstfd)
 {

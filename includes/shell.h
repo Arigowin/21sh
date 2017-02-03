@@ -9,7 +9,7 @@
 #define DEBUG_PARSER 0
 #define DEBUG_SAVIOR 0
 #define DEBUG_TREE_CREATION 0
-#define DEBUG_TREE 0
+#define DEBUG_TREE 1
 #define DEBUG_TERMCAPS 0
 #define DEBUG_HISTORY 0
 #define DEBUG_PIPE 0
@@ -278,7 +278,7 @@ int						handle_fork(int pipefd_tab[2][2], t_node *tree, t_lst_fd **lstfd);
 /*
 ** sh_cmd_line_assemble
 */
-int						check_fct(char **cmd);
+int						check_fct(int fd, char **cmd);
 
 /*
 ** sh_bi_env

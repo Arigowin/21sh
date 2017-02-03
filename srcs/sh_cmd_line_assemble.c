@@ -17,9 +17,9 @@ static char			*join_exe(char *s1, char *s2)
 	return (rlt);
 }
 
-int					check_fct(char **cmd)
+int					check_fct(int fd, char **cmd)
 {
-	if (DEBUG == 1)
+//	if (DEBUG == 1)
 		ft_putendl_fd("------- CHECK FCT------", 2);
 
 	char				**path;
@@ -28,15 +28,17 @@ int					check_fct(char **cmd)
 	int					i;
 	char				**tbl_env;
 
+	if (fd == -1)
+		return (FALSE);
 	path = NULL;
 	env = savior(NULL, FALSE);
 	tbl_env = duo_to_tbl(env, "=");
 	tmp = get_env("PATH");
 	if (tmp == NULL || tbl_env == NULL)
-		/* RET: error EXIT: true MSG: "malloc fail" */
+		/* RET: error EXIT: true MSG: "env not set" */
 		return (ERROR);
 	if ((path = ft_strsplit(tmp, ':')) == NULL)
-		/* RET: error EXIT: true MSG: "malloc fail" */
+		/* RET: error EXIT: true MSG: "split fail" */
 		return (ERROR);
 	free(tmp);
 	i = 0;
