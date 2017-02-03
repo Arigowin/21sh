@@ -131,6 +131,7 @@ int					bi_cd(char **arg, t_duo **env)
 	}
 	else
 		ret = change_dir(arg[i]);
+	ft_strdel(&tmp);
 	tmp = get_env("PWD");
 	if (ret == TRUE)
 	{

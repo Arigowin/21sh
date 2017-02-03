@@ -105,7 +105,7 @@ int					handle_builtin(char **cmd)
 		if ((ret = tbl_bi[i](cmd, &env)) == ERROR)
 			/* MSG ret: ERROR exit: FALSE msg: "command not found: cmd." */
 			return (ERROR);
-		else
+		else // pas necessaire ? puisqu ' on return avant
 			return (ret);
 	}
 	return (FALSE);

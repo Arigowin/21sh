@@ -9,10 +9,9 @@
 //out = 0 => on continue - out = 1 => on quitte
 int					sh_error(int ret_code, char *msg, int out)
 {
-	t_duo				**env;
+	t_duo				*env;
 
-	env = NULL;
-	*env = savior(NULL, FALSE);
+	env = savior(NULL, FALSE);
 	if (ret_code == TRUE)
 		return (TRUE);
 	else if (ret_code == FALSE)
@@ -20,7 +19,7 @@ int					sh_error(int ret_code, char *msg, int out)
 		if (msg != NULL)
 			ft_putendl(msg);
 		if (out == 1)
-			bi_exit(NULL, env);
+			bi_exit(NULL, &env);
 		return(FALSE);
 	}
 	else if (ret_code == ERROR)
@@ -28,7 +27,7 @@ int					sh_error(int ret_code, char *msg, int out)
 		if (msg != NULL)
 			ft_putendl(msg);
 		if (out == 1)
-			bi_exit(NULL, env);
+			bi_exit(NULL, &env);
 		return (ERROR);
 	}
 	return (TRUE);

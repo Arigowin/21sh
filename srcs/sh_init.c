@@ -18,7 +18,10 @@ int					init_env(char **env, t_duo **env_cpy) //ok
 	if (tbl_len(env) == 0)
 		fill_path(&cpy);
 	if (cpy)
+	{
 		*env_cpy = tbl_to_duo(cpy, '=');
+		free_tab(&cpy);
+	}
 	else
 		*env_cpy = tbl_to_duo(env, '=');
 	if (env_cpy == NULL && *env_cpy == NULL)
@@ -27,7 +30,6 @@ int					init_env(char **env, t_duo **env_cpy) //ok
 		return (ERROR);
 	del_env(env_cpy, "OLDPWD");
 	savior(*env_cpy, TRUE);
-	free_tab(&cpy);
 	return (TRUE);
 }
 

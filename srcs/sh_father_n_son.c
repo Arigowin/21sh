@@ -100,6 +100,9 @@ int					father(int pipefd_tab[2][2])
 int					son(char **cmd, int pipefd_tab[2][2], t_node *tree,
 					t_lst_fd **lstfd)
 {
+	t_duo		*env;
+
+	env = savior(NULL, FALSE);
 	if (DEBUG == 1)
 		ft_putendl_fd("------- SON ------", 2);
 	int 				ret;
@@ -192,6 +195,7 @@ int					handle_fork(int pipefd_tab[2][2], t_node *tree,
 	else
 		father(pipefd_tab);
 	init_term();
-	free_tab(&cmd); // FREE_MALLOC_OK
+	if (cmd)
+		free_tab(&cmd); // FREE_MALLOC_OK
 	return (TRUE);
 }
