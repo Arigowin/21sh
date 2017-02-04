@@ -86,6 +86,7 @@ static int			get_line_in_file(int fd, t_history **history)
 		if (line_manager(&buff, line, &quote, history) == ERROR) // indirectly loss
 		{
 			ft_strdel(&line);
+			ft_strdel(&buff);
 			return (ERROR);
 		}
 		ft_strdel(&line);
@@ -95,10 +96,12 @@ static int			get_line_in_file(int fd, t_history **history)
 		if (line_manager(&buff, line, &quote, history) == ERROR)
 		{
 			ft_strdel(&line);
+			ft_strdel(&buff);
 			return (ERROR);
 		}
 		ft_strdel(&line);
 	}
+	ft_strdel(&buff);
 	return (TRUE);
 }
 
