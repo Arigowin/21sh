@@ -95,8 +95,12 @@ int					bi_env(char **arg, t_duo **env)
 	if (DEBUG_BUILTIN == 1)
 		ft_putendl_fd("------- BI ENV ------", 2);
 	int					len;
+	int					i;
 
 	len = tbl_len(arg);
+	i = 1;
+	if (check_opt(arg, &i) == ERROR)
+		return (ERROR);
 	if (len > 1)
 	{
 		if (modif_env(arg, *env, len) == ERROR)
