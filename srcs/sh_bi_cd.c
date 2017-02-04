@@ -27,7 +27,7 @@ static int			change_dir(char *path)
 		{
 			ft_putendl(": permission denied");
 		}
-		return (ERROR);
+		return (FALSE);
 	}
 	return (TRUE);
 }
@@ -43,7 +43,7 @@ int					cd_home()
 	if ((path = get_env("HOME")) == NULL)
 	{
 		ft_putendl_fd("21sh: cd: no HOME variable set.", 2);
-		return (ERROR);
+		return (FALSE);
 	}
 	ret = change_dir(path);
 	ft_strdel(&path);
@@ -71,7 +71,7 @@ int					bi_opt(char *arg, int *no_more, char *handled_opt)
 				ft_putstr_fd(arg, 2);
 				ft_putendl_fd(": invalid option.", 2);
 				//	cd_error(1, arg); // invalid option
-				return (ERROR);
+				return (FALSE);
 			}
 			i++;
 		}
@@ -81,10 +81,13 @@ int					bi_opt(char *arg, int *no_more, char *handled_opt)
 
 int					check_opt(char **arg, int *i)
 {
+	if (DEBUG_BUILTIN == 1)
+		ft_putendl_fd("------- CHECK OPT ------", 2);
+
 	int					no_more;
 	int					ret;
 
-	ret = FALSE;
+	ret = TRUE;
 	no_more = FALSE;
 	while (arg[*i] && arg[*i][0] && arg[*i][0] == '-' && arg[*i][1])
 	{
@@ -92,8 +95,8 @@ int					check_opt(char **arg, int *i)
 			break ;
 		(*i)++;
 	}
-	if (ret == ERROR)
-		return (ERROR);
+	if (ret == FALSE)
+		return (FALSE);
 	return (TRUE);
 }
 
@@ -112,10 +115,10 @@ int					bi_cd(char **arg, t_duo **env)
 	(void)env;
 	path = NULL;
 	tmp = get_env("OLDPWD");
-	if (check_opt(arg, &i) == ERROR)
+	if (check_opt(arg, &i) == FALSE)
 	{
 		ft_strdel(&tmp);
-		return (ERROR);
+		return (FALSE);
 	}
 	if (!arg[i])
 		ret = cd_home();
@@ -144,5 +147,5 @@ int					bi_cd(char **arg, t_duo **env)
 	}
 	ft_strdel(&path);
 	ft_strdel(&tmp);
-	return (ERROR);
+	return (FALSE);
 }

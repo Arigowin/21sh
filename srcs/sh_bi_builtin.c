@@ -81,8 +81,8 @@ int					is_builtin(char **cmd)
 			return (i);
 		i++;
 	}
-	/* juste un return ERROR -> pas de message rien a faire */
-	return (ERROR);
+	/* -1 car code special pas une ERROR (cmd != bultin)*/
+	return (-1);
 }
 
 int					handle_builtin(char **cmd)

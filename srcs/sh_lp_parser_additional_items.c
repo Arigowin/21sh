@@ -131,7 +131,6 @@ int					check_arg(int *nb_hrd, t_e_list **l_expr, t_node **tree,
 	save = *tree;
 	if ((*l_expr)->type == CMD_ARG && ((node = create_node(CMD_ARG)) != NULL))
 	{
-		dprintf(2, "************************************** data:(%s) *********************\n", (*l_expr)->data);
 		if ((node->data = ft_strdup((*l_expr)->data)) == NULL)
 		{
 			//	clear_node(&node);
