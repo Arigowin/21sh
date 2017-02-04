@@ -43,7 +43,8 @@ int					left_right_red(t_node *tree, t_lst_fd *lstfd, int stdfd)
 		tree = tree->right;
 	if (lstfd->fd == -42)
 	{
-		close(fd);
+		if (fd >= 0)
+			close(fd);
 		return (TRUE);
 	}
 	//dprintf (2, "[[[[[%d-%d]]]]]\n", lstfd->fd, fd);

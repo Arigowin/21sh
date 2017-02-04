@@ -59,6 +59,7 @@ int					exec_test(int argc, char **argv, t_line *stline, t_history *history)
 {
 	int					fd;
 	char				*line;
+	int					i;
 
 	line = NULL;
 	if (argc != 2)
@@ -67,35 +68,36 @@ int					exec_test(int argc, char **argv, t_line *stline, t_history *history)
 	ft_putendl("------------- START TEST -------------");
 	while (fd > -1 && get_next_line(fd, &line) > 0)
 	{
-		ft_putendl("************ START CMD ************");
 		display_prompt_without_color();
 		ft_putstr("[");
-		ft_putstr(line);
+		reset_stline(stline);
+		i = 0;
+		while (line && line[i])
+		{
+			fct_insert(&(stline->line), &(stline->pos), line[i], stline);
+			i++;
+		}
 		ft_putendl("]");
-		ft_strdel(&(stline->line));
-		stline->line = ft_strdup(line);
 		check_after_read(stline, &history);
-		printf ("line : ((%s)) stline ((%s))\n", line, stline->line);
 		ft_strdel(&line);
-		ft_strdel(&(stline->line));
-		ft_putendl("************ END CMD ************");
-	ft_putendl("");
-	ft_putendl("");
+		ft_putendl("");
+		ft_putendl("");
 	}
 	if (line)
 	{
-		ft_putendl("************START CMD ************");
 		display_prompt_without_color();
-		ft_strdel(&(stline->line));
 		ft_putstr("[");
-		ft_putstr(line);
+		reset_stline(stline);
+		i = 0;
+		while (line && line[i])
+		{
+			fct_insert(&(stline->line), &(stline->pos), line[i], stline);
+			i++;
+		}
 		ft_putendl("]");
-		stline->line = ft_strdup(line);
 		check_after_read(stline, &history);
 		ft_strdel(&line);
-		ft_strdel(&(stline->line));
-		ft_putendl("************ END CMD ************");
-	ft_putendl("");
+		ft_putendl("");
 	}
 	ft_putendl("------------- END TEST -------------");
 	ft_putendl("");

@@ -27,7 +27,8 @@ int					fd_open(int	*fd, t_node *tree, t_lst_fd **lstfd)
 	fd_save = (*fd == -2 ? 0 : fd_save);
 	if (fd_save == -1)
 	{
-		close(*fd);
+		if (*fd >= 0)
+			close(*fd);
 		*fd = -1;
 	}
 	fd_save = *fd;
@@ -77,7 +78,8 @@ int 				push_in_lstfd(t_node *tree, t_lst_fd **lstfd, int fd, int *fd_save)
 
 	if (*fd_save == -1)
 	{
-		close(fd);
+		if (fd >= 0)
+			close(fd);
 		fd = -1;
 	}
 	*fd_save = fd;

@@ -100,15 +100,18 @@ int					father(int pipefd_tab[2][2])
 int					son(char **cmd, int pipefd_tab[2][2], t_node *tree,
 					t_lst_fd **lstfd)
 {
-	t_duo		*env;
-
-	env = savior(NULL, FALSE);
 	if (DEBUG == 1)
 		ft_putendl_fd("------- SON ------", 2);
+
 	int 				ret;
 	int 				fd;
 
+	//if (lstfd && *lstfd)
+	//dprintf (2, "******************************(%d) (%s)*************************\n", (*lstfd)->fd, cmd[0]);
 	fd = (lstfd && *lstfd && tree->left ? (*lstfd)->fd : -2);
+//	if (lstfd && *lstfd)
+	//dprintf (2, "------------------------------(%d)-------------------------\n", (*lstfd)->fd);
+	//dprintf (2, "------------------------------(%d) (%s)-------------------------\n", fd, cmd[0]);
 	ret = TRUE;
 	pfd_handler(pipefd_tab);
 	if ((pipefd_tab[0][0] >= 0 || pipefd_tab[1][0] >= 0) && tree && tree->left
@@ -130,67 +133,20 @@ int					son(char **cmd, int pipefd_tab[2][2], t_node *tree,
 	/* RET: error EXIT: true MSG: "command not found" */
 	ft_putstr_fd("21sh: ", 2);
 	ft_putstr_fd(cmd[0], 2);
+	ft_putendl_fd(": command not found", 2);
 	exit(EXIT_FAILURE);
 	return (FALSE);
 }
 
 int					handle_fork(int pipefd_tab[2][2], t_node *tree,
-					t_lst_fd **lstfd)
+					t_lst_fd **lstfd, char **cmd)
 {
 	if (DEBUG == 1)
 		ft_putendl_fd("------- HANDLE FORK ------", 2);
 
 	pid_t				fpid;
-	char				**cmd;
-	int					ret;
-	int					fd;
 
 	fpid = -1;
-	cmd = NULL;
-	ret = -1;
-	fd = (lstfd && *lstfd ? (*lstfd)->fd : -2);
-	if ((cmd = format_cmd(tree)) == NULL)
-		return (ERROR);
-	if (pipefd_tab[0][0] < 0 && pipefd_tab[1][0] < 0)
-	{
-		if (tree && tree->left && *lstfd && (ret = redirect(tree->left, *lstfd)))
-		{
-			if (ret == ERROR || (*lstfd)->fd == -1)
-			{
-			/* RET: error EXIT: false MSG: "i don't know" */
-				reset_std_fd();
-				close_lstfd(lstfd);
-				del_lstfd(lstfd);
-				free_tab(&cmd); // FREE_MALLOC_OK
-				return (ERROR);
-			}
-			if (ret == FALSE)
-			{
-				free_tab(&cmd); // FREE_MALLOC_OK
-				return (FALSE);
-			}
-		}
-		else if (tree && tree->left && tree->left->type == DLRED && redirect(tree->left, NULL) == ERROR)
-		{
-			/* RET: error EXIT: false MSG: "i don't know" */
-			reset_std_fd();
-			close_lstfd(lstfd);
-			del_lstfd(lstfd);
-			free_tab(&cmd); // FREE_MALLOC_OK
-			return (ERROR);
-		}
-		//savior_tree(tree, TRUE);
-		if ((ret = check_builtin(fd, cmd, pipefd_tab, NULL)) == TRUE)
-		{
-			free_tab(&cmd); // FREE_MALLOC_OK
-			return (TRUE);
-		}
-		if (ret == ERROR)
-		{
-			free_tab(&cmd);
-			return (ERROR); // useless return
-		}
-	}
 	if ((fpid = fork()) < 0)
 		/* RET: error EXIT: true MSG: "fork fail" */
 		return (ERROR);
@@ -202,7 +158,5 @@ int					handle_fork(int pipefd_tab[2][2], t_node *tree,
 	else
 		father(pipefd_tab);
 	init_term();
-	if (cmd)
-		free_tab(&cmd); // FREE_MALLOC_OK
 	return (TRUE);
 }
