@@ -48,14 +48,14 @@ int					quote_is_close(char **str, t_line *stline)
 	quote = 0;
 	while (str && *str && (*str)[i])
 	{
-		if (quote != DQUOTE && (*str)[i] == QUOTE)
+		if (quote != DQUOTE && (*str)[i] == QUOTE && (*str)[i - 1] && (*str)[i - 1] != '\\')
 		{
 			if (quote != 0)
 				quote = 0;
 			else
 				quote = QUOTE;
 		}
-		if (quote != QUOTE && (*str)[i] == DQUOTE)
+		if (quote != QUOTE && (*str)[i] == DQUOTE && (*str)[i - 1] && (*str)[i - 1] != '\\')
 		{
 			if (quote != 0)
 				quote = 0;
