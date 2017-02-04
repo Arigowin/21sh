@@ -115,7 +115,8 @@ int					son(char **cmd, int pipefd_tab[2][2], t_node *tree,
 	&& lstfd && *lstfd && !(ret = redirect(tree->left, *lstfd)))
 	{
 		if (ret == ERROR)
-		/* RET: error EXIT: false MSG: "i don't know" */
+/* RET: error EXIT: false MSG: "i don't know" */
+			exit(EXIT_FAILURE);
 			return (ERROR);
 		if (ret == FALSE)
 			exit(EXIT_FAILURE);
@@ -124,14 +125,11 @@ int					son(char **cmd, int pipefd_tab[2][2], t_node *tree,
 		exit(EXIT_SUCCESS);
 	check_signal(2);
 	if (check_fct(fd, cmd) == -2)
-	{//dprintf (2, "EXIT\n");
-		exit(EXIT_SUCCESS);
-	}
-
+	//dprintf (2, "EXIT\n");
+		exit(EXIT_FAILURE);
 	/* RET: error EXIT: true MSG: "command not found" */
 	ft_putstr_fd("21sh: ", 2);
 	ft_putstr_fd(cmd[0], 2);
-	ft_putendl_fd(": command not found", 2);
 	exit(EXIT_FAILURE);
 	return (FALSE);
 }
@@ -183,15 +181,19 @@ int					handle_fork(int pipefd_tab[2][2], t_node *tree,
 			return (TRUE);
 		}
 		if (ret == ERROR)
-			// useless return
-			return (ERROR);
+		{
+			free_tab(&cmd);
+			return (ERROR); // useless return
+		}
 	}
 	if ((fpid = fork()) < 0)
 		/* RET: error EXIT: true MSG: "fork fail" */
 		return (ERROR);
 	reset_term();
 	if (fpid == 0)
+	{
 		son(cmd, pipefd_tab, tree, lstfd);
+	}
 	else
 		father(pipefd_tab);
 	init_term();

@@ -74,6 +74,7 @@ int					check_fct(int fd, char **cmd)
 		ft_strdel(&tmp);
 		i++;
 	}
+	free_tab(&tbl_env);
 	free_tab(&path);
 	return (TRUE);
 }
