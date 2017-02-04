@@ -161,10 +161,14 @@ int					handle_fork(int pipefd_tab[2][2], t_node *tree,
 				reset_std_fd();
 				close_lstfd(lstfd);
 				del_lstfd(lstfd);
+				free_tab(&cmd); // FREE_MALLOC_OK
 				return (ERROR);
 			}
 			if (ret == FALSE)
+			{
+				free_tab(&cmd); // FREE_MALLOC_OK
 				return (FALSE);
+			}
 		}
 		else if (tree && tree->left && tree->left->type == DLRED && redirect(tree->left, NULL) == ERROR)
 		{
@@ -172,6 +176,7 @@ int					handle_fork(int pipefd_tab[2][2], t_node *tree,
 			reset_std_fd();
 			close_lstfd(lstfd);
 			del_lstfd(lstfd);
+			free_tab(&cmd); // FREE_MALLOC_OK
 			return (ERROR);
 		}
 		//savior_tree(tree, TRUE);
