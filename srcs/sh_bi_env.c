@@ -38,17 +38,15 @@ static int			format_env(char *arg, int *nb)
 	return (TRUE);
 }
 
-static int			modif_env(char **arg, t_duo *env, int len)
+static int			modif_env(char **arg, t_duo *env, int len, int i)
 {
 	if (DEBUG_BUILTIN == 1)
 		ft_putendl_fd("------- MODIF ENV ------", 2);
 
-	int					i;
 	int					j;
 	int					nb;
 	char				**cmd;
 
-	i = 1;
 	j = 0;
 	nb = 0;
 	cmd = NULL;
@@ -103,7 +101,7 @@ int					bi_env(char **arg, t_duo **env)
 		return (ERROR);
 	if (len > 1)
 	{
-		if (modif_env(arg, *env, len) == ERROR)
+		if (modif_env(arg, *env, len, i) == ERROR)
 			return (ERROR);
 	}
 	else
