@@ -6,6 +6,8 @@
 
 static int			pushbck_cdt(char **read_buff, char **data_tmp)
 {
+	if (DEBUG_TOKEN == 1)
+		ft_putendl_fd("------- PUSHBCK_CDT ------", 2);
 	return (**data_tmp
 		&& (!(ft_strchr(WAKA, (*data_tmp)[ft_strlen(*data_tmp) - 1])
 				&& **read_buff == '&'))
@@ -20,7 +22,7 @@ static int			pushbck_cdt(char **read_buff, char **data_tmp)
 int					concat(char **dest, char *s1, char *s2)
 {
 	if (DEBUG_TOKEN == 1)
-		ft_putendl_fd("------- EXPR PUSHBK ------", 2);
+		ft_putendl_fd("------- CONCAT ------", 2);
 
 	if (!(dest && *dest))
 		return (ERROR);
@@ -69,10 +71,10 @@ int 				token_sep(char **read_buff, char **data_tmp,
 int					tokenizer(char *read_buff, t_e_list **l_expr)
 {
 	if (DEBUG_TOKEN == 1)
-		ft_putendl_fd("------- LEXER 1 ------", 2);
+		ft_putendl_fd("------- TOKENIZER ------", 2);
 	char 				*data_tmp;
 
-	printf ("~~~~~~~~~~(%s)~~~~~~~~~~~\n", read_buff);
+//	printf ("~~~~~~~~~~(%s)~~~~~~~~~~~\n", read_buff);
 	data_tmp = ft_strnew(ft_strlen(read_buff));
 	finite_state_automaton(&read_buff, l_expr, &data_tmp);
 	if (*data_tmp)
@@ -83,7 +85,7 @@ int					tokenizer(char *read_buff, t_e_list **l_expr)
 	ft_strdel(&data_tmp);
 
 	// ANTIBUG !!!!!!!!!
-	if (DEBUG_TOKEN == 0)
+	if (DEBUG_TOKEN == 1)
 	{
 		t_e_list *tmp = *l_expr;
 		while (tmp)
