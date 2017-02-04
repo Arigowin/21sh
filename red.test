@@ -11,3 +11,4 @@ cat toto ; rm toto
 ls -la >toto; ls -1
 cat toto ; rm toto
 ls -la | cat -n |cat -n >toto>tata ; echo "lolilol"; cat <toto ; echo "lolilol"; cat <tata
+rem toto tata

@@ -32,7 +32,6 @@ int					token_dollar(char **read_buff, char **data_tmp)
 	env_val = NULL;
 	tmp = NULL;
 	(*read_buff)++;
-	dprintf(2, ">>>>>>>>>>>>(%s)<<<<<<\n", *read_buff);
 	if ((env_name = ft_strnew(ft_strlen(*read_buff))) == NULL)
 		return (ERROR);
 		/* MSG ret: ERROR exit: FALSE msg: "malloc fail"

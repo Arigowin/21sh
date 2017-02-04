@@ -30,7 +30,8 @@ ls -l | cat -n
 ls -l | cat -n | wc
 cd / ; ls -1 ; cd - ; ls -lA
 bonjour
-echo "bonjour" > exist ; rm existe
+echo "bonjour" > exist
 echo a b c d      e      f     g
 echo "toto"
 echo "bonjour  '   les \"   amis"
+rm toto tata exist
