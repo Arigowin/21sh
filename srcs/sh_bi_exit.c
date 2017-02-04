@@ -13,7 +13,6 @@ int					bi_exit(char **arg, t_duo **env)
 	int				i;
 
 	i = 0;
-	tree = NULL;
 	tree = savior_tree(NULL, FALSE);
 	hist = *(savior_history(NULL, FALSE));
 	stline = savior_stline(NULL, FALSE);

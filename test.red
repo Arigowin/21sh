@@ -11,3 +11,6 @@ cat toto ; rm toto
 ls -la >toto; ls -1
 cat toto ; rm toto
 ls -la | cat -n |cat -n >toto>tata ; echo "lolilol"; cat <toto ; echo "lolilol"; cat <tata
+ls -la | cat <noexist|cat -n
+echo "trololo pouet toto" >toto; ls; ls -la |cat <toto; rm toto
+echo "trololo pouet toto" >toto; ls; ls -la |cat <toto |cat -n; rm toto

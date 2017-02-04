@@ -31,7 +31,7 @@ int					check_end_heredoc(t_line *stline)
 	return (CONTINUE);
 }
 
-int					fill_hrd_content(t_line *stline, t_node **tree)
+static int			fill_hrd_content(t_line *stline, t_node **tree) // static ac heredoc handler
 {
 	if (DEBUG_HEREDOC == 1)
 		ft_putendl_fd("------------ FILL HRD CONTENT ----------", 2);

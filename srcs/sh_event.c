@@ -68,17 +68,16 @@ int					quote_is_close(char **str, t_line *stline)
 
 }
 
-int					fct_return(char **str, int *pos, t_line *stline,
-		t_history **history)
+int					fct_return(char **str, int *pos, t_line *stline, // changer pos en p (norme)
+					t_history **history)
 {
 	if (DEBUG_KEY == 1)
 		ft_putendl_fd("------- FCT RETURN ------", 2);
 
 	fct_end(str, pos, stline, history);
 	stline->quote = quote_is_close(str, stline);
-	if (stline->quote != 0 || (*pos > 0 && (*str)[*pos - 1]
-				&& (*str)[*pos - 1] == '\\') || stline->hrd.nb > 0
-			|| (*pos > 0 && check_end_pipe(str, pos))) // ajout si 'pipe' a la fin de la ligne
+	if (stline->quote != 0 || stline->hrd.nb > 0 || (*pos > 0 && (*str)[*pos - 1]
+	&& (*str)[*pos - 1] == '\\') || (*pos > 0 && check_end_pipe(str, pos))) // ajout si 'pipe' a la fin de la ligne
 	{
 		if (stline->hrd.nb > 0)
 		{

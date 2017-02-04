@@ -22,8 +22,9 @@ int					tree_traversal_verif(t_node *tree)
 	}
 	return (0);
 }
+//fin ANTIBUG
 
-int					read_n_check(int *nb_hrd, char *read_buff, t_node **tree)
+static int			read_n_check(int *nb_hrd, char *read_buff, t_node **tree) // static ac fct read
 {
 	if (DEBUG == 1)
 		ft_putendl_fd("------- READ N CHECK ------", 2);
@@ -53,7 +54,7 @@ int					read_n_check(int *nb_hrd, char *read_buff, t_node **tree)
 	return (TRUE);
 }
 
-int					check_after_read(t_line *stline, t_history **history)
+int					check_after_read(t_line *stline, t_history **history) //fct a passer en static (ac fct read) si on vire le test
 {
 	if (DEBUG == 1)
 		ft_putendl_fd("------- CHECK AFTER READ ------", 2);
@@ -82,7 +83,6 @@ int					check_after_read(t_line *stline, t_history **history)
 		/* MSG ret: ERROR exit: TRUE msg: "whatever i don't have any ideas left"
 		 * free: stline + globalfd + tree + node */
 	}
-//	savior_tree(tree, TRUE); // inutile apparemment
 	del_tree(&tree);
 	del_lstfd(&lstfd);
 	return (ret);

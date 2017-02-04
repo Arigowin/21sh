@@ -20,7 +20,7 @@ int					fd_exist(int fd)
 	return (TRUE);
 }
 
-int					left_right_red(t_node *tree, t_lst_fd *lstfd, int stdfd)
+static int			left_right_red(t_node *tree, t_lst_fd *lstfd, int stdfd) // static ac redirect
 {
 	if (DEBUG_RED == 1)
 		ft_putendl_fd("------- LEFT RIGHT RED -------", 2);
@@ -53,7 +53,7 @@ int					left_right_red(t_node *tree, t_lst_fd *lstfd, int stdfd)
 	return (TRUE);
 }
 
-int					heredoc_red(t_node *tree, int fd)
+static int			heredoc_red(t_node *tree, int fd) // static ac redirect
 {
 	if (DEBUG_RED == 1)
 		ft_putendl_fd("------- HEREDOC RED -------", 2);

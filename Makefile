@@ -25,6 +25,8 @@ SRC = sh_main.c \
 	  sh_file_history.c \
 	  \
 	  sh_bi_builtin.c \
+	  sh_bi_options.c \
+	  sh_bi_handle_env_modif.c \
 	  sh_bi_cd.c \
 	  sh_bi_env.c \
 	  sh_bi_exit.c \
@@ -39,18 +41,19 @@ SRC = sh_main.c \
 	  sh_lp_tokenizer.c \
 	  sh_lp_tokenizer_spec.c \
 	  \
+	  sh_pp_pipe_handler.c \
+	  \
 	  sh_rd_heredoc.c \
-	  sh_rd_left_red.c \
 	  sh_rd_red.c \
-	  sh_rd_red_handler.c\
 	  sh_rd_redfd_handler.c\
-	  sh_rd_right_red.c \
+	  sh_rd_manage_lstfd.c\
 	  \
 	  sh_tc_add_del_in_cpy.c \
 	  sh_tc_copy_paste.c \
 	  sh_tc_delete_in_line.c \
 	  sh_tc_highlight.c \
 	  sh_tc_history.c \
+	  sh_tc_move_in_history.c \
 	  sh_tc_insert_in_line.c \
 	  sh_tc_move_in_line.c \
 	  sh_tc_move_up_down.c \

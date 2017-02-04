@@ -46,19 +46,15 @@ int					bi_setenv(char **arg, t_duo **env)
 		// en cas d erreur on aura deja ecris l erreur dans is_valid
 		i++;
 	}
-	// on affiche env si on a 1 seul arg et que arg[0] == env ou setenv
 	if (i < 2)
 	{
 		return (bi_env(arg, env));
-		//		return (TRUE);
 	}
-	// on change env si on a 2 ou 3 arg et que arg[1] existe dans env
 	if (i == 2 || i == 3)
 	{
 		change_env(arg[1], arg[2]);
 		return (TRUE);
 	}
-	// erreur si plus de 3 args
 	if (i > 3)
 	{
 		ft_putendl_fd("21sh: setenv: too many arguments.", 2);
