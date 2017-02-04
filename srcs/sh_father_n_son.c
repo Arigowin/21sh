@@ -130,6 +130,7 @@ int					son(char **cmd, int pipefd_tab[2][2], t_node *tree,
 	/* RET: error EXIT: true MSG: "command not found" */
 	ft_putstr_fd("21sh: ", 2);
 	ft_putstr_fd(cmd[0], 2);
+	ft_putendl_fd(": command not found", 2);
 	exit(EXIT_FAILURE);
 	return (FALSE);
 }
@@ -154,7 +155,5 @@ int					handle_fork(int pipefd_tab[2][2], t_node *tree,
 	else
 		father(pipefd_tab);
 	init_term();
-	if (cmd)
-		free_tab(&cmd); // FREE_MALLOC_OK
 	return (TRUE);
 }

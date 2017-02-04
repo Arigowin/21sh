@@ -23,6 +23,7 @@ int					null_input(int fd)
 
 	if (fd == -1)
 	{
+		//dprintf(2, "XXXXXXXXXXXXXXXXXXXXXXXXXXXX\n");
 		if (pipe(pfd) == ERROR)
 			/* RET: error EXIT: false MSG: "pipe fail" */
 			return (ERROR);

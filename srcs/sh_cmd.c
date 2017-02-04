@@ -110,5 +110,7 @@ int					manage_cmd(int pipefd_tab[2][2], t_node *tree,
 			return (ret);
 	}
 	handle_fork(pipefd_tab, tree, lstfd, cmd);
+	if (cmd)
+		free_tab(&cmd); // FREE_MALLOC_OK
 	return (TRUE);
 }
