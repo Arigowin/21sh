@@ -29,7 +29,7 @@ static int			state_standard(char **read_buff, char **data_tmp,
 	if (**read_buff == DQUOTE)
 		return (FALSE);
 	if (**read_buff == '\\')
-		token_backslash(read_buff, data_tmp);
+		token_backslash(STANDARD, read_buff, data_tmp);
 	else if (**read_buff == '$')
 		token_dollar(read_buff, data_tmp);
 	else if (**read_buff == '~' && *bln == FALSE)
@@ -66,7 +66,7 @@ static int			state_dquote(char **read_buff, char **data_tmp)
 	if (**read_buff == DQUOTE)
 		return (FALSE);
 	if (**read_buff == '\\')
-		token_backslash(read_buff, data_tmp);
+		token_backslash(IN_DQUOTE, read_buff, data_tmp);
 	else if (**read_buff == '$')
 		token_dollar(read_buff, data_tmp);
 	else
