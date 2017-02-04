@@ -108,5 +108,7 @@ int					handle_builtin(char **cmd)
 		else // pas necessaire ? puisqu ' on return avant
 			return (ret);
 	}
+	if (cmd)
+		free_tab(&cmd);
 	return (FALSE);
 }
