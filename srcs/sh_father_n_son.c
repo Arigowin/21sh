@@ -100,15 +100,18 @@ int					father(int pipefd_tab[2][2])
 int					son(char **cmd, int pipefd_tab[2][2], t_node *tree,
 					t_lst_fd **lstfd)
 {
-	t_duo		*env;
-
-	env = savior(NULL, FALSE);
 	if (DEBUG == 1)
 		ft_putendl_fd("------- SON ------", 2);
+
 	int 				ret;
 	int 				fd;
 
+	//if (lstfd && *lstfd)
+	//dprintf (2, "******************************(%d) (%s)*************************\n", (*lstfd)->fd, cmd[0]);
 	fd = (lstfd && *lstfd && tree->left ? (*lstfd)->fd : -2);
+//	if (lstfd && *lstfd)
+	//dprintf (2, "------------------------------(%d)-------------------------\n", (*lstfd)->fd);
+	//dprintf (2, "------------------------------(%d) (%s)-------------------------\n", fd, cmd[0]);
 	ret = TRUE;
 	pfd_handler(pipefd_tab);
 	if ((pipefd_tab[0][0] >= 0 || pipefd_tab[1][0] >= 0) && tree && tree->left

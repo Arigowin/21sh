@@ -19,18 +19,23 @@ static char			*join_exe(char *s1, char *s2)
 
 int					null_input(int fd)
 {
+	if (DEBUG == 1)
+		ft_putendl_fd("------- NULL INPUT ------", 2);
+
 	int					pfd[2];
+//	dprintf(2, "in null input (%d)\n", fd);
 
 	if (fd == -1)
 	{
+	//dprintf(2, "in IF null input (%d)\n", fd);
 		if (pipe(pfd) == ERROR)
 			/* RET: error EXIT: false MSG: "pipe fail" */
 			return (ERROR);
-		write(pfd[1], "", 0);
-		if (dup2(pfd[0], fd) == ERROR)
+		close(pfd[0]);
+		write(pfd[1], "\0", 1);
+		if (dup2(pfd[1], fd) == ERROR)
 			/* RET: error EXIT: false MSG: "dup fail"*/
 			return (ERROR);
-		close(pfd[0]);
 		close(pfd[1]);
 		return (-2);
 	}
@@ -48,6 +53,7 @@ int					check_fct(int fd, char **cmd)
 	int					i;
 	char				**tbl_env;
 
+	//dprintf(2, "------------(%d)(%s)-------------\n", fd, cmd[0]);
 	null_input(fd);
 	path = NULL;
 	env = savior(NULL, FALSE);
