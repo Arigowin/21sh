@@ -69,7 +69,7 @@ int 				token_sep(char **read_buff, char **data_tmp,
 int					tokenizer(char *read_buff, t_e_list **l_expr)
 {
 	if (DEBUG_TOKEN == 1)
-		ft_putendl_fd("------- LEXER 1 ------", 2);
+		ft_putendl_fd("------- TOKENIZER ------", 2);
 	char 				*data_tmp;
 
 	printf ("~~~~~~~~~~(%s)~~~~~~~~~~~\n", read_buff);
