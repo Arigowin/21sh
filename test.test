@@ -20,10 +20,7 @@ unsetenv a b
 env a=a 1b=q 1=1 ==a toto=titi
 env
 env bonjour=aurevoir ls -l -a
-echo a b c d      e      f     g
-echo "toto"
-echo "bonjour     les \"   amis l'est "
-echo 'bonjour \les " \'amis'
+env bonjour=aurevoir /usr/bin/env
 echo bonjour > toto
 cat toto
 cat -n < toto
@@ -33,5 +30,7 @@ ls -l | cat -n
 ls -l | cat -n | wc
 cd / ; ls -1 ; cd - ; ls -lA
 bonjour
-echo "bonjour" > exist
-rm exist
+echo "bonjour" > exist ; rm existe
+echo a b c d      e      f     g
+echo "toto"
+echo "bonjour  '   les \"   amis"
