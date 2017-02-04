@@ -1,0 +1,12 @@
+echo ~ch\et
+echo ~/"foo"
+echo "~chet"/"foo"
+echo \~chet/"foo"
+echo \~chet/bar
+echo ~\chet/bar
+echo ~chet""/bar
+echo ":~chet/"
+echo abcd~chet
+echo "SHELL=~/bash"
+echo $SHELL
+echo abcd:~chet
