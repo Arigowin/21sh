@@ -33,7 +33,10 @@ static int			state_standard(char **read_buff, char **data_tmp,
 	else if (**read_buff == '$')
 		token_dollar(read_buff, data_tmp);
 	else if (**read_buff == '~' && *bln == FALSE)
-		token_tilde(read_buff, data_tmp, bln);
+	{
+		if (token_tilde(read_buff, data_tmp, bln) == FALSE)
+			add_in_tbl(data_tmp, **read_buff);
+	}
 	else if (ft_strchr(SEP, **read_buff))
 	{
 		*bln = FALSE;
