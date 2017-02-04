@@ -28,6 +28,7 @@ int					main(int argc, char **argv)
 	}
 	reset_term();
 	duo_del(&env_cpy);
-	free(stline.line);
+	ft_strdel(&(stline.line));
+	ft_strdel(&(stline.hrd).line);
 	return (0);
 }

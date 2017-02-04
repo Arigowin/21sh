@@ -22,8 +22,8 @@ env
 env bonjour=aurevoir ls -l -a
 echo a b c d      e      f     g
 echo "toto"
-echo "bonjour     les \"   amis l'est "
-echo 'bonjour \les " \'amis'
+echo "bonjour     les \"   amis \'est "
+echo 'bonjour \les \" \'amis'
 echo bonjour > toto
 cat toto
 cat -n < toto

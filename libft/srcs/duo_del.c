@@ -20,8 +20,8 @@ int			duo_del(t_duo **lst)
 	while (lst && *lst && (*lst)->next)
 	{
 		tmp = (*lst)->next;
-		free((*lst)->name);
-		free((*lst)->value);
+		ft_strdel(&(*lst)->name);
+		ft_strdel(&(*lst)->value);
 		free(*lst);
 		*lst = tmp;
 	}

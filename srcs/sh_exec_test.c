@@ -77,6 +77,7 @@ int					exec_test(int argc, char **argv, t_line *stline, t_history *history)
 		check_after_read(stline, &history);
 		printf ("line : ((%s)) stline ((%s))\n", line, stline->line);
 		ft_strdel(&line);
+		ft_strdel(&(stline->line));
 		ft_putendl("************ END CMD ************");
 	ft_putendl("");
 	ft_putendl("");
@@ -92,6 +93,7 @@ int					exec_test(int argc, char **argv, t_line *stline, t_history *history)
 		stline->line = ft_strdup(line);
 		check_after_read(stline, &history);
 		ft_strdel(&line);
+		ft_strdel(&(stline->line));
 		ft_putendl("************ END CMD ************");
 	ft_putendl("");
 	}

@@ -50,7 +50,7 @@ int 				token_sep(char **read_buff, char **data_tmp,
 		expr_pushbk(l_expr, *data_tmp);
 		ft_bzero(*data_tmp, ft_strlen(*data_tmp));
 	}
-	if (ft_strchr(SPECIAL, **read_buff))
+	if (read_buff && *read_buff && **read_buff && ft_strchr(SPECIAL, **read_buff))
 	{
 		add_in_tbl(data_tmp, **read_buff);
 		if (ft_strchr(WAKA, **read_buff) && (*(*read_buff + 1))
@@ -75,7 +75,8 @@ int					tokenizer(char *read_buff, t_e_list **l_expr)
 	char 				*data_tmp;
 
 //	printf ("~~~~~~~~~~(%s)~~~~~~~~~~~\n", read_buff);
-	data_tmp = ft_strnew(ft_strlen(read_buff));
+	if (read_buff)
+		data_tmp = ft_strnew(ft_strlen(read_buff));
 	finite_state_automaton(&read_buff, l_expr, &data_tmp);
 	if (*data_tmp)
 	{
