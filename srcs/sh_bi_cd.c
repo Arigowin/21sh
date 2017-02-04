@@ -120,7 +120,9 @@ int					bi_cd(char **arg, t_duo **env)
 		ft_strdel(&tmp);
 		return (FALSE);
 	}
-	if (arg[i] && arg[i][0] == '-' && !arg[i][1])
+	if (!arg[i])
+		ret = cd_home();
+	else if (arg[i] && arg[i][0] == '-' && !arg[i][1])
 	{
 		if (tmp)
 		{
