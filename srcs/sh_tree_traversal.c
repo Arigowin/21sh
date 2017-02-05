@@ -104,16 +104,14 @@ int					manage_red_fd(int fd, t_node *tree, t_lst_fd **lstfd, types type)
 	t_lst_fd			*tmp;
 
 	pipe_fd = NULL;
-	fd_save = (fd == -2 ? 0 : fd_save);
+	fd_save = (fd == -21 ? 0 : fd_save);
 	if (tree && tree->type == PIPE)
 	{
 		tmp = *lstfd;
 		while (pipe_fd && tmp && tmp != pipe_fd)
-		{
 			tmp = tmp->next;
-		}
 		pipe_fd = *lstfd;
-		fd = -2;
+		fd = -21;
 	}
 	if (tree && (tree->type == RRED || tree->type == DRRED || tree->type == LRED || tree->type == DLRED))
 		if ((ret = fd_open(&fd, tree, lstfd)) == ERROR)

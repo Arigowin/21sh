@@ -16,23 +16,17 @@ static int			change_dir(char *path)
 		ft_putstr("21sh: cd: ");
 		ft_putstr(path);
 		if (stat(path, &stat_buf) == 0 && !S_ISDIR(stat_buf.st_mode))
-		{
 			ft_putendl(": not a directory");
-		}
 		else if ((access(path, F_OK)) == ERROR)
-		{
 			ft_putendl(": no such file or directory");
-		}
 		else
-		{
 			ft_putendl(": permission denied");
-		}
 		return (FALSE);
 	}
 	return (TRUE);
 }
 
-int					cd_home()
+static int			cd_home()
 {
 	if (DEBUG_BUILTIN == 1)
 		ft_putendl_fd("------- CD HOME ------", 2);
@@ -50,53 +44,28 @@ int					cd_home()
 	return (ret);
 }
 
-int					bi_opt(char *arg, int *no_more, char *handled_opt)
+static int			handle_cd_arg(int *i, int *ret, char **arg)
 {
-	if (DEBUG_BUILTIN == 1)
-		ft_putendl_fd("------- BI OPT ------", 2);
+	char				*tmp;
 
-	int					i;
-
-	i = 1;
-	if (*no_more == TRUE)
-		return (FALSE);
-	if (arg && arg[0] && arg[0] == '-' && arg[1] && arg[1] == '-')
-		*no_more = TRUE;
-	else if (arg && arg[0] && arg[0] == '-' && arg[1])
+	tmp = get_env("OLDPWD");
+	if (check_opt(arg, i) == FALSE)
 	{
-		while (arg[i])
-		{
-			if (ft_strchr(handled_opt, arg[i]) == NULL)
-			{
-				ft_putstr_fd(arg, 2);
-				ft_putendl_fd(": invalid option.", 2);
-				//	cd_error(1, arg); // invalid option
-				return (FALSE);
-			}
-			i++;
-		}
-	}
-	return (TRUE);
-}
-
-int					check_opt(char **arg, int *i)
-{
-	if (DEBUG_BUILTIN == 1)
-		ft_putendl_fd("------- CHECK OPT ------", 2);
-
-	int					no_more;
-	int					ret;
-
-	ret = TRUE;
-	no_more = FALSE;
-	while (arg[*i] && arg[*i][0] && arg[*i][0] == '-' && arg[*i][1])
-	{
-		if ((ret = bi_opt(arg[*i], &no_more, "")) != TRUE)
-			break ;
-		(*i)++;
-	}
-	if (ret == FALSE)
+		ft_strdel(&tmp);
 		return (FALSE);
+	}
+	if (!arg[*i])
+		*ret = cd_home();
+	else if (arg[*i] && arg[*i][0] == '-' && !arg[*i][1])
+	{
+		if (tmp)
+			*ret = change_dir(tmp);
+		else
+			ft_putendl_fd("21sh: cd: no OLDPWD variable set.", 2);
+	}
+	else
+		*ret = change_dir(arg[*i]);
+	ft_strdel(&tmp);
 	return (TRUE);
 }
 
@@ -113,39 +82,18 @@ int					bi_cd(char **arg, t_duo **env)
 	i = 1;
 	ret = 0;
 	(void)env;
+	tmp = NULL;
 	path = NULL;
-	tmp = get_env("OLDPWD");
-	if (check_opt(arg, &i) == FALSE)
-	{
-		ft_strdel(&tmp);
+	if (handle_cd_arg(&i, &ret, arg) == FALSE)
 		return (FALSE);
-	}
-	if (!arg[i])
-		ret = cd_home();
-	else if (arg[i] && arg[i][0] == '-' && !arg[i][1])
-	{
-		if (tmp)
-		{
-			ret = change_dir(tmp);
-			ft_strdel(&tmp);
-		}
-		else
-			ft_putendl_fd("21sh: cd: no OLDPWD variable set.", 2);
-	}
-	else
-		ret = change_dir(arg[i]);
-	ft_strdel(&tmp);
-	tmp = get_env("PWD");
 	if (ret == TRUE)
 	{
+		tmp = get_env("PWD");
 		change_env("OLDPWD", tmp);
 		path = getcwd(path, MAX_PATH);
 		change_env("PWD", path);
-		ft_strdel(&tmp);
-		ft_strdel(&path);
-		return (0);
 	}
-	ft_strdel(&path);
 	ft_strdel(&tmp);
+	ft_strdel(&path);
 	return (FALSE);
 }

@@ -1,7 +1,7 @@
 #include "shell.h"
 #include "libft.h"
 
-static char			*join_exe(char *s1, char *s2)
+static char			*join_exe(char *s1, char *s2) //static ac check fct
 {
 	if (DEBUG == 1)
 		ft_putendl_fd("------- JOIN EXE ------", 2);
@@ -17,7 +17,7 @@ static char			*join_exe(char *s1, char *s2)
 	return (rlt);
 }
 
-int					null_input(int fd)
+static int			null_input(int fd) // static ac check fct
 {
 	if (DEBUG == 1)
 		ft_putendl_fd("------- NULL INPUT ------", 2);
@@ -55,7 +55,6 @@ int					check_fct(int fd, char **cmd)
 
 	//dprintf(2, "------------(%d)(%s)-------------\n", fd, cmd[0]);
 	null_input(fd);
-	path = NULL;
 	env = savior(NULL, FALSE);
 	tbl_env = duo_to_tbl(env, "=");
 	tmp = get_env("PATH");
@@ -66,19 +65,18 @@ int					check_fct(int fd, char **cmd)
 		/* RET: error EXIT: true MSG: "split fail" */
 		return (ERROR);
 	ft_strdel(&tmp);
-	i = 0;
-	while (path[i])
+	i = -1;
+	while (path[++i])
 	{
 		tmp = join_exe(path[i], cmd[0]);
 		if (access(tmp, F_OK) != ERROR && access(tmp, X_OK) == ERROR)
 		{
-			ft_putstr_fd("21sh: ", 2);
+			ft_putstr_fd("21sh: ", 2); //fct erreur
 			ft_putstr_fd(cmd[0], 2);
 			ft_putendl_fd(": Permission denied", 2);
 		}
 		execve(tmp, cmd, tbl_env);
 		ft_strdel(&tmp);
-		i++;
 	}
 	free_tab(&tbl_env);
 	free_tab(&path);

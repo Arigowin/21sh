@@ -6,78 +6,7 @@
 #include "shell.h"
 #include "libft.h"
 
-int 				pfd_handler(int pipefd_tab[2][2])
-{
-	if (DEBUG == 1)
-		ft_putendl_fd("------- PFD HANDLER ------", 2);
-
-	//dprintf(2, "pfd 00 : (%d)\tpfd 01 : (%d)\tpfd 10 : (%d)\tpfd 11 : (%d)\n", pipefd_tab[0][0], pipefd_tab[0][1], pipefd_tab[1][0], pipefd_tab[1][1]);
-	if (pipefd_tab && pipefd_tab[0][0] < 0 && pipefd_tab[1][0] >= 0)
-	{
-		close(pipefd_tab[1][0]);
-		if (dup2(pipefd_tab[1][1], STDOUT_FILENO) == ERROR)
-			/* RET: error EXIT: false MSG: "dup2 fail" */
-			return (ERROR);
-	}
-	if (pipefd_tab && pipefd_tab[0][0] >= 0 && pipefd_tab[1][0] >= 0)
-	{
-		close(pipefd_tab[0][1]);
-		if(dup2(pipefd_tab[0][0], STDIN_FILENO) == ERROR)
-			/* RET: error EXIT: false MSG: "dup2 fail" */
-			return (ERROR);
-		close(pipefd_tab[1][0]);
-		if (dup2(pipefd_tab[1][1], STDOUT_FILENO) == ERROR)
-			/* RET: error EXIT: false MSG: "dup2 fail" */
-			return (ERROR);
-	}
-	if (pipefd_tab && pipefd_tab[0][0] >= 0 && pipefd_tab[1][0] < 0)
-	{
-		close(pipefd_tab[0][1]);
-		if(dup2(pipefd_tab[0][0], STDIN_FILENO) == ERROR)
-		{//dprintf(2, "error in pfd handler\n");
-			/* RET: error EXIT: false MSG: "dup2 fail" */
-			return (ERROR);
-		}
-	}
-	return (TRUE);
-}
-
-int					check_builtin(int fd, char **cmd, int pipefd_tab[2][2],
-					t_lst_fd **lstfd)
-{
-	if (DEBUG == 1)
-		ft_putendl_fd("------- CHECK BUILTIN ------", 2);
-
-	int					ret;
-
-	if (fd == -1)
-		return (FALSE);
-	(void)*pipefd_tab;
-	ret = -1;
-	if (is_builtin(cmd) != -1)
-	{
-		if ((ret = handle_builtin(cmd)) == ERROR)
-		{
-			// useless return
-			close_lstfd(lstfd);
-			return (ERROR);
-		}
-		return (TRUE);
-	}
-	return (FALSE);
-}
-
-int 				pfd_close(int pipefd_tab[2][2])
-{
-	if (pipefd_tab && pipefd_tab[0][0] >= 0)
-	{
-		close(pipefd_tab[0][0]);
-		close(pipefd_tab[0][1]);
-	}
-	return (TRUE);
-}
-
-int					father(int pipefd_tab[2][2])
+static int				father(int pipefd_tab[2][2])
 {
 	if (DEBUG == 1)
 		ft_putendl_fd("------- FATHER ------", 2);
@@ -97,7 +26,7 @@ int					father(int pipefd_tab[2][2])
 	return (WEXITSTATUS(stat_loc));
 }
 
-int					son(char **cmd, int pipefd_tab[2][2], t_node *tree,
+static int			son(char **cmd, int pipefd_tab[2][2], t_node *tree,
 					t_lst_fd **lstfd)
 {
 	if (DEBUG == 1)
@@ -106,12 +35,7 @@ int					son(char **cmd, int pipefd_tab[2][2], t_node *tree,
 	int 				ret;
 	int 				fd;
 
-	//if (lstfd && *lstfd)
-	//dprintf (2, "******************************(%d) (%s)*************************\n", (*lstfd)->fd, cmd[0]);
 	fd = (lstfd && *lstfd && tree->left ? (*lstfd)->fd : -2);
-//	if (lstfd && *lstfd)
-	//dprintf (2, "------------------------------(%d)-------------------------\n", (*lstfd)->fd);
-	//dprintf (2, "------------------------------(%d) (%s)-------------------------\n", fd, cmd[0]);
 	ret = TRUE;
 	pfd_handler(pipefd_tab);
 	if ((pipefd_tab[0][0] >= 0 || pipefd_tab[1][0] >= 0) && tree && tree->left

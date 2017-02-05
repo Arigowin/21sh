@@ -163,18 +163,12 @@ typedef struct			s_key_fct
 							t_history **history);
 }						t_key_fct;
 
-typedef struct			s_lst_fd
+typedef struct			s_lst_fd //savior?
 {
 	int					fd;
 	char				*filename;
 	struct s_lst_fd		*next;
 }						t_lst_fd;
-
-typedef struct			s_global_fd //-> savior
-{
-	struct s_lst_fd		*lstfd;
-	struct s_global_fd	*next;
-}						t_global_fd;
 
 /*
 ** sh_error
@@ -219,12 +213,53 @@ int						check_signal(int loc);
 /*
 ** sh_bi_builtin
 */
-int						add_env(char *name, char *value);
-int						change_env(char *name, char *value);
-char					*get_env(char *name);
 int						is_builtin(char **cmd);
 int						handle_builtin(char **cmd);
+int						check_builtin(int fd, char **cmd, int pipefd_tab[2][2],
+							t_lst_fd **lstfd);
+
+/*
+** sh_bi_options
+*/
 int						check_opt(char **arg, int *i);
+
+/*
+** sh_bi_handle_env_modif
+*/
+int						change_env(char *name, char *value);
+char					*get_env(char *name);
+
+/*
+** sh_bi_cd
+*/
+int						bi_cd(char **arg, t_duo **env);
+
+/*
+** sh_bi_echo
+*/
+int						bi_echo(char **arg, t_duo **env);
+
+/*
+** sh_bi_env
+*/
+int						bi_env(char **arg, t_duo **env);
+
+/*
+** sh_bi_exit
+*/
+int						bi_exit(char **arg, t_duo **env);
+
+/*
+** sh_bi_setenv
+*/
+int						valid_env_name(char *str);
+int						bi_setenv(char **arg, t_duo **env);
+
+/*
+** sh_bi_unsetenv
+*/
+int						del_env(t_duo **env, char *name);
+int						bi_unsetenv(char **arg, t_duo **env);
 
 /*
 ** sh_t_e_list_handler
@@ -273,48 +308,19 @@ int						fct_read(int hrd, t_line *line, t_history **history);
 /*
 ** sh_father_n_son
 */
-int						father_n_son(char **cmd);
-int						father_n_son_for_pipe(char **cmd);
-int						handle_fork(int pipefd_tab[2][2], t_node *tree, t_lst_fd **lstfd, char **cmd);
-int						check_builtin(int fd, char **cmd, int pipefd_tab[2][2],
-							t_lst_fd **lstfd);
+int						handle_fork(int pipefd_tab[2][2], t_node *tree,
+							t_lst_fd **lstfd, char **cmd);
+
+/*
+** sh_pp_pipe_handler
+*/
+int 					pfd_handler(int pipefd_tab[2][2]);
+int		 				pfd_close(int pipefd_tab[2][2]);
 
 /*
 ** sh_cmd_line_assemble
 */
 int						check_fct(int fd, char **cmd);
-
-/*
-** sh_bi_env
-*/
-int						bi_env(char **arg, t_duo **env);
-
-/*
-** sh_bi_exit
-*/
-int						bi_exit(char **arg, t_duo **env);
-
-/*
-** sh_bi_echo
-*/
-int						bi_echo(char **arg, t_duo **env);
-
-/*
-** sh_bi_setenv
-*/
-int						valid_env_name(char *str);
-int						bi_setenv(char **arg, t_duo **env);
-
-/*
-** sh_bi_unsetenv
-*/
-int						del_env(t_duo **env, char *name);
-int						bi_unsetenv(char **arg, t_duo **env);
-
-/*
-** sh_bi_cd
-*/
-int						bi_cd(char **arg, t_duo **env);
 
 /*
 ** sh_tc_termcap
@@ -372,6 +378,10 @@ int						fct_del(char **s, int *pos, t_line *l, t_history **h);
 void					del_history(t_history **history);
 void					add_history(t_history **h, char *line);
 void					modif_history(t_history **history, char *line, int mini);
+
+/*
+** sh_tc_move_in_history
+*/
 int						history_down(char **str, int *pos, t_line *stline,
 	   						t_history **history);
 int						history_up(char **s, int *p, t_line *l, t_history **h);
@@ -432,35 +442,21 @@ int						fd_exist(int fd);
 int     				redirect(t_node *tree, t_lst_fd *lstfd);
 
 /*
-** sh_rd_redfd_handler
+** sh_rd_manage_lstfd
 */
 int						del_lstfd(t_lst_fd **lstfd);
 t_lst_fd				*lstfd_new(int fd, char *filename);
 int						close_lstfd(t_lst_fd **lstfd);
-int						lstfd_pushbck(t_lst_fd **lstfd, int fd, char *filename);
 int						lstfd_pushfront(t_lst_fd **lstfd, int fd, char *name);
-int						insert_in_lstfd(t_lst_fd **lstfd, t_lst_fd **tmpfd, int fd, char *filename, int insert);
+
+/*
+** sh_rd_redfd_handler
+*/
 int						check_file_name(char **filename, char *str);
 int						reset_std_fd(void);
 
-/*
-** sh_rd_red_handler
-*/
-int						manage_red_file(t_lst_fd **lstfd, t_lst_fd **tmpfd, t_node *tree);
-
 
 t_lst_fd				*lstfd_insert(t_lst_fd **lstfd, t_lst_fd **tmpfd, int fd, char *filename);
-
-/*
-** sh_rd_right_red
-*/
-int						right_red_fd(t_lst_fd **lstfd, t_lst_fd **tmpfd, t_node *tree,
-							t_node *red_arg, int insert);
-
-/*
-** sh_rd_left_red
-*/
-int						left_red_fd(t_lst_fd **lstfd, t_lst_fd **tmpfd, t_node *red_arg, int insert);
 
 /*
 ** sh_rd_heredoc
@@ -477,7 +473,6 @@ int						return_heredoc(t_line *stline);
 /*
 ** sh_cmd
 */
-char					**format_cmd(t_node *tree);
 int						manage_cmd(int pipefd_tab[2][2], t_node *tree, t_lst_fd **lstfd);
 
 /*
