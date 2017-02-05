@@ -1,4 +1,5 @@
 ls
+ls
 cd .. ; ls
 cd - ; ls
 cd ~ ; ls
@@ -10,9 +11,16 @@ cd . ; ls
 cd -i
 cd -- -i
 cd abc
+cd -- abc
+cd -- abc ../../
 cd /
 cd --
 cd abcdef
+cd ../ ../../
+cd "../ ../../"
+cd '../ ../../'
+cd "../"
+cd '../'
 mkdir noright ; chmod 000 noright ; cd noright
 
 setenv
@@ -21,6 +29,12 @@ setenv _abc def ; setenv
 setenv 1abc def ; setenv
 setenv abc=def ; setenv
 setenv abc ; setenv
+setenv abc = setenv
+setenv abc = setenv = pouet
+setenv tutu toto
+setenv ""
+setenv tutu ""
+setenv "" miaou
 
 unsetenv abc _abc 1abc "" bonjour toto '' " "
 
