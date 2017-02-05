@@ -1,0 +1,20 @@
+ls
+ls -l
+ls -la ~
+ls -l /
+ls -la abc
+ls -1 $HOME
+cat Readme.md
+cat abc
+bonjour
+bonjour -l
+/bin/pwd
+./test
+./Makefile
+./21sh
+ls -l /dev/fd/
+; ls
+ls ;
+;;;;;;;;
+; ; ; ; ; ; ; ;
+ls ;;;;;;;;; pwd
