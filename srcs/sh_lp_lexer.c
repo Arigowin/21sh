@@ -11,17 +11,22 @@ static int			waka_land_handler(t_e_list **l_expr, char (*tmp)[], int *i)
 		ft_putendl_fd("------- WAKA LAND HANDLER ------", 2);
 
 	t_e_list			*new;
+	char				*tmp2;
 
 	new = NULL;
+	tmp2 = NULL;
 	if (ft_strncount((*l_expr)->data, '&') > 1)
 		return (FALSE);
 	if ((*l_expr)->data[ft_strlen((*l_expr)->data) - 1] == '&')
 	{
 		(*l_expr)->data[ft_strlen((*l_expr)->data) - 1] = '\0';
-		if (ft_isstrnum((*l_expr)->next->data)
-		|| ft_strcmp((*l_expr)->next->data, "-") == 0)
+		if ((*l_expr)->next != NULL && (ft_isstrnum((*l_expr)->next->data)
+		|| ft_strcmp((*l_expr)->next->data, "-") == 0))
 		{
-			str_addleft((*l_expr)->next->data, '&');
+			tmp2 = ft_strjoin((*l_expr)->next->data, "&");
+			ft_strdel(&((*l_expr)->next->data));
+			(*l_expr)->next->data = ft_strdup(tmp2);
+			ft_strdel(&tmp2);
 			(*l_expr)->next->type = RED_ARG;
 		}
 		else
@@ -181,7 +186,7 @@ int					lexer(t_e_list **l_expr)
 			printf("[%s-%d] -> ", tmp2->data, tmp2->type);
 			tmp2 = tmp2->next;
 		}
-		ft_putendl("");
+		printf("\n");
 	}
 	// fin ANTIBUG !!!!!
 	return (TRUE);

@@ -74,10 +74,8 @@ int					tokenizer(char *read_buff, t_e_list **l_expr)
 		ft_putendl_fd("------- TOKENIZER ------", 2);
 	char 				*data_tmp;
 
-//	printf ("~~~~~~~~~~(%s)~~~~~~~~~~~\n", read_buff);
-	if (read_buff)
-		data_tmp = ft_strnew(ft_strlen(read_buff));
-	finite_state_automaton(&read_buff, l_expr, &data_tmp);
+	if ((data_tmp = ft_strnew(ft_strlen(read_buff))) != NULL)
+		finite_state_automaton(&read_buff, l_expr, &data_tmp);
 	if (*data_tmp)
 	{
 		expr_pushbk(l_expr, data_tmp);

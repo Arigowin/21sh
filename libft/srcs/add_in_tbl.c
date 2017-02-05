@@ -21,5 +21,6 @@ int 			add_in_tbl(char **tbl, char c)
 		return (-1);
 	i = ft_strlen(*tbl);
 	(*tbl)[i] = c;
+	(*tbl)[i + 1] = '\0';
 	return (0);
 }

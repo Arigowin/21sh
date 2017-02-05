@@ -51,18 +51,14 @@ static int			exec_cmd_env(int i, int len, char **arg)
 	cmd = NULL;
 	if ((cmd = (char **)malloc(sizeof(char *) * ((len - i) + 1))) == NULL)
 		return (ERROR);
-	printf("exec cmd : [");
 	while (arg[i])
 	{
 		if ((cmd[j] = ft_strdup(arg[i])) == NULL)
 			return (ERROR);
-		printf("%s ", cmd[j]);
 		j++;
 		i++;
 	}
 	cmd[j] = NULL;
-	printf("]\n");
-	printf("[[%d]]\n", j);
 	init_pipefd(pipefd_tab);
 	if (check_builtin(-2, cmd, pipefd_tab, NULL) != FALSE)
 		return (TRUE);
