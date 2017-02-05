@@ -68,7 +68,7 @@ int					bi_unsetenv(char **arg, t_duo **env)
 	{
 		if (del_env(env, arg[i]) == -1)
 		{
-			//return (fct error)
+			//(fct error)
 			ft_putstr("21sh: unsetenv: '");
 			ft_putstr(arg[i]);
 			ft_putendl("': undefined variable");

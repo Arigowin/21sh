@@ -2,15 +2,6 @@
 #include "shell.h"
 #include "libft.h"
 
-int					left_move_cdt(int pos, t_line *stline)
-{
-	return (pos > 0
-		&& ((stline->quote != 0 && stline->curs_y == 0 && stline->curs_x > 2)
-			|| (stline->quote != 0 && stline->curs_y > 0)
-			|| (stline->quote == 0 && stline->curs_y == 0 && stline->curs_x > 2)
-			|| (stline->quote == 0 && stline->curs_y > 0)));
-}
-
 static int			multi_left(char **str, int *pos, t_line *stline)
 {
 	if (DEBUG_TERMCAPS == 1)
@@ -47,6 +38,15 @@ static int			multi_left(char **str, int *pos, t_line *stline)
 			tputs(tgetstr("nd", NULL), 1, my_outc);
 	}
 	return (TRUE);
+}
+
+int					left_move_cdt(int pos, t_line *stline)
+{
+	return (pos > 0
+		&& ((stline->quote != 0 && stline->curs_y == 0 && stline->curs_x > 2)
+			|| (stline->quote != 0 && stline->curs_y > 0)
+			|| (stline->quote == 0 && stline->curs_y == 0 && stline->curs_x > 2)
+			|| (stline->quote == 0 && stline->curs_y > 0)));
 }
 
 int					fct_left(char **str, int *pos, t_line *stline,

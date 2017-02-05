@@ -66,8 +66,8 @@ int					quote_is_close(char **str)
 
 }
 
-int					fct_return(char **str, int *pos, t_line *stline,
-		t_history **history)
+int					fct_return(char **str, int *pos, t_line *stline, // changer pos en p (norme)
+					t_history **history)
 {
 	if (DEBUG_KEY == 1)
 		ft_putendl_fd("------- FCT RETURN ------", 2);

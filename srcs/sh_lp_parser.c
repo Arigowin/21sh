@@ -30,7 +30,7 @@ int					move_in_list(t_e_list **l_expr)
 
 
 //longeur ok si clear_node (l183) go in retun et si erreur final go in return
-int					check_command(int *nb_hrd, t_e_list **l_expr, t_node **tree)
+static int			check_command(int *nb_hrd, t_e_list **l_expr, t_node **tree) //static ac check c pipe
 {
 	if (DEBUG_PARSER == 1)
 		ft_putendl_fd("------- CHECK COMMAND -----", 2);
@@ -79,7 +79,7 @@ int					check_command(int *nb_hrd, t_e_list **l_expr, t_node **tree)
 }
 
 //longeur ok si erreur (l220) go in retun et si erreur final go in return
-int					check_c_pipe(int *nb_hrd, t_e_list **l_expr, t_node **tree)
+static int			check_c_pipe(int *nb_hrd, t_e_list **l_expr, t_node **tree)  // static ac check expr
 {
 	if (DEBUG_PARSER == 1)
 		ft_putendl_fd("------- CHECK C PIPE ------", 2);
@@ -129,7 +129,7 @@ int					check_c_pipe(int *nb_hrd, t_e_list **l_expr, t_node **tree)
 }
 
 //longeur ok si erreur (l258) go in retun et si erreur final go in return
-int					check_expr(int *nb_hrd, t_e_list **l_expr, t_node **tree)
+static int			check_expr(int *nb_hrd, t_e_list **l_expr, t_node **tree) // static ac parser
 {
 	if (DEBUG_PARSER == 1)
 		ft_putendl_fd("------- CHECK EXPR ------", 2);

@@ -2,68 +2,6 @@
 #include "libft.h"
 #include <stdio.h>
 
-int					add_env(char *name, char *value)
-{
-	if (DEBUG == 1)
-		ft_putendl_fd("------- ADD ENV ------", 2);
-	t_duo				*env;
-
-	env = savior(NULL, FALSE);
-	if (name == NULL)
-		return (ERROR);
-/* MSG ret: ERROR exit: TRUE msg: "value not set" */
-	else
-	{
-		duo_pushback(&env, name, value);
-		savior(env, TRUE);
-	}
-	return (TRUE);
-}
-
-int					change_env(char *name, char *value)
-{
-	if (DEBUG == 1)
-		ft_putendl_fd("------- CHANGE ENV ------", 2);
-	t_duo				*env;
-
-	env = savior(NULL, FALSE);
-	while (env)
-	{
-		if (ft_strcmp(env->name, name) == 0)
-		{
-			ft_strdel(&(env->value));
-			env->value = ft_strdup(value);
-			return (TRUE);
-		}
-		env = env->next;
-	}
-	add_env(name, value);
-	return (TRUE);
-}
-
-char				*get_env(char *name)
-{
-	if (DEBUG == 1)
-		ft_putendl_fd("------- GET ENV ------", 2);
-	t_duo				*env;
-	char				*tmp;
-
-	tmp = NULL;
-	env = savior(NULL, FALSE);
-	while (env)
-	{
-		if (ft_strcmp(name, env->name) == 0)
-		{
-			if (env->value != NULL && ((tmp = ft_strdup(env->value)) == NULL)) // MALLOC
-				return (NULL);
-				/* MSG ret: NULL exit: TRUE msg: malloc error */
-			return (tmp);
-		}
-		env = env->next;
-	}
-	return (NULL);
-}
-
 int					is_builtin(char **cmd)
 {
 	if (DEBUG == 1)
@@ -93,8 +31,10 @@ int					handle_builtin(char **cmd)
 	int					i;
 	int					ret;
 	t_duo				*env;
-	static const char	*bi[] = {"echo", "cd", "setenv", "unsetenv", "env", "exit"};
-	static int			(*tbl_bi[])(char **cmd, t_duo **env) = {&bi_echo, &bi_cd, &bi_setenv, &bi_unsetenv, &bi_env, &bi_exit};
+	static const char	*bi[] = {"echo", "cd", "setenv", "unsetenv", "env",
+						"exit"};
+	static int			(*tbl_bi[])(char **cmd, t_duo **env) = {&bi_echo,
+						&bi_cd, &bi_setenv, &bi_unsetenv, &bi_env, &bi_exit};
 
 	env = savior(NULL, FALSE);
 	i = 0;
@@ -110,5 +50,30 @@ int					handle_builtin(char **cmd)
 	}
 	if (cmd)
 		free_tab(&cmd);
+	return (FALSE);
+}
+
+int					check_builtin(int fd, char **cmd, int pipefd_tab[2][2],
+					t_lst_fd **lstfd)
+{
+	if (DEBUG == 1)
+		ft_putendl_fd("------- CHECK BUILTIN ------", 2);
+
+	int					ret;
+
+	if (fd == -1)
+		return (FALSE);
+	(void)*pipefd_tab;
+	ret = -1;
+	if (is_builtin(cmd) != -1)
+	{
+		if ((ret = handle_builtin(cmd)) == ERROR)
+		{
+			// useless return
+			close_lstfd(lstfd);
+			return (ERROR);
+		}
+		return (TRUE);
+	}
 	return (FALSE);
 }

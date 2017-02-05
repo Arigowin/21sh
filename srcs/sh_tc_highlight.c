@@ -2,38 +2,6 @@
 #include "shell.h"
 #include "libft.h"
 
-int					hide_highlight(char **str, int *pos, t_line *stline,
-					t_history **history)
-{
-	if (DEBUG_COPY_PASTE == 1)
-		ft_putendl_fd("------- HIDE_HIGHLIGHT ------", 2);
-
-	char				*tmp;
-	int					i;
-	int					curs_pos;
-
-	curs_pos = (*pos);
-	tmp = ft_strdup(*str);
-	fct_end(str, pos, stline, history);
-	while (((*pos)) > 0)
-		fct_backspace(str, pos, stline, history);
-	i = 0;
-	while (tmp[i])
-	{
-		fct_insert(str, pos, tmp[i], stline);
-		i++;
-	}
-	while ((*pos) != curs_pos)
-	{
-		if ((*pos) > curs_pos)
-			fct_left(str, pos, stline, history);
-		else if ((*pos) < curs_pos)
-			fct_right(str, pos, stline, history);
-	}
-	tputs(tgetstr("ve", NULL), 1, my_outc);
-	return (TRUE);
-}
-
 static int			init_highlight(char **str, int *pos, t_line *stline)
 {
 	if (DEBUG_COPY_PASTE == 1)
@@ -70,6 +38,38 @@ static int			highlight(char **str, int *pos, t_line *stline,
 	stline->copy.pos++;
 	stline->copy.start = (*pos);
 	tputs(tgetstr("me", NULL), 1, my_outc);
+	return (TRUE);
+}
+
+int					hide_highlight(char **str, int *pos, t_line *stline,
+					t_history **history)
+{
+	if (DEBUG_COPY_PASTE == 1)
+		ft_putendl_fd("------- HIDE_HIGHLIGHT ------", 2);
+
+	char				*tmp;
+	int					i;
+	int					curs_pos;
+
+	curs_pos = (*pos);
+	tmp = ft_strdup(*str);
+	fct_end(str, pos, stline, history);
+	while (((*pos)) > 0)
+		fct_backspace(str, pos, stline, history);
+	i = 0;
+	while (tmp[i])
+	{
+		fct_insert(str, pos, tmp[i], stline);
+		i++;
+	}
+	while ((*pos) != curs_pos)
+	{
+		if ((*pos) > curs_pos)
+			fct_left(str, pos, stline, history);
+		else if ((*pos) < curs_pos)
+			fct_right(str, pos, stline, history);
+	}
+	tputs(tgetstr("ve", NULL), 1, my_outc);
 	return (TRUE);
 }
 

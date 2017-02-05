@@ -26,7 +26,7 @@ static char			**tree_to_tbl(t_node *tree, int nb_elem)
 	return (tbl);
 }
 
-char				**format_cmd(t_node *tree)
+static char			**format_cmd(t_node *tree) //static ac manage cmd
 {
 	if (DEBUG_CMD == 1)
 		ft_putendl_fd ("----- FORMAT CMD -----", 2);
@@ -52,7 +52,7 @@ char				**format_cmd(t_node *tree)
 	return (ret);
 }
 
-int					manage_cmd_without_pipe(int pipefd_tab[2][2], t_node *tree,
+static int			manage_cmd_without_pipe(int pipefd_tab[2][2], t_node *tree,
 		t_lst_fd **lstfd, char **cmd)
 {
 	if (DEBUG_CMD == 1)
