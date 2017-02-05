@@ -1,0 +1,9 @@
+echo "toto"
+echo "bonjour     les    amis "
+echo 'bonjour les  amis'
+echo 'abc\'abc'def' // a revoir pas prendre en compte le \
+echo "abc\"abc"
+echo "abc'abc"
+echo 'abc"abc'
+echo "\q\b\c"
+echo '\q\b\c'
