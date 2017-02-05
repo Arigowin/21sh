@@ -90,6 +90,7 @@ int					fct_return(char **str, int *pos, t_line *stline, // changer pos en p (no
 	}
 	else
 	{
+		(*str)[*pos] = '\0';
 		if (stline->copy.cpy != NULL && stline->copy.start != -1)
 			fct_highlight(str, pos, stline, history);
 		if (*str && (*str)[0])

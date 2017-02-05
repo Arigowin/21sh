@@ -33,7 +33,6 @@ int					check_red_arg(t_e_list **l_expr, t_node **tree)
 	{
 		if (filled_red_arg(l_expr, &node) == FALSE)
 		{
-			// printf("CLEAR ? \n");
 			//		clear_node(&node);
 			return (FALSE);
 		}
@@ -90,13 +89,10 @@ int					check_red(int *nb_hrd, t_e_list **l_expr, t_node **tree)
 			/* MSG ret: FALSE exit: FALSE msg: malloc fail*/
 			/* free: node */
 		}
-		//	node->type = ft_strequ(list_save->data, ">") ? RRED : 0;
-		// printf(">>>>>>>>>>>>>>>>>>> %p\n", list_save->data);
 		node->type = ft_strequ(list_save->data, ">") ? RRED : RED;
 		node->type = ft_strequ(list_save->data, ">>") ? DRRED : node->type;
 		node->type = ft_strequ(list_save->data, "<") ? LRED : node->type;
 		node->type = ft_strequ(list_save->data, "<<") ? DLRED : node->type;
-		// TOTO
 		*nb_hrd += (node->type == DLRED ? 1 : 0);
 		if (!move_in_list(l_expr) || check_red(nb_hrd, l_expr, &(node->left)) != TRUE)
 			*tree = save;
@@ -131,7 +127,6 @@ int					check_arg(int *nb_hrd, t_e_list **l_expr, t_node **tree,
 	save = *tree;
 	if ((*l_expr)->type == CMD_ARG && ((node = create_node(CMD_ARG)) != NULL))
 	{
-//		dprintf(2, "************************************** data:(%s) *********************\n", (*l_expr)->data);
 		if ((node->data = ft_strdup((*l_expr)->data)) == NULL)
 		{
 			//	clear_node(&node);

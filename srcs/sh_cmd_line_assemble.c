@@ -23,11 +23,9 @@ static int			null_input(int fd) // static ac check fct
 		ft_putendl_fd("------- NULL INPUT ------", 2);
 
 	int					pfd[2];
-//	dprintf(2, "in null input (%d)\n", fd);
 
 	if (fd == -1)
 	{
-	//dprintf(2, "in IF null input (%d)\n", fd);
 		if (pipe(pfd) == ERROR)
 			/* RET: error EXIT: false MSG: "pipe fail" */
 			return (ERROR);
@@ -53,7 +51,6 @@ int					check_fct(int fd, char **cmd)
 	int					i;
 	char				**tbl_env;
 
-	//dprintf(2, "------------(%d)(%s)-------------\n", fd, cmd[0]);
 	null_input(fd);
 	env = savior(NULL, FALSE);
 	tbl_env = duo_to_tbl(env, "=");

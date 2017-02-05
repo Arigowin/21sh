@@ -52,7 +52,6 @@ static int			son(char **cmd, int pipefd_tab[2][2], t_node *tree,
 		exit(EXIT_SUCCESS);
 	check_signal(2);
 	if (check_fct(fd, cmd) == -2)
-	//dprintf (2, "EXIT\n");
 		exit(EXIT_FAILURE);
 	/* RET: error EXIT: true MSG: "command not found" */
 	ft_putstr_fd("21sh: ", 2);
