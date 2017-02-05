@@ -284,7 +284,7 @@ int						tokenizer(char *read_buff, t_e_list **l_expr);
 /*
 ** sh_lp_tokenizer_spec
 */
-int						token_backslash(char **buff, char **data_tmp);
+int						token_backslash(states state, char **read_buff, char **data_tmp);
 int						token_dollar(char **read_buff, char **data_tmp);
 int						token_tilde(char **buff, char **data_tmp, int *bln);
 

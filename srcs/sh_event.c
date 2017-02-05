@@ -38,30 +38,28 @@ int					check_end_pipe(char **str, int *pos)
 	return (FALSE);
 }
 
-int					quote_is_close(char **str, t_line *stline)
+int					quote_is_close(char **str)
 {
 	int					i;
 	int					quote;
+	int					back;
 
 	i = 0;
-	(void)stline;
 	quote = 0;
+	back = 0;
 	while (str && *str && (*str)[i])
 	{
-		if (quote != DQUOTE && (*str)[i] == QUOTE && (*str)[i - 1] && (*str)[i - 1] != '\\')
-		{
-			if (quote != 0)
-				quote = 0;
-			else
-				quote = QUOTE;
-		}
-		if (quote != QUOTE && (*str)[i] == DQUOTE && (*str)[i - 1] && (*str)[i - 1] != '\\')
-		{
-			if (quote != 0)
-				quote = 0;
-			else
-				quote = DQUOTE;
-		}
+		if (quote != DQUOTE && (*str)[i] == QUOTE && (*str)[i - 1]
+				&& ((*str)[i - 1] != '\\' || back % 2 == 0))
+			quote = (quote != 0 ? 0 : QUOTE);
+		if (quote != QUOTE && (*str)[i] == DQUOTE && (*str)[i - 1]
+				&& ((*str)[i - 1] != '\\' || back % 2 == 0))
+			quote = (quote != 0 ? 0 : DQUOTE);
+		if ((*str)[i] == '\\')
+			back++;
+		else if (back > 0 && ((*str)[i] != '\\' || ((*str)[i] != QUOTE
+						|| (*str)[i] != DQUOTE)))
+			back = 0;
 		i++;
 	}
 	return (quote);
@@ -75,9 +73,10 @@ int					fct_return(char **str, int *pos, t_line *stline, // changer pos en p (no
 		ft_putendl_fd("------- FCT RETURN ------", 2);
 
 	fct_end(str, pos, stline, history);
-	stline->quote = quote_is_close(str, stline);
-	if (stline->quote != 0 || stline->hrd.nb > 0 || (*pos > 0 && (*str)[*pos - 1]
-	&& (*str)[*pos - 1] == '\\') || (*pos > 0 && check_end_pipe(str, pos))) // ajout si 'pipe' a la fin de la ligne
+	stline->quote = quote_is_close(str);
+	if (stline->quote != 0 || (*pos > 0 && (*str)[*pos - 1]
+				&& (*str)[*pos - 1] == '\\') || stline->hrd.nb > 0
+			|| (*pos > 0 && check_end_pipe(str, pos))) // ajout si 'pipe' a la fin de la ligne
 	{
 		if (stline->hrd.nb > 0)
 		{
