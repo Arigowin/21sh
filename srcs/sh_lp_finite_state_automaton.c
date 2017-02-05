@@ -32,12 +32,12 @@ static int			state_standard(char **read_buff, char **data_tmp,
 		token_backslash(STANDARD, read_buff, data_tmp);
 	else if (**read_buff == '$')
 		token_dollar(read_buff, data_tmp);
-	else if (**read_buff == '~' && *bln == FALSE)
+	else if (**read_buff && **read_buff == '~' && *bln == FALSE)
 	{
 		if (token_tilde(read_buff, data_tmp, bln) == FALSE)
 			add_in_tbl(data_tmp, **read_buff);
 	}
-	else if (ft_strchr(SEP, **read_buff))
+	else if (**read_buff && ft_strchr(SEP, **read_buff))
 	{
 		*bln = FALSE;
 		token_sep(read_buff, data_tmp, l_expr);
@@ -53,7 +53,7 @@ static int			state_quote(char curr_char, char **data_tmp)
 	if (DEBUG_TOKEN == 1)
 		ft_putendl_fd("------- STATE QUOTE ------", 2);
 
-	if (curr_char != QUOTE)
+	if (curr_char && curr_char != QUOTE)
 		add_in_tbl(data_tmp, curr_char);
 	return (TRUE);
 }
@@ -84,16 +84,19 @@ int 				finite_state_automaton(char **read_buff, t_e_list **l_expr,
 
 	bln = FALSE;
 	state = STANDARD;
-	while (*read_buff && **read_buff)
+	if (data_tmp && read_buff && *read_buff)
 	{
-		state = get_state(state, read_buff);
-		if (state == STANDARD)
-			state_standard(read_buff, data_tmp, &bln, l_expr);
-		else if (state == IN_QUOTE)
-			state_quote(**read_buff, data_tmp);
-		else if (state == IN_DQUOTE)
-			state_dquote(read_buff, data_tmp);
-		(*read_buff)++;
+		while (read_buff && *read_buff && **read_buff)
+		{
+			state = get_state(state, read_buff);
+			if (state == STANDARD)
+				state_standard(read_buff, data_tmp, &bln, l_expr);
+			else if (state == IN_QUOTE)
+				state_quote(**read_buff, data_tmp);
+			else if (state == IN_DQUOTE)
+				state_dquote(read_buff, data_tmp);
+			(*read_buff)++;
+		}
 	}
 	return (TRUE);
 }
