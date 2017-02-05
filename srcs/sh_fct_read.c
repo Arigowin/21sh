@@ -49,7 +49,7 @@ static int			read_n_check(int *nb_hrd, char *read_buff, t_node **tree) // static
 	}
 	savior_tree(*tree, TRUE);
 	expr_del(&save);
-	if (DEBUG_TREE_VERIF == 0)
+	if (DEBUG_TREE_VERIF == 1)
 		tree_traversal_verif(*tree);
 	return (TRUE);
 }
