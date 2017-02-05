@@ -12,7 +12,6 @@ int					is_builtin(char **cmd)
 
 	i = 0;
 	if (cmd)
-	//dprintf(2, "***************BI : (%s)****************************\n", cmd[0]);
 	while (i < 6)
 	{
 		if (ft_strcmp(cmd[0], bi[i]) == 0)

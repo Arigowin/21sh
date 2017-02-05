@@ -29,8 +29,8 @@ static int			state_standard(char **read_buff, char **data_tmp,
 	if (**read_buff == DQUOTE)
 		return (FALSE);
 	if (**read_buff == '\\')
-		token_backslash(read_buff, data_tmp);
-	else if (**read_buff && **read_buff == '$')
+		token_backslash(STANDARD, read_buff, data_tmp);
+	else if (**read_buff == '$')
 		token_dollar(read_buff, data_tmp);
 	else if (**read_buff && **read_buff == '~' && *bln == FALSE)
 	{
@@ -66,7 +66,7 @@ static int			state_dquote(char **read_buff, char **data_tmp)
 	if (**read_buff == DQUOTE)
 		return (FALSE);
 	if (**read_buff == '\\')
-		token_backslash(read_buff, data_tmp);
+		token_backslash(IN_DQUOTE, read_buff, data_tmp);
 	else if (**read_buff == '$')
 		token_dollar(read_buff, data_tmp);
 	else
@@ -88,7 +88,6 @@ int 				finite_state_automaton(char **read_buff, t_e_list **l_expr,
 	{
 		while (read_buff && *read_buff && **read_buff)
 		{
-//		ft_putchar(**read_buff); //debug
 			state = get_state(state, read_buff);
 			if (state == STANDARD)
 				state_standard(read_buff, data_tmp, &bln, l_expr);
@@ -99,6 +98,5 @@ int 				finite_state_automaton(char **read_buff, t_e_list **l_expr,
 			(*read_buff)++;
 		}
 	}
-//	ft_putendl("");
 	return (TRUE);
 }
