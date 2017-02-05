@@ -23,7 +23,7 @@ static int			waka_land_handler(t_e_list **l_expr, char (*tmp)[], int *i)
 		if ((*l_expr)->next != NULL && (ft_isstrnum((*l_expr)->next->data)
 		|| ft_strcmp((*l_expr)->next->data, "-") == 0))
 		{
-			tmp2 = ft_strjoin((*l_expr)->next->data, "&");
+			tmp2 = ft_strjoin("&", (*l_expr)->next->data);
 			ft_strdel(&((*l_expr)->next->data));
 			(*l_expr)->next->data = ft_strdup(tmp2);
 			ft_strdel(&tmp2);
