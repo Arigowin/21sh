@@ -24,16 +24,20 @@ int					checktty(t_line *stline)
 		{
 			buff[ret] = '\0';
 			if (tmp == NULL)
-				tmp2 = ft_strdup(buff);
+				tmp = ft_strdup(buff);
 			else
+			{
 				tmp2 = ft_strjoin(tmp, buff);
-			if (tmp)
 				ft_strdel(&tmp);
-			tmp = ft_strdup(tmp2);
+				tmp = ft_strdup(tmp2);
+				ft_strdel(&tmp2);
+			}
 		}
+		ft_strdel(&tmp2);
 		if (tmp && ret >= 0)
 		{
 			cmd = ft_strsplit(tmp, '\n');
+			ft_strdel(&tmp);
 			i = 0;
 			while (cmd[i])
 			{
@@ -43,8 +47,10 @@ int					checktty(t_line *stline)
 				check_after_read(stline, NULL);
 				i++;
 			}
+			free_tab(&cmd);
 			exit(EXIT_SUCCESS);
 		}
+		ft_strdel(&tmp);
 		exit(EXIT_FAILURE);
 	}
 	return (TRUE);
