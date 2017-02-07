@@ -41,20 +41,12 @@ int					display_prompt(void)
 	path = get_path(); //free ok
 	name = get_env("LOGNAME"); //free ok
 	if (name)
-	{
-		ft_putstr("\033[34;1m");
-		ft_putstr(name);
-		ft_putstr("\033[0m:");
-	}
+		ft_putstr_color("\033[34;1m", name);
 	if (path)
-	{
-		ft_putstr("\033[32;1m");
-		ft_putstr(path);
-		ft_putstr("\033[0m");
-	}
+		ft_putstr_color("\033[32;1m", path);
 	if (path || name)
 		ft_putchar('\n');
-	ft_putstr("\033[36m> \033[0m");
+	ft_putstr_color("\033[36m", "> ");
 	if (name)
 		free(name);
 	if (path)

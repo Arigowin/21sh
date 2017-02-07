@@ -38,7 +38,7 @@ int					token_dollar(char **read_buff, char **data_tmp)
 		return (ERROR);
 	/* MSG ret: ERROR exit: FALSE msg: "malloc fail"
 	 * free: read_buff + data_tmp */
-	while (ft_strchr(SEP, **read_buff) == NULL && **read_buff != QUOTE && **read_buff != DQUOTE)
+	while ((ft_strchr(SEP, **read_buff) == NULL && ft_strchr("/", **read_buff) == NULL) && **read_buff != QUOTE && **read_buff != DQUOTE)
 	{
 		add_in_tbl(&env_name, **read_buff);
 		(*read_buff)++;
@@ -83,7 +83,10 @@ int					token_tilde(char **read_buff, char **data_tmp, int *bln)
 	tmp = NULL;
 	if ((env_val = get_env("HOME")) == NULL || (*(*read_buff + 1) &&
 	ft_strchr(SEP, *(*read_buff + 1)) == NULL && *(*read_buff + 1) != '/'))
+	{
+		ft_strdel(&env_val);
 		return (FALSE);
+	}
 	if (*data_tmp && (tmp = ft_strdup(*data_tmp)) == NULL)
 	{
 		ft_strdel(&env_val);

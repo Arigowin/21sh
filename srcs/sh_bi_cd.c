@@ -16,11 +16,11 @@ static int			change_dir(char *path)
 		ft_putstr("21sh: cd: ");
 		ft_putstr(path);
 		if (stat(path, &stat_buf) == 0 && !S_ISDIR(stat_buf.st_mode))
-			ft_putendl(": not a directory");
+			ft_putendl_fd(": not a directory", 2);
 		else if ((access(path, F_OK)) == ERROR)
-			ft_putendl(": no such file or directory");
+			ft_putendl_fd(": no such file or directory", 2);
 		else
-			ft_putendl(": permission denied");
+			ft_putendl_fd(": permission denied", 2);
 		return (FALSE);
 	}
 	return (TRUE);
@@ -49,7 +49,7 @@ static int			handle_cd_arg(int *i, int *ret, char **arg)
 	char				*tmp;
 
 	tmp = get_env("OLDPWD");
-	if (check_opt(arg, i) == FALSE)
+	if (check_opt(arg, i) == ERROR)
 	{
 		ft_strdel(&tmp);
 		return (FALSE);

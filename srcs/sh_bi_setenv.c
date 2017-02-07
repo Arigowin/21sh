@@ -14,7 +14,7 @@ int					valid_env_name(char *str)
 		ft_putstr_fd("21sh: setenv: '", 2);
 		ft_putstr_fd(str, 2);
 		ft_putendl_fd("': not a valid identifier", 2);
-		return (ERROR);
+		return (FALSE);
 	}
 	while (str[i])
 	{
@@ -23,7 +23,7 @@ int					valid_env_name(char *str)
 			ft_putstr_fd("21sh: setenv: '", 2);
 			ft_putstr_fd(str, 2);
 			ft_putendl_fd("': not a valid identifier", 2);
-			return (ERROR);
+			return (FALSE);
 		}
 		i++;
 	}
@@ -40,8 +40,8 @@ int					bi_setenv(char **arg, t_duo **env)
 	i = 0;
 	while (arg[i])
 	{
-		if (i == 1 && valid_env_name(arg[i]) == ERROR)
-			return (ERROR);
+		if (i == 1 && valid_env_name(arg[i]) == FALSE)
+			return (FALSE);
 		/* MSG ret: ERROR exit: FALSE msg: "" */
 		// en cas d erreur on aura deja ecris l erreur dans is_valid
 		i++;
@@ -58,7 +58,7 @@ int					bi_setenv(char **arg, t_duo **env)
 	if (i > 3)
 	{
 		ft_putendl_fd("21sh: setenv: too many arguments.", 2);
-		return (ERROR);
+		return (FALSE);
 		/* MSG ret: ERROR exit: FALSE msg: "" */
 	}
 	return (TRUE);

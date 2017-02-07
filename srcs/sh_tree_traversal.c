@@ -46,7 +46,6 @@ int					fd_open(int	*fd, t_node *tree, t_lst_fd **lstfd)
 			return (ERROR);
 	/* MSG ret: ERROR exit: TRUE msg: "malloc fail" */
 	/* free : node + lstfd */
-	dprintf(2, "-------((%s)) ((%s))-------------------\n", node->data, filename);
 	if (node && node->data && node->data[0] == '&')
 		*fd = (ft_strcmp("&-", node->data) == 0 ? -42 : ft_atoi(filename + 1));
 	else
@@ -137,7 +136,7 @@ int					tree_traversal(t_node *tree, t_lst_fd **lstfd, int pipefd_tab[2][2])
 
 	ret = 0;
 	tmpfd = NULL;
-	savior_tty(ttyname(0), TRUE);
+	savior_tty(ttyname(1), TRUE);
 
 	if (tree && tree->type == SEMI)
 	{
