@@ -11,20 +11,25 @@ int					checktty(t_line *stline)
 	char				buff[BUFF_SIZE + 1];
 	int					ret;
 	char				*tmp;
+	char				*tmp2;
 	char				**cmd;
 	int					i;
 
 	ret = 0;
 	tmp = NULL;
+	tmp2 = NULL;
 	if (!isatty(0))
 	{
 		while ((ret = read(0, &buff, BUFF_SIZE)) > 0)
 		{
 			buff[ret] = '\0';
 			if (tmp == NULL)
-				tmp = ft_strdup(buff);
+				tmp2 = ft_strdup(buff);
 			else
-				tmp = ft_strjoin(tmp, buff);
+				tmp2 = ft_strjoin(tmp, buff);
+			if (tmp)
+				ft_strdel(&tmp);
+			tmp = ft_strdup(tmp2);
 		}
 		if (tmp && ret >= 0)
 		{
@@ -32,6 +37,8 @@ int					checktty(t_line *stline)
 			i = 0;
 			while (cmd[i])
 			{
+				if (i>0)
+					ft_strdel(&(stline->line));
 				stline->line = ft_strdup(cmd[i]);
 				check_after_read(stline, NULL);
 				i++;
@@ -59,8 +66,8 @@ int					main(int argc, char **argv)
 		return (ERROR);
 	init_stline(&stline);
 	exec_test(argc, argv, &stline, history);
-	load_history(&history);
 	checktty(&stline);
+	load_history(&history);
 	init_term();
 	while (TRUE)
 	{

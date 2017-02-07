@@ -67,7 +67,6 @@ int					token_dollar(char **read_buff, char **data_tmp)
 	/* MSG ret: ERROR exit: FALSE msg: "malloc fail"
 	 * free: read_buff + data_tmp + env_name */
 	concat(data_tmp, tmp, env_val);
-	printf("[%s]\n", *data_tmp);
 	ft_strdel(&env_val);
 	ft_strdel(&tmp);
 	return (TRUE);

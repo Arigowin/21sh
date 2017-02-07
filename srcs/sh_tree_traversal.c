@@ -136,7 +136,7 @@ int					tree_traversal(t_node *tree, t_lst_fd **lstfd, int pipefd_tab[2][2])
 
 	ret = 0;
 	tmpfd = NULL;
-	savior_tty(ttyname(0), TRUE);
+	savior_tty(ttyname(1), TRUE);
 
 	if (tree && tree->type == SEMI)
 	{
