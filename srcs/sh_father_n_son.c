@@ -82,6 +82,6 @@ int					handle_fork(int pipefd_tab[2][2], t_node *tree,
 	}
 	else
 		father(pipefd_tab);
-	init_term();
+	init_term(FALSE);
 	return (TRUE);
 }

@@ -74,7 +74,7 @@ int					main(int argc, char **argv)
 	exec_test(argc, argv, &stline, history);
 	checktty(&stline);
 	load_history(&history);
-	init_term();
+	init_term(TRUE);
 	while (TRUE)
 	{
 		if (stline.line != NULL && stline.line[0] != '\0')

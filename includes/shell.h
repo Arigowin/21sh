@@ -326,7 +326,7 @@ int						check_fct(int fd, char **cmd);
 ** sh_tc_termcap
 */
 int						my_outc(int c);
-int						init_term();
+int						init_term(int full_init);
 int						reset_term();
 
 /*
