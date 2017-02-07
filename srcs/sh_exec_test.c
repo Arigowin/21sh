@@ -60,8 +60,12 @@ int					exec_test(int argc, char **argv, t_line *stline, t_history *history)
 	int					fd;
 	char				*line;
 	int					i;
+	t_duo				*save_env;
+	t_line				*save_stline;
 
 	line = NULL;
+	save_env = savior(NULL, FALSE);
+	save_stline = savior_stline(NULL, FALSE);
 	if (argc != 2)
 		return (FALSE);
 	fd = open(argv[1], O_RDONLY);
@@ -102,6 +106,9 @@ int					exec_test(int argc, char **argv, t_line *stline, t_history *history)
 	ft_putendl("------------- END TEST -------------");
 	ft_putendl("");
 	close(fd);
+	duo_del(&save_env);
+	ft_strdel(&(stline->hrd.line));
+	ft_strdel(&(stline->line));
 	exit(EXIT_SUCCESS);
 	return (TRUE);
 }

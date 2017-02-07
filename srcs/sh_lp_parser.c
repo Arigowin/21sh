@@ -164,7 +164,11 @@ static int			check_expr(int *nb_hrd, t_e_list **l_expr, t_node **tree) // static
 			//			clear_node(&node);
 			if (move_in_list(l_expr))
 				if (check_expr(nb_hrd, l_expr, &(node->right)) == ERROR)
+				{
+					parse_error((*l_expr)->data);
+					clear_node(&node);
 					return (ERROR);
+				}
 			//	*tree = node; // bis repetita
 			//			clear_node(&node); // un clear_node(&node) ici segfault
 			return (TRUE);
