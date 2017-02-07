@@ -16,13 +16,13 @@ int					bi_exit(char **arg, t_duo **env)
 	tree = savior_tree(NULL, FALSE);
 	hist = *(savior_history(NULL, FALSE));
 	stline = savior_stline(NULL, FALSE);
-	if (tree)
-		del_tree(&tree);
 	if (arg && arg[1] && arg[2])
 	{
 		ft_putendl("21sh: exit : too many arguments");
-		return (ERROR);
+		return (FALSE);
 	}
+	if (tree)
+		del_tree(&tree);
 	while (arg && arg[1] && arg[1][i])
 	{
 		if (ft_isdigit(arg[1][i]) == 0)
