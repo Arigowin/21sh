@@ -64,7 +64,7 @@ int					main(int argc, char **argv)
 	init_term();
 	while (TRUE)
 	{
-		if (stline.line == NULL && stline.line[0] != '\0')
+		if (stline.line != NULL && stline.line[0] != '\0')
 			reset_stline(&stline);
 		check_signal(1);
 		display_prompt();
