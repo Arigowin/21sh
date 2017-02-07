@@ -38,7 +38,7 @@ int					token_dollar(char **read_buff, char **data_tmp)
 		return (ERROR);
 	/* MSG ret: ERROR exit: FALSE msg: "malloc fail"
 	 * free: read_buff + data_tmp */
-	while (ft_strchr(SEP, **read_buff) == NULL && **read_buff != QUOTE && **read_buff != DQUOTE)
+	while ((ft_strchr(SEP, **read_buff) == NULL && ft_strchr("/", **read_buff) == NULL) && **read_buff != QUOTE && **read_buff != DQUOTE)
 	{
 		add_in_tbl(&env_name, **read_buff);
 		(*read_buff)++;

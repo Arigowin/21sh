@@ -22,7 +22,7 @@ static int			bi_opt(char *arg, int *no_more, char *handled_opt) //static ac chec
 				ft_putstr_fd(arg, 2);
 				ft_putendl_fd(": invalid option.", 2);
 				//	cd_error(1, arg); // invalid option
-				return (FALSE);
+				return (ERROR);
 			}
 			i++;
 		}
@@ -46,7 +46,7 @@ int					check_opt(char **arg, int *i)
 			break ;
 		(*i)++;
 	}
-	if (ret == FALSE)
-		return (FALSE);
+	if (ret == ERROR)
+		return (ERROR);
 	return (TRUE);
 }

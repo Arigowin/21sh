@@ -32,6 +32,8 @@ int					reset_std_fd(void)
 
 	fd = -1;
 	std_fd = STDIN_FILENO;
+	if (savior_tty(NULL, FALSE) == NULL)
+		return (FALSE);
 	while (std_fd <= STDERR_FILENO)
 	{
 		if ((fd = open(savior_tty(NULL, FALSE), O_RDWR)) == ERROR)

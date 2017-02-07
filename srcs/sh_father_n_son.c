@@ -42,9 +42,11 @@ static int			son(char **cmd, int pipefd_tab[2][2], t_node *tree,
 	&& lstfd && *lstfd && !(ret = redirect(tree->left, *lstfd)))
 	{
 		if (ret == ERROR)
+		{
 /* RET: error EXIT: false MSG: "i don't know" */
 			exit(EXIT_FAILURE);
 			return (ERROR);
+		}
 		if (ret == FALSE)
 			exit(EXIT_FAILURE);
 	}
@@ -80,6 +82,6 @@ int					handle_fork(int pipefd_tab[2][2], t_node *tree,
 	}
 	else
 		father(pipefd_tab);
-	init_term();
+	init_term(FALSE);
 	return (TRUE);
 }

@@ -136,7 +136,7 @@ int					tree_traversal(t_node *tree, t_lst_fd **lstfd, int pipefd_tab[2][2])
 
 	ret = 0;
 	tmpfd = NULL;
-	savior_tty(ttyname(0), TRUE);
+	savior_tty(ttyname(1), TRUE);
 
 	if (tree && tree->type == SEMI)
 	{
@@ -153,7 +153,7 @@ int					tree_traversal(t_node *tree, t_lst_fd **lstfd, int pipefd_tab[2][2])
 		manage_red_fd(-2, tree, lstfd, NONE);
 
 		//ANTIBUG
-		if (DEBUG_ANTIBUG == 1)
+		if (DEBUG_ANTIBUG == 0)
 		{
 			printf("lstfd :\n");
 			t_lst_fd *tmp = *lstfd;

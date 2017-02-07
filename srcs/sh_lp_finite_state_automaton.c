@@ -10,7 +10,6 @@ static states		get_state(states state, char **read_buff)
 		return (IN_DQUOTE);
 	if (state == STANDARD && **read_buff == '\'')
 		return (IN_QUOTE);
-	// TOTO
 	if ((state == IN_DQUOTE && **read_buff == '"')
 		|| (state == IN_QUOTE && **read_buff == '\''))
 	{
@@ -20,10 +19,10 @@ static states		get_state(states state, char **read_buff)
 	return (state);
 }
 
-static int			state_standard(char **read_buff, char **data_tmp,
+static int			state_standard(int *hrd, char **read_buff, char **data_tmp,
 								   int *bln, t_e_list **l_expr)
 {
-	if (DEBUG_TOKEN == 1)
+	if (DEBUG_TOKEN == 0)
 		ft_putendl_fd("------- STATE STANDARD ------", 2);
 
 	if (**read_buff == DQUOTE)
@@ -40,7 +39,7 @@ static int			state_standard(char **read_buff, char **data_tmp,
 	else if (**read_buff && ft_strchr(SEP, **read_buff))
 	{
 		*bln = FALSE;
-		token_sep(read_buff, data_tmp, l_expr);
+		token_sep(hrd, read_buff, data_tmp, l_expr);
 	}
 	else
 		add_in_tbl(data_tmp, **read_buff);
@@ -48,9 +47,11 @@ static int			state_standard(char **read_buff, char **data_tmp,
 }
 
 
-static int			state_quote(char curr_char, char **data_tmp)
+static int			state_quote(int *hrd, char curr_char, char **data_tmp)
 {
-	if (DEBUG_TOKEN == 1)
+	if (*hrd == 1)
+		*hrd = 2;
+	if (DEBUG_TOKEN == 0)
 		ft_putendl_fd("------- STATE QUOTE ------", 2);
 
 	if (curr_char && curr_char != QUOTE)
@@ -58,11 +59,14 @@ static int			state_quote(char curr_char, char **data_tmp)
 	return (TRUE);
 }
 
-static int			state_dquote(char **read_buff, char **data_tmp)
+static int			state_dquote(int *hrd, char **read_buff, char **data_tmp)
 {
-	if (DEBUG_TOKEN == 1)
+	if (DEBUG_TOKEN == 0)
 		ft_putendl_fd("------- STATE DQUOTE ------", 2);
 
+	printf("IN DQUOTE : ((%d))\n", *hrd);
+	if (*hrd == 1)
+		*hrd = 2;
 	if (**read_buff == DQUOTE)
 		return (FALSE);
 	if (**read_buff == '\\')
@@ -74,7 +78,7 @@ static int			state_dquote(char **read_buff, char **data_tmp)
 	return (TRUE);
 }
 
-int 				finite_state_automaton(char **read_buff, t_e_list **l_expr,
+int 				finite_state_automaton(int *hrd, char **read_buff, t_e_list **l_expr,
 										   char **data_tmp)
 {
 	if (DEBUG_TOKEN == 1)
@@ -84,17 +88,26 @@ int 				finite_state_automaton(char **read_buff, t_e_list **l_expr,
 
 	bln = FALSE;
 	state = STANDARD;
+	printf("IN FSA0 : ((%s))\n", *read_buff);
 	if (data_tmp && read_buff && *read_buff)
 	{
 		while (read_buff && *read_buff && **read_buff)
 		{
+	printf("IN FSA : ((%c-%d))\n", **read_buff, *hrd);
 			state = get_state(state, read_buff);
 			if (state == STANDARD)
-				state_standard(read_buff, data_tmp, &bln, l_expr);
+			{
+				state_standard(hrd, read_buff, data_tmp, &bln, l_expr);
+				printf ("data tmp ap standard ((%s))\n", *data_tmp);
+		}
 			else if (state == IN_QUOTE)
-				state_quote(**read_buff, data_tmp);
+			{
+				state_quote(hrd, **read_buff, data_tmp);
+	printf("IN FSA : ((%d))1\n", *hrd);}
 			else if (state == IN_DQUOTE)
-				state_dquote(read_buff, data_tmp);
+			{
+				state_dquote(hrd, read_buff, data_tmp);
+	printf("IN FSA : ((%d))2\n", *hrd);}
 			(*read_buff)++;
 		}
 	}

@@ -10,7 +10,7 @@ static char			*join_exe(char *s1, char *s2) //static ac check fct
 	char				*tmp;
 
 	if (s2[0] == '/' || (s2[0] == '.' && s2[1] == '/'))
-		return (s2);
+		return (ft_strdup(s2));
 	tmp = ft_strjoin("/", s2);
 	rlt = ft_strjoin(s1, tmp);
 	ft_strdel(&tmp);
@@ -66,13 +66,17 @@ int					check_fct(int fd, char **cmd)
 	while (path[++i])
 	{
 		tmp = join_exe(path[i], cmd[0]);
-		if (access(tmp, F_OK) != ERROR && access(tmp, X_OK) == ERROR)
+		if (access(tmp, F_OK) != ERROR)
 		{
-			ft_putstr_fd("21sh: ", 2); //fct erreur
-			ft_putstr_fd(cmd[0], 2);
-			ft_putendl_fd(": Permission denied", 2);
+			if (access(tmp, X_OK) == ERROR)
+			{
+				ft_putstr_fd("21sh: ", 2); //fct erreur
+				ft_putstr_fd(cmd[0], 2);
+				ft_putendl_fd(": Permission denied", 2);
+				return (-2);
+			}
+			execve(tmp, cmd, tbl_env);
 		}
-		execve(tmp, cmd, tbl_env);
 		ft_strdel(&tmp);
 	}
 	free_tab(&tbl_env);
