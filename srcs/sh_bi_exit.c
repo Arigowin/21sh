@@ -30,7 +30,7 @@ int					bi_exit(char **arg, t_duo **env)
 			ft_putstr("21sh :exit : ");
 			ft_putstr(arg[1]);
 			ft_putendl(": numeric argument required");
-			return (ERROR);
+			exit(255);
 		}
 		i++;
 	}
