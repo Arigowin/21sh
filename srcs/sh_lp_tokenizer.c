@@ -39,7 +39,7 @@ int					concat(char **dest, char *s1, char *s2)
 	return (TRUE);
 }
 
-int 				token_sep(char **read_buff, char **data_tmp,
+int 				token_sep(int *hrd, char **read_buff, char **data_tmp,
 					t_e_list **l_expr)
 {
 	if (DEBUG_TOKEN == 1)
@@ -47,7 +47,9 @@ int 				token_sep(char **read_buff, char **data_tmp,
 
 	if (pushbck_cdt(read_buff, data_tmp))
 	{
-		expr_pushbk(l_expr, *data_tmp);
+		expr_pushbk(l_expr, *data_tmp, *hrd);
+		if (*hrd >= 1 && ft_strcmp("<<", *data_tmp) != 0)
+			*hrd = 0;
 		ft_bzero(*data_tmp, ft_strlen(*data_tmp));
 	}
 	if (read_buff && *read_buff && **read_buff && ft_strchr(SPECIAL, **read_buff))
@@ -62,7 +64,11 @@ int 				token_sep(char **read_buff, char **data_tmp,
 		if ((**read_buff == '&' && ft_strchr(WAKA, (*(*read_buff + 1))))
 		|| (ft_strchr(WAKA, **read_buff) && (*(*read_buff + 1)) == '&'))
 			return (TRUE);
-		expr_pushbk(l_expr, *data_tmp);
+		expr_pushbk(l_expr, *data_tmp, *hrd);
+		if (*hrd >= 1 && ft_strcmp("<<", *data_tmp) != 0)
+			*hrd = 0;
+		if (ft_strcmp("<<", *data_tmp) == 0)
+			*hrd = 1;
 		ft_bzero(*data_tmp, ft_strlen(*data_tmp));
 	}
 	return (TRUE);
@@ -73,13 +79,19 @@ int					tokenizer(char *read_buff, t_e_list **l_expr)
 	if (DEBUG_TOKEN == 1)
 		ft_putendl_fd("------- TOKENIZER ------", 2);
 	char 				*data_tmp;
+	static int			hrd = 0;
 
 	if ((data_tmp = ft_strnew(ft_strlen(read_buff))) != NULL)
-		finite_state_automaton(&read_buff, l_expr, &data_tmp);
-	if (*data_tmp)
-	{
-		expr_pushbk(l_expr, data_tmp);
+		finite_state_automaton(&hrd, &read_buff, l_expr, &data_tmp);
+	if (data_tmp)
+	{printf("IN TOKENIZER ((%d-%s))\n", hrd, data_tmp);
+		if (ft_strcmp("<<", data_tmp) == 0)
+			hrd = 1;
+	printf("IN TOKENIZER 2((%d-%s))\n", hrd, data_tmp);
+		expr_pushbk(l_expr, data_tmp, hrd);
 		//ft_bzero(data_tmp, ft_strlen(data_tmp));
+		if (hrd >= 1 && ft_strcmp("<<", data_tmp) != 0)
+			hrd = 0;
 	}
 	ft_strdel(&data_tmp);
 

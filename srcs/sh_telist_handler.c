@@ -4,7 +4,7 @@
 #include "libft.h"
 #include "shell.h"
 
-t_e_list			*expr_new(char *content)
+t_e_list			*expr_new(char *content, int hrd)
 {
 	if (DEBUG_LEXER == 1)
 		ft_putendl_fd("------- EXPR NEW ------", 2);
@@ -17,6 +17,7 @@ t_e_list			*expr_new(char *content)
 		 * free: content */
 	new->data = NULL;
 	new->type = NONE;
+	new->hrd_quote = hrd;
 	new->next = NULL;
 	if ((new->data = ft_strdup(content)) == NULL)
 		return (NULL);
@@ -45,11 +46,12 @@ int				expr_del(t_e_list **lst)
 	return (TRUE);
 }
 
-int 				expr_pushbk(t_e_list **l_expr, char *data_tmp)
+int 				expr_pushbk(t_e_list **l_expr, char *data_tmp, int hrd)
 {
 	if (DEBUG_LEXER == 1)
 		ft_putendl_fd("------- EXPR PUSHBK ------", 2);
 
+	printf ("in pushbck ((%s-%d))\n", data_tmp, hrd);
 	t_e_list			*tmp;
 
 	if (data_tmp == NULL || *data_tmp == '\0')
@@ -57,7 +59,7 @@ int 				expr_pushbk(t_e_list **l_expr, char *data_tmp)
 //	if (!(*l_expr))
 	if (!(*l_expr))
 	{
-		*l_expr = expr_new(data_tmp);
+		*l_expr = expr_new(data_tmp, hrd);
 		return (TRUE);
 		/*
 		  if ((*l_expr = expr_new(data_tmp)) == NULL) // return useless
@@ -68,7 +70,7 @@ int 				expr_pushbk(t_e_list **l_expr, char *data_tmp)
 	tmp = *l_expr;
 	while (tmp->next)
 		tmp = tmp->next;
-	if ((tmp->next = expr_new(data_tmp)) == NULL) // return useless
+	if ((tmp->next = expr_new(data_tmp, hrd)) == NULL) // return useless
 		return (ERROR);
 	return (TRUE);
 }

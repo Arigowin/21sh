@@ -105,6 +105,7 @@ typedef struct			s_e_list // -> l_expr
 {
 	char				*data;
 	types				type;
+	int					hrd_quote;
 	struct s_e_list		*next;
 }						t_e_list;
 
@@ -265,19 +266,19 @@ int						bi_unsetenv(char **arg, t_duo **env);
 ** sh_t_e_list_handler
 */
 int						expr_del(t_e_list **new);
-t_e_list				*expr_new(char *content);
-int 					expr_pushbk(t_e_list **l_expr, char *data_tmp);
+t_e_list				*expr_new(char *content,int hrd);
+int 					expr_pushbk(t_e_list **l_expr, char *data_tmp, int hrd);
 
 /*
 ** sh_lp_finite_state_automaton
 */
-int 					finite_state_automaton(char **read_buff,
+int 					finite_state_automaton(int *hrd, char **read_buff,
 							t_e_list **l_expr, char **data_tmp);
 /*
 ** sh_lp_tokenizer
 */
 int						concat(char **dest, char *s1, char *s2);
-int 					token_sep(char **read_buff, char **data_tmp,
+int 					token_sep(int *hrd, char **read_buff, char **data_tmp,
 							t_e_list **l_expr);
 int						tokenizer(char *read_buff, t_e_list **l_expr);
 
