@@ -1,12 +1,12 @@
 ls
-ls
-cd .. ; ls
 cd - ; ls
-cd ~ ; ls
-cd ~/test ; ls
-cd / ; ls
-cd $HOME ; ls
-cd $HOME/test ; ls
+cd .. ; ls
+cd - ; ls 
+cd ~ ; ls ; cd -
+cd ~/test ; ls ; cd -
+cd / ; ls ; cd -
+cd $HOME ; ls ; cd -
+cd $HOME/test ; ls ; cd -
 cd . ; ls
 cd -i
 cd -- -i
@@ -16,12 +16,14 @@ cd -- abc ../../
 cd /
 cd --
 cd abcdef
+cd abc def
 cd ../ ../../
 cd "../ ../../"
 cd '../ ../../'
 cd "../"
 cd '../'
 mkdir noright ; chmod 000 noright ; cd noright
+cd ~/test ; mkdir noright ; chmod 000 noright ; cd noright ; rm -rf noright
 
 setenv
 setenv abc def ; setenv
