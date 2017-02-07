@@ -12,7 +12,7 @@ int					bi_echo(char **arg, t_duo **env)
 
 	i = 1;
 	if (check_opt(arg, &i) == ERROR)
-		return (ERROR);
+		return (FALSE);
 	if (tbl_len(arg) > 1)
 	{
 		while (arg && arg[i])

@@ -49,7 +49,7 @@ static int			handle_cd_arg(int *i, int *ret, char **arg)
 	char				*tmp;
 
 	tmp = get_env("OLDPWD");
-	if (check_opt(arg, i) == FALSE)
+	if (check_opt(arg, i) == ERROR)
 	{
 		ft_strdel(&tmp);
 		return (FALSE);

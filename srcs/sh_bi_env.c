@@ -105,7 +105,7 @@ int					bi_env(char **arg, t_duo **env)
 	len = tbl_len(arg);
 	i = 1;
 	if (check_opt(arg, &i) == ERROR)
-		return (ERROR);
+		return (FALSE);
 	if (len > 1)
 	{
 		if (modif_env(arg, *env, len, i) == ERROR)
