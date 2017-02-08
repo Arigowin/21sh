@@ -3,7 +3,7 @@
 
 #define DEBUG 0
 #define DEBUG_ANTIBUG 0
-#define DEBUG_TREE_VERIF 1
+#define DEBUG_TREE_VERIF 0
 #define DEBUG_BUILTIN 0
 #define DEBUG_TOKEN 0
 #define DEBUG_LEXER 0
@@ -282,7 +282,7 @@ int 					finite_state_automaton(int *hrd, char **read_buff,
 int						concat(char **dest, char *s1, char *s2);
 int 					token_sep(int *hrd, char **read_buff, char **data_tmp,
 							t_e_list **l_expr);
-int						tokenizer(char *read_buff, t_e_list **l_expr);
+int						tokenizer(int *hrd, char *read_buff, t_e_list **l_expr);
 
 /*
 ** sh_lp_tokenizer_spec

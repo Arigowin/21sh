@@ -30,7 +30,7 @@ int					check_red_arg(t_e_list **l_expr, t_node **tree)
 
 	save = *tree;
 	node = NULL;
-	ntype = ((*l_expr)->hrd_quote == 2 ? HRD_QUOTE : RED_ARG);
+	ntype = ((*l_expr)->hrd_quote >= 2 ? HRD_QUOTE : RED_ARG);
 	if ((*l_expr)->type == RED_ARG && ((node = create_node(ntype)) != NULL))
 	{
 		if (filled_red_arg(l_expr, &node) == FALSE)
