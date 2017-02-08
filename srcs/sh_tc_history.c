@@ -10,7 +10,7 @@ static t_history	*new_history(char *line)
 
 	if ((new = (t_history *)malloc(sizeof(t_history))) == NULL)
 		/* RET: error EXIT: true msg: "malloc fail"
-		* FREE : history */
+		 * FREE : history */
 		return (NULL);
 	if (line == NULL)
 		return (NULL);
@@ -86,8 +86,8 @@ void				modif_history(t_history **history, char *line, int mini_prt)
 	if (line == NULL)
 		return ;
 	remove_backslach_eol(&line);
-	if (*history == NULL || ((mini_prt == FALSE && ft_strncmp((*history)->line,
-															  line, ft_strlen((*history)->line)) != 0) || (*history)->next != NULL))
+	if (*history == NULL || ((mini_prt == FALSE && ft_strcmp((*history)->line,
+	line) != 0) || (*history)->next != NULL))
 	{
 		add_history(history, line);
 		return ;
