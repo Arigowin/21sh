@@ -137,9 +137,10 @@ static int			type_analyzer(t_e_list **l_expr, int boule)
 
 	int					hrd;
 
-	hrd = (*l_expr)->next->hrd_quote;
+	hrd = 0;
 	while (l_expr && *l_expr && (*l_expr)->next)
 	{
+		hrd = (*l_expr)->next->hrd_quote;
 		if (hrd < 1 && (ft_strchr((*l_expr)->next->data, '<')
 		|| ft_strchr((*l_expr)->next->data, '>')))
 		{
@@ -165,7 +166,7 @@ static int			type_analyzer(t_e_list **l_expr, int boule)
 int					lexer(t_e_list **l_expr)
 {
 	if (DEBUG_LEXER == 1)
-		ft_putendl_fd("------- LEXER 2 ------", 2);
+		ft_putendl_fd("------- LEXER ------", 2);
 
 	t_e_list			*tmp;
 	int					boule;
