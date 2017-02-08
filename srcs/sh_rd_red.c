@@ -73,6 +73,7 @@ static int			heredoc_red(t_node *tree, int fd) // static ac redirect
 		return (ERROR);
 	if (str)
 		write(hrd_fd[1], str, ft_strlen(str));
+	ft_strdel(&str);
 	dup2(hrd_fd[0], fd);
 	close(hrd_fd[0]);
 	close(hrd_fd[1]);
