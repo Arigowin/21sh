@@ -22,7 +22,7 @@ static states		get_state(states state, char **read_buff)
 static int			state_standard(int *hrd, char **read_buff, char **data_tmp,
 								   int *bln, t_e_list **l_expr)
 {
-	if (DEBUG_TOKEN == 0)
+	if (DEBUG_TOKEN == 1)
 		ft_putendl_fd("------- STATE STANDARD ------", 2);
 
 	if (**read_buff == DQUOTE)

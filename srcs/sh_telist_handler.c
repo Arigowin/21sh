@@ -51,7 +51,6 @@ int 				expr_pushbk(t_e_list **l_expr, char *data_tmp, int hrd)
 	if (DEBUG_LEXER == 1)
 		ft_putendl_fd("------- EXPR PUSHBK ------", 2);
 
-	printf ("in pushbck ((%s-%d))\n", data_tmp, hrd);
 	t_e_list			*tmp;
 
 	if (data_tmp == NULL || *data_tmp == '\0')

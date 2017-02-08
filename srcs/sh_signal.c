@@ -1,5 +1,6 @@
 #include <signal.h>
 #include <term.h>
+#include <unistd.h>
 #include "shell.h"
 #include "libft.h"
 
@@ -25,6 +26,24 @@
 ////		fct_left(&(stline->line), &(stline->pos), stline, NULL);
 //	free(save_line);
 //}
+
+static void			fct_ctrl_c_hrd(int sig)
+{
+	t_line				*stline;
+	int					pfd[2];
+
+	(void)sig;
+	stline = savior_stline(NULL, FALSE);
+	stline->ctrl_c = TRUE;
+
+	pipe(pfd);
+	close(pfd[0]);
+	write(0, "\0", 1);
+	dup2(pfd[1], 0);
+	close(pfd[1]);
+
+	ft_putchar_color(RESET_COLOR, '\n');
+}
 
 static void			fct_m_ctrl_c(int sig)
 {
@@ -79,5 +98,7 @@ int					check_signal(int loc)
 		signal(SIGQUIT, fct_ctrl_void);
 		signal(SIGTSTP, fct_ctrl_void);
 	}
+	else if (loc == 4)
+		signal(SIGINT, fct_ctrl_c_hrd);
 	return (TRUE);
 }

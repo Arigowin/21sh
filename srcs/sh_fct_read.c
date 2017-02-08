@@ -1,5 +1,6 @@
 #include <unistd.h>
 #include <stdlib.h>
+#include <fcntl.h>
 #include "shell.h"
 #include "libft.h"
 
@@ -75,7 +76,8 @@ int					check_after_read(t_line *stline, t_history **history) //fct a passer en 
 		return (ret);
 	}
 	node = tree;
-	heredoc_handler(stline, &node, history);
+	if ((ret = heredoc_handler(stline, &node, history)) == ERROR)
+		return (FALSE);
 	if ((ret = tree_traversal(tree, &lstfd, pipefd_tab)) == ERROR)
 	{
 		del_tree(&tree);
@@ -96,6 +98,7 @@ int					fct_read(int hrd, t_line *stline, t_history **history)
 	int					key;
 	int					ret;
 	int					event_ret;
+	int					fd;
 
 	ret = 0;
 	key = 0;
@@ -107,6 +110,17 @@ int					fct_read(int hrd, t_line *stline, t_history **history)
 			continue ;
 		key = 0;
 	}
+
+	if (stline->ctrl_c == TRUE)
+	{
+		close(0);
+		fd = open(ttyname(1), O_RDWR);
+		dup2(fd, STDIN_FILENO);
+		if (fd > STDERR_FILENO)
+			close(fd);
+		stline->ctrl_c = FALSE;
+	}
+
 	if (key == RETURN && (stline->line)[0] == '\0')
 		return (FALSE);
 	if (ret <= 0)

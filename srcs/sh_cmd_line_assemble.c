@@ -17,7 +17,7 @@ static char			*join_exe(char *s1, char *s2) //static ac check fct
 	return (rlt);
 }
 
-static int			null_input(int fd) // static ac check fct
+int			null_input(int fd) // static ac check fct
 {
 	if (DEBUG == 1)
 		ft_putendl_fd("------- NULL INPUT ------", 2);

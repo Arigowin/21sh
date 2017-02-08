@@ -144,6 +144,7 @@ typedef struct			s_line //-> savior
 	int					curs_y;
 	int					mini_prt;
 	int					quote;
+	int					ctrl_c;
 	char				*line;
 	char				*curr_hist;
 	struct winsize		win;
@@ -322,6 +323,7 @@ int		 				pfd_close(int pipefd_tab[2][2]);
 /*
 ** sh_cmd_line_assemble
 */
+int						null_input(int fd);
 int						check_fct(int fd, char **cmd);
 
 /*

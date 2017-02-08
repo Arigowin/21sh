@@ -102,8 +102,10 @@ int					heredoc_handler(t_line *stline, t_node **tree,
 		stline->hrd.deli = (((*tree)->right->type == RED_ARG || (*tree)->right->type == HRD_QUOTE) ? (*tree)->right : (*tree)->right->right);
 		stline->hrd.ptr = stline->hrd.line;
 		mini_prt_handler(&(stline->hrd.line), &(stline->hrd.pos), stline);
+		check_signal(4);
 		if (fct_read(TRUE, stline, history) == ERROR)
 			return (ERROR);
+		check_signal(1);
 		ft_putendl("");
 		if ((stline->hrd.deli->right = create_node(DLRED_DOC)) == NULL)
 			/* RET: error EXIT: true MSG: "malloc fail" */
