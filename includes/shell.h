@@ -84,6 +84,7 @@ typedef enum
 	RED,
 	RED_FD,
 	RED_ARG,
+	HRD_QUOTE,
 	RRED,
 	LRED,
 	DRRED,

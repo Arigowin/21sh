@@ -1,23 +1,21 @@
 #include "shell.h"
 #include "libft.h"
 
-int					token_backslash(states state, char **read_buff, char **data_tmp)
+int					token_backslash(states state, char **r_buff, char **data_tmp)
 {
 	if (DEBUG_TOKEN == 1)
 		ft_putendl_fd("------- TOKEN BACKSLASH ------", 2);
 
-	if (**read_buff == '\\' && (*(*read_buff + 1)) && (*(*read_buff + 1)) == '\n')
-	{
-		(*read_buff) += 1;
-	}
+	if (**r_buff == '\\' && (*(*r_buff + 1)) && (*(*r_buff + 1)) == '\n')
+		(*r_buff) += 1;
 	else
 	{
-		if (state == IN_DQUOTE && ((*(*read_buff + 1)) != '$'
-		&& (*(*read_buff + 1)) != '`' && (*(*read_buff + 1)) != '"'
-		&& (*(*read_buff + 1)) != '\\' && (*(*read_buff + 1)) != '\n'))
-			add_in_tbl(data_tmp, **read_buff);
-		(*read_buff)++;
-		add_in_tbl(data_tmp, **read_buff);
+		if (state == IN_DQUOTE && (*(*r_buff + 1)) && ((*(*r_buff + 1)) != '$'
+		&& (*(*r_buff + 1)) != '`' && (*(*r_buff + 1)) != '"'
+		&& (*(*r_buff + 1)) != '\\' && (*(*r_buff + 1)) != '\n'))
+			add_in_tbl(data_tmp, **r_buff);
+		(*r_buff)++;
+		add_in_tbl(data_tmp, **r_buff);
 	}
 	return (TRUE);
 }
@@ -39,10 +37,7 @@ int					token_dollar(char **read_buff, char **data_tmp)
 	/* MSG ret: ERROR exit: FALSE msg: "malloc fail"
 	 * free: read_buff + data_tmp */
 	while ((ft_strchr(SEP, **read_buff) == NULL && ft_strchr("/", **read_buff) == NULL) && **read_buff != QUOTE && **read_buff != DQUOTE)
-	{
-		add_in_tbl(&env_name, **read_buff);
-		(*read_buff)++;
-	}
+		add_in_tbl(&env_name, (*((*read_buff)++)));
 	if ((env_val = get_env(env_name)) == NULL)
 	{
 		ft_strdel(&env_name);
@@ -56,7 +51,7 @@ int					token_dollar(char **read_buff, char **data_tmp)
 	}
 	/* MSG ret: ERROR exit: FALSE msg: "malloc fail"
 	 * free: read_buff + data_tmp + env_name */
-	ft_strdel(data_tmp); // c'est bien ici le free du data_tmp ?
+//	ft_strdel(data_tmp); // c'est bien ici le free du data_tmp ?
 	if ((*data_tmp = ft_strnew(ft_strlen(tmp) + ft_strlen(env_val)
 					+ ft_strlen((*read_buff)--))) == NULL)
 	{

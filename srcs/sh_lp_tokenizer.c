@@ -8,6 +8,7 @@ static int			pushbck_cdt(char **read_buff, char **data_tmp)
 {
 	if (DEBUG_TOKEN == 1)
 		ft_putendl_fd("------- PUSHBCK_CDT ------", 2);
+
 	return (**data_tmp
 		&& (!(ft_strchr(WAKA, (*data_tmp)[ft_strlen(*data_tmp) - 1])
 				&& **read_buff == '&'))
