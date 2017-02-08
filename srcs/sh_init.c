@@ -59,6 +59,7 @@ int					init_stline(t_line *stline)
 		 * free: stline->line */
 		return (ERROR);
 	savior_stline(stline, TRUE);
+	stline->ctrl_c = FALSE;
 	return (TRUE);
 }
 

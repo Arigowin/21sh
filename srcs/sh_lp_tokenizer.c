@@ -84,10 +84,9 @@ int					tokenizer(char *read_buff, t_e_list **l_expr)
 	if ((data_tmp = ft_strnew(ft_strlen(read_buff))) != NULL)
 		finite_state_automaton(&hrd, &read_buff, l_expr, &data_tmp);
 	if (data_tmp)
-	{printf("IN TOKENIZER ((%d-%s))\n", hrd, data_tmp);
+	{
 		if (ft_strcmp("<<", data_tmp) == 0)
 			hrd = 1;
-	printf("IN TOKENIZER 2((%d-%s))\n", hrd, data_tmp);
 		expr_pushbk(l_expr, data_tmp, hrd);
 		//ft_bzero(data_tmp, ft_strlen(data_tmp));
 		if (hrd >= 1 && ft_strcmp("<<", data_tmp) != 0)
