@@ -84,7 +84,7 @@ int					check_red(int *nb_hrd, t_e_list **l_expr, t_node **tree)
 	{
 		if ((node->data = ft_strdup(list_save->data)) == NULL)
 		{
-			//	clear_node(&node);
+			clear_node(&node);
 			return (FALSE);
 			/* MSG ret: FALSE exit: FALSE msg: malloc fail*/
 			/* free: node */
@@ -103,12 +103,12 @@ int					check_red(int *nb_hrd, t_e_list **l_expr, t_node **tree)
 	{
 		ft_putendl("missing name for redirect\n");
 		parse_error((*l_expr)->data);
-		//	clear_node(&node);
+		clear_node(&node);
 		return (FALSE);
 		/* MSG ret: FALSE exit: FALSE msg: missing name for redirect + (*l_expr)->data */
 		/* free: node */
 	}
-//	clear_node(&node);
+	clear_node(&node);
 	*tree = save;
 	return (FALSE);
 	/* MSG ret: FALSE exit: FALSE msg: NONE */
