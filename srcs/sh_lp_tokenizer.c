@@ -56,7 +56,7 @@ int 				token_sep(int *hrd, char **read_buff, char **data_tmp,
 	if (read_buff && *read_buff && **read_buff && ft_strchr(SPECIAL, **read_buff))
 	{
 		add_in_tbl(data_tmp, **read_buff);
-		if (ft_strchr(WAKA, **read_buff) && (*(*read_buff + 1))
+		if (ft_strchr(LWAKA, **read_buff) && (*(*read_buff + 1))
 				&& (*(*read_buff + 1)) == (**read_buff))
 		{
 			(*read_buff)++;
@@ -96,7 +96,7 @@ int					tokenizer(char *read_buff, t_e_list **l_expr)
 	ft_strdel(&data_tmp);
 
 	// ANTIBUG !!!!!!!!!
-	if (DEBUG_TOKEN == 1)
+	if (DEBUG_TOKEN == 0)
 	{
 		t_e_list *tmp = *l_expr;
 		while (tmp)

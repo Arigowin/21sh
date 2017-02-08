@@ -157,7 +157,7 @@ static int			check_expr(int *nb_hrd, t_e_list **l_expr, t_node **tree) // static
 			/* MSG ret: ERROR exit: FALSE msg: "parse error near + (*l_expr)->data"
 			 * free: node */
 		}
-		if ((*l_expr)->type == SEMI)
+		if ((*l_expr)->type == SEMI || (*l_expr)->type == LOGIC_OR || (*l_expr)->type == LOGIC_AND)
 		{
 			node->data = ft_strdup((*l_expr)->data);
 			*tree = node;

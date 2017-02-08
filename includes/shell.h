@@ -3,7 +3,7 @@
 
 #define DEBUG 0
 #define DEBUG_ANTIBUG 0
-#define DEBUG_TREE_VERIF 0
+#define DEBUG_TREE_VERIF 1
 #define DEBUG_BUILTIN 0
 #define DEBUG_TOKEN 0
 #define DEBUG_LEXER 0
@@ -33,6 +33,7 @@
 # define IGN " \t\n" // j'ai enlevé le \0 des IGN
 # define SEP "|&;>< \t\n\0"
 # define SPECIAL "|&><;"
+# define LWAKA "><|&"
 # define WAKA "><"
 # define BUFF_SIZE 1024
 # define MAX_PATH 1024
@@ -90,9 +91,8 @@ typedef enum
 	DRRED,
 	DLRED,
 	DLRED_DOC,
-	LAND,
-	LDOR,
-	LDAND
+	LOGIC_AND,
+	LOGIC_OR,
 } 						types;
 
 typedef enum
