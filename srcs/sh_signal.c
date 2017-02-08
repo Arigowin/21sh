@@ -42,6 +42,7 @@ static void			fct_ctrl_c_hrd(int sig)
 	dup2(pfd[1], 0);
 	close(pfd[1]);
 
+	ft_putchar_color(RESET_COLOR, '\n');
 }
 
 static void			fct_m_ctrl_c(int sig)
