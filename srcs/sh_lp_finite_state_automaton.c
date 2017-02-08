@@ -51,7 +51,7 @@ static int			state_quote(int *hrd, char curr_char, char **data_tmp)
 {
 	if (*hrd == 1)
 		*hrd = 2;
-	if (DEBUG_TOKEN == 0)
+	if (DEBUG_TOKEN == 1)
 		ft_putendl_fd("------- STATE QUOTE ------", 2);
 
 	if (curr_char && curr_char != QUOTE)
@@ -61,10 +61,10 @@ static int			state_quote(int *hrd, char curr_char, char **data_tmp)
 
 static int			state_dquote(int *hrd, char **read_buff, char **data_tmp)
 {
-	if (DEBUG_TOKEN == 0)
+	if (DEBUG_TOKEN == 1)
 		ft_putendl_fd("------- STATE DQUOTE ------", 2);
 
-	printf("IN DQUOTE : ((%d))\n", *hrd);
+//	printf("IN DQUOTE : ((%d))\n", *hrd);
 	if (*hrd == 1)
 		*hrd = 2;
 	if (**read_buff == DQUOTE)
