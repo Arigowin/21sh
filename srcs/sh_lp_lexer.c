@@ -194,7 +194,7 @@ int					lexer(t_e_list **l_expr)
 	type_analyzer(&tmp, boule);
 
 	// ANTIBUG!!!!!!
-	if (DEBUG_LEXER == 1)
+	if (DEBUG_LEXER == 0)
 	{
 		t_e_list *tmp2 = *l_expr;
 		while (tmp2)

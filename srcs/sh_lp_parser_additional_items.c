@@ -82,7 +82,7 @@ int					check_red(int *nb_hrd, t_e_list **l_expr, t_node **tree)
 	list_save = *l_expr;
 	red_ret = TRUE;
 	if ((*l_expr)->type == RED && (node = create_node(RED)) != NULL
-			&& move_in_list(l_expr) && ((red_ret = check_red_arg(l_expr, &(node->right))) == TRUE))
+			&& (red_ret = move_in_list(l_expr)) && ((red_ret = check_red_arg(l_expr, &(node->right))) == TRUE))
 	{
 		if ((node->data = ft_strdup(list_save->data)) == NULL)
 		{
@@ -106,13 +106,13 @@ int					check_red(int *nb_hrd, t_e_list **l_expr, t_node **tree)
 		ft_putendl("missing name for redirect\n");
 		parse_error((*l_expr)->data);
 		//	clear_node(&node);
-		return (FALSE);
+		return (NO_RED_ARG);
 		/* MSG ret: FALSE exit: FALSE msg: missing name for redirect + (*l_expr)->data */
 		/* free: node */
 	}
 //	clear_node(&node);
 	*tree = save;
-	return (FALSE);
+	return (TRUE);
 	/* MSG ret: FALSE exit: FALSE msg: NONE */
 }
 
@@ -150,7 +150,7 @@ int					check_next(int *nb_hrd, t_e_list **l_expr, t_node **tree,
 					t_node **right_node)
 {
 	if (DEBUG_PARSER == 1)
-		ft_putendl_fd("------- CHECK C PIPE ------", 2);
+		ft_putendl_fd("------- CHECK NEXT ------", 2);
 
 	t_node				*save;
 	int					ret;

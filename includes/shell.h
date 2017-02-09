@@ -3,11 +3,11 @@
 
 #define DEBUG 0
 #define DEBUG_ANTIBUG 0
-#define DEBUG_TREE_VERIF 0
+#define DEBUG_TREE_VERIF 1
 #define DEBUG_BUILTIN 0
 #define DEBUG_TOKEN 0
 #define DEBUG_LEXER 0
-#define DEBUG_PARSER 0
+#define DEBUG_PARSER 1
 #define DEBUG_SAVIOR 0
 #define DEBUG_TREE_CREATION 0
 #define DEBUG_TREE 0
@@ -23,12 +23,13 @@
 
 # define HISTORY_FILE_NAME "/.21sh_history"
 
+# define CONTINUE 3
+# define BREAK 2
 # define TRUE 1
 # define FALSE 0
-# define SYS_CALL_FAIL -3
 # define ERROR -1
-# define BREAK 2
-# define CONTINUE 3
+# define NO_RED_ARG -2
+# define SYS_CALL_FAIL -3
 
 # define IGN " \t\n" // j'ai enlevé le \0 des IGN
 # define SEP "|&;>< \t\n\0"

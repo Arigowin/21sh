@@ -59,7 +59,8 @@ static int			check_command(int *nb_hrd, t_e_list **l_expr, t_node **tree) //stat
 			/* MSG ret: ERROR exit: TRUE msg: "malloc fail"
 			 * free: node */
 		}
-		check_next(nb_hrd, l_expr, &node, &(node->right));
+		if (check_next(nb_hrd, l_expr, &node, &(node->right)) == NO_RED_ARG)
+			return (FALSE);
 		*tree = node;
 		//		clear_node(&node); // ce clear_node(&node) // segfault
 		return (TRUE);
