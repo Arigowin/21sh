@@ -16,7 +16,7 @@ static int				father(int pipefd_tab[2][2])
 	stat_loc = 0;
 	check_signal(3);
 	pfd_close(pipefd_tab);
-	//if (pipefd_tab[1][0] < 0)
+	if (pipefd_tab[1][0] < 0)
 		while (waitpid(-1, &stat_loc, WNOHANG) >= 0)
 			;
 	if (WIFSIGNALED(stat_loc))
