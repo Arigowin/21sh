@@ -72,10 +72,10 @@ int					handle_fork(int pipefd_tab[2][2], t_node *tree,
 	pid_t				fpid;
 
 	fpid = -1;
+	reset_term();
 	if ((fpid = fork()) < 0)
 		/* RET: error EXIT: true MSG: "fork fail" */
 		return (ERROR);
-	reset_term();
 	if (fpid == 0)
 	{
 		son(cmd, pipefd_tab, tree, lstfd);
