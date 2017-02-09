@@ -95,7 +95,7 @@ int					tokenizer(int *hrd, char *read_buff, t_e_list **l_expr)
 	ft_strdel(&data_tmp);
 
 	// ANTIBUG !!!!!!!!!
-	if (DEBUG_TOKEN == 1)
+	if (DEBUG_TOKEN == 0)
 	{
 		t_e_list *tmp = *l_expr;
 		while (tmp)
