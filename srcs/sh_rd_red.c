@@ -87,7 +87,7 @@ int					redirect(t_node *tree, t_lst_fd *lstfd)
 
 	int					fd;
 
-	if ((lstfd == NULL && tree->type != DLRED) || tree == NULL) // || (lstfd && lstfd->fd == -1))
+	if ((lstfd == NULL && tree->type != DLRED) || tree == NULL)
 		return (FALSE);
 	fd = ((tree->type == LRED || tree->type == DLRED) ? STDIN_FILENO : STDOUT_FILENO);
 	if (tree && tree->right && (tree->type != DLRED))
