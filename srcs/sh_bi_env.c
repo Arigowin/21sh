@@ -3,7 +3,7 @@
 
 static int			print_env(t_duo *env)
 {
-	//if (DEBUG_BUILTIN == 1)
+	if (DEBUG_BUILTIN == 1)
 		ft_putendl_fd("------- PRINT ENV ------", 2);
 
 	while (env)
@@ -40,7 +40,7 @@ static int			format_env(char *arg, int *nb)
 
 static int			exec_cmd_env(int i, int len, char **arg)
 {
-	//if (DEBUG_BUILTIN == 1)
+	if (DEBUG_BUILTIN == 1)
 		ft_putendl_fd("------- EXEC CMD ENV ------", 2);
 
 	char				**cmd;
