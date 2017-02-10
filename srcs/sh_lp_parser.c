@@ -60,9 +60,12 @@ static int			check_command(int *nb_hrd, t_e_list **l_expr, t_node **tree) //stat
 			 * free: node */
 		}
 		if (check_next(nb_hrd, l_expr, &node, &(node->right)) == NO_RED_ARG)
+		{
+			clear_node(&node); // ce clear ne cause pas de pb
 			return (FALSE);
+		}
 		*tree = node;
-		//		clear_node(&node); // ce clear_node(&node) // segfault
+//		clear_node(&node); // ce clear_node(&node) // segfault
 		return (TRUE);
 	}
 	if (red == TRUE && (*l_expr)->type != CMD)
