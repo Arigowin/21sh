@@ -56,7 +56,7 @@ int					checktty(t_line *stline)
 	return (TRUE);
 }
 
-int					main(int argc, char **argv)
+int					main(void)
 {
 	if (DEBUG == 1)
 		ft_putendl_fd("--------- MAIN ------", 2);
@@ -71,7 +71,6 @@ int					main(int argc, char **argv)
 	if (init_env(environ, &env_cpy) == ERROR)
 		return (ERROR);
 	init_stline(&stline);
-	exec_test(argc, argv, &stline, history);
 	checktty(&stline);
 	load_history(&history);
 	init_term(TRUE);

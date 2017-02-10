@@ -486,12 +486,6 @@ int						manage_cmd(int pipefd_tab[2][2], t_node *tree, t_lst_fd **lstfd);
 int						pipe_function(int pipefd_tab[2][2], t_node *tree,
 						t_lst_fd **lstfd);
 
-/*
-** exec_test
-*/
-int						exec_test(int argc, char **argv, t_line *stline, t_history *history);
-
-
 #endif
 
 /*
