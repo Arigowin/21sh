@@ -126,6 +126,7 @@ int						duo_pushback(t_duo **lst, char *name, char *value);
 int						duo_del(t_duo **lst);
 int						last_duol_del(t_duo **lst);
 char	        		**duo_to_tbl(t_duo *lst, char *sep);
+t_duo					*cpy_duo(t_duo *duo);
 int						free_lst(t_list **lst);
 int						free_tab(char ***tabl);
 char					**lst_to_tbl(t_list *lst);

@@ -60,8 +60,6 @@ static int			exec_cmd_env(int i, int len, char **arg)
 	}
 	cmd[j] = NULL;
 	init_pipefd(pipefd_tab);
-	if (check_builtin(-2, cmd, pipefd_tab, NULL) != FALSE)
-		return (TRUE);
 	handle_fork(pipefd_tab, savior_tree(NULL, FALSE), NULL, cmd);
 	free_tab(&cmd);
 	return (TRUE);
@@ -75,6 +73,7 @@ static int			modif_env(char **arg, t_duo *env, int len, int i)
 	int					nb;
 
 	nb = 0;
+	savior(env, TRUE);
 	while (arg[i])
 	{
 		if (strchr(arg[i], '=') != NULL)
@@ -87,11 +86,7 @@ static int			modif_env(char **arg, t_duo *env, int len, int i)
 		exec_cmd_env(i, len, arg);
 	else
 		print_env(env);
-	while (nb > 0)
-	{
-		last_duol_del(&env);
-		nb--;
-	}
+	duo_del(&env);
 	return (TRUE);
 }
 
@@ -108,10 +103,11 @@ int					bi_env(char **arg, t_duo **env)
 		return (FALSE);
 	if (len > 1)
 	{
-		if (modif_env(arg, *env, len, i) == ERROR)
+		if (modif_env(arg, cpy_duo(*env), len, i) == ERROR)
 			return (ERROR);
 	}
 	else
 		print_env(*env);
+	savior(*env, TRUE);
 	return (TRUE);
 }

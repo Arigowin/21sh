@@ -12,7 +12,7 @@ HPATH =		$(ROOT)/includes
 LIBPATH =	$(ROOT)/libft
 LIBHPATH =	$(LIBPATH)/includes
 
-CFLAGS = -g -O0 -Wall -Werror -Wextra -I $(HPATH) -I $(LIBHPATH)
+CFLAGS = -g -Wall -Werror -Wextra -I $(HPATH) -I $(LIBHPATH)
 LIBS = -L $(LIBPATH) -lft -ltermcap
 
 SRC = sh_main.c \

@@ -2,50 +2,67 @@
 #include "libft.h"
 #include "shell.h"
 
-int					checktty(t_line *stline)
+static int				checktty_tool(char **tmp)
+{
+	char				buff[BUFF_SIZE + 1];
+	int					ret;
+	char				*tmp2;
+
+	while ((ret = read(0, &buff, BUFF_SIZE)) > 0)
+	{
+		buff[ret] = '\0';
+		if (*tmp == NULL)
+			*tmp = ft_strdup(buff);
+		else
+		{
+			tmp2 = ft_strjoin(*tmp, buff);
+			ft_strdel(tmp);
+			*tmp = ft_strdup(tmp2);
+			ft_strdel(&tmp2);
+		}
+	}
+	if (ret == ERROR)
+		return (ERROR);
+	return (TRUE);
+}
+
+static int				checktty_tool2(t_line *stline, char **cmd)
+{
+	int		i;
+
+	i = 0;
+	while (cmd[i])
+	{
+		if (i>0)
+			ft_strdel(&(stline->line));
+		stline->line = ft_strdup(cmd[i]);
+		if (check_after_read(stline, NULL) == ERROR)
+			return (ERROR);
+		i++;
+	}
+	return (TRUE);
+}
+
+int						checktty(t_line *stline)
 {
 	if (DEBUG == 1)
 		ft_putendl_fd("--------- CHECKTTY ------", 2);
 
-	char				buff[BUFF_SIZE + 1];
-	int					ret;
 	char				*tmp;
-	char				*tmp2;
 	char				**cmd;
-	int					i;
 
-	ret = 0;
 	tmp = NULL;
-	tmp2 = NULL;
 	if (!isatty(0))
 	{
-		while ((ret = read(0, &buff, BUFF_SIZE)) > 0)
+		if (checktty_tool(&tmp) == ERROR)
+			exit(EXIT_FAILURE);
+		if (tmp)
 		{
-			buff[ret] = '\0';
-			if (tmp == NULL)
-				tmp = ft_strdup(buff);
-			else
-			{
-				tmp2 = ft_strjoin(tmp, buff);
-				ft_strdel(&tmp);
-				tmp = ft_strdup(tmp2);
-				ft_strdel(&tmp2);
-			}
-		}
-		ft_strdel(&tmp2);
-		if (tmp && ret >= 0)
-		{
-			cmd = ft_strsplit(tmp, '\n');
+			if ((cmd = ft_strsplit(tmp, '\n')) == NULL)
+				exit(EXIT_FAILURE);
 			ft_strdel(&tmp);
-			i = 0;
-			while (cmd[i])
-			{
-				if (i>0)
-					ft_strdel(&(stline->line));
-				stline->line = ft_strdup(cmd[i]);
-				check_after_read(stline, NULL);
-				i++;
-			}
+			if (checktty_tool2(stline, cmd) == ERROR)
+				exit(EXIT_FAILURE);
 			free_tab(&cmd);
 			exit(EXIT_SUCCESS);
 		}
