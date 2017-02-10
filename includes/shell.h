@@ -72,8 +72,8 @@
 # define COLOR "\033[0;30;46m"
 # define RESET_COLOR "\033[0m"
 
-# include "libft.h"
 # include <sys/ioctl.h>
+# include "libft.h"
 
 typedef enum
 {

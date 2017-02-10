@@ -2,10 +2,6 @@
 #include "shell.h"
 #include "libft.h"
 
-#include <fcntl.h>
-#include "shell.h"
-#include "libft.h"
-
 int					fd_open(int	*fd, t_node *tree, t_lst_fd **lstfd)
 {
 	if (DEBUG_TREE == 1)

@@ -1,3 +1,5 @@
+#include "shell.h"
+#include "libft.h"
 
 int					lstfd_pushbck(t_lst_fd **lstfd, int fd, char *filename)
 {
