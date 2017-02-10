@@ -56,11 +56,16 @@ int					check_fct(int fd, char **cmd)
 	tbl_env = duo_to_tbl(env, "=");
 	tmp = get_env("PATH");
 	if (tmp == NULL || tbl_env == NULL)
-		/* RET: error EXIT: true MSG: "env not set" */
+	{
+/* RET: error EXIT: true MSG: "env not set" */
+		free_tab(&tbl_env);
 		return (ERROR);
+	}
 	if ((path = ft_strsplit(tmp, ':')) == NULL)
-		/* RET: error EXIT: true MSG: "memory allocation failed" */
+	{
+		free_tab(&tbl_env);
 		return (ERROR);
+	}
 	ft_strdel(&tmp);
 	i = -1;
 	while (path[++i])
@@ -73,6 +78,9 @@ int					check_fct(int fd, char **cmd)
 				ft_putstr_fd("21sh: ", 2); //fct erreur
 				ft_putstr_fd(cmd[0], 2);
 				ft_putendl_fd(": Permission denied", 2);
+				free_tab(&tbl_env);
+				free_tab(&path);
+				ft_strdel(&tmp);
 				return (-2);
 			}
 			execve(tmp, cmd, tbl_env);
@@ -81,5 +89,6 @@ int					check_fct(int fd, char **cmd)
 	}
 	free_tab(&tbl_env);
 	free_tab(&path);
+	ft_strdel(&tmp);
 	return (FALSE);
 }
