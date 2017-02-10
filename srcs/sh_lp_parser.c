@@ -167,8 +167,7 @@ static int			check_expr(int *nb_hrd, t_e_list **l_expr, t_node **tree) // static
 			if (move_in_list(l_expr))
 				if (check_expr(nb_hrd, l_expr, &(node->right)) == ERROR)
 					return (FALSE);
-			//	*tree = node; // bis repetita
-			//			clear_node(&node); // un clear_node(&node) ici segfault
+			//	clear_node(&node); // un clear_node(&node) ici segfault
 			return (TRUE);
 		}
 		*tree = *node_to_give;
