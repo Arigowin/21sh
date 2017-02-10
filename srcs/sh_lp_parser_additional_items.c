@@ -11,8 +11,8 @@ static int			filled_red_arg(t_e_list **l_expr, t_node **node)
 	if (((*node)->data = ft_strdup((*l_expr)->data)) == NULL)
 	{
 //		clear_node(node); //ok
-		return (FALSE);
-		/* MSG ret: FALSE exit: FALSE msg: malloc fail*/
+		return (ERROR);
+		/* MSG ret: FALSE exit: TRUE msg: malloc fail*/
 		/* free: node */
 	}
 	return (TRUE);
@@ -26,10 +26,12 @@ int					check_red_arg(t_e_list **l_expr, t_node **tree)
 
 	t_node		 		*node;
 	t_node				*save;
+	types				ntype;
 
 	save = *tree;
 	node = NULL;
-	if ((*l_expr)->type == RED_ARG && ((node = create_node(RED_ARG)) != NULL))
+	ntype = ((*l_expr)->hrd_quote >= 2 ? HRD_QUOTE : RED_ARG);
+	if ((*l_expr)->type == RED_ARG && ((node = create_node(ntype)) != NULL))
 	{
 		if (filled_red_arg(l_expr, &node) == FALSE)
 		{
@@ -80,13 +82,13 @@ int					check_red(int *nb_hrd, t_e_list **l_expr, t_node **tree)
 	list_save = *l_expr;
 	red_ret = TRUE;
 	if ((*l_expr)->type == RED && (node = create_node(RED)) != NULL
-			&& move_in_list(l_expr) && ((red_ret = check_red_arg(l_expr, &(node->right))) == TRUE))
+			&& (red_ret = move_in_list(l_expr)) && ((red_ret = check_red_arg(l_expr, &(node->right))) == TRUE))
 	{
 		if ((node->data = ft_strdup(list_save->data)) == NULL)
 		{
-			clear_node(&node);
-			return (FALSE);
-			/* MSG ret: FALSE exit: FALSE msg: malloc fail*/
+			//	clear_node(&node);
+			return (ERROR);
+			/* MSG ret: FALSE exit: TRUE msg: malloc fail*/
 			/* free: node */
 		}
 		node->type = ft_strequ(list_save->data, ">") ? RRED : RED;
@@ -103,15 +105,13 @@ int					check_red(int *nb_hrd, t_e_list **l_expr, t_node **tree)
 	{
 		ft_putendl("missing name for redirect\n");
 		parse_error((*l_expr)->data);
-		clear_node(&node);
-		return (FALSE);
+		//	clear_node(&node);
+		return (NO_RED_ARG);
 		/* MSG ret: FALSE exit: FALSE msg: missing name for redirect + (*l_expr)->data */
 		/* free: node */
 	}
-	clear_node(&node);
 	*tree = save;
-	return (FALSE);
-	/* MSG ret: FALSE exit: FALSE msg: NONE */
+	return (TRUE);
 }
 
 int					check_arg(int *nb_hrd, t_e_list **l_expr, t_node **tree,
@@ -130,7 +130,7 @@ int					check_arg(int *nb_hrd, t_e_list **l_expr, t_node **tree,
 		if ((node->data = ft_strdup((*l_expr)->data)) == NULL)
 		{
 			//	clear_node(&node);
-			return (FALSE);
+			return (ERROR);
 			/* MSG ret: FALSE exit: FALSE msg: malloc fail*/
 			/* free: node */
 		}
@@ -148,17 +148,19 @@ int					check_next(int *nb_hrd, t_e_list **l_expr, t_node **tree,
 					t_node **right_node)
 {
 	if (DEBUG_PARSER == 1)
-		ft_putendl_fd("------- CHECK C PIPE ------", 2);
+		ft_putendl_fd("------- CHECK NEXT ------", 2);
 
 	t_node				*save;
+	int					ret;
 
+	ret = 0;
 	save = *tree;
 	if (move_in_list(l_expr))
 	{
 		while (save && save->left != NULL)
 			save = save->left;
-		if (check_red(nb_hrd, l_expr, &(save->left)) == ERROR)
-			return (ERROR);
+		if ((ret = check_red(nb_hrd, l_expr, &(save->left))) != TRUE)
+			return (ret);
 		/* MSG ret: FALSE exit: FALSE msg: NONE */
 		/* free: node */
 		check_arg(nb_hrd, l_expr, &save, right_node);

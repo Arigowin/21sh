@@ -32,13 +32,15 @@ static int			read_n_check(int *nb_hrd, char *read_buff, t_node **tree) // static
 
 	t_e_list			*l_expr;
 	t_e_list			*save;
+	static int			hrd = 0;
 	int					ret;
 
 	l_expr = NULL;
 	save = NULL;
+	read_buff = ft_strtrim(read_buff);
 	if (tree == NULL || read_buff == NULL)
 		return (FALSE);
-	if ((ret = tokenizer(read_buff, &l_expr)) != TRUE)
+	if ((ret = tokenizer(&hrd, read_buff, &l_expr)) != TRUE)
 		return (ret);
 	save = l_expr;
 	if ((ret = lexer(&l_expr)) != TRUE)
@@ -85,7 +87,7 @@ int					check_after_read(t_line *stline, t_history **history) //fct a passer en 
 		/* MSG ret: ERROR exit: TRUE msg: "whatever i don't have any ideas left"
 		 * free: stline + globalfd + tree + node */
 	}
-	del_tree(&tree);
+//	del_tree(&tree);
 	del_lstfd(&lstfd);
 	return (ret);
 }

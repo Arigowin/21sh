@@ -49,7 +49,7 @@ static char			**format_cmd(t_node *tree) //static ac manage cmd
 	return (ret);
 }
 
-static int			manage_cmd_without_pipe(int pipefd_tab[2][2], t_node *tree,
+static int			nopipe_cmd(int pipefd_tab[2][2], t_node *tree,
 		t_lst_fd **lstfd, char **cmd)
 {
 	if (DEBUG_CMD == 1)
@@ -64,11 +64,11 @@ static int			manage_cmd_without_pipe(int pipefd_tab[2][2], t_node *tree,
 	{
 		if (ret == ERROR || (*lstfd)->fd == -1)
 		{
-			/* RET: error EXIT: false MSG: "i don't know" */
+			/* RET: error EXIT: false MSG: 'bad file descriptor' // si ret =  ERROR on ne remontera pas là on quitte avant*/
 			reset_std_fd();
 			close_lstfd(lstfd);
 			del_lstfd(lstfd);
-			return (ERROR);
+			return (ret);
 		}
 		if (ret == FALSE)
 			return (FALSE);
@@ -97,12 +97,11 @@ int					manage_cmd(int pipefd_tab[2][2], t_node *tree,
 	char				**cmd;
 	int					ret;
 
-	cmd = NULL;
 	if ((cmd = format_cmd(tree)) == NULL)
 		return (ERROR);
 	if (pipefd_tab[0][0] < 0 && pipefd_tab[1][0] < 0)
 	{
-		ret = manage_cmd_without_pipe(pipefd_tab, tree, lstfd, cmd);
+		ret = nopipe_cmd(pipefd_tab, tree, lstfd, cmd);
 		if (ret != FALSE)
 		{
 			free_tab(&cmd); // FREE_MALLOC_OK

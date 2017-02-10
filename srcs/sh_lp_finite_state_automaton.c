@@ -49,11 +49,10 @@ static int			state_standard(int *hrd, char **read_buff, char **data_tmp,
 
 static int			state_quote(int *hrd, char curr_char, char **data_tmp)
 {
-	if (*hrd == 1)
-		*hrd = 2;
 	if (DEBUG_TOKEN == 1)
 		ft_putendl_fd("------- STATE QUOTE ------", 2);
 
+	*hrd += 1;
 	if (curr_char && curr_char != QUOTE)
 		add_in_tbl(data_tmp, curr_char);
 	return (TRUE);
@@ -64,8 +63,7 @@ static int			state_dquote(int *hrd, char **read_buff, char **data_tmp)
 	if (DEBUG_TOKEN == 1)
 		ft_putendl_fd("------- STATE DQUOTE ------", 2);
 
-	if (*hrd == 1)
-		*hrd = 2;
+	*hrd += 1;
 	if (**read_buff == DQUOTE)
 		return (FALSE);
 	if (**read_buff == '\\')

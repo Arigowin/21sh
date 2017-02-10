@@ -8,6 +8,7 @@ static int			pushbck_cdt(char **read_buff, char **data_tmp)
 {
 	if (DEBUG_TOKEN == 1)
 		ft_putendl_fd("------- PUSHBCK_CDT ------", 2);
+
 	return (**data_tmp
 		&& (!(ft_strchr(WAKA, (*data_tmp)[ft_strlen(*data_tmp) - 1])
 				&& **read_buff == '&'))
@@ -55,7 +56,7 @@ int 				token_sep(int *hrd, char **read_buff, char **data_tmp,
 	if (read_buff && *read_buff && **read_buff && ft_strchr(SPECIAL, **read_buff))
 	{
 		add_in_tbl(data_tmp, **read_buff);
-		if (ft_strchr(WAKA, **read_buff) && (*(*read_buff + 1))
+		if (ft_strchr(LWAKA, **read_buff) && (*(*read_buff + 1))
 				&& (*(*read_buff + 1)) == (**read_buff))
 		{
 			(*read_buff)++;
@@ -74,23 +75,22 @@ int 				token_sep(int *hrd, char **read_buff, char **data_tmp,
 	return (TRUE);
 }
 
-int					tokenizer(char *read_buff, t_e_list **l_expr)
+int					tokenizer(int *hrd, char *read_buff, t_e_list **l_expr)
 {
 	if (DEBUG_TOKEN == 1)
 		ft_putendl_fd("------- TOKENIZER ------", 2);
 	char 				*data_tmp;
-	static int			hrd = 0;
 
 	if ((data_tmp = ft_strnew(ft_strlen(read_buff))) != NULL)
-		finite_state_automaton(&hrd, &read_buff, l_expr, &data_tmp);
+		finite_state_automaton(hrd, &read_buff, l_expr, &data_tmp);
 	if (data_tmp)
 	{
 		if (ft_strcmp("<<", data_tmp) == 0)
-			hrd = 1;
-		expr_pushbk(l_expr, data_tmp, hrd);
+			*hrd = 1;
+		expr_pushbk(l_expr, data_tmp, *hrd);
 		//ft_bzero(data_tmp, ft_strlen(data_tmp));
-		if (hrd >= 1 && ft_strcmp("<<", data_tmp) != 0)
-			hrd = 0;
+		if (*hrd >= 1 && ft_strcmp("<<", data_tmp) != 0)
+			*hrd = 0;
 	}
 	ft_strdel(&data_tmp);
 

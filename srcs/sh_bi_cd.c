@@ -79,9 +79,9 @@ int					bi_cd(char **arg, t_duo **env)
 	int					i;
 	int					ret;
 
+	(void)env;
 	i = 1;
 	ret = 0;
-	(void)env;
 	tmp = NULL;
 	path = NULL;
 	if (handle_cd_arg(&i, &ret, arg) == FALSE)

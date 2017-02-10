@@ -34,13 +34,13 @@ int					init_term(int full_init)
 		if (start_init_term() == ERROR)
 			return (ERROR);
 	}
-	if (tcgetattr(1, &term) == ERROR)
+	if (tcgetattr(0, &term) == ERROR)
 		/* RET: error EXIT: true MSG: "Could not access the termcap data base." */
 		return (ERROR);
 	term.c_lflag &= ~(ICANON | ECHO);
 	term.c_cc[VMIN] = 1;
 	term.c_cc[VTIME] = 0;
-	if (tcsetattr(1, TCSADRAIN, &term) == ERROR)
+	if (tcsetattr(0, TCSADRAIN, &term) == ERROR)
 		/* RET: error EXIT: true MSG: "Could not access the termcap data base." */
 		return (ERROR);
 	return (TRUE);
@@ -54,11 +54,11 @@ int					reset_term(void)
 	struct termios		term;
 
 	tputs(tgetstr("ve", NULL), 1, my_outc);
-	if (tcgetattr(1, &term) == ERROR)
+	if (tcgetattr(0, &term) == ERROR)
 		/* RET: error EXIT: true MSG: "Could not access the termcap data base." */
 		return (ERROR);
 	term.c_lflag |= (ICANON | ECHO);
-	if (tcsetattr(1, TCSANOW, &term) == ERROR)
+	if (tcsetattr(0, TCSANOW, &term) == ERROR)
 		/* RET: error EXIT: true MSG: "Could not access the termcap data base." */
 		return (ERROR);
 	return (TRUE);

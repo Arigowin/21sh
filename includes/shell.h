@@ -23,16 +23,18 @@
 
 # define HISTORY_FILE_NAME "/.21sh_history"
 
+# define CONTINUE 3
+# define BREAK 2
 # define TRUE 1
 # define FALSE 0
-# define SYS_CALL_FAIL -3
 # define ERROR -1
-# define BREAK 2
-# define CONTINUE 3
+# define NO_RED_ARG -2
+# define SYS_CALL_FAIL -3
 
 # define IGN " \t\n" // j'ai enlevé le \0 des IGN
 # define SEP "|&;>< \t\n\0"
 # define SPECIAL "|&><;"
+# define LWAKA "><|&"
 # define WAKA "><"
 # define BUFF_SIZE 1024
 # define MAX_PATH 1024
@@ -84,14 +86,14 @@ typedef enum
 	RED,
 	RED_FD,
 	RED_ARG,
+	HRD_QUOTE,
 	RRED,
 	LRED,
 	DRRED,
 	DLRED,
 	DLRED_DOC,
-	LAND,
-	LDOR,
-	LDAND
+	LOGIC_AND,
+	LOGIC_OR,
 } 						types;
 
 typedef enum
@@ -281,7 +283,7 @@ int 					finite_state_automaton(int *hrd, char **read_buff,
 int						concat(char **dest, char *s1, char *s2);
 int 					token_sep(int *hrd, char **read_buff, char **data_tmp,
 							t_e_list **l_expr);
-int						tokenizer(char *read_buff, t_e_list **l_expr);
+int						tokenizer(int *hrd, char *read_buff, t_e_list **l_expr);
 
 /*
 ** sh_lp_tokenizer_spec

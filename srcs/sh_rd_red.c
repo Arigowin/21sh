@@ -73,6 +73,7 @@ static int			heredoc_red(t_node *tree, int fd) // static ac redirect
 		return (ERROR);
 	if (str)
 		write(hrd_fd[1], str, ft_strlen(str));
+	ft_strdel(&str);
 	dup2(hrd_fd[0], fd);
 	close(hrd_fd[0]);
 	close(hrd_fd[1]);
@@ -86,7 +87,7 @@ int					redirect(t_node *tree, t_lst_fd *lstfd)
 
 	int					fd;
 
-	if ((lstfd == NULL && tree->type != DLRED) || tree == NULL) // || (lstfd && lstfd->fd == -1))
+	if ((lstfd == NULL && tree->type != DLRED) || tree == NULL)
 		return (FALSE);
 	fd = ((tree->type == LRED || tree->type == DLRED) ? STDIN_FILENO : STDOUT_FILENO);
 	if (tree && tree->right && (tree->type != DLRED))
