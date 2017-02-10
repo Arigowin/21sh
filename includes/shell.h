@@ -177,7 +177,7 @@ typedef struct			s_lst_fd //savior?
 /*
 ** sh_error
 */
-int						sh_error(int ret_code, char *msg, int out);
+int						sh_error(int index, char *err);
 
 /*
 ** sh_file_history
@@ -252,6 +252,7 @@ int						bi_env(char **arg, t_duo **env);
 ** sh_bi_exit
 */
 int						bi_exit(char **arg, t_duo **env);
+int 					exit_pgm(int exit_code);
 
 /*
 ** sh_bi_setenv

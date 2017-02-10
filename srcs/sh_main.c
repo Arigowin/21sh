@@ -1,7 +1,6 @@
-#include <curses.h>
 #include <term.h>
-#include "shell.h"
 #include "libft.h"
+#include "shell.h"
 
 int					checktty(t_line *stline)
 {

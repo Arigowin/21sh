@@ -6,31 +6,77 @@
 #include "shell.h"
 #include "libft.h"
 
-//out = 0 => on continue - out = 1 => on quitte
-int					sh_error(int ret_code, char *msg, int out)
+const char			*tbl_error1(int index)
 {
-	t_duo				*env;
+	static const char	*err_tbl1[] = {
+						/*0*/"21sh: cannot access termacp database"
+						/*1*/"21sh: ioctl: cannot get window size",
+						/*2*/"21sh: cannot open ",/*3*/ "21sh: cannot open fd",
+						/*4*/"21sh: cannot performe pipe function",
+						/*5*/"21sh: cannot performe fork function",
+						/*6*/"21sh: memory allocation failed",
+						/*7*/"21sh: cannot duplicate fd",
+						/*8*/"21sh: bad file descriptor",
+						/*9*/"21sh: unsetenv: too few arguments",
+						/*10*/"21sh: setenv: too many arguments",
+						/*11*/"21sh: cd: no OLDPWD variable set",
+						/*12*/"21sh: cd: no PATH variable set",
+						/*13*/"21sh: cd: no HOME variable set",
+						/*14*/"21sh: unsetenv: ", /*15*/"21sh: setenv: ",
+	  					/*16 -> 16, 17, 18*/"21sh : cd: ",/*17->19, 20, 21, 22, 23, 24*/ "21sh :"
+						/*18->25, 26*/"21sh: parse error near: ",
+						};
+	int					ret_index;
 
-	env = savior(NULL, FALSE);
-	if (ret_code == TRUE)
+	ret_index = index;
+	ret_index = (index >= 16 && index <= 18 ? 16 : ret_index);
+	ret_index = (index >= 19 && index <= 23 ? 17 : ret_index);
+	ret_index = (index >= 24 ? 18 : ret_index);
+	return (err_tbl1[ret_index]);
+}
+
+const char			*tbl_error2(int index)
+{
+	static const char	*err_tbl2[] = {/*0->14*/": undefined variable",
+						/*1->15*/": not a valid identifier",
+						/*2->16, 23*/": not a diredtory",
+						/*3->17, 21*/": no such file or directory",
+						/*4->18, 19, 20*/": permission denied", /*5->22*/": invalid option",
+						/*6->24*/": command not found",
+						/*7->25*/": missing name for redirect",
+						};
+	int					ret_index;
+
+	ret_index = 0;
+	ret_index = (index == 15 ? 1 : ret_index);
+	ret_index = (index == 16 || index == 23 ? 2 : ret_index);
+	ret_index = (index == 17 || index == 21 ? 3 : ret_index);
+	ret_index = (index >= 18 && index <= 20 ? 4 : ret_index);
+	ret_index = (index == 22 ? 5 : ret_index);
+	ret_index = (index == 24 ? 6 : ret_index);
+	ret_index = (index == 25 ? 7 : ret_index);
+	return (err_tbl2[index]);
+}
+
+int					sh_error(int index, char *err)
+{
+	if (index <= 25)
+	{
+		ft_putstr_fd(tbl_error1(index), 2);
+		if (err)
+			ft_putstr_fd(err, 2);
+		if (index > 14 && index <= 25)
+			ft_putstr_fd(tbl_error2(index), 2);
+		ft_putendl_fd("", 2);
+	}
+	if (index <= 7)
+		exit(EXIT_FAILURE);;
+	if (index == 11 || index == 14) // cf si vraiment return true pour le 11
 		return (TRUE);
-	else if (ret_code == FALSE)
-	{
-		if (msg != NULL)
-			ft_putendl(msg);
-		if (out == 1)
-			bi_exit(NULL, &env);
-		return(FALSE);
-	}
-	else if (ret_code == ERROR)
-	{
-		if (msg != NULL)
-			ft_putendl(msg);
-		if (out == 1)
-			bi_exit(NULL, &env);
-		return (ERROR);
-	}
-	return (TRUE);
+	if (index == 19)
+		return (-2);
+	else
+		return (FALSE);
 }
 /*
  * CD :
@@ -66,13 +112,13 @@ int					sh_error(int ret_code, char *msg, int out)
  *
  * CMD
  * 	MESSAGES
- *	- '21sh: bad file descriptor' + FREE lstfd + close?
+ *	- '21sh: bad file descriptor' + FREE lstfd + close? + FALSE
  *
  * CMD LINE ASSEMBLE
  * 	MESSAGES
  * 	- '21sh: cannnot performe pipe function' + exit FAILURE
  * 	- '21sh: cannnot duplicate fd: ' + int fd + exit FAILURE
- * 	- '21sh: cd: no PATH variable set' + exit FAILURE
+ * 	- '21sh: no PATH variable set' + exit FAILURE
  * 	- '21sh: memory allocation failed'
  * 	- '21sh: ' + ': permission denied' + 1 char * + return -2 (important!!!!)
  * 	FREE
@@ -117,7 +163,7 @@ int					sh_error(int ret_code, char *msg, int out)
  *
  * LEXER
  * 	FREE
- * 	- 1 l_expr * (savior)  + '21sh: memory allocation failed' + exit FAILURE
+ * 	- 1 l_expr * + '21sh: memory allocation failed' + exit FAILURE
  * 	- 1 char * + '21sh: memory allocation failed' + exit FAILURE
  * 	- 1 char * + return TRUE
  *
@@ -132,9 +178,9 @@ int					sh_error(int ret_code, char *msg, int out)
  * PARSER ADDITIONAL ITEMS    // parse error = EXIT!!!!!!!!
  * 	MESSAGES
  * 	- '21sh: parse error near: ' + 1 char * + exit FAILURE // fct parse error
+ * 	- '21sh: parse error near: ' + 1 char * + ': missing name for redirect' + exit FAILURE // fct parse error
  *	FREE
  * 	- 1 t_node * + '21sh: memory allocation failed' + exit FAILURE
- * 	- '21sh: parse error near: ' + 1 char * + ': missing name for redirect' + exit FAILURE // fct parse error
  *
  * TOKENIZER
  * 	FREE
@@ -199,7 +245,6 @@ int					sh_error(int ret_code, char *msg, int out)
  * 	- '21sh: memory allocation failed' + exit FAILURE
  * 	- '21sh: ' + ': no such file or directory'+ 1 char * + return FALSE
  * 	- '21sh: ' + ': permission denied'+ 1 char * + return FALSE
- * 	FREE
  * 	- '21sh: memory allocation failed' + exit FAILURE + free saviors
  *
  *
