@@ -110,10 +110,8 @@ int					check_red(int *nb_hrd, t_e_list **l_expr, t_node **tree)
 		/* MSG ret: FALSE exit: FALSE msg: missing name for redirect + (*l_expr)->data */
 		/* free: node */
 	}
-//	clear_node(&node);
 	*tree = save;
 	return (TRUE);
-	/* MSG ret: FALSE exit: FALSE msg: NONE */
 }
 
 int					check_arg(int *nb_hrd, t_e_list **l_expr, t_node **tree,

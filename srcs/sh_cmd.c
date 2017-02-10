@@ -64,7 +64,7 @@ static int			nopipe_cmd(int pipefd_tab[2][2], t_node *tree,
 	{
 		if (ret == ERROR || (*lstfd)->fd == -1)
 		{
-			/* RET: error EXIT: false MSG: "i don't know" */
+			/* RET: error EXIT: false MSG: 'bad file descriptor' // si ret =  ERROR on ne remontera pas là on quitte avant*/
 			reset_std_fd();
 			close_lstfd(lstfd);
 			del_lstfd(lstfd);

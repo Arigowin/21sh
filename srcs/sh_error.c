@@ -32,3 +32,39 @@ int					sh_error(int ret_code, char *msg, int out)
 	}
 	return (TRUE);
 }
+
+/*
+ * CD :
+ * 	MESSAGES
+ * 	- '21sh: cd: ' + ': not a directory' + 1 char * + return FALSE
+ * 	- '21sh: cd: ' + ': no such file or directory' + char * + return FALSE
+ * 	- '21sh: cd: ' + ': permission denied' + 1 char * + return FALSE
+ * 	- '21sh: cd: no HOME variable set' + return FALSE
+ * 	- '21sh: cd: no OLDPWD variable set'
+ * 	FREE
+ * 	- 1 char * + return TRUE
+ * 	- 1 char * + return RET
+ * 	- 2 char * + FALSE
+ *
+ * ENV :
+ *	FREE
+ * 	- 1 char * + return TRUE
+ * 	- 1 char ** + return TRUE
+ *
+ * SETENV :
+ * 	MESSAGES
+ * 	- '21sh: setenv: ' + ': not a valid identifier' + 1 char * + return FALSE
+ * 	- '21sh: setenv: too many arguments' + return FALSE
+ *
+ * UNSETENV :
+ * 	MESSAGES
+ * 	- '21sh: unsetenv: too few arguments' + return FALSE
+ * 	- '21sh: unsetenv: ' + ': undefined variable' + 1 char * + return TRUE
+ *
+ * CMD
+ * 	MESSAGES
+ *	- '21sh:
+ * 	FREE
+ * 	- '21sh:
+ *
+ * EXIT (A FAIRE)!!!!!!!!
