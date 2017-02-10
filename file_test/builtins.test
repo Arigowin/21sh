@@ -38,7 +38,7 @@ setenv ""
 setenv tutu ""
 setenv "" miaou
 
-unsetenv abc _abc 1abc "" bonjour toto '' " "
+unsetenv abc _abc 1abc "" bonjour toto '' " " miaou tutu
 
 env
 env abc=def _abc=def 1abc=def ""=def " "=def

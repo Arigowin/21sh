@@ -87,7 +87,7 @@ int					check_after_read(t_line *stline, t_history **history) //fct a passer en 
 		/* MSG ret: ERROR exit: TRUE msg: "whatever i don't have any ideas left"
 		 * free: stline + globalfd + tree + node */
 	}
-//	del_tree(&tree);
+	del_tree(&tree);
 	del_lstfd(&lstfd);
 	return (ret);
 }
