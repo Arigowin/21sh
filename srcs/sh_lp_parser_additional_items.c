@@ -33,11 +33,8 @@ int					check_red_arg(t_e_list **l_expr, t_node **tree)
 	ntype = ((*l_expr)->hrd_quote >= 2 ? HRD_QUOTE : RED_ARG);
 	if ((*l_expr)->type == RED_ARG && ((node = create_node(ntype)) != NULL))
 	{
-		if (filled_red_arg(l_expr, &node) == FALSE)
-		{
-			//		clear_node(&node);
-			return (FALSE);
-		}
+		if (filled_red_arg(l_expr, &node) == ERROR)// no need => exit avant
+			return (ERROR);
 		/* MSG ret: FALSE exit: FALSE msg: NONE*/
 		*tree = node;
 		return (TRUE);
@@ -45,8 +42,8 @@ int					check_red_arg(t_e_list **l_expr, t_node **tree)
 	else if ((*l_expr)->type == RED_FD && (*l_expr)->next &&
 	(*l_expr)->next->type != RED_FD && ((node = create_node(RED_FD)) != NULL))
 	{
-		if (filled_red_arg(l_expr, &node) == FALSE)
-			return (FALSE);
+		if (filled_red_arg(l_expr, &node) == ERROR)// no need => exit avant
+			return (ERROR);
 		/* MSG ret: FALSE exit: FALSE msg: NONE*/
 		if (!move_in_list(l_expr) || !check_red_arg(l_expr, &(node->right)))
 		{
@@ -101,7 +98,7 @@ int					check_red(int *nb_hrd, t_e_list **l_expr, t_node **tree)
 		*tree = node;
 		return (TRUE);
 	}
-	if (red_ret != TRUE)
+	if (red_ret != TRUE) // if no need ? => exit dans check red_arg si no red_arg...
 	{
 		ft_putendl("missing name for redirect\n");
 		parse_error((*l_expr)->data);
@@ -129,7 +126,7 @@ int					check_arg(int *nb_hrd, t_e_list **l_expr, t_node **tree,
 	{
 		if ((node->data = ft_strdup((*l_expr)->data)) == NULL)
 		{
-			//	clear_node(&node);
+			//	clear_node(&node); ?? pas de clear la ?
 			return (ERROR);
 			/* MSG ret: FALSE exit: FALSE msg: malloc fail*/
 			/* free: node */
@@ -138,9 +135,8 @@ int					check_arg(int *nb_hrd, t_e_list **l_expr, t_node **tree,
 		*right_node = node;
 		return (TRUE);
 	}
-//	clear_node(&node);
+	//	clear_node(&node);
 	return (FALSE);
-	/* MSG ret: FALSE exit: FALSE msg: NONE*/
 }
 
 //checker pour le retour de check_red, il faut stopper si pas d'argumer de redirection.... ajouter un message d'errur spécifique
@@ -159,7 +155,7 @@ int					check_next(int *nb_hrd, t_e_list **l_expr, t_node **tree,
 	{
 		while (save && save->left != NULL)
 			save = save->left;
-		if ((ret = check_red(nb_hrd, l_expr, &(save->left))) != TRUE)
+		if ((ret = check_red(nb_hrd, l_expr, &(save->left))) != TRUE) // no need if => exit dans check redd_arg si no red_arg ou malloc error
 			return (ret);
 		/* MSG ret: FALSE exit: FALSE msg: NONE */
 		/* free: node */
@@ -167,5 +163,4 @@ int					check_next(int *nb_hrd, t_e_list **l_expr, t_node **tree,
 		return (TRUE);
 	}
 	return (FALSE);
-/* MSG ret: FALSE exit: FALSE msg: NONE*/
 }

@@ -71,7 +71,6 @@ int					fct_backspace(char **str, int *pos, t_line *stline, t_history **history)
 		if (stline->curs_x == stline->win.ws_col)
 			tputs(tgetstr("nd", NULL), 1, my_outc);
 	}
-	if (eol)
-		free(eol);
+	ft_strdel(&eol);
 	return (TRUE);
 }

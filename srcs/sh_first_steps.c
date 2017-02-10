@@ -16,17 +16,13 @@ static char			*get_path(void)
 	tmp = ft_strsub(path, 0, ft_strlen(home));
 	if (home && ft_strcmp(home, tmp) == 0)
 	{
-		if (tmp)
-			free(tmp);
+		ft_strdel(&tmp);
 		tmp = ft_strsub(path, ft_strlen(home), ft_strlen(path));
-		if (path)
-			free(path);
+		ft_strdel(&path);
 		path = ft_properjoin("~", tmp);
 	}
-	if (home)
-		free(home);
-	if (tmp)
-		free(tmp);
+	ft_strdel(&home);
+	ft_strdel(&tmp);
 	return (path);
 }
 
@@ -47,10 +43,8 @@ int					display_prompt(void)
 	if (path || name)
 		ft_putchar('\n');
 	ft_putstr_color("\033[36m", "> ");
-	if (name)
-		free(name);
-	if (path)
-		free(path);
+	ft_strdel(&name);
+	ft_strdel(&path);
 	return (TRUE);
 }
 
@@ -74,7 +68,6 @@ int				fill_path(char ***env)
 	(*env)[1] = ft_properjoin("PWD=", tmp);
 	(*env)[2] = ft_strdup("TERM=xterm");
 	(*env)[3] = NULL;
-	if (tmp)
-		free(tmp);
+	ft_strdel(&tmp);
 	return (TRUE);
 }

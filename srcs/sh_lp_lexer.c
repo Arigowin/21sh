@@ -97,26 +97,25 @@ static int			waka_lexer(t_e_list **l_expr)
 	return (TRUE);
 }
 
-static int			type_analyzer2(t_e_list **l_expr, int *boule)
+static int			type_analyzer2(int hrd, t_e_list **l_expr, int *boule)
 {
 	if (DEBUG_LEXER == 1)
 		ft_putendl_fd("------- TYPE ANALYZER2 ------", 2);
 
-	int					hrd;
 
-	hrd = (*l_expr)->next->hrd_quote;
 	if (hrd < 1 && ((*l_expr)->next->data)[0] == ';')
 	{
 		(*l_expr)->next->type = SEMI;
 		*boule = 0;
 	}
-	else if (hrd < 1 && ((*l_expr)->next->data)[0] == '|') // TOTO
+	else if (hrd < 1 && ((*l_expr)->next->data)[0] == '|')
 	{
 		(*l_expr)->next->type = (((*l_expr)->next->data)[1] ==
 		((*l_expr)->next->data)[0] ? LOGIC_OR : PIPE);
 		*boule = 0;
 	}
-	else if (hrd < 1 && ((*l_expr)->next->data)[0] == '&' && ((*l_expr)->next->data)[1] == ((*l_expr)->next->data)[0])
+	else if (hrd < 1 && ((*l_expr)->next->data)[0] == '&' &&
+	((*l_expr)->next->data)[1] == ((*l_expr)->next->data)[0])
 	{
 		(*l_expr)->next->type = LOGIC_AND;
 		*boule = 0;
@@ -157,7 +156,7 @@ static int			type_analyzer(t_e_list **l_expr, int boule)
 		|| (*l_expr)->type == RED_FD))
 			(*l_expr)->next->type = RA;
 		else
-			type_analyzer2(l_expr, &boule);
+			type_analyzer2(hrd, l_expr, &boule);
 		*l_expr = (*l_expr)->next;
 	}
 	return (TRUE);
@@ -168,30 +167,30 @@ int					lexer(t_e_list **l_expr)
 	if (DEBUG_LEXER == 1)
 		ft_putendl_fd("------- LEXER ------", 2);
 
-	t_e_list			*tmp;
+	t_e_list			*t;
 	int					boule;
 	int					hrd;
 
-	tmp = *l_expr;
+	t = *l_expr;
 	boule = 0;
 	hrd = (*l_expr)->hrd_quote;
-	if (hrd < 1 && tmp && (ft_strchr(tmp->data, '<') || ft_strchr(tmp->data, '>')))
+	if (hrd < 1 && t && (ft_strchr(t->data, '<') || ft_strchr(t->data, '>')))
 	{
-		waka_lexer(&tmp);
-		tmp->type = RED;
+		waka_lexer(&t);
+		t->type = RED;
 	}
-	else if (hrd < 1 && tmp && ft_strcmp(tmp->data, ";") == 0)
-		tmp->type = SEMI;
-	else if (hrd < 1 && (tmp->data)[0] == '|' && (tmp->data)[1] == (tmp->data)[0])
-		tmp->type = LOGIC_AND;
-	else if (hrd < 1 && (tmp->data)[0] == '&' && (tmp->data)[1] == (tmp->data)[0])
-		tmp->type = LOGIC_AND;
-	else if (tmp && tmp->data)
+	else if (hrd < 1 && t && ft_strcmp(t->data, ";") == 0)
+		t->type = SEMI;
+	else if (hrd < 1 && (t->data)[0] == '|' && (t->data)[1] == (t->data)[0])
+		t->type = LOGIC_AND;
+	else if (hrd < 1 && (t->data)[0] == '&' && (t->data)[1] == (t->data)[0])
+		t->type = LOGIC_AND;
+	else if (t && t->data)
 	{
-		tmp->type = CMD;
+		t->type = CMD;
 		boule = 1;
 	}
-	type_analyzer(&tmp, boule);
+	type_analyzer(&t, boule);
 
 	// ANTIBUG!!!!!!
 	if (DEBUG_LEXER == 1)

@@ -49,8 +49,8 @@ int 				token_sep(int *hrd, char **read_buff, char **data_tmp,
 	if (pushbck_cdt(read_buff, data_tmp))
 	{
 		expr_pushbk(l_expr, *data_tmp, *hrd);
-		if (*hrd >= 1 && ft_strcmp("<<", *data_tmp) != 0)
-			*hrd = 0;
+		//if (*hrd >= 1 && ft_strcmp("<<", *data_tmp) != 0)
+		*hrd = (*hrd >= 1 && ft_strcmp("<<", *data_tmp) != 0 ? 0 : *hrd);
 		ft_bzero(*data_tmp, ft_strlen(*data_tmp));
 	}
 	if (read_buff && *read_buff && **read_buff && ft_strchr(SPECIAL, **read_buff))
@@ -81,8 +81,9 @@ int					tokenizer(int *hrd, char *read_buff, t_e_list **l_expr)
 		ft_putendl_fd("------- TOKENIZER ------", 2);
 	char 				*data_tmp;
 
-	if ((data_tmp = ft_strnew(ft_strlen(read_buff))) != NULL)
-		finite_state_automaton(hrd, &read_buff, l_expr, &data_tmp);
+	if ((data_tmp = ft_strnew(ft_strlen(read_buff))) == NULL)
+		return (ERROR); // malloc error
+	finite_state_automaton(hrd, &read_buff, l_expr, &data_tmp);
 	if (data_tmp)
 	{
 		if (ft_strcmp("<<", data_tmp) == 0)

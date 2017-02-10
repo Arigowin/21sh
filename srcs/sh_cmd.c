@@ -38,7 +38,8 @@ static char			**format_cmd(t_node *tree) //static ac manage cmd
 	i = 0;
 	ret = NULL;
 	tmp = tree;
-	if (tree && tree->left && tree->left->right && ft_strcmp(tree->left->right->data, "-1") == 0)
+	if (tree && tree->left && tree->left->right
+	&& ft_strcmp(tree->left->right->data, "-1") == 0)
 		return (ret);
 	while (tmp->right)
 	{
@@ -76,7 +77,7 @@ static int			nopipe_cmd(int pipefd_tab[2][2], t_node *tree,
 	else if (tree && tree->left && tree->left->type == DLRED
 			&& redirect(tree->left, NULL) == ERROR)
 	{
-		/* RET: error EXIT: false MSG: "i don't know" */
+		/* RET: error EXIT: false MSG: "i don't know"  => normalement, on ne remonte pas là...*/
 		reset_std_fd();
 		close_lstfd(lstfd);
 		del_lstfd(lstfd);

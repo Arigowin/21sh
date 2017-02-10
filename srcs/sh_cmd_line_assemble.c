@@ -59,7 +59,7 @@ int					check_fct(int fd, char **cmd)
 		/* RET: error EXIT: true MSG: "env not set" */
 		return (ERROR);
 	if ((path = ft_strsplit(tmp, ':')) == NULL)
-		/* RET: error EXIT: true MSG: "split fail" */
+		/* RET: error EXIT: true MSG: "memory allocation failed" */
 		return (ERROR);
 	ft_strdel(&tmp);
 	i = -1;
@@ -81,5 +81,5 @@ int					check_fct(int fd, char **cmd)
 	}
 	free_tab(&tbl_env);
 	free_tab(&path);
-	return (TRUE);
+	return (FALSE);
 }

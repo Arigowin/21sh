@@ -45,7 +45,7 @@ static int			read_n_check(int *nb_hrd, char *read_buff, t_node **tree) // static
 	save = l_expr;
 	if ((ret = lexer(&l_expr)) != TRUE)
 		return (ret);
-	if ((ret = parser(nb_hrd, &l_expr, tree)) != TRUE) // juste garder ret = .... et return ret
+	if ((ret = parser(nb_hrd, &l_expr, tree)) != TRUE)
 	{
 		expr_del(&save);
 		return (ret);
@@ -92,6 +92,25 @@ int					check_after_read(t_line *stline, t_history **history) //fct a passer en 
 	return (ret);
 }
 
+int					ctrl_c_hrd(t_line *stline)
+{
+	int					fd;
+
+	fd = 0;
+	if (stline->ctrl_c == TRUE)
+	{
+		close(0);
+		if ((fd = open(ttyname(1), O_RDWR)) < 0)
+			return (ERROR); // open failed
+		if (dup2(fd, STDIN_FILENO) < 0)
+			return (ERROR); // dup2 failed
+		if (fd > STDERR_FILENO)
+			close(fd);
+		stline->ctrl_c = FALSE;
+	}
+	return (TRUE);
+}
+
 int					fct_read(int hrd, t_line *stline, t_history **history)
 {
 	if (DEBUG == 1)
@@ -100,7 +119,6 @@ int					fct_read(int hrd, t_line *stline, t_history **history)
 	int					key;
 	int					ret;
 	int					event_ret;
-	int					fd;
 
 	ret = 0;
 	key = 0;
@@ -112,17 +130,7 @@ int					fct_read(int hrd, t_line *stline, t_history **history)
 			continue ;
 		key = 0;
 	}
-
-	if (stline->ctrl_c == TRUE)
-	{
-		close(0);
-		fd = open(ttyname(1), O_RDWR);
-		dup2(fd, STDIN_FILENO);
-		if (fd > STDERR_FILENO)
-			close(fd);
-		stline->ctrl_c = FALSE;
-	}
-
+	ctrl_c_hrd(stline);
 	if (key == RETURN && (stline->line)[0] == '\0')
 		return (FALSE);
 	if (ret <= 0)
