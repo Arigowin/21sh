@@ -80,6 +80,8 @@ int					check_fct(int fd, char **cmd)
 				ft_putstr_fd(cmd[0], 2);
 				ft_putendl_fd(": Permission denied", 2);
 				free_tab(&tbl_env);
+				free_tab(&path);
+				ft_strdel(&tmp);
 				return (-2);
 			}
 			execve(tmp, cmd, tbl_env);
@@ -88,5 +90,6 @@ int					check_fct(int fd, char **cmd)
 	}
 	free_tab(&tbl_env);
 	free_tab(&path);
+	ft_strdel(&tmp);
 	return (TRUE);
 }
