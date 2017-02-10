@@ -3,7 +3,6 @@
 #include "libft.h"
 
 /*FICHIER A REPRENDRE -- RECLASSER LES FOCNTIONS PAR UTILITE */
-
 int 				mini_prt_handler(char **str, int *pos, t_line *stline)
 {
 	if (DEBUG_KEY == 1)

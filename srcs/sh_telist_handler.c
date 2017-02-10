@@ -27,8 +27,8 @@ t_e_list			*expr_new(char *content, int hrd)
 
 int				expr_del(t_e_list **lst)
 {
-	//if (DEBUG_LEXER == 1)
-	//	ft_putendl_fd("------- EXPR DEL ------", 2);
+	if (DEBUG_LEXER == 1)
+		ft_putendl_fd("------- EXPR DEL ------", 2);
 
 	t_e_list	*trash;
 
