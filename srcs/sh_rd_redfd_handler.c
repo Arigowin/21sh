@@ -10,8 +10,7 @@ int					check_file_name(char **filename, char *str)
 		ft_putendl_fd("------- CHECK FILE NAME -------", 2);
 
 	if ((*filename = ft_strsub(str, 1, ft_strlen(str))) == NULL)
-		/* RET: error EXIT: true MSG: "malloc fail" */
-		return (ERROR);
+		return (sh_error(6, NULL, NULL));
 	if (ft_isstrnum(*filename))
 	{
 		str_addleft(*filename, '&');
@@ -37,11 +36,9 @@ int					reset_std_fd(void)
 	while (std_fd <= STDERR_FILENO)
 	{
 		if ((fd = open(savior_tty(NULL, FALSE), O_RDWR)) == ERROR)
-			/* RET: error EXIT: false MSG: "open fail" */
-			return (ERROR);
+			return (sh_error(3, NULL, NULL));
 		if (dup2(fd, std_fd) == ERROR)
-			/* RET: error EXIT: false MSG: "dup2 fail" */
-			return (ERROR);
+			return (sh_error(7, NULL, NULL));
 		if (fd > STDERR_FILENO)
 			close(fd);
 		std_fd++;

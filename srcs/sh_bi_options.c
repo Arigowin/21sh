@@ -18,15 +18,7 @@ static int			bi_opt(char *arg, char *bi, int *no_more, char *handled_opt) //stat
 		while (arg[i])
 		{
 			if (ft_strchr(handled_opt, arg[i]) == NULL)
-			{
-				ft_putstr_fd("21sh: ", 2);
-				ft_putstr_fd(bi, 2);
-				ft_putstr_fd(": ", 2);
-				ft_putstr_fd(arg, 2);
-				ft_putendl_fd(": invalid option.", 2);
-				//	cd_error(1, arg); // invalid option
-				return (ERROR);
-			}
+				return (sh_error(22, &arg[i], bi));
 			i++;
 		}
 	}
@@ -49,7 +41,7 @@ int					check_opt(char **arg, int *i)
 			break ;
 		(*i)++;
 	}
-	if (ret == ERROR)
+	if (ret == -2)
 		return (ERROR);
-	return (TRUE);
+	return (ret);
 }

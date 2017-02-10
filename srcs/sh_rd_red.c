@@ -9,14 +9,7 @@ int					fd_exist(int fd)
 		ft_putendl_fd("------------ FD EXIST ------------", 2);
 
 	if (isatty(fd) == 0)
-	{
-		ft_putstr("21sh: ");
-		ft_putstr(ft_itoa(fd));
-		ft_putendl(": Bad file descriptor");
-		/* RET: error EXIT: true MSG: "bad file descriptor"
-		 * FREE: tree stline history globalfd */
-		return (FALSE);
-	}
+		return (sh_error(29, NULL, NULL));
 	return (TRUE);
 }
 
@@ -32,11 +25,10 @@ static int			left_right_red(t_node *tree, t_lst_fd *lstfd, int stdfd) // static 
 		fd = ft_atoi(tree->data);
 	else if (tree->type == RED_FD && ft_strcmp(tree->data, "&") == 0)
 	{
-		// if STDIN_FILENO
-		// 		bash: file: ambiguous redirect
-		if (stdfd == STDIN_FILENO || dup2(lstfd->fd, STDERR_FILENO) == ERROR)
-			/* RET: error EXIT: false MSG: "dup2 fail" */
-			return (ERROR);
+		if (stdfd == STDIN_FILENO)
+			return (sh_error(7, NULL, NULL));
+		if (dup2(lstfd->fd, STDERR_FILENO) == ERROR)
+			return (sh_error(7, NULL, NULL));
 	}
 	if (tree->right && tree->type == RED_FD)
 		tree = tree->right;
@@ -47,7 +39,7 @@ static int			left_right_red(t_node *tree, t_lst_fd *lstfd, int stdfd) // static 
 		return (TRUE);
 	}
 	if (lstfd->fd >= 0 && dup2(lstfd->fd, fd) == ERROR)
-		return (ERROR);
+		return (sh_error(7, NULL, NULL));
 	return (TRUE);
 }
 

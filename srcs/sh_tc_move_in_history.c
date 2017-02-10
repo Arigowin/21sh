@@ -90,7 +90,6 @@ int					history_up(char **str, int *pos, t_line *stline,
 	if (*history == NULL)
 		return (FALSE);
 	fct_end(str, pos, stline, history);
-	tmp = NULL;
 	tmp = (*pos > 0 && (*str)[*pos - 1] == '\n' ? ft_strsub(*str, 0, *pos - 1) : ft_strdup(*str));
 	if ((*history)->next == NULL && *pos > 0 && ft_strcmp(tmp, (*history)->line) != 0)
 	{
@@ -143,4 +142,3 @@ int					history_down(char **str, int *pos, t_line *stline,
 	}
 	return (TRUE);
 }
-

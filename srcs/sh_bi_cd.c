@@ -13,15 +13,12 @@ static int			change_dir(char *path)
 
 	if (chdir(path) == -1)
 	{
-		ft_putstr("21sh: cd: ");
-		ft_putstr(path);
 		if (stat(path, &stat_buf) == 0 && !S_ISDIR(stat_buf.st_mode))
-			ft_putendl_fd(": not a directory", 2);
+			return (sh_error(16, path, NULL));
 		else if ((access(path, F_OK)) == ERROR)
-			ft_putendl_fd(": no such file or directory", 2);
+			return (sh_error(17, path, NULL));
 		else
-			ft_putendl_fd(": permission denied", 2);
-		return (FALSE);
+			return (sh_error(18, path, NULL));
 	}
 	return (TRUE);
 }
@@ -35,10 +32,7 @@ static int			cd_home()
 	int					ret;
 
 	if ((path = get_env("HOME")) == NULL)
-	{
-		ft_putendl_fd("21sh: cd: no HOME variable set.", 2);
-		return (FALSE);
-	}
+		return (sh_error(13, NULL, NULL));
 	ret = change_dir(path);
 	ft_strdel(&path);
 	return (ret);
@@ -61,7 +55,7 @@ static int			handle_cd_arg(int *i, int *ret, char **arg)
 		if (tmp)
 			*ret = change_dir(tmp);
 		else
-			ft_putendl_fd("21sh: cd: no OLDPWD variable set.", 2);
+			return (sh_error(11, NULL, NULL));
 	}
 	else
 		*ret = change_dir(arg[*i]);

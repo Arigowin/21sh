@@ -41,8 +41,6 @@ static int			line_manager(char **buff, char *line, int *quote, t_history **histo
 	char				*tmp;
 
 	tmp = NULL;
-//	if (line == NULL || quote == NULL) // if a suprimer : line vérifié dans la fct parente // adresse de quote FORCEMENT  != NULL
-//		return (ERROR);
 	if (line[0] == 3 || ft_strlen(line) <= 0)
 		return (FALSE);
 	if (*quote != 0)
@@ -52,10 +50,10 @@ static int			line_manager(char **buff, char *line, int *quote, t_history **histo
 		if (*buff)
 		{
 			if ((tmp = ft_strjoin(*buff, line)) == NULL)
-				return (ERROR); // mem alloc failed
+				return (sh_error(6, NULL, NULL));
 			ft_strdel(buff);
 			if ((*buff = ft_strdup(tmp)) == NULL)
-				return (ERROR); // mem alloc failed
+				return (sh_error(6, NULL, NULL));
 			ft_strdel(&tmp);
 			add_history(history, *buff);
 			ft_strdel(buff);

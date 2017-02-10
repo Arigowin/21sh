@@ -60,16 +60,19 @@ int				fill_path(char ***env)
 
 	tmp = NULL;
 	if (((*env) = (char **)malloc(sizeof(char *) * 4)) == NULL)
-		/* RET: error EXIT: true MSG: "malloc fail" */
-		return (ERROR);
+		return (sh_error(6, NULL, NULL));
 	if ((tmp = getcwd(tmp, MAX_PATH)) == NULL)
-		/* RET: error EXIT: false MSG: "Cannot get current directory" */
-		return (ERROR);
-	if (((*env)[0] = ft_strdup("PATH=/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin")) == NULL)
-		/* RET: error EXIT: true MSG: "malloc fail" */
-		return (ERROR);
-	(*env)[1] = ft_properjoin("PWD=", tmp);
-	(*env)[2] = ft_strdup("TERM=xterm");
+		return (sh_error(6, NULL, NULL));
+	if (((*env)[0] =
+	ft_strdup("PATH=/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin")) == NULL)
+		return (sh_error(6, NULL, NULL));
+	if (((*env)[1] = ft_properjoin("PWD=", tmp)) == NULL)
+	{
+		ft_strdel(&tmp);
+		return (sh_error(6, NULL, NULL));
+	}
+	if (((*env)[2] = ft_strdup("TERM=xterm")) == NULL)
+		return (sh_error(6, NULL, NULL));
 	(*env)[3] = NULL;
 	ft_strdel(&tmp);
 	return (TRUE);

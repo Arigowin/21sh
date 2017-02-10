@@ -53,8 +53,7 @@ int					insert_in_lstfd(t_lst_fd **lstfd, t_lst_fd **tmpfd, int fd, char *filena
 	if (insert == TRUE)
 	{
 		if ((*tmpfd = lstfd_insert(lstfd, tmpfd, fd, filename)) == NULL)
-			/* RET: error EXIT: true MSG: "malloc fail" */
-			return (ERROR);
+			return (sh_error(6, NULL, NULL));
 		tmpfd = lstfd;
 	}
 	else

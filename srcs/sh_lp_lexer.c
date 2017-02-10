@@ -23,16 +23,18 @@ static int			waka_land_handler(t_e_list **l_expr, char (*tmp)[], int *i)
 		if ((*l_expr)->next != NULL && (ft_isstrnum((*l_expr)->next->data)
 		|| ft_strcmp((*l_expr)->next->data, "-") == 0))
 		{
-			tmp2 = ft_strjoin("&", (*l_expr)->next->data);
+			if ((tmp2 = ft_strjoin("&", (*l_expr)->next->data)) == NULL)
+				return (sh_error(6, NULL, NULL));
 			ft_strdel(&((*l_expr)->next->data));
-			(*l_expr)->next->data = ft_strdup(tmp2);
+			if (((*l_expr)->next->data = ft_strdup(tmp2)) == NULL)
+				return (sh_error(6, NULL, NULL));
 			ft_strdel(&tmp2);
 			(*l_expr)->next->type = RED_ARG;
 		}
 		else
 		{
 			if ((new = expr_new("&", 0)) == NULL)
-				return (ERROR);
+				return (sh_error(6, NULL, NULL));
 				/* MSG ret: ERROR exit: TRUE msg: "malloc fail"
 				 * free:lexpr  */
 			new->type = RED_FD;
@@ -78,7 +80,7 @@ static int			waka_lexer(t_e_list **l_expr)
 	red_fd_copy(l_expr, &tmp, &i);
 	if ((tmp2 = ft_strsub((*l_expr)->data, i, ft_strlen((*l_expr)->data) - i))
 	== NULL)
-		return (ERROR);
+		return (sh_error(6, NULL, NULL));
 	/* MSG ret: ERROR exit: TRUE msg: "malloc fail"
 		 * free: lexpr  */
 	ft_strdel(&((*l_expr)->data));
@@ -86,7 +88,7 @@ static int			waka_lexer(t_e_list **l_expr)
 	|| (tmp[0] == '\0' || (tmp[0] != '\0' && (new = expr_new(tmp, 0)) == NULL)))
 	{
 		ft_strdel(&tmp2);
-		return (ERROR);
+		return (sh_error(6, NULL, NULL));
 	}
 	/* MSG ret: ERROR exit: TRUE msg: "malloc fail"
 		 * free: lexpr  */

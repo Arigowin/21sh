@@ -17,8 +17,7 @@ static int			start_init_term(void)
 	if ((term_name = getenv("TERM")) == NULL)
 		term_name = "xterm";
 	if (tgetent(NULL, term_name) == ERROR)
-		/* RET: error EXIT: true MSG: "Could not access the termcap data base." */
-		return (ERROR);
+		return (sh_error(0, NULL, NULL));
 	return (TRUE);
 }
 
@@ -35,14 +34,12 @@ int					init_term(int full_init)
 			return (ERROR);
 	}
 	if (tcgetattr(0, &term) == ERROR)
-		/* RET: error EXIT: true MSG: "Could not access the termcap data base." */
-		return (ERROR);
+		return (sh_error(0, NULL, NULL));
 	term.c_lflag &= ~(ICANON | ECHO);
 	term.c_cc[VMIN] = 1;
 	term.c_cc[VTIME] = 0;
 	if (tcsetattr(0, TCSADRAIN, &term) == ERROR)
-		/* RET: error EXIT: true MSG: "Could not access the termcap data base." */
-		return (ERROR);
+		return (sh_error(0, NULL, NULL));
 	return (TRUE);
 }
 
@@ -55,11 +52,9 @@ int					reset_term(void)
 
 	tputs(tgetstr("ve", NULL), 1, my_outc);
 	if (tcgetattr(0, &term) == ERROR)
-		/* RET: error EXIT: true MSG: "Could not access the termcap data base." */
-		return (ERROR);
+		return (sh_error(0, NULL, NULL));
 	term.c_lflag |= (ICANON | ECHO);
 	if (tcsetattr(0, TCSANOW, &term) == ERROR)
-		/* RET: error EXIT: true MSG: "Could not access the termcap data base." */
-		return (ERROR);
+		return (sh_error(0, NULL, NULL));
 	return (TRUE);
 }

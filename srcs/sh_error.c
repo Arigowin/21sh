@@ -8,8 +8,7 @@
 
 const char			*tbl_error1(int index)
 {
-	static const char	*err_tbl1[] = {
-						/*0*/"21sh: cannot access termacp database"
+	static const char	*err_tbl1[] = {/*0*/"21sh: cannot access termacp database",
 						/*1*/"21sh: ioctl: cannot get window size",
 						/*2*/"21sh: cannot open ",/*3*/ "21sh: cannot open fd",
 						/*4*/"21sh: cannot performe pipe function",
@@ -23,15 +22,17 @@ const char			*tbl_error1(int index)
 						/*12*/"21sh: cd: no PATH variable set",
 						/*13*/"21sh: cd: no HOME variable set",
 						/*14*/"21sh: unsetenv: ", /*15*/"21sh: setenv: ",
-	  					/*16 -> 16, 17, 18*/"21sh : cd: ",/*17->19, 20, 21, 22, 23, 24*/ "21sh :"
+	  					/*16 -> 16, 17, 18*/"21sh : cd: ",/*17->19, 20, 21, 22, 23, 24, 29, 30*/ "21sh : ",
 						/*18->25, 26*/"21sh: parse error near: ",
+						/*19->27, 28*/"21sh: exit "
 						};
 	int					ret_index;
 
 	ret_index = index;
 	ret_index = (index >= 16 && index <= 18 ? 16 : ret_index);
-	ret_index = (index >= 19 && index <= 23 ? 17 : ret_index);
-	ret_index = (index >= 24 ? 18 : ret_index);
+	ret_index = ((index >= 19 && index <= 23) || index == 29  || index == 30 ? 17 : ret_index);
+	ret_index = (index >= 25 && index <= 26 ? 18 : ret_index);
+	ret_index = (index >= 27 && index <= 28 ? 19 : ret_index);
 	return (err_tbl1[ret_index]);
 }
 
@@ -44,6 +45,10 @@ const char			*tbl_error2(int index)
 						/*4->18, 19, 20*/": permission denied", /*5->22*/": invalid option",
 						/*6->24*/": command not found",
 						/*7->25*/": missing name for redirect",
+						/*8->27*/": too many arguments",
+						/*9->28*/": numeric argument required"
+						/*10->29*/": bad file descriptor"
+						/*11->30*/": ambiguous redirect"
 						};
 	int					ret_index;
 
@@ -55,25 +60,34 @@ const char			*tbl_error2(int index)
 	ret_index = (index == 22 ? 5 : ret_index);
 	ret_index = (index == 24 ? 6 : ret_index);
 	ret_index = (index == 25 ? 7 : ret_index);
-	return (err_tbl2[index]);
+	ret_index = (index == 27 ? 8 : ret_index);
+	ret_index = (index == 28 ? 9 : ret_index);
+	ret_index = (index == 29 ? 10 : ret_index);
+	ret_index = (index == 30 ? 11 : ret_index);
+	return (err_tbl2[ret_index]);
 }
 
-int					sh_error(int index, char *err)
+int					sh_error(int index, char *err, char *bi)
 {
-	if (index <= 25)
+	if (index <= 29)
 	{
 		ft_putstr_fd(tbl_error1(index), 2);
-		if (err)
+		if (bi != NULL)
+		{
+			ft_putstr_fd(bi, 2);
+			ft_putstr_fd(": ", 2);
+		}
+		if (err != NULL)
 			ft_putstr_fd(err, 2);
-		if (index > 14 && index <= 25)
+		if (index > 14 && index <= 29 && index != 26)
 			ft_putstr_fd(tbl_error2(index), 2);
 		ft_putendl_fd("", 2);
 	}
-	if (index <= 7)
-		exit(EXIT_FAILURE);;
-	if (index == 11 || index == 14) // cf si vraiment return true pour le 11
+	if (index <= 7 || index == 23 || index == 29)
+		exit_pgm(EXIT_FAILURE);
+	if (index == 11 || index == 14)
 		return (TRUE);
-	if (index == 19)
+	if (index == 19 || index == 22)
 		return (-2);
 	else
 		return (FALSE);

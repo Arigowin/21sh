@@ -10,26 +10,22 @@ int 				pfd_handler(int pipefd_tab[2][2])
 	{
 		close(pipefd_tab[1][0]);
 		if (dup2(pipefd_tab[1][1], STDOUT_FILENO) == ERROR)
-			/* RET: error EXIT: false MSG: "dup2 fail" */
-			return (ERROR);
+			return (sh_error(7, NULL, NULL));
 	}
 	if (pipefd_tab && pipefd_tab[0][0] >= 0 && pipefd_tab[1][0] >= 0)
 	{
 		close(pipefd_tab[0][1]);
 		if(dup2(pipefd_tab[0][0], STDIN_FILENO) == ERROR)
-			/* RET: error EXIT: false MSG: "dup2 fail" */
-			return (ERROR);
+			return (sh_error(7, NULL, NULL));
 		close(pipefd_tab[1][0]);
 		if (dup2(pipefd_tab[1][1], STDOUT_FILENO) == ERROR)
-			/* RET: error EXIT: false MSG: "dup2 fail" */
-			return (ERROR);
+			return (sh_error(7, NULL, NULL));
 	}
 	if (pipefd_tab && pipefd_tab[0][0] >= 0 && pipefd_tab[1][0] < 0)
 	{
 		close(pipefd_tab[0][1]);
 		if(dup2(pipefd_tab[0][0], STDIN_FILENO) == ERROR)
-			/* RET: error EXIT: false MSG: "dup2 fail" */
-			return (ERROR);
+			return (sh_error(7, NULL, NULL));
 	}
 	return (TRUE);
 }

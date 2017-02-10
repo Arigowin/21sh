@@ -13,7 +13,7 @@ int					fd_open(int	*fd, t_node *tree, t_lst_fd **lstfd)
 	int					ret;
 	int					flags;
 	char 				*filename;
-	types				type;
+	t_types				type;
 	t_node				*node;
 
 	filename = NULL;
@@ -37,11 +37,9 @@ int					fd_open(int	*fd, t_node *tree, t_lst_fd **lstfd)
 	flags = (type == LRED ? O_RDONLY : flags);
 	if (*fd == -1)
 		return (FALSE);
-	if (node && node->data)
-		if ((filename = node->data) == NULL)
-			return (ERROR);
-	/* MSG ret: ERROR exit: TRUE msg: "malloc fail" */
-	/* free : node + lstfd */
+	if (node && node->data && (filename = node->data) == NULL)
+		/* free : node + lstfd */
+		return (ERROR);
 	if (node && node->data && node->data[0] == '&')
 		*fd = (ft_strcmp("&-", node->data) == 0 ? -42 : ft_atoi(filename + 1));
 	else
@@ -57,13 +55,10 @@ int					fd_open(int	*fd, t_node *tree, t_lst_fd **lstfd)
 	}
 	if (*fd == -1)
 	{
-		ft_putstr_fd("21sh: ", 2);
-		ft_putstr_fd(filename, 2);
 		if (ret <= 0)
-			ft_putendl_fd(": no such file or directory", 2);
+			return (sh_error(21, filename, NULL));
 		else
-			ft_putendl_fd(": permission denied", 2);
-		return (FALSE);
+			return (sh_error(20, filename, NULL));
 	}
 	return (TRUE);
 }
@@ -89,7 +84,7 @@ int 				push_in_lstfd(t_node *tree, t_lst_fd **lstfd, int fd, int *fd_save)
 	return (TRUE);
 }
 
-int					manage_red_fd(int fd, t_node *tree, t_lst_fd **lstfd, types type)
+int					manage_red_fd(int fd, t_node *tree, t_lst_fd **lstfd, t_types type)
 {
 	if (DEBUG_TREE == 1)
 		ft_putendl_fd("------- MANAGE RED FD -------", 2);

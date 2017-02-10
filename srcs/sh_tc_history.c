@@ -8,16 +8,15 @@ static t_history	*new_history(char *line)
 
 	t_history			*new;
 
-	if ((new = (t_history *)malloc(sizeof(t_history))) == NULL)
-		/* RET: error EXIT: true msg: "malloc fail"
-		 * FREE : history */
-		return (NULL);
 	if (line == NULL)
 		return (NULL);
+	if ((new = (t_history *)malloc(sizeof(t_history))) == NULL)
+		sh_error(6, NULL, NULL);
 	if ((new->line = ft_strdup(line)) == NULL)
-		/* RET: error EXIT: true msg: "malloc fail"
-		 * FREE : new history */
-		return (NULL);
+	{
+		free(new);
+		sh_error(6, NULL, NULL);
+	}
 	new->prev = NULL;
 	new->next = NULL;
 	return (new);
@@ -33,9 +32,7 @@ void				add_history(t_history **history, char *line)
 	while (*history && (*history)->next != NULL)
 		(*history) = (*history)->next;
 	if (*history == NULL)
-	{
 		*history = new_history(line);
-	}
 	else
 	{
 		new = new_history(line);
@@ -94,6 +91,5 @@ void				modif_history(t_history **history, char *line, int mini_prt)
 	}
 	ft_strdel(&((*history)->line));
 	if (((*history)->line = ft_strdup(line)) == NULL)
-		/* RET =  EXIT = true msg = "malloc fail" */
-		return ;
+		sh_error(6, NULL, NULL);
 }

@@ -61,7 +61,7 @@ static int			read_n_check(int *nb_hrd, char *read_buff, t_node **tree) // static
 	return (TRUE);
 }
 
-int					check_after_read(t_line *stline, t_history **history) //fct a passer en static (ac fct read) si on vire le test
+int					check_after_read(t_line *stline, t_history **history)
 {
 	if (DEBUG == 1)
 		ft_putendl_fd("------- CHECK AFTER READ ------", 2);

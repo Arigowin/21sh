@@ -11,17 +11,20 @@ t_e_list			*expr_new(char *content, int hrd)
 	t_e_list			*new;
 
 	if ((new = (t_e_list *)malloc(sizeof(t_e_list))) == NULL)
-		return (NULL);
-		/* MSG ret: NULL exit: TRUE msg: "malloc fail"
-		 * free: content */
+	{
+		ft_strdel(&content);
+		sh_error(6, NULL, NULL);
+	}
 	new->data = NULL;
 	new->type = NONE;
 	new->hrd_quote = hrd;
 	new->next = NULL;
 	if ((new->data = ft_strdup(content)) == NULL)
-		return (NULL);
-		/* MSG ret: NULL exit: TRUE msg: "malloc fail"
-		 * free: content + new */
+	{
+		free(new);
+		ft_strdel(&content);
+		sh_error(6, NULL, NULL);
+	}
 	return (new);
 }
 
@@ -55,14 +58,13 @@ int 				expr_pushbk(t_e_list **l_expr, char *data_tmp, int hrd)
 	if (data_tmp == NULL || *data_tmp == '\0')
 		return (FALSE);
 	if (!(*l_expr))
-	{
 		*l_expr = expr_new(data_tmp, hrd);
-		return (TRUE);
+	else
+	{
+		tmp = *l_expr;
+		while (tmp->next)
+			tmp = tmp->next;
+		tmp->next = expr_new(data_tmp, hrd);
 	}
-	tmp = *l_expr;
-	while (tmp->next)
-		tmp = tmp->next;
-	if ((tmp->next = expr_new(data_tmp, hrd)) == NULL) // return useless
-		return (ERROR);
 	return (TRUE);
 }
