@@ -51,7 +51,6 @@ int						checktty(t_line *stline)
 
 	char				*tmp;
 	char				**cmd;
-	int					i;
 
 	tmp = NULL;
 	if (!isatty(0))
@@ -63,7 +62,6 @@ int						checktty(t_line *stline)
 			if ((cmd = ft_strsplit(tmp, '\n')) == NULL)
 				exit(EXIT_FAILURE);
 			ft_strdel(&tmp);
-			i = 0;
 			if (checktty_tool2(stline, cmd) == ERROR)
 				exit(EXIT_FAILURE);
 			free_tab(&cmd);
