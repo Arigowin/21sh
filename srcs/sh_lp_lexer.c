@@ -122,7 +122,8 @@ static int			type_analyzer2(t_e_list **l_expr, int *boule)
 		*boule = 0;
 	}
 	else if (*boule == 0 && ((ft_strchr(SPECIAL, ((*l_expr)->data)[0]) &&
-	!ft_strchr("><", ((*l_expr)->next->data)[0])) || (*l_expr)->type == RA))
+	!ft_strchr("><", ((*l_expr)->next->data)[0])
+	&& (*l_expr)->next->type != RED_FD) || (*l_expr)->type == RA))
 	{
 		*boule = 1;
 		(*l_expr)->next->type = CMD;
