@@ -32,7 +32,6 @@ int					sh_error(int ret_code, char *msg, int out)
 	}
 	return (TRUE);
 }
-
 /*
  * CD :
  * 	MESSAGES

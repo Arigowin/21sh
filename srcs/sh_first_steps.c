@@ -37,7 +37,10 @@ int					display_prompt(void)
 	path = get_path(); //free ok
 	name = get_env("LOGNAME"); //free ok
 	if (name)
+	{
 		ft_putstr_color("\033[34;1m", name);
+		ft_putstr(":");
+	}
 	if (path)
 		ft_putstr_color("\033[32;1m", path);
 	if (path || name)

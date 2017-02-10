@@ -1,6 +1,6 @@
+#include <stdio.h>
 #include "shell.h"
 #include "libft.h"
-#include <stdio.h>
 
 int					is_builtin(char **cmd)
 {
