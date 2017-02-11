@@ -22,7 +22,7 @@ const char			*tbl_error1(int index)
 						/*12*/"21sh: cd: no PATH variable set",
 						/*13*/"21sh: cd: no HOME variable set",
 						/*14*/"21sh: unsetenv: ", /*15*/"21sh: setenv: ",
-	  					/*16 -> 16, 17, 18*/"21sh : cd: ",/*17->19, 20, 21, 22, 23, 24, 29, 30*/ "21sh : ",
+	  					/*16 -> 16, 17, 18*/"21sh : cd: ",/*17->19, 20, 21, 22, 23, 24, 29, 30*/ "21sh: ",
 						/*18->25, 26*/"21sh: parse error near: ",
 						/*19->27, 28*/"21sh: exit "
 						};
@@ -30,7 +30,7 @@ const char			*tbl_error1(int index)
 
 	ret_index = index;
 	ret_index = (index >= 16 && index <= 18 ? 16 : ret_index);
-	ret_index = ((index >= 19 && index <= 23) || index == 29  || index == 30 ? 17 : ret_index);
+	ret_index = ((index >= 19 && index <= 24) || index == 29  || index == 30 ? 17 : ret_index);
 	ret_index = (index >= 25 && index <= 26 ? 18 : ret_index);
 	ret_index = (index >= 27 && index <= 28 ? 19 : ret_index);
 	return (err_tbl1[ret_index]);
@@ -40,7 +40,7 @@ const char			*tbl_error2(int index)
 {
 	static const char	*err_tbl2[] = {/*0->14*/": undefined variable",
 						/*1->15*/": not a valid identifier",
-						/*2->16, 23*/": not a diredtory",
+						/*2->16, 23*/": not a directory",
 						/*3->17, 21*/": no such file or directory",
 						/*4->18, 19, 20*/": permission denied", /*5->22*/": invalid option",
 						/*6->24*/": command not found",
@@ -69,8 +69,6 @@ const char			*tbl_error2(int index)
 
 int					sh_error(int index, char *err, char *bi)
 {
-	if (index <= 29)
-	{
 		ft_putstr_fd(tbl_error1(index), 2);
 		if (bi != NULL)
 		{
@@ -79,11 +77,10 @@ int					sh_error(int index, char *err, char *bi)
 		}
 		if (err != NULL)
 			ft_putstr_fd(err, 2);
-		if (index > 14 && index <= 29 && index != 26)
+		if (index >= 14 && index <= 30 && index != 26)
 			ft_putstr_fd(tbl_error2(index), 2);
 		ft_putendl_fd("", 2);
-	}
-	if (index <= 7 || index == 23 || index == 29)
+	if ((index >= 1 && index <= 7) || index == 23 || index == 29 || index == 24)
 		exit_pgm(EXIT_FAILURE);
 	if (index == 11 || index == 14)
 		return (TRUE);
