@@ -58,12 +58,12 @@ static int			nopipe_cmd(int pipefd_tab[2][2], t_node *tree,
 
 	ret = -1;
 	fd = (lstfd && *lstfd ? (*lstfd)->fd : -2);
+	printf("tree in cmd ((%s))\n", tree->data);
 	if (tree && tree->left && *lstfd && (ret = redirect(tree->left, *lstfd)))
 	{
 		if (ret == ERROR || (*lstfd)->fd == -1)
 		{
-			/* RET: error EXIT: false MSG: 'bad file descriptor' // si ret =  ERROR on ne remontera pas là on quitte avant*/
-			sh_error(8, NULL, NULL);
+		//	sh_error(8, NULL, NULL);// -> pb sur redirection gauche, 2 erreurs s'affichent
 			reset_std_fd();
 			close_lstfd(lstfd);
 			del_lstfd(lstfd);

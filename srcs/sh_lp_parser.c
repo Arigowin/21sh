@@ -25,13 +25,12 @@ static int			check_command(int *nb_hrd, t_e_list **l_expr, t_node **tree) //stat
 
 	t_node				*save;
 	t_node				*node;
-	int					red;
+	int					ret;
 
 	save = *tree;
-	red = FALSE;
 	if ((node = create_node(CMD)) == NULL)
 		return (sh_error(6, NULL, NULL));
-	if ((red = check_red(nb_hrd, l_expr, &(node->left))) != TRUE)
+	if ((ret = check_red(nb_hrd, l_expr, &(node->left))) != TRUE)
 		*tree = save;
 	if ((*l_expr)->type == CMD)
 	{
@@ -40,22 +39,24 @@ static int			check_command(int *nb_hrd, t_e_list **l_expr, t_node **tree) //stat
 			clear_node(&node); // verif_si_ok
 			return (sh_error(6, NULL, NULL));
 		}
-		if (check_next(nb_hrd, l_expr, &node, &(node->right)) == NO_RED_ARG)
+		if ((ret = check_next(nb_hrd, l_expr, &node, &(node->right))) < 0)
 		{
 			clear_node(&node); // ce clear ne cause pas de pb
-			return (FALSE);
+			return (ret);
 		}
 		*tree = node;
 		return (TRUE);
 	}
-	if (red == TRUE && (*l_expr)->type != CMD)
+	if (ret == TRUE && (*l_expr)->type != CMD)
 	{
 		*tree = node->left;
 		clear_node(&node); // ce clear ne cause pas de pb
 		return (TRUE);
 	}
 	clear_node(&node); // verif_si_ok
-	return (sh_error(26, (*l_expr)->data, NULL));
+	if (ret != NO_PRINT)
+		return (sh_error(26, (*l_expr)->data, NULL));
+	return (ret);
 }
 
 //longeur ok si erreur (l220) go in retun et si erreur final go in return
@@ -66,12 +67,13 @@ static int			check_c_pipe(int *nb_hrd, t_e_list **l_expr, t_node **tree)  // sta
 
 	t_node				*node;
 	t_node				**node_to_give;
+	int					ret;
 
 	node = NULL;
 	if ((node = create_node(PIPE)) == NULL)
 		return (sh_error(6, NULL, NULL));
 	node_to_give = (node->left == NULL ? &(node->left) : &(node->right));
-	if (check_command(nb_hrd, l_expr, node_to_give))
+	if ((ret = check_command(nb_hrd, l_expr, node_to_give)) == TRUE)
 	{
 		if ((*l_expr)->type == PIPE)
 		{
@@ -86,10 +88,12 @@ static int			check_c_pipe(int *nb_hrd, t_e_list **l_expr, t_node **tree)  // sta
 		}
 		*tree = *node_to_give;
 		clear_node(&node); // si je clear node avant *tree = *node_to_give alors invalid read of size 8
-		return (TRUE);
+		return (ret);
 	}
 	clear_node(&node);
-	return (sh_error(26, (*l_expr)->data, NULL));
+	if (ret != NO_PRINT)
+		return (sh_error(26, (*l_expr)->data, NULL));
+	return (ret);
 }
 
 //longeur ok si erreur (l258) go in retun et si erreur final go in return
@@ -100,12 +104,14 @@ static int			check_expr(int *nb_hrd, t_e_list **l_expr, t_node **tree) // static
 
 	t_node				*node;
 	t_node				**node_to_give;
+	int					ret;
 
+	ret = 0;
 	node = NULL;
 	if ((node = create_node(SEMI)) == NULL)
 		return (sh_error(6, NULL, NULL));
 	node_to_give = (node->left == NULL ? &(node->left) : &(node->right));
-	if ((*l_expr)->type == SEMI || ((*l_expr)->type != SEMI && check_c_pipe(nb_hrd, l_expr, node_to_give)))
+	if ((*l_expr)->type == SEMI || ((*l_expr)->type != SEMI && (ret = check_c_pipe(nb_hrd, l_expr, node_to_give))))
 	{
 		if ((*l_expr)->type == SEMI && ft_strlen((*l_expr)->data) != 1)
 		{
@@ -117,17 +123,18 @@ static int			check_expr(int *nb_hrd, t_e_list **l_expr, t_node **tree) // static
 			if ((node->data = ft_strdup((*l_expr)->data)) == NULL) // mem alloc failed
 				return (sh_error(6, NULL, NULL));
 			*tree = node;
-			if (move_in_list(l_expr))
-				if (check_expr(nb_hrd, l_expr, &(node->right)) == ERROR)
-					return (FALSE);
+			if (move_in_list(l_expr) && ((ret = check_expr(nb_hrd, l_expr, &(node->right)) < 0)))
+					return (ret);
 			return (TRUE);
 		}
 		*tree = *node_to_give;
 		clear_node(&node);
-		return (TRUE);
+		return (ret);
 	}
 	clear_node(&node);
-	return (sh_error(26, (*l_expr)->data, NULL));
+	if (ret != NO_PRINT)
+		return (sh_error(26, (*l_expr)->data, NULL));
+	return (ret);
 }
 
 int					parser(int *nb_hrd, t_e_list **l_expr, t_node **tree)
@@ -140,8 +147,8 @@ int					parser(int *nb_hrd, t_e_list **l_expr, t_node **tree)
 	if (*l_expr == NULL)
 		return (FALSE);
 	ret = check_expr(nb_hrd, l_expr, tree);
-	if (ret == FALSE)
-		return (FALSE);
+	if (ret != TRUE)
+		return (ret);
 
 	// ANTIBUG !!!!!!!!!
 	if (DEBUG_PARSER == 1)
@@ -154,5 +161,5 @@ int					parser(int *nb_hrd, t_e_list **l_expr, t_node **tree)
 	}
 	// fin ANTIBUG !!!!!!!!!
 
-	return (TRUE);
+	return (ret);
 }

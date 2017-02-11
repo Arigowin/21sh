@@ -69,23 +69,26 @@ const char			*tbl_error2(int index)
 
 int					sh_error(int index, char *err, char *bi)
 {
-		ft_putstr_fd(tbl_error1(index), 2);
-		if (bi != NULL)
-		{
-			ft_putstr_fd(bi, 2);
-			ft_putstr_fd(": ", 2);
-		}
-		if (err != NULL)
-			ft_putstr_fd(err, 2);
-		if (index >= 14 && index <= 30 && index != 26)
-			ft_putstr_fd(tbl_error2(index), 2);
-		ft_putendl_fd("", 2);
+	ft_putstr_fd(tbl_error1(index), 2);
+	if (bi != NULL)
+	{
+		ft_putstr_fd(bi, 2);
+		ft_putstr_fd(": ", 2);
+	}
+	if (err != NULL)
+		ft_putstr_fd(err, 2);
+	if (index >= 14 && index <= 30 && index != 26)
+		ft_putstr_fd(tbl_error2(index), 2);
+//	if (index != 25 && index != 26)
+			ft_putendl_fd("", 2);
 	if ((index >= 1 && index <= 7) || index == 23 || index == 29 || index == 24)
 		exit_pgm(EXIT_FAILURE);
 	if (index == 11 || index == 14)
 		return (TRUE);
 	if (index == 19 || index == 22)
 		return (-2);
+	if (index == 25 || index == 26)
+		return (NO_PRINT);
 	else
 		return (FALSE);
 }

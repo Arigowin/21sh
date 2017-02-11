@@ -76,7 +76,8 @@ int					check_after_read(t_line *stline, t_history **history)
 	tree = NULL;
 	node = NULL;
 	init_pipefd(pipefd_tab);
-	if ((ret = read_n_check(&(stline->hrd.nb), stline->line, &tree)) != TRUE)
+	ret = read_n_check(&(stline->hrd.nb), stline->line, &tree);
+	if (ret != TRUE)
 	{
 		del_tree(&tree);
 		return (ret);

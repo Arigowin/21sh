@@ -46,7 +46,7 @@ int					check_red_arg(t_e_list **l_expr, t_node **tree)
 		*tree = node;
 		return (TRUE);
 	}
-	return (sh_error(25, "missing name for redirect", NULL));
+	return (sh_error(25, (*l_expr)->data, NULL));
 }
 
 t_types				fill_red_type(char *data, int *nb_hrd)
@@ -77,7 +77,7 @@ int					check_red(int *nb_hrd, t_e_list **l_expr, t_node **tree)
 	list_save = *l_expr;
 	red_ret = TRUE;
 	if ((*l_expr)->type == RED && (node = create_node(RED)) != NULL
-	&& (red_ret = move_in_list(l_expr))
+	&& (red_ret = move_in_list(l_expr)) == TRUE
 	&& ((red_ret = check_red_arg(l_expr, &(node->right))) == TRUE))
 	{
 		if ((node->data = ft_strdup(list_save->data)) == NULL)
@@ -86,10 +86,10 @@ int					check_red(int *nb_hrd, t_e_list **l_expr, t_node **tree)
 		if (!move_in_list(l_expr) || check_red(nb_hrd, l_expr, &(node->left)) != TRUE)
 			*tree = save;
 		*tree = node;
-		return (TRUE);
+		return (red_ret);
 	}
 	if (red_ret != TRUE)
-		return (NO_RED_ARG);
+		return (sh_error(25, (*l_expr)->data, NULL));
 	*tree = save;
 	return (FALSE);
 }
@@ -135,7 +135,7 @@ int					check_next(int *nb_hrd, t_e_list **l_expr, t_node **tree,
 	{
 		while (save && save->left != NULL)
 			save = save->left;
-		if ((ret = check_red(nb_hrd, l_expr, &(save->left))) != TRUE)
+		if ((ret = check_red(nb_hrd, l_expr, &(save->left))) < 0)
 			return (ret);
 		check_arg(nb_hrd, l_expr, &save, right_node);
 		return (TRUE);
