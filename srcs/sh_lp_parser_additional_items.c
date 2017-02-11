@@ -30,7 +30,6 @@ int					check_red_arg(t_e_list **l_expr, t_node **tree)
 	{
 		if ((node->data = ft_strdup((*l_expr)->data)) == NULL)
 			return (sh_error(6, NULL, NULL));
-		/* MSG ret: FALSE exit: FALSE msg: NONE*/
 		*tree = node;
 		return (TRUE);
 	}
@@ -39,7 +38,6 @@ int					check_red_arg(t_e_list **l_expr, t_node **tree)
 	{
 		if ((node->data = ft_strdup((*l_expr)->data)) == NULL)
 			return (sh_error(6, NULL, NULL));
-		/* MSG ret: FALSE exit: FALSE msg: NONE*/
 		if (!move_in_list(l_expr) || !check_red_arg(l_expr, &(node->right)))
 		{
 			*tree = save;
@@ -93,7 +91,7 @@ int					check_red(int *nb_hrd, t_e_list **l_expr, t_node **tree)
 	if (red_ret != TRUE)
 		return (NO_RED_ARG);
 	*tree = save;
-	return (TRUE);
+	return (FALSE);
 }
 
 int					check_arg(int *nb_hrd, t_e_list **l_expr, t_node **tree,

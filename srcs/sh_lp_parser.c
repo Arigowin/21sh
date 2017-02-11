@@ -3,18 +3,6 @@
 #include "shell.h"
 #include "libft.h"
 
-// fonctionnalité a ajouter dans la/les fonctions d'erreur générales
-int					parse_error(char *data)
-{
-	if (DEBUG_PARSER == 1)
-		ft_putendl_fd("------- PARSE ERROR ------", 2);
-
-	ft_putstr("21sh: parse error near \"");
-	ft_putstr(data);
-	ft_putendl("\"");
-	return (FALSE);
-}
-
 int					move_in_list(t_e_list **l_expr)
 {
 	if (DEBUG_PARSER == 1)
@@ -40,7 +28,7 @@ static int			check_command(int *nb_hrd, t_e_list **l_expr, t_node **tree) //stat
 	int					red;
 
 	save = *tree;
-	red = 0;
+	red = FALSE;
 	if ((node = create_node(CMD)) == NULL)
 		return (sh_error(6, NULL, NULL));
 	if ((red = check_red(nb_hrd, l_expr, &(node->left))) != TRUE)
