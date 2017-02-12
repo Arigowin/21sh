@@ -1,19 +1,42 @@
+echo CMD:'	    			   			 a
+ 	    			   			 a
+echo CMD:' '
+ 
+echo CMD:'ls'
 ls
+echo CMD:'ls -l'
 ls -l
+echo CMD:'ls -la ~'
 ls -la ~
+echo CMD:'ls -l /'
 ls -l /
+echo CMD:'ls -la abc'
 ls -la abc
+echo CMD:'ls -1 $HOME'
 ls -1 $HOME
-cat Readme.md
+echo CMD:'cat README.md'
+cat README.md
+echo CMD:'cat abc'
 cat abc
+echo CMD:'bonjour'
 bonjour
+echo CMD:'bonjour -l'
 bonjour -l
+echo CMD:'/bin/pwd'
 /bin/pwd
+echo CMD:'./test'
 ./test
+echo CMD:'./Makefile'
 ./Makefile
+echo CMD:'ls -l /dev/fd/'
 ls -l /dev/fd/
+echo CMD:'; ls'
 ; ls
+echo CMD:'ls ;'
 ls ;
+echo CMD:';;;;;;;;'
 ;;;;;;;;
+echo CMD:'; ; ; ; ; ; ; ;'
 ; ; ; ; ; ; ; ;
+echo CMD:'ls ;;;;;;;;; pwd'
 ls ;;;;;;;;; pwd

@@ -33,7 +33,7 @@ int					init_env(char **env, t_duo **env_cpy) //ok
 
 int					init_stline(t_line *stline)
 {
-	if (ioctl(0, TIOCGWINSZ, &(stline->win)) == ERROR)
+	if (ttyname(0) != NULL && ioctl(0, TIOCGWINSZ, &(stline->win)) == ERROR)
 		return (sh_error(1, NULL, NULL));
 	if ((stline->line = ft_strnew(BUFF_SIZE)) == NULL)
 		return (sh_error(6, NULL, NULL));

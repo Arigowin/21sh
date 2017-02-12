@@ -1,0 +1,16 @@
+echo 'CMD:ls | cat | cat -n | cat -e | cat -n | cat -n'
+ls | cat | cat -n | cat -e | cat -n | cat -n
+echo 'CMD:ls | cat -n | cat -n | cat -n | cat -n | cat -n | cat -n | cat -n | cat -n | cat -n | cat -n | cat -n | cat -n | cat -n | cat -n | cat -n | cat -n | cat -n | cat -n | cat -n | cat -n | cat -n | cat -n | cat -n | cat -n | cat -n | cat -n | cat -n | cat -n | cat -n | cat -n | cat -n | cat -n | cat -n | cat -n | cat -n | cat -n | cat -n | cat -n | cat -n | cat -n | cat -n | cat -n | cat -n | cat -n | cat -n | cat -n | cat -n | cat -n | cat -n | cat -n | cat -n | cat -n | cat -n | cat -n | cat -n | cat -n | cat -n | cat -n | cat -n | cat -n | cat -n | cat -n | cat -n | cat -n | cat -n | cat -n | cat -n | cat -n | cat -n | cat -n | cat -n | cat -n | cat -n | cat -n | cat -n | cat -n | cat -n | cat -n | cat -n | cat -n | cat -n | cat -n | cat -n | cat -n'
+ls | cat -n | cat -n | cat -n | cat -n | cat -n | cat -n | cat -n | cat -n | cat -n | cat -n | cat -n | cat -n | cat -n | cat -n | cat -n | cat -n | cat -n | cat -n | cat -n | cat -n | cat -n | cat -n | cat -n | cat -n | cat -n | cat -n | cat -n | cat -n | cat -n | cat -n | cat -n | cat -n | cat -n | cat -n | cat -n | cat -n | cat -n | cat -n | cat -n | cat -n | cat -n | cat -n | cat -n | cat -n | cat -n | cat -n | cat -n | cat -n | cat -n | cat -n | cat -n | cat -n | cat -n | cat -n | cat -n | cat -n | cat -n | cat -n | cat -n | cat -n | cat -n | cat -n | cat -n | cat -n | cat -n | cat -n | cat -n | cat -n | cat -n | cat -n | cat -n | cat -n | cat -n | cat -n | cat -n | cat -n | cat -n | cat -n | cat -n | cat -n | cat -n | cat -n | cat -n | cat -n
+echo 'CMD:||||||'
+||||||
+echo '| | | | | |'
+| | | | | |
+echo 'ls |||||||'
+ls |||||||
+echo 'ls | | | | |'
+ls | | | | |
+echo 'CMD:||||||| ls'
+||||||| ls
+echo 'CMD:| | | | | | ls'
+| | | | | | ls
