@@ -177,10 +177,10 @@ int					lexer(t_e_list **l_expr)
 	else if (hrd < 1 && t && ft_strcmp(t->data, ";") == 0)
 		t->type = SEMI;
 	else if (hrd < 1 && (t->data)[0] == '|' && (t->data)[1] == (t->data)[0])
-		t->type = LOGIC_AND;
+		t->type = LOGIC_OR;
 	else if (hrd < 1 && (t->data)[0] == '&' && (t->data)[1] == (t->data)[0])
 		t->type = LOGIC_AND;
-	else if (t && t->data)
+	else if (t && t->data && (t->data)[0] != '&' && (t->data)[0] != '|')
 	{
 		t->type = CMD;
 		boule = 1;
@@ -188,7 +188,7 @@ int					lexer(t_e_list **l_expr)
 	type_analyzer(&t, boule);
 
 	// ANTIBUG!!!!!!
-	if (DEBUG_LEXER == 1)
+	if (DEBUG_LEXER == 0)
 	{
 		t_e_list *tmp2 = *l_expr;
 		while (tmp2)
