@@ -116,8 +116,8 @@ static int			type_analyzer2(int hrd, t_e_list **l_expr, int *boule)
 		*boule = 0;
 	}
 	else if (*boule == 0 && ((ft_strchr(SPECIAL, ((*l_expr)->data)[0]) &&
-	!ft_strchr("><", ((*l_expr)->next->data)[0])
-	&& (*l_expr)->next->type != RED_FD) || (*l_expr)->type == RA))
+	!ft_strchr("><", ((*l_expr)->next->data)[0])/**/) || (*l_expr)->type == RA))
+//	&& (*l_expr)->next->type != RED_FD) || (*l_expr)->type == RA))
 	{
 		*boule = 1;
 		(*l_expr)->next->type = CMD;
@@ -142,9 +142,9 @@ static int			type_analyzer(t_e_list **l_expr, int boule)
 			waka_lexer(&((*l_expr)->next));
 			(*l_expr)->next->type = RED;
 		}
-		else if (boule == 1 && (hrd >= 1 || !ft_strchr(SPECIAL2, ((*l_expr)->next->data)[0]))
-		&& ((*l_expr)->type == CMD || (*l_expr)->type == CA
-		|| (*l_expr)->type == RA))
+		else if (boule == 1 && (hrd >= 1 || !ft_strchr(SPECIAL2,
+		((*l_expr)->next->data)[0])) && ((*l_expr)->type == CMD
+		|| (*l_expr)->type == CA || (*l_expr)->type == RA))
 			(*l_expr)->next->type = CA;
 		else if ((hrd >= 1 || !ft_strchr(SPECIAL, ((*l_expr)->next->data)[0]))
 		&& (((*l_expr)->type == RED && (*l_expr)->next->type != RED_FD)
