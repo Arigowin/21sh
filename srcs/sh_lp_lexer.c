@@ -64,31 +64,31 @@ static int			waka_lexer(t_e_list **l_expr)
 		ft_putendl_fd("------- WAKA LEXER ------", 2);
 
 	int					i;
-	char				tmp[11];
-	char				*tmp2;
+	char				tmp_fd[11];
+	char				*tmp_data;
 	t_e_list			*new;
 
 	i = 0;
 	new = NULL;
-	ft_bzero(tmp, 11);
-	waka_land_handler(l_expr, &tmp, &i);
+	ft_bzero(tmp_fd, 11);
+	waka_land_handler(l_expr, &tmp_fd, &i);
 	if (ft_strchr(WAKA, ((*l_expr)->data)[0]))
 		return (TRUE);
-	red_fd_copy(l_expr, &tmp, &i);
-	if ((tmp2 = ft_strsub((*l_expr)->data, i, ft_strlen((*l_expr)->data) - i))
-	== NULL)
+	red_fd_copy(l_expr, &tmp_fd, &i);
+	if ((tmp_data = ft_strsub((*l_expr)->data, i,
+	ft_strlen((*l_expr)->data) - i)) == NULL)
 		return (sh_error(6, NULL, NULL));
 	ft_strdel(&((*l_expr)->data));
-	if (((*l_expr)->data = ft_strdup(tmp2)) == NULL
-	|| (tmp[0] == '\0' || (tmp[0] != '\0' && (new = expr_new(tmp, 0)) == NULL)))
+	if (((*l_expr)->data = ft_strdup(tmp_data)) == NULL || (tmp_fd[0] == '\0'
+	|| (tmp_fd[0] != '\0' && (new = expr_new(tmp_fd, 0)) == NULL)))
 	{
-		ft_strdel(&tmp2);
+		ft_strdel(&tmp_data);
 		return (sh_error(6, NULL, NULL));
 	}
 	new->type = RED_FD;
 	new->next = (*l_expr)->next;
 	(*l_expr)->next = new;
-	ft_strdel(&tmp2);
+	ft_strdel(&tmp_data);
 	return (TRUE);
 }
 
