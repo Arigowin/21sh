@@ -89,7 +89,7 @@ int					tokenizer(int *hrd, char *read_buff, t_e_list **l_expr)
 		if (ft_strcmp("<<", data_tmp) == 0)
 			*hrd = 1;
 		expr_pushbk(l_expr, data_tmp, *hrd);
-		//ft_bzero(data_tmp, ft_strlen(data_tmp));
+		ft_bzero(data_tmp, ft_strlen(data_tmp));
 		if (*hrd >= 1 && ft_strcmp("<<", data_tmp) != 0)
 			*hrd = 0;
 	}

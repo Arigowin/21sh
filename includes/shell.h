@@ -3,7 +3,7 @@
 
 #define DEBUG 0
 #define DEBUG_ANTIBUG 0
-#define DEBUG_TREE_VERIF 1
+#define DEBUG_TREE_VERIF 0
 #define DEBUG_BUILTIN 0
 #define DEBUG_TOKEN 0
 #define DEBUG_LEXER 0
@@ -14,7 +14,7 @@
 #define DEBUG_TERMCAPS 0
 #define DEBUG_HISTORY 0
 #define DEBUG_PIPE 0
-#define DEBUG_RED 1
+#define DEBUG_RED 0
 #define DEBUG_CMD 0
 #define DEBUG_COPY_PASTE 0
 #define DEBUG_KEY 0
@@ -35,6 +35,7 @@
 # define IGN " \t\n" // j'ai enlevé le \0 des IGN
 # define SEP "|&;>< \t\n\0"
 # define SPECIAL "|&><;"
+# define SPECIAL2 "|><;"
 # define LWAKA "><|&"
 # define WAKA "><"
 # define BUFF_SIZE 1024
