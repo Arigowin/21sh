@@ -44,7 +44,7 @@ const char			*tbl_error2(int index)
 						/*3->17, 21*/": no such file or directory",
 						/*4->18, 19, 20*/": permission denied", /*5->22*/": invalid option",
 						/*6->24*/": command not found",
-						/*7->25*/": missing name for redirect",
+						/*7->25*/" : missing name for redirect",
 						/*8->27*/": too many arguments",
 						/*9->28*/": numeric argument required"
 						/*10->29*/": bad file descriptor"
