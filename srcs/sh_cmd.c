@@ -58,7 +58,6 @@ static int			nopipe_cmd(int pipefd_tab[2][2], t_node *tree,
 
 	ret = -1;
 	fd = (lstfd && *lstfd ? (*lstfd)->fd : -2);
-	printf("tree in cmd ((%s))\n", tree->data);
 	if (tree && tree->left && *lstfd && (ret = redirect(tree->left, *lstfd)))
 	{
 		if (ret == ERROR || (*lstfd)->fd == -1)
