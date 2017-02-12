@@ -1,79 +1,154 @@
+echo CMD:'ls'
 ls
+echo CMD:'cd - ; ls'
 cd - ; ls
+echo CMD:'cd .. ; ls'
 cd .. ; ls
+echo CMD:'cd - ; ls '
 cd - ; ls 
+echo CMD:'cd ~ ; ls ; cd -'
 cd ~ ; ls ; cd -
+echo CMD:'cd ~/test ; ls ; cd -'
 cd ~/test ; ls ; cd -
+echo CMD:'cd / ; ls ; cd -'
 cd / ; ls ; cd -
+echo CMD:'cd $HOME ; ls ; cd -'
 cd $HOME ; ls ; cd -
+echo CMD:'cd $HOME/test ; ls ; cd -'
 cd $HOME/test ; ls ; cd -
+echo CMD:'cd . ; ls'
 cd . ; ls
+echo CMD:'cd -i'
 cd -i
+echo CMD:'cd -- -i'
 cd -- -i
+echo CMD:'cd abc'
 cd abc
+echo CMD:'cd -- abc'
 cd -- abc
+echo CMD:'cd -- abc ../../'
 cd -- abc ../../
+echo CMD:'cd /'
 cd /
+echo CMD:'cd --'
 cd --
+echo CMD:'cd abcdef'
 cd abcdef
+echo CMD:'cd abc def'
 cd abc def
+echo CMD:'cd ../ ../../'
 cd ../ ../../
+echo CMD:'cd "../ ../../"'
 cd "../ ../../"
+echo CMD:"cd '../ ../../'"
 cd '../ ../../'
+echo CMD:'cd "../"'
 cd "../"
+echo CMD:"cd '../'"
 cd '../'
+echo CMD:'mkdir noright ; chmod 000 noright ; cd noright'
 mkdir noright ; chmod 000 noright ; cd noright
+echo CMD:'cd ~/test ; mkdir noright ; chmod 000 noright ; cd noright ; rm -rf noright'
 cd ~/test ; mkdir noright ; chmod 000 noright ; cd noright ; rm -rf noright
 
+echo CMD:'setenv'
 setenv
+echo CMD:'setenv abc def ; setenv'
 setenv abc def ; setenv
+echo CMD:'setenv _abc def ; setenv'
 setenv _abc def ; setenv
+echo CMD:'setenv 1abc def ; setenv'
 setenv 1abc def ; setenv
+echo CMD:'setenv abc=def ; setenv'
 setenv abc=def ; setenv
+echo CMD:'setenv abc ; setenv'
 setenv abc ; setenv
+echo CMD:'setenv abc = setenv'
 setenv abc = setenv
+echo CMD:'setenv abc = setenv = pouet'
 setenv abc = setenv = pouet
+echo CMD:'setenv tutu toto'
 setenv tutu toto
+echo CMD:'setenv ""'
 setenv ""
+echo CMD:'setenv tutu ""'
 setenv tutu ""
+echo CMD:'setenv "" miaou'
 setenv "" miaou
 
+echo CMD:'unsetenv abc _abc 1abc "" bonjour toto '' " " miaou tutu'
 unsetenv abc _abc 1abc "" bonjour toto '' " " miaou tutu
 
+echo CMD:'env'
 env
+echo CMD:'env abc=def _abc=def 1abc=def ""=def " "=def'
 env abc=def _abc=def 1abc=def ""=def " "=def
+echo CMD:'env abc=def _abc=def 1abc=def ""=def " "=def ls -l'
 env abc=def _abc=def 1abc=def ""=def " "=def ls -l
+echo CMD:'env abc=def _abc=def 1abc=def ""=def " "=def /usr/bin/env'
 env abc=def _abc=def 1abc=def ""=def " "=def /usr/bin/env
+echo CMD:'env -i'
 env -i
+echo CMD:'env -- -i'
 env -- -i
 
+echo CMD:'echo "toto"'
 echo "toto"
+echo CMD:'echo toto hg  hjg yu gjh uj g hj g   gty h yuh g h g hj bh ujg 				 y fg y hj'
 echo toto hg  hjg yu gjh uj g hj g   gty h yuh g h g hj bh ujg 				 y fg y hj
+echo CMD:"echo 'ufdyg yujg yu g y        				yugfrhdjk'"
 echo 'ufdyg yujg yu g y        				yugfrhdjk'
+echo CMD:'echo "iugh uyj buj kh uj kh      yg uyh jgh j gbjh b h     			yufghj"'
 echo "iugh uyj buj kh uj kh      yg uyh jgh j gbjh b h     			yufghj"
+echo CMD:"echo 'abc\'abc'def'"
 echo 'abc\'abc'def'
+echo CMD:'echo "abc\"abc"'
 echo "abc\"abc"
+echo CMD:'echo "abc'\''abc"'
 echo "abc'abc"
+echo CMD:"echo 'abc\"abc'"
 echo 'abc"abc'
+echo CMD:'echo "\a\b\c"'
 echo "\a\b\c"
+echo CMD:"echo '\a\b\c'"
 echo '\a\b\c'
+echo CMD:'echo \a\b\c'
 echo \a\b\c
+echo CMD:'echo \$PATH'
 echo \$PATH
+echo CMD:'echo $PATH'
 echo $PATH
+echo CMD:'echo "$PATH"'
 echo "$PATH"
+echo CMD:"echo '$PATH'"
 echo '$PATH'
+echo CMD:"echo '~'"
 echo '~'
+echo CMD:'echo "~"'
 echo "~"
+echo CMD:'echo ~'
 echo ~
+echo CMD:'echo ~ch\et'
 echo ~ch\et
+echo CMD:'echo ~/"foo"'
 echo ~/"foo"
+echo CMD:'echo "~chet"/"foo"'
 echo "~chet"/"foo"
+echo CMD:'echo \~chet/"foo"'
 echo \~chet/"foo"
+echo CMD:'echo \~chet/bar'
 echo \~chet/bar
+echo CMD:'echo ~\chet/bar'
 echo ~\chet/bar
+echo CMD:'echo ~chet""/bar'
 echo ~chet""/bar
+echo CMD:'echo ":~chet/"'
 echo ":~chet/"
+echo CMD:'echo abcd~chet'
 echo abcd~chet
+echo CMD:'echo abcd:~chet'
 echo abcd:~chet
+echo CMD:'echo -i'
 echo -i
+echo CMD:'echo -- -i'
 echo -- -i
