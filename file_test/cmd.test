@@ -1,3 +1,7 @@
+echo CMD:'	    			   			 a
+ 	    			   			 a
+echo CMD:' '
+ 
 echo CMD:'ls'
 ls
 echo CMD:'ls -l'
