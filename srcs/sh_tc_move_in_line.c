@@ -12,6 +12,7 @@ static int			multi_left(char **str, int *pos, t_line *stline)
 	char				*chr;
 	int					nb_line;
 
+	nb_line = 0;
 	if ((*str)[*pos - 1] == '\n')
 	{
 		if ((tmp = ft_strsub(*str, 0, ft_strlen(*str) - ft_strlen(&((*str)[*pos - 1])))) == NULL)
@@ -21,20 +22,19 @@ static int			multi_left(char **str, int *pos, t_line *stline)
 		if (stline->curs_y == 0)
 			nb += PRT_LEN;
 		if (nb > stline->win.ws_col)
-		{
-			nb_line = (nb) / stline->win.ws_col;
-			nb = (nb - (stline->win.ws_col * nb_line));
-		}
+			nb_line = (nb - (stline->win.ws_col * nb_line)) / stline->win.ws_col;
+		//{
+		//	nb_line = (nb) / stline->win.ws_col;
+		//	nb = (nb - (stline->win.ws_col * nb_line));
+		//}
 		while (++(stline->curs_x) < nb - 1)
 			tputs(tgetstr("nd", NULL), 1, my_outc);
 		stline->curs_x = nb + 1;
 		ft_strdel(&tmp);
 	}
 	else
-	{
 		while (++(stline->curs_x) < stline->win.ws_col)
 			tputs(tgetstr("nd", NULL), 1, my_outc);
-	}
 	return (TRUE);
 }
 

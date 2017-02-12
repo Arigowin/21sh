@@ -11,14 +11,11 @@ static char			**tree_to_tbl(t_node *tree, int nb_elem)
 
 	i = 0;
 	if ((tbl = (char **)malloc(sizeof(char *) * (nb_elem + 1))) == NULL)
-		/* RET: error EXIT: true MSG: "malloc fail" */
-		return (NULL);
+		sh_error(6, NULL, NULL);
 	while (tree != NULL)
 	{
 		if ((tbl[i] = ft_strdup(tree->data)) == NULL)
-			/* RET: error EXIT: true MSG: "malloc fail"
-			 ** FREE: tbl */
-			return (NULL);
+			sh_error(6, NULL, NULL);
 		tree = tree->right;
 		i++;
 	}
@@ -38,7 +35,8 @@ static char			**format_cmd(t_node *tree) //static ac manage cmd
 	i = 0;
 	ret = NULL;
 	tmp = tree;
-	if (tree && tree->left && tree->left->right && ft_strcmp(tree->left->right->data, "-1") == 0)
+	if (tree && tree->left && tree->left->right
+	&& ft_strcmp(tree->left->right->data, "-1") == 0)
 		return (ret);
 	while (tmp->right)
 	{
@@ -64,7 +62,7 @@ static int			nopipe_cmd(int pipefd_tab[2][2], t_node *tree,
 	{
 		if (ret == ERROR || (*lstfd)->fd == -1)
 		{
-			/* RET: error EXIT: false MSG: 'bad file descriptor' // si ret =  ERROR on ne remontera pas là on quitte avant*/
+		//	sh_error(8, NULL, NULL);// -> pb sur redirection gauche, 2 erreurs s'affichent
 			reset_std_fd();
 			close_lstfd(lstfd);
 			del_lstfd(lstfd);
@@ -76,7 +74,7 @@ static int			nopipe_cmd(int pipefd_tab[2][2], t_node *tree,
 	else if (tree && tree->left && tree->left->type == DLRED
 			&& redirect(tree->left, NULL) == ERROR)
 	{
-		/* RET: error EXIT: false MSG: "i don't know" */
+		/* RET: error EXIT: false MSG: "i don't know"  => normalement, on ne remonte pas là...*/
 		reset_std_fd();
 		close_lstfd(lstfd);
 		del_lstfd(lstfd);
@@ -107,6 +105,6 @@ int					manage_cmd(int pipefd_tab[2][2], t_node *tree,
 	}
 	handle_fork(pipefd_tab, tree, lstfd, cmd);
 	if (cmd)
-		free_tab(&cmd); // FREE_MALLOC_OK
+		free_tab(&cmd);
 	return (TRUE);
 }

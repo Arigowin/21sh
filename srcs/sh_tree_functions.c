@@ -3,15 +3,14 @@
 #include "shell.h"
 #include "libft.h"
 
-t_node				*create_node(types type)
+t_node				*create_node(t_types type)
 {
 	if (DEBUG_TREE == 1)
 		ft_putendl_fd("------- CREATE NODE ------", 2);
 	t_node				*new_node;
 
 	if ((new_node = (t_node *)malloc(sizeof(t_node))) == NULL)
-		return (NULL);
-		/* MSG ret: NULL exit: TRUE msg: "malloc fail" */
+		sh_error(6, NULL, NULL);
 	new_node->data = NULL;
 	new_node->type = type;
 	new_node->left = NULL;

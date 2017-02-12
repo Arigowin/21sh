@@ -41,8 +41,6 @@ static int			line_manager(char **buff, char *line, int *quote, t_history **histo
 	char				*tmp;
 
 	tmp = NULL;
-	if (line == NULL || quote == NULL)
-		return (ERROR);
 	if (line[0] == 3 || ft_strlen(line) <= 0)
 		return (FALSE);
 	if (*quote != 0)
@@ -52,18 +50,16 @@ static int			line_manager(char **buff, char *line, int *quote, t_history **histo
 		if (*buff)
 		{
 			if ((tmp = ft_strjoin(*buff, line)) == NULL)
-				return (ERROR);
+				return (sh_error(6, NULL, NULL));
 			ft_strdel(buff);
 			if ((*buff = ft_strdup(tmp)) == NULL)
-				return (ERROR);
+				return (sh_error(6, NULL, NULL));
 			ft_strdel(&tmp);
 			add_history(history, *buff);
 			ft_strdel(buff);
 		}
 		else
-		{
 			add_history(history, line); // pb indirectly loss
-		}
 	}
 	return (TRUE);
 }
@@ -83,7 +79,7 @@ static int			get_line_in_file(int fd, t_history **history)
 			quote = (quote == QUOTE ? 0 : QUOTE);
 		else if (quote != QUOTE && ft_strncount(line, DQUOTE) % 2 != 0)
 			quote = (quote == DQUOTE ? 0 : DQUOTE);
-		if (line_manager(&buff, line, &quote, history) == ERROR) // indirectly loss
+		if (line == NULL || line_manager(&buff, line, &quote, history) == ERROR) // indirectly loss
 		{
 			ft_strdel(&line);
 			ft_strdel(&buff);

@@ -30,10 +30,12 @@
 # define ERROR -1
 # define NO_RED_ARG -2
 # define SYS_CALL_FAIL -3
+# define NO_PRINT -4
 
 # define IGN " \t\n" // j'ai enlevé le \0 des IGN
 # define SEP "|&;>< \t\n\0"
 # define SPECIAL "|&><;"
+# define SPECIAL2 "|><;"
 # define LWAKA "><|&"
 # define WAKA "><"
 # define BUFF_SIZE 1024
@@ -75,7 +77,7 @@
 # include <sys/ioctl.h>
 # include "libft.h"
 
-typedef enum
+typedef enum			e_types
 {
 	NONE,
 	EXP, // never used
@@ -94,19 +96,19 @@ typedef enum
 	DLRED_DOC,
 	LOGIC_AND,
 	LOGIC_OR,
-} 						types;
+} 						t_types;
 
-typedef enum
+typedef enum			e_states
 {
 	STANDARD,
 	IN_QUOTE,
 	IN_DQUOTE
-}						states;
+}						t_states;
 
 typedef struct			s_e_list // -> l_expr
 {
 	char				*data;
-	types				type;
+	t_types				type;
 	int					hrd_quote;
 	struct s_e_list		*next;
 }						t_e_list;
@@ -114,7 +116,7 @@ typedef struct			s_e_list // -> l_expr
 typedef struct			s_node // -> node ou tree //-> savior
 {
 	char				*data;
-	types				type;
+	t_types				type;
 	struct s_node		*left;
 	struct s_node		*right;
 }						t_node;
@@ -177,7 +179,7 @@ typedef struct			s_lst_fd //savior?
 /*
 ** sh_error
 */
-int						sh_error(int ret_code, char *msg, int out);
+int						sh_error(int index, char *err, char *bi);
 
 /*
 ** sh_file_history
@@ -252,6 +254,7 @@ int						bi_env(char **arg, t_duo **env);
 ** sh_bi_exit
 */
 int						bi_exit(char **arg, t_duo **env);
+int 					exit_pgm(int exit_code);
 
 /*
 ** sh_bi_setenv
@@ -288,7 +291,7 @@ int						tokenizer(int *hrd, char *read_buff, t_e_list **l_expr);
 /*
 ** sh_lp_tokenizer_spec
 */
-int						token_backslash(states state, char **read_buff, char **data_tmp);
+int						token_backslash(t_states state, char **read_buff, char **data_tmp);
 int						token_dollar(char **read_buff, char **data_tmp);
 int						token_tilde(char **buff, char **data_tmp, int *bln);
 
@@ -300,7 +303,7 @@ int						lexer(t_e_list **l_expr);
 /*
 ** sh_create_tree
 */
-t_node					*create_node(types type);
+t_node					*create_node(t_types type);
 
 /*
 ** sh_fct_read

@@ -14,11 +14,12 @@ static int			start_init_term(void)
 	char				*term_name;
 
 	term_name = NULL;
-	if ((term_name = getenv("TERM")) == NULL)
+	if ((term_name = get_env("TERM")) == NULL)
 		term_name = "xterm";
-	if (tgetent(NULL, term_name) == ERROR)
-		/* RET: error EXIT: true MSG: "Could not access the termcap data base." */
-		return (ERROR);
+	tgetent(NULL, term_name);
+	ft_strdel(&term_name);
+	//if (tgetent(NULL, term_name) == ERROR) ->quand je fais ca, ca hurle de partout pour les termcap
+	//	return (sh_error(0, NULL, NULL));
 	return (TRUE);
 }
 
@@ -28,21 +29,21 @@ int					init_term(int full_init)
 		ft_putendl_fd("------- INIT TERM ------", 2);
 
 	struct termios		term;
+	char				*term_env;
 
+	if ((term_env = get_env("TERM")) == NULL)
+		return (sh_error(0, NULL, NULL));
 	if (full_init == TRUE)
 	{
 		if (start_init_term() == ERROR)
 			return (ERROR);
 	}
-	if (tcgetattr(0, &term) == ERROR)
-		/* RET: error EXIT: true MSG: "Could not access the termcap data base." */
-		return (ERROR);
+	tcgetattr(0, &term);
 	term.c_lflag &= ~(ICANON | ECHO);
 	term.c_cc[VMIN] = 1;
 	term.c_cc[VTIME] = 0;
-	if (tcsetattr(0, TCSADRAIN, &term) == ERROR)
-		/* RET: error EXIT: true MSG: "Could not access the termcap data base." */
-		return (ERROR);
+	tcsetattr(0, TCSANOW, &term);// point to uninitialize byte selon valgrind
+	ft_strdel(&term_env);
 	return (TRUE);
 }
 
@@ -54,12 +55,11 @@ int					reset_term(void)
 	struct termios		term;
 
 	tputs(tgetstr("ve", NULL), 1, my_outc);
-	if (tcgetattr(0, &term) == ERROR)
-		/* RET: error EXIT: true MSG: "Could not access the termcap data base." */
-		return (ERROR);
+	tcgetattr(0, &term);
+//	if (tcgetattr(0, &term) == ERROR)
+//		return (sh_error(0, NULL, NULL));
 	term.c_lflag |= (ICANON | ECHO);
-	if (tcsetattr(0, TCSANOW, &term) == ERROR)
-		/* RET: error EXIT: true MSG: "Could not access the termcap data base." */
-		return (ERROR);
+	tcsetattr(0, TCSANOW, &term);// point to uninitialize byte selon valgrind
+
 	return (TRUE);
 }

@@ -49,15 +49,15 @@ int 				token_sep(int *hrd, char **read_buff, char **data_tmp,
 	if (pushbck_cdt(read_buff, data_tmp))
 	{
 		expr_pushbk(l_expr, *data_tmp, *hrd);
-		if (*hrd >= 1 && ft_strcmp("<<", *data_tmp) != 0)
-			*hrd = 0;
+		*hrd = (*hrd >= 1 && ft_strcmp("<<", *data_tmp) != 0 ? 0 : *hrd);
 		ft_bzero(*data_tmp, ft_strlen(*data_tmp));
 	}
-	if (read_buff && *read_buff && **read_buff && ft_strchr(SPECIAL, **read_buff))
+	if (read_buff && *read_buff && **read_buff && ft_strchr(SPECIAL, **read_buff) != NULL)
 	{
 		add_in_tbl(data_tmp, **read_buff);
 		if (ft_strchr(LWAKA, **read_buff) && (*(*read_buff + 1))
-				&& (*(*read_buff + 1)) == (**read_buff))
+		&& (*(*read_buff + 1)) == (**read_buff))
+			//add_in_tbl(data_tmp, *(++(*read_buff)));
 		{
 			(*read_buff)++;
 			add_in_tbl(data_tmp, **read_buff);
@@ -81,14 +81,15 @@ int					tokenizer(int *hrd, char *read_buff, t_e_list **l_expr)
 		ft_putendl_fd("------- TOKENIZER ------", 2);
 	char 				*data_tmp;
 
-	if ((data_tmp = ft_strnew(ft_strlen(read_buff))) != NULL)
-		finite_state_automaton(hrd, &read_buff, l_expr, &data_tmp);
+	if ((data_tmp = ft_strnew(ft_strlen(read_buff))) == NULL)
+		return (sh_error(6, NULL, NULL)); // malloc error
+	finite_state_automaton(hrd, &read_buff, l_expr, &data_tmp);
 	if (data_tmp)
 	{
 		if (ft_strcmp("<<", data_tmp) == 0)
 			*hrd = 1;
 		expr_pushbk(l_expr, data_tmp, *hrd);
-		//ft_bzero(data_tmp, ft_strlen(data_tmp));
+		ft_bzero(data_tmp, ft_strlen(data_tmp));
 		if (*hrd >= 1 && ft_strcmp("<<", data_tmp) != 0)
 			*hrd = 0;
 	}
@@ -100,12 +101,11 @@ int					tokenizer(int *hrd, char *read_buff, t_e_list **l_expr)
 		t_e_list *tmp = *l_expr;
 		while (tmp)
 		{
-			printf("[%s] -> ", tmp->data);
+			printf("[t/%s] -> ", tmp->data);
 			tmp = tmp->next;
 		}
 		printf ("\n");
 	}
-	//ft_strdel(&data_tmp); // MALLOC_FREE_OK // a priori
 	// fin  ANTIBUG !!!!!!!!!
 	return (TRUE);
 }

@@ -67,29 +67,19 @@ static int			fill_hrd_content(t_line *stline, t_node **tree) // static ac heredo
 
 	len = (ft_strlen(stline->hrd.line) -
 			(ft_strlen(stline->hrd.deli->data) + 1));
-	if (tree && (*tree) && (*tree)->right  && ((*tree)->right->type == HRD_QUOTE || (*tree)->right->type == RED_ARG))
+	if (tree && (*tree) && (*tree)->right  && ((*tree)->right->type == HRD_QUOTE
+	|| (*tree)->right->type == RED_ARG))
 	{
-		if ((*tree)->right->type == HRD_QUOTE)
-		{
-			if (((*tree)->right->right->data = ft_strsub(stline->hrd.line,
-			0, len + 1)) == NULL)
-			/* RET: error EXIT: true MSG: "malloc fail" */
-				return (ERROR);
-		}
-		else
-		{
-			if (((*tree)->right->right->data = hrd_quote_dup(stline->hrd.line, ft_strlen(stline->hrd.deli->data))) == NULL)
-			/* RET: error EXIT: true MSG: "malloc fail" */
-				return (ERROR);
-		}
+		if ((*tree)->right->type == HRD_QUOTE && ((*tree)->right->right->data =
+		ft_strsub(stline->hrd.line,	0, len + 1)) == NULL)
+			return (sh_error(6, NULL, NULL));
+		else if (((*tree)->right->right->data = hrd_quote_dup(stline->hrd.line,
+		ft_strlen(stline->hrd.deli->data))) == NULL)
+			return (sh_error(6, NULL, NULL));
 	}
-	else
-	{
-		if(((*tree)->right->right->right->data = ft_strsub(stline->hrd.line, 0,
-		len + 1)) == NULL)
-			/* RET: error EXIT: true MSG: "malloc fail" */
-			return (ERROR);
-	}
+	else if(((*tree)->right->right->right->data = ft_strsub(stline->hrd.line, 0,
+	len + 1)) == NULL)
+		return (sh_error(6, NULL, NULL));
 	return (TRUE);
 }
 
@@ -103,17 +93,17 @@ int					heredoc_handler(t_line *stline, t_node **tree,
 		return (FALSE);
 	if ((*tree)->type == DLRED)
 	{
-		stline->hrd.deli = (((*tree)->right->type == RED_ARG || (*tree)->right->type == HRD_QUOTE) ? (*tree)->right : (*tree)->right->right);
+		stline->hrd.deli = (((*tree)->right->type == RED_ARG
+						|| (*tree)->right->type == HRD_QUOTE) ?
+								(*tree)->right : (*tree)->right->right);
 		stline->hrd.ptr = stline->hrd.line;
 		mini_prt_handler(&(stline->hrd.line), &(stline->hrd.pos), stline);
 		if (fct_read(TRUE, stline, history) == ERROR)
 			return (ERROR);
 		ft_putendl("");
 		if ((stline->hrd.deli->right = create_node(DLRED_DOC)) == NULL)
-			/* RET: error EXIT: true MSG: "malloc fail" */
-			return (ERROR);
+			return (sh_error(6, NULL, NULL));
 		if (fill_hrd_content(stline, tree) == ERROR)
-			/* useless return */
 			return(ERROR);
 		if (stline->hrd.line)
 			ft_bzero(stline->hrd.line, ft_strlen(stline->hrd.line));
@@ -121,7 +111,6 @@ int					heredoc_handler(t_line *stline, t_node **tree,
 		(stline->hrd.nb)--;
 	}
 	if ((tree_trav_hrd(stline, tree, history)) == ERROR)
-		/* RET: error EXIT: false MSG: "" */
 		return (ERROR);
 	return (TRUE);
 }

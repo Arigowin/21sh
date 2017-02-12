@@ -3,18 +3,6 @@
 #include "shell.h"
 #include "libft.h"
 
-// fonctionnalité a ajouter dans la/les fonctions d'erreur générales
-int					parse_error(char *data)
-{
-	if (DEBUG_PARSER == 1)
-		ft_putendl_fd("------- PARSE ERROR ------", 2);
-
-	ft_putstr("21sh: parse error near \"");
-	ft_putstr(data);
-	ft_putendl("\"");
-	return (FALSE);
-}
-
 int					move_in_list(t_e_list **l_expr)
 {
 	if (DEBUG_PARSER == 1)
@@ -37,49 +25,38 @@ static int			check_command(int *nb_hrd, t_e_list **l_expr, t_node **tree) //stat
 
 	t_node				*save;
 	t_node				*node;
-	int					red;
+	int					ret;
 
 	save = *tree;
-	red = 0;
 	if ((node = create_node(CMD)) == NULL)
-	{
-		clear_node(&node); // verif_si_ok
-		return (ERROR);
-	}
-	/* MSG ret: ERROR exit: FALSE msg: "malloc fail"
-	 * free: node */
-	if ((red = check_red(nb_hrd, l_expr, &(node->left))) != TRUE)
+		return (sh_error(6, NULL, NULL));
+	if ((ret = check_red(nb_hrd, l_expr, &(node->left))) != TRUE)
 		*tree = save;
 	if ((*l_expr)->type == CMD)
 	{
 		if ((node->data = ft_strdup((*l_expr)->data)) == NULL)
 		{
 			clear_node(&node); // verif_si_ok
-			return (ERROR);
-			/* MSG ret: ERROR exit: TRUE msg: "malloc fail"
-			 * free: node */
+			return (sh_error(6, NULL, NULL));
 		}
-		if (check_next(nb_hrd, l_expr, &node, &(node->right)) == NO_RED_ARG)
+		if ((ret = check_next(nb_hrd, l_expr, &node, &(node->right))) < 0)
 		{
 			clear_node(&node); // ce clear ne cause pas de pb
-			return (FALSE);
+			return (ret);
 		}
 		*tree = node;
-//		clear_node(&node); // ce clear_node(&node) // segfault
 		return (TRUE);
 	}
-	if (red == TRUE && (*l_expr)->type != CMD)
+	if (ret == TRUE && (*l_expr)->type != CMD)
 	{
 		*tree = node->left;
 		clear_node(&node); // ce clear ne cause pas de pb
 		return (TRUE);
 	}
-	ft_putendl_fd("error in check cmd\n", 2);
-	parse_error((*l_expr)->data);
 	clear_node(&node); // verif_si_ok
-	return (FALSE);
-	/* MSG ret: ERROR exit: FALSE msg: "parse error near + (*l_expr)->data"
-	 * free: node */
+	if (ret != NO_PRINT)
+		return (sh_error(26, (*l_expr)->data, NULL));
+	return (ret);
 }
 
 //longeur ok si erreur (l220) go in retun et si erreur final go in return
@@ -90,17 +67,13 @@ static int			check_c_pipe(int *nb_hrd, t_e_list **l_expr, t_node **tree)  // sta
 
 	t_node				*node;
 	t_node				**node_to_give;
+	int					ret;
 
 	node = NULL;
 	if ((node = create_node(PIPE)) == NULL)
-	{
-		clear_node(&node);
-		return (ERROR);
-	}
-	/* MSG ret: FALSE exit: FALSE msg: malloc fail*/
-	/* free: node */
+		return (sh_error(6, NULL, NULL));
 	node_to_give = (node->left == NULL ? &(node->left) : &(node->right));
-	if (check_command(nb_hrd, l_expr, node_to_give))
+	if ((ret = check_command(nb_hrd, l_expr, node_to_give)) == TRUE)
 	{
 		if ((*l_expr)->type == PIPE)
 		{
@@ -108,28 +81,19 @@ static int			check_c_pipe(int *nb_hrd, t_e_list **l_expr, t_node **tree)  // sta
 			*tree = node;
 			if (!(move_in_list(l_expr) && check_c_pipe(nb_hrd, l_expr, &(node->right))))
 			{
-				ft_putendl_fd("error in check cpipe\n", 2);
-				parse_error((*l_expr)->data);
 				clear_node(&node);
-				return (FALSE);
-				/* MSG ret: ERROR exit: FALSE msg: "parse error near + (*l_expr)->data"
-				 * free: node */
+				return (sh_error(26, (*l_expr)->data, NULL));
 			}
-			//			*tree = node; // bis repetita
-			//	clear_node(&node); // un clear_node ici segfault
 			return (TRUE);
 		}
 		*tree = *node_to_give;
 		clear_node(&node); // si je clear node avant *tree = *node_to_give alors invalid read of size 8
-		//	clear_node(node_to_give); // il aime pas du tout : invalid read of size
-		return (TRUE);
+		return (ret);
 	}
-	ft_putendl_fd("error in check cpipe\n", 2);
-	parse_error((*l_expr)->data);
 	clear_node(&node);
-	return (FALSE);
-	/* MSG ret: ERROR exit: FALSE msg: "parse error near + (*l_expr)->data"
-	 * free: node */
+	if (ret != NO_PRINT)
+		return (sh_error(26, (*l_expr)->data, NULL));
+	return (ret);
 }
 
 //longeur ok si erreur (l258) go in retun et si erreur final go in return
@@ -140,49 +104,37 @@ static int			check_expr(int *nb_hrd, t_e_list **l_expr, t_node **tree) // static
 
 	t_node				*node;
 	t_node				**node_to_give;
+	int					ret;
 
+	ret = 0;
 	node = NULL;
 	if ((node = create_node(SEMI)) == NULL)
-	{
-		clear_node(&node);
-		return (ERROR);
-	}
-	/* MSG ret: FALSE exit: FALSE msg: malloc fail*/
-		/* free: node */
+		return (sh_error(6, NULL, NULL));
 	node_to_give = (node->left == NULL ? &(node->left) : &(node->right));
-	if ((*l_expr)->type == SEMI || ((*l_expr)->type != SEMI && check_c_pipe(nb_hrd, l_expr, node_to_give)))
+	if ((*l_expr)->type == SEMI || ((*l_expr)->type != SEMI && (ret = check_c_pipe(nb_hrd, l_expr, node_to_give))))
 	{
 		if ((*l_expr)->type == SEMI && ft_strlen((*l_expr)->data) != 1)
 		{
-			ft_putendl_fd("error in check expr\n", 2);
-			parse_error((*l_expr)->data);
 			clear_node(&node);
-			return (FALSE);
-			/* MSG ret: ERROR exit: FALSE msg: "parse error near + (*l_expr)->data"
-			 * free: node */
+			return (sh_error(26, (*l_expr)->data, NULL));
 		}
 		if ((*l_expr)->type == SEMI || (*l_expr)->type == LOGIC_OR || (*l_expr)->type == LOGIC_AND)
 		{
-			if ((node->data = ft_strdup((*l_expr)->data)) == NULL)
-				return (ERROR);
+			if ((node->data = ft_strdup((*l_expr)->data)) == NULL) // mem alloc failed
+				return (sh_error(6, NULL, NULL));
 			*tree = node;
-			//			clear_node(&node);
-			if (move_in_list(l_expr))
-				if (check_expr(nb_hrd, l_expr, &(node->right)) == ERROR)
-					return (FALSE);
-			//	clear_node(&node); // un clear_node(&node) ici segfault
+			if (move_in_list(l_expr) && ((ret = check_expr(nb_hrd, l_expr, &(node->right)) < 0)))
+					return (ret);
 			return (TRUE);
 		}
 		*tree = *node_to_give;
 		clear_node(&node);
-		return (TRUE);
+		return (ret);
 	}
-	ft_putendl_fd("error in check expr - pouet!!!!!\n", 2);
-	parse_error((*l_expr)->data);
 	clear_node(&node);
-	return (FALSE);
-	/* MSG ret: ERROR exit: FALSE msg: "parse error near + (*l_expr)->data"
-	 * free: node */
+	if (ret != NO_PRINT)
+		return (sh_error(26, (*l_expr)->data, NULL));
+	return (ret);
 }
 
 int					parser(int *nb_hrd, t_e_list **l_expr, t_node **tree)
@@ -195,11 +147,8 @@ int					parser(int *nb_hrd, t_e_list **l_expr, t_node **tree)
 	if (*l_expr == NULL)
 		return (FALSE);
 	ret = check_expr(nb_hrd, l_expr, tree);
-	if (ret == FALSE)
-		return (FALSE);
-	if (ret == ERROR)
-		return (ERROR);
-	// si erreur je free l arbre dans read_n_check la fonction qui envoi le tree
+	if (ret != TRUE)
+		return (ret);
 
 	// ANTIBUG !!!!!!!!!
 	if (DEBUG_PARSER == 1)
@@ -212,5 +161,5 @@ int					parser(int *nb_hrd, t_e_list **l_expr, t_node **tree)
 	}
 	// fin ANTIBUG !!!!!!!!!
 
-	return (TRUE);
+	return (ret);
 }

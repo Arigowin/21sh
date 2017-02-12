@@ -1,7 +1,7 @@
 #include "shell.h"
 #include "libft.h"
 
-static states		get_state(states state, char **read_buff)
+static t_states		get_state(t_states state, char **read_buff)
 {
 	if (DEBUG_TOKEN == 1)
 		ft_putendl_fd("------- GET STATE ------", 2);
@@ -31,11 +31,8 @@ static int			state_standard(int *hrd, char **read_buff, char **data_tmp,
 		token_backslash(STANDARD, read_buff, data_tmp);
 	else if (**read_buff == '$')
 		token_dollar(read_buff, data_tmp);
-	else if (**read_buff && **read_buff == '~' && *bln == FALSE)
-	{
-		if (token_tilde(read_buff, data_tmp, bln) == FALSE)
-			add_in_tbl(data_tmp, **read_buff);
-	}
+	else if (**read_buff && **read_buff == '~' && (*bln == TRUE || (*bln == FALSE && token_tilde(read_buff, data_tmp, bln) == FALSE)))
+		add_in_tbl(data_tmp, **read_buff);
 	else if (**read_buff && ft_strchr(SEP, **read_buff))
 	{
 		*bln = FALSE;
@@ -80,24 +77,22 @@ int 				finite_state_automaton(int *hrd, char **read_buff, t_e_list **l_expr,
 {
 	if (DEBUG_TOKEN == 1)
 		ft_putendl_fd("------- FINITE STATE AUTOMATON ------", 2);
+
 	int					bln;
-	states				state;
+	t_states				state;
 
 	bln = FALSE;
 	state = STANDARD;
-	if (data_tmp && read_buff && *read_buff)
+	while (data_tmp && read_buff && *read_buff && **read_buff)
 	{
-		while (read_buff && *read_buff && **read_buff)
-		{
-			state = get_state(state, read_buff);
-			if (state == STANDARD)
-				state_standard(hrd, read_buff, data_tmp, &bln, l_expr);
-			else if (state == IN_QUOTE)
-				state_quote(hrd, **read_buff, data_tmp);
-			else if (state == IN_DQUOTE)
-				state_dquote(hrd, read_buff, data_tmp);
-			(*read_buff)++;
-		}
+		state = get_state(state, read_buff);
+		if (state == STANDARD)
+			state_standard(hrd, read_buff, data_tmp, &bln, l_expr);
+		else if (state == IN_QUOTE)
+			state_quote(hrd, **read_buff, data_tmp);
+		else if (state == IN_DQUOTE)
+			state_dquote(hrd, read_buff, data_tmp);
+		(*read_buff)++;
 	}
 	return (TRUE);
 }

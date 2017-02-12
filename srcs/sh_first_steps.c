@@ -16,17 +16,13 @@ static char			*get_path(void)
 	tmp = ft_strsub(path, 0, ft_strlen(home));
 	if (home && ft_strcmp(home, tmp) == 0)
 	{
-		if (tmp)
-			free(tmp);
+		ft_strdel(&tmp);
 		tmp = ft_strsub(path, ft_strlen(home), ft_strlen(path));
-		if (path)
-			free(path);
+		ft_strdel(&path);
 		path = ft_properjoin("~", tmp);
 	}
-	if (home)
-		free(home);
-	if (tmp)
-		free(tmp);
+	ft_strdel(&home);
+	ft_strdel(&tmp);
 	return (path);
 }
 
@@ -50,10 +46,8 @@ int					display_prompt(void)
 	if (path || name)
 		ft_putchar('\n');
 	ft_putstr_color("\033[36m", "> ");
-	if (name)
-		free(name);
-	if (path)
-		free(path);
+	ft_strdel(&name);
+	ft_strdel(&path);
 	return (TRUE);
 }
 
@@ -66,18 +60,20 @@ int				fill_path(char ***env)
 
 	tmp = NULL;
 	if (((*env) = (char **)malloc(sizeof(char *) * 4)) == NULL)
-		/* RET: error EXIT: true MSG: "malloc fail" */
-		return (ERROR);
+		return (sh_error(6, NULL, NULL));
 	if ((tmp = getcwd(tmp, MAX_PATH)) == NULL)
-		/* RET: error EXIT: false MSG: "Cannot get current directory" */
-		return (ERROR);
-	if (((*env)[0] = ft_strdup("PATH=/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin")) == NULL)
-		/* RET: error EXIT: true MSG: "malloc fail" */
-		return (ERROR);
-	(*env)[1] = ft_properjoin("PWD=", tmp);
-	(*env)[2] = ft_strdup("TERM=xterm");
+		return (sh_error(6, NULL, NULL));
+	if (((*env)[0] =
+	ft_strdup("PATH=/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin")) == NULL)
+		return (sh_error(6, NULL, NULL));
+	if (((*env)[1] = ft_properjoin("PWD=", tmp)) == NULL)
+	{
+		ft_strdel(&tmp);
+		return (sh_error(6, NULL, NULL));
+	}
+	if (((*env)[2] = ft_strdup("TERM=xterm")) == NULL)
+		return (sh_error(6, NULL, NULL));
 	(*env)[3] = NULL;
-	if (tmp)
-		free(tmp);
+	ft_strdel(&tmp);
 	return (TRUE);
 }
