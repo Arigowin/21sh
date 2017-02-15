@@ -107,7 +107,7 @@ int					check_arg(int *nb_hrd, t_e_list **l_expr, t_node **tree,
 		*right_node = node;
 		return (TRUE);
 	}
-	//	clear_node(&node);
+	clear_node(&node);
 	return (FALSE);
 }
 

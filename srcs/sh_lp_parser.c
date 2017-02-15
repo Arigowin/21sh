@@ -158,43 +158,25 @@ static int			check_expr(int *nb_hrd, t_e_list **l_expr, t_node **tree) // static
 	int					ret;
 
 	ret = 0;
-	//printf("l_expr in check expr (%s)\n", (*l_expr)->data);
 	node = create_node(SEMI);
 	node_to_give = (node->left == NULL ? &(node->left) : &(node->right));
-	//printf("node left ((%p-%p))\n", node->left, node->right);
 	if ((*l_expr)->type == SEMI || ((*l_expr)->type != SEMI
 	&& (ret = check_logic(nb_hrd, l_expr, node_to_give)) == TRUE)) // == TRUE))))
 	{
-	//	printf("ret in if ((%d))\n", ret);
-	//	//useless if , non?
-	//	if ((*l_expr)->type == SEMI && ft_strlen((*l_expr)->data) != 1)
-	//	{
-	//		clear_node(&node);
-	//		return (sh_error(26, (*l_expr)->data, NULL));
-	//	//return (sh_error(26, (*l_expr)->data, "4er appel"));
-	//	}
 		if ((*l_expr)->type == SEMI)
 		{
-	//printf("l_expr in if SEMI (%s)\n", (*l_expr)->data);
-
 			if ((node->data = ft_strdup((*l_expr)->data)) == NULL)
 				return (sh_error(6, NULL, NULL));
 			*tree = node;
-	//	printf("verif de tree 0\n");
-	//		tree_traversal_verif(*tree);
-			if ((ret = move_in_list(l_expr)) && ((ret = check_expr(nb_hrd, l_expr, &(node->right)) < 0)))
-	//		if ((ret = move_in_list(l_expr)) && ((ret = check_expr(nb_hrd, l_expr, &((*tree)->right)) < 0)))
+			if ((ret = move_in_list(l_expr))
+			&& ((ret = check_expr(nb_hrd, l_expr, &(node->right)) < 0)))
 				return (ret);
-			return (TRUE); // ret
+			return (TRUE); // si on return ret ici, on ne peut plus faire 'ls;ls'
 		}
-//	//	return (parser_ret_fct(ret, tree, node_to_give, &node));
 		*tree = *node_to_give;
-	//	printf("verif de tree\n");
-	//		tree_traversal_verif(*tree);
 		clear_node(&node);
 		return (ret);
 	}
-	//	printf("ret ap if ((%d))\n", ret);
 	clear_node(&node);
 	if (ret != NO_PRINT)
 		return (sh_error(26, (*l_expr)->data, NULL));

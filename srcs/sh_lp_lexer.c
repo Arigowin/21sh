@@ -98,7 +98,7 @@ static int			type_analyzer2(int hrd, t_e_list **l_expr, int *boule)
 		ft_putendl_fd("------- TYPE ANALYZER2 ------", 2);
 
 
-	if (hrd < 1 && ((*l_expr)->next->data)[0] == ';')
+	if (hrd < 1 && ft_strcmp((*l_expr)->next->data, ";") == 0)
 	{
 		(*l_expr)->next->type = SEMI;
 		*boule = 0;
