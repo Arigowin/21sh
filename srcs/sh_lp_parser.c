@@ -3,11 +3,14 @@
 #include "shell.h"
 #include "libft.h"
 
-//int					parser_ret_fct()
-//{
-//
-//}
-//
+int					parser_ret_fct(int ret, t_node **tree, t_node **node,
+					t_node **to_free)
+{
+	*tree = *node;
+	clear_node(to_free);
+	return (ret);
+}
+
 int					move_in_list(t_e_list **l_expr)
 {
 	if (DEBUG_PARSER == 1)
@@ -45,19 +48,22 @@ static int			check_command(int *nb_hrd, t_e_list **l_expr, t_node **tree) //stat
 			return (sh_error(6, NULL, NULL));
 		}
 		if ((ret = check_next(nb_hrd, l_expr, &node, &(node->right))) < 0)
-		{
-			clear_node(&node); // ce clear ne cause pas de pb
-			return (ret);
-		}
-		*tree = node;
-		return (TRUE);
+			return (parser_ret_fct(ret, NULL, NULL, &node));
+		//{
+		//	clear_node(&node); // ce clear ne cause pas de pb
+		//	return (ret);
+		//}
+		return (parser_ret_fct(TRUE, tree, &node, NULL));
+//		*tree = node;
+//		return (TRUE);
 	}
 	if (ret == TRUE && (*l_expr)->type != CMD)
-	{
-		*tree = node->left;
-		clear_node(&node); // ce clear ne cause pas de pb
-		return (TRUE);
-	}
+		return (parser_ret_fct(TRUE, tree, &(node->left), &node));
+//	{
+//		*tree = node->left;
+//		clear_node(&node); // ce clear ne cause pas de pb
+//		return (TRUE);
+//	}
 	clear_node(&node); // verif_si_ok
 	if (ret != NO_PRINT)
 		//return (sh_error(26, (*l_expr)->data, "1er appel"));
@@ -93,9 +99,10 @@ static int			check_c_pipe(int *nb_hrd, t_e_list **l_expr, t_node **tree)  // sta
 			}
 			return (TRUE);
 		}
-		*tree = *node_to_give;
-		clear_node(&node);
-		return (ret);
+		return (parser_ret_fct(ret, tree, node_to_give, &node));
+		//*tree = *node_to_give;
+		//clear_node(&node);
+		//return (ret);
 	}
 	clear_node(&node);
 	if (ret != NO_PRINT)
