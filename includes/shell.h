@@ -340,6 +340,7 @@ int						reset_term();
 /*
 ** sh_event
 */
+int						mini_prt_stline(t_line *stline);
 int 					mini_prt_handler(char **str, int *pos, t_line *stline);
 int						event(int key, t_line *stline, t_history **history);
 int						fct_ctrl_d(char **s, int *pos, t_line *stline,
