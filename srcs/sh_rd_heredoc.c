@@ -89,6 +89,8 @@ int					heredoc_handler(t_line *stline, t_node **tree,
 	if (DEBUG_HEREDOC == 1)
 		ft_putendl_fd("------------ HEREDOC HANDLER ----------", 2);
 
+	static int		bln = 0;
+
 	if (stline->hrd.nb <= 0)
 		return (FALSE);
 	if ((*tree)->type == DLRED)
@@ -97,7 +99,10 @@ int					heredoc_handler(t_line *stline, t_node **tree,
 						|| (*tree)->right->type == HRD_QUOTE) ?
 								(*tree)->right : (*tree)->right->right);
 		stline->hrd.ptr = stline->hrd.line;
-		mini_prt_handler(&(stline->hrd.line), &(stline->hrd.pos), stline);
+		if (bln)
+			mini_prt_handler(&(stline->hrd.line), &(stline->hrd.pos), stline);
+		else
+			mini_prt_stline(stline);
 		if (fct_read(TRUE, stline, history) == ERROR)
 			return (ERROR);
 		ft_putendl("");
