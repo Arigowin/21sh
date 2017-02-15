@@ -46,8 +46,6 @@ echo CMD:'cd "../"'
 cd "../"
 echo CMD:"cd '../'"
 cd '../'
-echo CMD:'mkdir noright ; chmod 000 noright ; cd noright'
-mkdir noright ; chmod 000 noright ; cd noright
 echo CMD:'cd ~/test ; mkdir noright ; chmod 000 noright ; cd noright ; rm -rf noright'
 cd ~/test ; mkdir noright ; chmod 000 noright ; cd noright ; rm -rf noright
 

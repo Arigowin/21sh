@@ -28,14 +28,6 @@ int					bi_setenv(char **arg, t_duo **env)
 	int					i;
 
 	i = 0;
-
-	//debug
-	int j  =0;
-	while (arg[j])
-	{
-	printf("arg dans env ((%s))\n", arg[j]);
-	j++;}
-
 	while (arg[i])
 	{
 		if (i == 1 && valid_env_name(arg[i]) == FALSE)
