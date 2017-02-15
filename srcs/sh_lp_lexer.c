@@ -142,7 +142,7 @@ static int			type_analyzer(t_e_list **l_expr, int boule)
 			waka_lexer(&((*l_expr)->next));
 			(*l_expr)->next->type = RED;
 		}
-		else if (boule == 1 && (hrd >= 1 || !ft_strchr(SPECIAL2,
+		else if (boule == 1 && (hrd >= 1 || !ft_strchr(SPECIAL,
 		((*l_expr)->next->data)[0])) && ((*l_expr)->type == CMD
 		|| (*l_expr)->type == CA || (*l_expr)->type == RA))
 			(*l_expr)->next->type = CA;

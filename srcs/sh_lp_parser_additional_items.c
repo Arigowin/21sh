@@ -65,7 +65,8 @@ int					check_red(int *nb_hrd, t_e_list **l_expr, t_node **tree)
 	node = NULL;
 	save = *tree;
 	list_save = *l_expr;
-	red_ret = TRUE;
+	if ((red_ret = ((*l_expr)->type == RED)) == FALSE)
+		return (FALSE);
 	if ((*l_expr)->type == RED && (node = create_node(RED)) != NULL
 	&& (red_ret = move_in_list(l_expr)) == TRUE
 	&& ((red_ret = check_red_arg(l_expr, &(node->right))) == TRUE))
@@ -78,7 +79,7 @@ int					check_red(int *nb_hrd, t_e_list **l_expr, t_node **tree)
 		*tree = node;
 		return (red_ret);
 	}
-	if (red_ret != TRUE && red_ret != NO_PRINT)
+	if (red_ret != NO_PRINT)
 		return (sh_error(26, (*l_expr)->data, NULL));
 	*tree = save;
 	return (red_ret);

@@ -23,13 +23,24 @@ int					check_end_pipe(char **str, int *pos)
 		ft_putendl_fd("------- CHECK END PIPE ------", 2);
 
 	int					i;
+	int					j;
 
 	i = *pos - 1;
 	while (str && *str && (*str)[i] && i > 1)
 	{
-		if ((*str)[i] != ' ' && (*str)[i] != '\t'
-				&& (*str)[i] != '\n' && (*str)[i] != '|')
+		if ((*str)[i] != ' ' && (*str)[i] != '\t' && (*str)[i] != '\n'
+		&& (*str)[i] != '|')
 			return (FALSE);
+		if ((*str)[i] == '|' && (*str)[i - 1] == '|')
+		{
+			j = 1;
+			i = ft_strlen(*str);
+			while ((*str)[--i] == '|' && (*str)[i] == (*str)[i - 1])
+				j++;
+			if (j % 2 != 0)
+				return (TRUE);
+			return (FALSE);
+		}
 		if ((*str)[i] == '|' && (*str)[i - 1] != '\\')
 			return (TRUE);
 		i--;
@@ -74,8 +85,8 @@ int					fct_return(char **str, int *pos, t_line *stline, // changer pos en p (no
 	fct_end(str, pos, stline, history);
 	stline->quote = quote_is_close(str);
 	if (stline->quote != 0 || (*pos > 0 && (*str)[*pos - 1]
-				&& (*str)[*pos - 1] == '\\') || stline->hrd.nb > 0
-			|| (*pos > 0 && check_end_pipe(str, pos))) // ajout si 'pipe' a la fin de la ligne
+	&& (*str)[*pos - 1] == '\\') || stline->hrd.nb > 0
+	|| (*pos > 0 && check_end_pipe(str, pos))) // ajout si 'pipe' a la fin de la ligne
 	{
 		if (stline->hrd.nb > 0)
 		{

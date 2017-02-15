@@ -9,18 +9,22 @@ int					tree_traversal_verif(t_node *tree)
 {
 	if (DEBUG_TREE_VERIF == 1)
 		ft_putendl_fd("------- TREE TRAVERSAL VERIF ------", 2);
-
-	printf("tree : %s - %d\n", tree->data, tree->type);
-	if (tree && tree->left != NULL)
+	if (tree != NULL)
 	{
-		printf("{{%s left %s}}\n", tree->data, tree->left->data);
-		tree_traversal_verif(tree->left);
+		printf("tree : %s - %d\n", tree->data, tree->type);
+		if (tree && tree->left != NULL)
+		{
+			printf("{{%s left %s}}\n", tree->data, tree->left->data);
+			tree_traversal_verif(tree->left);
+		}
+		if (tree && tree->right != NULL)
+		{
+			printf("{{%s right %s}}\n", tree->data, tree->right->data);
+			tree_traversal_verif(tree->right);
+		}
 	}
-	if (tree && tree->right != NULL)
-	{
-		printf("{{%s right %s}}\n", tree->data, tree->right->data);
-		tree_traversal_verif(tree->right);
-	}
+	else
+		printf("\nend tree\n");
 	return (0);
 }
 //fin ANTIBUG

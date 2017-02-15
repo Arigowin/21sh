@@ -23,7 +23,7 @@ int					clear_node(t_node **node)
 	if (DEBUG_PARSER == 1)
 		ft_putendl_fd("------- CLEAR NODE ------", 2);
 
-	if (node && (*node))
+	if (node && *node)
 	{
 		ft_strdel(&((*node)->data));
 		(*node)->left = NULL;
