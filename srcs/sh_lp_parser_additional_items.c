@@ -36,7 +36,7 @@ int					check_red_arg(t_e_list **l_expr, t_node **tree)
 		*tree = node;
 		return (TRUE);
 	}
-	return (sh_error(25, (*l_expr)->data, NULL));
+	return (sh_error(26, (*l_expr)->data, NULL));
 }
 
 t_types				fill_red_type(char *data, int *nb_hrd)
@@ -78,10 +78,10 @@ int					check_red(int *nb_hrd, t_e_list **l_expr, t_node **tree)
 		*tree = node;
 		return (red_ret);
 	}
-	if (red_ret != TRUE)
-		return (sh_error(25, (*l_expr)->data, NULL));
+	if (red_ret != TRUE && red_ret != NO_PRINT)
+		return (sh_error(26, (*l_expr)->data, NULL));
 	*tree = save;
-	return (FALSE);
+	return (red_ret);
 }
 
 int					check_arg(int *nb_hrd, t_e_list **l_expr, t_node **tree,
