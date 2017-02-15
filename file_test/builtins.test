@@ -118,7 +118,7 @@ echo CMD:'echo $PATH'
 echo $PATH
 echo CMD:'echo "$PATH"'
 echo "$PATH"
-echo CMD:"echo '$PATH'"
+echo CMD:"echo '\$PATH'"
 echo '$PATH'
 echo CMD:"echo '~'"
 echo '~'
