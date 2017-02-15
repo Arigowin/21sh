@@ -3,6 +3,11 @@
 #include "shell.h"
 #include "libft.h"
 
+//int					parser_ret_fct()
+//{
+//
+//}
+//
 int					move_in_list(t_e_list **l_expr)
 {
 	if (DEBUG_PARSER == 1)
@@ -55,6 +60,7 @@ static int			check_command(int *nb_hrd, t_e_list **l_expr, t_node **tree) //stat
 	}
 	clear_node(&node); // verif_si_ok
 	if (ret != NO_PRINT)
+		//return (sh_error(26, (*l_expr)->data, "1er appel"));
 		return (sh_error(26, (*l_expr)->data, NULL));
 	return (ret);
 }
@@ -82,17 +88,22 @@ static int			check_c_pipe(int *nb_hrd, t_e_list **l_expr, t_node **tree)  // sta
 			if (!(move_in_list(l_expr) && check_c_pipe(nb_hrd, l_expr, &(node->right))))
 			{
 				clear_node(&node);
+		//return (sh_error(26, (*l_expr)->data, "2er appel"));
 				return (sh_error(26, (*l_expr)->data, NULL));
 			}
 			return (TRUE);
 		}
 		*tree = *node_to_give;
-		clear_node(&node); // si je clear node avant *tree = *node_to_give alors invalid read of size 8
+		clear_node(&node);
 		return (ret);
 	}
 	clear_node(&node);
 	if (ret != NO_PRINT)
+	{
+		//return (sh_error(26, (*l_expr)->data, "3er appel"));
 		return (sh_error(26, (*l_expr)->data, NULL));
+	}
+	//printf("ret : {{{{%d}}}}\n", ret);
 	return (ret);
 }
 
@@ -107,20 +118,21 @@ static int			check_expr(int *nb_hrd, t_e_list **l_expr, t_node **tree) // static
 	int					ret;
 
 	ret = 0;
-	node = NULL;
 	if ((node = create_node(SEMI)) == NULL)
 		return (sh_error(6, NULL, NULL));
 	node_to_give = (node->left == NULL ? &(node->left) : &(node->right));
-	if ((*l_expr)->type == SEMI || ((*l_expr)->type != SEMI && (ret = check_c_pipe(nb_hrd, l_expr, node_to_give))))
+	if ((*l_expr)->type == SEMI || ((*l_expr)->type != SEMI
+	&& (ret = check_c_pipe(nb_hrd, l_expr, node_to_give)) != NO_PRINT))
 	{
 		if ((*l_expr)->type == SEMI && ft_strlen((*l_expr)->data) != 1)
 		{
 			clear_node(&node);
 			return (sh_error(26, (*l_expr)->data, NULL));
+		//return (sh_error(26, (*l_expr)->data, "4er appel"));
 		}
 		if ((*l_expr)->type == SEMI || (*l_expr)->type == LOGIC_OR || (*l_expr)->type == LOGIC_AND)
 		{
-			if ((node->data = ft_strdup((*l_expr)->data)) == NULL) // mem alloc failed
+			if ((node->data = ft_strdup((*l_expr)->data)) == NULL)
 				return (sh_error(6, NULL, NULL));
 			*tree = node;
 			if (move_in_list(l_expr) && ((ret = check_expr(nb_hrd, l_expr, &(node->right)) < 0)))
@@ -133,6 +145,7 @@ static int			check_expr(int *nb_hrd, t_e_list **l_expr, t_node **tree) // static
 	}
 	clear_node(&node);
 	if (ret != NO_PRINT)
+		//return (sh_error(26, (*l_expr)->data, "5er appel"));
 		return (sh_error(26, (*l_expr)->data, NULL));
 	return (ret);
 }

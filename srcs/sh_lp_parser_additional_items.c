@@ -3,16 +3,6 @@
 #include "shell.h"
 #include "libft.h"
 
-//static int			filled_red_arg(t_e_list **l_expr, t_node **node)
-//{
-//	if (DEBUG_PARSER == 1)
-//		ft_putendl_fd("------- FILLED RED ARG ------", 2);
-//
-//	if (((*node)->data = ft_strdup((*l_expr)->data)) == NULL)
-//		return (sh_error(6, NULL, NULL));
-//	return (TRUE);
-//}
-
 //longeur ok si clear_node (l63) go in retun et si erreur final go in return
 int					check_red_arg(t_e_list **l_expr, t_node **tree)
 {

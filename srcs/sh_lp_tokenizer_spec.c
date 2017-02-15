@@ -70,8 +70,10 @@ int					token_tilde(char **read_buff, char **data_tmp, int *bln)
 	char 				*tmp;
 
 	tmp = NULL;
-	if ((env_val = get_env("HOME")) == NULL || *(*read_buff - 1) ||(*(*read_buff + 1) &&
-	ft_strchr(SEP, *(*read_buff + 1)) == NULL && *(*read_buff + 1) != '/'))
+	if ((env_val = get_env("HOME")) == NULL || ft_strchr(SEP, *(*read_buff - 1)) == NULL
+	|| (*(*read_buff + 1) && ft_strchr(SEP, *(*read_buff + 1)) == NULL
+		&& *(*read_buff + 1) != '/'))
+
 	{
 		ft_strdel(&env_val);
 		return (FALSE);
