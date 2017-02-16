@@ -58,7 +58,7 @@ static int			red_fd_copy(t_e_list **l_expr, char (*tmp)[], int *i)
 	return (TRUE);
 }
 
-static int			waka_lexer(t_e_list **l_expr) // si modifie le retour en void et qu'on vire les lignes en commentaire norme OK
+static int			waka_lexer(t_e_list **l_expr)
 {
 	if (DEBUG_LEXER == 1)
 		ft_putendl_fd("------- WAKA LEXER ------", 2);
@@ -69,7 +69,7 @@ static int			waka_lexer(t_e_list **l_expr) // si modifie le retour en void et qu
 	t_e_list			*new;
 
 	i = 0;
-	//new = NULL;
+	new = NULL;
 	ft_bzero(tmp_fd, 11);
 	waka_land_handler(l_expr, &tmp_fd, &i);
 	if (ft_strchr(WAKA, ((*l_expr)->data)[0]))
@@ -80,8 +80,7 @@ static int			waka_lexer(t_e_list **l_expr) // si modifie le retour en void et qu
 		return (sh_error(TRUE, 6, NULL, NULL));
 	ft_strdel(&((*l_expr)->data));
 	if (((*l_expr)->data = ft_strdup(tmp_data)) == NULL || (tmp_fd[0] == '\0'
-	|| ((new = expr_new(tmp_fd, 0)) == NULL && tmp_fd[0] != '\0')))
-//	|| (tmp_fd[0] != '\0' && (new = expr_new(tmp_fd, 0)) == NULL)))
+	|| (tmp_fd[0] != '\0' && (new = expr_new(tmp_fd, 0)) == NULL)))
 	{
 		ft_strdel(&tmp_data);
 		return (sh_error(TRUE, 6, NULL, NULL));
@@ -107,17 +106,18 @@ static int			type_analyzer2(int hrd, t_e_list **l_expr, int *boule)
 	else if (hrd < 1 && ((*l_expr)->next->data)[0] == '|')
 	{
 		(*l_expr)->next->type = (((*l_expr)->next->data)[1] ==
-		((*l_expr)->next->data)[0] ? LOGIC_OR : PIPE);
+			((*l_expr)->next->data)[0] ? LOGIC_OR : PIPE);
 		*boule = 0;
 	}
-	else if (hrd < 1 && ((*l_expr)->next->data)[0] == '&' &&
-	((*l_expr)->next->data)[1] == ((*l_expr)->next->data)[0])
+	else if (hrd < 1 && ((*l_expr)->next->data)[0] == '&')
 	{
-		(*l_expr)->next->type = LOGIC_AND;
+		(*l_expr)->next->type = (((*l_expr)->next->data)[1] ==
+			((*l_expr)->next->data)[0] ? LOGIC_AND : AMP);
 		*boule = 0;
 	}
 	else if (*boule == 0 && ((ft_strchr(SPECIAL, ((*l_expr)->data)[0]) &&
 	!ft_strchr("><", ((*l_expr)->next->data)[0])/**/) || (*l_expr)->type == RA))
+//	&& (*l_expr)->next->type != RED_FD) || (*l_expr)->type == RA))
 	{
 		*boule = 1;
 		(*l_expr)->next->type = CMD;
@@ -136,7 +136,7 @@ static int			type_analyzer(t_e_list **l_expr, int boule)
 	while (l_expr && *l_expr && (*l_expr)->next)
 	{
 		hrd = (*l_expr)->next->hrd_quote;
-		if/* (hrd < 1 && */((ft_strchr((*l_expr)->next->data, '<')
+		if /*(hrd < 1 &&*/((ft_strchr((*l_expr)->next->data, '<')
 		|| ft_strchr((*l_expr)->next->data, '>')))
 		{
 			waka_lexer(&((*l_expr)->next));
@@ -178,10 +178,10 @@ int					lexer(t_e_list **l_expr)
 	}
 	else if (hrd < 1 && t && ft_strcmp(t->data, ";") == 0)
 		t->type = SEMI;
-	else if (hrd < 1 && (t->data)[0] == '|' && (t->data)[1] == (t->data)[0])
-		t->type = LOGIC_OR;
-	else if (hrd < 1 && (t->data)[0] == '&' && (t->data)[1] == (t->data)[0])
-		t->type = LOGIC_AND;
+	else if (hrd < 1 && (t->data)[0] == '|')
+		t->type = ((t->data)[1] == (t->data)[0] ? LOGIC_OR : PIPE);
+	else if (hrd < 1 && (t->data)[0] == '&')
+		t->type = ((t->data)[1] == (t->data)[0] ? LOGIC_AND : AMP);
 	else if (t && t->data && (t->data)[0] != '&' && (t->data)[0] != '|')
 	{
 		t->type = CMD;
