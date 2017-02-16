@@ -58,31 +58,23 @@ static int			nopipe_cmd(int pipefd_tab[2][2], t_node *tree,
 
 	ret = -1;
 	fd = (lstfd && *lstfd ? (*lstfd)->fd : -2);
-	if (tree && tree->left && *lstfd && (ret = redirect(tree->left, *lstfd)))
+	if (tree && tree->left && ((*lstfd &&
+	(((ret = redirect(tree->left, *lstfd)) <= 0) || (*lstfd)->fd == -2))
+	|| (tree->left->type == DLRED && redirect(tree->left, NULL) == ERROR)))
 	{
-		if (ret == ERROR || (*lstfd)->fd == -1)
-		{
 		//	sh_error(8, NULL, NULL);// -> pb sur redirection gauche, 2 erreurs s'affichent
+		if (ret == ERROR)
+		{
 			reset_std_fd();
 			close_lstfd(lstfd);
 			del_lstfd(lstfd);
-			return (ret);
 		}
-		if (ret == FALSE)
-			return (FALSE);
-	}
-	else if (tree && tree->left && tree->left->type == DLRED
-			&& redirect(tree->left, NULL) == ERROR)
-	{
-		/* RET: error EXIT: false MSG: "i don't know"  => normalement, on ne remonte pas là...*/
-		reset_std_fd();
-		close_lstfd(lstfd);
-		del_lstfd(lstfd);
-		return (ERROR);
+		else if (ret == ERROR|| ret == FALSE)
+			return (ret);
 	}
 	ret = check_builtin(fd, cmd, pipefd_tab, NULL);
 	if (ret != FALSE)
-		free_tab(&cmd); // FREE_MALLOC_OK
+		free_tab(&cmd);
 	return (ret);
 }
 

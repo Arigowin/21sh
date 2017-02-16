@@ -64,17 +64,10 @@ int					bi_unsetenv(char **arg, t_duo **env)
 	i = 1;
 	if (!arg[i])
 		sh_error(TRUE, 9, NULL, NULL);
-		//ft_putendl("21sh: unsetenv: too few arguments.");
 	while (arg[i])
 	{
 		if (del_env(env, arg[i]) == -1)
 			sh_error(TRUE, 14, arg[i], NULL);
-		//{
-		//	//(fct error)
-		//	ft_putstr("21sh: unsetenv: '");
-		//	ft_putstr(arg[i]);
-		//	ft_putendl("': undefined variable");
-		//}
 		i++;
 	}
 	return (0);
