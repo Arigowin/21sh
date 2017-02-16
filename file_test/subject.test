@@ -1,0 +1,14 @@
+echo CMD:'touch riri'
+touch riri
+echo CMD:'ls'
+ls
+echo CMD:'rm riri; cat riri 2>&-'
+rm riri; cat riri 2>&-
+echo CMD:'mkdir test ; cd test ; ls -a ; ls | cat | wc -c > fifi ; cat fifi'
+mkdir test ; cd test ; ls -a ; ls | cat | wc -c > fifi ; cat fifi
+echo CMD:'ls'
+ls
+echo CMD:'cd ..;
+cd ..
+echo CMD:'rm -rf test'
+rm -rf test
