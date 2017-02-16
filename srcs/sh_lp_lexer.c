@@ -106,13 +106,13 @@ static int			type_analyzer2(int hrd, t_e_list **l_expr, int *boule)
 	else if (hrd < 1 && ((*l_expr)->next->data)[0] == '|')
 	{
 		(*l_expr)->next->type = (((*l_expr)->next->data)[1] ==
-		((*l_expr)->next->data)[0] ? LOGIC_OR : PIPE);
+			((*l_expr)->next->data)[0] ? LOGIC_OR : PIPE);
 		*boule = 0;
 	}
-	else if (hrd < 1 && ((*l_expr)->next->data)[0] == '&' &&
-	((*l_expr)->next->data)[1] == ((*l_expr)->next->data)[0])
+	else if (hrd < 1 && ((*l_expr)->next->data)[0] == '&')
 	{
-		(*l_expr)->next->type = LOGIC_AND;
+		(*l_expr)->next->type = (((*l_expr)->next->data)[1] ==
+			((*l_expr)->next->data)[0] ? LOGIC_AND : AMP);
 		*boule = 0;
 	}
 	else if (*boule == 0 && ((ft_strchr(SPECIAL, ((*l_expr)->data)[0]) &&
@@ -176,10 +176,10 @@ int					lexer(t_e_list **l_expr)
 	}
 	else if (hrd < 1 && t && ft_strcmp(t->data, ";") == 0)
 		t->type = SEMI;
-	else if (hrd < 1 && (t->data)[0] == '|' && (t->data)[1] == (t->data)[0])
-		t->type = LOGIC_OR;
-	else if (hrd < 1 && (t->data)[0] == '&' && (t->data)[1] == (t->data)[0])
-		t->type = LOGIC_AND;
+	else if (hrd < 1 && (t->data)[0] == '|')
+		t->type = ((t->data)[1] == (t->data)[0] ? LOGIC_OR : PIPE);
+	else if (hrd < 1 && (t->data)[0] == '&')
+		t->type = ((t->data)[1] == (t->data)[0] ? LOGIC_AND : AMP);
 	else if (t && t->data && (t->data)[0] != '&' && (t->data)[0] != '|')
 	{
 		t->type = CMD;
