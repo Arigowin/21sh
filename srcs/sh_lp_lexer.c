@@ -168,6 +168,8 @@ int					lexer(t_e_list **l_expr)
 
 	t = *l_expr;
 	boule = 0;
+	if (*l_expr == NULL)
+		return (FALSE);
 	hrd = (*l_expr)->hrd_quote;
 	if (hrd < 1 && t && (ft_strchr(t->data, '<') || ft_strchr(t->data, '>')))
 	{
