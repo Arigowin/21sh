@@ -67,7 +67,8 @@ int					check_red(int *nb_hrd, t_e_list **l_expr, t_node **tree)
 		if ((node->data = ft_strdup(list_save->data)) == NULL)
 			return (sh_error(TRUE, 6, NULL, NULL));
 		node->type = fill_red_type(list_save->data, nb_hrd);
-		if (!move_in_list(l_expr) || check_red(nb_hrd, l_expr, &(node->left)) != TRUE)
+		if (!move_in_list(l_expr) ||
+		(red_ret = check_red(nb_hrd, l_expr, &(node->left))) != TRUE)
 			*tree = save;
 		*tree = node;
 		return (red_ret);
