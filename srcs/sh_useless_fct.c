@@ -63,4 +63,3 @@ int					insert_in_lstfd(t_lst_fd **lstfd, t_lst_fd **tmpfd, int fd, char *filena
 	}
 	return (TRUE);
 }
-

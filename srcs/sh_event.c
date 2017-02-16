@@ -96,11 +96,8 @@ int					fct_return(char **str, int *pos, t_line *stline, // changer pos en p (no
 	&& (*str)[*pos - 1] == '\\') || stline->hrd.nb > 0
 	|| (*pos > 0 && check_end_pipe(str, pos))) // ajout si 'pipe' a la fin de la ligne
 	{
-		if (stline->hrd.nb > 0)
-		{
-			if (check_end_heredoc(stline) == BREAK)
+		if (stline->hrd.nb > 0 && (check_end_heredoc(stline) == BREAK))
 				return (BREAK);
-		}
 		ft_strdel(&(stline->curr_hist));
 		if (*str && (*str)[0] && stline->quote != 0)
 			modif_history(history, *str, FALSE);
@@ -192,9 +189,9 @@ int					event(int k, t_line *stline, t_history **history)
 	{
 		if (tbl_keys[i].key == k)
 		{
-			ret = tbl_keys[i].fct((stline->hrd.nb > 0 ? &(stline->hrd.line)
-								   : &(stline->line)),	(stline->hrd.nb > 0 ? &(stline->hrd.pos)
-														 : &(stline->pos)), stline, history);
+			ret = (tbl_keys[i].fct((stline->hrd.nb > 0 ? &(stline->hrd.line)
+				   : &(stline->line)),	(stline->hrd.nb > 0 ? &(stline->hrd.pos)
+										 : &(stline->pos)), stline, history));
 			tputs(tgetstr("ve", NULL), 1, my_outc);
 			return(ret);
 		}
@@ -204,7 +201,7 @@ int					event(int k, t_line *stline, t_history **history)
 		if (stline->hrd.nb <= 0)
 			handle_quote(k, &(stline->line), &(stline->pos), stline);
 		fct_insert((stline->hrd.nb > 0 ? &(stline->hrd.line) : &(stline->line)),
-				   (stline->hrd.nb > 0 ? &(stline->hrd.pos) : &(stline->pos)), k, stline);
+		(stline->hrd.nb > 0 ? &(stline->hrd.pos) : &(stline->pos)), k, stline);
 	}
 	tputs(tgetstr("ve", NULL), 1, my_outc);
 	return (TRUE);

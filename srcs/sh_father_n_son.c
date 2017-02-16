@@ -42,10 +42,8 @@ static int			son(char **cmd, int pipefd_tab[2][2], t_node *tree,
 	&& lstfd && *lstfd && !(ret = redirect(tree->left, *lstfd)))
 	{
 		if (ret == ERROR)
-		{
 /* RET: error EXIT: false MSG: "i don't know"  ==> si error onne remonte pas jusque là! en fait ca depend si on veut quitter le fork ou le pgm */
 			exit(EXIT_FAILURE);
-		}
 		if (ret == FALSE)
 			exit(EXIT_SUCCESS);
 	}
@@ -55,11 +53,6 @@ static int			son(char **cmd, int pipefd_tab[2][2], t_node *tree,
 	if (check_fct(fd, cmd) == -2)
 		exit(EXIT_FAILURE);
 	return (sh_error(TRUE, 24, cmd[0], NULL));
-//	ft_putstr_fd("21sh: ", 2);
-//	ft_putstr_fd(cmd[0], 2);
-//	ft_putendl_fd(": command not found", 2);
-//	exit(EXIT_FAILURE);
-//	return (FALSE);
 }
 
 int					handle_fork(int pipefd_tab[2][2], t_node *tree,
@@ -74,7 +67,6 @@ int					handle_fork(int pipefd_tab[2][2], t_node *tree,
 	reset_term();
 	if ((fpid = fork()) < 0)
 		sh_error(TRUE, 5, NULL, NULL);
-		/* RET: error EXIT: true MSG: "fork fail" */
 	if (fpid == 0)
 		son(cmd, pipefd_tab, tree, lstfd);
 	else

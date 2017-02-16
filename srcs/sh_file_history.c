@@ -142,7 +142,8 @@ int					save_history(void)
 	if (home)
 		path = ft_strjoin(home, HISTORY_FILE_NAME);
 	ft_strdel(&home);
-	if (path && (fd = open(path,  O_WRONLY | O_TRUNC | O_CREAT,  S_IRUSR | S_IWUSR)) == ERROR)
+	if ((fd = open(path,  O_WRONLY | O_TRUNC | O_CREAT,  S_IRUSR | S_IWUSR))
+			== ERROR && path)
 	{
 		ft_strdel(&path);
 		return (ERROR);
@@ -152,10 +153,12 @@ int					save_history(void)
 		history = history->prev;
 	while (history && history->line)
 	{
+		//ft_putendl_fd(history->line, fd); ???
 		write(fd, history->line, ft_strlen(history->line));
 		write(fd, "\n", 1);
 		history = history->next;
 	}
+	// ft_putchar_fd(3, fd); ???
 	end = 3;
 	write(fd, &end, 1);
 	if (fd > 2)

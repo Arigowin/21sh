@@ -319,12 +319,6 @@ int						handle_fork(int pipefd_tab[2][2], t_node *tree,
 							t_lst_fd **lstfd, char **cmd);
 
 /*
-** sh_pp_pipe_handler
-*/
-int 					pfd_handler(int pipefd_tab[2][2]);
-int		 				pfd_close(int pipefd_tab[2][2]);
-
-/*
 ** sh_cmd_line_assemble
 */
 int						null_input(int fd);
@@ -494,6 +488,8 @@ int						manage_cmd(int pipefd_tab[2][2], t_node *tree, t_lst_fd **lstfd);
 /*
 ** sh_pipe
 */
+int 					pfd_handler(int pipefd_tab[2][2]);
+int		 				pfd_close(int pipefd_tab[2][2]);
 int						pipe_function(int pipefd_tab[2][2], t_node *tree,
 						t_lst_fd **lstfd);
 

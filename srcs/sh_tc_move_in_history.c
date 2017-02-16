@@ -78,29 +78,29 @@ static int			reset_pos_x_y(char **str, int *pos, t_line *stline) //static ac les
 }
 
 int					history_up(char **str, int *pos, t_line *stline,
-							   t_history **history)
+					t_history **history)
 {
 	if (DEBUG_HISTORY == 1)
 		ft_putendl_fd("---------------- HISTORY UP -----------------------", 2);
 
 	int					i;
-	char				*tmp;
+	char				*t;
 	char				*tmpchr;
 
 	if (*history == NULL)
 		return (FALSE);
 	fct_end(str, pos, stline, history);
-	tmp = (*pos > 0 && (*str)[*pos - 1] == '\n' ? ft_strsub(*str, 0, *pos - 1) : ft_strdup(*str));
-	if ((*history)->next == NULL && *pos > 0 && ft_strcmp(tmp, (*history)->line) != 0)
+	t = (*pos > 0 && (*str)[*pos - 1] == '\n' ? ft_strsub(*str, 0, *pos - 1) : ft_strdup(*str));
+	if ((*history)->next == NULL && *pos > 0 && ft_strcmp(t, (*history)->line))
 	{
-		tmpchr = ft_strrchr(tmp, '\n');
+		tmpchr = ft_strrchr(t, '\n');
 		if (tmpchr && ft_strlen(tmpchr) > 1)
 			stline->curr_hist = ft_strdup(tmpchr + 1);
 		else if (*str && *pos > 0 && (*str)[*pos - 1] != '\n')
 			stline->curr_hist = ft_strdup(*str);
 	}
-	history_up_prev(history, tmp, pos, stline);
-	ft_strdel(&tmp);
+	history_up_prev(history, t, pos, stline);
+	ft_strdel(&t);
 	while (left_move_cdt(*pos, stline))
 		fct_backspace(str, pos, stline, history);
 	i = -1;
@@ -111,7 +111,7 @@ int					history_up(char **str, int *pos, t_line *stline,
 }
 
 int					history_down(char **str, int *pos, t_line *stline,
-								 t_history **history)
+					t_history **history)
 {
 	if (DEBUG_HISTORY == 1)
 		ft_putendl_fd("---------------- HISTORY DOWN ---------------------", 2);

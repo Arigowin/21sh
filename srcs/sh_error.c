@@ -30,8 +30,8 @@ const char			*tbl_error1(int index)
 
 	ret_index = index;
 	ret_index = (index >= 16 && index <= 18 ? 16 : ret_index);
-	ret_index = ((index >= 19 && index <= 24) || index == 29  || index == 30 ? 17 : ret_index);
-	ret_index = (index >= 25 && index <= 26 ? 18 : ret_index);
+	ret_index = ((index >= 19 && index <= 25) || index == 29  || index == 30 ? 17 : ret_index);
+	ret_index = (index >= 26 ? 18 : ret_index);
 	ret_index = (index >= 27 && index <= 28 ? 19 : ret_index);
 	return (err_tbl1[ret_index]);
 }
@@ -44,7 +44,7 @@ const char			*tbl_error2(int index)
 						/*3->17, 21*/": no such file or directory",
 						/*4->18, 19, 20*/": permission denied", /*5->22*/": invalid option",
 						/*6->24*/": command not found",
-						/*7->25*/"", // : missing name for redirect",
+						/*7->26*/": value not set", // : missing name for redirect",
 						/*8->27*/": too many arguments",
 						/*9->28*/": numeric argument required"
 						/*10->29*/": bad file descriptor"
@@ -81,7 +81,6 @@ int					sh_error(int ret, int index, char *err, char *bi)
 		ft_putstr_fd(err, 2);
 	if (index >= 14 && index <= 30 && index != 26)
 		ft_putstr_fd(tbl_error2(index), 2);
-//	if (index != 25 && index != 26)
 			ft_putendl_fd("", 2);
 	if ((index >= 1 && index <= 7) || index == 23 || index == 29 || index == 24)
 		exit_pgm(EXIT_FAILURE);
@@ -89,8 +88,10 @@ int					sh_error(int ret, int index, char *err, char *bi)
 		return (TRUE);
 	if (index == 19 || index == 22)
 		return (-2);
-	if (index == 25 || index == 26)
+	if (index == 26)
 		return (NO_PRINT);
+	if (index == 25)
+		return (ERROR);
 	else
 		return (FALSE);
 }

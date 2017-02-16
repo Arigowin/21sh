@@ -42,7 +42,7 @@ int					lstfd_pushfront(t_lst_fd **lstfd, int fd, char *filename)
 	return (TRUE);
 }
 
-int					del_lstfd(t_lst_fd **lstfd)
+int					del_lstfd(t_lst_fd **lstfd) // la fct close_lstfd est a privilégier elle close le fd avant de le free...
 {
 	if (DEBUG_RED == 1)
 		ft_putendl_fd("------------ DEL LSTFD -------", 2);

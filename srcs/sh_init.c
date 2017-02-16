@@ -52,7 +52,6 @@ int					init_stline(t_line *stline)
 	stline->hrd.deli = NULL;
 	if ((stline->hrd.line = ft_strnew(BUFF_SIZE)) == NULL)
 		return (sh_error(TRUE, 6, NULL, NULL));
-		 /* free: stline->line */
 	savior_stline(stline, TRUE);
 	stline->ctrl_c = FALSE;
 	return (TRUE);

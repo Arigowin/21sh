@@ -28,7 +28,6 @@ static int			highlight(char **str, int *pos, t_line *stline,
 	if (DEBUG_COPY_PASTE == 1)
 		ft_putendl_fd("------- HIGHLIGHT ------", 2);
 
-	// start highlight
 	tputs(tgetstr("mr", NULL), 1, my_outc);
 	ft_putchar_color(COLOR, (*str)[(*pos)]);
 	stline->copy.pos = 0;
@@ -97,8 +96,7 @@ int					fct_highlight(char **str, int *pos, t_line *stline,
 		if (stline->copy.bkup != NULL)
 		{
 			if ((stline->copy.cpy = ft_strdup(stline->copy.bkup)) == NULL)
-				/* RET: error EXIT: true msg: "malloc fail"
-				* FREE : stline history */
+				/* FREE : stline history */
 				return (sh_error(TRUE, 6, NULL, NULL));
 		}
 		stline->copy.start = -1;

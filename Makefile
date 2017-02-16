@@ -41,8 +41,6 @@ SRC = sh_main.c \
 	  sh_lp_tokenizer.c \
 	  sh_lp_tokenizer_spec.c \
 	  \
-	  sh_pp_pipe_handler.c \
-	  \
 	  sh_rd_heredoc.c \
 	  sh_rd_red.c \
 	  sh_rd_redfd_handler.c\

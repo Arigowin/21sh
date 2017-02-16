@@ -55,10 +55,13 @@ int					fd_open(int	*fd, t_node *tree, t_lst_fd **lstfd)
 	}
 	if (*fd == -1)
 	{
-		if (ret <= 0)
-			return (sh_error(TRUE, 21, filename, NULL));
-		else
-			return (sh_error(TRUE, 20, filename, NULL));
+		ret = (ret <= -1 ? 21 : 20);
+		return (sh_error(TRUE, ret, filename, NULL));
+
+	//	if (ret <= -1)
+	//		return (sh_error(TRUE, 21, filename, NULL));
+	//	else
+	//		return (sh_error(TRUE, 20, filename, NULL));
 	}
 	return (TRUE);
 }

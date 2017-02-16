@@ -28,8 +28,6 @@ int					move_in_list(t_e_list **l_expr)
 	return (FALSE);
 }
 
-
-//longeur ok si clear_node (l183) go in retun et si erreur final go in return
 static int			check_command(int *nb_hrd, t_e_list **l_expr, t_node **tree) //static ac check c pipe
 {
 	if (DEBUG_PARSER == 1)
@@ -60,7 +58,6 @@ static int			check_command(int *nb_hrd, t_e_list **l_expr, t_node **tree) //stat
 	return (sh_error(ret, 26, (*l_expr)->data, NULL));
 }
 
-//longeur ok si erreur (l220) go in retun et si erreur final go in return
 static int			check_c_pipe(int *nb_hrd, t_e_list **l_expr, t_node **tree)  // static ac check expr
 {
 	if (DEBUG_PARSER == 1)
@@ -79,7 +76,8 @@ static int			check_c_pipe(int *nb_hrd, t_e_list **l_expr, t_node **tree)  // sta
 			if ((node->data = ft_strdup((*l_expr)->data)) == NULL)
 				return (sh_error(TRUE, 6, NULL, NULL));
 			*tree = node;
-			if (!(move_in_list(l_expr) && (ret = check_c_pipe(nb_hrd, l_expr, &(node->right)))))
+			if (!(move_in_list(l_expr)
+			&& (ret = check_c_pipe(nb_hrd, l_expr, &(node->right)))))
 			{
 				clear_node(&node);
 				return (sh_error(TRUE, 26, (*l_expr)->data, NULL));
@@ -110,7 +108,8 @@ static int			check_logic(int *nb_hrd, t_e_list **l_expr, t_node **tree)  // stat
 			if ((node->data = ft_strdup((*l_expr)->data)) == NULL)
 				return (sh_error(TRUE, 6, NULL, NULL));
 			*tree = node;
-			if (!(move_in_list(l_expr) && (ret = check_logic(nb_hrd, l_expr, &(node->right)))))
+			if (!(move_in_list(l_expr)
+			&& (ret = check_logic(nb_hrd, l_expr, &(node->right)))))
 			{
 				clear_node(&node);
 				return (sh_error(TRUE, 26, (*l_expr)->data, NULL));
@@ -123,7 +122,6 @@ static int			check_logic(int *nb_hrd, t_e_list **l_expr, t_node **tree)  // stat
 	return (sh_error(ret, 26, (*l_expr)->data, NULL));
 }
 
-//longeur ok si erreur (l258) go in retun et si erreur final go in return
 static int			check_expr(int *nb_hrd, t_e_list **l_expr, t_node **tree) // static ac parser
 {
 	if (DEBUG_PARSER == 1)
@@ -137,7 +135,7 @@ static int			check_expr(int *nb_hrd, t_e_list **l_expr, t_node **tree) // static
 	node = create_node(SEMI);
 	node_to_give = (node->left == NULL ? &(node->left) : &(node->right));
 	if ((*l_expr)->type == SEMI || ((*l_expr)->type != SEMI
-	&& (ret = check_logic(nb_hrd, l_expr, node_to_give)) == TRUE)) // == TRUE))))
+	&& (ret = check_logic(nb_hrd, l_expr, node_to_give)) == TRUE))
 	{
 		if ((*l_expr)->type == SEMI)
 		{
@@ -165,8 +163,6 @@ int					parser(int *nb_hrd, t_e_list **l_expr, t_node **tree)
 	if (*l_expr == NULL)
 		return (FALSE);
 	ret = check_expr(nb_hrd, l_expr, tree);
-//	if (ret != TRUE)
-//		return (ret);
 
 	// ANTIBUG !!!!!!!!!
 	if (DEBUG_PARSER == 1)

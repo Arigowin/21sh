@@ -34,7 +34,8 @@ int					token_dollar(char **read_buff, char **data_tmp)
 	tmp = NULL;
 	if ((env_name = ft_strnew(ft_strlen((*read_buff)++))) == NULL)
 		return (sh_error(TRUE, 6, NULL, NULL));
-	while ((ft_strchr(SEP, **read_buff) == NULL && ft_strchr("/", **read_buff) == NULL) && **read_buff != QUOTE && **read_buff != DQUOTE)
+	while ((ft_strchr(SEP, **read_buff) == NULL && ft_strchr("/", **read_buff)
+	== NULL) && **read_buff != QUOTE && **read_buff != DQUOTE)
 		add_in_tbl(&env_name, (*((*read_buff)++)));
 	(*read_buff)--;
 	if ((env_val = get_env(env_name)) == NULL)
@@ -50,7 +51,7 @@ int					token_dollar(char **read_buff, char **data_tmp)
 	}
 	ft_strdel(data_tmp); // c'est bien ici le free du data_tmp ?
 	if ((*data_tmp = ft_strnew(ft_strlen(tmp) + ft_strlen(env_val)
-					+ ft_strlen(*read_buff))) == NULL)
+	+ ft_strlen(*read_buff))) == NULL)
 	{
 		ft_strdel(&tmp);
 		ft_strdel(&env_val);

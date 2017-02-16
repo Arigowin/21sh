@@ -31,19 +31,16 @@ static int			state_standard(int *hrd, char **read_buff, char **data_tmp,
 		token_backslash(STANDARD, read_buff, data_tmp);
 	else if (**read_buff == '$')
 		token_dollar(read_buff, data_tmp);
-	else if (**read_buff && **read_buff == '~' && (*bln == TRUE || (*bln == FALSE && token_tilde(read_buff, data_tmp, bln) == FALSE)))
-	{
+	else if (**read_buff && **read_buff == '~' && (*bln == TRUE
+	|| (*bln == FALSE && token_tilde(read_buff, data_tmp, bln) == FALSE)))
 		add_in_tbl(data_tmp, **read_buff);
-	}
 	else if (**read_buff && ft_strchr(SEP, **read_buff))
 	{
 		*bln = FALSE;
 		token_sep(hrd, read_buff, data_tmp, l_expr);
 	}
 	else if (**read_buff)
-	{
 		add_in_tbl(data_tmp, **read_buff);
-	}
 	return (TRUE);
 }
 
@@ -87,7 +84,7 @@ int 				finite_state_automaton(int *hrd, char **read_buff, t_e_list **l_expr,
 		ft_putendl_fd("------- FINITE STATE AUTOMATON ------", 2);
 
 	int					bln;
-	t_states				state;
+	t_states			state;
 
 	bln = FALSE;
 	state = STANDARD;

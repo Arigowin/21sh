@@ -9,8 +9,7 @@ static int			add_env(char *name, char *value) //static ac change env
 
 	env = savior(NULL, FALSE);
 	if (name == NULL)
-		return (ERROR);
-/* MSG ret: ERROR exit: TRUE msg: "value not set" */
+		return (sh_error(TRUE, 25, "setenv", NULL));
 	else
 	{
 		duo_pushback(&env, name, value);
@@ -31,7 +30,8 @@ int					change_env(char *name, char *value)
 		if (ft_strcmp(env->name, name) == 0)
 		{
 			ft_strdel(&(env->value));
-			env->value = ft_strdup(value);
+			if ((env->value = ft_strdup(value)) == NULL)
+				return (sh_error(TRUE, 6, NULL, NULL));
 			return (TRUE);
 		}
 		env = env->next;
@@ -53,9 +53,8 @@ char				*get_env(char *name)
 	{
 		if (ft_strcmp(name, env->name) == 0)
 		{
-			if (env->value != NULL && ((tmp = ft_strdup(env->value)) == NULL)) // MALLOC
-				return (NULL);
-				/* MSG ret: NULL exit: TRUE msg: malloc error */
+			if (env->value != NULL && ((tmp = ft_strdup(env->value)) == NULL))
+				sh_error(TRUE, 6, NULL, NULL);
 			return (tmp);
 		}
 		env = env->next;

@@ -2,7 +2,8 @@
 #include "shell.h"
 #include "libft.h"
 
-int					fct_del(char **str, int *pos, t_line *stline, t_history **history)
+int					fct_del(char **str, int *pos, t_line *stline,
+					t_history **history)
 {
 	if (DEBUG_TERMCAPS == 1)
 		ft_putendl_fd("------- DEL ------", 2);
@@ -22,7 +23,8 @@ int					fct_del(char **str, int *pos, t_line *stline, t_history **history)
 	return (TRUE);
 }
 
-int					fct_home(char **str, int *pos, t_line *stline, t_history **history)
+int					fct_home(char **str, int *pos, t_line *stline,
+					t_history **history)
 {
 	if (DEBUG_TERMCAPS == 1)
 		ft_putendl_fd("------- HOME ------", 2);
@@ -34,7 +36,8 @@ int					fct_home(char **str, int *pos, t_line *stline, t_history **history)
 	return (TRUE);
 }
 
-int					fct_end(char **str, int *pos, t_line *stline, t_history **history)
+int					fct_end(char **str, int *pos, t_line *stline,
+					t_history **history)
 {
 	if (DEBUG_TERMCAPS == 1)
 		ft_putendl_fd("------- END ------", 2);

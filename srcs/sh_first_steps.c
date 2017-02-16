@@ -34,8 +34,8 @@ int					display_prompt(void)
 	char				*name;
 	char				*path;
 
-	path = get_path(); //free ok
-	name = get_env("LOGNAME"); //free ok
+	path = get_path();
+	name = get_env("LOGNAME");
 	if (name)
 	{
 		ft_putstr_color("\033[34;1m", name);
