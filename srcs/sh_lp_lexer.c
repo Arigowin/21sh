@@ -136,7 +136,7 @@ static int			type_analyzer(t_e_list **l_expr, int boule)
 	while (l_expr && *l_expr && (*l_expr)->next)
 	{
 		hrd = (*l_expr)->next->hrd_quote;
-		if (hrd < 1 && (ft_strchr((*l_expr)->next->data, '<')
+		if/* (hrd < 1 && */((ft_strchr((*l_expr)->next->data, '<')
 		|| ft_strchr((*l_expr)->next->data, '>')))
 		{
 			waka_lexer(&((*l_expr)->next));

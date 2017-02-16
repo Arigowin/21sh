@@ -31,7 +31,7 @@ int					change_env(char *name, char *value)
 		{
 			ft_strdel(&(env->value));
 			if (value && (env->value = ft_strdup(value)) == NULL)
-				return (sh_error(TRUE, 6, NULL, "HERE"));
+				return (sh_error(TRUE, 6, NULL, NULL));
 			return (TRUE);
 		}
 		env = env->next;
