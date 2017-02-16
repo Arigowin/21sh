@@ -60,7 +60,7 @@ int					check_red(int *nb_hrd, t_e_list **l_expr, t_node **tree)
 	list_save = *l_expr;
 	if ((red_ret = ((*l_expr)->type == RED)) == FALSE)
 		return (FALSE);
-	if (ft_strchr((*l_expr)->data, '<') != NULL
+	if (ft_strchr((*l_expr)->data, '<') != NULL && (*l_expr)->next
 	&& ft_strcmp((*l_expr)->next->data, "&") == 0)
 		return (sh_error(red_ret, 26, (*l_expr)->next->data, NULL));
 	if ((*l_expr)->type == RED && (node = create_node(RED)) != NULL
