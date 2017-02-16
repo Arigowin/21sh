@@ -16,7 +16,7 @@ static int			init_highlight(char **str, int *pos, t_line *stline)
 	if ((stline->copy.cpy = ft_strnew(ft_strlen(*str))) == NULL)
 	{
 		/* FREE : stline */
-		return (sh_error(6, NULL, NULL));
+		return (sh_error(TRUE, 6, NULL, NULL));
 	}
 	tputs(tgetstr("vi", NULL), 1, my_outc);
 	return (TRUE);
@@ -99,7 +99,7 @@ int					fct_highlight(char **str, int *pos, t_line *stline,
 			if ((stline->copy.cpy = ft_strdup(stline->copy.bkup)) == NULL)
 				/* RET: error EXIT: true msg: "malloc fail"
 				* FREE : stline history */
-				return (sh_error(6, NULL, NULL));
+				return (sh_error(TRUE, 6, NULL, NULL));
 		}
 		stline->copy.start = -1;
 		hide_highlight(str, pos, stline, history);

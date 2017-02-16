@@ -28,12 +28,12 @@ int			null_input(int fd) // static ac check fct
 	{
 		if (pipe(pfd) == ERROR)
 			/* RET: error EXIT: false MSG: "pipe fail"*/
-			return (sh_error(4, NULL, NULL));
+			return (sh_error(TRUE, 4, NULL, NULL));
 		close(pfd[0]);
 		write(pfd[1], "\0", 1);
 		if (dup2(pfd[1], fd) == ERROR)
 			/* RET: error EXIT: false MSG: "dup fail"*/
-			return (sh_error(7, NULL, NULL));
+			return (sh_error(TRUE, 7, NULL, NULL));
 		close(pfd[1]);
 		return (-2);
 	}
@@ -58,7 +58,7 @@ int					check_fct(int fd, char **cmd)
 	if ((tmp = get_env("PATH")) == NULL)
 	{
 		free_tab(&tbl_env);
-		return (sh_error(12, NULL, NULL));
+		return (sh_error(TRUE, 12, NULL, NULL));
 	}
 	/*
 	if (tmp == NULL || tbl_env == NULL)
@@ -82,7 +82,7 @@ int					check_fct(int fd, char **cmd)
 		{
 			if (access(tmp, X_OK) == ERROR)
 			{
-				sh_error(20, cmd[0], NULL);
+				sh_error(TRUE, 20, cmd[0], NULL);
 	//			ft_putstr_fd("21sh: ", 2); //fct erreur
 	//			ft_putstr_fd(cmd[0], 2);
 	//			ft_putendl_fd(": Permission denied", 2);

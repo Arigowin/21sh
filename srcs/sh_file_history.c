@@ -50,10 +50,10 @@ static int			line_manager(char **buff, char *line, int *quote, t_history **histo
 		if (*buff)
 		{
 			if ((tmp = ft_strjoin(*buff, line)) == NULL)
-				return (sh_error(6, NULL, NULL));
+				return (sh_error(TRUE, 6, NULL, NULL));
 			ft_strdel(buff);
 			if ((*buff = ft_strdup(tmp)) == NULL)
-				return (sh_error(6, NULL, NULL));
+				return (sh_error(TRUE, 6, NULL, NULL));
 			ft_strdel(&tmp);
 			add_history(history, *buff);
 			ft_strdel(buff);

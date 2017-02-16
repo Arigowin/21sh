@@ -19,7 +19,7 @@ static int			start_init_term(void)
 	tgetent(NULL, term_name);
 	ft_strdel(&term_name);
 	//if (tgetent(NULL, term_name) == ERROR) ->quand je fais ca, ca hurle de partout pour les termcap
-	//	return (sh_error(0, NULL, NULL));
+	//	return (sh_error(TRUE, 0, NULL, NULL));
 	return (TRUE);
 }
 
@@ -32,7 +32,7 @@ int					init_term(int full_init)
 	char				*term_env;
 
 	if ((term_env = get_env("TERM")) == NULL)
-		return (sh_error(0, NULL, NULL));
+		return (sh_error(TRUE, 0, NULL, NULL));
 	if (full_init == TRUE)
 	{
 		if (start_init_term() == ERROR)
@@ -57,7 +57,7 @@ int					reset_term(void)
 	tputs(tgetstr("ve", NULL), 1, my_outc);
 	tcgetattr(0, &term);
 //	if (tcgetattr(0, &term) == ERROR)
-//		return (sh_error(0, NULL, NULL));
+//		return (sh_error(TRUE, 0, NULL, NULL));
 	term.c_lflag |= (ICANON | ECHO);
 	tcsetattr(0, TCSANOW, &term);// point to uninitialize byte selon valgrind
 

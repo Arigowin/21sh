@@ -54,7 +54,7 @@ static int			son(char **cmd, int pipefd_tab[2][2], t_node *tree,
 	check_signal(2);
 	if (check_fct(fd, cmd) == -2)
 		exit(EXIT_FAILURE);
-	return (sh_error(24, cmd[0], NULL));
+	return (sh_error(TRUE, 24, cmd[0], NULL));
 //	ft_putstr_fd("21sh: ", 2);
 //	ft_putstr_fd(cmd[0], 2);
 //	ft_putendl_fd(": command not found", 2);
@@ -73,7 +73,7 @@ int					handle_fork(int pipefd_tab[2][2], t_node *tree,
 	fpid = -1;
 	reset_term();
 	if ((fpid = fork()) < 0)
-		sh_error(5, NULL, NULL);
+		sh_error(TRUE, 5, NULL, NULL);
 		/* RET: error EXIT: true MSG: "fork fail" */
 	if (fpid == 0)
 		son(cmd, pipefd_tab, tree, lstfd);

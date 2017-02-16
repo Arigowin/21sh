@@ -56,9 +56,9 @@ int					fd_open(int	*fd, t_node *tree, t_lst_fd **lstfd)
 	if (*fd == -1)
 	{
 		if (ret <= 0)
-			return (sh_error(21, filename, NULL));
+			return (sh_error(TRUE, 21, filename, NULL));
 		else
-			return (sh_error(20, filename, NULL));
+			return (sh_error(TRUE, 20, filename, NULL));
 	}
 	return (TRUE);
 }

@@ -37,19 +37,12 @@ int					bi_exit(char **arg, t_duo **env)
 	i = 0;
 	(void)env;
 	if (arg && arg[1] && arg[2])
-		return (sh_error(27, NULL, NULL));
-//	{
-//		ft_putendl("21sh: exit : too many arguments");
-//		return (FALSE);
-//	}
+		return (sh_error(TRUE, 27, NULL, NULL));
 	while (arg && arg[1] && arg[1][i])
 	{
 		if (ft_isdigit(arg[1][i]) == 0)
 		{
-			return (sh_error(28, arg[1], NULL)); // ajouter le fct free globale pour free arg
-		//	ft_putstr("21sh :exit : ");
-		//	ft_putstr(arg[1]);
-		//	ft_putendl(": numeric argument required");
+			return (sh_error(TRUE, 28, arg[1], NULL));
 			free_tab(&arg);
 			exit_pgm(255);
 		}

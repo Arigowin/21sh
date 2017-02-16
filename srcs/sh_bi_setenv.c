@@ -10,11 +10,11 @@ int					valid_env_name(char *str)
 
 	i = -1;
 	if (str[++i] != '_' &&  ft_isalpha(str[i]) == FALSE)
-		return (sh_error(15, str, NULL));
+		return (sh_error(TRUE, 15, str, NULL));
 	while (str[i])
 	{
 		if (str[i] != '_' && str[i] != '.' && ft_isalnum(str[i]) == FALSE)
-			return (sh_error(15, str, NULL));
+			return (sh_error(TRUE, 15, str, NULL));
 		i++;
 	}
 	return (TRUE);
@@ -44,6 +44,6 @@ int					bi_setenv(char **arg, t_duo **env)
 		return (TRUE);
 	}
 	if (i > 3)
-		return (sh_error(10, NULL, NULL));
+		return (sh_error(TRUE, 10, NULL, NULL));
 	return (TRUE);
 }

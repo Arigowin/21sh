@@ -179,7 +179,7 @@ typedef struct			s_lst_fd //savior?
 /*
 ** sh_error
 */
-int						sh_error(int index, char *err, char *bi);
+int						sh_error(int ret, int index, char *err, char *bi);
 
 /*
 ** sh_file_history
@@ -430,6 +430,13 @@ int						parser(int *nb_hrd, t_e_list **l_expr, t_node **tree);
 int						check_red(int *nb_hrd, t_e_list **l_expr, t_node **t);
 int						check_next(int *nb_hrd, t_e_list **l_expr, t_node **t,
 							t_node **r_n);
+
+
+/*
+** sh_lp_parser_additional_items
+*/
+int						parser_ret_fct(int ret, t_node **tree, t_node **node,
+						t_node **to_free);
 
 /*
 ** sh_free_tree

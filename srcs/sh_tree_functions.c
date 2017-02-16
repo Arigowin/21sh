@@ -10,7 +10,7 @@ t_node				*create_node(t_types type)
 	t_node				*new_node;
 
 	if ((new_node = (t_node *)malloc(sizeof(t_node))) == NULL)
-		sh_error(6, NULL, NULL);
+		sh_error(TRUE, 6, NULL, NULL);
 	new_node->data = NULL;
 	new_node->type = type;
 	new_node->left = NULL;

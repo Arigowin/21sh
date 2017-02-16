@@ -10,13 +10,13 @@ t_lst_fd			*lstfd_new(int fd, char *filename)
 
 	if ((new_fd = (t_lst_fd*)malloc(sizeof(t_lst_fd))) == NULL)
 	{
-		sh_error(6, NULL, NULL);
+		sh_error(TRUE, 6, NULL, NULL);
 		return (NULL);
 	}
 	new_fd->fd = fd;
 	if ((new_fd->filename = ft_strdup(filename)) == NULL)
 	{
-		sh_error(6, NULL, NULL);
+		sh_error(TRUE, 6, NULL, NULL);
 		return (NULL);
 	}
 	new_fd->next = NULL;

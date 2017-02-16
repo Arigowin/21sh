@@ -82,7 +82,7 @@ int					tokenizer(int *hrd, char *read_buff, t_e_list **l_expr)
 	char 				*data_tmp;
 
 	if ((data_tmp = ft_strnew(ft_strlen(read_buff))) == NULL)
-		return (sh_error(6, NULL, NULL));
+		return (sh_error(TRUE, 6, NULL, NULL));
 	finite_state_automaton(hrd, &read_buff, l_expr, &data_tmp);
 	if (data_tmp)
 	{
