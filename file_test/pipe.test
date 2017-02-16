@@ -1,36 +1,24 @@
 echo 'CMD:ls | cat | cat -n | cat -e | cat -n | cat -n'
 ls | cat | cat -n | cat -e | cat -n | cat -n
-echo " "
 echo 'CMD:ls | cat -n | cat -n | cat -n | cat -n | cat -n | cat -n | cat -n | cat -n | cat -n | cat -n | cat -n | cat -n | cat -n | cat -n | cat -n | cat -n | cat -n | cat -n | cat -n | cat -n | cat -n | cat -n | cat -n | cat -n | cat -n | cat -n | cat -n | cat -n | cat -n | cat -n | cat -n | cat -n | cat -n | cat -n | cat -n | cat -n | cat -n | cat -n | cat -n | cat -n | cat -n | cat -n | cat -n | cat -n | cat -n | cat -n | cat -n | cat -n | cat -n | cat -n | cat -n | cat -n | cat -n | cat -n | cat -n | cat -n | cat -n | cat -n | cat -n | cat -n | cat -n | cat -n | cat -n | cat -n | cat -n | cat -n | cat -n | cat -n | cat -n | cat -n | cat -n | cat -n | cat -n | cat -n | cat -n | cat -n | cat -n | cat -n | cat -n | cat -n | cat -n | cat -n | cat -n | cat -n'
 ls | cat -n | cat -n | cat -n | cat -n | cat -n | cat -n | cat -n | cat -n | cat -n | cat -n | cat -n | cat -n | cat -n | cat -n | cat -n | cat -n | cat -n | cat -n | cat -n | cat -n | cat -n | cat -n | cat -n | cat -n | cat -n | cat -n | cat -n | cat -n | cat -n | cat -n | cat -n | cat -n | cat -n | cat -n | cat -n | cat -n | cat -n | cat -n | cat -n | cat -n | cat -n | cat -n | cat -n | cat -n | cat -n | cat -n | cat -n | cat -n | cat -n | cat -n | cat -n | cat -n | cat -n | cat -n | cat -n | cat -n | cat -n | cat -n | cat -n | cat -n | cat -n | cat -n | cat -n | cat -n | cat -n | cat -n | cat -n | cat -n | cat -n | cat -n | cat -n | cat -n | cat -n | cat -n | cat -n | cat -n | cat -n | cat -n | cat -n | cat -n | cat -n | cat -n | cat -n | cat -n
-echo " "
 echo 'CMD:ls |cat -n <noexist|cat -n'
 ls |cat -n <noexist|cat -n
-echo " "
 echo 'CMD:||||||'
 ||||||
-echo " "
 echo 'CMD:| | | | | |'
 | | | | | |
-echo " "
 echo 'CMD:ls |||||||'
 ls |||||||
-echo " "
 echo 'CMD:ls | | | | |'
 ls | | | | |
-echo " "
 echo 'CMD:||||||| ls'
 ||||||| ls
-echo " "
 echo 'CMD:| | | | | | ls'
 | | | | | | ls
-echo " "
 echo 'CMD:ls |||||||'
 ls |||||||
-echo " "
 echo 'CMD: ls | | | | | |'
 ls | | | | | |
-echo " "
 echo 'CMD: abc | ls'
 abc | ls'
-echo " "
