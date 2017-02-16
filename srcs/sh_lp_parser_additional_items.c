@@ -59,7 +59,7 @@ int					check_red(int *nb_hrd, t_e_list **l_expr, t_node **tree)
 	save = *tree;
 	list_save = *l_expr;
 	if ((red_ret = ((*l_expr)->type == RED)) == FALSE)
-		return (FALSE);
+		return (TRUE);
 	if (ft_strchr((*l_expr)->data, '<') != NULL && (*l_expr)->next
 	&& ft_strcmp((*l_expr)->next->data, "&") == 0)
 		return (sh_error(red_ret, 26, (*l_expr)->next->data, NULL));
@@ -73,6 +73,7 @@ int					check_red(int *nb_hrd, t_e_list **l_expr, t_node **tree)
 		if (!move_in_list(l_expr) ||
 		(red_ret = check_red(nb_hrd, l_expr, &(node->left))) != TRUE)
 			*tree = save;
+		printf("ret in red((%d))\n", red_ret);
 		*tree = node;
 		return (red_ret);
 	}
