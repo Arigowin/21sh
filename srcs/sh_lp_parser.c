@@ -43,6 +43,7 @@ static int			check_command(int *nb_hrd, t_e_list **l_expr, t_node **tree) //stat
 		*tree = save;
 	if ((*l_expr)->type == CMD)
 	{
+		printf("pouet\n");
 		if ((node->data = ft_strdup((*l_expr)->data)) == NULL)
 		{
 			clear_node(&node); // verif_si_ok
