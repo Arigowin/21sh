@@ -27,11 +27,12 @@ int					check_red_arg(t_e_list **l_expr, t_node **tree)
 	{
 		if ((node->data = ft_strdup((*l_expr)->data)) == NULL)
 			return (sh_error(TRUE, 6, NULL, NULL));
-		if ((ret = move_in_list(l_expr)) == TRUE)
-			ret = check_red_arg(l_expr, &(node->right));
+		if ((ret = move_in_list(l_expr)) == TRUE
+		&& (ret = check_red_arg(l_expr, &(node->right))) >= 0)
+			return (parser_ret_fct(TRUE, tree, &node, NULL));
 		return (parser_ret_fct(ret, tree, &save, NULL));
 	}
-	return (sh_error(TRUE, 26, (*l_expr)->data, NULL));
+	return (sh_error(TRUE, 26, (*l_expr)->data, "33"));
 }
 
 t_types				fill_red_type(char *data, int *nb_hrd)
@@ -73,7 +74,7 @@ int					check_red(int *nb_hrd, t_e_list **l_expr, t_node **tree)
 		*tree = node;
 		return (red_ret);
 	}
-	return (sh_error(red_ret, 26, (*l_expr)->data, NULL));
+	return (sh_error(red_ret, 26, (*l_expr)->data, "22"));
 }
 
 int					check_arg(int *nb_hrd, t_e_list **l_expr, t_node **tree,
@@ -93,7 +94,7 @@ int					check_arg(int *nb_hrd, t_e_list **l_expr, t_node **tree,
 		if ((node->data = ft_strdup((*l_expr)->data)) == NULL)
 		{
 			clear_node(&node);
-			return (sh_error(TRUE, 6, NULL, NULL));
+			return (sh_error(TRUE, 6, NULL, "11"));
 		}
 		ret = check_next(nb_hrd, l_expr, &save, &(node->right));
 		*right_node = node;
