@@ -35,7 +35,7 @@
 # define IGN " \t\n" // j'ai enlevé le \0 des IGN
 # define SEP "|&;>< \t\n\0"
 # define SPECIAL "|&><;"
-# define SPECIAL2 "|><;"
+# define SPECIAL2 "|><;" // juste pour pouvoir gérer '&' tout seul
 # define LWAKA "><|&"
 # define WAKA "><"
 # define BUFF_SIZE 1024
@@ -96,6 +96,7 @@ typedef enum			e_types
 	DLRED_DOC,
 	LOGIC_AND,
 	LOGIC_OR,
+	AMP
 } 						t_types;
 
 typedef enum			e_states

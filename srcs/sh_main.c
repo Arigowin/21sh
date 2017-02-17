@@ -11,12 +11,7 @@ static int				checktty_tool(char **tmp)
 	while ((ret = read(0, &buff, BUFF_SIZE)) > 0)
 	{
 		buff[ret] = '\0';
-		if (*tmp == NULL)
-		{
-			if ((*tmp = ft_strdup(buff)) == NULL)
-				return (sh_error(TRUE, 6, NULL, NULL));
-		}
-		else
+		if (*tmp != NULL)
 		{
 			if ((tmp2 = ft_strjoin(*tmp, buff)) == NULL)
 				return (sh_error(TRUE, 6, NULL, NULL));
@@ -28,6 +23,8 @@ static int				checktty_tool(char **tmp)
 			}
 			ft_strdel(&tmp2);
 		}
+		else if ((*tmp = ft_strdup(buff)) == NULL)
+				return (sh_error(TRUE, 6, NULL, NULL));
 	}
 	if (ret == ERROR)
 		return (ERROR);

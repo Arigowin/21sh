@@ -43,6 +43,7 @@ static int			check_command(int *nb_hrd, t_e_list **l_expr, t_node **tree) //stat
 		*tree = save;
 	if ((*l_expr)->type == CMD)
 	{
+		printf("pouet\n");
 		if ((node->data = ft_strdup((*l_expr)->data)) == NULL)
 		{
 			clear_node(&node); // verif_si_ok
@@ -71,13 +72,15 @@ static int			check_c_pipe(int *nb_hrd, t_e_list **l_expr, t_node **tree)  // sta
 	node_to_give = (node->left == NULL ? &(node->left) : &(node->right));
 	if ((ret = check_command(nb_hrd, l_expr, node_to_give)) == TRUE)
 	{
+		if ((*l_expr)->type == AMP)
+			return (sh_error(ret, 26, (*l_expr)->data, NULL));
 		if ((*l_expr)->type == PIPE)
 		{
 			if ((node->data = ft_strdup((*l_expr)->data)) == NULL)
 				return (sh_error(TRUE, 6, NULL, NULL));
 			*tree = node;
-			if (!(move_in_list(l_expr)
-			&& (ret = check_c_pipe(nb_hrd, l_expr, &(node->right)))))
+			if (!(move_in_list(l_expr) && (ret = check_c_pipe(nb_hrd, l_expr,
+			&(node->right)))))
 			{
 				clear_node(&node);
 				return (sh_error(TRUE, 26, (*l_expr)->data, NULL));
