@@ -3,6 +3,9 @@
 
 int					init_pipefd(int pipefd_tab[2][2])
 {
+	if (DEBUG == 1)
+		ft_putendl_fd("------- INIT PIPE FD ------", 2);
+
 	pipefd_tab[0][0] = -2;
 	pipefd_tab[0][1] = -2;
 	pipefd_tab[1][0] = -2;
@@ -12,6 +15,9 @@ int					init_pipefd(int pipefd_tab[2][2])
 
 int					init_env(char **env, t_duo **env_cpy) //ok
 {
+	if (DEBUG == 1)
+		ft_putendl_fd("------- INIT ENV ------", 2);
+
 	char				**cpy;
 
 	cpy = NULL;
@@ -33,6 +39,9 @@ int					init_env(char **env, t_duo **env_cpy) //ok
 
 int					init_stline(t_line *stline)
 {
+	if (DEBUG == 1)
+		ft_putendl_fd("------- INIT STLINE ------", 2);
+
 	if (ttyname(0) != NULL && ioctl(0, TIOCGWINSZ, &(stline->win)) == ERROR)
 		return (sh_error(TRUE, 1, NULL, NULL));
 	if ((stline->line = ft_strnew(BUFF_SIZE)) == NULL)
@@ -69,6 +78,7 @@ int					reset_stline(t_line *stline)
 	stline->curs_y = 0;
 	stline->curs_x = PRT_LEN;
 	ft_strdel(&( stline->curr_hist));
+	stline->ctrl_c = FALSE;
 	stline->hrd.nb = 0;
 	stline->hrd.pos = 0;
 	stline->hrd.ptr = NULL;

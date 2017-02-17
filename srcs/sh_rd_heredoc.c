@@ -103,9 +103,13 @@ int					heredoc_handler(t_line *stline, t_node **tree,
 			mini_prt_handler(&(stline->hrd.line), &(stline->hrd.pos), stline);
 		else
 			mini_prt_stline(stline);
+		check_signal(4);
 		if (fct_read(TRUE, stline, history) == ERROR)
 			return (ERROR);
+		check_signal(3);
 		ft_putendl("");
+		if ((stline->hrd.line)[0] == '\0')
+			return (ERROR);
 		if ((stline->hrd.deli->right = create_node(DLRED_DOC)) == NULL)
 			return (sh_error(TRUE, 6, NULL, NULL));
 		if (fill_hrd_content(stline, tree) == ERROR)
