@@ -88,6 +88,7 @@ static int			waka_lexer(t_e_list **l_expr)
 	new->type = RED_FD;
 	new->next = (*l_expr)->next;
 	(*l_expr)->next = new;
+	(*l_expr)->type = RED;
 	ft_strdel(&tmp_data);
 	return (TRUE);
 }
@@ -115,8 +116,8 @@ static int			type_analyzer2(int hrd, t_e_list **l_expr, int *boule)
 			((*l_expr)->next->data)[0] ? LOGIC_OR : PIPE);
 		*boule = 0;
 	}
-	else if (hrd < 1 && ((*l_expr)->next->data)[0] == '&'
-	&& (!((*l_expr)->next->data)[1] || !rightred((*l_expr)->next->data[1])))
+	else if (hrd < 1 && (*l_expr)->type != RED && ((*l_expr)->next->data)[0] ==
+	'&' && (!((*l_expr)->next->data)[1] || !rightred((*l_expr)->next->data[1])))
 	{
 		(*l_expr)->next->type = (((*l_expr)->next->data)[1] ==
 			((*l_expr)->next->data)[0] ? LOGIC_AND : AMP);
@@ -137,25 +138,25 @@ static int			type_analyzer(t_e_list **l_expr, int boule)
 		ft_putendl_fd("------- TYPE ANALYZER ------", 2);
 
 	int					hrd;
+	t_e_list			*t;
 
 	hrd = 0;
 	while (l_expr && *l_expr && (*l_expr)->next)
 	{
-		hrd = (*l_expr)->next->hrd_quote;
-		if (hrd < 1 && ((ft_strchr((*l_expr)->next->data, '<')
-		|| ft_strchr((*l_expr)->next->data, '>'))) && (*l_expr)->next->hrd_quote == 0)
+		t = *l_expr;
+		hrd = t->next->hrd_quote;
+		if (((ft_strchr(t->next->data, '<') || ft_strchr(t->next->data, '>')))
+		&& t->next->hrd_quote == 0)
 		{
-			waka_lexer(&((*l_expr)->next));
-			(*l_expr)->next->type = RED;
+			waka_lexer(&(t->next));
+			t->next->type = RED;
 		}
-		else if (boule == 1 && (hrd >= 1 || !ft_strchr(SPECIAL,
-		((*l_expr)->next->data)[0])) && ((*l_expr)->type == CMD
-		|| (*l_expr)->type == CA || (*l_expr)->type == RA))
-			(*l_expr)->next->type = CA;
-		else if ((hrd >= 1 || !ft_strchr(SPECIAL, ((*l_expr)->next->data)[0]))
-		&& (((*l_expr)->type == RED && (*l_expr)->next->type != RED_FD)
-		|| (*l_expr)->type == RED_FD))
-			(*l_expr)->next->type = RA;
+		else if ((hrd >= 1 || !ft_strchr(SPECIAL, (t->next->data)[0]))
+		&& boule == 1 && (t->type == CMD || t->type == CA || t->type == RA))
+			t->next->type = CA;
+		else if ((hrd >= 1 || !ft_strchr(SPECIAL, (t->next->data)[0]))
+		&& ((t->type == RED && t->next->type != RED_FD) || t->type == RED_FD))
+			t->next->type = RA;
 		else
 			type_analyzer2(hrd, l_expr, &boule);
 		*l_expr = (*l_expr)->next;
@@ -170,23 +171,20 @@ int					lexer(t_e_list **l_expr)
 
 	t_e_list			*t;
 	int					boule;
-	int					hrd;
 
 	t = *l_expr;
 	boule = 0;
 	if (*l_expr == NULL)
 		return (FALSE);
-	hrd = (*l_expr)->hrd_quote;
-	if (hrd < 1 && t && (ft_strchr(t->data, '<') || ft_strchr(t->data, '>')))
-	{
+	if (t->hrd_quote < 1 && t && (ft_strchr(t->data, '<')
+	|| ft_strchr(t->data, '>')))
 		waka_lexer(&t);
-		t->type = RED;
-	}
-	else if (hrd < 1 && t && ft_strcmp(t->data, ";") == 0)
+	else if (t->hrd_quote < 1 && t && ft_strcmp(t->data, ";") == 0)
 		t->type = SEMI;
-	else if (hrd < 1 && (t->data)[0] == '|')
+	else if (t->hrd_quote < 1 && (t->data)[0] == '|')
 		t->type = ((t->data)[1] == (t->data)[0] ? LOGIC_OR : PIPE);
-	else if (hrd < 1 && (t->data)[0] == '&' && (!(t->data)[1] || !rightred(t->data[1])))
+	else if (t->hrd_quote < 1 && (t->data)[0] == '&' && (!(t->data)[1]
+	|| !rightred(t->data[1])))
 		t->type = ((t->data)[1] == (t->data)[0] ? LOGIC_AND : AMP);
 	else if (t && t->data && (t->data)[0] != '&' && (t->data)[0] != '|')
 	{
