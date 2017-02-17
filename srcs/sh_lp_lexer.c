@@ -92,6 +92,13 @@ static int			waka_lexer(t_e_list **l_expr)
 	return (TRUE);
 }
 
+int			rightred(int c)
+{
+	if (c == '-' || (c >= '0' && c <= '9'))
+		return (1);
+	return (0);
+}
+
 static int			type_analyzer2(int hrd, t_e_list **l_expr, int *boule)
 {
 	if (DEBUG_LEXER == 1)
@@ -109,7 +116,7 @@ static int			type_analyzer2(int hrd, t_e_list **l_expr, int *boule)
 			((*l_expr)->next->data)[0] ? LOGIC_OR : PIPE);
 		*boule = 0;
 	}
-	else if (hrd < 1 && ((*l_expr)->next->data)[0] == '&')
+	else if (hrd < 1 && ((*l_expr)->next->data)[0] == '&' && (!((*l_expr)->next->data)[1] || !rightred((*l_expr)->next->data[1])))
 	{
 		(*l_expr)->next->type = (((*l_expr)->next->data)[1] ==
 			((*l_expr)->next->data)[0] ? LOGIC_AND : AMP);
@@ -180,7 +187,7 @@ int					lexer(t_e_list **l_expr)
 		t->type = SEMI;
 	else if (hrd < 1 && (t->data)[0] == '|')
 		t->type = ((t->data)[1] == (t->data)[0] ? LOGIC_OR : PIPE);
-	else if (hrd < 1 && (t->data)[0] == '&')
+	else if (hrd < 1 && (t->data)[0] == '&' && (!(t->data)[1] || !rightred(t->data[1])))
 		t->type = ((t->data)[1] == (t->data)[0] ? LOGIC_AND : AMP);
 	else if (t && t->data && (t->data)[0] != '&' && (t->data)[0] != '|')
 	{

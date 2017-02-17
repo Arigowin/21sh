@@ -41,21 +41,28 @@ static int			check_command(int *nb_hrd, t_e_list **l_expr, t_node **tree) //stat
 	node = create_node(CMD);
 	if ((ret = check_red(nb_hrd, l_expr, &(node->left))) != TRUE)
 		*tree = save;
+	printf("ret in cmd-1 ((%d))\n",ret);
 	if ((*l_expr)->type == CMD)
 	{
-		printf("pouet\n");
+	printf("pouet\n");
 		if ((node->data = ft_strdup((*l_expr)->data)) == NULL)
 		{
-			clear_node(&node); // verif_si_ok
+			clear_node(&node);
 			return (sh_error(TRUE, 6, NULL, NULL));
 		}
-		if ((ret = check_next(nb_hrd, l_expr, &node, &(node->right))) < 0)
+	printf("ret in cmd0 ((%d))\n",ret);
+		if ((ret = check_next(nb_hrd, l_expr, &node, &(node->right))) != TRUE)
+		{
+		printf("ret in cmd ((%d))\n",ret);
 			return (parser_ret_fct(ret, NULL, NULL, &node));
+		}
+	printf("ret in cmd2 ((%d))\n",ret);
 		return (parser_ret_fct(TRUE, tree, &node, NULL));
 	}
+	printf("ret in cmd3 ((%d))\n",ret);
 	if (ret == TRUE && (*l_expr)->type != CMD)
 		return (parser_ret_fct(TRUE, tree, &(node->left), &node));
-	clear_node(&node); // verif_si_ok
+	clear_node(&node);
 	return (sh_error(ret, 26, (*l_expr)->data, NULL));
 }
 
