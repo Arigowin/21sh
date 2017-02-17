@@ -103,14 +103,17 @@ int					check_after_read(t_line *stline, t_history **history)
 
 int					ctrl_c_hrd(t_line *stline)
 {
+	if (DEBUG == 1)
+		ft_putendl_fd("------- CTRL C HRD ------", 2);
+
 	int					fd;
 
 	fd = 0;
 	if (stline->ctrl_c == TRUE)
 	{
-		close(0);
 		if ((fd = open(ttyname(1), O_RDWR)) < 0)
 			return (ERROR); // open failed
+		close(0);
 		if (dup2(fd, STDIN_FILENO) < 0)
 			return (ERROR); // dup2 failed
 		if (fd > STDERR_FILENO)
