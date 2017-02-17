@@ -73,7 +73,6 @@ int					check_red(int *nb_hrd, t_e_list **l_expr, t_node **tree)
 		*tree = node;
 		return (red_ret);
 	}
-	printf("ret in red 3 ((%d))\n", red_ret);
 	return (sh_error(red_ret, 26, (*l_expr)->data, NULL));
 }
 
@@ -85,6 +84,7 @@ int					check_arg(int *nb_hrd, t_e_list **l_expr, t_node **tree,
 
 	t_node				*node;
 	t_node				*save;
+	int					ret;
 
 	node = NULL;
 	save = *tree;
@@ -95,9 +95,9 @@ int					check_arg(int *nb_hrd, t_e_list **l_expr, t_node **tree,
 			clear_node(&node);
 			return (sh_error(TRUE, 6, NULL, NULL));
 		}
-		check_next(nb_hrd, l_expr, &save, &(node->right));
+		ret = check_next(nb_hrd, l_expr, &save, &(node->right));
 		*right_node = node;
-		return (TRUE);
+		return (ret);
 	}
 	clear_node(&node);
 	return (FALSE);
@@ -120,8 +120,9 @@ int					check_next(int *nb_hrd, t_e_list **l_expr, t_node **tree,
 			save = save->left;
 		if ((ret = check_red(nb_hrd, l_expr, &(save->left))) < 0)
 			return (ret);
-		check_arg(nb_hrd, l_expr, &save, right_node);
-		return (TRUE);
+		if ((ret = check_arg(nb_hrd, l_expr, &save, right_node)) >= 0)
+			return (TRUE);
+		return (ret);
 	}
 	return (FALSE);
 }

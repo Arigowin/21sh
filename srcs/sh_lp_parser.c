@@ -43,19 +43,18 @@ static int			check_command(int *nb_hrd, t_e_list **l_expr, t_node **tree) //stat
 		*tree = save;
 	if ((*l_expr)->type == CMD)
 	{
-		printf("pouet\n");
 		if ((node->data = ft_strdup((*l_expr)->data)) == NULL)
 		{
-			clear_node(&node); // verif_si_ok
+			clear_node(&node);
 			return (sh_error(TRUE, 6, NULL, NULL));
 		}
-		if ((ret = check_next(nb_hrd, l_expr, &node, &(node->right))) < 0)
+		if ((ret = check_next(nb_hrd, l_expr, &node, &(node->right))) != TRUE)
 			return (parser_ret_fct(ret, NULL, NULL, &node));
 		return (parser_ret_fct(TRUE, tree, &node, NULL));
 	}
 	if (ret == TRUE && (*l_expr)->type != CMD)
 		return (parser_ret_fct(TRUE, tree, &(node->left), &node));
-	clear_node(&node); // verif_si_ok
+	clear_node(&node);
 	return (sh_error(ret, 26, (*l_expr)->data, NULL));
 }
 
