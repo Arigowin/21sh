@@ -31,7 +31,7 @@ int					check_red_arg(t_e_list **l_expr, t_node **tree)
 			ret = check_red_arg(l_expr, &(node->right));
 		return (parser_ret_fct(ret, tree, &save, NULL));
 	}
-	return (sh_error(TRUE, 26, (*l_expr)->data, "33"));
+	return (sh_error(TRUE, 26, (*l_expr)->data, NULL));
 }
 
 t_types				fill_red_type(char *data, int *nb_hrd)
@@ -73,8 +73,7 @@ int					check_red(int *nb_hrd, t_e_list **l_expr, t_node **tree)
 		*tree = node;
 		return (red_ret);
 	}
-	printf("ret in red 3 ((%d))\n", red_ret);
-	return (sh_error(red_ret, 26, (*l_expr)->data, "22"));
+	return (sh_error(red_ret, 26, (*l_expr)->data, NULL));
 }
 
 int					check_arg(int *nb_hrd, t_e_list **l_expr, t_node **tree,
@@ -94,7 +93,7 @@ int					check_arg(int *nb_hrd, t_e_list **l_expr, t_node **tree,
 		if ((node->data = ft_strdup((*l_expr)->data)) == NULL)
 		{
 			clear_node(&node);
-			return (sh_error(TRUE, 6, NULL, "11"));
+			return (sh_error(TRUE, 6, NULL, NULL));
 		}
 		ret = check_next(nb_hrd, l_expr, &save, &(node->right));
 		*right_node = node;
@@ -120,12 +119,9 @@ int					check_next(int *nb_hrd, t_e_list **l_expr, t_node **tree,
 		while (save && save->left != NULL)
 			save = save->left;
 		if ((ret = check_red(nb_hrd, l_expr, &(save->left))) < 0)
-		{
-			printf("ret in next ((%d))\n",ret);
 			return (ret);
-		}
-			printf("ret in next1 ((%d))\n",ret);
-		check_arg(nb_hrd, l_expr, &save, right_node);
+		if ((ret = check_arg(nb_hrd, l_expr, &save, right_node)) >= 0)
+			return (TRUE);
 		return (ret);
 	}
 	return (FALSE);
