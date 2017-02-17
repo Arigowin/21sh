@@ -11,6 +11,7 @@ int					check_red_arg(t_e_list **l_expr, t_node **tree)
 	t_node		 		*node;
 	t_node				*save;
 	t_types				ntype;
+	int					ret;
 
 	save = *tree;
 	node = NULL;
@@ -26,9 +27,9 @@ int					check_red_arg(t_e_list **l_expr, t_node **tree)
 	{
 		if ((node->data = ft_strdup((*l_expr)->data)) == NULL)
 			return (sh_error(TRUE, 6, NULL, NULL));
-		if (!move_in_list(l_expr) || !check_red_arg(l_expr, &(node->right)))
-			return (parser_ret_fct(FALSE, tree, &save, NULL));
-		return (parser_ret_fct(TRUE, tree, &node, NULL));
+		if ((ret = move_in_list(l_expr)) == TRUE)
+			ret = check_red_arg(l_expr, &(node->right));
+		return (parser_ret_fct(ret, tree, &save, NULL));
 	}
 	return (sh_error(TRUE, 26, (*l_expr)->data, NULL));
 }
@@ -72,6 +73,7 @@ int					check_red(int *nb_hrd, t_e_list **l_expr, t_node **tree)
 		*tree = node;
 		return (red_ret);
 	}
+	printf("ret in red 3 ((%d))\n", red_ret);
 	return (sh_error(red_ret, 26, (*l_expr)->data, NULL));
 }
 
