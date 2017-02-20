@@ -39,7 +39,7 @@ static int			check_command(int *nb_hrd, t_e_list **l_expr, t_node **tree) //stat
 
 	save = *tree;
 	node = create_node(CMD);
-	if ((ret = check_red(nb_hrd, l_expr, &(node->left))) != TRUE)
+	if ((ret = check_red(nb_hrd, l_expr, &(node->left), 0)) != TRUE)
 		*tree = save;
 	if ((*l_expr)->type == CMD)
 	{

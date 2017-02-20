@@ -423,7 +423,8 @@ int						parser(int *nb_hrd, t_e_list **l_expr, t_node **tree);
 /*
 ** sh_lp_parser_additional_items
 */
-int						check_red(int *nb_hrd, t_e_list **l_expr, t_node **t);
+int						check_red(int *nb_hrd, t_e_list **l_expr, t_node **t,
+							int red);
 int						check_next(int *nb_hrd, t_e_list **l_expr, t_node **t,
 							t_node **r_n);
 
