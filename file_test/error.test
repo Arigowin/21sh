@@ -1,0 +1,26 @@
+echo '[cd -]'
+cd -
+echo '[ls >&9]'
+ls >&9
+echo '[unsetenv]'
+unsetenv
+echo '[setenv a b c d e f]'
+setenv a b c d e f
+echo '[||]'
+||
+echo '[|]'
+|
+echo '[>>> toto]'
+>>> toto
+echo '[ls &<toto]'
+ls &<toto
+echo '[cd Makefile]'
+cd Makefile
+echo '[cd noexist]'
+cd noexist
+echo '[mkdir noright ; cd noright ; rm -rf noright]'
+mkdir noright ; cd noright ; rm -rf noright
+echo '[noexist]'
+noexist
+echo '[exit abc]'
+exit abc

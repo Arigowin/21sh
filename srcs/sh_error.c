@@ -30,8 +30,8 @@ const char			*tbl_error1(int index)
 
 	ret_index = index;
 	ret_index = (index >= 16 && index <= 18 ? 16 : ret_index);
-	ret_index = ((index >= 19 && index <= 25) || index == 29  || index == 30 ? 17 : ret_index);
 	ret_index = (index >= 26 ? 18 : ret_index);
+	ret_index = ((index >= 19 && index <= 25) || index == 29  || index == 30 ? 17 : ret_index);
 	ret_index = (index >= 27 && index <= 28 ? 19 : ret_index);
 	return (err_tbl1[ret_index]);
 }
@@ -46,8 +46,8 @@ const char			*tbl_error2(int index)
 						/*6->24*/": command not found",
 						/*7->26*/": value not set", // : missing name for redirect",
 						/*8->27*/": too many arguments",
-						/*9->28*/": numeric argument required"
-						/*10->29*/": bad file descriptor"
+						/*9->28*/": numeric argument required",
+						/*10->29*/": bad file descriptor",
 						/*11->30*/": ambiguous redirect"
 						};
 	int					ret_index;
@@ -82,7 +82,7 @@ int					sh_error(int ret, int index, char *err, char *bi)
 	if (index >= 14 && index <= 30 && index != 26)
 		ft_putstr_fd(tbl_error2(index), 2);
 	ft_putendl_fd("", 2);
-	if ((index >= 1 && index <= 7) || index == 23 || index == 29 || index == 24)
+	if ((index >= 1 && index <= 7) || index == 23 || index == 24)
 		exit_pgm(EXIT_FAILURE);
 	if (index == 11 || index == 14)
 		return (TRUE);

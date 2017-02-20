@@ -9,7 +9,7 @@ int					fd_exist(int fd)
 		ft_putendl_fd("------------ FD EXIST ------------", 2);
 
 	if (isatty(fd) == 0)
-		return (sh_error(TRUE, 29, NULL, NULL));
+		return (sh_error(TRUE, 29, ft_itoa(fd), NULL));
 	return (TRUE);
 }
 
