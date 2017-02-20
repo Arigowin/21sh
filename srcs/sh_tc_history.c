@@ -45,10 +45,15 @@ void				add_history(t_history **history, char *line)
 
 void				del_history(t_history **history)
 {
+	if (DEBUG_HISTORY == 1)
+		ft_putendl_fd("------- DEL HISTORY ------", 2);
+
 	t_history *trash;
 	t_history *save;
 
 	trash = NULL;
+	if (history == NULL || *history == NULL)
+		return ;
 	save = *history;
 	while (save && save->prev)
 		save = save->prev;

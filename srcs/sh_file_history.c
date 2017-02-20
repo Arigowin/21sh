@@ -132,12 +132,13 @@ int					save_history(void)
 	char				*home;
 	char				*path;
 	int					fd;
-	t_history			*history;
+	t_history			**history;
 	char				end;
 
 	path = NULL;
 	fd = -1;
-	history = *(savior_history(NULL, FALSE));
+	if ((history = savior_history(NULL, FALSE)) == NULL)
+		return (FALSE);
 	home = get_env("HOME");
 	if (home)
 		path = ft_strjoin(home, HISTORY_FILE_NAME);
@@ -149,20 +150,19 @@ int					save_history(void)
 		return (ERROR);
 	}
 	ft_strdel(&path);
-	while (history && history->prev)
-		history = history->prev;
-	while (history && history->line)
+	while (*history && (*history)->prev)
+		*history = (*history)->prev;
+	while (*history && (*history)->line)
 	{
-		//ft_putendl_fd(history->line, fd); ???
-		write(fd, history->line, ft_strlen(history->line));
+		write(fd, (*history)->line, ft_strlen((*history)->line));
 		write(fd, "\n", 1);
-		history = history->next;
+		*history = (*history)->next;
 	}
 	// ft_putchar_fd(3, fd); ???
 	end = 3;
 	write(fd, &end, 1);
 	if (fd > 2)
 		close(fd);
-	del_history(&history);
+	del_history(history);
 	return (TRUE);
 }
