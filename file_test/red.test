@@ -1,17 +1,54 @@
+echo '[ls -la >toto]'
 ls -la >toto
+echo '[cat toto ; rm toto]'
 cat toto ; rm toto
+echo '[ls -la >toto|cat -n|cat <titi]'
 ls -la >toto|cat -n|cat <titi
+echo '[cat toto ; rm toto]'
 cat toto ; rm toto
+echo '[ls -la >toto>tata]'
 ls -la >toto>tata
+echo '[cat toto; echo "\n"; cat tata ; rm toto tata]'
 cat toto; echo "\n"; cat tata ; rm toto tata
+echo '[ls -la | cat -n |cat -n |cat -n >toto>tata]'
 ls -la | cat -n |cat -n |cat -n >toto>tata
+echo '[cat toto; echo "\n"; cat tata ; rm toto tata]'
 cat toto; echo "\n"; cat tata ; rm toto tata
+echo '[echo "trololo pouet toto" | cat -n |cat -n |cat -n >toto]'
 echo "trololo pouet toto" | cat -n |cat -n |cat -n >toto
+echo '[cat toto ; rm toto]'
 cat toto ; rm toto
+echo '[ls -la >toto; ls -1]'
 ls -la >toto; ls -1
+echo '[cat toto ; rm toto]'
 cat toto ; rm toto
+echo '[ls -la | cat -n |cat -n >toto>tata ; echo "lolilol"; cat <toto ; echo "lolilol"; cat <tata]'
 ls -la | cat -n |cat -n >toto>tata ; echo "lolilol"; cat <toto ; echo "lolilol"; cat <tata
+echo '[ls -la | cat <noexist|cat -n]'
 ls -la | cat <noexist|cat -n
+echo '[echo "trololo pouet toto" >toto; ls; ls -la |cat <toto; rm toto]'
 echo "trololo pouet toto" >toto; ls; ls -la |cat <toto; rm toto
+echo '[echo "trololo pouet toto" >toto; ls; ls -la |cat <toto |cat -n; rm toto]'
 echo "trololo pouet toto" >toto; ls; ls -la |cat <toto |cat -n; rm toto
+echo '[rm toto tata]'
 rm toto tata
+echo '[>> toto]'
+>> toto
+echo '[2>>tata]'
+2>>tata
+echo '[rm toto tata]'
+rm toto tata
+echo '[> toto]'
+> toto
+echo '[2>tata]'
+2>tata
+echo '[< toto]'
+< toto
+echo '[2<tata]'
+2<tata
+echo '[rm toto tata]'
+rm toto tata
+echo '[<< EOF]'
+<< EOF
+echo '[2<<EOF]'
+2<<EOF

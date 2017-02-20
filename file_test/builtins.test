@@ -150,3 +150,16 @@ echo CMD:'echo -i'
 echo -i
 echo CMD:'echo -- -i'
 echo -- -i
+
+echo "[echo 'ls > toto']"
+echo 'ls > toto'
+echo '[echo "ls < toto"]'
+echo "ls < toto"
+echo "[echo '>'toto]"
+echo '>'toto
+echo "[echo '> toto']"
+echo '> toto'
+echo '[echo ">"toto]'
+echo ">"toto
+echo '[echo "> toto"]'
+echo "> toto"

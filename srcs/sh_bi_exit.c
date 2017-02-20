@@ -4,13 +4,16 @@
 
 int 				exit_pgm(int exit_code)
 {
+	if (DEBUG_BUILTIN == 1)
+		ft_putendl_fd("------- EXIT PGM ------", 2);
+
 	t_node			*tree;
-	t_history		*hist;
+	t_history		**hist;
 	t_line			*stline;
 	t_duo			*env;
 
 	tree = savior_tree(NULL, FALSE);
-	hist = *(savior_history(NULL, FALSE));
+	hist = savior_history(NULL, FALSE);
 	stline = savior_stline(NULL, FALSE);
 	env = savior(NULL, FALSE);
 	del_tree(&tree);
@@ -18,7 +21,7 @@ int 				exit_pgm(int exit_code)
 	duo_del(&env);
 	reset_term();
 	tree = NULL;
-	del_history(&hist);
+	del_history(hist);
 	ft_strdel(&(stline->hrd.line));
 	ft_strdel(&(stline->line));
 	if (exit_code == EXIT_SUCCESS)

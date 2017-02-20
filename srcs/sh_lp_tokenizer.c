@@ -101,7 +101,7 @@ int					tokenizer(int *hrd, char *read_buff, t_e_list **l_expr)
 		t_e_list *tmp = *l_expr;
 		while (tmp)
 		{
-			printf("t[%s] -> ", tmp->data);
+			printf("t[(%s)(%d)] -> ", tmp->data, *hrd);
 			tmp = tmp->next;
 		}
 		printf ("\n");

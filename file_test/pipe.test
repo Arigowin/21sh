@@ -2,8 +2,6 @@ echo 'CMD:ls | cat | cat -n | cat -e | cat -n | cat -n'
 ls | cat | cat -n | cat -e | cat -n | cat -n
 echo 'CMD:ls | cat -n | cat -n | cat -n | cat -n | cat -n | cat -n | cat -n | cat -n | cat -n | cat -n | cat -n | cat -n | cat -n | cat -n | cat -n | cat -n | cat -n | cat -n | cat -n | cat -n | cat -n | cat -n | cat -n | cat -n | cat -n | cat -n | cat -n | cat -n | cat -n | cat -n | cat -n | cat -n | cat -n | cat -n | cat -n | cat -n | cat -n | cat -n | cat -n | cat -n | cat -n | cat -n | cat -n | cat -n | cat -n | cat -n | cat -n | cat -n | cat -n | cat -n | cat -n | cat -n | cat -n | cat -n | cat -n | cat -n | cat -n | cat -n | cat -n | cat -n | cat -n | cat -n | cat -n | cat -n | cat -n | cat -n | cat -n | cat -n | cat -n | cat -n | cat -n | cat -n | cat -n | cat -n | cat -n | cat -n | cat -n | cat -n | cat -n | cat -n | cat -n | cat -n | cat -n | cat -n'
 ls | cat -n | cat -n | cat -n | cat -n | cat -n | cat -n | cat -n | cat -n | cat -n | cat -n | cat -n | cat -n | cat -n | cat -n | cat -n | cat -n | cat -n | cat -n | cat -n | cat -n | cat -n | cat -n | cat -n | cat -n | cat -n | cat -n | cat -n | cat -n | cat -n | cat -n | cat -n | cat -n | cat -n | cat -n | cat -n | cat -n | cat -n | cat -n | cat -n | cat -n | cat -n | cat -n | cat -n | cat -n | cat -n | cat -n | cat -n | cat -n | cat -n | cat -n | cat -n | cat -n | cat -n | cat -n | cat -n | cat -n | cat -n | cat -n | cat -n | cat -n | cat -n | cat -n | cat -n | cat -n | cat -n | cat -n | cat -n | cat -n | cat -n | cat -n | cat -n | cat -n | cat -n | cat -n | cat -n | cat -n | cat -n | cat -n | cat -n | cat -n | cat -n | cat -n | cat -n | cat -n
-echo 'CMD:ls |cat -n <noexist|cat -n'
-ls |cat -n <noexist|cat -n
 echo 'CMD:||||||'
 ||||||
 echo 'CMD:| | | | | |'
@@ -22,3 +20,5 @@ echo 'CMD: ls | | | | | |'
 ls | | | | | |
 echo 'CMD: abc | ls'
 abc | ls'
+echo 'CMD:ls |cat -n <noexist|cat -n'
+ls |cat -n <noexist|cat -n
