@@ -88,7 +88,6 @@ static int			waka_lexer(t_e_list **l_expr)
 	new->type = RED_FD;
 	new->next = (*l_expr)->next;
 	(*l_expr)->next = new;
-	(*l_expr)->type = RED;
 	ft_strdel(&tmp_data);
 	return (TRUE);
 }
@@ -178,13 +177,16 @@ int					lexer(t_e_list **l_expr)
 		return (FALSE);
 	if (t->hrd_quote < 1 && t && (ft_strchr(t->data, '<')
 	|| ft_strchr(t->data, '>')))
+	{
 		waka_lexer(&t);
+		t->type = RED;
+	}
 	else if (t->hrd_quote < 1 && t && ft_strcmp(t->data, ";") == 0)
 		t->type = SEMI;
 	else if (t->hrd_quote < 1 && (t->data)[0] == '|')
 		t->type = ((t->data)[1] == (t->data)[0] ? LOGIC_OR : PIPE);
 	else if (t->hrd_quote < 1 && (t->data)[0] == '&' && (!(t->data)[1]
-	|| !rightred(t->data[1])))
+				|| !rightred(t->data[1])))
 		t->type = ((t->data)[1] == (t->data)[0] ? LOGIC_AND : AMP);
 	else if (t && t->data && (t->data)[0] != '&' && (t->data)[0] != '|')
 	{

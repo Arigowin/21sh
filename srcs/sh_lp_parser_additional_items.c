@@ -61,7 +61,9 @@ int					check_red(int *nb_hrd, t_e_list **l_expr, t_node **tree, int red_type)
 	save = *tree;
 	list_save = *l_expr;
 	if ((red_ret = ((*l_expr)->type == RED)) == FALSE)
+	{printf("ca vient de la\n");
 		return (FALSE);
+	}
 	if ((*l_expr)->type == RED && (node = create_node(RED)) != NULL
 	&& (red_ret = move_in_list(l_expr)) == TRUE
 	&& ((red_ret = check_red_arg(l_expr, &(node->right), red_type)) == TRUE))
