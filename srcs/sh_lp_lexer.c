@@ -73,7 +73,10 @@ static int			waka_lexer(t_e_list **l_expr)
 	ft_bzero(tmp_fd, 11);
 	waka_land_handler(l_expr, &tmp_fd, &i);
 	if (ft_strchr(WAKA, ((*l_expr)->data)[0]))
+	{
+		(*l_expr)->type = RED;
 		return (TRUE);
+	}
 	red_fd_copy(l_expr, &tmp_fd, &i);
 	if ((tmp_data = ft_strsub((*l_expr)->data, i,
 	ft_strlen((*l_expr)->data) - i)) == NULL)
@@ -88,6 +91,7 @@ static int			waka_lexer(t_e_list **l_expr)
 	new->type = RED_FD;
 	new->next = (*l_expr)->next;
 	(*l_expr)->next = new;
+	(*l_expr)->type = RED;
 	ft_strdel(&tmp_data);
 	return (TRUE);
 }
@@ -177,10 +181,7 @@ int					lexer(t_e_list **l_expr)
 		return (FALSE);
 	if (t->hrd_quote < 1 && t && (ft_strchr(t->data, '<')
 	|| ft_strchr(t->data, '>')))
-	{
 		waka_lexer(&t);
-		t->type = RED;
-	}
 	else if (t->hrd_quote < 1 && t && ft_strcmp(t->data, ";") == 0)
 		t->type = SEMI;
 	else if (t->hrd_quote < 1 && (t->data)[0] == '|')

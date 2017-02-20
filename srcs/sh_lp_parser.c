@@ -41,7 +41,6 @@ static int			check_command(int *nb_hrd, t_e_list **l_expr, t_node **tree) //stat
 	node = create_node(CMD);
 	if ((ret = check_red(nb_hrd, l_expr, &(node->left), 0)) != TRUE)
 		*tree = save;
-	printf("pourquoi 44 0 ((%d))\n", ret);
 	if ((*l_expr)->type == CMD)
 	{
 		if ((node->data = ft_strdup((*l_expr)->data)) == NULL)
@@ -53,7 +52,6 @@ static int			check_command(int *nb_hrd, t_e_list **l_expr, t_node **tree) //stat
 			return (parser_ret_fct(ret, NULL, NULL, &node));
 		return (parser_ret_fct(TRUE, tree, &node, NULL));
 	}
-	printf("pourquoi 44 ((%d))\n", ret);
 	if (ret == TRUE && (*l_expr)->type != CMD)
 		return (parser_ret_fct(TRUE, tree, &(node->left), &node));
 	clear_node(&node);
