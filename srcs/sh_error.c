@@ -22,8 +22,8 @@ const char			*tbl_error1(int index)
 						/*12*/"21sh: cd: no PATH variable set",
 						/*13*/"21sh: cd: no HOME variable set",
 						/*14*/"21sh: unsetenv: ", /*15*/"21sh: setenv: ",
-	  					/*16 -> 16, 17, 18*/"21sh : cd: ",/*17->19, 20, 21, 22, 23, 24, 29, 30*/ "21sh: ",
-						/*18->25, 26*/"21sh: parse error near: ",
+	  					/*16 -> 16, 17, 18*/"21sh : cd: ",/*17->19, 20, 21, 22, 23, 25, 26, 29, 30*/ "21sh: ",
+						/*18->26*/"21sh: parse error near: ",
 						/*19->27, 28*/"21sh: exit "
 						};
 	int					ret_index;
@@ -46,8 +46,8 @@ const char			*tbl_error2(int index)
 						/*6->24*/": command not found",
 						/*7->26*/": value not set", // : missing name for redirect",
 						/*8->27*/": too many arguments",
-						/*9->28*/": numeric argument required"
-						/*10->29*/": bad file descriptor"
+						/*9->28*/": numeric argument required",
+						/*10->29*/": bad file descriptor",
 						/*11->30*/": ambiguous redirect"
 						};
 	int					ret_index;
@@ -59,7 +59,7 @@ const char			*tbl_error2(int index)
 	ret_index = (index >= 18 && index <= 20 ? 4 : ret_index);
 	ret_index = (index == 22 ? 5 : ret_index);
 	ret_index = (index == 24 ? 6 : ret_index);
-	ret_index = (index == 25 ? 7 : ret_index);
+	ret_index = (index == 26 ? 7 : ret_index);
 	ret_index = (index == 27 ? 8 : ret_index);
 	ret_index = (index == 28 ? 9 : ret_index);
 	ret_index = (index == 29 ? 10 : ret_index);

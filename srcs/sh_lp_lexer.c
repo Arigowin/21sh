@@ -88,7 +88,6 @@ static int			waka_lexer(t_e_list **l_expr)
 		ft_strdel(&tmp_data);
 		return (sh_error(TRUE, 6, NULL, NULL));
 	}
-	printf("fd ((%s))\n", tmp_fd);
 	new->type = RED_FD;
 	new->next = (*l_expr)->next;
 	(*l_expr)->next = new;
@@ -148,7 +147,6 @@ static int			type_analyzer(t_e_list **l_expr, int boule)
 	while (l_expr && *l_expr && (*l_expr)->next)
 	{
 		t = *l_expr;
-	printf("data in TA ((%s-%d))\n", t->data, t->type);
 		hrd = t->next->hrd_quote;
 		if (((ft_strchr(t->next->data, '<') || ft_strchr(t->next->data, '>')))
 		&& t->next->hrd_quote == 0)
@@ -179,7 +177,6 @@ int					lexer(t_e_list **l_expr)
 
 	t = *l_expr;
 	boule = 0;
-	printf("data in lexer ((%s))\n", t->data);
 	if (*l_expr == NULL)
 		return (FALSE);
 	if (t->hrd_quote < 1 && t && (ft_strchr(t->data, '<')
@@ -200,7 +197,7 @@ int					lexer(t_e_list **l_expr)
 	type_analyzer(&t, boule);
 
 	// ANTIBUG!!!!!!
-	if (DEBUG_LEXER == 0)
+	if (DEBUG_LEXER == 1)
 	{
 		t_e_list *tmp2 = *l_expr;
 		while (tmp2)
