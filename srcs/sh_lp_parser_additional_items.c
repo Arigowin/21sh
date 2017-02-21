@@ -49,7 +49,7 @@ t_types				fill_red_type(char *data, int *nb_hrd)
 
 int					check_red(int *nb_hrd, t_e_list **l_expr, t_node **tree, int red_type)
 {
-	if (DEBUG_PARSER == 1)
+	if (DEBUG_PARSER == 0)
 		ft_putendl_fd("------- CHECK RED ------", 2);
 
 	t_node				*node;
@@ -62,14 +62,15 @@ int					check_red(int *nb_hrd, t_e_list **l_expr, t_node **tree, int red_type)
 	list_save = *l_expr;
 	if ((red_ret = ((*l_expr)->type == RED)) == FALSE)
 		return (FALSE);
-	if ((*l_expr)->type == RED && (node = create_node(RED)) != NULL
-	&& (red_ret = move_in_list(l_expr)) == TRUE
+	if ((*l_expr)->type == RED && (*l_expr)->hrd_quote != -42 &&
+	(node = create_node(RED)) && (red_ret = move_in_list(l_expr)) == TRUE
 	&& ((red_ret = check_red_arg(l_expr, &(node->right), red_type)) == TRUE))
 	{
 		if ((node->data = ft_strdup(list_save->data)) == NULL)
 			return (sh_error(TRUE, 6, NULL, NULL));
 		node->type = fill_red_type(list_save->data, nb_hrd);
-		if (!move_in_list(l_expr) || check_red(nb_hrd, l_expr, &(node->left), node->type) != TRUE)
+		if (!move_in_list(l_expr) || check_red(nb_hrd, l_expr, &(node->left),
+		node->type) != TRUE)
 			*tree = save;
 		*tree = node;
 		return (red_ret);
