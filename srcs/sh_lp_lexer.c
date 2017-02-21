@@ -17,7 +17,7 @@ static int			waka_land_handler(t_e_list **l_expr, char (*tmp)[], int *i)
 	tmp2 = NULL;
 	if (ft_strncount((*l_expr)->data, '&') > 1)
 		return (FALSE);
-	if (ft_strchr(((*l_expr)->data) + 1, '<'))
+	if ((*l_expr)->data[0] == '&' && ft_strchr(((*l_expr)->data) + 1, '<'))
 		(*l_expr)->hrd_quote = -42;
 	if ((*l_expr)->data[ft_strlen((*l_expr)->data) - 1] == '&')
 	{
