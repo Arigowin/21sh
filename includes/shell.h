@@ -9,7 +9,7 @@
 #define DEBUG_HEREDOC 0
 #define DEBUG_HISTORY 0
 #define DEBUG_KEY 0
-#define DEBUG_LEXER 0
+#define DEBUG_LEXER 1
 #define DEBUG_PARSER 0
 #define DEBUG_PIPE 0
 #define DEBUG_RED 0
@@ -18,7 +18,7 @@
 #define DEBUG_TOKEN 0
 #define DEBUG_TREE 0
 #define DEBUG_TREE_CREATION 0
-#define DEBUG_TREE_VERIF 0
+#define DEBUG_TREE_VERIF 1
 #include <stdio.h>
 
 # define HISTORY_FILE_NAME "/.21sh_history"

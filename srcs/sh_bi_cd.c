@@ -78,6 +78,7 @@ int					bi_cd(char **arg, t_duo **env)
 	ret = 0;
 	tmp = NULL;
 	path = NULL;
+	printf("trololo trlololo pouet\n");
 	if (handle_cd_arg(&i, &ret, arg) == FALSE)
 		return (FALSE);
 	if (ret == TRUE)

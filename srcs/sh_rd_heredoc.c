@@ -67,6 +67,7 @@ static int			fill_hrd_content(t_line *stline, t_node **tree) // static ac heredo
 
 	len = (ft_strlen(stline->hrd.line) -
 			(ft_strlen(stline->hrd.deli->data) + 1));
+	printf("(((%d)))\n", (*tree)->type);
 	if (tree && (*tree) && (*tree)->right  && ((*tree)->right->type == HRD_QUOTE
 	|| (*tree)->right->type == RED_ARG))
 	{
