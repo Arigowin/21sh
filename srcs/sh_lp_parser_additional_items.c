@@ -49,7 +49,7 @@ t_types				fill_red_type(char *data, int *nb_hrd)
 
 int					check_red(int *nb_hrd, t_e_list **l_expr, t_node **tree, int red_type)
 {
-	if (DEBUG_PARSER == 0)
+	if (DEBUG_PARSER == 1)
 		ft_putendl_fd("------- CHECK RED ------", 2);
 
 	t_node				*node;
