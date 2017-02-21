@@ -73,7 +73,10 @@ static int			waka_lexer(t_e_list **l_expr)
 	ft_bzero(tmp_fd, 11);
 	waka_land_handler(l_expr, &tmp_fd, &i);
 	if (ft_strchr(WAKA, ((*l_expr)->data)[0]))
+	{
+		(*l_expr)->type = RED;
 		return (TRUE);
+	}
 	red_fd_copy(l_expr, &tmp_fd, &i);
 	if ((tmp_data = ft_strsub((*l_expr)->data, i,
 	ft_strlen((*l_expr)->data) - i)) == NULL)
@@ -100,34 +103,34 @@ int			rightred(int c)
 	return (0);
 }
 
-static int			type_analyzer2(int hrd, t_e_list **l_expr, int *boule)
+static int			type_analyzer2(int hrd, t_e_list **t, int *bole)
 {
 	if (DEBUG_LEXER == 1)
 		ft_putendl_fd("------- TYPE ANALYZER2 ------", 2);
 
-	if (hrd < 1 && ft_strcmp((*l_expr)->next->data, ";") == 0)
+	if (hrd < 1 && ft_strcmp((*t)->next->data, ";") == 0)
 	{
-		(*l_expr)->next->type = SEMI;
-		*boule = 0;
+		(*t)->next->type = SEMI;
+		*bole = 0;
 	}
-	else if (hrd < 1 && ((*l_expr)->next->data)[0] == '|')
+	else if (hrd < 1 && ((*t)->next->data)[0] == '|')
 	{
-		(*l_expr)->next->type = (((*l_expr)->next->data)[1] ==
-			((*l_expr)->next->data)[0] ? LOGIC_OR : PIPE);
-		*boule = 0;
+		(*t)->next->type = (((*t)->next->data)[1] ==
+			((*t)->next->data)[0] ? LOGIC_OR : PIPE);
+		*bole = 0;
 	}
-	else if (hrd < 1 && (*l_expr)->type != RED && ((*l_expr)->next->data)[0] ==
-	'&' && (!((*l_expr)->next->data)[1] || !rightred((*l_expr)->next->data[1])))
+	else if (hrd < 1 && (*t)->type != RED && ((*t)->next->data)[0] ==
+	'&' && (!((*t)->next->data)[1] || !rightred((*t)->next->data[1])))
 	{
-		(*l_expr)->next->type = (((*l_expr)->next->data)[1] ==
-			((*l_expr)->next->data)[0] ? LOGIC_AND : AMP);
-		*boule = 0;
+		(*t)->next->type = (((*t)->next->data)[1] == ((*t)->next->data)[0]
+			? LOGIC_AND : AMP);
+		*bole = 0;
 	}
-	else if (*boule == 0 && ((ft_strchr(SPECIAL, ((*l_expr)->data)[0]) &&
-	!ft_strchr("><", ((*l_expr)->next->data)[0])) || (*l_expr)->type == RA))
+	else if ((*t)->type != RED && ((ft_strchr(SPECIAL, ((*t)->data)[0]) &&
+	!ft_strchr("><", ((*t)->next->data)[0])) || (*t)->type == RA) && *bole == 0)
 	{
-		*boule = 1;
-		(*l_expr)->next->type = CMD;
+		*bole = 1;
+		(*t)->next->type = CMD;
 	}
 	return (TRUE);
 }
@@ -184,7 +187,7 @@ int					lexer(t_e_list **l_expr)
 	else if (t->hrd_quote < 1 && (t->data)[0] == '|')
 		t->type = ((t->data)[1] == (t->data)[0] ? LOGIC_OR : PIPE);
 	else if (t->hrd_quote < 1 && (t->data)[0] == '&' && (!(t->data)[1]
-	|| !rightred(t->data[1])))
+				|| !rightred(t->data[1])))
 		t->type = ((t->data)[1] == (t->data)[0] ? LOGIC_AND : AMP);
 	else if (t && t->data && (t->data)[0] != '&' && (t->data)[0] != '|')
 	{

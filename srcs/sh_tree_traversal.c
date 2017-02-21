@@ -41,11 +41,19 @@ int					fd_open(int	*fd, t_node *tree, t_lst_fd **lstfd)
 		/* free : node + lstfd */
 		return (ERROR);
 	if (node && node->data && node->data[0] == '&')
+	{
 		*fd = (ft_strcmp("&-", node->data) == 0 ? -42 : ft_atoi(filename + 1));
+		if (*fd >= 0)
+		{
+			if ((ret = fd_exist(*fd)) != TRUE)
+				*fd = -1;
+			return (ret);
+		}
+	}
 	else
 	{
 		if (type == LRED)
-		   ret = access(filename, F_OK);
+			ret = access(filename, F_OK);
 		*fd = ret;
 		if (ret >= 0)
 		{
@@ -58,10 +66,10 @@ int					fd_open(int	*fd, t_node *tree, t_lst_fd **lstfd)
 		ret = (ret <= -1 ? 21 : 20);
 		return (sh_error(TRUE, ret, filename, NULL));
 
-	//	if (ret <= -1)
-	//		return (sh_error(TRUE, 21, filename, NULL));
-	//	else
-	//		return (sh_error(TRUE, 20, filename, NULL));
+		//	if (ret <= -1)
+		//		return (sh_error(TRUE, 21, filename, NULL));
+		//	else
+		//		return (sh_error(TRUE, 20, filename, NULL));
 	}
 	return (TRUE);
 }
@@ -146,18 +154,18 @@ int					tree_traversal(t_node *tree, t_lst_fd **lstfd, int pipefd_tab[2][2])
 	if (tree && tree->type != SEMI && lstfd && *lstfd == NULL)
 		manage_red_fd(-2, tree, lstfd, NONE);
 
-		//ANTIBUG
-		if (DEBUG_ANTIBUG == 1)
-		{
-			printf("lstfd :\n");
-			t_lst_fd *tmp = *lstfd;
-			while(tmp){
-				printf("in pipe [filename->%s]--[fd->%d]\n", tmp->filename, tmp->fd);
-				tmp=tmp->next;
-			}
-			//tmp = tmp->next;
+	//ANTIBUG
+	if (DEBUG_ANTIBUG == 1)
+	{
+		printf("lstfd :\n");
+		t_lst_fd *tmp = *lstfd;
+		while(tmp){
+			printf("in pipe [filename->%s]--[fd->%d]\n", tmp->filename, tmp->fd);
+			tmp=tmp->next;
 		}
-		//  fin ANTIBUG
+		//tmp = tmp->next;
+	}
+	//  fin ANTIBUG
 
 	if (tree->type == PIPE)
 	{

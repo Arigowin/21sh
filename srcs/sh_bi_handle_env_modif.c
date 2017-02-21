@@ -9,7 +9,7 @@ static int			add_env(char *name, char *value) //static ac change env
 
 	env = savior(NULL, FALSE);
 	if (name == NULL)
-		return (sh_error(TRUE, 25, "setenv", NULL));
+		return (sh_error(TRUE, 26, "setenv", NULL));
 	else
 	{
 		duo_pushback(&env, name, value);
