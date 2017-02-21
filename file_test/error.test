@@ -18,8 +18,8 @@ echo '[cd Makefile]'
 cd Makefile
 echo '[cd noexist]'
 cd noexist
-echo '[mkdir noright ; cd noright ; rm -rf noright]'
-mkdir noright ; cd noright ; rm -rf noright
+echo '[mkdir noright ; chmod 000 noright ; cd noright ; rm -rf noright]'
+mkdir noright ; chmod 000 noright ; cd noright ; rm -rf noright
 echo '[noexist]'
 noexist
 echo '[exit abc]'
