@@ -45,33 +45,8 @@ static int			screen_up(int *pos, char **str, t_line *stline)
 	len = (line != NULL ? ft_strlen(line + 1) : ft_strlen(*str));
 	rel_p = (line != NULL ? *pos - (ft_strlen(*str) - ft_strlen(line)) : *pos);
 	nb_line = (len + PRT_LEN) / stline->win.ws_col;
-
-	char *res;
-	tputs(tgetstr("sc", NULL), 1, my_outc);
-	res = tgetstr("cm", NULL);
-	tputs(tgoto(res, 3, 5), 1, my_outc);
-	tputs(tgetstr("ce", NULL), 1, my_outc);
-	ft_putstr("nb_l :");
-	ft_putnbr(nb_line);
-	ft_putstr(" rel :");
-	ft_putnbr(rel_p);
-	ft_putstr(" len :");
-	ft_putnbr(len);
-	ft_putstr(" winsize :");
-	ft_putnbr(stline->win.ws_col);
-	tputs(tgetstr("rc", NULL), 1, my_outc);
-
-	if (nb_line && rel_p != len && ((len + PRT_LEN) / nb_line)
-			% stline->win.ws_col == 0)
+	if (nb_line && rel_p != len && (len + PRT_LEN) % stline->win.ws_col == 0)
 	{
-	tputs(tgetstr("sc", NULL), 1, my_outc);
-	res = tgetstr("cm", NULL);
-	tputs(tgoto(res, 3, 6), 1, my_outc);
-	tputs(tgetstr("ce", NULL), 1, my_outc);
-	ft_putstr(" % :");
-	ft_putnbr(((len + PRT_LEN) / nb_line) % stline->win.ws_col);
-	tputs(tgetstr("rc", NULL), 1, my_outc);
-
 		i = nb_line - stline->curs_y;
 		while (i-- > 0)
 			tputs(tgetstr("do", NULL), 1, my_outc);
