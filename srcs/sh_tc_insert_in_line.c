@@ -45,8 +45,7 @@ static int			screen_up(int *pos, char **str, t_line *stline)
 	len = (line != NULL ? ft_strlen(line + 1) : ft_strlen(*str));
 	rel_p = (line != NULL ? *pos - (ft_strlen(*str) - ft_strlen(line)) : *pos);
 	nb_line = (len + PRT_LEN) / stline->win.ws_col;
-	if (nb_line && rel_p != len && ((len + PRT_LEN) / nb_line)
-	% stline->win.ws_col == 0)
+	if (nb_line && rel_p != len && (len + PRT_LEN) % stline->win.ws_col == 0)
 	{
 		i = nb_line - stline->curs_y;
 		while (i-- > 0)
@@ -119,7 +118,7 @@ int					fct_insert(char **str, int *pos, char c, t_line *stline)
 		(*str)[*pos] = c;
 	else if (!(end_line = ft_strsub(*str, *pos, ft_strlen(*str))))
 		return (sh_error(TRUE, 6, NULL, NULL));
-		/* FREE : stline*/
+	/* FREE : stline*/
 	screen_up(pos, str, stline);
 	ft_putchar(c);
 	if (end_line != NULL)

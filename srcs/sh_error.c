@@ -59,7 +59,7 @@ const char			*tbl_error2(int index)
 	ret_index = (index >= 18 && index <= 20 ? 4 : ret_index);
 	ret_index = (index == 22 ? 5 : ret_index);
 	ret_index = (index == 24 ? 6 : ret_index);
-	ret_index = (index == 26 ? 7 : ret_index);
+	ret_index = (index == 25 ? 7 : ret_index);
 	ret_index = (index == 27 ? 8 : ret_index);
 	ret_index = (index == 28 ? 9 : ret_index);
 	ret_index = (index == 29 ? 10 : ret_index);
