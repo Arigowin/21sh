@@ -3,7 +3,7 @@
 #include "shell.h"
 #include "libft.h"
 
-int					check_red_arg(t_e_list **l_expr, t_node **tree, int red)
+int					check_red_arg(t_e_list **l_expr, t_node **tree, char *red)
 {
 	if (DEBUG_PARSER == 1)
 		ft_putendl_fd("------- CHECK RED_ARG ------", 2);
@@ -15,11 +15,12 @@ int					check_red_arg(t_e_list **l_expr, t_node **tree, int red)
 
 	save = *tree;
 	node = NULL;
-	ntype = ((*l_expr)->hrd_quote >= 2 && red == DLRED ? HRD_QUOTE : RED_ARG);
+	ntype = ((*l_expr)->hrd_quote >= 2 && (ft_strcmp(red, "<<") == 0) ? HRD_QUOTE : RED_ARG);
 	if ((*l_expr)->type == RED_ARG && ((node = create_node(ntype)) != NULL))
 	{
 		if ((node->data = ft_strdup((*l_expr)->data)) == NULL)
 			return (sh_error(TRUE, 6, NULL, NULL));
+		printf("in tree data ((%s)) type ((%d))\n", node->data, node->type);
 		return (parser_ret_fct(TRUE, tree, &node, NULL));
 	}
 	else if ((*l_expr)->type == RED_FD && (*l_expr)->next &&
@@ -57,18 +58,21 @@ int					check_red(int *nb_hrd, t_e_list **l_expr, t_node **tree, int red_type)
 	t_e_list			*list_save;
 	int					red_ret;
 
+(void)red_type;
 	node = NULL;
 	save = *tree;
 	list_save = *l_expr;
+	printf("{{{{%s}}}}\n", list_save->data);
 	if ((red_ret = ((*l_expr)->type == RED)) == FALSE)
 		return (FALSE);
 	if ((*l_expr)->type == RED && (*l_expr)->hrd_quote != -42 &&
 	(node = create_node(RED)) && (red_ret = move_in_list(l_expr)) == TRUE
-	&& ((red_ret = check_red_arg(l_expr, &(node->right), red_type)) == TRUE))
+	&& ((red_ret = check_red_arg(l_expr, &(node->right), list_save->data)) == TRUE))
 	{
 		if ((node->data = ft_strdup(list_save->data)) == NULL)
 			return (sh_error(TRUE, 6, NULL, NULL));
 		node->type = fill_red_type(list_save->data, nb_hrd);
+	printf("in check red ((%d-%d))\n", node->type, DLRED);
 		if (!move_in_list(l_expr) || check_red(nb_hrd, l_expr, &(node->left),
 		node->type) != TRUE)
 			*tree = save;

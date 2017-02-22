@@ -31,7 +31,7 @@ int					check_end_heredoc(t_line *stline)
 	return (CONTINUE);
 }
 
-char				*hrd_quote_dup(char *str, int len)
+char				*hrd_quote_dup(char *str, int len, int type)
 {
 	if (DEBUG_HEREDOC == 1)
 		ft_putendl_fd("------------ HRD QUOTE DUP ----------", 2);
@@ -42,12 +42,12 @@ char				*hrd_quote_dup(char *str, int len)
 	ret = ft_strnew(ft_strlen(str));
 	while (str && *str)
 	{
-		if (*str == '\\')
+		if (*str == '\\' && type == 8)
 		{
 			str++;
 			ft_strncat(ret, str, 1);
 		}
-		else if (*str == '$')
+		else if (*str == '$' && type == 8)
 			token_dollar(&str, &ret);
 		else
 			ft_strncat(ret, str, 1);
@@ -67,6 +67,7 @@ static int			fill_hrd_content(t_line *stline, t_node **tree) // static ac heredo
 
 	len = (ft_strlen(stline->hrd.line) -
 			(ft_strlen(stline->hrd.deli->data) + 1));
+	printf("(((%d)))\n", (*tree)->right->type);
 	if (tree && (*tree) && (*tree)->right  && ((*tree)->right->type == HRD_QUOTE
 	|| (*tree)->right->type == RED_ARG))
 	{
@@ -74,7 +75,7 @@ static int			fill_hrd_content(t_line *stline, t_node **tree) // static ac heredo
 		ft_strsub(stline->hrd.line,	0, len + 1)) == NULL)
 			return (sh_error(TRUE, 6, NULL, NULL));
 		else if (((*tree)->right->right->data = hrd_quote_dup(stline->hrd.line,
-		ft_strlen(stline->hrd.deli->data))) == NULL)
+		ft_strlen(stline->hrd.deli->data), (*tree)->right->type)) == NULL)
 			return (sh_error(TRUE, 6, NULL, NULL));
 	}
 	else if(((*tree)->right->right->right->data = ft_strsub(stline->hrd.line, 0,

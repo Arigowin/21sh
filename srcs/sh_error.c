@@ -19,7 +19,7 @@ const char			*tbl_error1(int index)
 						/*9*/"21sh: unsetenv: too few arguments",
 						/*10*/"21sh: setenv: too many arguments",
 						/*11*/"21sh: cd: no OLDPWD variable set",
-						/*12*/"21sh: cd: no PATH variable set",
+						/*12*/"21sh: no PATH variable set",
 						/*13*/"21sh: cd: no HOME variable set",
 						/*14*/"21sh: unsetenv: ", /*15*/"21sh: setenv: ",
 	  					/*16 -> 16, 17, 18*/"21sh : cd: ",/*17->19, 20, 21, 22, 23, 25, 26, 29, 30*/ "21sh: ",
@@ -82,7 +82,7 @@ int					sh_error(int ret, int index, char *err, char *bi)
 	if (index >= 14 && index <= 30 && index != 26)
 		ft_putstr_fd(tbl_error2(index), 2);
 	ft_putendl_fd("", 2);
-	if ((index >= 1 && index <= 7) || index == 23 || index == 24)
+	if (index <= 7 || index == 23 || index == 24)
 		exit_pgm(EXIT_FAILURE);
 	if (index == 11 || index == 14)
 		return (TRUE);
