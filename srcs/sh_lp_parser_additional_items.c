@@ -20,7 +20,6 @@ int					check_red_arg(t_e_list **l_expr, t_node **tree, char *red)
 	{
 		if ((node->data = ft_strdup((*l_expr)->data)) == NULL)
 			return (sh_error(TRUE, 6, NULL, NULL));
-		printf("in tree data ((%s)) type ((%d))\n", node->data, node->type);
 		return (parser_ret_fct(TRUE, tree, &node, NULL));
 	}
 	else if ((*l_expr)->type == RED_FD && (*l_expr)->next &&
@@ -63,7 +62,6 @@ int					check_red(int *nb_hrd, t_e_list **l_expr, t_node **tree, int red_type)
 	node = NULL;
 	save = *tree;
 	list_save = *l_expr;
-	printf("{{{{%s}}}}\n", list_save->data);
 	if ((red_ret = ((*l_expr)->type == RED)) == FALSE)
 		return (FALSE);
 	if ((*l_expr)->type == RED && (*l_expr)->hrd_quote != -42 &&
@@ -73,7 +71,6 @@ int					check_red(int *nb_hrd, t_e_list **l_expr, t_node **tree, int red_type)
 		if ((node->data = ft_strdup(list_save->data)) == NULL)
 			return (sh_error(TRUE, 6, NULL, NULL));
 		node->type = fill_red_type(list_save->data, nb_hrd);
-	printf("in check red ((%d-%d))\n", node->type, DLRED);
 		if (!move_in_list(l_expr) || check_red(nb_hrd, l_expr, &(node->left),
 		node->type) != TRUE)
 			*tree = save;

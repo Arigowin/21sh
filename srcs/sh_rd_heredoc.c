@@ -67,7 +67,6 @@ static int			fill_hrd_content(t_line *stline, t_node **tree) // static ac heredo
 
 	len = (ft_strlen(stline->hrd.line) -
 			(ft_strlen(stline->hrd.deli->data) + 1));
-	printf("(((%d)))\n", (*tree)->right->type);
 	if (tree && (*tree) && (*tree)->right  && ((*tree)->right->type == HRD_QUOTE
 	|| (*tree)->right->type == RED_ARG))
 	{
@@ -96,7 +95,6 @@ int					heredoc_handler(t_line *stline, t_node **tree,
 		return (FALSE);
 	if ((*tree)->type == DLRED)
 	{
-		printf("TROLOLO heredoc\n");
 		stline->hrd.deli = (((*tree)->right->type == RED_ARG
 						|| (*tree)->right->type == HRD_QUOTE) ?
 								(*tree)->right : (*tree)->right->right);
