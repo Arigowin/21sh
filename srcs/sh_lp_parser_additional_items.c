@@ -44,6 +44,7 @@ t_types				fill_red_type(char *data, int *nb_hrd)
 	type = ft_strequ(data, ">>") ? DRRED : type;
 	type = ft_strequ(data, "<") ? LRED : type;
 	type = ft_strequ(data, "<<") ? DLRED : type;
+	type = ft_strequ(data, "<>") ? RWRED : type;
 	*nb_hrd += (type == DLRED ? 1 : 0);
 	return (type);
 }

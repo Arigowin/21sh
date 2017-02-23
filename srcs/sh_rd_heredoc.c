@@ -96,6 +96,7 @@ int					heredoc_handler(t_line *stline, t_node **tree,
 		return (FALSE);
 	if ((*tree)->type == DLRED)
 	{
+		printf("TROLOLO heredoc\n");
 		stline->hrd.deli = (((*tree)->right->type == RED_ARG
 						|| (*tree)->right->type == HRD_QUOTE) ?
 								(*tree)->right : (*tree)->right->right);
