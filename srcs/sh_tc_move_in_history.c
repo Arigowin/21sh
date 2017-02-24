@@ -69,10 +69,10 @@ static int			reset_pos_x_y(char **str, int *pos, t_line *stline) //static ac les
 	if (stline->curs_y > 0 && *str != NULL && *pos > 0)
 	{
 		tmp = ft_strrchr(*str, '\n');
-		len = (tmp != NULL ? ft_strlen(tmp) : ft_strlen(*str));
-		len += PRT_LEN;
+		len = (tmp != NULL ? ft_strlen(tmp) - 1 : ft_strlen(*str));
 		if (len > stline->win.ws_col)
 		{
+			len += PRT_LEN;
 			nb_line = (len) / stline->win.ws_col;
 			len = (len - (stline->win.ws_col * nb_line));
 		}

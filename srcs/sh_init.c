@@ -71,7 +71,7 @@ int					reset_stline(t_line *stline)
 	if (DEBUG == 1)
 		ft_putendl_fd("------- RESET STLINE ------", 2);
 
-	ft_bzero(stline->line, BUFF_SIZE);
+	ft_bzero(stline->line, ft_strlen(stline->line));
 	stline->mini_prt = FALSE;
 	stline->quote = 0;
 	stline->pos = 0;
@@ -83,6 +83,6 @@ int					reset_stline(t_line *stline)
 	stline->hrd.pos = 0;
 	stline->hrd.ptr = NULL;
 	stline->hrd.deli = NULL;
-	ft_bzero(stline->hrd.line, BUFF_SIZE);
+	ft_bzero(stline->hrd.line, ft_strlen(stline->hrd.line));
 	return (TRUE);
 }
