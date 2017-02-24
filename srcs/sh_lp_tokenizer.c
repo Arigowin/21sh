@@ -55,8 +55,7 @@ int 				token_sep(int *hrd, char **read_buff, char **data_tmp,
 	if (read_buff && *read_buff && **read_buff && ft_strchr(SPECIAL, **read_buff) != NULL)
 	{
 		add_in_tbl(data_tmp, **read_buff);
-		if (ft_strchr(LWAKA, **read_buff) && (*(*read_buff + 1))
-		&& (*(*read_buff + 1)) == (**read_buff))
+		if (ft_strchr(LWAKA, **read_buff) && (*(*read_buff + 1)) && ((**read_buff == '<' && *(*read_buff + 1) == '>') || (*(*read_buff + 1)) == (**read_buff)))
 			//add_in_tbl(data_tmp, *(++(*read_buff)));
 		{
 			(*read_buff)++;

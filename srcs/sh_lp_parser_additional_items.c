@@ -3,7 +3,7 @@
 #include "shell.h"
 #include "libft.h"
 
-int					check_red_arg(t_e_list **l_expr, t_node **tree, int red)
+int					check_red_arg(t_e_list **l_expr, t_node **tree, char *red)
 {
 	if (DEBUG_PARSER == 1)
 		ft_putendl_fd("------- CHECK RED_ARG ------", 2);
@@ -15,7 +15,7 @@ int					check_red_arg(t_e_list **l_expr, t_node **tree, int red)
 
 	save = *tree;
 	node = NULL;
-	ntype = ((*l_expr)->hrd_quote >= 2 && red == DLRED ? HRD_QUOTE : RED_ARG);
+	ntype = ((*l_expr)->hrd_quote >= 2 && (ft_strcmp(red, "<<") == 0) ? HRD_QUOTE : RED_ARG);
 	if ((*l_expr)->type == RED_ARG && ((node = create_node(ntype)) != NULL))
 	{
 		if ((node->data = ft_strdup((*l_expr)->data)) == NULL)
@@ -43,6 +43,7 @@ t_types				fill_red_type(char *data, int *nb_hrd)
 	type = ft_strequ(data, ">>") ? DRRED : type;
 	type = ft_strequ(data, "<") ? LRED : type;
 	type = ft_strequ(data, "<<") ? DLRED : type;
+	type = ft_strequ(data, "<>") ? RWRED : type;
 	*nb_hrd += (type == DLRED ? 1 : 0);
 	return (type);
 }
@@ -57,6 +58,7 @@ int					check_red(int *nb_hrd, t_e_list **l_expr, t_node **tree, int red_type)
 	t_e_list			*list_save;
 	int					red_ret;
 
+(void)red_type;
 	node = NULL;
 	save = *tree;
 	list_save = *l_expr;
@@ -64,7 +66,7 @@ int					check_red(int *nb_hrd, t_e_list **l_expr, t_node **tree, int red_type)
 		return (FALSE);
 	if ((*l_expr)->type == RED && (*l_expr)->hrd_quote != -42 &&
 	(node = create_node(RED)) && (red_ret = move_in_list(l_expr)) == TRUE
-	&& ((red_ret = check_red_arg(l_expr, &(node->right), red_type)) == TRUE))
+	&& ((red_ret = check_red_arg(l_expr, &(node->right), list_save->data)) == TRUE))
 	{
 		if ((node->data = ft_strdup(list_save->data)) == NULL)
 			return (sh_error(TRUE, 6, NULL, NULL));

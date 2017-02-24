@@ -93,6 +93,7 @@ typedef enum			e_types
 	LRED,
 	DRRED,
 	DLRED,
+	RWRED,
 	DLRED_DOC,
 	LOGIC_AND,
 	LOGIC_OR,

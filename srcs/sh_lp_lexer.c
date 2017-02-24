@@ -150,8 +150,8 @@ static int			type_analyzer(t_e_list **l_expr, int boule)
 	{
 		t = *l_expr;
 		hrd = t->next->hrd_quote;
-		if (((ft_strchr(t->next->data, '<') || ft_strchr(t->next->data, '>')))
-		&& t->next->hrd_quote == 0)
+		if (((ft_strchr(t->next->data, '<') || ft_strchr(t->next->data, '>'))))
+//		&& t->next->hrd_quote == 0) // a priori usless mais a tester
 		{
 			waka_lexer(&(t->next));
 			t->next->type = RED;
