@@ -159,7 +159,7 @@ static int			type_analyzer(t_e_list **l_expr, int boule)
 		else if ((hrd >= 1 || !ft_strchr(SPECIAL, (t->next->data)[0]))
 		&& boule == 1 && (t->type == CMD || t->type == CA || t->type == RA))
 			t->next->type = CA;
-		else if ((hrd >= 1 || !ft_strchr(SPECIAL, (t->next->data)[0]))
+		else if ((/*hrd >= 1 ||*/ !ft_strchr(SPECIAL, (t->next->data)[0]))
 		&& ((t->type == RED && t->next->type != RED_FD) || t->type == RED_FD))
 			t->next->type = RA;
 		else
