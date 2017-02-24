@@ -74,7 +74,7 @@ setenv tutu ""
 echo CMD:'setenv "" miaou'
 setenv "" miaou
 
-echo CMD:'unsetenv abc _abc 1abc "" bonjour toto '' " " miaou tutu'
+echo CMD:"unsetenv abc _abc 1abc \"\" bonjour toto '' \" \" miaou tutu"
 unsetenv abc _abc 1abc "" bonjour toto '' " " miaou tutu
 
 echo CMD:'env'
