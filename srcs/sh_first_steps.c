@@ -12,7 +12,8 @@ static char			*get_path(void)
 	char				*home;
 
 	home = get_env("HOME");
-	path = get_env("PWD");
+	if ((path = get_env("PWD")) == NULL)
+		return (NULL);
 	tmp = ft_strsub(path, 0, ft_strlen(home));
 	if (home && ft_strcmp(home, tmp) == 0)
 	{
@@ -37,10 +38,9 @@ int					display_prompt(void)
 	path = get_path();
 	name = get_env("LOGNAME");
 	if (name)
-	{
 		ft_putstr_color("\033[34;1m", name);
+	if (name && path)
 		ft_putstr(":");
-	}
 	if (path)
 		ft_putstr_color("\033[32;1m", path);
 	if (path || name)
