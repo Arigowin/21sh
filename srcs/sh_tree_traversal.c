@@ -41,6 +41,7 @@ int					fd_open(int	*fd, t_node *tree, t_lst_fd **lstfd)
 	if (node && node->data && (filename = node->data) == NULL)
 		/* free : node + lstfd */
 		return (ERROR);
+	printf("open ((%s))\n", filename);
 	if (node && node->data && node->data[0] == '&')
 	{
 		*fd = (ft_strcmp("&-", node->data) == 0 ? -42 : ft_atoi(ft_strdup_ignchar(filename + 1, '\\')));
@@ -60,7 +61,7 @@ int					fd_open(int	*fd, t_node *tree, t_lst_fd **lstfd)
 		*fd = ret;
 		if (ret >= 0)
 		{
-			fd_save = open(filename, flags,	S_IRUSR | S_IWUSR | S_IRGRP | S_IROTH);
+			fd_save = open(ft_strdup_ignchar(filename, '\\'), flags,	S_IRUSR | S_IWUSR | S_IRGRP | S_IROTH);
 			*fd = fd_save;
 		}
 	}
@@ -69,11 +70,6 @@ int					fd_open(int	*fd, t_node *tree, t_lst_fd **lstfd)
 		ret = (ret <= -1 ? 21 : 20);
 		ret = ft_strcmp(ft_strdup_ignchar(filename + 1, '\\'), "-") ? ret : 29;
 		return (sh_error(TRUE, ret, ft_strdup_ignchar(filename + 1, '\\'), NULL));
-
-		//	if (ret <= -1)
-		//		return (sh_error(TRUE, 21, filename, NULL));
-		//	else
-		//		return (sh_error(TRUE, 20, filename, NULL));
 	}
 	return (TRUE);
 }
@@ -81,7 +77,6 @@ int					fd_open(int	*fd, t_node *tree, t_lst_fd **lstfd)
 int 				push_in_lstfd(t_node *tree, t_lst_fd **lstfd, int fd, int *fd_save)
 {
 	char				*filename;
-	char				*tmp;
 
 	if (*fd_save == -1)
 	{
@@ -90,15 +85,14 @@ int 				push_in_lstfd(t_node *tree, t_lst_fd **lstfd, int fd, int *fd_save)
 		fd = -1;
 	}
 	*fd_save = fd;
-	if (tree && (tree->type == RRED || tree->type == DRRED || tree->type == LRED || tree->type == RWRED) && tree->right)
+	if (tree && (tree->type == RRED || tree->type == DRRED || tree->type == LRED
+	|| tree->type == RWRED) && tree->right)
 	{
-		filename = (tree->right->type == RED_ARG ? tree->right->data : tree->right->right->data);
-		if (ft_strchr(filename, '\\'))
-			tmp = ft_strdup_ignchar(filename, '\\');
-		else
-			tmp = ft_strdup(filename);
-		lstfd_pushfront(lstfd, fd, tmp);
-		free(tmp);
+		filename = (tree->right->type == RED_ARG ?
+				ft_strdup_ignchar(tree->right->data, '\\')
+				: ft_strdup_ignchar(tree->right->right->data, '\\'));
+		lstfd_pushfront(lstfd, fd, filename);
+		ft_strdel(&filename);
 		if (fd == -1)
 			return (FALSE);
 	}
