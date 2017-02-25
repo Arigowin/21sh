@@ -57,11 +57,11 @@ int					fct_cut(char **str, int *pos, t_line *stline, t_history **history)
 	}
 	else
 	{
-		while (curs_end <= curs_start)
-		{
-			fct_del(str, pos, stline, history);
-			curs_start--;
-		}
+		while (curs_end < curs_start--)
+			fct_right(str, pos, stline, history);
+		fct_del(str, pos, stline, history);
+		while ((*pos) > curs_end)
+			fct_backspace(str, pos, stline, history);
 	}
 	tputs(tgetstr("ve", NULL), 1, my_outc);
 	return (TRUE);
