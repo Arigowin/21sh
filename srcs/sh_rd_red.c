@@ -13,7 +13,7 @@ int					fd_exist(int fd)
 	return (TRUE);
 }
 
-static int			left_right_red(t_node *tree, t_lst_fd *lstfd, int stdfd) // static ac redirect
+static int			left_right_red(t_node *tree, t_lst_fd **lstfd, int stdfd) // static ac redirect
 {
 	if (DEBUG_RED == 1)
 		ft_putendl_fd("------- LEFT RIGHT RED -------", 2);
@@ -27,19 +27,30 @@ static int			left_right_red(t_node *tree, t_lst_fd *lstfd, int stdfd) // static 
 	{
 		if (stdfd == STDIN_FILENO)
 			return (sh_error(TRUE, 7, NULL, NULL));
-		if (dup2(lstfd->fd, STDERR_FILENO) == ERROR)
+		if (dup2((*lstfd)->fd, STDERR_FILENO) == ERROR)
 			return (sh_error(TRUE, 7, NULL, NULL));
 	}
 	if (tree->right && tree->type == RED_FD)
 		tree = tree->right;
-	if (lstfd->fd == -42)
+	if ((*lstfd)->fd == -42)
 	{
 		if (fd >= 0)
 			close(fd);
 		return (TRUE);
 	}
-	if (lstfd->fd >= 0 && dup2(lstfd->fd, fd) == ERROR)
+	dprintf(2, "OOOOOOOO[%s][%s|%d][%d]\n", tree->data, (*lstfd)->filename, (*lstfd)->fd, fd);
+	if ((*lstfd)->fd >= 0 && dup2((*lstfd)->fd, fd) == ERROR)
 		return (sh_error(TRUE, 7, NULL, NULL));
+	if ((*lstfd)->next)
+	{
+		printf("OK\n");
+		t_lst_fd *tmpfd = (*lstfd)->next;
+		if ((*lstfd)->fd > 2)
+			close((*lstfd)->fd);
+		ft_strdel(&((*lstfd)->filename));
+		free(*lstfd);
+		*lstfd = tmpfd;
+	}
 	return (TRUE);
 }
 
@@ -57,11 +68,11 @@ static int			heredoc_red(t_node *tree, int fd) // static ac redirect
 	else
 		str = ft_strdup(tree->right->data);
 	if (tree && tree->type == RED_FD
-	&& ft_strcmp(tree->data, "&"))
+			&& ft_strcmp(tree->data, "&"))
 		fd = ft_atoi(tree->data);
 	if (pipe(hrd_fd) == ERROR)
 		/* RET: error EXIT: false MSG: "pipe fail"
-		* FREE: str */
+		 * FREE: str */
 		return (ERROR);
 	if (str)
 		write(hrd_fd[1], str, ft_strlen(str));
@@ -73,14 +84,14 @@ static int			heredoc_red(t_node *tree, int fd) // static ac redirect
 	return (TRUE);
 }
 
-int					redirect(t_node *tree, t_lst_fd *lstfd)
+int					redirect(t_node *tree, t_lst_fd **lstfd)
 {
 	if (DEBUG_RED == 1)
 		ft_putendl_fd("------- REDIRECT -------", 2);
 
 	int					fd;
 
-	if ((lstfd == NULL && tree->type != DLRED) || tree == NULL)
+	if (((lstfd == NULL || *lstfd == NULL) && tree->type != DLRED) || tree == NULL)
 		return (FALSE);
 	fd = ((tree->type == RRED || tree->type == DRRED) ? STDOUT_FILENO : STDIN_FILENO);
 	if (tree && tree->right && (tree->type != DLRED))
@@ -93,12 +104,12 @@ int					redirect(t_node *tree, t_lst_fd *lstfd)
 		if (heredoc_red(tree->right, fd) == ERROR)
 			return (ERROR);
 	}
-	if (tree && tree->left && lstfd) // && lstfd->fd != -1)
+	if (tree && tree->left && lstfd && *lstfd) // && lstfd->fd != -1)
 	{
 		if (tree->type == DLRED && redirect(tree->left, lstfd) == ERROR)
 			return (ERROR);
-		if (((lstfd->next && tree->type != DLRED) || tree->left->type == DLRED)
-		&& redirect(tree->left, lstfd->next) == ERROR)
+		if ((((*lstfd)->next && tree->type != DLRED) || tree->left->type == DLRED)
+				&& redirect(tree->left, lstfd) == ERROR)
 			return (ERROR);
 	}
 	return (TRUE);
