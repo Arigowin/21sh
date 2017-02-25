@@ -43,12 +43,14 @@ int					fd_open(int	*fd, t_node *tree, t_lst_fd **lstfd)
 		return (ERROR);
 	if (node && node->data && node->data[0] == '&')
 	{
-		*fd = (ft_strcmp("&-", node->data) == 0 ? -42 : ft_atoi(filename + 1));
+		*fd = (ft_strcmp("&-", node->data) == 0 ? -42 : ft_atoi(ft_strdup_ignchar(filename + 1, '\\')));
 		if (*fd >= 0)
 		{
-			if ((ret = fd_exist(*fd)) != TRUE)
+		int ret_num = 0;
+			if ((ret_num = ft_isstrnum(filename + 1)) == 0 || (ret = fd_exist(*fd)) != TRUE)
 				*fd = -1;
-			return (ret);
+			if (ret_num != 0)
+				return (ret);
 		}
 	}
 	else
@@ -65,7 +67,8 @@ int					fd_open(int	*fd, t_node *tree, t_lst_fd **lstfd)
 	if (*fd == -1)
 	{
 		ret = (ret <= -1 ? 21 : 20);
-		return (sh_error(TRUE, ret, filename, NULL));
+		ret = ft_strcmp(ft_strdup_ignchar(filename + 1, '\\'), "-") ? ret : 29;
+		return (sh_error(TRUE, ret, ft_strdup_ignchar(filename + 1, '\\'), NULL));
 
 		//	if (ret <= -1)
 		//		return (sh_error(TRUE, 21, filename, NULL));
@@ -78,6 +81,7 @@ int					fd_open(int	*fd, t_node *tree, t_lst_fd **lstfd)
 int 				push_in_lstfd(t_node *tree, t_lst_fd **lstfd, int fd, int *fd_save)
 {
 	char				*filename;
+	char				*tmp;
 
 	if (*fd_save == -1)
 	{
@@ -89,7 +93,12 @@ int 				push_in_lstfd(t_node *tree, t_lst_fd **lstfd, int fd, int *fd_save)
 	if (tree && (tree->type == RRED || tree->type == DRRED || tree->type == LRED || tree->type == RWRED) && tree->right)
 	{
 		filename = (tree->right->type == RED_ARG ? tree->right->data : tree->right->right->data);
-		lstfd_pushfront(lstfd, fd, filename);
+		if (ft_strchr(filename, '\\'))
+			tmp = ft_strdup_ignchar(filename, '\\');
+		else
+			tmp = ft_strdup(filename);
+		lstfd_pushfront(lstfd, fd, tmp);
+		free(tmp);
 		if (fd == -1)
 			return (FALSE);
 	}
@@ -107,7 +116,7 @@ int					manage_red_fd(int fd, t_node *tree, t_lst_fd **lstfd, t_types type)
 	t_lst_fd			*tmp;
 
 	pipe_fd = NULL;
-	fd_save = (fd == -21 ? 0 : fd_save);
+	fd_save = ((fd == -21 || fd == -2) ? 0 : fd_save);
 	if (tree && tree->type == PIPE)
 	{
 		tmp = *lstfd;

@@ -21,9 +21,9 @@ const char			*tbl_error1(int index)
 						/*11*/"21sh: cd: no OLDPWD variable set",
 						/*12*/"21sh: no PATH variable set",
 						/*13*/"21sh: cd: no HOME variable set",
-						/*14*/"21sh: unsetenv: ", /*15*/"21sh: setenv: ",
-	  					/*16 -> 16, 17, 18*/"21sh : cd: ",/*17->19, 20, 21, 22, 23, 25, 26, 29, 30*/ "21sh: ",
-						/*18->26*/"21sh: parse error near: ",
+						/*14*/"21sh: unsetenv", /*15*/"21sh: setenv",
+	  					/*16 -> 16, 17, 18*/"21sh : cd: ",/*17->19, 20, 21, 22, 23, 25, 26, 29, 30*/ "21sh",
+						/*18->26*/"21sh: parse error near",
 						/*19->27, 28*/"21sh: exit "
 						};
 	int					ret_index;
@@ -78,7 +78,10 @@ int					sh_error(int ret, int index, char *err, char *bi)
 		ft_putstr_fd(": ", 2);
 	}
 	if (err != NULL)
+	{
+		ft_putstr_fd(": ", 2);
 		ft_putstr_fd(err, 2);
+	}
 	if (index >= 14 && index <= 30 && index != 26)
 		ft_putstr_fd(tbl_error2(index), 2);
 	ft_putendl_fd("", 2);

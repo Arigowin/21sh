@@ -6,13 +6,14 @@ int					token_backslash(t_states state, char **r_buff, char **data_tmp)
 	if (DEBUG_TOKEN == 1)
 		ft_putendl_fd("------- TOKEN BACKSLASH ------", 2);
 
+	(void)state;
 	if (**r_buff == '\\' && (*(*r_buff + 1)) && (*(*r_buff + 1)) == '\n')
 		(*r_buff) += 1;
 	else
 	{
-		if (state == IN_DQUOTE && (*(*r_buff + 1)) && ((*(*r_buff + 1)) != '$'
-		&& (*(*r_buff + 1)) != '`' && (*(*r_buff + 1)) != '"'
-		&& (*(*r_buff + 1)) != '\\' && (*(*r_buff + 1)) != '\n'))
+	//	if (state == IN_DQUOTE && (*(*r_buff + 1)) && ((*(*r_buff + 1)) != '$'
+//		&& (*(*r_buff + 1)) != '`' && (*(*r_buff + 1)) != '"'
+//		&& (*(*r_buff + 1)) != '\\' && (*(*r_buff + 1)) != '\n'))
 			add_in_tbl(data_tmp, **r_buff);
 		(*r_buff)++;
 		add_in_tbl(data_tmp, **r_buff);

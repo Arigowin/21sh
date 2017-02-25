@@ -23,7 +23,7 @@ static int			waka_land_handler(t_e_list **l_expr, char (*tmp)[], int *i)
 	{
 		(*l_expr)->data[ft_strlen((*l_expr)->data) - 1] = '\0';
 		if ((*l_expr)->next != NULL && (ft_isstrnum((*l_expr)->next->data)
-		|| ft_strcmp((*l_expr)->next->data, "-") == 0))
+		|| ft_strcmp((*l_expr)->next->data, "-") == 0 || ft_strcmp((*l_expr)->next->data, "\\-") == 0))
 		{
 			if ((tmp2 = ft_strjoin("&", (*l_expr)->next->data)) == NULL)
 				return (sh_error(TRUE, 6, NULL, NULL));
@@ -150,8 +150,8 @@ static int			type_analyzer(t_e_list **l_expr, int boule)
 	{
 		t = *l_expr;
 		hrd = t->next->hrd_quote;
-		if (((ft_strchr(t->next->data, '<') || ft_strchr(t->next->data, '>'))))
-//		&& t->next->hrd_quote == 0) // a priori usless mais a tester
+		if (((ft_strchr(t->next->data, '<') || ft_strchr(t->next->data, '>')))
+		&& t->next->hrd_quote == 0) // a priori usless mais a tester
 		{
 			waka_lexer(&(t->next));
 			t->next->type = RED;
