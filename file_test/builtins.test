@@ -28,26 +28,26 @@ echo CMD:'cd -- abc'
 cd -- abc
 echo CMD:'cd -- abc ../../'
 cd -- abc ../../
-echo CMD:'cd /'
-cd /
-echo CMD:'cd --'
-cd --
+echo CMD:'cd / ; ls'
+cd / ; ls
+echo CMD:'cd -- ; ls'
+cd -- ; ls
 echo CMD:'cd abcdef'
 cd abcdef
 echo CMD:'cd abc def'
 cd abc def
-echo CMD:'cd ../ ../../'
-cd ../ ../../
-echo CMD:'cd "../ ../../"'
-cd "../ ../../"
-echo CMD:"cd '../ ../../'"
-cd '../ ../../'
-echo CMD:'cd "../"'
-cd "../"
-echo CMD:"cd '../'"
-cd '../'
-echo CMD:'cd ~/test ; mkdir noright ; chmod 000 noright ; cd noright ; rm -rf noright'
-cd ~/test ; mkdir noright ; chmod 000 noright ; cd noright ; rm -rf noright
+echo CMD:'cd ../ ../../ ; ls ; cd -'
+cd ../ ../../ ; ls ; cd -
+echo CMD:'cd "../ ../../" ; ls'
+cd "../ ../../" ; ls
+echo CMD:"cd '../ ../../' ; ls"
+cd '../ ../../' ; ls
+echo CMD:'cd "../" ; ls'
+cd "../" ; ls
+echo CMD:"cd '../' ; ls"
+cd '../' ; ls
+echo CMD:'cd ; cd ~/test ; ls ; mkdir noright ; chmod 000 noright ; cd noright ; rm -rf noright'
+cd ; cd ~/test ; ls ; mkdir noright ; chmod 000 noright ; cd noright ; rm -rf noright
 
 echo CMD:'setenv'
 setenv
@@ -65,14 +65,14 @@ echo CMD:'setenv abc = setenv'
 setenv abc = setenv
 echo CMD:'setenv abc = setenv = pouet'
 setenv abc = setenv = pouet
-echo CMD:'setenv tutu toto'
-setenv tutu toto
-echo CMD:'setenv ""'
-setenv ""
-echo CMD:'setenv tutu ""'
-setenv tutu ""
-echo CMD:'setenv "" miaou'
-setenv "" miaou
+echo CMD:'setenv tutu toto ; setenv'
+setenv tutu toto ; setenv
+echo CMD:'setenv "" ; setenv'
+setenv "" ; setenv
+echo CMD:'setenv tutu "" ; setenv'
+setenv tutu "" ; setenv
+echo CMD:'setenv "" miaou ; setenv'
+setenv "" miaou ; setenv
 
 echo CMD:"unsetenv abc _abc 1abc \"\" bonjour toto '' \" \" miaou tutu"
 unsetenv abc _abc 1abc "" bonjour toto '' " " miaou tutu
@@ -112,11 +112,11 @@ echo CMD:"echo '\a\b\c'"
 echo '\a\b\c'
 echo CMD:'echo \a\b\c'
 echo \a\b\c
-echo CMD:'echo \$PATH'
+echo CMD:'echo \\$PATH'
 echo \$PATH
 echo CMD:'echo $PATH'
 echo $PATH
-echo CMD:'echo "$PATH"'
+echo CMD:'echo $PATH"'
 echo "$PATH"
 echo CMD:"echo '\$PATH'"
 echo '$PATH'
@@ -151,15 +151,15 @@ echo -i
 echo CMD:'echo -- -i'
 echo -- -i
 
-echo "[echo 'ls > toto']"
+echo "CMD: [echo 'ls > toto']"
 echo 'ls > toto'
-echo '[echo "ls < toto"]'
+echo 'CMD: [echo "ls < toto"]'
 echo "ls < toto"
-echo "[echo '>'toto]"
+echo "CMD: [echo '>'toto]"
 echo '>'toto
-echo "[echo '> toto']"
+echo "CMD: [echo '> toto']"
 echo '> toto'
-echo '[echo ">"toto]'
+echo 'CMD: [echo ">"toto]'
 echo ">"toto
-echo '[echo "> toto"]'
+echo 'CMD: [echo "> toto"]'
 echo "> toto"

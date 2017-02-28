@@ -1,26 +1,26 @@
-echo '[cd -]'
+echo 'CMD: [cd -]'
 cd -
-echo '[ls >&9]'
+echo 'CMD: [ls >&9]'
 ls >&9
-echo '[unsetenv]'
+echo 'CMD: [unsetenv]'
 unsetenv
-echo '[setenv a b c d e f]'
+echo 'CMD: [setenv a b c d e f]'
 setenv a b c d e f
-echo '[||]'
+echo 'CMD: [||]'
 ||
-echo '[|]'
+echo 'CMD: [|]'
 |
-echo '[>>> toto]'
+echo 'CMD: [>>> toto]'
 >>> toto
-echo '[ls &<toto]'
+echo 'CMD: [ls &<toto]'
 ls &<toto
-echo '[cd Makefile]'
+echo 'CMD: [cd Makefile]'
 cd Makefile
-echo '[cd noexist]'
+echo 'CMD: [cd noexist]'
 cd noexist
-echo '[mkdir noright ; chmod 000 noright ; cd noright ; rm -rf noright]'
+echo 'CMD: [mkdir noright ; chmod 000 noright ; cd noright ; rm -rf noright]'
 mkdir noright ; chmod 000 noright ; cd noright ; rm -rf noright
-echo '[noexist]'
+echo 'CMD: [noexist]'
 noexist
-echo '[exit abc]'
+echo 'CMD: [exit abc]'
 exit abc

@@ -68,18 +68,16 @@ int					fd_open(int	*fd, t_node *tree, t_lst_fd **lstfd)
 	{
 		ret = (ret <= -1 ? 21 : 20);
 		ret = ft_strcmp(ft_strdup_ignchar(filename + 1, '\\'), "-") ? ret : 29;
-		return (sh_error(TRUE, ret, ft_strdup_ignchar(filename + 1, '\\'), NULL));
-
-		//	if (ret <= -1)
-		//		return (sh_error(TRUE, 21, filename, NULL));
-		//	else
-		//		return (sh_error(TRUE, 20, filename, NULL));
+		return (sh_error(TRUE, ret, ft_strdup_ignchar(filename, '\\'), "42"));
 	}
 	return (TRUE);
 }
 
 int 				push_in_lstfd(t_node *tree, t_lst_fd **lstfd, int fd, int *fd_save)
 {
+	if (DEBUG_TREE == 1)
+		ft_putendl_fd("------- PUSH IN LSTFD -------", 2);
+
 	char				*filename;
 	char				*tmp;
 
