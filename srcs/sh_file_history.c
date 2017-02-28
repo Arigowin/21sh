@@ -5,6 +5,9 @@
 
 static int			in_quote(char **buff, char *line)
 {
+	if (DEBUG_FILE_HIST == 1)
+		ft_putendl_fd("------- IN QUOTE ------", 2);
+
 	char				*tmp1;
 	char				*tmp2;
 
@@ -38,6 +41,9 @@ static int			in_quote(char **buff, char *line)
 
 static int			line_manager(char **buff, char *line, int *quote, t_history **history)
 {
+	if (DEBUG_FILE_HIST == 1)
+		ft_putendl_fd("------- LINE MANAGER ------", 2);
+
 	char				*tmp;
 
 	tmp = NULL;
@@ -59,13 +65,18 @@ static int			line_manager(char **buff, char *line, int *quote, t_history **histo
 			ft_strdel(buff);
 		}
 		else
+		{
 			add_history(history, line); // pb indirectly loss
+		}
 	}
 	return (TRUE);
 }
 
 static int			get_line_in_file(int fd, t_history **history)
 {
+	if (DEBUG_FILE_HIST == 1)
+		ft_putendl_fd("------- GET LINE IN FILE ------", 2);
+
 	int					quote;
 	char				*buff;
 	char				*line;
@@ -75,10 +86,7 @@ static int			get_line_in_file(int fd, t_history **history)
 	line = NULL;
 	while (fd > -1 && get_next_line(fd, &line) > 0)
 	{
-		if (quote != DQUOTE && ft_strncount(line, QUOTE) % 2 != 0)
-			quote = (quote == QUOTE ? 0 : QUOTE);
-		else if (quote != QUOTE && ft_strncount(line, DQUOTE) % 2 != 0)
-			quote = (quote == DQUOTE ? 0 : DQUOTE);
+		quote = quote_is_close(&line) - quote_is_close(&buff);
 		if (line == NULL || line_manager(&buff, line, &quote, history) == ERROR) // indirectly loss
 		{
 			ft_strdel(&line);
@@ -89,6 +97,7 @@ static int			get_line_in_file(int fd, t_history **history)
 	}
 	if (line)
 	{
+		quote = quote_is_close(&line) - quote_is_close(&buff);
 		if (line_manager(&buff, line, &quote, history) == ERROR)
 		{
 			ft_strdel(&line);
@@ -103,6 +112,9 @@ static int			get_line_in_file(int fd, t_history **history)
 
 int					load_history(t_history **history)
 {
+	if (DEBUG_FILE_HIST == 1)
+		ft_putendl_fd("------- LOAD HISTORY ------", 2);
+
 	char				*home;
 	char				*path;
 	int					fd;
@@ -129,6 +141,9 @@ int					load_history(t_history **history)
 
 int					save_history(void)
 {
+	if (DEBUG_FILE_HIST == 1)
+		ft_putendl_fd("------- SAVE HISTORY ------", 2);
+
 	char				*home;
 	char				*path;
 	int					fd;

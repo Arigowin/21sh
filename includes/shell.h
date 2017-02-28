@@ -8,6 +8,7 @@
 #define DEBUG_COPY_PASTE 0
 #define DEBUG_HEREDOC 0
 #define DEBUG_HISTORY 0
+#define DEBUG_FILE_HIST 0
 #define DEBUG_KEY 0
 #define DEBUG_LEXER 0
 #define DEBUG_PARSER 0
@@ -338,6 +339,7 @@ int						reset_term();
 */
 int						mini_prt_stline(t_line *stline);
 int 					mini_prt_handler(char **str, int *pos, t_line *stline);
+int						quote_is_close(char **str);
 int						event(int key, t_line *stline, t_history **history);
 int						fct_ctrl_d(char **s, int *pos, t_line *stline,
 							t_history **history);
