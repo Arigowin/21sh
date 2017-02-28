@@ -79,7 +79,6 @@ int 				push_in_lstfd(t_node *tree, t_lst_fd **lstfd, int fd, int *fd_save)
 		ft_putendl_fd("------- PUSH IN LSTFD -------", 2);
 
 	char				*filename;
-	char				*tmp;
 
 	if (*fd_save == -1)
 	{
@@ -88,15 +87,14 @@ int 				push_in_lstfd(t_node *tree, t_lst_fd **lstfd, int fd, int *fd_save)
 		fd = -1;
 	}
 	*fd_save = fd;
-	if (tree && (tree->type == RRED || tree->type == DRRED || tree->type == LRED || tree->type == RWRED) && tree->right)
+	if (tree && (tree->type == RRED || tree->type == DRRED || tree->type == LRED
+	|| tree->type == RWRED) && tree->right)
 	{
-		filename = (tree->right->type == RED_ARG ? tree->right->data : tree->right->right->data);
-		if (ft_strchr(filename, '\\'))
-			tmp = ft_strdup_ignchar(filename, '\\');
-		else
-			tmp = ft_strdup(filename);
-		lstfd_pushfront(lstfd, fd, tmp);
-		free(tmp);
+		filename = (tree->right->type == RED_ARG ?
+				ft_strdup_ignchar(tree->right->data, '\\')
+				: ft_strdup_ignchar(tree->right->right->data, '\\'));
+		lstfd_pushfront(lstfd, fd, filename);
+		ft_strdel(&filename);
 		if (fd == -1)
 			return (FALSE);
 	}
@@ -123,7 +121,8 @@ int					manage_red_fd(int fd, t_node *tree, t_lst_fd **lstfd, t_types type)
 		pipe_fd = *lstfd;
 		fd = -21;
 	}
-	if (tree && (tree->type == RRED || tree->type == DRRED || tree->type == LRED || tree->type == DLRED || tree->type == RWRED))
+	if (tree && (tree->type == RRED || tree->type == DRRED || tree->type == LRED
+	|| tree->type == DLRED || tree->type == RWRED))
 		if ((ret = fd_open(&fd, tree, lstfd)) == ERROR)
 			return (ret);
 	if (tree && tree->right && tree->type == PIPE)
