@@ -165,7 +165,7 @@ int					tree_traversal(t_node *tree, t_lst_fd **lstfd, int pipefd_tab[2][2])
 		manage_red_fd(-2, tree, lstfd, NONE);
 
 	//ANTIBUG
-	if (DEBUG_ANTIBUG == 0)
+	if (DEBUG_ANTIBUG == 1)
 	{
 		printf("lstfd :\n");
 		t_lst_fd *tmp = *lstfd;
@@ -173,7 +173,6 @@ int					tree_traversal(t_node *tree, t_lst_fd **lstfd, int pipefd_tab[2][2])
 			printf("in pipe [filename->%s]--[fd->%d]\n", tmp->filename, tmp->fd);
 			tmp=tmp->next;
 		}
-		//tmp = tmp->next;
 	}
 	//  fin ANTIBUG
 
@@ -200,33 +199,43 @@ int					tree_traversal(t_node *tree, t_lst_fd **lstfd, int pipefd_tab[2][2])
 	{
 		if ((manage_cmd(pipefd_tab, tree, lstfd)) == ERROR)
 			return (ERROR);
-	//	if (tree->left != NULL && (*lstfd))
-	//	{
-	//		tmpfd = (*lstfd)->next;
-	//		if ((*lstfd)->fd > 2)
-	//			close((*lstfd)->fd);
-	//		ft_strdel(&((*lstfd)->filename));
-	//		free(*lstfd);
-	//		*lstfd = tmpfd;
-	//	}
+
+		// a revoir
+		if (tree->left != NULL && (*lstfd))
+		{
+			tree = tree->left;
+			while (tree)
+			{
+				if (tree->type != DLRED)
+				{
+					tmpfd = (*lstfd)->next;
+					if ((*lstfd)->fd > 2)
+						close((*lstfd)->fd);
+					ft_strdel(&((*lstfd)->filename));
+					free(*lstfd);
+					*lstfd = tmpfd;
+				}
+				tree = tree->left;
+			}
+		}
+
 		if (pipefd_tab[0][0] < 0 && pipefd_tab[1][0] < 0)
 		{
 			reset_std_fd();
 			close_lstfd(lstfd);
 			del_lstfd(lstfd);
 		}
-	//ANTIBUG
-	if (DEBUG_ANTIBUG == 0)
-	{
-		printf("lstfd2 :\n");
-		t_lst_fd *tmp = *lstfd;
-		while(tmp){
-			printf("[filename->%s]--[fd->%d]\n", tmp->filename, tmp->fd);
-			tmp=tmp->next;
+		//ANTIBUG
+		if (DEBUG_ANTIBUG == 1)
+		{
+			printf("lstfd2 :\n");
+			t_lst_fd *tmp = *lstfd;
+			while(tmp){
+				printf("[filename->%s]--[fd->%d]\n", tmp->filename, tmp->fd);
+				tmp=tmp->next;
+			}
 		}
-		//tmp = tmp->next;
-	}
-	//  fin ANTIBUG
+		//  fin ANTIBUG
 	}
 	return (TRUE);
 }
