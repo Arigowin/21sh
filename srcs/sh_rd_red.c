@@ -38,7 +38,6 @@ static int			left_right_red(t_node *tree, t_lst_fd *lstfd, int stdfd) // static 
 			close(fd);
 		return (TRUE);
 	}
-	dprintf(2, "OK[%d][%d]\n", lstfd->fd, fd);
 	if (lstfd->fd >= 0 && dup2(lstfd->fd, fd) == ERROR)
 		return (sh_error(TRUE, 7, NULL, NULL));
 	return (TRUE);

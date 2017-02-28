@@ -163,7 +163,7 @@ int					tree_traversal(t_node *tree, t_lst_fd **lstfd, int pipefd_tab[2][2])
 		manage_red_fd(-2, tree, lstfd, NONE);
 
 	//ANTIBUG
-	if (DEBUG_ANTIBUG == 0)
+	if (DEBUG_ANTIBUG == 1)
 	{
 		printf("lstfd :\n");
 		t_lst_fd *tmp = *lstfd;

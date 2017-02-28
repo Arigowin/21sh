@@ -12,7 +12,7 @@
 #define DEBUG_LEXER 0
 #define DEBUG_PARSER 0
 #define DEBUG_PIPE 0
-#define DEBUG_RED 1
+#define DEBUG_RED 0
 #define DEBUG_SAVIOR 0
 #define DEBUG_TERMCAPS 0
 #define DEBUG_TOKEN 0
