@@ -22,7 +22,10 @@ static int			multi_left(char **str, int *pos, t_line *stline)
 		if (stline->curs_y == 0)
 			nb += PRT_LEN;
 		if (nb > stline->win.ws_col)
+		{
 			nb_line = (nb - (stline->win.ws_col * nb_line)) / stline->win.ws_col;
+			nb -= (stline->win.ws_col * nb_line) - PRT_LEN;
+		}
 		while (++(stline->curs_x) < nb - 1)
 			tputs(tgetstr("nd", NULL), 1, my_outc);
 		stline->curs_x = nb + 1;

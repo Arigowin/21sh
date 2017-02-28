@@ -177,7 +177,7 @@ int					event(int k, t_line *stline, t_history **history)
 	ret = 0;
 	tputs(tgetstr("vi", NULL), 1, my_outc);
 
-	if (DEBUG_ANTIBUG == 1)
+	if (DEBUG_ANTIBUG == 0)
 	{
 		char *res;
 		tputs(tgetstr("sc", NULL), 1, my_outc);
