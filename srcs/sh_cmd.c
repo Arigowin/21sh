@@ -14,7 +14,7 @@ static char			**tree_to_tbl(t_node *tree, int nb_elem)
 		sh_error(TRUE, 6, NULL, NULL);
 	while (tree != NULL)
 	{
-		if ((tbl[i] = ft_strdup_ignchar(tree->data, '\\')) == NULL)
+		if ((tbl[i] = ft_strdup(tree->data)) == NULL)
 			sh_error(TRUE, 6, NULL, NULL);
 		tree = tree->right;
 		i++;
