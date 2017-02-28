@@ -16,7 +16,7 @@ static int				father(int pipefd_tab[2][2])
 	stat_loc = 0;
 	check_signal(3);
 	pfd_close(pipefd_tab);
-//	if (pipefd_tab[1][0] < 0)
+	if (pipefd_tab[1][0] < 0)
 		while (waitpid(-1, &stat_loc, WNOHANG) >= 0)
 			;
 	if (WIFSIGNALED(stat_loc))
@@ -39,7 +39,7 @@ static int			son(char **cmd, int pipefd_tab[2][2], t_node *tree,
 	ret = TRUE;
 	pfd_handler(pipefd_tab);
 	if ((pipefd_tab[0][0] >= 0 || pipefd_tab[1][0] >= 0) && tree && tree->left
-	&& lstfd && *lstfd && !(ret = redirect(tree->left, lstfd)))
+	&& lstfd && *lstfd && !(ret = redirect(tree->left, *lstfd)))
 	{
 		if (ret == ERROR)
 /* RET: error EXIT: false MSG: "i don't know"  ==> si error onne remonte pas jusque là! en fait ca depend si on veut quitter le fork ou le pgm */

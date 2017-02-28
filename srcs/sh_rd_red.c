@@ -13,7 +13,7 @@ int					fd_exist(int fd)
 	return (TRUE);
 }
 
-static int			left_right_red(t_node *tree, t_lst_fd **lstfd, int stdfd) // static ac redirect
+static int			left_right_red(t_node *tree, t_lst_fd *lstfd, int stdfd) // static ac redirect
 {
 	if (DEBUG_RED == 1)
 		ft_putendl_fd("------- LEFT RIGHT RED -------", 2);
@@ -27,18 +27,19 @@ static int			left_right_red(t_node *tree, t_lst_fd **lstfd, int stdfd) // static
 	{
 		if (stdfd == STDIN_FILENO)
 			return (sh_error(TRUE, 7, NULL, NULL));
-		if (dup2((*lstfd)->fd, STDERR_FILENO) == ERROR)
+		if (dup2(lstfd->fd, STDERR_FILENO) == ERROR)
 			return (sh_error(TRUE, 7, NULL, NULL));
 	}
 	if (tree->right && tree->type == RED_FD)
 		tree = tree->right;
-	if ((*lstfd)->fd == -42)
+	if (lstfd->fd == -42)
 	{
 		if (fd >= 0)
 			close(fd);
 		return (TRUE);
 	}
-	if ((*lstfd)->fd >= 0 && dup2((*lstfd)->fd, fd) == ERROR)
+	dprintf(2, "OK[%d][%d]\n", lstfd->fd, fd);
+	if (lstfd->fd >= 0 && dup2(lstfd->fd, fd) == ERROR)
 		return (sh_error(TRUE, 7, NULL, NULL));
 	return (TRUE);
 }
@@ -73,14 +74,14 @@ static int			heredoc_red(t_node *tree, int fd) // static ac redirect
 	return (TRUE);
 }
 
-int					redirect(t_node *tree, t_lst_fd **lstfd)
+int					redirect(t_node *tree, t_lst_fd *lstfd)
 {
 	if (DEBUG_RED == 1)
 		ft_putendl_fd("------- REDIRECT -------", 2);
 
 	int					fd;
 
-	if (((lstfd == NULL || *lstfd == NULL) && tree->type != DLRED) || tree == NULL)
+	if ((lstfd == NULL && tree->type != DLRED) || tree == NULL)
 		return (FALSE);
 	fd = ((tree->type == RRED || tree->type == DRRED) ? STDOUT_FILENO : STDIN_FILENO);
 	if (tree && tree->right && (tree->type != DLRED))
@@ -93,12 +94,12 @@ int					redirect(t_node *tree, t_lst_fd **lstfd)
 		if (heredoc_red(tree->right, fd) == ERROR)
 			return (ERROR);
 	}
-	if (tree && tree->left && lstfd && *lstfd) // && lstfd->fd != -1)
+	if (tree && tree->left && lstfd) // && lstfd->fd != -1)
 	{
 		if (tree->type == DLRED && redirect(tree->left, lstfd) == ERROR)
 			return (ERROR);
-		if ((((*lstfd)->next && tree->type != DLRED) || tree->left->type == DLRED)
-				&& redirect(tree->left, lstfd) == ERROR)
+		if (((lstfd->next && tree->type != DLRED) || tree->left->type == DLRED)
+				&& redirect(tree->left, lstfd->next) == ERROR)
 			return (ERROR);
 	}
 	return (TRUE);
