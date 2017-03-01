@@ -263,7 +263,7 @@ int 					exit_pgm(int exit_code);
 /*
 ** sh_bi_setenv
 */
-int						valid_env_name(char *str);
+int						valid_env_name(char *str, char *bi);
 int						bi_setenv(char **arg, t_duo **env);
 
 /*
