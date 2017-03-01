@@ -11,11 +11,11 @@ static t_history	*new_history(char *line)
 	if (line == NULL)
 		return (NULL);
 	if ((new = (t_history *)malloc(sizeof(t_history))) == NULL)
-		sh_error(TRUE, 6, NULL, NULL);
+		sh_error(FALSE, 6, NULL, NULL);
 	if ((new->line = ft_strdup(line)) == NULL)
 	{
 		free(new);
-		sh_error(TRUE, 6, NULL, NULL);
+		sh_error(FALSE, 6, NULL, NULL);
 	}
 	new->prev = NULL;
 	new->next = NULL;
@@ -96,5 +96,5 @@ void				modif_history(t_history **history, char *line, int mini_prt)
 	}
 	ft_strdel(&((*history)->line));
 	if (((*history)->line = ft_strdup(line)) == NULL)
-		sh_error(TRUE, 6, NULL, NULL);
+		sh_error(FALSE, 6, NULL, NULL);
 }

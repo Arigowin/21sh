@@ -14,11 +14,11 @@ static int			change_dir(char *path)
 	if (chdir(path) == -1)
 	{
 		if (stat(path, &stat_buf) == 0 && !S_ISDIR(stat_buf.st_mode))
-			return (sh_error(TRUE, 16, path, NULL));
+			return (sh_error(FALSE, 16, path, NULL));
 		else if ((access(path, F_OK)) == ERROR)
-			return (sh_error(TRUE, 17, path, NULL));
+			return (sh_error(FALSE, 17, path, NULL));
 		else
-			return (sh_error(TRUE, 18, path, NULL));
+			return (sh_error(FALSE, 18, path, NULL));
 	}
 	return (TRUE);
 }
@@ -32,7 +32,7 @@ static int			cd_home()
 	int					ret;
 
 	if ((path = get_env("HOME")) == NULL)
-		return (sh_error(TRUE, 13, NULL, NULL));
+		return (sh_error(FALSE, 13, NULL, NULL));
 	ret = change_dir(path);
 	ft_strdel(&path);
 	return (ret);

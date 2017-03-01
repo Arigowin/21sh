@@ -52,7 +52,7 @@ static int			son(char **cmd, int pipefd_tab[2][2], t_node *tree,
 	check_signal(2);
 	if (check_fct(fd, cmd) == -2)
 		exit(EXIT_FAILURE);
-	return (sh_error(TRUE, 24, cmd[0], NULL));
+	return (sh_error(FALSE, 24, cmd[0], NULL));
 }
 
 int					handle_fork(int pipefd_tab[2][2], t_node *tree,
@@ -66,7 +66,7 @@ int					handle_fork(int pipefd_tab[2][2], t_node *tree,
 	fpid = -1;
 	reset_term();
 	if ((fpid = fork()) < 0)
-		sh_error(TRUE, 5, NULL, NULL);
+		sh_error(FALSE, 5, NULL, NULL);
 	if (fpid == 0)
 		son(cmd, pipefd_tab, tree, lstfd);
 	else
