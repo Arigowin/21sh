@@ -18,7 +18,7 @@ static int			bi_opt(char *arg, char *bi, int *no_more, char *handled_opt) //stat
 		while (arg[i])
 		{
 			if (ft_strchr(handled_opt, arg[i]) == NULL)
-				return (sh_error(-2, 22, &arg[i], bi));
+				return (sh_error(-2, 22, &arg[i], bi));//pourquoi pas return ERROR ???
 			i++;
 		}
 	}

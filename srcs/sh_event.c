@@ -3,7 +3,7 @@
 #include "libft.h"
 
 // nom de fonction a modifier si necessaire
-int					mini_prt_stline(t_line *stline)
+int					miniprt_reset_stline(t_line *stline)
 {
 	ft_putstr("> ");
 	stline->curs_x = 2;
@@ -21,7 +21,7 @@ int 				mini_prt_handler(char **str, int *pos, t_line *stline)
 		fct_insert(str, pos, '\n', stline);
 	else if (!ft_strcmp(*str, ""))
 		fct_insert(str, pos, '\n', stline);
-	mini_prt_stline(stline);
+	miniprt_reset_stline(stline);
 	return (CONTINUE);
 }
 
@@ -62,10 +62,10 @@ int					quote_is_close(char **str)
 	int					quote;
 	int					back;
 
-	i = 0;
+	i = -1;
 	quote = 0;
 	back = 0;
-	while (str && *str && (*str)[i])
+	while (str && *str && (*str)[++i])
 	{
 		if (quote != DQUOTE && (*str)[i] == QUOTE)
 		{
@@ -83,10 +83,8 @@ int					quote_is_close(char **str)
 		}
 		if ((*str)[i] == '\\')
 			back++;
-		else if (back > 0 && ((*str)[i] != '\\' || ((*str)[i] != QUOTE
-						|| (*str)[i] != DQUOTE)))
+		else if (back > 0 && ((*str)[i] != '\\' || ((*str)[i] != QUOTE || (*str)[i] != DQUOTE)))
 			back = 0;
-		i++;
 	}
 	return (quote);
 }

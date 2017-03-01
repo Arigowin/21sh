@@ -42,7 +42,6 @@ int					handle_builtin(char **cmd)
 	if (i < 6 && ft_strcmp(cmd[0], bi[i]) == 0)
 	{
 		if ((ret = tbl_bi[i](cmd, &env)) == ERROR)
-			/* MSG ret: ERROR exit: FALSE msg: "command not found: cmd." */
 			return (ERROR);
 		else // pas necessaire ? puisqu ' on return avant
 			return (ret);
@@ -68,7 +67,6 @@ int					check_builtin(int fd, char **cmd, int pipefd_tab[2][2],
 	{
 		if ((ret = handle_builtin(cmd)) == ERROR)
 		{
-			// useless return
 			close_lstfd(lstfd);
 			return (ERROR);
 		}

@@ -71,7 +71,6 @@ const char			*tbl_error2(int index)
 
 int					sh_error(int ret, int index, char *err, char *bi)
 {
-	printf("sh error ==>> index ((%d))  bi ((%s)) err ((%s))\n", index, bi, err);
 	if (ret == NO_PRINT)
 		return (NO_PRINT);
 	ft_putstr_fd(tbl_error1(index), 2);

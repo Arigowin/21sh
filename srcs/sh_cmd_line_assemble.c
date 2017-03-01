@@ -9,8 +9,12 @@ static char			*join_exe(char *s1, char *s2) //static ac check fct
 	char				*rlt;
 	char				*tmp;
 
-	if (s2[0] == '/' || (s2[0] == '.' && s2[1] == '/'))
-		return (ft_strdup(s2));
+	if (s2 && (s2[0] == '/' || (s2[0] == '.' && s2[1] && s2[1] == '/')))
+	{
+		if ((tmp = ft_strdup(s2)) == NULL)
+			sh_error(FALSE, 6, NULL, NULL);
+		return (tmp);
+	}
 	tmp = ft_strjoin("/", s2);
 	rlt = ft_strjoin(s1, tmp);
 	ft_strdel(&tmp);

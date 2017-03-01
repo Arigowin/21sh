@@ -31,11 +31,8 @@ static int			in_quote(char **buff, char *line)
 		}
 		ft_strdel(&tmp2);
 	}
-	else if (line)
-	{
-		if ((*buff = ft_strjoin(line, "\n")) == NULL)
-			return (ERROR);
-	}
+	else if (line && (*buff = ft_strjoin(line, "\n")) == NULL)
+		return (ERROR);
 	return (TRUE);
 }
 
@@ -65,9 +62,7 @@ static int			line_manager(char **buff, char *line, int *quote, t_history **histo
 			ft_strdel(buff);
 		}
 		else
-		{
 			add_history(history, line); // pb indirectly loss
-		}
 	}
 	return (TRUE);
 }
@@ -148,36 +143,40 @@ int					save_history(void)
 	char				*path;
 	int					fd;
 	t_history			**history;
-	char				end;
+//	char				end;
 
 	path = NULL;
-	fd = -1;
+//	fd = -1; //no need...
 	if ((history = savior_history(NULL, FALSE)) == NULL)
 		return (FALSE);
 	home = get_env("HOME");
-	if (home)
-		path = ft_strjoin(home, HISTORY_FILE_NAME);
-	ft_strdel(&home);
+//	if (home)
+//		path = ft_strjoin(home, HISTORY_FILE_NAME);
+	path = (home != NULL ? ft_strjoin(home, HISTORY_FILE_NAME) : NULL);
+	//ft_strdel(&home); // a ajouter dans les fct return/free a chaque fois
 	if ((fd = open(path,  O_WRONLY | O_TRUNC | O_CREAT,  S_IRUSR | S_IWUSR))
 			== ERROR && path)
 	{
+		ft_strdel(&home);
 		ft_strdel(&path);
 		return (ERROR);
 	}
-	ft_strdel(&path);
 	while (*history && (*history)->prev)
 		*history = (*history)->prev;
 	while (*history && (*history)->line)
 	{
-		write(fd, (*history)->line, ft_strlen((*history)->line));
-		write(fd, "\n", 1);
+		//write(fd, (*history)->line, ft_strlen((*history)->line));
+		//write(fd, "\n", 1);
+		ft_putendl_fd((*history)->line, fd);
 		*history = (*history)->next;
 	}
-	// ft_putchar_fd(3, fd); ???
-	end = 3;
-	write(fd, &end, 1);
+	ft_putchar_fd(3, fd);// ???
+	//end = 3;
+	//write(fd, &end, 1);
 	if (fd > 2)
 		close(fd);
+	ft_strdel(&path);
+	ft_strdel(&home);
 	del_history(history);
 	return (TRUE);
 }

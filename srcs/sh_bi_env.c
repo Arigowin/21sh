@@ -50,11 +50,11 @@ static int			exec_cmd_env(int i, int len, char **arg)
 	j = 0;
 	cmd = NULL;
 	if ((cmd = (char **)malloc(sizeof(char *) * ((len - i) + 1))) == NULL)
-		return (ERROR);
+		return (sh_error(FALSE, 6, NULL, NULL));
 	while (arg[i])
 	{
 		if ((cmd[j] = ft_strdup(arg[i])) == NULL)
-			return (ERROR);
+			return (sh_error(FALSE, 6, NULL, NULL));
 		j++;
 		i++;
 	}
@@ -103,7 +103,7 @@ int					bi_env(char **arg, t_duo **env)
 		return (FALSE);
 	if (len > 1)
 	{
-		if (modif_env(arg, cpy_duo(*env), len, i) == ERROR)
+		if (modif_env(arg, cpy_duo(*env), len, i) == ERROR) // tjs faux
 			return (ERROR);
 	}
 	else

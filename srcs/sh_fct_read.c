@@ -112,10 +112,10 @@ int					ctrl_c_hrd(t_line *stline)
 	if (stline->ctrl_c == TRUE)
 	{
 		if ((fd = open(ttyname(1), O_RDWR)) < 0)
-			return (ERROR); // open failed
+			return (sh_error(FALSE, 2, ttyname(1), NULL));
 		close(0);
 		if (dup2(fd, STDIN_FILENO) < 0)
-			return (ERROR); // dup2 failed
+			return (sh_error(FALSE, 7, NULL, NULL));
 		if (fd > STDERR_FILENO)
 			close(fd);
 		stline->ctrl_c = FALSE;

@@ -338,7 +338,7 @@ int						reset_term();
 /*
 ** sh_event
 */
-int						mini_prt_stline(t_line *stline);
+int						miniprt_reset_stline(t_line *stline);
 int 					mini_prt_handler(char **str, int *pos, t_line *stline);
 int						quote_is_close(char **str);
 int						event(int key, t_line *stline, t_history **history);

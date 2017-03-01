@@ -62,14 +62,13 @@ static int			nopipe_cmd(int pipefd_tab[2][2], t_node *tree,
 	(((ret = redirect(tree->left, *lstfd)) <= 0) || (*lstfd)->fd == -2))
 	|| (tree->left->type == DLRED && redirect(tree->left, *lstfd) == ERROR)))
 	{
-		//	sh_error(8, NULL, NULL);// -> pb sur redirection gauche, 2 erreurs s'affichent
 		if (ret == ERROR)
 		{
 			reset_std_fd();
 			close_lstfd(lstfd);
 			del_lstfd(lstfd);
 		}
-		else if (ret == ERROR|| ret == FALSE)
+		else if (ret == ERROR || ret == FALSE)
 			return (ret);
 	}
 	ret = check_builtin(fd, cmd, pipefd_tab, NULL);
