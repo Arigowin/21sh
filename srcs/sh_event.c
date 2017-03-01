@@ -132,7 +132,7 @@ int					fct_ctrl_d(char **str, int *pos, t_line *stline,
 	t_duo				*env;
 
 	env = savior(NULL, FALSE);
-	if (*str[0] == '\0')
+	if (*str[0] == '\0' && stline->hrd.nb == 0)
 		bi_exit(NULL, &env);
 	else
 		fct_del(str, pos, stline, history);
