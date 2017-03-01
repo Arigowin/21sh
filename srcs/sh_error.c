@@ -71,6 +71,7 @@ const char			*tbl_error2(int index)
 
 int					sh_error(int ret, int index, char *err, char *bi)
 {
+	printf("sh error ==>> index ((%d))  bi ((%s)) err ((%s))\n", index, bi, err);
 	if (ret == NO_PRINT)
 		return (NO_PRINT);
 	ft_putstr_fd(tbl_error1(index), 2);
@@ -82,7 +83,11 @@ int					sh_error(int ret, int index, char *err, char *bi)
 	if (err != NULL)
 	{
 		ft_putstr_fd(": ", 2);
+		if (index == 15)
+			ft_putstr_fd("'", 2);
 		ft_putstr_fd(err, 2);
+		if (index == 15)
+			ft_putstr_fd("'", 2);
 	}
 	if (index >= 14 && index <= 30 && index != 26)
 		ft_putstr_fd(tbl_error2(index), 2);
@@ -91,8 +96,6 @@ int					sh_error(int ret, int index, char *err, char *bi)
 		exit_pgm(EXIT_FAILURE);
 	if (index == 26)
 		return (NO_PRINT);
-	//else
-		//return (FALSE);
 	return (ret);
 }
 /*

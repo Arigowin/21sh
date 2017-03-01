@@ -52,9 +52,7 @@ static int			state_quote(int *hrd, char curr_char, char **data_tmp)
 
 	*hrd += 1;
 	if (curr_char && curr_char != QUOTE)
-	{
 		add_in_tbl(data_tmp, curr_char);
-	}
 	return (TRUE);
 }
 
@@ -71,9 +69,7 @@ static int			state_dquote(int *hrd, char **read_buff, char **data_tmp)
 	else if (**read_buff == '$')
 		token_dollar(read_buff, data_tmp);
 	else
-	{
 		add_in_tbl(data_tmp, **read_buff);
-	}
 	return (TRUE);
 }
 
