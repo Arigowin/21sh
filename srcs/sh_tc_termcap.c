@@ -32,7 +32,7 @@ int					init_term(int full_init)
 	char				*term_env;
 
 	if ((term_env = get_env("TERM")) == NULL)
-		return (sh_error(TRUE, 0, NULL, NULL));
+		return (sh_error(FALSE, 0, NULL, NULL));
 	if (full_init == TRUE)
 	{
 		if (start_init_term() == ERROR)

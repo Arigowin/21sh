@@ -89,18 +89,19 @@ int					sh_error(int ret, int index, char *err, char *bi)
 	ft_putendl_fd("", 2);
 	if (index <= 7 || index == 23 || index == 24)
 		exit_pgm(EXIT_FAILURE);
-	if (index == 11 || index == 14)
-		return (TRUE);
-	if (index == 19 || index == 22)
-		return (-2);
 	if (index == 26)
 		return (NO_PRINT);
-	if (index == 25)
-		return (ERROR);
-	if (index == 31)
-		return (BREAK);
-	else
-		return (FALSE);
+	//if (index == 11 || index == 14) // ret == TRUE
+	//	return (TRUE);
+	//if (index == 19 || index == 22) // ret == -2
+	//	return (-2);
+	//if (index == 25)// n'existe pas...
+	//	return (ERROR);
+	//if (index == 31)
+	//	return (BREAK);
+	//else
+		//return (FALSE);
+	return (ret);
 }
 /*
  * CD :

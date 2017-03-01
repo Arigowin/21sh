@@ -53,7 +53,7 @@ int					insert_in_lstfd(t_lst_fd **lstfd, t_lst_fd **tmpfd, int fd, char *filena
 	if (insert == TRUE)
 	{
 		if ((*tmpfd = lstfd_insert(lstfd, tmpfd, fd, filename)) == NULL)
-			return (sh_error(TRUE, 6, NULL, NULL));
+			return (sh_error(FALSE, 6, NULL, NULL));
 		tmpfd = lstfd;
 	}
 	else

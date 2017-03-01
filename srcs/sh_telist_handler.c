@@ -13,7 +13,7 @@ t_e_list			*expr_new(char *content, int hrd)
 	if ((new = (t_e_list *)malloc(sizeof(t_e_list))) == NULL)
 	{
 		ft_strdel(&content);
-		sh_error(TRUE, 6, NULL, NULL);
+		sh_error(FALSE, 6, NULL, NULL);
 	}
 	new->data = NULL;
 	new->type = NONE;
@@ -23,7 +23,7 @@ t_e_list			*expr_new(char *content, int hrd)
 	{
 		free(new);
 		ft_strdel(&content);
-		sh_error(TRUE, 6, NULL, NULL);
+		sh_error(FALSE, 6, NULL, NULL);
 	}
 	return (new);
 }

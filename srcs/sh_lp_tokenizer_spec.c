@@ -34,7 +34,7 @@ int					token_dollar(char **read_buff, char **data_tmp)
 	env_val = NULL;
 	tmp = NULL;
 	if ((env_name = ft_strnew(ft_strlen((*read_buff)++))) == NULL)
-		return (sh_error(TRUE, 6, NULL, NULL));
+		return (sh_error(FALSE, 6, NULL, NULL));
 	while ((ft_strchr(SEP, **read_buff) == NULL && ft_strchr("/", **read_buff)
 	== NULL) && **read_buff != QUOTE && **read_buff != DQUOTE)
 		add_in_tbl(&env_name, (*((*read_buff)++)));
@@ -48,7 +48,7 @@ int					token_dollar(char **read_buff, char **data_tmp)
 	if (*data_tmp && (tmp = ft_strdup(*data_tmp)) == NULL)
 	{
 		ft_strdel(&env_val);
-		return (sh_error(TRUE, 6, NULL, NULL));
+		return (sh_error(FALSE, 6, NULL, NULL));
 	}
 	ft_strdel(data_tmp); // c'est bien ici le free du data_tmp ?
 	if ((*data_tmp = ft_strnew(ft_strlen(tmp) + ft_strlen(env_val)
@@ -56,7 +56,7 @@ int					token_dollar(char **read_buff, char **data_tmp)
 	{
 		ft_strdel(&tmp);
 		ft_strdel(&env_val);
-		return (sh_error(TRUE, 6, NULL, NULL));
+		return (sh_error(FALSE, 6, NULL, NULL));
 	}
 	concat(data_tmp, tmp, env_val);
 	ft_strdel(&env_val);
@@ -84,7 +84,7 @@ int					token_tilde(char **read_buff, char **data_tmp, int *bln)
 	if (*data_tmp && (tmp = ft_strdup(*data_tmp)) == NULL)
 	{
 		ft_strdel(&env_val);
-		return (sh_error(TRUE, 6, NULL, NULL));
+		return (sh_error(FALSE, 6, NULL, NULL));
 	}
 	ft_strdel(data_tmp);
 	if ((*data_tmp = ft_strnew(ft_strlen(tmp) + ft_strlen(env_val)
@@ -92,7 +92,7 @@ int					token_tilde(char **read_buff, char **data_tmp, int *bln)
 	{
 		ft_strdel(&env_val);
 		ft_strdel(&tmp);
-		return (sh_error(TRUE, 6, NULL, NULL));
+		return (sh_error(FALSE, 6, NULL, NULL));
 	}
 	concat(data_tmp, tmp, env_val);
 	*bln = TRUE;

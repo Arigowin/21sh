@@ -14,17 +14,17 @@ static int				checktty_tool(char **tmp)
 		if (*tmp != NULL)
 		{
 			if ((tmp2 = ft_strjoin(*tmp, buff)) == NULL)
-				return (sh_error(TRUE, 6, NULL, NULL));
+				return (sh_error(FALSE, 6, NULL, NULL));
 			ft_strdel(tmp);
 			if ((*tmp = ft_strdup(tmp2)) == NULL)
 			{
 				ft_strdel(&tmp2);
-				return (sh_error(TRUE, 6, NULL, NULL));
+				return (sh_error(FALSE, 6, NULL, NULL));
 			}
 			ft_strdel(&tmp2);
 		}
 		else if ((*tmp = ft_strdup(buff)) == NULL)
-				return (sh_error(TRUE, 6, NULL, NULL));
+				return (sh_error(FALSE, 6, NULL, NULL));
 	}
 	if (ret == ERROR)
 		return (ERROR);
@@ -41,7 +41,7 @@ static int				checktty_tool2(t_line *stline, char **cmd)
 		if (i > 0)
 			ft_strdel(&(stline->line));
 		if ((stline->line = ft_strdup(cmd[i])) == NULL)
-				return (sh_error(TRUE, 6, NULL, NULL));
+				return (sh_error(FALSE, 6, NULL, NULL));
 		if (check_after_read(stline, NULL) == ERROR)
 			return (ERROR);
 		i++;

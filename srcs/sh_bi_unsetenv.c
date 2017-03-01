@@ -63,7 +63,7 @@ int					bi_unsetenv(char **arg, t_duo **env)
 
 	i = 1;
 	if (!arg[i])
-		sh_error(TRUE, 9, NULL, NULL);
+		sh_error(FALSE, 9, NULL, NULL);
 	while (arg[i])
 	{
 		if (del_env(env, arg[i]) == -1)

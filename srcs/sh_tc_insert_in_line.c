@@ -14,11 +14,11 @@ static int			enlarge_line(char **str, int *pos)
 	if (!((*pos) % BUFF_SIZE == 0 && (*pos) + 1 > BUFF_SIZE))
 		return (FALSE);
 	if ((tmp = ft_strdup(*str)) == NULL)
-		return (sh_error(TRUE, 6, NULL, NULL));
+		return (sh_error(FALSE, 6, NULL, NULL));
 	i = ft_strlen(*str) + BUFF_SIZE;
 	ft_strdel(str);
 	if ((*str = ft_strnew(i)) == NULL)
-		return (sh_error(TRUE, 6, NULL, NULL));
+		return (sh_error(FALSE, 6, NULL, NULL));
 	i = 0;
 	while (tmp[i])
 	{
@@ -117,7 +117,7 @@ int					fct_insert(char **str, int *pos, char c, t_line *stline)
 	if ((*str)[*pos] == '\0')
 		(*str)[*pos] = c;
 	else if (!(end_line = ft_strsub(*str, *pos, ft_strlen(*str))))
-		return (sh_error(TRUE, 6, NULL, NULL));
+		return (sh_error(FALSE, 6, NULL, NULL));
 	/* FREE : stline*/
 	screen_up(pos, str, stline);
 	ft_putchar(c);
