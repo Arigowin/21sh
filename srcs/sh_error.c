@@ -32,7 +32,7 @@ const char			*tbl_error1(int index)
 	ret_index = index;
 	ret_index = (index >= 16 && index <= 18 ? 16 : ret_index);
 	ret_index = (index >= 26 ? 18 : ret_index);
-	ret_index = ((index >= 19 && index <= 25) || index == 29  || index == 30 ? 17 : ret_index);
+	ret_index = (index == 15 || (index >= 19 && index <= 25) || index == 29  || index == 30 ? 17 : ret_index);
 	ret_index = (index >= 27 && index <= 28 ? 19 : ret_index);
 	ret_index = (index == 31 ? 20 : ret_index);
 	return (err_tbl1[ret_index]);
@@ -91,14 +91,6 @@ int					sh_error(int ret, int index, char *err, char *bi)
 		exit_pgm(EXIT_FAILURE);
 	if (index == 26)
 		return (NO_PRINT);
-	//if (index == 11 || index == 14) // ret == TRUE
-	//	return (TRUE);
-	//if (index == 19 || index == 22) // ret == -2
-	//	return (-2);
-	//if (index == 25)// n'existe pas...
-	//	return (ERROR);
-	//if (index == 31)
-	//	return (BREAK);
 	//else
 		//return (FALSE);
 	return (ret);

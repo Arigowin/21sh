@@ -28,10 +28,10 @@ echo CMD:'cd -- abc'
 cd -- abc
 echo CMD:'cd -- abc ../../'
 cd -- abc ../../
-echo CMD:'cd / ; ls'
-cd / ; ls
-echo CMD:'cd -- ; ls'
-cd -- ; ls
+echo CMD:'cd / ; ls ; cd -'
+cd / ; ls ; cd -
+echo CMD:'cd -- ; ls ; cd -'
+cd -- ; ls ; cd -
 echo CMD:'cd abcdef'
 cd abcdef
 echo CMD:'cd abc def'
