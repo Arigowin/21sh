@@ -2,6 +2,18 @@
 #include <stdlib.h>
 #include "shell.h"
 #include "libft.h"
+#define RA RED_ARG
+
+int					manage_hrd_arg(char *red, t_types *ntype, t_e_list **l_expr)
+{
+	if ((*l_expr)->hrd_quote >= 2 && (ft_strcmp(red, "<<") == 0))
+		*ntype = HRD_QUOTE;
+	else
+		*ntype = RED_ARG;
+	if (ft_strcmp(red, "<<") == 0 && ft_strchr(SPECIAL, (*l_expr)->data[0]))
+		return (sh_error(FALSE, 26, (*l_expr)->data, NULL));
+	return (TRUE);
+}
 
 int					check_red_arg(t_e_list **l_expr, t_node **tree, char *red)
 {
@@ -15,8 +27,8 @@ int					check_red_arg(t_e_list **l_expr, t_node **tree, char *red)
 
 	save = *tree;
 	node = NULL;
-	ntype = ((*l_expr)->hrd_quote >= 2 && (ft_strcmp(red, "<<") == 0) ? HRD_QUOTE : RED_ARG);
-	if ((*l_expr)->type == RED_ARG && ((node = create_node(ntype)) != NULL))
+	ret = manage_hrd_arg(red, &ntype, l_expr);
+	if (ret == TRUE && (*l_expr)->type == RA && (node = create_node(ntype)))
 	{
 		if ((node->data = ft_strdup((*l_expr)->data)) == NULL)
 			return (sh_error(TRUE, 6, NULL, NULL));
@@ -32,7 +44,7 @@ int					check_red_arg(t_e_list **l_expr, t_node **tree, char *red)
 			return (parser_ret_fct(TRUE, tree, &node, NULL));
 		return (parser_ret_fct(ret, tree, &save, NULL));
 	}
-	return (sh_error(TRUE, 26, (*l_expr)->data, "33"));
+	return (sh_error(ret, 26, (*l_expr)->data, NULL));
 }
 
 t_types				fill_red_type(char *data, int *nb_hrd)
@@ -77,7 +89,7 @@ int					check_red(int *nb_hrd, t_e_list **l_expr, t_node **tree, int red_type)
 		*tree = node;
 		return (red_ret);
 	}
-	return (sh_error(red_ret, 26, (*l_expr)->data, "22"));
+	return (sh_error(red_ret, 26, (*l_expr)->data, NULL));
 }
 
 int					check_arg(int *nb_hrd, t_e_list **l_expr, t_node **tree,
@@ -97,7 +109,7 @@ int					check_arg(int *nb_hrd, t_e_list **l_expr, t_node **tree,
 		if ((node->data = ft_strdup((*l_expr)->data)) == NULL)
 		{
 			clear_node(&node);
-			return (sh_error(TRUE, 6, NULL, "11"));
+			return (sh_error(TRUE, 6, NULL, NULL));
 		}
 		ret = check_next(nb_hrd, l_expr, &save, &(node->right));
 		*right_node = node;

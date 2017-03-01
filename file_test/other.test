@@ -2,4 +2,5 @@ echo 'CMD:<<<<'
 <<<<
 echo 'CMD:<<&1'
 <<&1
+echo "trololo"
 &|><
