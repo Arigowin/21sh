@@ -66,7 +66,8 @@ static int			fill_hrd_content(t_line *stline, t_node **tree) // static ac heredo
 	int 				len;
 	int					len_deli;
 
-	len_deli = (stline->hrd.ctrl_d == FALSE ? ft_strlen(stline->hrd.deli->data) : 0);
+	len_deli = (stline->hrd.ctrl_d == FALSE ? ft_strlen(stline->hrd.deli->data)
+											: 0);
 	len = (ft_strlen(stline->hrd.line) - (len_deli + 1));
 	if (tree && (*tree) && (*tree)->right  && ((*tree)->right->type == HRD_QUOTE
 	|| (*tree)->right->type == RED_ARG))
@@ -98,12 +99,12 @@ int					heredoc_handler(t_line *stline, t_node **tree,
 	{
 		stline->hrd.deli = (((*tree)->right->type == RED_ARG
 						|| (*tree)->right->type == HRD_QUOTE) ?
-								(*tree)->right : (*tree)->right->right);
+						(*tree)->right : (*tree)->right->right);
 		stline->hrd.ptr = stline->hrd.line;
 		if (bln)
 			mini_prt_handler(&(stline->hrd.line), &(stline->hrd.pos), stline);
 		else
-			mini_prt_stline(stline);
+			miniprt_reset_stline(stline);
 		check_signal(4);
 		if (fct_read(TRUE, stline, history) == ERROR)
 			return (ERROR);

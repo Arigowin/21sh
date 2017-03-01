@@ -10,7 +10,8 @@ static int			init_highlight(char **str, int *pos, t_line *stline)
 	(void)pos;
 	if (stline->copy.cpy != NULL)
 	{
-		stline->copy.bkup = ft_strdup(stline->copy.cpy);
+		if ((stline->copy.bkup = ft_strdup(stline->copy.cpy)) == NULL)
+			sh_error(FALSE, 6, NULL, NULL);
 		ft_strdel(&(stline->copy.cpy));
 	}
 	if ((stline->copy.cpy = ft_strnew(ft_strlen(*str))) == NULL)
@@ -52,7 +53,8 @@ int					hide_highlight(char **str, int *pos, t_line *stline,
 	int					curs_pos;
 
 	curs_pos = (*pos);
-	tmp = ft_strdup(*str);
+	if ((tmp = ft_strdup(*str)) == NULL)
+		return (sh_error(FALSE, 6, NULL, NULL));
 	fct_end(str, pos, stline, history);
 	while (((*pos)) > 0)
 		fct_backspace(str, pos, stline, history);

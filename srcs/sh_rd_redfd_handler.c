@@ -45,3 +45,36 @@ int					reset_std_fd(void)
 	}
 	return (TRUE);
 }
+
+int					manage_red_fd(int fd, t_node *tree, t_lst_fd **lstfd, t_types type)
+{
+	if (DEBUG_TREE == 1)
+		ft_putendl_fd("------- MANAGE RED FD -------", 2);
+
+	int					ret;
+	static int			fd_save = 0;
+	t_lst_fd			*pipe_fd;
+	t_lst_fd			*tmp;
+
+	pipe_fd = NULL;
+	fd_save = ((fd == -21 || fd == -2) ? 0 : fd_save);
+	if (tree && tree->type == PIPE)
+	{
+		tmp = *lstfd;
+		while (pipe_fd && tmp && tmp != pipe_fd)
+			tmp = tmp->next;
+		pipe_fd = *lstfd;
+		fd = -21;
+	}
+	if (tree && (tree->type == RRED || tree->type == DRRED || tree->type == LRED
+	|| tree->type == DLRED || tree->type == RWRED))
+		if ((ret = fd_open(&fd, tree)) == ERROR)
+			return (ret);
+	if (tree && tree->right && tree->type == PIPE)
+		if ((ret = manage_red_fd(fd, tree->right, lstfd, type)) ==  ERROR)
+			fd = -1;
+	if (tree && tree->left)
+		if ((ret = manage_red_fd(fd, tree->left, lstfd, type)) == ERROR)
+			fd = -1;
+	return (push_in_lstfd(tree, lstfd, fd, &fd_save));
+}

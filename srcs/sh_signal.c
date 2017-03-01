@@ -39,13 +39,13 @@ static void			fct_ctrl_c_hrd(int sig)
 	stline = savior_stline(NULL, FALSE);
 	reset_stline(stline);
 	stline->ctrl_c = TRUE;
-
-	pipe(pfd);
+	if (pipe(pfd) == ERROR)
+		sh_error(FALSE, 4, NULL, NULL);
 	close(pfd[0]);
 	write(0, "\0", 1);
-	dup2(pfd[1], 0);
+	if (dup2(pfd[1], 0) == ERROR)
+		sh_error(FALSE, 7, NULL, NULL);
 	close(pfd[1]);
-
 	ft_putchar_color(RESET_COLOR, '\n');
 }
 

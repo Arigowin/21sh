@@ -86,3 +86,31 @@ int					close_lstfd(t_lst_fd **lstfd)
 	}
 	return (TRUE);
 }
+
+int 				push_in_lstfd(t_node *tree, t_lst_fd **lstfd, int fd, int *fd_save)
+{
+	if (DEBUG_TREE == 1)
+		ft_putendl_fd("------- PUSH IN LSTFD -------", 2);
+
+	char				*filename;
+
+	if (*fd_save == -1)
+	{
+		if (fd >= 0)
+			close(fd);
+		fd = -1;
+	}
+	*fd_save = fd;
+	if (tree && (tree->type == RRED || tree->type == DRRED || tree->type == LRED
+	|| tree->type == RWRED) && tree->right)
+	{
+		filename = (tree->right->type == RED_ARG ?
+				ft_strdup_ignchar(tree->right->data, '\\')
+				: ft_strdup_ignchar(tree->right->right->data, '\\'));
+		lstfd_pushfront(lstfd, fd, filename);
+		ft_strdel(&filename);
+		if (fd == -1)
+			return (FALSE);
+	}
+	return (TRUE);
+}

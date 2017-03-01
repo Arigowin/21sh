@@ -119,7 +119,8 @@ int					load_history(t_history **history)
 	home = get_env("HOME");
 	if (home)
 		path = ft_strjoin(home, HISTORY_FILE_NAME);
-	if (path && (fd = open(path, O_RDONLY | O_CREAT,  S_IRUSR | S_IWUSR)) == ERROR)
+	if (path && (fd = open(path, O_RDONLY | O_CREAT,  S_IRUSR | S_IWUSR))
+	== ERROR)
 	{
 		ft_strdel(&path);
 		ft_strdel(&home);

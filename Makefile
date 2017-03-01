@@ -68,7 +68,9 @@ SRC = sh_main.c \
 	  \
 	  sh_event.c \
 	  sh_tree_functions.c \
-	  sh_tree_traversal.c
+	  sh_tree_traversal.c \
+	  \
+	  sh_fd_open.c
 
 OFILES = $(patsubst %.c, $(OPATH)/%.o, $(SRC))
 

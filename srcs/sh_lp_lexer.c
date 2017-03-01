@@ -19,11 +19,12 @@ static int			waka_land_handler(t_e_list **l_expr, char (*tmp)[], int *i)
 		return (FALSE);
 	if ((*l_expr)->data[0] == '&' && ft_strchr(((*l_expr)->data) + 1, '<'))
 		(*l_expr)->hrd_quote = -42;
-	if ((*l_expr)->data[ft_strlen((*l_expr)->data) - 1] == '&')
+	if ((*l_expr)->data[ft_strlen((*l_expr)->data) - 1] == '&')//interieur du  if a mettre dans un fct ?
 	{
 		(*l_expr)->data[ft_strlen((*l_expr)->data) - 1] = '\0';
 		if ((*l_expr)->next != NULL && (ft_isstrnum((*l_expr)->next->data)
-		|| ft_strcmp((*l_expr)->next->data, "-") == 0 || ft_strcmp((*l_expr)->next->data, "\\-") == 0))
+		|| ft_strcmp((*l_expr)->next->data, "-") == 0
+		|| ft_strcmp((*l_expr)->next->data, "\\-") == 0))
 		{
 			if ((tmp2 = ft_strjoin("&", (*l_expr)->next->data)) == NULL)
 				return (sh_error(FALSE, 6, NULL, NULL));
@@ -67,7 +68,7 @@ static int			waka_lexer(t_e_list **l_expr)
 
 	int					i;
 	char				tmp_fd[11];
-	char				*tmp_data;
+	char				*data;
 	t_e_list			*new;
 
 	i = 0;
@@ -80,21 +81,21 @@ static int			waka_lexer(t_e_list **l_expr)
 		return (TRUE);
 	}
 	red_fd_copy(l_expr, &tmp_fd, &i);
-	if ((tmp_data = ft_strsub((*l_expr)->data, i,
-	ft_strlen((*l_expr)->data) - i)) == NULL)
+	//if ((data = ft_strsub((*l_expr)->data, i, ft_strlen((*l_expr)->data) - i)) == NULL)
+	if (!(data = ft_strsub((*l_expr)->data, i, ft_strlen((*l_expr)->data) - i))) // ok??
 		return (sh_error(FALSE, 6, NULL, NULL));
 	ft_strdel(&((*l_expr)->data));
-	if (((*l_expr)->data = ft_strdup(tmp_data)) == NULL || (tmp_fd[0] == '\0'
+	if (((*l_expr)->data = ft_strdup(data)) == NULL || (tmp_fd[0] == '\0'
 	|| (tmp_fd[0] != '\0' && (new = expr_new(tmp_fd, 0)) == NULL)))
 	{
-		ft_strdel(&tmp_data);
+		ft_strdel(&data);
 		return (sh_error(FALSE, 6, NULL, NULL));
 	}
 	new->type = RED_FD;
 	new->next = (*l_expr)->next;
 	(*l_expr)->next = new;
 	(*l_expr)->type = RED;
-	ft_strdel(&tmp_data);
+	ft_strdel(&data);
 	return (TRUE);
 }
 
@@ -189,7 +190,7 @@ int					lexer(t_e_list **l_expr)
 	else if (t->hrd_quote < 1 && (t->data)[0] == '|')
 		t->type = ((t->data)[1] == (t->data)[0] ? LOGIC_OR : PIPE);
 	else if (t->hrd_quote < 1 && (t->data)[0] == '&' && (!(t->data)[1]
-				|| !rightred(t->data[1])))
+	|| !rightred(t->data[1])))
 		t->type = ((t->data)[1] == (t->data)[0] ? LOGIC_AND : AMP);
 	else if (t && t->data && (t->data)[0] != '&' && (t->data)[0] != '|')
 	{

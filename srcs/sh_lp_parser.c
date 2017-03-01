@@ -39,7 +39,7 @@ static int			check_command(int *nb_hrd, t_e_list **l_expr, t_node **tree) //stat
 
 	save = *tree;
 	node = create_node(CMD);
-	if ((ret = check_red(nb_hrd, l_expr, &(node->left), 0)) != TRUE)
+	if ((ret = check_red(nb_hrd, l_expr, &(node->left))) != TRUE)
 		*tree = save;
 	if ((*l_expr)->type == CMD)
 	{
@@ -69,10 +69,11 @@ static int			check_c_pipe(int *nb_hrd, t_e_list **l_expr, t_node **tree)  // sta
 
 	node = create_node(PIPE);
 	node_to_give = (node->left == NULL ? &(node->left) : &(node->right));
-	if ((ret = check_command(nb_hrd, l_expr, node_to_give)) == TRUE)
+	//if ((ret = check_command(nb_hrd, l_expr, node_to_give)) == TRUE)
+	if ((ret = check_command(nb_hrd, l_expr, node_to_give)) == TRUE && (*l_expr)->type != AMP)
 	{
-		if ((*l_expr)->type == AMP)
-			return (sh_error(ret, 26, (*l_expr)->data, NULL));
+//		if ((*l_expr)->type == AMP)
+//			return (sh_error(ret, 26, (*l_expr)->data, NULL));
 		if ((*l_expr)->type == PIPE)
 		{
 			if ((node->data = ft_strdup((*l_expr)->data)) == NULL)

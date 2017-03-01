@@ -83,7 +83,7 @@ int					redirect(t_node *tree, t_lst_fd *lstfd)
 
 	if ((lstfd == NULL && tree->type != DLRED) || tree == NULL)
 		return (FALSE);
-	fd = ((tree->type == RRED || tree->type == DRRED) ? STDOUT_FILENO : STDIN_FILENO);
+	fd = ((tree->type == RRED || tree->type == DRRED) ? STDOUT_FILENO : STDIN_FILENO); // remplacer STDOUT et STDIN par leur équivalent int
 	if (tree && tree->right && (tree->type != DLRED))
 	{
 		if (left_right_red(tree->right, lstfd, fd) == ERROR)
@@ -97,10 +97,10 @@ int					redirect(t_node *tree, t_lst_fd *lstfd)
 	if (tree && tree->left) // && lstfd->fd != -1)
 	{
 		if ((ret = tree->type == DLRED) && redirect(tree->left, lstfd) == ERROR)
-				return (ERROR);
+			return (ERROR);
 		else if (ret != TRUE && lstfd && ((lstfd->next && tree->type != DLRED)
-		|| tree->left->type == DLRED) && redirect(tree->left, lstfd->next) == ERROR)
-				return (ERROR);
+		|| tree->left->type == DLRED) && redirect(tree->left, lstfd->next) == ERROR) // remplacer ERROR par -1 et DLRED par l'int correspondant
+			return (ERROR);
 	}
 	return (TRUE);
 }

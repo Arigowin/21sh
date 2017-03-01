@@ -60,7 +60,7 @@ t_types				fill_red_type(char *data, int *nb_hrd)
 	return (type);
 }
 
-int					check_red(int *nb_hrd, t_e_list **l_expr, t_node **tree, int red_type)
+int					check_red(int *nb_hrd, t_e_list **l_expr, t_node **tree)
 {
 	if (DEBUG_PARSER == 1)
 		ft_putendl_fd("------- CHECK RED ------", 2);
@@ -68,28 +68,27 @@ int					check_red(int *nb_hrd, t_e_list **l_expr, t_node **tree, int red_type)
 	t_node				*node;
 	t_node				*save;
 	t_e_list			*list_save;
-	int					red_ret;
+	int					ret;
 
-(void)red_type;
 	node = NULL;
 	save = *tree;
 	list_save = *l_expr;
-	if ((red_ret = ((*l_expr)->type == RED)) == FALSE)
+	if ((ret = ((*l_expr)->type == RED)) == FALSE)
 		return (FALSE);
 	if ((*l_expr)->type == RED && (*l_expr)->hrd_quote != -42 &&
-	(node = create_node(RED)) && (red_ret = move_in_list(l_expr)) == TRUE
-	&& ((red_ret = check_red_arg(l_expr, &(node->right), list_save->data)) == TRUE))
+	(node = create_node(RED)) && (ret = move_in_list(l_expr)) == TRUE &&
+   	((ret = check_red_arg(l_expr, &(node->right), list_save->data)) == TRUE))
 	{
 		if ((node->data = ft_strdup(list_save->data)) == NULL)
 			return (sh_error(FALSE, 6, NULL, NULL));
 		node->type = fill_red_type(list_save->data, nb_hrd);
-		if (!move_in_list(l_expr) || check_red(nb_hrd, l_expr, &(node->left),
-		node->type) != TRUE)
+		if (!move_in_list(l_expr) ||
+		check_red(nb_hrd, l_expr, &(node->left)) != TRUE)
 			*tree = save;
 		*tree = node;
-		return (red_ret);
+		return (ret);
 	}
-	return (sh_error(red_ret, 26, (*l_expr)->data, NULL));
+	return (sh_error(ret, 26, (*l_expr)->data, NULL));
 }
 
 int					check_arg(int *nb_hrd, t_e_list **l_expr, t_node **tree,
@@ -134,7 +133,7 @@ int					check_next(int *nb_hrd, t_e_list **l_expr, t_node **tree,
 	{
 		while (save && save->left != NULL)
 			save = save->left;
-		if ((ret = check_red(nb_hrd, l_expr, &(save->left), 0)) < 0)
+		if ((ret = check_red(nb_hrd, l_expr, &(save->left))) < 0)
 			return (ret);
 		if ((ret = check_arg(nb_hrd, l_expr, &save, right_node)) >= 0)
 			return (TRUE);

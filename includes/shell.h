@@ -427,8 +427,7 @@ int						parser(int *nb_hrd, t_e_list **l_expr, t_node **tree);
 /*
 ** sh_lp_parser_additional_items
 */
-int						check_red(int *nb_hrd, t_e_list **l_expr, t_node **t,
-							int red);
+int						check_red(int *nb_hrd, t_e_list **l_expr, t_node **t);
 int						check_next(int *nb_hrd, t_e_list **l_expr, t_node **t,
 							t_node **r_n);
 
@@ -451,6 +450,11 @@ int						del_tree(t_node **tree);
 int						tree_traversal(t_node *tree, t_lst_fd **lstfd, int pipefd[2][2]);
 
 /*
+** fd_open
+*/
+int						fd_open(int	*fd, t_node *tree);
+
+/*
 ** sh_rd_red
 */
 
@@ -464,12 +468,16 @@ int						del_lstfd(t_lst_fd **lstfd);
 t_lst_fd				*lstfd_new(int fd, char *filename);
 int						close_lstfd(t_lst_fd **lstfd);
 int						lstfd_pushfront(t_lst_fd **lstfd, int fd, char *name);
+int 					push_in_lstfd(t_node *tree, t_lst_fd **lstfd, int fd,
+							int *fd_save);
 
 /*
 ** sh_rd_redfd_handler
 */
 int						check_file_name(char **filename, char *str);
 int						reset_std_fd(void);
+int						manage_red_fd(int fd, t_node *tree, t_lst_fd **lstfd,
+							t_types type);
 
 
 t_lst_fd				*lstfd_insert(t_lst_fd **lstfd, t_lst_fd **tmpfd, int fd, char *filename);

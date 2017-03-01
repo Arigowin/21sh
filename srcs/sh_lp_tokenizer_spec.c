@@ -30,8 +30,6 @@ int					token_dollar(char **read_buff, char **data_tmp)
 	char 				*env_val;
 	char 				*tmp;
 
-	env_name = NULL;
-	env_val = NULL;
 	tmp = NULL;
 	if ((env_name = ft_strnew(ft_strlen((*read_buff)++))) == NULL)
 		return (sh_error(FALSE, 6, NULL, NULL));
