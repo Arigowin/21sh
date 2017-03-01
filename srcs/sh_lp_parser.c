@@ -55,7 +55,7 @@ static int			check_command(int *nb_hrd, t_e_list **l_expr, t_node **tree) //stat
 	if (ret == TRUE && (*l_expr)->type != CMD)
 		return (parser_ret_fct(TRUE, tree, &(node->left), &node));
 	clear_node(&node);
-	return (sh_error(ret, 26, (*l_expr)->data, "44"));
+	return (sh_error(ret, 26, (*l_expr)->data, NULL));
 }
 
 static int			check_c_pipe(int *nb_hrd, t_e_list **l_expr, t_node **tree)  // static ac check expr
@@ -72,7 +72,7 @@ static int			check_c_pipe(int *nb_hrd, t_e_list **l_expr, t_node **tree)  // sta
 	if ((ret = check_command(nb_hrd, l_expr, node_to_give)) == TRUE)
 	{
 		if ((*l_expr)->type == AMP)
-			return (sh_error(ret, 26, (*l_expr)->data, "55"));
+			return (sh_error(ret, 26, (*l_expr)->data, NULL));
 		if ((*l_expr)->type == PIPE)
 		{
 			if ((node->data = ft_strdup((*l_expr)->data)) == NULL)
@@ -82,14 +82,14 @@ static int			check_c_pipe(int *nb_hrd, t_e_list **l_expr, t_node **tree)  // sta
 			&(node->right)))))
 			{
 				clear_node(&node);
-				return (sh_error(TRUE, 26, (*l_expr)->data, "66"));
+				return (sh_error(TRUE, 26, (*l_expr)->data, NULL));
 			}
 			return (ret);
 		}
 		return (parser_ret_fct(ret, tree, node_to_give, &node));
 	}
 	clear_node(&node);
-	return (sh_error(ret, 26, (*l_expr)->data, "77"));
+	return (sh_error(ret, 26, (*l_expr)->data, NULL));
 }
 
 static int			check_logic(int *nb_hrd, t_e_list **l_expr, t_node **tree)  // static ac check expr
@@ -114,14 +114,14 @@ static int			check_logic(int *nb_hrd, t_e_list **l_expr, t_node **tree)  // stat
 			&& (ret = check_logic(nb_hrd, l_expr, &(node->right)))))
 			{
 				clear_node(&node);
-				return (sh_error(TRUE, 26, (*l_expr)->data, "88"));
+				return (sh_error(TRUE, 26, (*l_expr)->data, NULL));
 			}
 			return (ret);
 		}
 		return (parser_ret_fct(ret, tree, node_to_give, &node));
 	}
 	clear_node(&node);
-	return (sh_error(ret, 26, (*l_expr)->data, "99"));
+	return (sh_error(ret, 26, (*l_expr)->data, NULL));
 }
 
 static int			check_expr(int *nb_hrd, t_e_list **l_expr, t_node **tree) // static ac parser
@@ -152,7 +152,7 @@ static int			check_expr(int *nb_hrd, t_e_list **l_expr, t_node **tree) // static
 		return (parser_ret_fct(ret, tree, node_to_give, &node));
 	}
 	clear_node(&node);
-	return (sh_error(ret, 26, (*l_expr)->data, "00"));
+	return (sh_error(ret, 26, (*l_expr)->data, NULL));
 }
 
 int					parser(int *nb_hrd, t_e_list **l_expr, t_node **tree)
