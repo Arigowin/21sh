@@ -68,7 +68,7 @@ int					fd_open(int	*fd, t_node *tree, t_lst_fd **lstfd)
 	{
 		ret = (ret <= -1 ? 21 : 20);
 		ret = ft_strcmp(ft_strdup_ignchar(filename + 1, '\\'), "-") ? ret : 29;
-		return (sh_error(TRUE, ret, ft_strdup_ignchar(filename, '\\'), "42"));
+		return (sh_error(TRUE, ret, ft_strdup_ignchar(filename, '\\'), NULL));
 	}
 	return (TRUE);
 }
