@@ -136,6 +136,7 @@ typedef struct			s_heredoc //in sline
 {
 	int					nb;
 	int 				pos;
+	int					ctrl_d;
 	struct s_node		*deli;
 	char				*line;
 	char 				*ptr;

@@ -57,6 +57,7 @@ int					init_stline(t_line *stline)
 	stline->copy.start = -1;
 	stline->hrd.nb = 0;
 	stline->hrd.pos = 0;
+	stline->hrd.ctrl_d = FALSE;
 	stline->hrd.ptr = NULL;
 	stline->hrd.deli = NULL;
 	if ((stline->hrd.line = ft_strnew(BUFF_SIZE)) == NULL)
@@ -81,6 +82,7 @@ int					reset_stline(t_line *stline)
 	stline->ctrl_c = FALSE;
 	stline->hrd.nb = 0;
 	stline->hrd.pos = 0;
+	stline->hrd.ctrl_d = FALSE;
 	stline->hrd.ptr = NULL;
 	stline->hrd.deli = NULL;
 	ft_bzero(stline->hrd.line, ft_strlen(stline->hrd.line));

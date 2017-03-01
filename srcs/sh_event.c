@@ -136,6 +136,7 @@ int					fct_ctrl_d(char **str, int *pos, t_line *stline,
 		bi_exit(NULL, &env);
 	else if (stline->hrd.nb != 0 && (*str)[ft_strlen(*str) - 1] == '\n')
 	{
+		stline->hrd.ctrl_d = TRUE;
 		ft_putendl("");
 		return (sh_error(TRUE, 31, stline->hrd.deli->data, NULL));
 	}
