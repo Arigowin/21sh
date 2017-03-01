@@ -134,6 +134,11 @@ int					fct_ctrl_d(char **str, int *pos, t_line *stline,
 	env = savior(NULL, FALSE);
 	if (*str[0] == '\0' && stline->hrd.nb == 0)
 		bi_exit(NULL, &env);
+	else if (stline->hrd.nb != 0 && (*str)[ft_strlen(*str) - 1] == '\n')
+	{
+		ft_putendl("");
+		return (sh_error(TRUE, 31, stline->hrd.deli->data, NULL));
+	}
 	else
 		fct_del(str, pos, stline, history);
 	return (TRUE);

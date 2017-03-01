@@ -64,9 +64,11 @@ static int			fill_hrd_content(t_line *stline, t_node **tree) // static ac heredo
 		ft_putendl_fd("------------ FILL HRD CONTENT ----------", 2);
 
 	int 				len;
+	int					len_deli;
 
-	len = (ft_strlen(stline->hrd.line) -
-			(ft_strlen(stline->hrd.deli->data) + 1));
+	len_deli = (check_end_heredoc(stline) == BREAK ?
+			ft_strlen(stline->hrd.deli->data) : 0);
+	len = (ft_strlen(stline->hrd.line) - (len_deli + 1));
 	if (tree && (*tree) && (*tree)->right  && ((*tree)->right->type == HRD_QUOTE
 	|| (*tree)->right->type == RED_ARG))
 	{
@@ -74,7 +76,7 @@ static int			fill_hrd_content(t_line *stline, t_node **tree) // static ac heredo
 		ft_strsub(stline->hrd.line,	0, len + 1)) == NULL)
 			return (sh_error(TRUE, 6, NULL, NULL));
 		else if (((*tree)->right->right->data = hrd_quote_dup(stline->hrd.line,
-		ft_strlen(stline->hrd.deli->data), (*tree)->right->type)) == NULL)
+		len_deli, (*tree)->right->type)) == NULL)
 			return (sh_error(TRUE, 6, NULL, NULL));
 	}
 	else if(((*tree)->right->right->right->data = ft_strsub(stline->hrd.line, 0,

@@ -24,7 +24,8 @@ const char			*tbl_error1(int index)
 						/*14*/"21sh: unsetenv", /*15*/"21sh: setenv",
 	  					/*16 -> 16, 17, 18*/"21sh: cd",/*17->19, 20, 21, 22, 23, 25, 26, 29, 30*/ "21sh",
 						/*18->26*/"21sh: parse error near",
-						/*19->27, 28*/"21sh: exit"
+						/*19->27, 28*/"21sh: exit",
+						/*20->31*/"21sh: warning: here-document delimited by"
 						};
 	int					ret_index;
 
@@ -33,6 +34,7 @@ const char			*tbl_error1(int index)
 	ret_index = (index >= 26 ? 18 : ret_index);
 	ret_index = ((index >= 19 && index <= 25) || index == 29  || index == 30 ? 17 : ret_index);
 	ret_index = (index >= 27 && index <= 28 ? 19 : ret_index);
+	ret_index = (index == 31 ? 20 : ret_index);
 	return (err_tbl1[ret_index]);
 }
 
@@ -48,7 +50,7 @@ const char			*tbl_error2(int index)
 						/*8->27*/": too many arguments",
 						/*9->28*/": numeric argument required",
 						/*10->29*/": bad file descriptor",
-						/*11->30*/": ambiguous redirect"
+						/*11->30*/": ambiguous redirect",
 						};
 	int					ret_index;
 
@@ -95,6 +97,8 @@ int					sh_error(int ret, int index, char *err, char *bi)
 		return (NO_PRINT);
 	if (index == 25)
 		return (ERROR);
+	if (index == 31)
+		return (BREAK);
 	else
 		return (FALSE);
 }
