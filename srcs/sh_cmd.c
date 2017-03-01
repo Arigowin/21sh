@@ -60,7 +60,7 @@ static int			nopipe_cmd(int pipefd_tab[2][2], t_node *tree,
 	fd = (lstfd && *lstfd ? (*lstfd)->fd : -2);
 	if (tree && tree->left && ((*lstfd &&
 	(((ret = redirect(tree->left, *lstfd)) <= 0) || (*lstfd)->fd == -2))
-	|| (tree->left->type == DLRED && redirect(tree->left, NULL) == ERROR)))
+	|| (tree->left->type == DLRED && redirect(tree->left, *lstfd) == ERROR)))
 	{
 		//	sh_error(8, NULL, NULL);// -> pb sur redirection gauche, 2 erreurs s'affichent
 		if (ret == ERROR)

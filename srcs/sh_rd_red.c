@@ -79,6 +79,7 @@ int					redirect(t_node *tree, t_lst_fd *lstfd)
 		ft_putendl_fd("------- REDIRECT -------", 2);
 
 	int					fd;
+	int					ret;
 
 	if ((lstfd == NULL && tree->type != DLRED) || tree == NULL)
 		return (FALSE);
@@ -93,13 +94,13 @@ int					redirect(t_node *tree, t_lst_fd *lstfd)
 		if (heredoc_red(tree->right, fd) == ERROR)
 			return (ERROR);
 	}
-	if (tree && tree->left && lstfd) // && lstfd->fd != -1)
+	if (tree && tree->left) // && lstfd->fd != -1)
 	{
-		if (tree->type == DLRED && redirect(tree->left, lstfd) == ERROR)
-			return (ERROR);
-		if (((lstfd->next && tree->type != DLRED) || tree->left->type == DLRED)
-				&& redirect(tree->left, lstfd->next) == ERROR)
-			return (ERROR);
+		if ((ret = tree->type == DLRED) && redirect(tree->left, lstfd) == ERROR)
+				return (ERROR);
+		else if (ret != TRUE && lstfd && ((lstfd->next && tree->type != DLRED)
+		|| tree->left->type == DLRED) && redirect(tree->left, lstfd->next) == ERROR)
+				return (ERROR);
 	}
 	return (TRUE);
 }
