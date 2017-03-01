@@ -31,7 +31,7 @@ int					init_env(char **env, t_duo **env_cpy) //ok
 	else
 		*env_cpy = tbl_to_duo(env, '=');
 	if (env_cpy == NULL && *env_cpy == NULL)
-		return (sh_error(TRUE, 6, NULL, NULL));
+		return (sh_error(FALSE, 6, NULL, NULL));
 	del_env(env_cpy, "OLDPWD");
 	savior(*env_cpy, TRUE);
 	return (TRUE);
@@ -43,9 +43,9 @@ int					init_stline(t_line *stline)
 		ft_putendl_fd("------- INIT STLINE ------", 2);
 
 	if (ttyname(0) != NULL && ioctl(0, TIOCGWINSZ, &(stline->win)) == ERROR)
-		return (sh_error(TRUE, 1, NULL, NULL));
+		return (sh_error(FALSE, 1, NULL, NULL));
 	if ((stline->line = ft_strnew(BUFF_SIZE)) == NULL)
-		return (sh_error(TRUE, 6, NULL, NULL));
+		return (sh_error(FALSE, 6, NULL, NULL));
 	stline->mini_prt = FALSE;
 	stline->quote = 0;
 	stline->pos = 0;
@@ -61,7 +61,7 @@ int					init_stline(t_line *stline)
 	stline->hrd.ptr = NULL;
 	stline->hrd.deli = NULL;
 	if ((stline->hrd.line = ft_strnew(BUFF_SIZE)) == NULL)
-		return (sh_error(TRUE, 6, NULL, NULL));
+		return (sh_error(FALSE, 6, NULL, NULL));
 	savior_stline(stline, TRUE);
 	stline->ctrl_c = FALSE;
 	return (TRUE);

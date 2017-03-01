@@ -40,12 +40,12 @@ int					bi_exit(char **arg, t_duo **env)
 	i = 0;
 	(void)env;
 	if (arg && arg[1] && arg[2])
-		return (sh_error(TRUE, 27, NULL, NULL));
+		return (sh_error(FALSE, 27, NULL, NULL));
 	while (arg && arg[1] && arg[1][i])
 	{
 		if (ft_isdigit(arg[1][i]) == 0)
 		{
-			return (sh_error(TRUE, 28, arg[1], NULL));
+			return (sh_error(FALSE, 28, arg[1], NULL));
 			free_tab(&arg);
 			exit_pgm(255);
 		}
