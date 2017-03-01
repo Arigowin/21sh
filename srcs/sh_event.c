@@ -99,9 +99,10 @@ int					fct_return(char **str, int *pos, t_line *stline, // changer pos en p (no
 
 	fct_end(str, pos, stline, history);
 	stline->quote = quote_is_close(str);
-	if (stline->quote != 0 || (*pos > 0 && (*str)[*pos - 1]
-				&& (*str)[*pos - 1] == '\\') || stline->hrd.nb > 0
-			|| (*pos > 0 && check_end_pipe(str, pos))) // ajout si 'pipe' a la fin de la ligne
+	if (stline->quote != 0 || ((*pos == 1 && (*str)[*pos - 1]
+	&& (*str)[*pos - 1] == '\\') || (*pos > 1 && (*str)[*pos - 1] &&
+	(*str)[*pos - 2] && (*str)[*pos - 1] == '\\' && (*str)[*pos - 2] != '\\'))
+	|| stline->hrd.nb > 0 || (*pos > 0 && check_end_pipe(str, pos)))
 	{
 		if (stline->hrd.nb > 0 && (check_end_heredoc(stline) == BREAK))
 			return (BREAK);
@@ -134,7 +135,8 @@ int					fct_ctrl_d(char **str, int *pos, t_line *stline,
 	env = savior(NULL, FALSE);
 	if (*str[0] == '\0' && stline->hrd.nb == 0)
 		bi_exit(NULL, &env);
-	else if (stline->hrd.nb != 0 && (*str[0] == '\0' || (*str)[ft_strlen(*str) - 1] == '\n'))
+	else if (stline->hrd.nb != 0 && (*str[0] == '\0'
+	|| (*str)[ft_strlen(*str) - 1] == '\n'))
 	{
 		stline->hrd.ctrl_d = TRUE;
 		ft_putendl("");
@@ -208,8 +210,8 @@ int					event(int k, t_line *stline, t_history **history)
 		if (tbl_keys[i].key == k)
 		{
 			ret = (tbl_keys[i].fct((stline->hrd.nb > 0 ? &(stline->hrd.line)
-							: &(stline->line)),	(stline->hrd.nb > 0 ? &(stline->hrd.pos)
-							: &(stline->pos)), stline, history));
+					: &(stline->line)),	(stline->hrd.nb > 0 ? &(stline->hrd.pos)
+					: &(stline->pos)), stline, history));
 			tputs(tgetstr("ve", NULL), 1, my_outc);
 			return(ret);
 		}
@@ -219,7 +221,7 @@ int					event(int k, t_line *stline, t_history **history)
 		if (stline->hrd.nb <= 0)
 			handle_quote(k, &(stline->line), &(stline->pos), stline);
 		fct_insert((stline->hrd.nb > 0 ? &(stline->hrd.line) : &(stline->line)),
-				(stline->hrd.nb > 0 ? &(stline->hrd.pos) : &(stline->pos)), k, stline);
+		(stline->hrd.nb > 0 ? &(stline->hrd.pos) : &(stline->pos)), k, stline);
 	}
 	tputs(tgetstr("ve", NULL), 1, my_outc);
 	return (TRUE);
