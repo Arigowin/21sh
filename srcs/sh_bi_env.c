@@ -26,7 +26,7 @@ static int			format_env(char *arg, int *nb)
 	while (arg[j] != '=')
 		j++;
 	key = ft_strsub(arg, 0, j);
-	if (valid_env_name(key) != ERROR)
+	if (valid_env_name(key) != FALSE)
 	{
 		j++;
 		value = ft_strsub(arg, j, ft_strlen(arg) - j);
