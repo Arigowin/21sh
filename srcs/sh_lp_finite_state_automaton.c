@@ -70,7 +70,6 @@ static int			state_dquote(int *hrd, char **read_buff, char **data_tmp)
 		ft_putendl_fd("------- STATE DQUOTE ------", 2);
 
 	*hrd += 1;
-	dprintf(2, "TOTO[%c][%c]\n", **read_buff, *(*read_buff + 1));
 	if (**read_buff == DQUOTE)
 	{
 		if (*(*read_buff + 1) == DQUOTE)
