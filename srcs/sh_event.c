@@ -56,6 +56,15 @@ int					check_end_pipe(char **str, int *pos)
 	return (FALSE);
 }
 
+int					check_nb_quote(char c, int back, int *quote, int to_fill)
+{
+	if (c && (c != '\\' || back % 2 == 0))
+		*quote = (*quote != 0 ? 0 : to_fill);
+	if (c == '\0')
+		*quote = (*quote != 0 ? 0 : to_fill);
+	return (TRUE);
+}
+
 int					quote_is_close(char **str)
 {
 	int					i;
@@ -68,19 +77,9 @@ int					quote_is_close(char **str)
 	while (str && *str && (*str)[++i])
 	{
 		if (quote != DQUOTE && (*str)[i] == QUOTE)
-		{
-			if ((*str)[i - 1] && ((*str)[i - 1] != '\\' || back % 2 == 0))
-				quote = (quote != 0 ? 0 : QUOTE);
-			if ((*str)[i - 1] == '\0')
-				quote = (quote != 0 ? 0 : QUOTE);
-		}
+			check_nb_quote((*str)[i - 1], back, &quote, QUOTE);
 		if (quote != QUOTE && (*str)[i] == DQUOTE)
-		{
-			if ((*str)[i - 1] && ((*str)[i - 1] != '\\' || back % 2 == 0))
-				quote = (quote != 0 ? 0 : DQUOTE);
-			if ((*str)[i - 1] == '\0')
-				quote = (quote != 0 ? 0 : DQUOTE);
-		}
+			check_nb_quote((*str)[i - 1], back, &quote, DQUOTE);
 		if ((*str)[i] == '\\')
 			back++;
 		else if (back > 0 && ((*str)[i] != '\\' || ((*str)[i] != QUOTE
@@ -90,8 +89,8 @@ int					quote_is_close(char **str)
 	return (quote);
 }
 
-int					fct_return(char **str, int *pos, t_line *stline, // changer pos en p (norme)
-		t_history **history)
+int					fct_return(char **str, int *pos, t_line *stline,
+					t_history **history)
 {
 	if (DEBUG_KEY == 1)
 		ft_putendl_fd("------- FCT RETURN ------", 2);
