@@ -34,7 +34,7 @@ int					check_end_pipe(char **str, int *pos)
 	int					j;
 
 	i = *pos - 1;
-	while (str && *str && (*str)[i] && i > 1)
+	while (str && *str && (*str)[i] && i > 0)
 	{
 		if ((*str)[i] != ' ' && (*str)[i] != '\t'
 				&& (*str)[i] != '\n' && (*str)[i] != '|')
