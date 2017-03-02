@@ -2,7 +2,7 @@
 #include "shell.h"
 #define RA RED_ARG
 
-static int			tree_trav_hrd(t_line *stline, t_node **tree,
+int					tree_trav_hrd(t_line *stline, t_node **tree,
 					t_history **history)
 {
 	if (DEBUG_HEREDOC == 1)
@@ -70,7 +70,7 @@ static int			fill_hrd_content(t_line *stline, t_node **tree) // static ac heredo
 	len_deli = (stline->hrd.ctrl_d == FALSE ? ft_strlen(stline->hrd.deli->data)
 											: 0);
 	len = (ft_strlen(stline->hrd.line) - (len_deli + 1));
-	if (tree && (*tree) && (*tree)->right  && ((*tree)->right->type == HRD_QUOTE
+	if (tree && (*tree) && (*tree)->right && ((*tree)->right->type == HRD_QUOTE
 	|| (*tree)->right->type == RED_ARG))
 	{
 		if ((*tree)->right->type == HRD_QUOTE && ((*tree)->right->right->data =
@@ -113,22 +113,5 @@ int					manage_hrd_document(int bln, t_line *stline, t_node **tree,
 	stline->hrd.pos = 0;
 	stline->hrd.ctrl_d = FALSE;
 	(stline->hrd.nb)--;
-	return (TRUE);
-}
-
-int					heredoc_handler(t_line *stline, t_node **tree,
-					t_history **history)
-{
-	if (DEBUG_HEREDOC == 1)
-		ft_putendl_fd("------------ HEREDOC HANDLER ----------", 2);
-
-	static int		bln = 0;
-
-	if (stline->hrd.nb <= 0)
-		return (FALSE);
-	if ((*tree)->type == DLRED)
-		manage_hrd_document(bln, stline, tree, history);
-	if ((tree_trav_hrd(stline, tree, history)) == ERROR)
-		return (ERROR);
 	return (TRUE);
 }

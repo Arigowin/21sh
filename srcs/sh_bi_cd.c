@@ -28,7 +28,7 @@ static int			cd_home(void)
 	if (DEBUG_BUILTIN == 1)
 		ft_putendl_fd("------- CD HOME ------", 2);
 
-	char 				*path;
+	char				*path;
 	int					ret;
 
 	if ((path = get_env("HOME")) == NULL)

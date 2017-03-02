@@ -73,6 +73,23 @@ static int			heredoc_red(t_node *tree, int fd) // static ac redirect
 	return (TRUE);
 }
 
+int					heredoc_handler(t_line *stline, t_node **tree,
+					t_history **history)
+{
+	if (DEBUG_HEREDOC == 1)
+		ft_putendl_fd("------------ HEREDOC HANDLER ----------", 2);
+
+	static int		bln = 0;
+
+	if (stline->hrd.nb <= 0)
+		return (FALSE);
+	if ((*tree)->type == DLRED)
+		manage_hrd_document(bln, stline, tree, history);
+	if ((tree_trav_hrd(stline, tree, history)) == ERROR)
+		return (ERROR);
+	return (TRUE);
+}
+
 int					redirect(t_node *tree, t_lst_fd *lstfd)
 {
 	if (DEBUG_RED == 1)

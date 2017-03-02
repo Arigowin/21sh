@@ -22,7 +22,7 @@ const char			*tbl_error1(int index)
 						/*12*/"21sh: no PATH variable set",
 						/*13*/"21sh: cd: no HOME variable set",
 						/*14*/"21sh: unsetenv", /*15*/"21sh: setenv",
-	  					/*16 -> 16, 17, 18*/"21sh: cd",/*17->19, 20, 21, 22, 23, 25, 26, 29, 30*/ "21sh",
+						/*16 -> 16, 17, 18*/"21sh: cd",/*17->19, 20, 21, 22, 23, 25, 26, 29, 30*/ "21sh",
 						/*18->26*/"21sh: parse error near",
 						/*19->27, 28*/"21sh: exit",
 						/*20->31*/"21sh: warning: here-document delimited by"

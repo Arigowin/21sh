@@ -13,7 +13,7 @@ int					miniprt_reset_stline(t_line *stline)
 }
 
 /*FICHIER A REPRENDRE -- RECLASSER LES FOCNTIONS PAR UTILITE */
-int 				mini_prt_handler(char **str, int *pos, t_line *stline)
+int					mini_prt_handler(char **str, int *pos, t_line *stline)
 {
 	if (DEBUG_KEY == 1)
 		ft_putendl_fd("------- MINI PRT HANDLER ------", 2);
@@ -150,7 +150,7 @@ int					handle_quote(int key, char **str, int *pos, t_line *stline)
 	if (DEBUG == 1)
 		ft_putendl_fd("------- HANDLE QUOTE ------", 2);
 
-	if (*pos > 0 && (*str)[(*pos) - 1] &&  (*str)[(*pos) - 1] == '\\')
+	if (*pos > 0 && (*str)[(*pos) - 1] && (*str)[(*pos) - 1] == '\\')
 		return (FALSE);
 	if (key == QUOTE || key == DQUOTE)
 	{
@@ -159,10 +159,10 @@ int					handle_quote(int key, char **str, int *pos, t_line *stline)
 		else if (stline->quote == 0)
 			stline->quote = key;
 	}
-	return(TRUE);
+	return (TRUE);
 }
 
-static t_key_fct	*tbl_key_fill()
+static t_key_fct	*tbl_key_fill(void)
 {
 	static t_key_fct	tbl_keys[18] =
 	{
@@ -173,10 +173,11 @@ static t_key_fct	*tbl_key_fill()
 		{CTRL_UP, fct_up}, {CTRL_DOWN, fct_down}, {CUT, fct_cut},
 		{HIGHLIGHT, fct_highlight}, {PASTE, fct_paste}, {COPY, fct_copy}
 	};
+
 	return (tbl_keys);
 }
 
-int 				insert_key(int key_to_insrt, t_line *stline)
+int					insert_key(int key_to_insrt, t_line *stline)
 {
 	if (key_to_insrt != TAB && key_to_insrt > 31 && key_to_insrt < 128)
 	{
@@ -184,7 +185,7 @@ int 				insert_key(int key_to_insrt, t_line *stline)
 			handle_quote(key_to_insrt, &(stline->line), &(stline->pos), stline);
 		fct_insert((stline->hrd.nb > 0 ? &(stline->hrd.line) :
 			&(stline->line)), (stline->hrd.nb > 0 ? &(stline->hrd.pos) :
-				 &(stline->pos)), key_to_insrt, stline);
+				&(stline->pos)), key_to_insrt, stline);
 	}
 	return (TRUE);
 }
@@ -202,15 +203,15 @@ int					event(int key_to_insrt, t_line *stline, t_history **history)
 	i = -1;
 	ret = 0;
 	tputs(tgetstr("vi", NULL), 1, my_outc);
-	while(++i < 18)
+	while (++i < 18)
 	{
 		if (tbl_keys[i].key == key_to_insrt)
 		{
 			ret = (tbl_keys[i].fct((stline->hrd.nb > 0 ? &(stline->hrd.line)
-					: &(stline->line)),	(stline->hrd.nb > 0 ? &(stline->hrd.pos)
+					: &(stline->line)), (stline->hrd.nb > 0 ? &(stline->hrd.pos)
 					: &(stline->pos)), stline, history));
 			tputs(tgetstr("ve", NULL), 1, my_outc);
-			return(ret);
+			return (ret);
 		}
 	}
 	insert_key(key_to_insrt, stline);
