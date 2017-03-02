@@ -25,7 +25,7 @@ const char			*tbl_error1(int index)
 						/*16 -> 16, 17, 18*/"21sh: cd",/*17->19, 20, 21, 22, 23, 25, 26, 29, 30*/ "21sh",
 						/*18->26*/"21sh: parse error near",
 						/*19->27, 28*/"21sh: exit",
-						/*20->31*/"21sh: warning: here-document delimited by"
+						/*20->31*/"21sh: warning: here-document was delimited by"
 						};
 	int					ret_index;
 
@@ -72,6 +72,7 @@ const char			*tbl_error2(int index)
 
 int					sh_error(int ret, int index, char *err, char *bi)
 {
+	printf("index in error ((%d))\n", index);
 	if (ret == NO_PRINT)
 		return (NO_PRINT);
 	ft_putstr_fd(tbl_error1(index), 2);

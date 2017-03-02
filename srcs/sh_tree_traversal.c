@@ -81,7 +81,7 @@ int					tree_traversal(t_node *tree, t_lst_fd **lstfd,
 	if (tree && tree->type != SEMI && lstfd && *lstfd == NULL)
 		red_fd(-2, tree, lstfd, NONE);
 	//ANTIBUG -11 lignes
-	if (DEBUG_ANTIBUG == 1)
+	if (DEBUG_ANTIBUG == 0)
 	{
 		printf("lstfd :\n");
 		t_lst_fd *tmp = *lstfd;

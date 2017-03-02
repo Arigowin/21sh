@@ -37,7 +37,7 @@ static int			check_fd(int *fd, char *name, t_node *node, t_node *tree)
 	int					retnum;
 	int					ret;
 
-	ret = 0;
+	ret = TRUE;
 	if (node && node->data && node->data[0] == '&')
 	{
 		*fd = (ft_strcmp("&-", node->data) == 0 ? -42
@@ -45,8 +45,12 @@ static int			check_fd(int *fd, char *name, t_node *node, t_node *tree)
 		if (*fd >= 0)
 		{
 			ret = fd_exist(*fd);
+				printf("POUET((%d))\n", ret);
 			if ((retnum = ft_isstrnum(name + 1)) == 0 || ret == -1)
+			{
 				*fd = -1;
+			}
+		printf("0 -- in check fct ret ((%d)) fd ((%d)) retnum ((%d))\n", ret, *fd, retnum);
 			if (retnum != 0)
 				return (ret);
 		}
@@ -57,12 +61,16 @@ static int			check_fd(int *fd, char *name, t_node *node, t_node *tree)
 			ret = access(name, F_OK);
 		*fd = (ret >= 0 ?
 		open(name, flag(tree), S_IRUSR | S_IWUSR | S_IRGRP | S_IROTH) : ret);
+		printf("1 -- in check fct ret ((%d)) fd ((%d))\n", ret, *fd);
 	}
-	return (TRUE);
+	return (ret);
 }
 
 static int			fct_open(int *fd, int *fd_save, t_node *tree)
 {
+	if (DEBUG_TREE == 1)
+		ft_putendl_fd("------- FCT OPEN -------", 2);
+
 	t_node				*node;
 	char				*filename;
 	int					ret;
@@ -73,15 +81,21 @@ static int			fct_open(int *fd, int *fd_save, t_node *tree)
 	if (tree && tree->right)
 		node = (tree->right->type == RA ? tree->right : tree->right->right);
 	if (node && node->data && (filename = node->data) == NULL)
+	{printf("TROLOLO\n");
 		return (lstfd_node_ret(ERROR, &node, NULL, NULL));
+	}
 	if ((ret = check_fd(fd, filename, node, tree)) != TRUE)
+	{printf("TROLOLO ret ((%d))\n", ret);
 		return (ret);
+	}
 	*fd_save = *fd;
+		printf("0 -- ret in fct open ((%d)) fd((%d))\n", ret, *fd);
 	if (*fd == -1)
 	{
-		ret = (ret <= -1 ? 21 : 20);
+		printf("ret in fct open ((%d)) fd((%d))\n", ret, *fd);
+		ret = (ret <= -1 ? 20 : 21);
 		ret = ft_strcmp(ft_strdup_ignchar(filename + 1, '\\'), "-") ? ret : 29;
-		return (sh_error(FALSE, ret, ft_strdup_ignchar(filename, '\\'), NULL));
+		return (sh_error(FALSE, ret, ft_strdup_ignchar(filename, '\\'), "42"));
 	}
 	return (TRUE);
 }
