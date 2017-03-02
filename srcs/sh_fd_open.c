@@ -64,7 +64,7 @@ static int			check_fd(int *fd, char *name, t_node *node, t_node *tree)
 static int			fct_open(int *fd, int *fd_save, t_node *tree)
 {
 	t_node				*node;
-	char 				*filename;
+	char				*filename;
 	int					ret;
 
 	ret = 0;
@@ -86,7 +86,7 @@ static int			fct_open(int *fd, int *fd_save, t_node *tree)
 	return (TRUE);
 }
 
-int					fd_open(int	*fd, t_node *tree)
+int					fd_open(int *fd, t_node *tree)
 {
 	if (DEBUG_TREE == 1)
 		ft_putendl_fd("------- FD OPEN -------", 2);

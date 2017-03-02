@@ -123,17 +123,12 @@ int					save_history(void)
 	char				*path;
 	int					fd;
 	t_history			**history;
-//	char				end;
 
 	path = NULL;
-//	fd = -1; //no need...
 	if ((history = savior_history(NULL, FALSE)) == NULL)
 		return (FALSE);
 	home = get_env("HOME");
-//	if (home)
-//		path = ft_strjoin(home, HISTORY_FILE_NAME);
 	path = (home != NULL ? ft_strjoin(home, HISTORY_FILE_NAME) : NULL);
-	//ft_strdel(&home); // a ajouter dans les fct return/free a chaque fois
 	if ((fd = open(path, O_WRONLY | O_TRUNC | O_CREAT, S_IRUSR | S_IWUSR))
 	== ERROR && path)
 		return (dblstr_duo_ret(ERROR, &path, &home, NULL));
@@ -141,14 +136,10 @@ int					save_history(void)
 		*history = (*history)->prev;
 	while (*history && (*history)->line)
 	{
-		//write(fd, (*history)->line, ft_strlen((*history)->line));
-		//write(fd, "\n", 1);
 		ft_putendl_fd((*history)->line, fd);
 		*history = (*history)->next;
 	}
 	ft_putchar_fd(3, fd);// ???
-	//end = 3;
-	//write(fd, &end, 1);
 	if (fd > 2)
 		close(fd);
 	return (dblstr_hist_ret(TRUE, &path, &home, history));

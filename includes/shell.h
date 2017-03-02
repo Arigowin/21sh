@@ -547,8 +547,8 @@ int						fd_open(int	*fd, t_node *tree);
 /*
 ** sh_rd_red
 */
-
 int						fd_exist(int fd);
+int 					heredoc_handler(t_line *l, t_node **t, t_history **h);
 int     				redirect(t_node *tree, t_lst_fd *lstfd);
 
 /*
@@ -568,14 +568,16 @@ int						check_file_name(char **filename, char *str);
 int						reset_std_fd(void);
 int						red_fd(int fd, t_node *tree, t_lst_fd **lstfd,
 							t_types type);
-
-
-t_lst_fd				*lstfd_insert(t_lst_fd **lstfd, t_lst_fd **tmpfd, int fd, char *filename);
+t_lst_fd				*lstfd_insert(t_lst_fd **lstfd, t_lst_fd **tmpfd,
+							int fd, char *filename);
 
 /*
 ** sh_rd_heredoc
 */
-int 					heredoc_handler(t_line *l, t_node **t, t_history **h);
+int						tree_trav_hrd(t_line *stline, t_node **tree,
+							t_history **history);
+int						manage_hrd_document(int bln, t_line *stline,
+							t_node **tree, t_history **history);
 
 /*
 ** sh_heredoc
