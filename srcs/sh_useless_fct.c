@@ -23,7 +23,8 @@ int					lstfd_pushbck(t_lst_fd **lstfd, int fd, char *filename)
 	return (TRUE);
 }
 
-t_lst_fd			*lstfd_insert(t_lst_fd **lstfd, t_lst_fd **tmpfd, int fd, char *filename)
+t_lst_fd			*lstfd_insert(t_lst_fd **lstfd, t_lst_fd **tmpfd, int fd,
+					char *filename)
 {
 	if (DEBUG_RED == 1)
 		ft_putendl_fd("------- LSTFD INSERT -------", 2);
@@ -45,7 +46,8 @@ t_lst_fd			*lstfd_insert(t_lst_fd **lstfd, t_lst_fd **tmpfd, int fd, char *filen
 	return (new_fd);
 }
 
-int					insert_in_lstfd(t_lst_fd **lstfd, t_lst_fd **tmpfd, int fd, char *filename, int insert)
+int					insert_in_lstfd(t_lst_fd **lstfd, t_lst_fd **tmpfd, int fd,
+					char *filename, int insert)
 {
 	int 				ret;
 

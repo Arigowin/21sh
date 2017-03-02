@@ -46,8 +46,8 @@ int					bi_exit(char **arg, t_duo **env)
 		if (ft_isdigit(arg[1][i]) == 0)
 		{
 			return (sh_error(FALSE, 28, arg[1], NULL)); //peut etre appeler la fct d'erreur sans le return ?
-			free_tab(&arg);
-			exit_pgm(255); // pour moi on exit pas vu qu'il y a eu une erreur dans exit
+			//free_tab(&arg); -> si free ici invalid pointer ;)
+			exit_pgm(255); // pour moi on exit pas vu qu'il y a eu une erreur dans exit de toute facon, vu qu'on return avan, on exit pas...
 		}
 		i++;
 	}

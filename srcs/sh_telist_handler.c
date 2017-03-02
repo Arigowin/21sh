@@ -33,17 +33,17 @@ int				expr_del(t_e_list **lst)
 	if (DEBUG_LEXER == 1)
 		ft_putendl_fd("------- EXPR DEL ------", 2);
 
-	t_e_list	*trash;
+	t_e_list	*tmp;
 
-	trash = NULL;
+	tmp = NULL;
 	while (lst && *lst)
 	{
-		trash = *lst;
+		tmp = *lst;
 		*lst = (*lst)->next;
-		ft_strdel(&(trash->data));
-		free(trash);
+		ft_strdel(&(tmp->data));
+		free(tmp);
 	}
-	trash = NULL;
+	tmp = NULL;
 	*lst = NULL;
 	return (TRUE);
 }

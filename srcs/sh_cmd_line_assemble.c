@@ -63,10 +63,7 @@ int					check_fct(int fd, char **cmd)
 		return (sh_error(FALSE, 12, NULL, NULL));
 	}
 	if ((path = ft_strsplit(tmp, ':')) == NULL)
-	{
-		free_tab(&tbl_env);
-		return (ERROR);
-	}
+		return (str_dbltbl_ret(ERROR, NULL, &tbl_env, NULL));
 	ft_strdel(&tmp);
 	i = -1;
 	while (path[++i])
@@ -77,17 +74,11 @@ int					check_fct(int fd, char **cmd)
 			if (access(tmp, X_OK) == ERROR)
 			{
 				sh_error(FALSE, 20, cmd[0], NULL);
-				free_tab(&tbl_env);
-				free_tab(&path);
-				ft_strdel(&tmp);
-				return (-2);
+				return (str_dbltbl_ret(-2, &tmp, &tbl_env, &path));
 			}
 			execve(tmp, cmd, tbl_env);
 		}
 		ft_strdel(&tmp);
 	}
-	free_tab(&tbl_env);
-	free_tab(&path);
-	ft_strdel(&tmp);
-	return (FALSE);
+	return (str_dbltbl_ret(FALSE, &tmp, &tbl_env, &path));
 }

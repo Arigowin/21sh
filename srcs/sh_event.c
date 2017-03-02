@@ -83,7 +83,8 @@ int					quote_is_close(char **str)
 		}
 		if ((*str)[i] == '\\')
 			back++;
-		else if (back > 0 && ((*str)[i] != '\\' || ((*str)[i] != QUOTE || (*str)[i] != DQUOTE)))
+		else if (back > 0 && ((*str)[i] != '\\' || ((*str)[i] != QUOTE
+		|| (*str)[i] != DQUOTE)))
 			back = 0;
 	}
 	return (quote);
@@ -182,27 +183,6 @@ int					event(int k, t_line *stline, t_history **history)
 	i = -1;
 	ret = 0;
 	tputs(tgetstr("vi", NULL), 1, my_outc);
-
-	if (DEBUG_ANTIBUG == 1)
-	{
-		char *res;
-		tputs(tgetstr("sc", NULL), 1, my_outc);
-		res = tgetstr("cm", NULL);
-		tputs(tgoto(res, 3, 3), 1, my_outc);
-		tputs(tgetstr("ce", NULL), 1, my_outc);
-		ft_putstr("x :");
-		ft_putnbr(stline->curs_x);
-		ft_putstr(" y :");
-		ft_putnbr(stline->curs_y);
-		ft_putstr(" pos :");
-		ft_putnbr(stline->pos);
-		ft_putstr(" mp :");
-		ft_putnbr(stline->mini_prt);
-		ft_putstr(" winS :");
-		ft_putnbr(stline->win.ws_col);
-		tputs(tgetstr("rc", NULL), 1, my_outc);
-	}
-
 	while(++i < 18)
 	{
 		if (tbl_keys[i].key == k)

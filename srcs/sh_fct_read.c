@@ -45,23 +45,17 @@ static int			read_n_check(int *nb_hrd, char *read_buff, t_node **tree) // static
 	if (tree == NULL || read_buff == NULL)
 		return (FALSE);
 	if ((ret = tokenizer(&hrd, read_buff, &l_expr)) != TRUE)
-	{
-		ft_strdel(&read_buff);
-		return (ret);
-	}
+		return (str_dbltbl_ret(ret, &read_buff, NULL, NULL));
 	save = l_expr;
 	ft_strdel(&read_buff);
 	if ((ret = lexer(&l_expr)) != TRUE)
 		return (ret);
 	if ((ret = parser(nb_hrd, &l_expr, tree)) != TRUE)
-	{
-		expr_del(&save);
-		return (ret);
-	}
+		return (telist_ret(ret, &save, NULL, NULL));
 	savior_tree(*tree, TRUE);
-	expr_del(&save);
 	if (DEBUG_TREE_VERIF == 1)
 		tree_traversal_verif(*tree);
+	expr_del(&save);
 	return (TRUE);
 }
 
@@ -82,23 +76,13 @@ int					check_after_read(t_line *stline, t_history **history)
 	init_pipefd(pipefd_tab);
 	ret = read_n_check(&(stline->hrd.nb), stline->line, &tree);
 	if (ret != TRUE)
-	{
-		del_tree(&tree);
-		return (ret);
-	}
+		return (lstfd_node_ret(ret, &tree, NULL, NULL));
 	node = tree;
 	if ((ret = heredoc_handler(stline, &node, history)) == ERROR)
 		return (FALSE);
 	if ((ret = tree_traversal(tree, &lstfd, pipefd_tab)) == ERROR)
-	{
-		del_tree(&tree);
-		return (ret);
-		/* MSG ret: ERROR exit: TRUE msg: "whatever i don't have any ideas left"
-		 * free: stline + globalfd + tree + node */
-	}
-	del_tree(&tree);
-	del_lstfd(&lstfd);
-	return (ret);
+		return (lstfd_node_ret(ret, &tree, NULL, NULL));
+	return (lstfd_node_ret(ret, &tree, &lstfd, NULL));
 }
 
 int					ctrl_c_hrd(t_line *stline)

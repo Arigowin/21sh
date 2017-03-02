@@ -79,7 +79,7 @@ int					tree_traversal(t_node *tree, t_lst_fd **lstfd, int pipefd_tab[2][2])
 		if (tree_trav_semi(tree, lstfd, pipefd_tab) == ERROR)
 			return (ERROR);
 	if (tree && tree->type != SEMI && lstfd && *lstfd == NULL)
-		manage_red_fd(-2, tree, lstfd, NONE);
+		red_fd(-2, tree, lstfd, NONE);
 	//ANTIBUG -11 lignes
 	if (DEBUG_ANTIBUG == 1)
 	{

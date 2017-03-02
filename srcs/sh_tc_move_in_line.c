@@ -10,31 +10,30 @@ static int			multi_left(char **str, int *pos, t_line *stline)
 	int					nb;
 	char				*tmp;
 	char				*chr;
-	int					nb_line;
+	int					nbline;
 
-	nb_line = 0;
+	nbline = 0;
 	if ((*str)[*pos - 1] == '\n')
 	{
-		if ((tmp = ft_strsub(*str, 0, ft_strlen(*str) - ft_strlen(&((*str)[*pos - 1])))) == NULL)
+		if ((tmp = ft_strsub(*str, 0, ft_strlen(*str) -
+			ft_strlen(&((*str)[*pos - 1])))) == NULL)
 			return (ERROR);
-		chr = ft_strrchr(tmp, '\n');
-		nb = (chr ? ft_strlen(chr + 1) : ft_strlen(tmp));
+		//chr = ft_strrchr(tmp, '\n');
+		nb = (chr = ft_strchr(tmp, '\n')) ? ft_strlen(chr + 1) : ft_strlen(tmp);
 		if (stline->curs_y == 0)
 			nb += PRT_LEN;
 		if (nb > stline->win.ws_col)
 		{
-			nb_line = (nb - (stline->win.ws_col * nb_line)) / stline->win.ws_col;
-			nb -= (stline->win.ws_col * nb_line) - PRT_LEN;
+			nbline = (nb - (stline->win.ws_col * nbline)) / stline->win.ws_col;
+			nb -= (stline->win.ws_col * nbline) - PRT_LEN;
 		}
 		while (++(stline->curs_x) < nb - 1)
 			tputs(tgetstr("nd", NULL), 1, my_outc);
 		stline->curs_x = nb + 1;
-		ft_strdel(&tmp);
 	}
-	else
-		while (++(stline->curs_x) < stline->win.ws_col)
-			tputs(tgetstr("nd", NULL), 1, my_outc);
-	return (TRUE);
+	while ((*str)[*pos - 1] != '\n' && ++(stline->curs_x) < stline->win.ws_col)
+		tputs(tgetstr("nd", NULL), 1, my_outc);
+	return (dblstr_duo_ret(TRUE, &tmp, NULL, NULL));
 }
 
 int					left_move_cdt(int pos, t_line *stline)
@@ -142,7 +141,6 @@ int					fct_ctrl_right(char **str, int *pos, t_line *stline,
 	(void)history;
 	if (((*pos)) < (int)ft_strlen(*str))
 		fct_right(str, pos, stline, history);
-
 	x = (*pos);
 	while ((x) < (int)ft_strlen(*str))
 	{

@@ -80,6 +80,7 @@ int					tokenizer(int *hrd, char *read_buff, t_e_list **l_expr)
 {
 	if (DEBUG_TOKEN == 1)
 		ft_putendl_fd("------- TOKENIZER ------", 2);
+
 	char 				*data_tmp;
 
 	if ((data_tmp = ft_strnew(ft_strlen(read_buff))) == NULL)

@@ -106,8 +106,9 @@ int					main(void)
 			break ;
 	}
 	reset_term();
-	duo_del(&env_cpy);
-	ft_strdel(&(stline.line));
-	ft_strdel(&(stline.hrd).line);
-	return (0);
+	return (dblstr_duo_ret(0, &(stline.line), &(stline.hrd).line, &env_cpy));
+//	duo_del(&env_cpy);
+//	ft_strdel(&(stline.line));
+//	ft_strdel(&(stline.hrd).line);
+//	return (0);
 }

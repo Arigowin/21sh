@@ -72,9 +72,7 @@ static int			fct_open(int *fd, int *fd_save, t_node *tree)
 	if (tree && tree->right)
 		node = (tree->right->type == RED_ARG ? tree->right : tree->right->right);
 	if (node && node->data && (filename = node->data) == NULL)
-		/* free : node + lstfd */
-		return (ERROR);
-	//fct check_fd
+		return (lstfd_node_ret(ERROR, &node, NULL, NULL));
 	if ((ret = check_fd(fd, filename, node, tree)) != TRUE)
 		return (ret);
 	*fd_save = *fd;

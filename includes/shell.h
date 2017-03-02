@@ -186,6 +186,24 @@ typedef struct			s_lst_fd //savior?
 int						sh_error(int ret, int index, char *err, char *bi);
 
 /*
+** free_return
+*/
+int						str_dbltbl_ret(int ret, char **str, char ***tbl1,
+							char ***tbl2);
+int						telist_ret(int ret, t_e_list **lst1, char **str1,
+							char **str2);
+int						lstfd_node_ret(int ret, t_node **node, t_lst_fd **lstfd,
+							char **str2);
+int						dblstr_duo_ret(int ret, char **str1, char **str2,
+							t_duo **duo1);
+int						dblstr_hist_ret(int ret, char **str1, char **str2,
+							t_history **hist);
+int						error_clear_node(int ret, int index, char *err,
+	   						t_node **to_free);
+int						error_clear_str(int ret, int index, char *err,
+	   						char **to_free);
+
+/*
 ** sh_file_history
 */
 int						load_history(t_history **history);
@@ -476,7 +494,7 @@ int 					push_in_lstfd(t_node *tree, t_lst_fd **lstfd, int fd,
 */
 int						check_file_name(char **filename, char *str);
 int						reset_std_fd(void);
-int						manage_red_fd(int fd, t_node *tree, t_lst_fd **lstfd,
+int						red_fd(int fd, t_node *tree, t_lst_fd **lstfd,
 							t_types type);
 
 

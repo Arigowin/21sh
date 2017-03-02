@@ -2,12 +2,11 @@
 #include "shell.h"
 #include "libft.h"
 
-static int			init_highlight(char **str, int *pos, t_line *stline)
+static int			init_highlight(char **str, t_line *stline)
 {
 	if (DEBUG_COPY_PASTE == 1)
 		ft_putendl_fd("------- INIT HIGHLIGHT ------", 2);
 
-	(void)pos;
 	if (stline->copy.cpy != NULL)
 	{
 		if ((stline->copy.bkup = ft_strdup(stline->copy.cpy)) == NULL)
@@ -86,7 +85,7 @@ int					fct_highlight(char **str, int *pos, t_line *stline,
 	len = ft_strlen(*str);
 	if (stline->copy.start == -1)
 	{
-		init_highlight(str, pos, stline);
+		init_highlight(str, stline);
 		if ((*pos) == len)
 			fct_left(str, pos, stline, history);
 		highlight(str, pos, stline, history);

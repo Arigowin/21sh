@@ -5,6 +5,7 @@ static int			add_env(char *name, char *value) //static ac change env
 {
 	if (DEBUG == 1)
 		ft_putendl_fd("------- ADD ENV ------", 2);
+
 	t_duo				*env;
 
 	env = savior(NULL, FALSE);
@@ -22,6 +23,7 @@ int					change_env(char *name, char *value)
 {
 	if (DEBUG == 1)
 		ft_putendl_fd("------- CHANGE ENV ------", 2);
+
 	t_duo				*env;
 
 	env = savior(NULL, FALSE);
@@ -44,6 +46,7 @@ char				*get_env(char *name)
 {
 	if (DEBUG == 1)
 		ft_putendl_fd("------- GET ENV ------", 2);
+
 	t_duo				*env;
 	char				*tmp;
 

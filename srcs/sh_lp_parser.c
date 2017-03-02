@@ -81,16 +81,12 @@ static int			check_c_pipe(int *nb_hrd, t_e_list **l_expr, t_node **tree)  // sta
 			*tree = node;
 			if (!(move_in_list(l_expr) && (ret = check_c_pipe(nb_hrd, l_expr,
 			&(node->right)))))
-			{
-				clear_node(&node);
-				return (sh_error(TRUE, 26, (*l_expr)->data, NULL));
-			}
+				return (error_clear_node(ret, 26, (*l_expr)->data, &node));
 			return (ret);
 		}
 		return (parser_ret_fct(ret, tree, node_to_give, &node));
 	}
-	clear_node(&node);
-	return (sh_error(ret, 26, (*l_expr)->data, NULL));
+	return (error_clear_node(ret, 26, (*l_expr)->data, &node));
 }
 
 static int			check_logic(int *nb_hrd, t_e_list **l_expr, t_node **tree)  // static ac check expr

@@ -38,28 +38,32 @@ int					token_dollar(char **read_buff, char **data_tmp)
 		add_in_tbl(&env_name, (*((*read_buff)++)));
 	(*read_buff)--;
 	if ((env_val = get_env(env_name)) == NULL)
-	{
-		ft_strdel(&env_name);
-		return (FALSE);
-	}
+		return (dblstr_duo_ret(FALSE, &env_name, NULL, NULL));
+//	{
+//		ft_strdel(&env_name);
+//		return (FALSE);
+//	}
 	ft_strdel(&env_name);
 	if (*data_tmp && (tmp = ft_strdup(*data_tmp)) == NULL)
-	{
-		ft_strdel(&env_val);
-		return (sh_error(FALSE, 6, NULL, NULL));
-	}
+		return (error_clear_str(FALSE, 6, NULL, &env_val));
+	//{
+	//	ft_strdel(&env_val);
+	//	return (sh_error(FALSE, 6, NULL, NULL));
+	//}
 	ft_strdel(data_tmp); // c'est bien ici le free du data_tmp ?
 	if ((*data_tmp = ft_strnew(ft_strlen(tmp) + ft_strlen(env_val)
 	+ ft_strlen(*read_buff))) == NULL)
 	{
 		ft_strdel(&tmp);
-		ft_strdel(&env_val);
-		return (sh_error(FALSE, 6, NULL, NULL));
+//		ft_strdel(&env_val);
+//		return (sh_error(FALSE, 6, NULL, NULL));
+		return (error_clear_str(FALSE, 6, NULL, &env_val));
 	}
 	concat(data_tmp, tmp, env_val);
-	ft_strdel(&env_val);
-	ft_strdel(&tmp);
-	return (TRUE);
+	return (dblstr_duo_ret(TRUE, &env_val, &tmp, NULL));
+//	ft_strdel(&env_val);
+//	ft_strdel(&tmp);
+//	return (TRUE);
 }
 
 int					token_tilde(char **read_buff, char **data_tmp, int *bln)
@@ -74,16 +78,17 @@ int					token_tilde(char **read_buff, char **data_tmp, int *bln)
 	if ((env_val = get_env("HOME")) == NULL || ft_strchr(SEP, *(*read_buff - 1)) == NULL
 			|| (*(*read_buff + 1) && ft_strchr(SEP, *(*read_buff + 1)) == NULL
 				&& *(*read_buff + 1) != '/'))
-
-	{
-		ft_strdel(&env_val);
-		return (FALSE);
-	}
+		return (dblstr_duo_ret(FALSE, &env_val, NULL, NULL));
+	//{
+	//	ft_strdel(&env_val);
+	//	return (FALSE);
+	//}
 	if (*data_tmp && (tmp = ft_strdup(*data_tmp)) == NULL)
-	{
-		ft_strdel(&env_val);
-		return (sh_error(FALSE, 6, NULL, NULL));
-	}
+		return (error_clear_str(FALSE, 6, NULL, &env_val));
+	//{
+	//	ft_strdel(&env_val);
+	//	return (sh_error(FALSE, 6, NULL, NULL));
+	//}
 	ft_strdel(data_tmp);
 	if ((*data_tmp = ft_strnew(ft_strlen(tmp) + ft_strlen(env_val)
 					+ ft_strlen((*read_buff)++))) == NULL)
@@ -94,7 +99,8 @@ int					token_tilde(char **read_buff, char **data_tmp, int *bln)
 	}
 	concat(data_tmp, tmp, env_val);
 	*bln = TRUE;
-	ft_strdel(&env_val);
-	ft_strdel(&tmp);
-	return (TRUE);
+	return (dblstr_duo_ret(TRUE, &env_val, &tmp, NULL));
+	//ft_strdel(&env_val);
+	//ft_strdel(&tmp);
+	//return (TRUE);
 }

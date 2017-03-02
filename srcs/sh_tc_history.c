@@ -48,10 +48,10 @@ void				del_history(t_history **history)
 	if (DEBUG_HISTORY == 1)
 		ft_putendl_fd("------- DEL HISTORY ------", 2);
 
-	t_history *trash;
+	t_history *tmp;
 	t_history *save;
 
-	trash = NULL;
+	tmp = NULL;
 	if (history == NULL || *history == NULL)
 		return ;
 	save = *history;
@@ -59,11 +59,11 @@ void				del_history(t_history **history)
 		save = save->prev;
 	while (save)
 	{
-		trash = save;
+		tmp = save;
 		save = (save)->next;
-		ft_strdel(&(trash->line));
-		free(trash);
-		trash = NULL;
+		ft_strdel(&(tmp->line));
+		free(tmp);
+		tmp = NULL;
 	}
 	*history = NULL;
 }

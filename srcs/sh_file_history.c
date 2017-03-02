@@ -18,17 +18,10 @@ static int			in_quote(char **buff, char *line)
 		if ((tmp1 = ft_strjoin(line, "\n")) == NULL)
 			return (ERROR);
 		if ((tmp2 = ft_strjoin(*buff, tmp1)) == NULL)
-		{
-			ft_strdel(&tmp1);
-			return (ERROR);
-		}
-		ft_strdel(&tmp1);
-		ft_strdel(buff);
+			return (dblstr_duo_ret(ERROR, &tmp1, NULL, NULL));
+		dblstr_duo_ret(TRUE, &tmp1, buff, NULL);
 		if ((*buff = ft_strdup(tmp2)) == NULL)
-		{
-			ft_strdel(&tmp2);
-			return (ERROR);
-		}
+			return (dblstr_duo_ret(ERROR, &tmp2, NULL, NULL));
 		ft_strdel(&tmp2);
 	}
 	else if (line && (*buff = ft_strjoin(line, "\n")) == NULL)
@@ -57,9 +50,8 @@ static int			line_manager(char **buff, char *line, int *quote, t_history **histo
 			ft_strdel(buff);
 			if ((*buff = ft_strdup(tmp)) == NULL)
 				return (sh_error(FALSE, 6, NULL, NULL));
-			ft_strdel(&tmp);
 			add_history(history, *buff);
-			ft_strdel(buff);
+			dblstr_duo_ret(TRUE, &tmp, buff, NULL);
 		}
 		else
 			add_history(history, line); // pb indirectly loss
@@ -83,26 +75,17 @@ static int			get_line_in_file(int fd, t_history **history)
 	{
 		quote = quote_is_close(&line) - quote_is_close(&buff);
 		if (line == NULL || line_manager(&buff, line, &quote, history) == ERROR) // indirectly loss
-		{
-			ft_strdel(&line);
-			ft_strdel(&buff);
-			return (ERROR);
-		}
+			return (dblstr_duo_ret(ERROR, &line, &buff, NULL));
 		ft_strdel(&line);
 	}
 	if (line)
 	{
 		quote = quote_is_close(&line) - quote_is_close(&buff);
 		if (line_manager(&buff, line, &quote, history) == ERROR)
-		{
-			ft_strdel(&line);
-			ft_strdel(&buff);
-			return (ERROR);
-		}
+			return (dblstr_duo_ret(ERROR, &line, &buff, NULL));
 		ft_strdel(&line);
 	}
-	ft_strdel(&buff);
-	return (TRUE);
+	return (dblstr_duo_ret(TRUE, &buff, NULL, NULL));
 }
 
 int					load_history(t_history **history)
@@ -121,13 +104,8 @@ int					load_history(t_history **history)
 		path = ft_strjoin(home, HISTORY_FILE_NAME);
 	if (path && (fd = open(path, O_RDONLY | O_CREAT,  S_IRUSR | S_IWUSR))
 	== ERROR)
-	{
-		ft_strdel(&path);
-		ft_strdel(&home);
-		return (ERROR);
-	}
-	ft_strdel(&path);
-	ft_strdel(&home);
+		return (dblstr_duo_ret(ERROR, &path, &home, NULL));
+	dblstr_duo_ret(TRUE, &path, &home, NULL);
 	if (get_line_in_file(fd, history) == ERROR)
 		return (ERROR);
 	if (fd > 2)
@@ -156,12 +134,8 @@ int					save_history(void)
 	path = (home != NULL ? ft_strjoin(home, HISTORY_FILE_NAME) : NULL);
 	//ft_strdel(&home); // a ajouter dans les fct return/free a chaque fois
 	if ((fd = open(path,  O_WRONLY | O_TRUNC | O_CREAT,  S_IRUSR | S_IWUSR))
-			== ERROR && path)
-	{
-		ft_strdel(&home);
-		ft_strdel(&path);
-		return (ERROR);
-	}
+	== ERROR && path)
+		return (dblstr_duo_ret(ERROR, &path, &home, NULL));
 	while (*history && (*history)->prev)
 		*history = (*history)->prev;
 	while (*history && (*history)->line)
@@ -176,8 +150,5 @@ int					save_history(void)
 	//write(fd, &end, 1);
 	if (fd > 2)
 		close(fd);
-	ft_strdel(&path);
-	ft_strdel(&home);
-	del_history(history);
-	return (TRUE);
+	return (dblstr_hist_ret(TRUE, &path, &home, history));
 }
