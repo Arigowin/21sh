@@ -11,12 +11,12 @@ static int			multi_left(char **str, int *pos, t_line *stline)
 	char				*tmp;
 	char				*chr;
 
+	tmp = NULL;
 	if ((*str)[*pos - 1] == '\n')
 	{
 		if ((tmp = ft_strsub(*str, 0, ft_strlen(*str) -
 			ft_strlen(&((*str)[*pos - 1])))) == NULL)
 			return (ERROR);
-		//chr = ft_strrchr(tmp, '\n');
 		nb = (chr = ft_strchr(tmp, '\n')) ? ft_strlen(chr + 1) : ft_strlen(tmp);
 		if (stline->curs_y == 0)
 			nb += PRT_LEN;

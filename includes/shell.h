@@ -49,26 +49,43 @@
 # define RIGHT 4414235
 # define UP 4283163
 # define DOWN 4348699
-# define CTRL_UP 28955 // alt + q
-# define CTRL_DOWN 30491 // alt + w
+// - LINUX CTRL + [q|w]
+//# define CTRL_UP 28955
+//# define CTRL_DOWN 30491
+// - MAC
+# define CTRL_UP 16693
+# define CTRL_DOWN 16949
 
 # define BACKSPACE 127
 # define TAB 9
 # define RETURN 10
 # define CTRL_D 4
 
-# define HIGHLIGHT 26651 // ALT + h
-# define PASTE 30235 // ALT + v
-# define COPY 25371 // ALT + c
-# define CUT 30747 // ALT + x
+// - LINUX ALT + [h|v|c|x]
+//# define HIGHLIGHT 26651
+//# define PASTE 30235
+//# define COPY 25371
+//# define CUT 30747
+// - MAC OPT + [h|v|c|x]
+# define HIGHLIGHT 39371
+# define PASTE 10127586
+# define COPY 42947
+# define CUT 8948194
 
 // - LINUX CTRL + [a|e]
-# define CTRL_LEFT 1
-# define CTRL_RIGHT 5
+//# define CTRL_LEFT 1
+//# define CTRL_RIGHT 5
+// - MAC
+# define CTRL_LEFT 17461
+# define CTRL_RIGHT 17205
 
 # define DEL 2117294875
-# define HOME 2117163803
-# define END 2117360411
+// - LINUX
+//# define HOME 2117163803
+//# define END 2117360411
+// - MAC
+# define HOME 4741915
+# define END 4610843
 
 # define PRT_LEN 2
 
