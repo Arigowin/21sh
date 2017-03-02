@@ -2,7 +2,7 @@
 #include "libft.h"
 #include "shell.h"
 
-static int				checktty_tool(char **tmp)
+static int			checktty_tool(char **tmp)
 {
 	char				buff[BUFF_SIZE + 1];
 	int					ret;
@@ -24,16 +24,16 @@ static int				checktty_tool(char **tmp)
 			ft_strdel(&tmp2);
 		}
 		else if ((*tmp = ft_strdup(buff)) == NULL)
-				return (sh_error(FALSE, 6, NULL, NULL));
+			return (sh_error(FALSE, 6, NULL, NULL));
 	}
 	if (ret == ERROR)
 		return (ERROR);
 	return (TRUE);
 }
 
-static int				checktty_tool2(t_line *stline, char **cmd)
+static int			checktty_tool2(t_line *stline, char **cmd)
 {
-	int		i;
+	int					i;
 
 	i = 0;
 	while (cmd[i])
@@ -41,7 +41,7 @@ static int				checktty_tool2(t_line *stline, char **cmd)
 		if (i > 0)
 			ft_strdel(&(stline->line));
 		if ((stline->line = ft_strdup(cmd[i])) == NULL)
-				return (sh_error(FALSE, 6, NULL, NULL));
+			return (sh_error(FALSE, 6, NULL, NULL));
 		if (check_after_read(stline, NULL) == ERROR)
 			return (ERROR);
 		i++;
@@ -49,7 +49,7 @@ static int				checktty_tool2(t_line *stline, char **cmd)
 	return (TRUE);
 }
 
-int						checktty(t_line *stline)
+int					checktty(t_line *stline)
 {
 	if (DEBUG == 1)
 		ft_putendl_fd("--------- CHECKTTY ------", 2);
@@ -84,9 +84,9 @@ int					main(void)
 		ft_putendl_fd("--------- MAIN ------", 2);
 
 	extern char			**environ;
-	t_duo	   	 		*env_cpy;
-	t_line	   	 		stline;
-	t_history  	 		*history;
+	t_duo				*env_cpy;
+	t_line				stline;
+	t_history			*history;
 
 	// return useless
 	history = NULL;
@@ -99,7 +99,7 @@ int					main(void)
 	while (TRUE)
 	{
 //		if (stline.line != NULL && stline.line[0] != '\0')
-			reset_stline(&stline);
+		reset_stline(&stline);
 		check_signal(1);
 		display_prompt();
 		if (fct_read(FALSE, &stline, &history) == ERROR)

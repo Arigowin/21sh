@@ -78,7 +78,7 @@ int					reset_stline(t_line *stline)
 	stline->pos = 0;
 	stline->curs_y = 0;
 	stline->curs_x = PRT_LEN;
-	ft_strdel(&( stline->curr_hist));
+	ft_strdel(&(stline->curr_hist));
 	stline->ctrl_c = FALSE;
 	stline->hrd.nb = 0;
 	stline->hrd.pos = 0;

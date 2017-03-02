@@ -3,31 +3,6 @@
 #include "shell.h"
 #include "libft.h"
 
-int					parser_ret_fct(int ret, t_node **tree, t_node **node,
-					t_node **to_free)
-{
-	if (DEBUG_PARSER == 1)
-		ft_putendl_fd("------- PARSER RET FCT ------\n", 2);
-
-	if (tree && node && *node)
-		*tree = *node;
-	clear_node(to_free);
-	return (ret);
-}
-
-int					move_in_list(t_e_list **l_expr)
-{
-	if (DEBUG_PARSER == 1)
-		ft_putendl_fd("------- MOVE IN LIST ------\n", 2);
-
-	if ((*l_expr) && (*l_expr)->next)
-	{
-		(*l_expr) = (*l_expr)->next;
-		return (TRUE);
-	}
-	return (FALSE);
-}
-
 static int			check_command(int *nb_hrd, t_e_list **l_expr, t_node **tree) //static ac check c pipe
 {
 	if (DEBUG_PARSER == 1)
@@ -70,7 +45,8 @@ static int			check_c_pipe(int *nb_hrd, t_e_list **l_expr, t_node **tree)  // sta
 	node = create_node(PIPE);
 	node_to_give = (node->left == NULL ? &(node->left) : &(node->right));
 	//if ((ret = check_command(nb_hrd, l_expr, node_to_give)) == TRUE)
-	if ((ret = check_command(nb_hrd, l_expr, node_to_give)) == TRUE && (*l_expr)->type != AMP)
+	if ((ret = check_command(nb_hrd, l_expr, node_to_give)) == TRUE
+	&& (*l_expr)->type != AMP)
 	{
 //		if ((*l_expr)->type == AMP)
 //			return (sh_error(ret, 26, (*l_expr)->data, NULL));

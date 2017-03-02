@@ -6,12 +6,12 @@
 #include "shell.h"
 #include "libft.h"
 
-static int				father(int pipefd_tab[2][2])
+static int			father(int pipefd_tab[2][2])
 {
 	if (DEBUG == 1)
 		ft_putendl_fd("------- FATHER ------", 2);
 
-	int						stat_loc;
+	int					stat_loc;
 
 	stat_loc = 0;
 	check_signal(3);
@@ -32,8 +32,8 @@ static int			son(char **cmd, int pipefd_tab[2][2], t_node *tree,
 	if (DEBUG == 1)
 		ft_putendl_fd("------- SON ------", 2);
 
-	int 				ret;
-	int 				fd;
+	int					ret;
+	int					fd;
 
 	fd = (lstfd && *lstfd && tree->left ? (*lstfd)->fd : -2);
 	ret = TRUE;

@@ -79,7 +79,7 @@ static int			modif_env(char **arg, t_duo *env, int len, int i)
 		if (strchr(arg[i], '=') != NULL)
 			format_env(arg[i], &nb);
 		else
-			break;
+			break ;
 		i++;
 	}
 	if (i < len)

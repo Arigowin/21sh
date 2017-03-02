@@ -20,7 +20,7 @@ int					check_red_arg(t_e_list **l_expr, t_node **tree, char *red)
 	if (DEBUG_PARSER == 1)
 		ft_putendl_fd("------- CHECK RED_ARG ------", 2);
 
-	t_node		 		*node;
+	t_node				*node;
 	t_node				*save;
 	t_types				ntype;
 	int					ret;
@@ -47,19 +47,6 @@ int					check_red_arg(t_e_list **l_expr, t_node **tree, char *red)
 	return (sh_error(ret, 26, (*l_expr)->data, NULL));
 }
 
-t_types				fill_red_type(char *data, int *nb_hrd)
-{
-	t_types				type;
-
-	type = ft_strequ(data, ">") ? RRED : RED;
-	type = ft_strequ(data, ">>") ? DRRED : type;
-	type = ft_strequ(data, "<") ? LRED : type;
-	type = ft_strequ(data, "<<") ? DLRED : type;
-	type = ft_strequ(data, "<>") ? RWRED : type;
-	*nb_hrd += (type == DLRED ? 1 : 0);
-	return (type);
-}
-
 int					check_red(int *nb_hrd, t_e_list **l_expr, t_node **tree)
 {
 	if (DEBUG_PARSER == 1)
@@ -76,8 +63,9 @@ int					check_red(int *nb_hrd, t_e_list **l_expr, t_node **tree)
 	if ((ret = ((*l_expr)->type == RED)) == FALSE)
 		return (FALSE);
 	if ((*l_expr)->type == RED && (*l_expr)->hrd_quote != -42 &&
-	(node = create_node(RED)) && (ret = move_in_list(l_expr)) == TRUE &&
-   	((ret = check_red_arg(l_expr, &(node->right), list_save->data)) == TRUE))
+	(node = create_node(RED)) &&
+	(ret = move_in_list(l_expr)) == TRUE &&
+	((ret = check_red_arg(l_expr, &(node->right), list_save->data)) == TRUE))
 	{
 		if ((node->data = ft_strdup(list_save->data)) == NULL)
 			return (sh_error(FALSE, 6, NULL, NULL));

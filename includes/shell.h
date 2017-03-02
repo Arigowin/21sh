@@ -384,6 +384,11 @@ int						token_tilde(char **buff, char **data_tmp, int *bln);
 int						lexer(t_e_list **l_expr);
 
 /*
+** sh_lp_lexer_waka
+*/
+int						waka_lexer(t_e_list **l_expr);
+
+/*
 ** sh_create_tree
 */
 t_node					*create_node(t_types type);
@@ -499,7 +504,6 @@ int						fct_highlight(char **str, int *pos, t_line *stline,
 /*
 ** sh_lp_parser
 */
-int						move_in_list(t_e_list **l_expr);
 int						parse_error(char *data);
 int						parser(int *nb_hrd, t_e_list **l_expr, t_node **tree);
 
@@ -510,6 +514,13 @@ int						check_red(int *nb_hrd, t_e_list **l_expr, t_node **t);
 int						check_next(int *nb_hrd, t_e_list **l_expr, t_node **t,
 							t_node **r_n);
 
+/*
+** sh_lp_parser_useful_fct
+*/
+t_types					fill_red_type(char *data, int *nb_hrd);
+int						parser_ret_fct(int ret, t_node **tree, t_node **node,
+							t_node **to_free);
+int						move_in_list(t_e_list **l_expr);
 
 /*
 ** sh_lp_parser_additional_items
