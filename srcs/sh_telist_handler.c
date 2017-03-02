@@ -28,12 +28,12 @@ t_e_list			*expr_new(char *content, int hrd)
 	return (new);
 }
 
-int				expr_del(t_e_list **lst)
+int					expr_del(t_e_list **lst)
 {
 	if (DEBUG_LEXER == 1)
 		ft_putendl_fd("------- EXPR DEL ------", 2);
 
-	t_e_list	*tmp;
+	t_e_list			*tmp;
 
 	tmp = NULL;
 	while (lst && *lst)
@@ -48,7 +48,7 @@ int				expr_del(t_e_list **lst)
 	return (TRUE);
 }
 
-int 				expr_pushbk(t_e_list **l_expr, char *data_tmp, int hrd)
+int					expr_pushbk(t_e_list **l_expr, char *data_tmp, int hrd)
 {
 	if (DEBUG_LEXER == 1)
 		ft_putendl_fd("------- EXPR PUSHBK ------", 2);

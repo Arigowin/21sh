@@ -2,7 +2,8 @@
 #include "shell.h"
 #include "libft.h"
 
-int					fct_copy(char **str, int *pos, t_line *stline, t_history **history)
+int					fct_copy(char **str, int *pos, t_line *stline,
+					t_history **history)
 {
 	if (DEBUG_COPY_PASTE == 1)
 		ft_putendl_fd("------- COPY ------", 2);
@@ -15,7 +16,8 @@ int					fct_copy(char **str, int *pos, t_line *stline, t_history **history)
 	return (TRUE);
 }
 
-int					fct_paste(char **str, int *pos, t_line *stline, t_history **history)
+int					fct_paste(char **str, int *pos, t_line *stline,
+					t_history **history)
 {
 	if (DEBUG_COPY_PASTE == 1)
 		ft_putendl_fd("------- PASTE ------", 2);
@@ -35,7 +37,8 @@ int					fct_paste(char **str, int *pos, t_line *stline, t_history **history)
 	return (TRUE);
 }
 
-int					fct_cut(char **str, int *pos, t_line *stline, t_history **history)
+int					fct_cut(char **str, int *pos, t_line *stline,
+					t_history **history)
 {
 	if (DEBUG_COPY_PASTE == 1)
 		ft_putendl_fd("------- PASTE ------", 2);

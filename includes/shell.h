@@ -1,26 +1,26 @@
 #ifndef SHELL_H
 # define SHELL_H
 
-#define DEBUG 0
-#define DEBUG_ANTIBUG 0
-#define DEBUG_BUILTIN 0
-#define DEBUG_CMD 0
-#define DEBUG_COPY_PASTE 0
-#define DEBUG_HEREDOC 0
-#define DEBUG_HISTORY 0
-#define DEBUG_FILE_HIST 0
-#define DEBUG_KEY 0
-#define DEBUG_LEXER 0
-#define DEBUG_PARSER 0
-#define DEBUG_PIPE 0
-#define DEBUG_RED 0
-#define DEBUG_SAVIOR 0
-#define DEBUG_TERMCAPS 0
-#define DEBUG_TOKEN 0
-#define DEBUG_TREE 0
-#define DEBUG_TREE_CREATION 0
-#define DEBUG_TREE_VERIF 0
-#include <stdio.h>
+# define DEBUG 0
+# define DEBUG_ANTIBUG 0
+# define DEBUG_BUILTIN 0
+# define DEBUG_CMD 0
+# define DEBUG_COPY_PASTE 0
+# define DEBUG_HEREDOC 0
+# define DEBUG_HISTORY 0
+# define DEBUG_FILE_HIST 0
+# define DEBUG_KEY 0
+# define DEBUG_LEXER 0
+# define DEBUG_PARSER 0
+# define DEBUG_PIPE 0
+# define DEBUG_RED 0
+# define DEBUG_SAVIOR 0
+# define DEBUG_TERMCAPS 0
+# define DEBUG_TOKEN 0
+# define DEBUG_TREE 0
+# define DEBUG_TREE_CREATION 0
+# define DEBUG_TREE_VERIF 0
+# include <stdio.h>
 
 # define HISTORY_FILE_NAME "/.21sh_history"
 
@@ -442,7 +442,6 @@ int						fct_backspace(char **s, int *pos, t_line *stline,
 /*
 ** sh_tc_move_in_line
 */
-int						left_move_cdt(int pos, t_line *stline);
 int						fct_left(char **s, int *pos, t_line *l,	t_history **h);
 int						fct_right(char **s, int *pos, t_line *l,t_history **h);
 int						fct_ctrl_left(char **s, int *pos, t_line *stline,
@@ -453,6 +452,7 @@ int						fct_ctrl_right(char **s, int *pos, t_line *stline,
 /*
 ** sh_tc_move_up_down
 */
+int						left_move_cdt(int pos, t_line *stline);
 int						fct_down(char **s, int *pos, t_line *stline,
 							t_history **hstory);
 int						fct_up(char **s, int *p, t_line *l, t_history **h);

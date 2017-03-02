@@ -2,7 +2,8 @@
 #include "libft.h"
 
 // nom a revoir
-static int			history_up_prev(t_history **history, char *tmp, int *pos, t_line *stline) //static av history up
+static int			history_up_prev(t_history **history, char *tmp, int *pos,
+					t_line *stline) //static av history up
 {
 	char				*tmpchr;
 	int					ret;
@@ -13,7 +14,8 @@ static int			history_up_prev(t_history **history, char *tmp, int *pos, t_line *s
 		if (tmpchr != NULL && ft_strlen(tmpchr) > 1)
 		{
 			(tmpchr)++;
-			if (stline->mini_prt == FALSE || (ret = ft_strcmp(tmpchr, (*history)->line)) == 0)
+			if (stline->mini_prt == FALSE
+			|| (ret = ft_strcmp(tmpchr, (*history)->line)) == 0)
 				*history = (*history)->prev;
 		}
 		else

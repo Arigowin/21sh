@@ -6,11 +6,11 @@ char				*savior_tty(char *tty, int code)
 	if (DEBUG_SAVIOR == 1)
 		ft_putendl_fd("------- SAVIOR TTY -------", 2);
 
-	static char 		*save_tty = NULL;
+	static char			*save_tty = NULL;
 
-		if ((save_tty == NULL && tty) || code == TRUE)
-			save_tty = tty;
-		return (save_tty);
+	if ((save_tty == NULL && tty) || code == TRUE)
+		save_tty = tty;
+	return (save_tty);
 }
 
 t_duo				*savior(t_duo *env, int code)

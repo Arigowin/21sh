@@ -65,7 +65,7 @@ int					del_lstfd(t_lst_fd **lstfd) // la fct close_lstfd est à privilégier el
 int					close_lstfd(t_lst_fd **lstfd)
 {
 	if (DEBUG_RED == 1)
-		ft_putendl_fd ("----- CLOSE LSTFD -----", 2);
+		ft_putendl_fd("----- CLOSE LSTFD -----", 2);
 
 	t_lst_fd			*tmp;
 
@@ -87,7 +87,8 @@ int					close_lstfd(t_lst_fd **lstfd)
 	return (TRUE);
 }
 
-int 				push_in_lstfd(t_node *tree, t_lst_fd **lstfd, int fd, int *fd_save)
+int					push_in_lstfd(t_node *tree, t_lst_fd **lstfd, int fd,
+					int *fd_save)
 {
 	if (DEBUG_TREE == 1)
 		ft_putendl_fd("------- PUSH IN LSTFD -------", 2);

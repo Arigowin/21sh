@@ -60,6 +60,5 @@ int					reset_term(void)
 //		return (sh_error(TRUE, 0, NULL, NULL));
 	term.c_lflag |= (ICANON | ECHO);
 	tcsetattr(0, TCSANOW, &term);// point to uninitialize byte selon valgrind
-
 	return (TRUE);
 }

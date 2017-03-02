@@ -4,29 +4,6 @@
 #include "shell.h"
 #include "libft.h"
 
-//static void			win_resize(int sig)
-//{
-//	t_line				*stline;
-//	char 				*save_line;
-//	int 				save_pos;
-//	int					i;
-//
-//	(void)sig;
-//	i = -1;
-//	stline = savior_stline(NULL, FALSE);
-//	save_line = ft_strdup(stline->line);
-//	save_pos = stline->pos;
-//	fct_end(&(stline->line), &(stline->pos), stline, NULL);
-//	while (stline->pos > 0)
-//		fct_backspace(&(stline->line), &(stline->pos), stline, NULL);
-//	ioctl(0, TIOCGWINSZ, &(stline->win));
-////	while (save_line[++i])
-////		fct_insert(&(stline->line), &(stline->pos), save_line[i], stline);
-////	while (stline->pos > save_pos)
-////		fct_left(&(stline->line), &(stline->pos), stline, NULL);
-//	free(save_line);
-//}
-
 static void			fct_ctrl_c_hrd(int sig)
 {
 	if (DEBUG == 1)
@@ -100,7 +77,7 @@ int					check_signal(int loc)
 	}
 	else if (loc == 3)
 	{
-		signal(SIGWINCH,fct_ctrl_void);
+		signal(SIGWINCH, fct_ctrl_void);
 		signal(SIGINT, fct_ctrl_void);
 		signal(SIGQUIT, fct_ctrl_void);
 		signal(SIGTSTP, fct_ctrl_void);

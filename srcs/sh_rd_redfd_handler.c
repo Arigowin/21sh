@@ -1,8 +1,8 @@
 #include <fcntl.h>
 #include "shell.h"
 #include "libft.h"
-#define	FD 3
-#define CLOSE 4
+# define FD 3
+# define CLOSE 4
 
 int					check_file_name(char **filename, char *str)
 {
@@ -71,7 +71,7 @@ int					red_fd(int fd, t_node *tree, t_lst_fd **lstfd, t_types type)
 		if ((ret = fd_open(&fd, tree)) == ERROR)
 			return (ret);
 	if (tree && tree->right && tree->type == PIPE)
-		if ((ret = red_fd(fd, tree->right, lstfd, type)) ==  ERROR)
+		if ((ret = red_fd(fd, tree->right, lstfd, type)) == ERROR)
 			fd = -1;
 	if (tree && tree->left && (ret = red_fd(fd, tree->left, lstfd, type)) == -1)
 		fd = -1;

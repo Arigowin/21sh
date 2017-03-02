@@ -2,7 +2,6 @@
 #include "shell.h"
 #include "libft.h"
 
-
 static int			enlarge_line(char **str, int *pos)
 {
 	if (DEBUG_TERMCAPS == 1)
@@ -83,7 +82,7 @@ static int			insert_char(char c, char *end_line, char **str, int *pos)
 	ft_putstr(end_line);
 	// restore the last saved cursor position.
 	tputs(tgetstr("rc", NULL), 1, my_outc);
-	return(TRUE);
+	return (TRUE);
 }
 
 static int			muli_line_insert(t_line *stline, char c)

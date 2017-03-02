@@ -1,4 +1,3 @@
-//#include <fcntl.h>
 #include "shell.h"
 #include "libft.h"
 
@@ -26,13 +25,13 @@ static int			tree_trav_pipe(t_node *tree, t_lst_fd **lstfd,
 	if ((ret = (tree_traversal(tree->right, lstfd, pipefd_tab))) != TRUE)
 		return (ret);
 	if (pipefd_tab[0][0] != -2)
-		close (pipefd_tab[0][0]);
+		close(pipefd_tab[0][0]);
 	if (pipefd_tab[0][1] != -2)
-		close (pipefd_tab[0][1]);
+		close(pipefd_tab[0][1]);
 	if (pipefd_tab[1][0] != -2)
-		close (pipefd_tab[1][0]);
+		close(pipefd_tab[1][0]);
 	if (pipefd_tab[1][1] != -2)
-		close (pipefd_tab[1][1]);
+		close(pipefd_tab[1][1]);
 	reset_std_fd();
 	close_lstfd(lstfd);
 	del_lstfd(lstfd);
@@ -66,7 +65,8 @@ static int			tree_trav_cmd(t_node *tree, t_lst_fd **lstfd) //static ac tree trav
 }
 
 // sans les antibug norme OK
-int					tree_traversal(t_node *tree, t_lst_fd **lstfd, int pipefd_tab[2][2])
+int					tree_traversal(t_node *tree, t_lst_fd **lstfd,
+					int pipefd_tab[2][2])
 {
 	if (DEBUG_TREE == 1)
 		ft_putendl_fd("------- TREE TRAVERSAL -------", 2);
