@@ -162,13 +162,8 @@ int					handle_quote(int key, char **str, int *pos, t_line *stline)
 	return(TRUE);
 }
 
-int					event(int k, t_line *stline, t_history **history)
+static t_key_fct	*tbl_key_fill()
 {
-	if (DEBUG == 1)
-		ft_putendl_fd("------- EVENT ------", 2);
-
-	int					i;
-	int					ret;
 	static t_key_fct	tbl_keys[18] =
 	{
 		{RETURN, fct_return}, {BACKSPACE, fct_backspace}, {DOWN, history_down},
@@ -178,13 +173,38 @@ int					event(int k, t_line *stline, t_history **history)
 		{CTRL_UP, fct_up}, {CTRL_DOWN, fct_down}, {CUT, fct_cut},
 		{HIGHLIGHT, fct_highlight}, {PASTE, fct_paste}, {COPY, fct_copy}
 	};
+	return (tbl_keys);
+}
 
+int 				insert_key(int key_to_insrt, t_line *stline)
+{
+	if (key_to_insrt != TAB && key_to_insrt > 31 && key_to_insrt < 128)
+	{
+		if (stline->hrd.nb <= 0)
+			handle_quote(key_to_insrt, &(stline->line), &(stline->pos), stline);
+		fct_insert((stline->hrd.nb > 0 ? &(stline->hrd.line) :
+			&(stline->line)), (stline->hrd.nb > 0 ? &(stline->hrd.pos) :
+				 &(stline->pos)), key_to_insrt, stline);
+	}
+	return (TRUE);
+}
+
+int					event(int key_to_insrt, t_line *stline, t_history **history)
+{
+	if (DEBUG == 1)
+		ft_putendl_fd("------- EVENT ------", 2);
+
+	int					i;
+	int					ret;
+	t_key_fct			*tbl_keys;
+
+	tbl_keys = tbl_key_fill();
 	i = -1;
 	ret = 0;
 	tputs(tgetstr("vi", NULL), 1, my_outc);
 	while(++i < 18)
 	{
-		if (tbl_keys[i].key == k)
+		if (tbl_keys[i].key == key_to_insrt)
 		{
 			ret = (tbl_keys[i].fct((stline->hrd.nb > 0 ? &(stline->hrd.line)
 					: &(stline->line)),	(stline->hrd.nb > 0 ? &(stline->hrd.pos)
@@ -193,13 +213,7 @@ int					event(int k, t_line *stline, t_history **history)
 			return(ret);
 		}
 	}
-	if (k != TAB && k > 31 && k < 128)
-	{
-		if (stline->hrd.nb <= 0)
-			handle_quote(k, &(stline->line), &(stline->pos), stline);
-		fct_insert((stline->hrd.nb > 0 ? &(stline->hrd.line) : &(stline->line)),
-		(stline->hrd.nb > 0 ? &(stline->hrd.pos) : &(stline->pos)), k, stline);
-	}
+	insert_key(key_to_insrt, stline);
 	tputs(tgetstr("ve", NULL), 1, my_outc);
 	return (TRUE);
 }
