@@ -37,8 +37,10 @@ SRC = sh_main.c \
 	  \
 	  sh_lp_finite_state_automaton.c \
 	  sh_lp_lexer.c \
+	  sh_lp_lexer_waka.c \
 	  sh_lp_parser.c \
 	  sh_lp_parser_additional_items.c \
+	  sh_lp_parser_useful_fct.c \
 	  sh_lp_tokenizer.c \
 	  sh_lp_tokenizer_spec.c \
 	  \

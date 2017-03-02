@@ -29,7 +29,8 @@ static int			in_quote(char **buff, char *line)
 	return (TRUE);
 }
 
-static int			line_manager(char **buff, char *line, int *quote, t_history **history)
+static int			line_manager(char **buff, char *line, int *quote,
+					t_history **history)
 {
 	if (DEBUG_FILE_HIST == 1)
 		ft_putendl_fd("------- LINE MANAGER ------", 2);
@@ -102,7 +103,7 @@ int					load_history(t_history **history)
 	home = get_env("HOME");
 	if (home)
 		path = ft_strjoin(home, HISTORY_FILE_NAME);
-	if (path && (fd = open(path, O_RDONLY | O_CREAT,  S_IRUSR | S_IWUSR))
+	if (path && (fd = open(path, O_RDONLY | O_CREAT, S_IRUSR | S_IWUSR))
 	== ERROR)
 		return (dblstr_duo_ret(ERROR, &path, &home, NULL));
 	dblstr_duo_ret(TRUE, &path, &home, NULL);
@@ -133,7 +134,7 @@ int					save_history(void)
 //		path = ft_strjoin(home, HISTORY_FILE_NAME);
 	path = (home != NULL ? ft_strjoin(home, HISTORY_FILE_NAME) : NULL);
 	//ft_strdel(&home); // a ajouter dans les fct return/free a chaque fois
-	if ((fd = open(path,  O_WRONLY | O_TRUNC | O_CREAT,  S_IRUSR | S_IWUSR))
+	if ((fd = open(path, O_WRONLY | O_TRUNC | O_CREAT, S_IRUSR | S_IWUSR))
 	== ERROR && path)
 		return (dblstr_duo_ret(ERROR, &path, &home, NULL));
 	while (*history && (*history)->prev)

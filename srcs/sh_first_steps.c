@@ -51,7 +51,7 @@ int					display_prompt(void)
 	return (TRUE);
 }
 
-int				fill_path(char ***env)
+int					fill_path(char ***env)
 {
 	if (DEBUG == 1)
 		ft_putendl_fd("------- FILL PATH ------", 2);

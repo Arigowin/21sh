@@ -1,7 +1,8 @@
 #include "shell.h"
 #include "libft.h"
 
-int					token_backslash(t_states state, char **r_buff, char **data_tmp)
+int					token_backslash(t_states state, char **r_buff,
+					char **data_tmp)
 {
 	if (DEBUG_TOKEN == 1)
 		ft_putendl_fd("------- TOKEN BACKSLASH ------", 2);
@@ -26,9 +27,9 @@ int					token_dollar(char **read_buff, char **data_tmp)
 	if (DEBUG_TOKEN == 1)
 		ft_putendl_fd("------- TOKEN DOLLAR ------", 2);
 
-	char 				*env_name;
-	char 				*env_val;
-	char 				*tmp;
+	char				*env_name;
+	char				*env_val;
+	char				*tmp;
 
 	tmp = NULL;
 	if ((env_name = ft_strnew(ft_strlen((*read_buff)++))) == NULL)
@@ -71,12 +72,12 @@ int					token_tilde(char **read_buff, char **data_tmp, int *bln)
 	if (DEBUG_TOKEN == 1)
 		ft_putendl_fd("------- TOKEN TILDE ------", 2);
 
-	char 				*env_val;
-	char 				*tmp;
+	char				*env_val;
+	char				*tmp;
 
 	tmp = NULL;
-	if ((env_val = get_env("HOME")) == NULL || ft_strchr(SEP, *(*read_buff - 1)) == NULL
-			|| (*(*read_buff + 1) && ft_strchr(SEP, *(*read_buff + 1)) == NULL
+	if (!(env_val = get_env("HOME")) || !ft_strchr(SEP, *(*read_buff - 1))
+			|| (*(*read_buff + 1) && !ft_strchr(SEP, *(*read_buff + 1))
 				&& *(*read_buff + 1) != '/'))
 		return (dblstr_duo_ret(FALSE, &env_val, NULL, NULL));
 	//{

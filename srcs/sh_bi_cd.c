@@ -23,7 +23,7 @@ static int			change_dir(char *path)
 	return (TRUE);
 }
 
-static int			cd_home()
+static int			cd_home(void)
 {
 	if (DEBUG_BUILTIN == 1)
 		ft_putendl_fd("------- CD HOME ------", 2);

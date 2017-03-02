@@ -7,16 +7,21 @@ int					is_builtin(char **cmd)
 	if (DEBUG == 1)
 		ft_putendl_fd("------- IS BUILTIN ------", 2);
 
-	static const char	*bi[] = {"echo","cd", "setenv", "unsetenv", "env", "exit"};
 	int					i;
+	static const char	*bi[] =
+						{
+							"echo", "cd", "setenv", "unsetenv", "env", "exit"
+						};
 
 	i = 0;
 	if (cmd)
-	while (i < 6)
 	{
-		if (ft_strcmp(cmd[0], bi[i]) == 0)
-			return (i);
-		i++;
+		while (i < 6)
+		{
+			if (ft_strcmp(cmd[0], bi[i]) == 0)
+				return (i);
+			i++;
+		}
 	}
 	/* -1 car code special pas une ERROR (cmd != bultin)*/
 	return (-1);

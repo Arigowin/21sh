@@ -1,6 +1,7 @@
 #include <fcntl.h>
 #include "shell.h"
 #include "libft.h"
+#define RA RED_ARG
 
 static int			saved_fd(int *fd, int *fd_save)
 {
@@ -24,10 +25,10 @@ static int			flag(t_node *tree)
 
 	type = tree->type;
 	flags = -1;
-	flags = (type == RRED ?  O_WRONLY | O_TRUNC | O_CREAT : flags);
-	flags = (type == DRRED ?  O_WRONLY | O_APPEND | O_CREAT : flags);
+	flags = (type == RRED ? O_WRONLY | O_TRUNC | O_CREAT : flags);
+	flags = (type == DRRED ? O_WRONLY | O_APPEND | O_CREAT : flags);
 	flags = (type == LRED ? O_RDONLY : flags);
-	flags = (type == RWRED ?  O_RDWR | O_APPEND | O_CREAT : flags);
+	flags = (type == RWRED ? O_RDWR | O_APPEND | O_CREAT : flags);
 	return (flags);
 }
 
@@ -43,7 +44,8 @@ static int			check_fd(int *fd, char *name, t_node *node, t_node *tree)
 				: ft_atoi(ft_strdup_ignchar(name + 1, '\\')));
 		if (*fd >= 0)
 		{
-			if ((retnum = ft_isstrnum(name + 1)) == 0 || !(ret = fd_exist(*fd)))
+			ret = fd_exist(*fd);
+			if ((retnum = ft_isstrnum(name + 1)) == 0 || ret == -1)
 				*fd = -1;
 			if (retnum != 0)
 				return (ret);
@@ -53,9 +55,8 @@ static int			check_fd(int *fd, char *name, t_node *node, t_node *tree)
 	{
 		if (tree->type == LRED)
 			ret = access(name, F_OK);
-		*fd = ret;
-		if (ret >= 0)
-			*fd = open(name, flag(tree), S_IRUSR | S_IWUSR | S_IRGRP | S_IROTH);
+		*fd = (ret >= 0 ?
+		open(name, flag(tree), S_IRUSR | S_IWUSR | S_IRGRP | S_IROTH) : ret);
 	}
 	return (TRUE);
 }
@@ -70,7 +71,7 @@ static int			fct_open(int *fd, int *fd_save, t_node *tree)
 	filename = NULL;
 	node = NULL;
 	if (tree && tree->right)
-		node = (tree->right->type == RED_ARG ? tree->right : tree->right->right);
+		node = (tree->right->type == RA ? tree->right : tree->right->right);
 	if (node && node->data && (filename = node->data) == NULL)
 		return (lstfd_node_ret(ERROR, &node, NULL, NULL));
 	if ((ret = check_fd(fd, filename, node, tree)) != TRUE)

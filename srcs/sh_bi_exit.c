@@ -2,15 +2,15 @@
 #include "shell.h"
 #include "libft.h"
 
-int 				exit_pgm(int exit_code)
+int					exit_pgm(int exit_code)
 {
 	if (DEBUG_BUILTIN == 1)
 		ft_putendl_fd("------- EXIT PGM ------", 2);
 
-	t_node			*tree;
-	t_history		**hist;
-	t_line			*stline;
-	t_duo			*env;
+	t_node				*tree;
+	t_history			**hist;
+	t_line				*stline;
+	t_duo				*env;
 
 	tree = savior_tree(NULL, FALSE);
 	hist = savior_history(NULL, FALSE);
@@ -35,7 +35,7 @@ int					bi_exit(char **arg, t_duo **env)
 	if (DEBUG_BUILTIN == 1)
 		ft_putendl_fd("------- BI EXIT ------", 2);
 
-	int				i;
+	int					i;
 
 	i = 0;
 	(void)env;
@@ -46,7 +46,6 @@ int					bi_exit(char **arg, t_duo **env)
 		if (ft_isdigit(arg[1][i]) == 0)
 		{
 			return (sh_error(FALSE, 28, arg[1], NULL)); //peut etre appeler la fct d'erreur sans le return ?
-			//free_tab(&arg); -> si free ici invalid pointer ;)
 			exit_pgm(255); // pour moi on exit pas vu qu'il y a eu une erreur dans exit de toute facon, vu qu'on return avan, on exit pas...
 		}
 		i++;
