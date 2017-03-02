@@ -43,7 +43,7 @@ int					check_end_pipe(char **str, int *pos)
 		{
 			j = 1;
 			i = ft_strlen(*str);
-			while ((*str)[--i] == '|' && (*str)[i] == (*str)[i - 1])
+			while ((*str)[--i] == '|' && i > 0 && (*str)[i] == (*str)[i - 1])
 				j++;
 			if (j % 2 != 0)
 				return (TRUE);
