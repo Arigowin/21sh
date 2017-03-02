@@ -21,6 +21,6 @@ ls |||||||
 echo 'CMD: ls | | | | | |'
 ls | | | | | |
 echo 'CMD: abc | ls'
-abc | ls'
+abc | ls
 echo 'CMD:ls |cat -n <noexist|cat -n'
 ls |cat -n <noexist|cat -n
