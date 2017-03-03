@@ -68,10 +68,8 @@ int					red_fd(int fd, t_node *tree, t_lst_fd **lstfd, t_types type)
 		pipe_fd = *lstfd;
 		fd = -21;
 	}
-	if (tree && (tree->type == RRED || tree->type == DRRED || tree->type == LRED
-	|| tree->type == DLRED || tree->type == RWRED))
-		if ((ret = fd_open(&fd, reset_save, tree)) == ERROR)
-			return (push_in_lstfd(tree, lstfd, ret, &fd_save));
+	if ((ret = fd_open(&fd, reset_save, tree)) == ERROR)
+		return (push_in_lstfd(tree, lstfd, ret, &fd_save));
 	if (tree && tree->right && tree->type == PIPE)
 		if ((ret = red_fd(fd, tree->right, lstfd, type)) == ERROR)
 			fd = -1;
