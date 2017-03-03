@@ -53,11 +53,13 @@ int					red_fd(int fd, t_node *tree, t_lst_fd **lstfd, t_types type)
 
 	int					ret;
 	static int			fd_save = 0;
+	static int			reset_save = TRUE;
 	t_lst_fd			*pipe_fd;
 	t_lst_fd			*tmp;
 
 	pipe_fd = NULL;
 	fd_save = ((fd == -21 || fd == -2) ? 0 : fd_save);
+	reset_save = ((tree->type == CMD) ? TRUE : reset_save);
 	if (tree && tree->type == PIPE)
 	{
 		tmp = *lstfd;
@@ -68,11 +70,8 @@ int					red_fd(int fd, t_node *tree, t_lst_fd **lstfd, t_types type)
 	}
 	if (tree && (tree->type == RRED || tree->type == DRRED || tree->type == LRED
 	|| tree->type == DLRED || tree->type == RWRED))
-		if ((ret = fd_open(&fd, tree)) == ERROR)
-		{printf("ret in red fd((%d))\n", ret);
-			return (ret);
-		}
-	printf("ret in red fd\n");
+		if ((ret = fd_open(&fd, reset_save, tree)) == ERROR)
+			return (push_in_lstfd(tree, lstfd, ret, &fd_save));
 	if (tree && tree->right && tree->type == PIPE)
 		if ((ret = red_fd(fd, tree->right, lstfd, type)) == ERROR)
 			fd = -1;

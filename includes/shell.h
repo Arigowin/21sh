@@ -13,11 +13,11 @@
 # define DEBUG_LEXER 0
 # define DEBUG_PARSER 0
 # define DEBUG_PIPE 0
-# define DEBUG_RED 1
+# define DEBUG_RED 0
 # define DEBUG_SAVIOR 0
 # define DEBUG_TERMCAPS 0
 # define DEBUG_TOKEN 0
-# define DEBUG_TREE 1
+# define DEBUG_TREE 0
 # define DEBUG_TREE_CREATION 0
 # define DEBUG_TREE_VERIF 0
 # include <stdio.h>
@@ -542,7 +542,7 @@ int						tree_traversal(t_node *tree, t_lst_fd **lstfd, int pipefd[2][2]);
 /*
 ** fd_open
 */
-int						fd_open(int	*fd, t_node *tree);
+int						fd_open(int	*fd, int reset_save, t_node *tree);
 
 /*
 ** sh_rd_red
