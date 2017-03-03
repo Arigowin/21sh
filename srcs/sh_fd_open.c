@@ -89,11 +89,12 @@ static int			fct_open(int *fd, int *fd_save, t_node *tree)
 	if ((ret = check_fd(fd, filename, node, tree)) != TRUE && *fd != -1)
 		return (ret);
 	*fd_save = *fd;
-	if (*fd == -1)
+	if (*fd == -1 && tree->left && tree->left->right && tree->left->right->data
+	&& tree->left->right->data[0] != '&')
 	{
 		ret = (ret <= -1 ? 21 : 20);
 		ret = ft_strcmp(ft_strdup_ignchar(filename + 1, '\\'), "-") ? ret : 29;
-		return (sh_error(FALSE, ret, ft_strdup_ignchar(filename, '\\'), NULL));
+		return (sh_error(FALSE, ret, ft_strdup_ignchar(filename, '\\'), "99"));
 	}
 	return (TRUE);
 }
