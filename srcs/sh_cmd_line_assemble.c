@@ -1,3 +1,4 @@
+#include <sys/stat.h>
 #include "shell.h"
 #include "libft.h"
 
@@ -42,6 +43,21 @@ int					null_input(int fd) // static ac check fct
 	return (TRUE);
 }
 
+int				ft_is_dir(char *path)
+{
+	struct stat b;
+
+	if (stat(path, &b) == ERROR)
+	{
+		// mettre sh error ici
+		printf("ERROR\n");
+		return (ERROR);
+	}
+	if (S_ISDIR(b.st_mode))
+		return (TRUE);
+	return (FALSE);
+}
+
 int					check_fct(int fd, char **cmd)
 {
 	if (DEBUG == 1)
@@ -71,7 +87,7 @@ int					check_fct(int fd, char **cmd)
 		tmp = join_exe(path[i], cmd[0]);
 		if (access(tmp, F_OK) != ERROR)
 		{
-			if (access(tmp, X_OK) == ERROR)
+			if (access(tmp, X_OK) == ERROR || ft_is_dir(tmp))
 			{
 				sh_error(FALSE, 20, cmd[0], NULL);
 				return (str_dbltbl_ret(-2, &tmp, &tbl_env, &path));
