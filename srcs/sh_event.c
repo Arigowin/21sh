@@ -56,9 +56,48 @@ int					check_end_pipe(char **str, int *pos)
 	return (FALSE);
 }
 
+// int                 quote_is_close(char **str)
+// {
+// 	if (DEBUG_KEY == 0)
+// 		ft_putendl_fd("------- QUOTE IS CLOSE ------", 2);
+//
+// 	int                 i;
+// 	int                 quote;
+// 	int                 back;
+//
+// 	i = 0;
+// 	quote = 0;
+// 	back = 0;
+// 	while (str && *str && (*str)[i])
+// 	{
+// 		if (quote != DQUOTE && (*str)[i] == QUOTE)
+// 		{
+// 			if ((*str)[i - 1] && (quote == QUOTE || ((*str)[i - 1] != '\\' || back % 2 == 0)))
+// 				quote = (quote != 0 ? 0 : QUOTE);
+// 			if (!((*str)[i - 1]))
+// 				quote = (quote != 0 ? 0 : QUOTE);
+// 		}
+// 		if (quote != QUOTE && (*str)[i] == DQUOTE)
+// 		{
+// 			if ((*str)[i - 1] && (quote == QUOTE || ((*str)[i - 1] != '\\' || back % 2 == 0)))
+// 				quote = (quote != 0 ? 0 : DQUOTE);
+// 			if (!((*str)[i - 1]))
+// 				//if ((*str)[i - 1] == '\0')
+// 				quote = (quote != 0 ? 0 : DQUOTE);
+// 		}
+// 		if ((*str)[i] == '\\')
+// 			back++;
+// 		else if (back > 0 && ((*str)[i] != '\\' || ((*str)[i] != QUOTE
+// 						|| (*str)[i] != DQUOTE)))
+// 			back = 0;
+// 		i++;
+// 	}
+// 	return (quote);
+// }
+
 int					check_nb_quote(char c, int back, int *quote, int to_fill)
 {
-	if (c && (c != '\\' || back % 2 == 0))
+	if (c && (*quote == QUOTE || (c != '\\' || back % 2 == 0)))
 		*quote = (*quote != 0 ? 0 : to_fill);
 	if (c == '\0')
 		*quote = (*quote != 0 ? 0 : to_fill);
