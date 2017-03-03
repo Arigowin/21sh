@@ -145,7 +145,7 @@ int					fct_return(char **str, int *pos, t_line *stline,
 			return (BREAK);
 		ft_strdel(&(stline->curr_hist));
 		if (*str && (*str)[0] && stline->quote != 0)
-			modif_history(history, *str, FALSE);
+			modif_history(history, *str, stline->mini_prt);
 		return (mini_prt_handler(str, pos, stline));
 	}
 	else
