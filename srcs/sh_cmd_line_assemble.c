@@ -48,11 +48,7 @@ int				ft_is_dir(char *path)
 	struct stat b;
 
 	if (stat(path, &b) == ERROR)
-	{
-		// mettre sh error ici
-		printf("ERROR\n");
-		return (ERROR);
-	}
+		return (sh_error(ERROR, 32, NULL, NULL));
 	if (S_ISDIR(b.st_mode))
 		return (TRUE);
 	return (FALSE);
@@ -87,9 +83,14 @@ int					check_fct(int fd, char **cmd)
 		tmp = join_exe(path[i], cmd[0]);
 		if (access(tmp, F_OK) != ERROR)
 		{
-			if (access(tmp, X_OK) == ERROR || ft_is_dir(tmp))
+			if (access(tmp, X_OK) == ERROR)
 			{
 				sh_error(FALSE, 20, cmd[0], NULL);
+				return (str_dbltbl_ret(-2, &tmp, &tbl_env, &path));
+			}
+			else if (ft_is_dir(tmp))
+			{
+				sh_error(FALSE, 33, cmd[0], NULL);
 				return (str_dbltbl_ret(-2, &tmp, &tbl_env, &path));
 			}
 			execve(tmp, cmd, tbl_env);
