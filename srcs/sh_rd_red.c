@@ -3,11 +3,13 @@
 #include "shell.h"
 #include "libft.h"
 
-int					fd_exist(int fd)
+int					fd_exist(int fd, char *filename)
 {
 	if (DEBUG_RED == 1)
 		ft_putendl_fd("------------ FD EXIST ------------", 2);
 
+	if (ft_strcmp(ft_itoa(fd), ft_strdup_ignchar(filename +  1, '\\')))
+		return (ERROR);
 	if (isatty(fd) == 0)
 		return (sh_error(ERROR, 29, ft_itoa(fd), NULL));
 	return (TRUE);

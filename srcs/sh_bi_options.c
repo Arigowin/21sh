@@ -11,14 +11,15 @@ static int			bi_opt(char *arg, char *bi, int *no_more, char *handled_opt) //stat
 	i = 1;
 	if (*no_more == TRUE)
 		return (FALSE);
-	if (ft_strcmp("echo", bi) && arg && arg[0] && arg[0] == '-' && arg[1] && arg[1] == '-')
+	if (ft_strcmp("echo", bi) && arg
+	&& arg[0] && arg[0] == '-' && arg[1] && arg[1] == '-')
 		*no_more = TRUE;
 	else if (arg && arg[0] && arg[0] == '-' && arg[1])
 	{
 		while (arg[i])
 		{
-			printf("bi in check opt ((%s))\n", bi);
-			if (ft_strcmp("echo", bi) == 0  && ft_strchr(handled_opt, arg[i]) == NULL)
+			if (ft_strcmp("echo", bi) == 0
+			&& ft_strchr(handled_opt, arg[i]) == NULL)
 				return (ERROR);
 			if (ft_strcmp("echo", bi) && ft_strchr(handled_opt, arg[i]) == NULL)
 				return (sh_error(-2, 22, &arg[i], bi));

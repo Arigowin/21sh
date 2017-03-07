@@ -562,7 +562,7 @@ int						fd_open(int	*fd, int reset_save, t_node *tree);
 /*
 ** sh_rd_red
 */
-int						fd_exist(int fd);
+int						fd_exist(int fd, char *filename);
 int 					heredoc_handler(t_line *l, t_node **t, t_history **h);
 int     				redirect(t_node *tree, t_lst_fd *lstfd);
 

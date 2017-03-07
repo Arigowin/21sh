@@ -53,7 +53,7 @@ static int			check_fd(int *fd, char *name, t_node *node, t_node *tree)
 				: ft_atoi(ft_strdup_ignchar(name + 1, '\\')));
 		if (*fd >= 0)
 		{
-			ret = fd_exist(*fd);
+			ret = fd_exist(*fd, name);
 			if ((retnum = ft_isstrnum(name + 1)) == 0 || ret == -1)
 				*fd = -1;
 			if (retnum != 0)
@@ -79,7 +79,6 @@ static int			fct_open(int *fd, int *fd_save, t_node *tree)
 	char				*filename;
 	int					ret;
 
-	printf("data ((%s))\n", tree->data);
 //		if (*fd < 0)
 //			return (sh_error(ERROR, 21, name, NULL));
 	filename = NULL;
@@ -95,12 +94,12 @@ static int			fct_open(int *fd, int *fd_save, t_node *tree)
 	//else if (ret != TRUE)
 	//	return (ret);
 	*fd_save = *fd;
-	if (*fd == -1 && tree && tree->right && tree->right->data
-	&& tree->right->data[0] != '&')
+	if (*fd == -1 && node && node->data)
+	//&& tree->right->data[0] == '&')
 	{
 		ret = (ret <= -1 ? 21 : 20);
 		ret = ft_strcmp(ft_strdup_ignchar(filename + 1, '\\'), "-") ? ret : 29;
-		printf("ret = ((%d))\n", ret);
+		filename = (filename[0] == '&' ? filename + 1 : filename);
 		return (sh_error(FALSE, ret, ft_strdup_ignchar(filename, '\\'), "99"));
 	}
 	return (TRUE);
