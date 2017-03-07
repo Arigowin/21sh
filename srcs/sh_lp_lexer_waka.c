@@ -39,7 +39,7 @@ static int			waka_land_handler(t_e_list **l_expr, char (*tmp)[], int *i)
 		ft_putendl_fd("------- WAKA LAND HANDLER ------", 2);
 
 	if (ft_strncount((*l_expr)->data, '&') > 1)
-		return (FALSE);
+		return (sh_error(FALSE, 26, (*l_expr)->data, NULL));
 	if ((*l_expr)->data[0] == '&' && ft_strchr(((*l_expr)->data) + 1, '<'))
 		(*l_expr)->hrd_quote = -42;
 	if ((*l_expr)->data[ft_strlen((*l_expr)->data) - 1] == '&')
@@ -87,7 +87,8 @@ int					waka_lexer(t_e_list **l_expr)
 	i = 0;
 	new = NULL;
 	ft_bzero(tmp_fd, 11);
-	waka_land_handler(l_expr, &tmp_fd, &i);
+	if (waka_land_handler(l_expr, &tmp_fd, &i) == -4)
+		return (-4);
 	if (red_fd_copy(&data, l_expr, &tmp_fd, &i) == FALSE)
 		return (TRUE);
 	ft_strdel(&((*l_expr)->data));

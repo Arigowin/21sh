@@ -52,7 +52,6 @@ static int			type_analyzer(t_e_list **l_expr, int boule)
 	int					hrd;
 	t_e_list			*t;
 
-	hrd = 0;
 	while (l_expr && *l_expr && (*l_expr)->next)
 	{
 		t = *l_expr;
@@ -60,7 +59,8 @@ static int			type_analyzer(t_e_list **l_expr, int boule)
 		if (((ft_strchr(t->next->data, '<') || ft_strchr(t->next->data, '>')))
 		&& t->next->hrd_quote == 0) // a priori usless mais a tester
 		{
-			waka_lexer(&(t->next));
+			if (waka_lexer(&(t->next)) == -4)
+				return (-4);
 			t->next->type = RED;
 		}
 		else if ((hrd >= 1 || !ft_strchr(SPECIAL, (t->next->data)[0]))
@@ -83,6 +83,7 @@ int					lexer(t_e_list **l_expr)
 
 	t_e_list			*t;
 	int					boule;
+	int					ret;
 
 	t = *l_expr;
 	boule = 0;
@@ -90,20 +91,27 @@ int					lexer(t_e_list **l_expr)
 		return (FALSE);
 	if (t->hrd_quote < 1 && t && (ft_strchr(t->data, '<')
 	|| ft_strchr(t->data, '>')))
-		waka_lexer(&t);
+	{
+		if (waka_lexer(&t) == -4)
+			return (-4);
+	}
 	else if (t->hrd_quote < 1 && t && ft_strcmp(t->data, ";") == 0)
 		t->type = SEMI;
 	else if (t->hrd_quote < 1 && (t->data)[0] == '|')
 		t->type = ((t->data)[1] == (t->data)[0] ? LOGIC_OR : PIPE);
 	else if (t->hrd_quote < 1 && (t->data)[0] == '&' && (!(t->data)[1]
-	|| !rightred(t->data[1])))
+				|| !rightred(t->data[1])))
 		t->type = ((t->data)[1] == (t->data)[0] ? LOGIC_AND : AMP);
 	else if (t && t->data && (t->data)[0] != '&' && (t->data)[0] != '|')
 	{
 		t->type = CMD;
 		boule = 1;
 	}
-	type_analyzer(&t, boule);
+	// DEBUG transfomer par
+	// return (type_analyzer(&t, boule));
+	// // pour norme
+	if ((ret = type_analyzer(&t, boule)) != TRUE)
+		return (ret);
 
 	// ANTIBUG!!!!!!
 	if (DEBUG_LEXER == 1)
