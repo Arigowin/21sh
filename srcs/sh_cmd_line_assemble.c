@@ -106,7 +106,8 @@ int					check_fct(int fd, char **cmd)
 	while (path[++i])
 	{
 		tmp = join_exe(path[i], cmd[0]);
-		check_rights(tmp, path, cmd, tbl_env);
+		if (check_rights(tmp, path, cmd, tbl_env) == -2)
+			return (-2);
 	}
 	return (str_dbltbl_ret(FALSE, NULL, &tbl_env, &path));
 }
