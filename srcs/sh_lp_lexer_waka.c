@@ -42,7 +42,7 @@ static int			waka_land_handler(t_e_list **l_expr, char (*tmp)[], int *i)
 		return (FALSE);
 	if ((*l_expr)->data[0] == '&' && ft_strchr(((*l_expr)->data) + 1, '<'))
 		(*l_expr)->hrd_quote = -42;
-	if ((*l_expr)->data[ft_strlen((*l_expr)->data) - 1] == '&')//interieur du  if a mettre dans un fct ?
+	if ((*l_expr)->data[ft_strlen((*l_expr)->data) - 1] == '&')
 	{
 		(*l_expr)->data[ft_strlen((*l_expr)->data) - 1] = '\0';
 		land_link_creator(l_expr);

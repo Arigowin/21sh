@@ -85,13 +85,15 @@ void				modif_history(t_history **history, char *line, int mini_prt)
 	if (DEBUG_HISTORY == 1)
 		ft_putendl_fd("------- ADD HISTORY ------", 2);
 
-	int ret = 0;
+	int ret; // variable pas utile
 
+//	ret = 0;
 	if (line == NULL)
 		return ;
 	remove_backslach_eol(&line);
-	if (*history == NULL || ((mini_prt == FALSE && (ret = ft_strcmp((*history)->line,
-	line) != 0)) || (*history)->next != NULL))
+	if (*history == NULL
+	|| ((mini_prt == FALSE && (ret = ft_strcmp((*history)->line, line) != 0))
+	|| (*history)->next != NULL))
 	{
 		add_history(history, line);
 		return ;
