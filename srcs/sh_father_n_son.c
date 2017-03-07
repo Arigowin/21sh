@@ -42,7 +42,6 @@ static int			son(char **cmd, int pipefd_tab[2][2], t_node *tree,
 	&& lstfd && *lstfd && !(ret = redirect(tree->left, *lstfd)))
 	{
 		if (ret == ERROR)
-/* RET: error EXIT: false MSG: "i don't know"  ==> si error onne remonte pas jusque là! en fait ca depend si on veut quitter le fork ou le pgm */
 			exit(EXIT_FAILURE);
 		if (ret == FALSE)
 			exit(EXIT_SUCCESS);

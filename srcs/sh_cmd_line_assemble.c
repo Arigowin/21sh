@@ -43,15 +43,36 @@ int					null_input(int fd) // static ac check fct
 	return (TRUE);
 }
 
-int				ft_is_dir(char *path)
+int					ft_is_dir(char *path)
 {
-	struct stat b;
+	struct stat			file_stat;
 
-	if (stat(path, &b) == ERROR)
+	if (stat(path, &file_stat) == ERROR)
 		return (sh_error(ERROR, 32, NULL, NULL));
-	if (S_ISDIR(b.st_mode))
+	if (S_ISDIR(file_stat.st_mode))
 		return (TRUE);
 	return (FALSE);
+}
+
+static int			check_rights(char *tmp, char **path, char **cmd,
+					char **tbl_env)
+{
+	if (access(tmp, F_OK) != ERROR)
+	{
+		if (access(tmp, X_OK) == ERROR)
+		{
+			sh_error(FALSE, 20, cmd[0], NULL);
+			return (str_dbltbl_ret(-2, &tmp, &tbl_env, &path));
+		}
+		else if (ft_is_dir(tmp))
+		{
+			sh_error(FALSE, 33, cmd[0], NULL);
+			return (str_dbltbl_ret(-2, &tmp, &tbl_env, &path));
+		}
+		execve(tmp, cmd, tbl_env);
+	}
+	ft_strdel(&tmp);
+	return (TRUE);
 }
 
 int					check_fct(int fd, char **cmd)
@@ -70,10 +91,7 @@ int					check_fct(int fd, char **cmd)
 	if ((tbl_env = duo_to_tbl(env, "=")) == NULL)
 		return (sh_error(FALSE, 6, NULL, NULL));
 	if ((tmp = get_env("PATH")) == NULL)
-	{
-		free_tab(&tbl_env);
-		return (sh_error(FALSE, 12, NULL, NULL));
-	}
+		return (error_clear_tab(FALSE, 12, NULL, &tbl_env));
 	if ((path = ft_strsplit(tmp, ':')) == NULL)
 		return (str_dbltbl_ret(ERROR, NULL, &tbl_env, NULL));
 	ft_strdel(&tmp);
@@ -81,21 +99,7 @@ int					check_fct(int fd, char **cmd)
 	while (path[++i])
 	{
 		tmp = join_exe(path[i], cmd[0]);
-		if (access(tmp, F_OK) != ERROR)
-		{
-			if (access(tmp, X_OK) == ERROR)
-			{
-				sh_error(FALSE, 20, cmd[0], NULL);
-				return (str_dbltbl_ret(-2, &tmp, &tbl_env, &path));
-			}
-			else if (ft_is_dir(tmp))
-			{
-				sh_error(FALSE, 33, cmd[0], NULL);
-				return (str_dbltbl_ret(-2, &tmp, &tbl_env, &path));
-			}
-			execve(tmp, cmd, tbl_env);
-		}
-		ft_strdel(&tmp);
+		check_rights(tmp, path, cmd, tbl_env);
 	}
 	return (str_dbltbl_ret(FALSE, &tmp, &tbl_env, &path));
 }

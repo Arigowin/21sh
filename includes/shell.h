@@ -242,6 +242,15 @@ typedef struct			s_lst_fd //savior?
 }						t_lst_fd;
 
 /*
+** sh_end_pipe_quote
+*/
+int						check_end_pipe(char **str, int *pos);
+int						check_nb_quote(char c, int back, int *quote, int fill);
+int						quote_is_close(char **str);
+int						handle_quote(int key, char **str, int *pos,
+							t_line *stline);
+
+/*
 ** sh_error
 */
 int						sh_error(int ret, int index, char *err, char *bi);
@@ -259,10 +268,16 @@ int						dblstr_duo_ret(int ret, char **str1, char **str2,
 							t_duo **duo1);
 int						dblstr_hist_ret(int ret, char **str1, char **str2,
 							t_history **hist);
+
+/*
+** free_return_error
+*/
 int						error_clear_node(int ret, int index, char *err,
 	   						t_node **to_free);
 int						error_clear_str(int ret, int index, char *err,
 	   						char **to_free);
+int						error_clear_tab(int ret, int index, char *err,
+	   						char ***to_free);
 
 /*
 ** sh_file_history
@@ -290,6 +305,8 @@ int						init_pipefd(int pipefd_tab[2][2]);
 /*
 ** sh_first_steps
 */
+int						miniprt_reset_stline(t_line *stline);
+int 					mini_prt_handler(char **str, int *pos, t_line *stline);
 int						display_prompt(void);
 char					**cpy_env(char **env);
 int						fill_path(char ***env);
@@ -422,8 +439,6 @@ int						reset_term();
 /*
 ** sh_event
 */
-int						miniprt_reset_stline(t_line *stline);
-int 					mini_prt_handler(char **str, int *pos, t_line *stline);
 int						quote_is_close(char **str);
 int						event(int key, t_line *stline, t_history **history);
 int						fct_ctrl_d(char **s, int *pos, t_line *stline,

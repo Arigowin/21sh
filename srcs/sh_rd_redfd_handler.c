@@ -1,8 +1,8 @@
 #include <fcntl.h>
 #include "shell.h"
 #include "libft.h"
-# define FD 3
-# define CLOSE 4
+#define FD 3
+#define CLOSE 4
 
 int					check_file_name(char **filename, char *str)
 {

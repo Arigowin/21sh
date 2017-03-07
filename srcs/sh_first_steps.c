@@ -27,6 +27,29 @@ static char			*get_path(void)
 	return (path);
 }
 
+// nom de fonction a modifier si necessaire
+int					miniprt_reset_stline(t_line *stline)
+{
+	ft_putstr("> ");
+	stline->curs_x = 2;
+	stline->curs_y = 0;
+	stline->mini_prt = TRUE;
+	return (TRUE);
+}
+
+/*FICHIER A REPRENDRE -- RECLASSER LES FOCNTIONS PAR UTILITE */
+int					mini_prt_handler(char **str, int *pos, t_line *stline)
+{
+	if (DEBUG_KEY == 1)
+		ft_putendl_fd("------- MINI PRT HANDLER ------", 2);
+	if ((*str)[0] != '\0')
+		fct_insert(str, pos, '\n', stline);
+	else if (!ft_strcmp(*str, ""))
+		fct_insert(str, pos, '\n', stline);
+	miniprt_reset_stline(stline);
+	return (CONTINUE);
+}
+
 int					display_prompt(void)
 {
 	if (DEBUG == 1)

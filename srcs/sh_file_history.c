@@ -139,7 +139,7 @@ int					save_history(void)
 		ft_putendl_fd((*history)->line, fd);
 		*history = (*history)->next;
 	}
-	ft_putchar_fd(3, fd);// ???
+	ft_putchar_fd(3, fd);
 	if (fd > 2)
 		close(fd);
 	return (dblstr_hist_ret(TRUE, &path, &home, history));
