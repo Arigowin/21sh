@@ -19,11 +19,13 @@ SRC = sh_main.c \
 	  \
 	  sh_error.c \
 	  sh_free_return.c \
+	  sh_free_return_error.c \
 	  sh_saviors.c \
 	  sh_init.c \
 	  sh_signal.c \
 	  sh_first_steps.c \
 	  sh_file_history.c \
+	  sh_end_pipe_quote.c \
 	  \
 	  sh_bi_builtin.c \
 	  sh_bi_options.c \

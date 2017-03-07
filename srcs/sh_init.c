@@ -13,7 +13,7 @@ int					init_pipefd(int pipefd_tab[2][2])
 	return (TRUE);
 }
 
-int					init_env(char **env, t_duo **env_cpy) //ok
+int					init_env(char **env, t_duo **env_cpy)
 {
 	if (DEBUG == 1)
 		ft_putendl_fd("------- INIT ENV ------", 2);

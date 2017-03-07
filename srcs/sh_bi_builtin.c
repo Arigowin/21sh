@@ -9,9 +9,9 @@ int					is_builtin(char **cmd)
 
 	int					i;
 	static const char	*bi[] =
-						{
-							"echo", "cd", "setenv", "unsetenv", "env", "exit"
-						};
+	{
+		"echo", "cd", "setenv", "unsetenv", "env", "exit"
+	};
 
 	i = 0;
 	if (cmd)
