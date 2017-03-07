@@ -45,6 +45,9 @@ int					null_input(int fd) // static ac check fct
 
 int					ft_is_dir(char *path)
 {
+	if (DEBUG == 1)
+		ft_putendl_fd("------- FT IS DIR ------", 2);
+
 	struct stat			file_stat;
 
 	if (stat(path, &file_stat) == ERROR)
@@ -57,6 +60,9 @@ int					ft_is_dir(char *path)
 static int			check_rights(char *tmp, char **path, char **cmd,
 					char **tbl_env)
 {
+	if (DEBUG == 1)
+		ft_putendl_fd("------- CHECK RIGHTS ------", 2);
+
 	if (access(tmp, F_OK) != ERROR)
 	{
 		if (access(tmp, X_OK) == ERROR)
@@ -86,6 +92,7 @@ int					check_fct(int fd, char **cmd)
 	int					i;
 	char				**tbl_env;
 
+	tmp = NULL;
 	null_input(fd);
 	env = savior(NULL, FALSE);
 	if ((tbl_env = duo_to_tbl(env, "=")) == NULL)
@@ -99,7 +106,8 @@ int					check_fct(int fd, char **cmd)
 	while (path[++i])
 	{
 		tmp = join_exe(path[i], cmd[0]);
-		check_rights(tmp, path, cmd, tbl_env);
+		if (check_rights(tmp, path, cmd, tbl_env) == -2)
+			return (-2);
 	}
-	return (str_dbltbl_ret(FALSE, &tmp, &tbl_env, &path));
+	return (str_dbltbl_ret(FALSE, NULL, &tbl_env, &path));
 }

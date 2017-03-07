@@ -2,6 +2,8 @@ echo CMD:'ls'
 ls
 echo CMD:'cd - ; ls'
 cd - ; ls
+echo 'CMD:cd ; ls'
+cd ; ls
 echo CMD:'cd .. ; ls'
 cd .. ; ls
 echo CMD:'cd - ; ls '

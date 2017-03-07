@@ -89,6 +89,9 @@ static int			fill_hrd_content(t_line *stline, t_node **tree) // static ac heredo
 int					manage_hrd_document(int bln, t_line *stline, t_node **tree,
 					t_history **history)
 {
+	if (DEBUG_HEREDOC == 1)
+		ft_putendl_fd("------------ MANAGE HRD DOCUMENT ----------", 2);
+
 	stline->hrd.deli = (((*tree)->right->type == RA || (*tree)->right->type
 				== HRD_QUOTE) ? (*tree)->right : (*tree)->right->right);
 	stline->hrd.ptr = stline->hrd.line;

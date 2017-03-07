@@ -53,9 +53,15 @@ static int			heredoc_red(t_node *tree, int fd) // static ac redirect
 
 	str = NULL;
 	if (tree->type == RED_FD)
-		str = ft_strdup(tree->right->right->data);
+	{
+		if (tree->right->right)
+			str = ft_strdup(tree->right->right->data);
+	}
 	else
-		str = ft_strdup(tree->right->data);
+	{
+		if (tree->right)
+			str = ft_strdup(tree->right->data);
+	}
 	if (tree && tree->type == RED_FD
 			&& ft_strcmp(tree->data, "&"))
 		fd = ft_atoi(tree->data);

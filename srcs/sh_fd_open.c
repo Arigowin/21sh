@@ -66,6 +66,8 @@ static int			check_fd(int *fd, char *name, t_node *node, t_node *tree)
 			ret = access(name, F_OK);
 		*fd = (ret >= 0 ?
 		open(name, flag(tree), S_IRUSR | S_IWUSR | S_IRGRP | S_IROTH) : ret);
+		if (*fd < 0)
+			return (sh_error(ERROR, 21, name, NULL));
 	}
 	return (ret);
 }

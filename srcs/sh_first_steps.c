@@ -87,7 +87,8 @@ int					fill_path(char ***env)
 	if ((tmp = getcwd(tmp, MAX_PATH)) == NULL)
 		return (sh_error(FALSE, 6, NULL, NULL));
 	if (((*env)[0] =
-	ft_strdup("PATH=/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin")) == NULL)
+	ft_strdup("PATH=/usr/local/bin:/usr/local/sbin\
+:/usr/bin:/usr/sbin:/bin:/sbin:.")) == NULL)
 		return (sh_error(FALSE, 6, NULL, NULL));
 	if (((*env)[1] = ft_properjoin("PWD=", tmp)) == NULL)
 	{
