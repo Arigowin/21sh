@@ -38,7 +38,7 @@ static int			state_standard(int *int_tbl[2], char **read_buff,
 	else if (**read_buff && ft_strchr(SEP, **read_buff))
 	{
 		*(int_tbl[0]) = FALSE;
-		token_sep(int_tbl[0], read_buff, data_tmp, l_expr);
+		token_sep(int_tbl[1], read_buff, data_tmp, l_expr);
 	}
 	else if (**read_buff)
 		add_in_tbl(data_tmp, **read_buff);
@@ -73,7 +73,7 @@ static int			state_dquote(int *hrd, char **read_buff, char **data_tmp)
 	if (**read_buff == DQUOTE)
 	{
 		if (*(*read_buff + 1) == DQUOTE)
-			add_in_tbl(data_tmp, 26);
+			add_in_tbl(data_tmp, 26); // 26 -> char non imprimable
 		return (FALSE);
 	}
 	if (**read_buff == '\\')
