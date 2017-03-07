@@ -179,6 +179,7 @@ typedef struct			s_e_list // -> l_expr
 
 typedef struct			s_node // -> node ou tree //-> savior
 {
+	int					quote;
 	char				*data;
 	t_types				type;
 	struct s_node		*left;
@@ -532,6 +533,7 @@ int						check_next(int *nb_hrd, t_e_list **l_expr, t_node **t,
 /*
 ** sh_lp_parser_useful_fct
 */
+int						fill_leaf(t_e_list **l_expr, t_node **node);
 t_types					fill_red_type(char *data, int *nb_hrd);
 int						parser_ret_fct(int ret, t_node **tree, t_node **node,
 							t_node **to_free);
