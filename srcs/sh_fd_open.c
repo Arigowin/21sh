@@ -66,8 +66,6 @@ static int			check_fd(int *fd, char *name, t_node *node, t_node *tree)
 			ret = access(name, F_OK);
 		*fd = (ret >= 0 ?
 		open(name, flag(tree), S_IRUSR | S_IWUSR | S_IRGRP | S_IROTH) : ret);
-		if (*fd < 0)
-			return (sh_error(ERROR, 21, name, NULL));
 	}
 	return (ret);
 }
@@ -81,14 +79,16 @@ static int			fct_open(int *fd, int *fd_save, t_node *tree)
 	char				*filename;
 	int					ret;
 
-	ret = 0;
 	filename = NULL;
 	node = NULL;
 	if (tree && tree->right)
 		node = (tree->right->type == RA ? tree->right : tree->right->right);
 	if (node && node->data && (filename = node->data) == NULL)
 		return (lstfd_node_ret(ERROR, &node, NULL, NULL));
-	if ((ret = check_fd(fd, filename, node, tree)) != TRUE && *fd != -1)
+	ret = check_fd(fd, filename, node, tree);
+	if (*fd == -1)
+		return (sh_error(ERROR, 21, filename, NULL));
+	else if (ret != TRUE)
 		return (ret);
 	*fd_save = *fd;
 	if (*fd == -1 && tree->left && tree->left->right && tree->left->right->data
