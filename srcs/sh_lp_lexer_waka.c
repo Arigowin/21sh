@@ -3,6 +3,9 @@
 
 static void			land_link_creator(t_e_list **l_expr)
 {
+	if (DEBUG_LEXER == 1)
+		ft_putendl_fd("------- LAND LINK CREATOR ------", 2);
+
 	t_e_list			*new;
 	char				*tmp2;
 

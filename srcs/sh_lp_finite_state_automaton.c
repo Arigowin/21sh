@@ -25,7 +25,7 @@ static int			state_standard(int *int_tbl[2], char **read_buff,
 	if (DEBUG_TOKEN == 1)
 		ft_putendl_fd("------- STATE STANDARD ------", 2);
 
-	if (**read_buff == DQUOTE)
+	if (**read_buff == DQUOTE || **read_buff == QUOTE)
 		return (FALSE);
 	if (**read_buff == '\\')
 		token_backslash(STANDARD, read_buff, data_tmp);

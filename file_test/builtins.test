@@ -163,3 +163,11 @@ echo 'CMD: [echo ">"toto]'
 echo ">"toto
 echo 'CMD: [echo "> toto"]'
 echo "> toto"
+echo 'CMD:echo "-->" ; ls'
+echo "-->" ; ls
+echo "CMD:echo '-->' ; ls"
+echo '-->' ; ls
+echo "CMD:echo '\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"'"
+echo '""""""""""""""""""""'
+echo "CMD:echo \"''''''''''''''''''''\""
+echo "''''''''''''''''''''"
