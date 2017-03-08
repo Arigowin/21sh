@@ -15,6 +15,7 @@ static t_history	*new_history(char *line)
 	if ((new->line = ft_strdup(line)) == NULL)
 	{
 		free(new);
+		ft_strdel(&line);
 		sh_error(FALSE, 6, NULL, NULL);
 	}
 	new->prev = NULL;
