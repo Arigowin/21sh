@@ -79,8 +79,6 @@ static int			fct_open(int *fd, int *fd_save, t_node *tree)
 	char				*filename;
 	int					ret;
 
-//		if (*fd < 0)
-//			return (sh_error(ERROR, 21, name, NULL));
 	filename = NULL;
 	node = NULL;
 	if (tree && tree->right)
@@ -89,18 +87,14 @@ static int			fct_open(int *fd, int *fd_save, t_node *tree)
 		return (lstfd_node_ret(ERROR, &node, NULL, NULL));
 	if((ret = check_fd(fd, filename, node, tree)) != TRUE && *fd != -1)
 		return (ret);
-	//if (*fd == -1)
-	//	return (sh_error(ERROR, 21, filename, NULL));
-	//else if (ret != TRUE)
-	//	return (ret);
 	*fd_save = *fd;
-	if (*fd == -1 && node && node->data)
-	//&& tree->right->data[0] == '&')
+	if (*fd == -1 && node && node->data &&
+	(ft_isstrnum(filename + 1) == 0 || (ft_isstrnum(filename + 1) && ret >= 0)))
 	{
 		ret = (ret <= -1 ? 21 : 20);
-		ret = ft_strcmp(ft_strdup_ignchar(filename + 1, '\\'), "-") ? ret : 29;
+		ret = ft_strcmp(ft_strdup_ignchar(filename + 1, '\\'), "-") ? 20 : 29;
 		filename = (filename[0] == '&' ? filename + 1 : filename);
-		return (sh_error(FALSE, ret, ft_strdup_ignchar(filename, '\\'), NULL));
+		return (sh_error(FALSE, ret, ft_strdup_ignchar(filename, '\\'), "99"));
 	}
 	return (TRUE);
 }
