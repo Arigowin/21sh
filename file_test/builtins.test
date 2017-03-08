@@ -110,18 +110,22 @@ echo CMD:"echo 'abc\"abc'"
 echo 'abc"abc'
 echo CMD:'echo "\a\b\c"'
 echo "\a\b\c"
-echo CMD:"echo '\a\b\c'"
+echo CMD:"echo '\\a\\b\\c'"
 echo '\a\b\c'
 echo CMD:'echo \a\b\c'
 echo \a\b\c
-echo CMD:'echo \\$PATH'
+echo CMD:'echo \$PATH'
 echo \$PATH
 echo CMD:'echo $PATH'
 echo $PATH
 echo CMD:'echo "$PATH"'
 echo "$PATH"
-echo CMD:"echo '\$PATH'"
+echo CMD:'echo "\$PATH"'
+echo "\$PATH"
+echo CMD:"echo '$PATH'"
 echo '$PATH'
+echo CMD:"echo '\\$PATH'"
+echo '\$PATH'
 echo CMD:"echo '~'"
 echo '~'
 echo CMD:'echo "~"'

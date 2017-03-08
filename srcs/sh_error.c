@@ -87,7 +87,8 @@ int					sh_error(int ret, int index, char *err, char *bi)
 	if (err != NULL)
 	{
 		ft_putstr_fd(": '", 2);
-		ft_putstr_fd(err, 2);
+		if (err[0] != 26)
+			ft_putstr_fd(err, 2);
 		ft_putstr_fd("'", 2);
 	}
 	if (index >= 14 && index <= 33 && index != 26 && index != 32 && index != 31)
