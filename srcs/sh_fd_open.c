@@ -100,7 +100,7 @@ static int			fct_open(int *fd, int *fd_save, t_node *tree)
 		ret = (ret <= -1 ? 21 : 20);
 		ret = ft_strcmp(ft_strdup_ignchar(filename + 1, '\\'), "-") ? ret : 29;
 		filename = (filename[0] == '&' ? filename + 1 : filename);
-		return (sh_error(FALSE, ret, ft_strdup_ignchar(filename, '\\'), "99"));
+		return (sh_error(FALSE, ret, ft_strdup_ignchar(filename, '\\'), NULL));
 	}
 	return (TRUE);
 }

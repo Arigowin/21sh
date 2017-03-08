@@ -28,9 +28,9 @@ static int			left_right_red(t_node *tree, t_lst_fd *lstfd, int stdfd) // static 
 	else if (tree->type == RED_FD && ft_strcmp(tree->data, "&") == 0)
 	{
 		if (stdfd == STDIN_FILENO)
-			return (sh_error(FALSE, 7, NULL, "22"));
+			return (sh_error(FALSE, 7, NULL, NULL));
 		if (dup2(lstfd->fd, STDERR_FILENO) == ERROR)
-			return (sh_error(FALSE, 7, NULL, "33"));
+			return (sh_error(FALSE, 7, NULL, NULL));
 	}
 	if (tree->right && tree->type == RED_FD)
 		tree = tree->right;
@@ -41,7 +41,7 @@ static int			left_right_red(t_node *tree, t_lst_fd *lstfd, int stdfd) // static 
 		return (TRUE);
 	}
 	if (lstfd->fd >= 0 && dup2(lstfd->fd, fd) == ERROR)
-		return (sh_error(FALSE, 7, NULL, "44"));
+		return (sh_error(FALSE, 7, NULL, NULL));
 	return (TRUE);
 }
 
