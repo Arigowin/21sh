@@ -3,7 +3,7 @@
 
 # define DEBUG 0
 # define DEBUG_ANTIBUG 0
-# define DEBUG_BUILTIN 1
+# define DEBUG_BUILTIN 0
 # define DEBUG_CMD 0
 # define DEBUG_COPY_PASTE 0
 # define DEBUG_HEREDOC 0

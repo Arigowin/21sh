@@ -10,10 +10,8 @@ static int			print_env(t_duo *env)
 	{
 		ft_putstr(env->name);
 		ft_putchar('=');
-		if (env->value && env->value[0] != 26)
-			ft_putendl(env->value);
-		else
-			ft_putchar('\n');
+		ft_putstr_print(env->value);
+		ft_putchar('\n');
 		env = env->next;
 	}
 	return (TRUE);

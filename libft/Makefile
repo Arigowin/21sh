@@ -81,6 +81,8 @@ SRC = ft_memset.c \
 	  ft_putnbr_color.c \
 	  ft_putchar_color_fd.c \
 	  ft_putstr_color_fd.c \
+	  ft_putstr_print.c \
+	  ft_putstr_print_fd.c \
 \
 	  ft_lstnew.c \
 	  ft_lstdelone.c \
