@@ -13,7 +13,10 @@ static int			add_env(char *name, char *value) //static ac change env
 		return (sh_error(TRUE, 26, "setenv", NULL));
 	else
 	{
-		duo_pushback(&env, name, value);
+		if (value[0] != 26)
+			duo_pushback(&env, name, value);
+		else
+			duo_pushback(&env, name, "");
 		savior(env, TRUE);
 	}
 	return (TRUE);
@@ -32,7 +35,7 @@ int					change_env(char *name, char *value)
 		if (ft_strcmp(env->name, name) == 0)
 		{
 			ft_strdel(&(env->value));
-			if (value && (env->value = ft_strdup(value)) == NULL)
+			if (value && value[0] != 26 && !(env->value = ft_strdup(value)))
 				return (sh_error(FALSE, 6, NULL, NULL));
 			return (TRUE);
 		}
