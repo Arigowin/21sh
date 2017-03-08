@@ -68,11 +68,9 @@ static int			heredoc_red(t_node *tree, int fd) // static ac redirect
 			&& ft_strcmp(tree->data, "&"))
 		fd = ft_atoi(tree->data);
 	if (pipe(hrd_fd) == ERROR)
-		/* RET: error EXIT: false MSG: "pipe fail"
-		 * FREE: str */
-		return (ERROR);
+		return (error_clear_str(ERROR, 4, NULL, &str));
 	if (str)
-		write(hrd_fd[1], str, ft_strlen(str));
+		ft_putstr_fd(str, hrd_fd[1]);
 	ft_strdel(&str);
 	if (dup2(hrd_fd[0], fd) == ERROR)
 		return (sh_error(FALSE, 7, NULL, NULL));
