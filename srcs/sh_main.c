@@ -38,8 +38,7 @@ static int			checktty_tool2(t_line *stline, char **cmd)
 	i = 0;
 	while (cmd[i])
 	{
-		if (i > 0)
-			ft_strdel(&(stline->line));
+		ft_strdel(&(stline->line));
 		if ((stline->line = ft_strdup(cmd[i])) == NULL)
 			return (sh_error(FALSE, 6, NULL, NULL));
 		if (check_after_read(stline, NULL) == ERROR)
