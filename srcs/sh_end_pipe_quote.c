@@ -12,20 +12,21 @@ int					check_end_pipe(char **str, int *pos)
 	i = *pos - 1;
 	while (str && *str && (*str)[i] && i > 0)
 	{
-		if ((*str)[i] != ' ' && (*str)[i] != '\t'
-				&& (*str)[i] != '\n' && (*str)[i] != '|')
+		if ((*str)[i] != ' ' && (*str)[i] != '\t' && (*str)[i] != '\n'
+		&& (*str)[i] != '|')
 			return (FALSE);
-		if ((*str)[i] == '|' && (*str)[i - 1] == '|')
+		if ((*str)[i] == '|' && (*str)[i - 1] && (*str)[i - 1] == '|')
 		{
 			j = 1;
 			i = ft_strlen(*str);
-			while ((*str)[--i] == '|' && i > 0 && (*str)[i] == (*str)[i - 1])
+			while ((*str)[i - 1] && (*str)[--i] == '|' && i > 0
+			&& (*str)[i] == (*str)[i - 1])
 				j++;
 			if (j % 2 != 0)
 				return (TRUE);
 			return (FALSE);
 		}
-		if ((*str)[i] == '|' && (*str)[i - 1] != '\\')
+		if ((*str)[i] == '|' && (*str)[i - 1] && (*str)[i - 1] != '\\')
 			return (TRUE);
 		i--;
 	}
@@ -52,14 +53,16 @@ int					quote_is_close(char **str)
 	back = 0;
 	while (str && *str && (*str)[++i])
 	{
-		if (quote != DQUOTE && (*str)[i] == QUOTE)
+		if (quote != DQUOTE && (*str)[i] && (*str)[i] == QUOTE && i > 0
+		&& (*str)[i - 1])
 			check_nb_quote((*str)[i - 1], back, &quote, QUOTE);
-		if (quote != QUOTE && (*str)[i] == DQUOTE)
+		if (quote != QUOTE && (*str)[i] && (*str)[i] == DQUOTE && i > 0
+		&& (*str)[i - 1])
 			check_nb_quote((*str)[i - 1], back, &quote, DQUOTE);
 		if ((*str)[i] == '\\')
 			back++;
-		else if (back > 0 && ((*str)[i] != '\\' || ((*str)[i] != QUOTE
-		|| (*str)[i] != DQUOTE)))
+		else if (back > 0 && (*str)[i] && ((*str)[i] != '\\'
+		|| ((*str)[i] != QUOTE || (*str)[i] != DQUOTE)))
 			back = 0;
 	}
 	return (quote);
