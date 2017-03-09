@@ -78,6 +78,7 @@ static int			fct_open(int *fd, int *fd_save, t_node *tree)
 	t_node				*node;
 	char				*filename;
 	int					ret;
+	char				*tmp;
 
 	filename = NULL;
 	node = NULL;
@@ -92,9 +93,10 @@ static int			fct_open(int *fd, int *fd_save, t_node *tree)
 	(ft_isstrnum(filename + 1) == 0 || (ft_isstrnum(filename + 1) && ret >= 0)))
 	{
 		ret = (ret <= -1 ? 21 : 20);
-		ret = ft_strcmp(ft_strdup_ignchar(filename + 1, '\\'), "-") ? 20 : 29;
-		filename = (filename[0] == '&' ? filename + 1 : filename);
-		return (sh_error(FALSE, ret, ft_strdup_ignchar(filename, '\\'), "99"));
+		tmp = ft_strdup_ignchar(filename, '\\');
+		ret = ft_strcmp(tmp, "&-") ? 20 : 29;
+		return (error_clear_str(FALSE, ret, (filename[0] == '&' ? tmp + 1
+						: tmp), &tmp));
 	}
 	return (TRUE);
 }
