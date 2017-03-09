@@ -8,10 +8,24 @@ int					fd_exist(int fd, char *filename)
 	if (DEBUG_RED == 1)
 		ft_putendl_fd("------------ FD EXIST ------------", 2);
 
-	if (ft_strcmp(ft_itoa(fd), ft_strdup_ignchar(filename +  1, '\\')))
+	char				*tmp;
+	char				*str_fd;
+
+	tmp = ft_strdup_ignchar(filename +  1, '\\');
+	str_fd = ft_itoa(fd);
+	if (ft_strcmp(str_fd, tmp))
+	{
+		ft_strdel(&tmp);
+		ft_strdel(&str_fd);
 		return (ERROR);
+	}
+	ft_strdel(&tmp);
 	if (isatty(fd) == 0)
-		return (sh_error(ERROR, 29, ft_itoa(fd), NULL));
+	{
+		sh_error(ERROR, 29, str_fd, NULL);
+		ft_strdel(&str_fd);
+		return (ERROR);
+	}
 	return (TRUE);
 }
 
@@ -80,7 +94,7 @@ static int			heredoc_red(t_node *tree, int fd) // static ac redirect
 }
 
 int					heredoc_handler(t_line *stline, t_node **tree,
-					t_history **history)
+		t_history **history)
 {
 	if (DEBUG_HEREDOC == 1)
 		ft_putendl_fd("------------ HEREDOC HANDLER ----------", 2);
@@ -122,7 +136,7 @@ int					redirect(t_node *tree, t_lst_fd *lstfd)
 		if ((ret = tree->type == DLRED) && redirect(tree->left, lstfd) == ERROR)
 			return (ERROR);
 		else if (ret != TRUE && lstfd && ((lstfd->next && tree->type != DLRED)
-		|| tree->left->type == DLRED) && redirect(tree->left, lstfd->next) == ERROR) // remplacer ERROR par -1 et DLRED par l'int correspondant
+					|| tree->left->type == DLRED) && redirect(tree->left, lstfd->next) == ERROR) // remplacer ERROR par -1 et DLRED par l'int correspondant
 			return (ERROR);
 	}
 	return (TRUE);

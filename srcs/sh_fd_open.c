@@ -45,19 +45,20 @@ static int			check_fd(int *fd, char *name, t_node *node, t_node *tree)
 
 	int					retnum;
 	int					ret;
+	char				*tmp;
 
 	ret = TRUE;
 	if (node && node->data && node->data[0] == '&')
 	{
 		*fd = (ft_strcmp("&-", node->data) == 0 ? -42
-				: ft_atoi(ft_strdup_ignchar(name + 1, '\\')));
+				: ft_atoi((tmp = ft_strdup_ignchar(name + 1, '\\'))));
 		if (*fd >= 0)
 		{
 			ret = fd_exist(*fd, name);
 			if ((retnum = ft_isstrnum(name + 1)) == 0 || ret == -1)
 				*fd = -1;
 			if (retnum != 0)
-				return (ret);
+				return (str_dbltbl_ret(ret, &tmp, NULL, NULL));
 		}
 	}
 	else
@@ -67,7 +68,7 @@ static int			check_fd(int *fd, char *name, t_node *node, t_node *tree)
 		*fd = (ret >= 0 ?
 		open(name, flag(tree), S_IRUSR | S_IWUSR | S_IRGRP | S_IROTH) : ret);
 	}
-	return (ret);
+	return (str_dbltbl_ret(ret, &tmp, NULL, NULL));
 }
 
 static int			fct_open(int *fd, int *fd_save, t_node *tree)
