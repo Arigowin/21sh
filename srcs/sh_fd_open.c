@@ -95,9 +95,8 @@ static int			fct_open(int *fd, int *fd_save, t_node *tree)
 		ret = (ret <= -1 ? 21 : 20);
 		tmp = ft_strdup_ignchar(filename, '\\');
 		ret = ft_strcmp(tmp, "&-") ? 20 : 29;
-		sh_error(FALSE, ret, (filename[0] == '&' ? tmp + 1 : tmp), "99");
-		ft_strdel(&tmp);
-		return (FALSE);
+		return (error_clear_str(FALSE, ret, (filename[0] == '&' ? tmp + 1
+						: tmp), &tmp));
 	}
 	return (TRUE);
 }
