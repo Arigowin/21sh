@@ -71,6 +71,8 @@ echo CMD:'setenv tutu toto ; setenv'
 setenv tutu toto ; setenv
 echo CMD:'setenv "" ; setenv'
 setenv "" ; setenv
+echo CMD:'setenv " " ; setenv'
+setenv " " ; setenv
 echo CMD:'setenv tutu "" ; setenv'
 setenv tutu "" ; setenv
 echo CMD:'setenv "" miaou ; setenv'
