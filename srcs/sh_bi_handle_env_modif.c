@@ -13,10 +13,10 @@ static int			add_env(char *name, char *value) //static ac change env
 		return (sh_error(TRUE, 26, "setenv", NULL));
 	else
 	{
-		if (value[0] != 26)
-			duo_pushback(&env, name, value);
-		else
+		if (value && value[0] == 26)
 			duo_pushback(&env, name, "");
+		else
+			duo_pushback(&env, name, value);
 		savior(env, TRUE);
 	}
 	return (TRUE);

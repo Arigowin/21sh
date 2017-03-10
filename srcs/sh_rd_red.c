@@ -8,11 +8,19 @@ int					fd_exist(int fd, char *filename)
 	if (DEBUG_RED == 1)
 		ft_putendl_fd("------------ FD EXIST ------------", 2);
 
-	if (ft_strcmp(ft_itoa(fd), ft_strdup_ignchar(filename +  1, '\\')))
-		return (ERROR);
+	char				*tmp;
+	char				*tmp_fd;
+
+	tmp = NULL;
+	tmp_fd = ft_itoa(fd);
+	if (ft_strcmp(tmp_fd, tmp = ft_strdup_ignchar(filename +  1, '\\')))
+		return (dblstr_duo_ret(ERROR, &tmp, &tmp_fd, NULL));
 	if (isatty(fd) == 0)
-		return (sh_error(ERROR, 29, ft_itoa(fd), NULL));
-	return (TRUE);
+	{
+		ft_strdel(&tmp);
+		return (error_clear_str(ERROR, 29, tmp_fd, &tmp_fd));
+	}
+	return (dblstr_duo_ret(TRUE, &tmp, &tmp_fd, NULL));
 }
 
 static int			left_right_red(t_node *tree, t_lst_fd *lstfd, int stdfd) // static ac redirect
@@ -27,9 +35,9 @@ static int			left_right_red(t_node *tree, t_lst_fd *lstfd, int stdfd) // static 
 		fd = ft_atoi(tree->data);
 	else if (tree->type == RED_FD && ft_strcmp(tree->data, "&") == 0)
 	{
-		if (stdfd == STDIN_FILENO)
+		if (stdfd == STDIN_FILENO && lstfd->fd != -1)
 			return (sh_error(FALSE, 7, NULL, NULL));
-		if (dup2(lstfd->fd, STDERR_FILENO) == ERROR)
+		if (lstfd->fd != -1 && dup2(lstfd->fd, STDERR_FILENO) == ERROR)
 			return (sh_error(FALSE, 7, NULL, NULL));
 	}
 	if (tree->right && tree->type == RED_FD)

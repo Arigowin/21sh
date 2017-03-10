@@ -122,25 +122,25 @@ int					save_history(void)
 	char				*home;
 	char				*path;
 	int					fd;
-	t_history			**history;
+	t_history			*history;
 
 	path = NULL;
-	if ((history = savior_history(NULL, FALSE)) == NULL)
+	if ((history = *(savior_history(NULL, FALSE))) == NULL)
 		return (FALSE);
 	home = get_env("HOME");
 	path = (home != NULL ? ft_strjoin(home, HISTORY_FILE_NAME) : NULL);
 	if ((fd = open(path, O_WRONLY | O_TRUNC | O_CREAT, S_IRUSR | S_IWUSR))
 	== ERROR && path)
-		return (dblstr_duo_ret(ERROR, &path, &home, NULL));
-	while (*history && (*history)->prev)
-		*history = (*history)->prev;
-	while (*history && (*history)->line)
+		return (dblstr_hist_ret(ERROR, &path, &home, &history));
+	while (history && history->prev)
+		history = history->prev;
+	while (history && history->line)
 	{
-		ft_putendl_fd((*history)->line, fd);
-		*history = (*history)->next;
+		ft_putendl_fd(history->line, fd);
+		history = history->next;
 	}
 	ft_putchar_fd(3, fd);
 	if (fd > 2)
 		close(fd);
-	return (dblstr_hist_ret(TRUE, &path, &home, history));
+	return (dblstr_hist_ret(TRUE, &path, &home, &history));
 }

@@ -50,7 +50,7 @@ static int			check_c_pipe(int *nb_hrd, t_e_list **l_expr, t_node **tree)  // sta
 		if ((*l_expr)->type == PIPE)
 		{
 			if (fill_leaf(l_expr, &node) == ERROR)
-				return (sh_error(FALSE, 6, NULL, NULL));
+				return (error_clear_node(FALSE, 6, NULL, &node));
 			*tree = node;
 			if (!(move_in_list(l_expr) && (ret = check_c_pipe(nb_hrd, l_expr,
 			&(node->right)))))
@@ -78,7 +78,7 @@ static int			check_logic(int *nb_hrd, t_e_list **l_expr, t_node **tree)  // stat
 		if ((*l_expr)->type == LOGIC_OR || (*l_expr)->type == LOGIC_AND)
 		{
 			if (fill_leaf(l_expr, &node) == ERROR)
-				return (sh_error(FALSE, 6, NULL, NULL));
+				return (error_clear_node(FALSE, 6, NULL, &node));
 			*tree = node;
 			if (!(move_in_list(l_expr)
 			&& (ret = check_logic(nb_hrd, l_expr, &(node->right)))))
@@ -112,7 +112,7 @@ static int			check_expr(int *nb_hrd, t_e_list **l_expr, t_node **tree) // static
 		if ((*l_expr)->type == SEMI)
 		{
 			if (fill_leaf(l_expr, &node) == ERROR)
-				return (sh_error(FALSE, 6, NULL, NULL));
+				return (error_clear_node(FALSE, 6, NULL, &node));
 			*tree = node;
 			if ((ret = move_in_list(l_expr))
 			&& ((ret = check_expr(nb_hrd, l_expr, &(node->right)) < 0)))
