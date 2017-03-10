@@ -54,9 +54,9 @@ t_history			**savior_history(t_history **history, int code)
 	if (DEBUG_SAVIOR == 1)
 		ft_putendl_fd("------- SAVIOR HISTORY -------", 2);
 
-	static t_history		**save = NULL;
+	static t_history		*save = NULL;
 
-	if ((save == NULL && history) || code == TRUE)
-		save = history;
-	return (save);
+	if ((save == NULL && history && *history) || code == TRUE)
+		save = *history;
+	return (&save);
 }

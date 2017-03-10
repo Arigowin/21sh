@@ -53,9 +53,9 @@ void				del_history(t_history **history)
 
 	if (history == NULL || *history == NULL)
 		return ;
+	while (*history && (*history)->prev)
+		*history = (*history)->prev;
 	save = *history;
-	while (save && save->prev)
-		save = save->prev;
 	while (history && *history)
 	{
 		save = *history;
@@ -66,7 +66,8 @@ void				del_history(t_history **history)
 		free(save);
 		save = NULL;
 	}
-	*history = NULL;
+	free(history);
+	history = NULL;
 }
 
 static int			remove_backslach_eol(char **line)

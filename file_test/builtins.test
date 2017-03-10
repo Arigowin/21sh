@@ -89,6 +89,8 @@ echo CMD:'env abc=def _abc=def 1abc=def ""=def " "=def ls -l'
 env abc=def _abc=def 1abc=def ""=def " "=def ls -l
 echo CMD:'env abc=def _abc=def 1abc=def ""=def " "=def /usr/bin/env'
 env abc=def _abc=def 1abc=def ""=def " "=def /usr/bin/env
+echo CMD:'env toto'
+env toto
 echo CMD:'env -i'
 env -i
 echo CMD:'env -- -i'
