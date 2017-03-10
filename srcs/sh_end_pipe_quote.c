@@ -33,37 +33,37 @@ int					check_end_pipe(char **str, int *pos)
 	return (FALSE);
 }
 
-int					check_nb_quote(char c, int back, int *quote, int to_fill)
-{
-	if (c && (*quote == QUOTE || (c != '\\' || back % 2 == 0)))
-		*quote = (*quote != 0 ? 0 : to_fill);
-	if (c == '\0')
-		*quote = (*quote != 0 ? 0 : to_fill);
-	return (TRUE);
-}
+//int					check_nb_quote(char c, int back, int *quote, int to_fill)
+//{
+//	if (c && (*quote == QUOTE || (c != '\\' || back % 2 == 0)))
+//		*quote = (*quote != 0 ? 0 : to_fill);
+//	if (c == '\0')
+//		*quote = (*quote != 0 ? 0 : to_fill);
+//	return (TRUE);
+//}
 
 int					quote_is_close(char **str)
 {
 	int					i;
 	int					quote;
-	int					back;
+	int					bkslash;
 
 	i = -1;
 	quote = 0;
-	back = 0;
+	bkslash = 0;
 	while (str && *str && (*str)[++i])
 	{
-		if (quote != DQUOTE && (*str)[i] && (*str)[i] == QUOTE && i > 0
-		&& (*str)[i - 1])
-			check_nb_quote((*str)[i - 1], back, &quote, QUOTE);
-		if (quote != QUOTE && (*str)[i] && (*str)[i] == DQUOTE && i > 0
-		&& (*str)[i - 1])
-			check_nb_quote((*str)[i - 1], back, &quote, DQUOTE);
+		if (quote != DQUOTE && (*str)[i] && (*str)[i] == QUOTE
+		&& (quote == QUOTE || bkslash % 2 == 0))
+			quote = (quote != 0 ? 0 : QUOTE);
+		if (quote != QUOTE && (*str)[i] && (*str)[i] == DQUOTE
+		&& bkslash % 2 == 0)
+			quote = (quote != 0 ? 0 : DQUOTE);
 		if ((*str)[i] == '\\')
-			back++;
-		else if (back > 0 && (*str)[i] && ((*str)[i] != '\\'
+			bkslash++;
+		else if (bkslash > 0 && (*str)[i] && ((*str)[i] != '\\'
 		|| ((*str)[i] != QUOTE || (*str)[i] != DQUOTE)))
-			back = 0;
+			bkslash = 0;
 	}
 	return (quote);
 }
