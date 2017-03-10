@@ -12,10 +12,10 @@ int					token_backslash(t_states state, char **r_buff,
 		(*r_buff) += 1;
 	else
 	{
-	//	if (state == IN_DQUOTE && (*(*r_buff + 1)) && ((*(*r_buff + 1)) != '$'
-//		&& (*(*r_buff + 1)) != '`' && (*(*r_buff + 1)) != '"'
-//		&& (*(*r_buff + 1)) != '\\' && (*(*r_buff + 1)) != '\n'))
-		add_in_tbl(data_tmp, **r_buff);
+		if (state == IN_DQUOTE && **r_buff && **r_buff == '\\' && (*(*r_buff + 1)) && (*(*r_buff + 1)) != '$'
+		&& (*(*r_buff + 1)) != '`' && (*(*r_buff + 1)) != '"' &&
+ (*(*r_buff + 1)) != '\\' && (*(*r_buff + 1)) != '\n')
+			add_in_tbl(data_tmp, **r_buff);
 		(*r_buff)++;
 		add_in_tbl(data_tmp, **r_buff);
 	}
