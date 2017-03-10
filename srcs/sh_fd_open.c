@@ -67,7 +67,8 @@ static int			check_fd(int *fd, char *name, t_node *node, t_node *tree)
 		*fd = (ret >= 0 ?
 		open(name, flag(tree), S_IRUSR | S_IWUSR | S_IRGRP | S_IROTH) : ret);
 	}
-	return (str_dbltbl_ret(ret, &tmp, NULL, NULL));
+	return (ret);
+	//return (str_dbltbl_ret(ret, &tmp, NULL, NULL));
 }
 
 static int			fct_open(int *fd, int *fd_save, t_node *tree)

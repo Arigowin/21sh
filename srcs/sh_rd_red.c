@@ -88,7 +88,7 @@ static int			heredoc_red(t_node *tree, int fd) // static ac redirect
 }
 
 int					heredoc_handler(t_line *stline, t_node **tree,
-		t_history **history)
+					t_history **history)
 {
 	if (DEBUG_HEREDOC == 1)
 		ft_putendl_fd("------------ HEREDOC HANDLER ----------", 2);
