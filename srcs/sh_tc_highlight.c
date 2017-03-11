@@ -71,7 +71,7 @@ int					hide_highlight(char **str, int *pos, t_line *stline,
 			fct_right(str, pos, stline, history);
 	}
 	tputs(tgetstr("ve", NULL), 1, my_outc);
-	return (TRUE);
+	return (str_dbltbl_ret(TRUE, &tmp, NULL, NULL));
 }
 
 int					fct_highlight(char **str, int *pos, t_line *stline,
