@@ -117,7 +117,6 @@ int					fct_insert(char **str, int *pos, char c, t_line *stline)
 		(*str)[*pos] = c;
 	else if (!(end_line = ft_strsub(*str, *pos, ft_strlen(*str))))
 		return (sh_error(FALSE, 6, NULL, NULL));
-	/* FREE : stline*/
 	screen_up(pos, str, stline);
 	ft_putchar(c);
 	if (end_line != NULL)
