@@ -47,7 +47,7 @@ int					mini_prt_handler(char **str, int *pos, t_line *stline)
 		fct_insert(str, pos, '\n', stline);
 	else if (!ft_strcmp(*str, ""))
 		fct_insert(str, pos, '\n', stline);
-	if (quote_is_close(str) == 0)
+	else if (quote_is_close(str) == 0)
 		fct_insert(str, pos, '\n', stline);
 	miniprt_reset_stline(stline);
 	return (CONTINUE);
