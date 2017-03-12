@@ -40,8 +40,8 @@ static void			fct_m_ctrl_c(int sig)
 	if (stline->copy.start != -1)
 		fct_highlight(&(stline->line), &(stline->pos), stline, NULL);
 	fct_end(&(stline->line), &(stline->pos), stline, NULL);
-	while (history && (*history) && (*history)->next)
-		(*history) = (*history)->next;
+	while (history && *history && (*history)->next)
+		*history = (*history)->next;
 	reset_stline(stline);
 	ft_putchar_color(RESET_COLOR, '\n');
 	display_prompt();

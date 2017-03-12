@@ -5,8 +5,13 @@
 int					left_move_cdt(int pos, t_line *stline)
 {
 	return (pos > 0
-	&& ((stline->curs_y == 0 && stline->curs_x > 2)
-	|| stline->curs_y > 0));
+		&& ((stline->curs_y == 0 && stline->curs_x > 2)
+			|| stline->curs_y > 0));
+//	return (pos > 0
+//		&& ((stline->mini_prt == TRUE && stline->curs_y == 0 && stline->curs_x > 2)
+//			|| (stline->mini_prt == TRUE && stline->curs_y > 0)
+//			|| (stline->mini_prt == FALSE  && stline->curs_y == 0 && stline->curs_x > 2)
+//			|| (stline->mini_prt == FALSE && stline->curs_y > 0)));
 }
 
 static int			down_term(int i, t_line *stline)
