@@ -31,20 +31,21 @@ int					check_red_arg(t_e_list **l_expr, t_node **tree, char *red)
 	if (ret == TRUE && (*l_expr)->type == RA && (node = create_node(ntype)))
 	{
 		if (fill_leaf(l_expr, &node) == ERROR)
-			return (sh_error(FALSE, 6, NULL, NULL));
+			return (error_clear_node(FALSE, 6, NULL, &node));
 		return (parser_ret_fct(TRUE, tree, &node, NULL));
 	}
 	else if ((*l_expr)->type == RED_FD && (*l_expr)->next &&
 	(*l_expr)->next->type != RED_FD && ((node = create_node(RED_FD)) != NULL))
 	{
 		if (fill_leaf(l_expr, &node) == ERROR)
-			return (sh_error(FALSE, 6, NULL, NULL));
+			return (error_clear_node(FALSE, 6, NULL, &node));
 		if ((ret = move_in_list(l_expr)) == TRUE
 		&& (ret = check_red_arg(l_expr, &(node->right), red)) >= 0)
 			return (parser_ret_fct(TRUE, tree, &node, NULL));
 		return (parser_ret_fct(ret, tree, &save, NULL));
 	}
-	return (sh_error(ret, 26, (*l_expr)->data, NULL));
+	return (error_clear_node(ret, 26, (*l_expr)->data, &node));
+	//return (sh_error(ret, 26, (*l_expr)->data, NULL));
 }
 
 int					check_red(int *nb_hrd, t_e_list **l_expr, t_node **tree)
@@ -68,7 +69,7 @@ int					check_red(int *nb_hrd, t_e_list **l_expr, t_node **tree)
 	((ret = check_red_arg(l_expr, &(node->right), list_save->data)) == TRUE))
 	{
 		if (fill_leaf(&list_save, &node) == ERROR)
-			return (sh_error(FALSE, 6, NULL, NULL));
+			return (error_clear_node(FALSE, 6, NULL, &node));
 		node->type = fill_red_type(list_save->data, nb_hrd);
 		if (!move_in_list(l_expr) ||
 		check_red(nb_hrd, l_expr, &(node->left)) != TRUE)
@@ -76,7 +77,8 @@ int					check_red(int *nb_hrd, t_e_list **l_expr, t_node **tree)
 		*tree = node;
 		return (ret);
 	}
-	return (sh_error(ret, 26, (*l_expr)->data, NULL));
+	return (error_clear_node(ret, 26, (*l_expr)->data, &node));
+	//return (sh_error(ret, 26, (*l_expr)->data, NULL));
 }
 
 int					check_arg(int *nb_hrd, t_e_list **l_expr, t_node **tree,
