@@ -93,7 +93,7 @@ int					history_up(char **str, int *pos, t_line *stline,
 	char				*t;
 	char				*tmpchr;
 
-	if (*history == NULL)
+	if ((history = savior_history(NULL, FALSE)) == NULL)
 		return (FALSE);
 	fct_end(str, pos, stline, history);
 	t = (*pos > 0 && (*str)[*pos - 1] == '\n' ? ft_strsub(*str, 0, *pos - 1)
@@ -113,6 +113,7 @@ int					history_up(char **str, int *pos, t_line *stline,
 	while (((*history)->line)[++i])
 		fct_insert(str, pos, ((*history)->line)[i], stline);
 	reset_pos_x_y(str, pos, stline);
+	savior_history(history, TRUE);
 	return (dblstr_duo_ret(TRUE, &t, NULL, NULL));
 }
 
@@ -124,7 +125,7 @@ int					history_down(char **str, int *pos, t_line *stline,
 
 	int					i;
 
-	if (*history == NULL)
+	if ((history = savior_history(NULL, FALSE)) == NULL)
 		return (FALSE);
 	i = -1;
 	if ((*history)->next)
@@ -146,5 +147,6 @@ int					history_down(char **str, int *pos, t_line *stline,
 		while ((stline->curr_hist)[++i])
 			fct_insert(str, pos, (stline->curr_hist)[i], stline);
 	}
+	savior_history(history, TRUE);
 	return (TRUE);
 }
