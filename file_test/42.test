@@ -1,3 +1,3 @@
-./21sh
+make re && ./21sh
 vim --noplugin
 emacs -q

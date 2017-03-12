@@ -42,9 +42,10 @@ int					mini_prt_handler(char **str, int *pos, t_line *stline)
 {
 	if (DEBUG_KEY == 1)
 		ft_putendl_fd("------- MINI PRT HANDLER ------", 2);
-	if ((*str)[0] != '\0')
+
+	if ((*str)[0] != '\0' || !ft_strcmp(*str, ""))
 		fct_insert(str, pos, '\n', stline);
-	else if (!ft_strcmp(*str, ""))
+	if (quote_is_close(str) == 0)
 		fct_insert(str, pos, '\n', stline);
 	miniprt_reset_stline(stline);
 	return (CONTINUE);

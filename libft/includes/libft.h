@@ -68,6 +68,7 @@ int						ft_isstrnum(char *str);
 int						ft_isalnum(int i);
 int						ft_isascii(int i);
 int						ft_isprint(int i);
+int						ft_isvisible(int c);
 int						ft_toupper(int i);
 int						ft_tolower(int i);
 

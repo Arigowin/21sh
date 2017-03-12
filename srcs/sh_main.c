@@ -87,7 +87,6 @@ int					main(void)
 	t_line				stline;
 	t_history			*history;
 
-	// return useless
 	history = NULL;
 	if (init_env(environ, &env_cpy) == ERROR)
 		return (ERROR);
@@ -106,8 +105,4 @@ int					main(void)
 	}
 	reset_term();
 	return (dblstr_duo_ret(0, &(stline.line), &(stline.hrd).line, &env_cpy));
-//	duo_del(&env_cpy);
-//	ft_strdel(&(stline.line));
-//	ft_strdel(&(stline.hrd).line);
-//	return (0);
 }

@@ -14,7 +14,7 @@ static char			**tree_to_tbl(t_node *tree, int nb_elem)
 		sh_error(FALSE, 6, NULL, NULL);
 	while (tree != NULL)
 	{
-		if (tree->quote == QUOTE)
+		if (tree->quote == QUOTE || tree->quote == DQUOTE)
 		{
 			if ((tbl[i] = ft_strdup(tree->data)) == NULL)
 				sh_error(FALSE, 6, NULL, NULL);
