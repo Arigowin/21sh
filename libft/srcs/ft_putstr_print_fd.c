@@ -19,7 +19,7 @@ void	ft_putstr_print_fd(const char *s, int fd)
 	i = 0;
 	while (s && s[i])
 	{
-		if (ft_isprint(s[i]))
+		if (ft_isvisible(s[i]))
 			ft_putchar_fd(s[i], fd);
 		i++;
 	}
