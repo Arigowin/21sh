@@ -18,11 +18,14 @@ LIBS = -L $(LIBPATH) -lft -ltermcap
 SRC = sh_main.c \
 	  \
 	  sh_error.c \
+	  sh_free_return.c \
+	  sh_free_return_error.c \
 	  sh_saviors.c \
 	  sh_init.c \
 	  sh_signal.c \
 	  sh_first_steps.c \
 	  sh_file_history.c \
+	  sh_end_pipe_quote.c \
 	  \
 	  sh_bi_builtin.c \
 	  sh_bi_options.c \
@@ -36,8 +39,10 @@ SRC = sh_main.c \
 	  \
 	  sh_lp_finite_state_automaton.c \
 	  sh_lp_lexer.c \
+	  sh_lp_lexer_waka.c \
 	  sh_lp_parser.c \
 	  sh_lp_parser_additional_items.c \
+	  sh_lp_parser_useful_fct.c \
 	  sh_lp_tokenizer.c \
 	  sh_lp_tokenizer_spec.c \
 	  \
@@ -68,7 +73,9 @@ SRC = sh_main.c \
 	  \
 	  sh_event.c \
 	  sh_tree_functions.c \
-	  sh_tree_traversal.c
+	  sh_tree_traversal.c \
+	  \
+	  sh_fd_open.c
 
 OFILES = $(patsubst %.c, $(OPATH)/%.o, $(SRC))
 

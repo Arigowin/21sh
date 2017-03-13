@@ -68,6 +68,7 @@ int						ft_isstrnum(char *str);
 int						ft_isalnum(int i);
 int						ft_isascii(int i);
 int						ft_isprint(int i);
+int						ft_isvisible(int c);
 int						ft_toupper(int i);
 int						ft_tolower(int i);
 
@@ -101,6 +102,8 @@ void					ft_putstr_color(char *color, char *s);
 void					ft_putnbr_color(char *color, int n);
 void					ft_putchar_color_fd(int fd, char *color, char c);
 void					ft_putstr_color_fd(int fd, char *color, char *s);
+void					ft_putstr_print(const char *s);
+void					ft_putstr_print_fd(const char *s, int fd);
 
 t_list					*ft_lstnew(char *content);
 void					ft_lstdelone(t_list **alst, void (*del)(void *, int));

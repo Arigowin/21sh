@@ -42,9 +42,8 @@ int					fct_end(char **str, int *pos, t_line *stline,
 	if (DEBUG_TERMCAPS == 1)
 		ft_putendl_fd("------- END ------", 2);
 
-	while ((stline->copy.start == -1 && ((*pos))
-				< (int)ft_strlen(*str)) || (stline->copy.start != -1
-				&& ((*pos)) < (int)ft_strlen(*str) - 1))
+	while ((stline->copy.start == -1 && ((*pos)) < ft_strlen(*str))
+	|| (stline->copy.start != -1 && ((*pos)) < ft_strlen(*str) - 1))
 	{
 		fct_right(str, pos, stline, history);
 	}

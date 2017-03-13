@@ -2,7 +2,8 @@
 #include "shell.h"
 #include "libft.h"
 
-int					fct_copy(char **str, int *pos, t_line *stline, t_history **history)
+int					fct_copy(char **str, int *pos, t_line *stline,
+					t_history **history)
 {
 	if (DEBUG_COPY_PASTE == 1)
 		ft_putendl_fd("------- COPY ------", 2);
@@ -15,7 +16,8 @@ int					fct_copy(char **str, int *pos, t_line *stline, t_history **history)
 	return (TRUE);
 }
 
-int					fct_paste(char **str, int *pos, t_line *stline, t_history **history)
+int					fct_paste(char **str, int *pos, t_line *stline,
+					t_history **history)
 {
 	if (DEBUG_COPY_PASTE == 1)
 		ft_putendl_fd("------- PASTE ------", 2);
@@ -35,7 +37,8 @@ int					fct_paste(char **str, int *pos, t_line *stline, t_history **history)
 	return (TRUE);
 }
 
-int					fct_cut(char **str, int *pos, t_line *stline, t_history **history)
+int					fct_cut(char **str, int *pos, t_line *stline,
+					t_history **history)
 {
 	if (DEBUG_COPY_PASTE == 1)
 		ft_putendl_fd("------- PASTE ------", 2);
@@ -57,11 +60,11 @@ int					fct_cut(char **str, int *pos, t_line *stline, t_history **history)
 	}
 	else
 	{
-		while (curs_end <= curs_start)
-		{
-			fct_del(str, pos, stline, history);
-			curs_start--;
-		}
+		while (curs_end < curs_start--)
+			fct_right(str, pos, stline, history);
+		fct_del(str, pos, stline, history);
+		while ((*pos) > curs_end)
+			fct_backspace(str, pos, stline, history);
 	}
 	tputs(tgetstr("ve", NULL), 1, my_outc);
 	return (TRUE);

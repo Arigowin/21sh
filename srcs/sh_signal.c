@@ -4,29 +4,6 @@
 #include "shell.h"
 #include "libft.h"
 
-//static void			win_resize(int sig)
-//{
-//	t_line				*stline;
-//	char 				*save_line;
-//	int 				save_pos;
-//	int					i;
-//
-//	(void)sig;
-//	i = -1;
-//	stline = savior_stline(NULL, FALSE);
-//	save_line = ft_strdup(stline->line);
-//	save_pos = stline->pos;
-//	fct_end(&(stline->line), &(stline->pos), stline, NULL);
-//	while (stline->pos > 0)
-//		fct_backspace(&(stline->line), &(stline->pos), stline, NULL);
-//	ioctl(0, TIOCGWINSZ, &(stline->win));
-////	while (save_line[++i])
-////		fct_insert(&(stline->line), &(stline->pos), save_line[i], stline);
-////	while (stline->pos > save_pos)
-////		fct_left(&(stline->line), &(stline->pos), stline, NULL);
-//	free(save_line);
-//}
-
 static void			fct_ctrl_c_hrd(int sig)
 {
 	if (DEBUG == 1)
@@ -39,13 +16,13 @@ static void			fct_ctrl_c_hrd(int sig)
 	stline = savior_stline(NULL, FALSE);
 	reset_stline(stline);
 	stline->ctrl_c = TRUE;
-
-	pipe(pfd);
+	if (pipe(pfd) == ERROR)
+		sh_error(FALSE, 4, NULL, NULL);
 	close(pfd[0]);
 	write(0, "\0", 1);
-	dup2(pfd[1], 0);
+	if (dup2(pfd[1], 0) == ERROR)
+		sh_error(FALSE, 7, NULL, NULL);
 	close(pfd[1]);
-
 	ft_putchar_color(RESET_COLOR, '\n');
 }
 
@@ -63,8 +40,8 @@ static void			fct_m_ctrl_c(int sig)
 	if (stline->copy.start != -1)
 		fct_highlight(&(stline->line), &(stline->pos), stline, NULL);
 	fct_end(&(stline->line), &(stline->pos), stline, NULL);
-	while (history && (*history) && (*history)->next)
-		(*history) = (*history)->next;
+	while (history && *history && (*history)->next)
+		*history = (*history)->next;
 	reset_stline(stline);
 	ft_putchar_color(RESET_COLOR, '\n');
 	display_prompt();
@@ -100,7 +77,7 @@ int					check_signal(int loc)
 	}
 	else if (loc == 3)
 	{
-		signal(SIGWINCH,fct_ctrl_void);
+		signal(SIGWINCH, fct_ctrl_void);
 		signal(SIGINT, fct_ctrl_void);
 		signal(SIGQUIT, fct_ctrl_void);
 		signal(SIGTSTP, fct_ctrl_void);

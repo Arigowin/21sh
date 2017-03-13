@@ -3,31 +3,6 @@
 #include "shell.h"
 #include "libft.h"
 
-int					parser_ret_fct(int ret, t_node **tree, t_node **node,
-					t_node **to_free)
-{
-	if (DEBUG_PARSER == 1)
-		ft_putendl_fd("------- PARSER RET FCT ------\n", 2);
-
-	if (tree && node && *node)
-		*tree = *node;
-	clear_node(to_free);
-	return (ret);
-}
-
-int					move_in_list(t_e_list **l_expr)
-{
-	if (DEBUG_PARSER == 1)
-		ft_putendl_fd("------- MOVE IN LIST ------\n", 2);
-
-	if ((*l_expr) && (*l_expr)->next)
-	{
-		(*l_expr) = (*l_expr)->next;
-		return (TRUE);
-	}
-	return (FALSE);
-}
-
 static int			check_command(int *nb_hrd, t_e_list **l_expr, t_node **tree) //static ac check c pipe
 {
 	if (DEBUG_PARSER == 1)
@@ -39,14 +14,14 @@ static int			check_command(int *nb_hrd, t_e_list **l_expr, t_node **tree) //stat
 
 	save = *tree;
 	node = create_node(CMD);
-	if ((ret = check_red(nb_hrd, l_expr, &(node->left), 0)) != TRUE)
+	if ((ret = check_red(nb_hrd, l_expr, &(node->left))) != TRUE)
 		*tree = save;
 	if ((*l_expr)->type == CMD)
 	{
-		if ((node->data = ft_strdup((*l_expr)->data)) == NULL)
+		if (fill_leaf(l_expr, &node) == ERROR)
 		{
 			clear_node(&node);
-			return (sh_error(TRUE, 6, NULL, NULL));
+			return (sh_error(FALSE, 6, NULL, NULL));
 		}
 		if ((ret = check_next(nb_hrd, l_expr, &node, &(node->right))) < 0)
 			return (parser_ret_fct(ret, NULL, NULL, &node));
@@ -55,7 +30,7 @@ static int			check_command(int *nb_hrd, t_e_list **l_expr, t_node **tree) //stat
 	if (ret == TRUE && (*l_expr)->type != CMD)
 		return (parser_ret_fct(TRUE, tree, &(node->left), &node));
 	clear_node(&node);
-	return (sh_error(ret, 26, (*l_expr)->data, "44"));
+	return (sh_error(ret, 26, (*l_expr)->data, NULL));
 }
 
 static int			check_c_pipe(int *nb_hrd, t_e_list **l_expr, t_node **tree)  // static ac check expr
@@ -69,27 +44,22 @@ static int			check_c_pipe(int *nb_hrd, t_e_list **l_expr, t_node **tree)  // sta
 
 	node = create_node(PIPE);
 	node_to_give = (node->left == NULL ? &(node->left) : &(node->right));
-	if ((ret = check_command(nb_hrd, l_expr, node_to_give)) == TRUE)
+	if ((ret = check_command(nb_hrd, l_expr, node_to_give)) == TRUE
+	&& (*l_expr)->type != AMP)
 	{
-		if ((*l_expr)->type == AMP)
-			return (sh_error(ret, 26, (*l_expr)->data, "55"));
 		if ((*l_expr)->type == PIPE)
 		{
-			if ((node->data = ft_strdup((*l_expr)->data)) == NULL)
-				return (sh_error(TRUE, 6, NULL, NULL));
+			if (fill_leaf(l_expr, &node) == ERROR)
+				return (error_clear_node(FALSE, 6, NULL, &node));
 			*tree = node;
 			if (!(move_in_list(l_expr) && (ret = check_c_pipe(nb_hrd, l_expr,
 			&(node->right)))))
-			{
-				clear_node(&node);
-				return (sh_error(TRUE, 26, (*l_expr)->data, "66"));
-			}
+				return (error_clear_node(ret, 26, (*l_expr)->data, &node));
 			return (ret);
 		}
 		return (parser_ret_fct(ret, tree, node_to_give, &node));
 	}
-	clear_node(&node);
-	return (sh_error(ret, 26, (*l_expr)->data, "77"));
+	return (error_clear_node(ret, 26, (*l_expr)->data, &node));
 }
 
 static int			check_logic(int *nb_hrd, t_e_list **l_expr, t_node **tree)  // static ac check expr
@@ -107,21 +77,21 @@ static int			check_logic(int *nb_hrd, t_e_list **l_expr, t_node **tree)  // stat
 	{
 		if ((*l_expr)->type == LOGIC_OR || (*l_expr)->type == LOGIC_AND)
 		{
-			if ((node->data = ft_strdup((*l_expr)->data)) == NULL)
-				return (sh_error(TRUE, 6, NULL, NULL));
+			if (fill_leaf(l_expr, &node) == ERROR)
+				return (error_clear_node(FALSE, 6, NULL, &node));
 			*tree = node;
 			if (!(move_in_list(l_expr)
 			&& (ret = check_logic(nb_hrd, l_expr, &(node->right)))))
 			{
 				clear_node(&node);
-				return (sh_error(TRUE, 26, (*l_expr)->data, "88"));
+				return (sh_error(TRUE, 26, (*l_expr)->data, NULL));
 			}
 			return (ret);
 		}
 		return (parser_ret_fct(ret, tree, node_to_give, &node));
 	}
 	clear_node(&node);
-	return (sh_error(ret, 26, (*l_expr)->data, "99"));
+	return (sh_error(ret, 26, (*l_expr)->data, NULL));
 }
 
 static int			check_expr(int *nb_hrd, t_e_list **l_expr, t_node **tree) // static ac parser
@@ -141,8 +111,8 @@ static int			check_expr(int *nb_hrd, t_e_list **l_expr, t_node **tree) // static
 	{
 		if ((*l_expr)->type == SEMI)
 		{
-			if ((node->data = ft_strdup((*l_expr)->data)) == NULL)
-				return (sh_error(TRUE, 6, NULL, NULL));
+			if (fill_leaf(l_expr, &node) == ERROR)
+				return (error_clear_node(FALSE, 6, NULL, &node));
 			*tree = node;
 			if ((ret = move_in_list(l_expr))
 			&& ((ret = check_expr(nb_hrd, l_expr, &(node->right)) < 0)))
@@ -152,7 +122,7 @@ static int			check_expr(int *nb_hrd, t_e_list **l_expr, t_node **tree) // static
 		return (parser_ret_fct(ret, tree, node_to_give, &node));
 	}
 	clear_node(&node);
-	return (sh_error(ret, 26, (*l_expr)->data, "00"));
+	return (sh_error(ret, 26, (*l_expr)->data, NULL));
 }
 
 int					parser(int *nb_hrd, t_e_list **l_expr, t_node **tree)
@@ -172,7 +142,7 @@ int					parser(int *nb_hrd, t_e_list **l_expr, t_node **tree)
 		t_e_list			*head_l_expr;
 	head_l_expr = *l_expr;
 		t_e_list *tmp = head_l_expr;
-		while(tmp){printf("parser[%s -> %d] --> ", (tmp)->data, (tmp)->type); tmp = (tmp)->next;}
+		while(tmp){printf("parser[%s ->type %d ->nb_hrd %d] --> ", (tmp)->data, (tmp)->type, tmp->hrd_quote); tmp = (tmp)->next;}
 		printf("\n");
 	}
 	// fin ANTIBUG !!!!!!!!!

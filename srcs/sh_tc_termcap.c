@@ -31,8 +31,10 @@ int					init_term(int full_init)
 	struct termios		term;
 	char				*term_env;
 
+	if (ttyname(0) == NULL)
+		return (FALSE);
 	if ((term_env = get_env("TERM")) == NULL)
-		return (sh_error(TRUE, 0, NULL, NULL));
+		return (sh_error(FALSE, 0, NULL, NULL));
 	if (full_init == TRUE)
 	{
 		if (start_init_term() == ERROR)
@@ -54,12 +56,13 @@ int					reset_term(void)
 
 	struct termios		term;
 
+	if (ttyname(0) == NULL)
+		return (FALSE);
 	tputs(tgetstr("ve", NULL), 1, my_outc);
 	tcgetattr(0, &term);
 //	if (tcgetattr(0, &term) == ERROR)
 //		return (sh_error(TRUE, 0, NULL, NULL));
 	term.c_lflag |= (ICANON | ECHO);
 	tcsetattr(0, TCSANOW, &term);// point to uninitialize byte selon valgrind
-
 	return (TRUE);
 }

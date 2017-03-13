@@ -10,13 +10,13 @@ t_lst_fd			*lstfd_new(int fd, char *filename)
 
 	if ((new_fd = (t_lst_fd*)malloc(sizeof(t_lst_fd))) == NULL)
 	{
-		sh_error(TRUE, 6, NULL, NULL);
+		sh_error(FALSE, 6, NULL, NULL);
 		return (NULL);
 	}
 	new_fd->fd = fd;
 	if ((new_fd->filename = ft_strdup(filename)) == NULL)
 	{
-		sh_error(TRUE, 6, NULL, NULL);
+		sh_error(FALSE, 6, NULL, NULL);
 		return (NULL);
 	}
 	new_fd->next = NULL;
@@ -42,7 +42,7 @@ int					lstfd_pushfront(t_lst_fd **lstfd, int fd, char *filename)
 	return (TRUE);
 }
 
-int					del_lstfd(t_lst_fd **lstfd) // la fct close_lstfd est a privilégier elle close le fd avant de le free...
+int					del_lstfd(t_lst_fd **lstfd) // la fct close_lstfd est à privilégier elle close le fd avant de le free...
 {
 	if (DEBUG_RED == 1)
 		ft_putendl_fd("------------ DEL LSTFD -------", 2);
@@ -65,7 +65,7 @@ int					del_lstfd(t_lst_fd **lstfd) // la fct close_lstfd est a privilégier ell
 int					close_lstfd(t_lst_fd **lstfd)
 {
 	if (DEBUG_RED == 1)
-		ft_putendl_fd ("----- CLOSE LSTFD -----", 2);
+		ft_putendl_fd("----- CLOSE LSTFD -----", 2);
 
 	t_lst_fd			*tmp;
 
@@ -83,6 +83,35 @@ int					close_lstfd(t_lst_fd **lstfd)
 			tmp = NULL;
 		}
 		*lstfd = NULL;
+	}
+	return (TRUE);
+}
+
+int					push_in_lstfd(t_node *tree, t_lst_fd **lstfd, int fd,
+					int *fd_save)
+{
+	if (DEBUG_TREE == 1)
+		ft_putendl_fd("------- PUSH IN LSTFD -------", 2);
+
+	char				*filename;
+
+	if (*fd_save == -1)
+	{
+		if (fd >= 0)
+			close(fd);
+		fd = -1;
+	}
+	*fd_save = fd;
+	if (tree && (tree->type == RRED || tree->type == DRRED || tree->type == LRED
+	|| tree->type == RWRED) && tree->right)
+	{
+		filename = (tree->right->type == RED_ARG ?
+				ft_strdup_ignchar(tree->right->data, '\\')
+				: ft_strdup_ignchar(tree->right->right->data, '\\'));
+		lstfd_pushfront(lstfd, fd, filename);
+		ft_strdel(&filename);
+		if (fd == -1)
+			return (FALSE);
 	}
 	return (TRUE);
 }

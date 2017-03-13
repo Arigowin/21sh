@@ -2,112 +2,24 @@
 #include "shell.h"
 #include "libft.h"
 
-// nom de fonction a modifier si necessaire
-int					mini_prt_stline(t_line *stline)
-{
-	ft_putstr("> ");
-	stline->curs_x = 2;
-	stline->curs_y = 0;
-	stline->mini_prt = TRUE;
-	return (TRUE);
-}
-
-/*FICHIER A REPRENDRE -- RECLASSER LES FOCNTIONS PAR UTILITE */
-int 				mini_prt_handler(char **str, int *pos, t_line *stline)
-{
-	if (DEBUG_KEY == 1)
-		ft_putendl_fd("------- MINI PRT HANDLER ------", 2);
-	if ((*str)[0] != '\0')
-		fct_insert(str, pos, '\n', stline);
-	else if (!ft_strcmp(*str, ""))
-		fct_insert(str, pos, '\n', stline);
-	mini_prt_stline(stline);
-	return (CONTINUE);
-}
-
-int					check_end_pipe(char **str, int *pos)
-{
-	if (DEBUG_KEY == 1)
-		ft_putendl_fd("------- CHECK END PIPE ------", 2);
-
-	int					i;
-	int					j;
-
-	i = *pos - 1;
-	while (str && *str && (*str)[i] && i > 1)
-	{
-		if ((*str)[i] != ' ' && (*str)[i] != '\t'
-				&& (*str)[i] != '\n' && (*str)[i] != '|')
-			return (FALSE);
-		if ((*str)[i] == '|' && (*str)[i - 1] == '|')
-		{
-			j = 1;
-			i = ft_strlen(*str);
-			while ((*str)[--i] == '|' && (*str)[i] == (*str)[i - 1])
-				j++;
-			if (j % 2 != 0)
-				return (TRUE);
-			return (FALSE);
-		}
-		if ((*str)[i] == '|' && (*str)[i - 1] != '\\')
-			return (TRUE);
-		i--;
-	}
-	return (FALSE);
-}
-
-int					quote_is_close(char **str)
-{
-	int					i;
-	int					quote;
-	int					back;
-
-	i = 0;
-	quote = 0;
-	back = 0;
-	while (str && *str && (*str)[i])
-	{
-		if (quote != DQUOTE && (*str)[i] == QUOTE)
-		{
-			if ((*str)[i - 1] && ((*str)[i - 1] != '\\' || back % 2 == 0))
-				quote = (quote != 0 ? 0 : QUOTE);
-			if ((*str)[i - 1] == '\0')
-				quote = (quote != 0 ? 0 : QUOTE);
-		}
-		if (quote != QUOTE && (*str)[i] == DQUOTE)
-		{
-			if ((*str)[i - 1] && ((*str)[i - 1] != '\\' || back % 2 == 0))
-				quote = (quote != 0 ? 0 : DQUOTE);
-			if ((*str)[i - 1] == '\0')
-				quote = (quote != 0 ? 0 : DQUOTE);
-		}
-		if ((*str)[i] == '\\')
-			back++;
-		else if (back > 0 && ((*str)[i] != '\\' || ((*str)[i] != QUOTE
-						|| (*str)[i] != DQUOTE)))
-			back = 0;
-		i++;
-	}
-	return (quote);
-}
-
-int					fct_return(char **str, int *pos, t_line *stline, // changer pos en p (norme)
-		t_history **history)
+int					fct_return(char **str, int *pos, t_line *stline,
+					t_history **history)
 {
 	if (DEBUG_KEY == 1)
 		ft_putendl_fd("------- FCT RETURN ------", 2);
 
 	fct_end(str, pos, stline, history);
 	stline->quote = quote_is_close(str);
-	if (stline->quote != 0 || (*pos > 0 && (*str)[*pos - 1]
-				&& (*str)[*pos - 1] == '\\') || stline->hrd.nb > 0
-			|| (*pos > 0 && check_end_pipe(str, pos))) // ajout si 'pipe' a la fin de la ligne
+	if (stline->quote != 0 || ((*pos == 1 && (*str)[*pos - 1]
+	&& (*str)[*pos - 1] == '\\') || (*pos > 1 && (*str)[*pos - 1] &&
+	(*str)[*pos - 2] && (*str)[*pos - 1] == '\\' && (*str)[*pos - 2] != '\\'))
+	|| stline->hrd.nb > 0 || (*pos > 0 && check_end_pipe(str, pos)))
 	{
 		if (stline->hrd.nb > 0 && (check_end_heredoc(stline) == BREAK))
 			return (BREAK);
 		ft_strdel(&(stline->curr_hist));
 		if (*str && (*str)[0] && stline->quote != 0)
-			modif_history(history, *str, FALSE);
+			modif_history(history, *str, stline->mini_prt);
 		return (mini_prt_handler(str, pos, stline));
 	}
 	else
@@ -132,37 +44,22 @@ int					fct_ctrl_d(char **str, int *pos, t_line *stline,
 	t_duo				*env;
 
 	env = savior(NULL, FALSE);
-	if (*str[0] == '\0')
+	if (*str[0] == '\0' && stline->hrd.nb == 0)
 		bi_exit(NULL, &env);
+	else if (stline->hrd.nb != 0 && (*str[0] == '\0'
+	|| (*str)[ft_strlen(*str) - 1] == '\n'))
+	{
+		stline->hrd.ctrl_d = TRUE;
+		ft_putendl("");
+		return (sh_error(BREAK, 31, stline->hrd.deli->data, NULL));
+	}
 	else
 		fct_del(str, pos, stline, history);
 	return (TRUE);
 }
 
-int					handle_quote(int key, char **str, int *pos, t_line *stline)
+static t_key_fct	*tbl_key_fill(void)
 {
-	if (DEBUG == 1)
-		ft_putendl_fd("------- HANDLE QUOTE ------", 2);
-
-	if (*pos > 0 && (*str)[(*pos) - 1] &&  (*str)[(*pos) - 1] == '\\')
-		return (FALSE);
-	if (key == QUOTE || key == DQUOTE)
-	{
-		if (stline->quote == key)
-			stline->quote = 0;
-		else if (stline->quote == 0)
-			stline->quote = key;
-	}
-	return(TRUE);
-}
-
-int					event(int k, t_line *stline, t_history **history)
-{
-	if (DEBUG == 1)
-		ft_putendl_fd("------- EVENT ------", 2);
-
-	int					i;
-	int					ret;
 	static t_key_fct	tbl_keys[18] =
 	{
 		{RETURN, fct_return}, {BACKSPACE, fct_backspace}, {DOWN, history_down},
@@ -173,43 +70,63 @@ int					event(int k, t_line *stline, t_history **history)
 		{HIGHLIGHT, fct_highlight}, {PASTE, fct_paste}, {COPY, fct_copy}
 	};
 
+	return (tbl_keys);
+}
+
+int					insert_key(int key_to_insrt, t_line *stline)
+{
+	if (key_to_insrt != TAB && key_to_insrt > 31 && key_to_insrt < 128)
+	{
+		if (stline->hrd.nb <= 0)
+			handle_quote(key_to_insrt, &(stline->line), &(stline->pos), stline);
+		fct_insert((stline->hrd.nb > 0 ? &(stline->hrd.line) :
+			&(stline->line)), (stline->hrd.nb > 0 ? &(stline->hrd.pos) :
+				&(stline->pos)), key_to_insrt, stline);
+	}
+	return (TRUE);
+}
+
+int					event(int key_to_insrt, t_line *stline, t_history **history)
+{
+	if (DEBUG == 1)
+		ft_putendl_fd("------- EVENT ------", 2);
+
+	int					i;
+	int					ret;
+	t_key_fct			*tbl_keys;
+
+	tbl_keys = tbl_key_fill();
 	i = -1;
 	ret = 0;
 	tputs(tgetstr("vi", NULL), 1, my_outc);
 
-	//	char *res;
-	//	tputs(tgetstr("sc", NULL), 1, my_outc);
-	//	res = tgetstr("cm", NULL);
-	//	tputs(tgoto(res, 3, 0), 1, my_outc);
-	//	tputs(tgetstr("ce", NULL), 1, my_outc);
-	//	ft_putstr("x :");
-	//	ft_putnbr(stline->curs_x);
-	//	ft_putstr(" y :");
-	//	ft_putnbr(stline->curs_y);
-	//	ft_putstr(" pos :");
-	//	ft_putnbr(stline->pos);
-	//	ft_putstr(" mp :");
-	//	ft_putnbr(stline->mini_prt);
-	//	tputs(tgetstr("rc", NULL), 1, my_outc);
+	char *res;
+	tputs(tgetstr("sc", NULL), 1, my_outc);
+	res = tgetstr("cm", NULL);
+	tputs(tgoto(res, 3, 0), 1, my_outc);
+	tputs(tgetstr("ce", NULL), 1, my_outc);
+	ft_putstr("x :");
+	ft_putnbr(stline->curs_x);
+	ft_putstr(" y :");
+	ft_putnbr(stline->curs_y);
+	ft_putstr(" pos :");
+	ft_putnbr(stline->pos);
+	ft_putstr(" mp :");
+	ft_putnbr(stline->mini_prt);
+	tputs(tgetstr("rc", NULL), 1, my_outc);
 
-	while(++i < 18)
+	while (++i < 18)
 	{
-		if (tbl_keys[i].key == k)
+		if (tbl_keys[i].key == key_to_insrt)
 		{
 			ret = (tbl_keys[i].fct((stline->hrd.nb > 0 ? &(stline->hrd.line)
-							: &(stline->line)),	(stline->hrd.nb > 0 ? &(stline->hrd.pos)
-							: &(stline->pos)), stline, history));
+					: &(stline->line)), (stline->hrd.nb > 0 ? &(stline->hrd.pos)
+					: &(stline->pos)), stline, history));
 			tputs(tgetstr("ve", NULL), 1, my_outc);
-			return(ret);
+			return (ret);
 		}
 	}
-	if (k != TAB && k > 31 && k < 128)
-	{
-		if (stline->hrd.nb <= 0)
-			handle_quote(k, &(stline->line), &(stline->pos), stline);
-		fct_insert((stline->hrd.nb > 0 ? &(stline->hrd.line) : &(stline->line)),
-				(stline->hrd.nb > 0 ? &(stline->hrd.pos) : &(stline->pos)), k, stline);
-	}
+	insert_key(key_to_insrt, stline);
 	tputs(tgetstr("ve", NULL), 1, my_outc);
 	return (TRUE);
 }

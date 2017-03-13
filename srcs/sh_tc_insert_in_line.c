@@ -2,7 +2,6 @@
 #include "shell.h"
 #include "libft.h"
 
-
 static int			enlarge_line(char **str, int *pos)
 {
 	if (DEBUG_TERMCAPS == 1)
@@ -14,11 +13,11 @@ static int			enlarge_line(char **str, int *pos)
 	if (!((*pos) % BUFF_SIZE == 0 && (*pos) + 1 > BUFF_SIZE))
 		return (FALSE);
 	if ((tmp = ft_strdup(*str)) == NULL)
-		return (sh_error(TRUE, 6, NULL, NULL));
+		return (sh_error(FALSE, 6, NULL, NULL));
 	i = ft_strlen(*str) + BUFF_SIZE;
 	ft_strdel(str);
 	if ((*str = ft_strnew(i)) == NULL)
-		return (sh_error(TRUE, 6, NULL, NULL));
+		return (sh_error(FALSE, 6, NULL, NULL));
 	i = 0;
 	while (tmp[i])
 	{
@@ -83,7 +82,7 @@ static int			insert_char(char c, char *end_line, char **str, int *pos)
 	ft_putstr(end_line);
 	// restore the last saved cursor position.
 	tputs(tgetstr("rc", NULL), 1, my_outc);
-	return(TRUE);
+	return (TRUE);
 }
 
 static int			muli_line_insert(t_line *stline, char c)
@@ -117,8 +116,7 @@ int					fct_insert(char **str, int *pos, char c, t_line *stline)
 	if ((*str)[*pos] == '\0')
 		(*str)[*pos] = c;
 	else if (!(end_line = ft_strsub(*str, *pos, ft_strlen(*str))))
-		return (sh_error(TRUE, 6, NULL, NULL));
-	/* FREE : stline*/
+		return (sh_error(FALSE, 6, NULL, NULL));
 	screen_up(pos, str, stline);
 	ft_putchar(c);
 	if (end_line != NULL)

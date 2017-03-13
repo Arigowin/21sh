@@ -48,6 +48,7 @@ SRC = ft_memset.c \
 	  ft_isalnum.c \
 	  ft_isascii.c \
 	  ft_isprint.c \
+	  ft_isvisible.c \
 	  ft_toupper.c \
 	  ft_tolower.c \
 \
@@ -81,6 +82,8 @@ SRC = ft_memset.c \
 	  ft_putnbr_color.c \
 	  ft_putchar_color_fd.c \
 	  ft_putstr_color_fd.c \
+	  ft_putstr_print.c \
+	  ft_putstr_print_fd.c \
 \
 	  ft_lstnew.c \
 	  ft_lstdelone.c \

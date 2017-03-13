@@ -39,13 +39,14 @@ static int			delete_in_quote(char **str, int *pos, t_line *stline)
 
 	if (*pos && *pos > 0 && (*str)[*pos - 1] == stline->quote)
 		stline->quote = 0;
-	else if (*pos && *pos > 0 && stline->quote == 0 && ((*str)[*pos - 1] == QUOTE
-	|| (*str)[*pos - 1] == DQUOTE))
+	else if (*pos && *pos > 0 && stline->quote == 0
+	&& ((*str)[*pos - 1] == QUOTE || (*str)[*pos - 1] == DQUOTE))
 		stline->quote = (*str)[*pos - 1];
 	return (TRUE);
 }
 
-int					fct_backspace(char **str, int *pos, t_line *stline, t_history **history)
+int					fct_backspace(char **str, int *pos, t_line *stline,
+					t_history **history)
 {
 	if (DEBUG_TERMCAPS == 1)
 		ft_putendl_fd("------- BACKSPACE ------", 2);

@@ -2,6 +2,19 @@
 #include "shell.h"
 #include "libft.h"
 
+int					left_move_cdt(int pos, t_line *stline)
+{
+
+//	return (pos > 0
+//		&& ((stline->curs_y == 0 && stline->curs_x > 2)
+//			|| stline->curs_y > 0));
+	return (pos > 0
+		&& ((stline->mini_prt == TRUE && stline->curs_y == 0 && stline->curs_x > 2)
+			|| (stline->mini_prt == TRUE && stline->curs_y > 0)
+			|| (stline->mini_prt == FALSE  && stline->curs_y == 0 && stline->curs_x > 2)
+			|| (stline->mini_prt == FALSE && stline->curs_y > 0)));
+}
+
 static int			down_term(int i, t_line *stline)
 {
 	tputs(tgetstr("do", NULL), 1, my_outc);
@@ -27,7 +40,7 @@ int					fct_down(char **str, int *pos, t_line *stline,
 	last_line = (tmp != NULL ? ft_strlen(tmp + 1) : ft_strlen(*str));
 	rel_pos = (tmp != NULL ? *pos - (ft_strlen(*str) - ft_strlen(tmp)) : *pos);
 	nb_line = (last_line + PRT_LEN) / stline->win.ws_col;
-	if (stline->curs_y >= nb_line )
+	if (stline->curs_y >= nb_line)
 		return (TRUE);
 	if (last_line >= (rel_pos + stline->win.ws_col))
 	{

@@ -13,7 +13,7 @@ t_e_list			*expr_new(char *content, int hrd)
 	if ((new = (t_e_list *)malloc(sizeof(t_e_list))) == NULL)
 	{
 		ft_strdel(&content);
-		sh_error(TRUE, 6, NULL, NULL);
+		sh_error(FALSE, 6, NULL, NULL);
 	}
 	new->data = NULL;
 	new->type = NONE;
@@ -23,38 +23,37 @@ t_e_list			*expr_new(char *content, int hrd)
 	{
 		free(new);
 		ft_strdel(&content);
-		sh_error(TRUE, 6, NULL, NULL);
+		sh_error(FALSE, 6, NULL, NULL);
 	}
 	return (new);
 }
 
-int				expr_del(t_e_list **lst)
+int					expr_del(t_e_list **lst)
 {
 	if (DEBUG_LEXER == 1)
 		ft_putendl_fd("------- EXPR DEL ------", 2);
 
-	t_e_list	*trash;
+	t_e_list			*tmp;
 
-	trash = NULL;
+	tmp = NULL;
 	while (lst && *lst)
 	{
-		trash = *lst;
+		tmp = *lst;
 		*lst = (*lst)->next;
-		ft_strdel(&(trash->data));
-		free(trash);
+		ft_strdel(&(tmp->data));
+		free(tmp);
 	}
-	trash = NULL;
+	tmp = NULL;
 	*lst = NULL;
 	return (TRUE);
 }
 
-int 				expr_pushbk(t_e_list **l_expr, char *data_tmp, int hrd)
+int					expr_pushbk(t_e_list **l_expr, char *data_tmp, int hrd)
 {
 	if (DEBUG_LEXER == 1)
 		ft_putendl_fd("------- EXPR PUSHBK ------", 2);
 
 	t_e_list			*tmp;
-
 	if (data_tmp == NULL || *data_tmp == '\0')
 		return (FALSE);
 	if (!(*l_expr))

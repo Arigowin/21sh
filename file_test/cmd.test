@@ -1,4 +1,4 @@
-echo CMD:'	    			   			 a
+echo CMD:['	    			   			 a]
  	    			   			 a
 echo CMD:' '
  
@@ -24,10 +24,10 @@ echo CMD:'bonjour -l'
 bonjour -l
 echo CMD:'/bin/pwd'
 /bin/pwd
-echo CMD:'./test'
-./test
-echo CMD:'./Makefile'
-./Makefile
+echo CMD:'ls ; ./test'
+ls ; ./test
+echo CMD:'ls ; ./Makefile'
+ls ; ./Makefile
 echo CMD:'ls -l /dev/fd/'
 ls -l /dev/fd/
 echo CMD:'; ls'
@@ -40,3 +40,7 @@ echo CMD:'; ; ; ; ; ; ; ;'
 ; ; ; ; ; ; ; ;
 echo CMD:'ls ;;;;;;;;; pwd'
 ls ;;;;;;;;; pwd
+echo CMD:"''''''''''''''''''''"
+''''''''''''''''''''
+echo CMD:'""""""""""""""""""""'
+""""""""""""""""""""

@@ -7,16 +7,21 @@ int					is_builtin(char **cmd)
 	if (DEBUG == 1)
 		ft_putendl_fd("------- IS BUILTIN ------", 2);
 
-	static const char	*bi[] = {"echo","cd", "setenv", "unsetenv", "env", "exit"};
 	int					i;
+	static const char	*bi[] =
+	{
+		"echo", "cd", "setenv", "unsetenv", "env", "exit"
+	};
 
 	i = 0;
 	if (cmd)
-	while (i < 6)
 	{
-		if (ft_strcmp(cmd[0], bi[i]) == 0)
-			return (i);
-		i++;
+		while (i < 6)
+		{
+			if (ft_strcmp(cmd[0], bi[i]) == 0)
+				return (i);
+			i++;
+		}
 	}
 	/* -1 car code special pas une ERROR (cmd != bultin)*/
 	return (-1);
@@ -42,7 +47,6 @@ int					handle_builtin(char **cmd)
 	if (i < 6 && ft_strcmp(cmd[0], bi[i]) == 0)
 	{
 		if ((ret = tbl_bi[i](cmd, &env)) == ERROR)
-			/* MSG ret: ERROR exit: FALSE msg: "command not found: cmd." */
 			return (ERROR);
 		else // pas necessaire ? puisqu ' on return avant
 			return (ret);
@@ -68,7 +72,6 @@ int					check_builtin(int fd, char **cmd, int pipefd_tab[2][2],
 	{
 		if ((ret = handle_builtin(cmd)) == ERROR)
 		{
-			// useless return
 			close_lstfd(lstfd);
 			return (ERROR);
 		}

@@ -6,12 +6,12 @@
 #include "shell.h"
 #include "libft.h"
 
-static int				father(int pipefd_tab[2][2])
+static int			father(int pipefd_tab[2][2])
 {
 	if (DEBUG == 1)
 		ft_putendl_fd("------- FATHER ------", 2);
 
-	int						stat_loc;
+	int					stat_loc;
 
 	stat_loc = 0;
 	check_signal(3);
@@ -32,8 +32,8 @@ static int			son(char **cmd, int pipefd_tab[2][2], t_node *tree,
 	if (DEBUG == 1)
 		ft_putendl_fd("------- SON ------", 2);
 
-	int 				ret;
-	int 				fd;
+	int					ret;
+	int					fd;
 
 	fd = (lstfd && *lstfd && tree->left ? (*lstfd)->fd : -2);
 	ret = TRUE;
@@ -42,7 +42,6 @@ static int			son(char **cmd, int pipefd_tab[2][2], t_node *tree,
 	&& lstfd && *lstfd && !(ret = redirect(tree->left, *lstfd)))
 	{
 		if (ret == ERROR)
-/* RET: error EXIT: false MSG: "i don't know"  ==> si error onne remonte pas jusque là! en fait ca depend si on veut quitter le fork ou le pgm */
 			exit(EXIT_FAILURE);
 		if (ret == FALSE)
 			exit(EXIT_SUCCESS);
@@ -52,7 +51,7 @@ static int			son(char **cmd, int pipefd_tab[2][2], t_node *tree,
 	check_signal(2);
 	if (check_fct(fd, cmd) == -2)
 		exit(EXIT_FAILURE);
-	return (sh_error(TRUE, 24, cmd[0], NULL));
+	return (sh_error(FALSE, 24, cmd[0], NULL));
 }
 
 int					handle_fork(int pipefd_tab[2][2], t_node *tree,
@@ -66,7 +65,7 @@ int					handle_fork(int pipefd_tab[2][2], t_node *tree,
 	fpid = -1;
 	reset_term();
 	if ((fpid = fork()) < 0)
-		sh_error(TRUE, 5, NULL, NULL);
+		sh_error(FALSE, 5, NULL, NULL);
 	if (fpid == 0)
 		son(cmd, pipefd_tab, tree, lstfd);
 	else

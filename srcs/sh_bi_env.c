@@ -10,7 +10,8 @@ static int			print_env(t_duo *env)
 	{
 		ft_putstr(env->name);
 		ft_putchar('=');
-		ft_putendl(env->value);
+		ft_putstr_print(env->value);
+		ft_putchar('\n');
 		env = env->next;
 	}
 	return (TRUE);
@@ -26,7 +27,7 @@ static int			format_env(char *arg, int *nb)
 	while (arg[j] != '=')
 		j++;
 	key = ft_strsub(arg, 0, j);
-	if (valid_env_name(key) != ERROR)
+	if (valid_env_name(key, "env") != FALSE)
 	{
 		j++;
 		value = ft_strsub(arg, j, ft_strlen(arg) - j);
@@ -50,11 +51,11 @@ static int			exec_cmd_env(int i, int len, char **arg)
 	j = 0;
 	cmd = NULL;
 	if ((cmd = (char **)malloc(sizeof(char *) * ((len - i) + 1))) == NULL)
-		return (ERROR);
+		return (sh_error(FALSE, 6, NULL, NULL));
 	while (arg[i])
 	{
 		if ((cmd[j] = ft_strdup(arg[i])) == NULL)
-			return (ERROR);
+			return (sh_error(FALSE, 6, NULL, NULL));
 		j++;
 		i++;
 	}
@@ -79,7 +80,7 @@ static int			modif_env(char **arg, t_duo *env, int len, int i)
 		if (strchr(arg[i], '=') != NULL)
 			format_env(arg[i], &nb);
 		else
-			break;
+			break ;
 		i++;
 	}
 	if (i < len)
@@ -94,6 +95,7 @@ int					bi_env(char **arg, t_duo **env)
 {
 	if (DEBUG_BUILTIN == 1)
 		ft_putendl_fd("------- BI ENV ------", 2);
+
 	int					len;
 	int					i;
 
@@ -103,7 +105,7 @@ int					bi_env(char **arg, t_duo **env)
 		return (FALSE);
 	if (len > 1)
 	{
-		if (modif_env(arg, cpy_duo(*env), len, i) == ERROR)
+		if (modif_env(arg, cpy_duo(*env), len, i) == ERROR) // tjs faux
 			return (ERROR);
 	}
 	else

@@ -52,3 +52,23 @@ echo '[<< EOF]'
 << EOF
 echo '[2<<EOF]'
 2<<EOF
+echo '[ls noexist . >> toto]'
+ls noexist . >> toto
+echo '[ls noexist . 2>>tata]'
+ls noexist . 2>>tata
+echo '[rm toto tata]'
+rm toto tata
+echo '[ls noexist . > toto]'
+ls noexist . > toto
+echo '[ls noexist . 2>tata]'
+ls noexist . 2>tata
+echo '[cat < toto]'
+cat < toto
+echo '[cat 2<tata]'
+cat 2<tata
+echo '[rm toto tata]'
+rm toto tata
+echo '[cat << EOF]'
+cat << EOF
+echo '[cat 2<<EOF]'
+cat 2<<EOF

@@ -19,9 +19,9 @@ static int		join_buff(char **dest, char *src)
 {
 	char			*tmp;
 
-	if (*dest == NULL)
+	if (dest && *dest == NULL)
 	{
-		ft_strdel(dest);
+//		ft_strdel(dest);
 		if (!(*dest = ft_strdup(src)))
 			return (-1);
 	}

@@ -1,25 +1,26 @@
 #ifndef SHELL_H
 # define SHELL_H
 
-#define DEBUG 0
-#define DEBUG_ANTIBUG 0
-#define DEBUG_BUILTIN 0
-#define DEBUG_CMD 0
-#define DEBUG_COPY_PASTE 0
-#define DEBUG_HEREDOC 0
-#define DEBUG_HISTORY 0
-#define DEBUG_KEY 0
-#define DEBUG_LEXER 0
-#define DEBUG_PARSER 0
-#define DEBUG_PIPE 0
-#define DEBUG_RED 0
-#define DEBUG_SAVIOR 0
-#define DEBUG_TERMCAPS 0
-#define DEBUG_TOKEN 0
-#define DEBUG_TREE 0
-#define DEBUG_TREE_CREATION 0
-#define DEBUG_TREE_VERIF 0
-#include <stdio.h>
+# define DEBUG 0
+# define DEBUG_ANTIBUG 0
+# define DEBUG_BUILTIN 0
+# define DEBUG_CMD 0
+# define DEBUG_COPY_PASTE 0
+# define DEBUG_HEREDOC 0
+# define DEBUG_HISTORY 0
+# define DEBUG_FILE_HIST 0
+# define DEBUG_KEY 0
+# define DEBUG_LEXER 0
+# define DEBUG_PARSER 0
+# define DEBUG_PIPE 0
+# define DEBUG_RED 0
+# define DEBUG_SAVIOR 0
+# define DEBUG_TERMCAPS 0
+# define DEBUG_TOKEN 0
+# define DEBUG_TREE 0
+# define DEBUG_TREE_CREATION 0
+# define DEBUG_TREE_VERIF 0
+# include <stdio.h>
 
 # define HISTORY_FILE_NAME "/.21sh_history"
 
@@ -44,30 +45,91 @@
 # define QUOTE 39
 # define DQUOTE 34
 
+//# define LEFT 4479771
+//# define RIGHT 4414235
+//# define UP 4283163
+//# define DOWN 4348699
+//// - LINUX CTRL + [q|w]
+////# define CTRL_UP 28955
+////# define CTRL_DOWN 30491
+//// - MAC
+//# define CTRL_UP 16693
+//# define CTRL_DOWN 16949
+//
+//# define BACKSPACE 127
+//# define TAB 9
+//# define RETURN 10
+//# define CTRL_D 4
+//
+//// - LINUX ALT + [h|v|c|x]
+////# define HIGHLIGHT 26651
+////# define PASTE 30235
+////# define COPY 25371
+////# define CUT 30747
+//// - MAC OPT + [h|v|c|x]
+//# define HIGHLIGHT 39371
+//# define PASTE 10127586
+//# define COPY 42947
+//# define CUT 8948194
+//
+//// - LINUX CTRL + [a|e]
+////# define CTRL_LEFT 1
+////# define CTRL_RIGHT 5
+//// - MAC
+//# define CTRL_LEFT 17461
+//# define CTRL_RIGHT 17205
+//
+//# define DEL 2117294875
+//// - LINUX
+////# define HOME 2117163803
+////# define END 2117360411
+//// - MAC
+//# define HOME 4741915
+//# define END 4610843
+
 # define LEFT 4479771
 # define RIGHT 4414235
 # define UP 4283163
 # define DOWN 4348699
-# define CTRL_UP 28955 // alt + q
-# define CTRL_DOWN 30491 // alt + w
-
 # define BACKSPACE 127
 # define TAB 9
 # define RETURN 10
 # define CTRL_D 4
+# define DEL 2117294875
 
-# define HIGHLIGHT 26651 // ALT + h
-# define PASTE 30235 // ALT + v
-# define COPY 25371 // ALT + c
-# define CUT 30747 // ALT + x
-
+#if defined(__unix__)
+#define LOL 3
+// - LINUX CTRL + [q|w]
+# define CTRL_UP 28955
+# define CTRL_DOWN 30491
+// - LINUX ALT + [h|v|c|x]
+# define HIGHLIGHT 26651
+# define PASTE 30235
+# define COPY 25371
+# define CUT 30747
 // - LINUX CTRL + [a|e]
 # define CTRL_LEFT 1
 # define CTRL_RIGHT 5
-
-# define DEL 2117294875
+// - LINUX
 # define HOME 2117163803
 # define END 2117360411
+#elif defined(__APPLE__)
+#define LOL 4
+// - MAC
+# define CTRL_UP 16693
+# define CTRL_DOWN 16949
+// - MAC OPT + [h|v|c|x]
+# define HIGHLIGHT 39371
+# define PASTE 10127586
+# define COPY 42947
+# define CUT 8948194
+// - MAC
+# define CTRL_LEFT 17461
+# define CTRL_RIGHT 17205
+// - MAC
+# define HOME 4741915
+# define END 4610843
+#endif
 
 # define PRT_LEN 2
 
@@ -117,6 +179,7 @@ typedef struct			s_e_list // -> l_expr
 
 typedef struct			s_node // -> node ou tree //-> savior
 {
+	int					quote;
 	char				*data;
 	t_types				type;
 	struct s_node		*left;
@@ -135,6 +198,7 @@ typedef struct			s_heredoc //in sline
 {
 	int					nb;
 	int 				pos;
+	int					ctrl_d;
 	struct s_node		*deli;
 	char				*line;
 	char 				*ptr;
@@ -179,9 +243,42 @@ typedef struct			s_lst_fd //savior?
 }						t_lst_fd;
 
 /*
+** sh_end_pipe_quote
+*/
+int						check_end_pipe(char **str, int *pos);
+int						check_nb_quote(char c, int back, int *quote, int fill);
+int						quote_is_close(char **str);
+int						handle_quote(int key, char **str, int *pos,
+							t_line *stline);
+
+/*
 ** sh_error
 */
 int						sh_error(int ret, int index, char *err, char *bi);
+
+/*
+** free_return
+*/
+int						str_dbltbl_ret(int ret, char **str, char ***tbl1,
+							char ***tbl2);
+int						telist_ret(int ret, t_e_list **lst1, char **str1,
+							char **str2);
+int						lstfd_node_ret(int ret, t_node **node, t_lst_fd **lstfd,
+							char **str2);
+int						dblstr_duo_ret(int ret, char **str1, char **str2,
+							t_duo **duo1);
+int						dblstr_hist_ret(int ret, char **str1, char **str2,
+							t_history **hist);
+
+/*
+** free_return_error
+*/
+int						error_clear_node(int ret, int index, char *err,
+	   						t_node **to_free);
+int						error_clear_str(int ret, int index, char *err,
+	   						char **to_free);
+int						error_clear_tab(int ret, int index, char *err,
+	   						char ***to_free);
 
 /*
 ** sh_file_history
@@ -209,6 +306,8 @@ int						init_pipefd(int pipefd_tab[2][2]);
 /*
 ** sh_first_steps
 */
+int						miniprt_reset_stline(t_line *stline);
+int 					mini_prt_handler(char **str, int *pos, t_line *stline);
 int						display_prompt(void);
 char					**cpy_env(char **env);
 int						fill_path(char ***env);
@@ -261,7 +360,7 @@ int 					exit_pgm(int exit_code);
 /*
 ** sh_bi_setenv
 */
-int						valid_env_name(char *str);
+int						valid_env_name(char *str, char *bi);
 int						bi_setenv(char **arg, t_duo **env);
 
 /*
@@ -303,6 +402,11 @@ int						token_tilde(char **buff, char **data_tmp, int *bln);
 int						lexer(t_e_list **l_expr);
 
 /*
+** sh_lp_lexer_waka
+*/
+int						waka_lexer(t_e_list **l_expr);
+
+/*
 ** sh_create_tree
 */
 t_node					*create_node(t_types type);
@@ -336,8 +440,7 @@ int						reset_term();
 /*
 ** sh_event
 */
-int						mini_prt_stline(t_line *stline);
-int 					mini_prt_handler(char **str, int *pos, t_line *stline);
+int						quote_is_close(char **str);
 int						event(int key, t_line *stline, t_history **history);
 int						fct_ctrl_d(char **s, int *pos, t_line *stline,
 							t_history **history);
@@ -355,7 +458,6 @@ int						fct_backspace(char **s, int *pos, t_line *stline,
 /*
 ** sh_tc_move_in_line
 */
-int						left_move_cdt(int pos, t_line *stline);
 int						fct_left(char **s, int *pos, t_line *l,	t_history **h);
 int						fct_right(char **s, int *pos, t_line *l,t_history **h);
 int						fct_ctrl_left(char **s, int *pos, t_line *stline,
@@ -366,6 +468,7 @@ int						fct_ctrl_right(char **s, int *pos, t_line *stline,
 /*
 ** sh_tc_move_up_down
 */
+int						left_move_cdt(int pos, t_line *stline);
 int						fct_down(char **s, int *pos, t_line *stline,
 							t_history **hstory);
 int						fct_up(char **s, int *p, t_line *l, t_history **h);
@@ -417,18 +520,24 @@ int						fct_highlight(char **str, int *pos, t_line *stline,
 /*
 ** sh_lp_parser
 */
-int						move_in_list(t_e_list **l_expr);
 int						parse_error(char *data);
 int						parser(int *nb_hrd, t_e_list **l_expr, t_node **tree);
 
 /*
 ** sh_lp_parser_additional_items
 */
-int						check_red(int *nb_hrd, t_e_list **l_expr, t_node **t,
-							int red);
+int						check_red(int *nb_hrd, t_e_list **l_expr, t_node **t);
 int						check_next(int *nb_hrd, t_e_list **l_expr, t_node **t,
 							t_node **r_n);
 
+/*
+** sh_lp_parser_useful_fct
+*/
+int						fill_leaf(t_e_list **l_expr, t_node **node);
+t_types					fill_red_type(char *data, int *nb_hrd);
+int						parser_ret_fct(int ret, t_node **tree, t_node **node,
+							t_node **to_free);
+int						move_in_list(t_e_list **l_expr);
 
 /*
 ** sh_lp_parser_additional_items
@@ -448,10 +557,15 @@ int						del_tree(t_node **tree);
 int						tree_traversal(t_node *tree, t_lst_fd **lstfd, int pipefd[2][2]);
 
 /*
+** fd_open
+*/
+int						fd_open(int	*fd, int reset_save, t_node *tree);
+
+/*
 ** sh_rd_red
 */
-
-int						fd_exist(int fd);
+int						fd_exist(int fd, char *filename);
+int 					heredoc_handler(t_line *l, t_node **t, t_history **h);
 int     				redirect(t_node *tree, t_lst_fd *lstfd);
 
 /*
@@ -461,20 +575,26 @@ int						del_lstfd(t_lst_fd **lstfd);
 t_lst_fd				*lstfd_new(int fd, char *filename);
 int						close_lstfd(t_lst_fd **lstfd);
 int						lstfd_pushfront(t_lst_fd **lstfd, int fd, char *name);
+int 					push_in_lstfd(t_node *tree, t_lst_fd **lstfd, int fd,
+							int *fd_save);
 
 /*
 ** sh_rd_redfd_handler
 */
 int						check_file_name(char **filename, char *str);
 int						reset_std_fd(void);
-
-
-t_lst_fd				*lstfd_insert(t_lst_fd **lstfd, t_lst_fd **tmpfd, int fd, char *filename);
+int						red_fd(int fd, t_node *tree, t_lst_fd **lstfd,
+							t_types type);
+t_lst_fd				*lstfd_insert(t_lst_fd **lstfd, t_lst_fd **tmpfd,
+							int fd, char *filename);
 
 /*
 ** sh_rd_heredoc
 */
-int 					heredoc_handler(t_line *l, t_node **t, t_history **h);
+int						tree_trav_hrd(t_line *stline, t_node **tree,
+							t_history **history);
+int						manage_hrd_document(int bln, t_line *stline,
+							t_node **tree, t_history **history);
 
 /*
 ** sh_heredoc

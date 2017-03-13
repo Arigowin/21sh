@@ -4,18 +4,26 @@
 static char			**tree_to_tbl(t_node *tree, int nb_elem)
 {
 	if (DEBUG_CMD == 1)
-		ft_putendl_fd ("----- TREE TO TBL -----", 2);
+		ft_putendl_fd("----- TREE TO TBL -----", 2);
 
 	int					i;
 	char				**tbl;
 
 	i = 0;
 	if ((tbl = (char **)malloc(sizeof(char *) * (nb_elem + 1))) == NULL)
-		sh_error(TRUE, 6, NULL, NULL);
+		sh_error(FALSE, 6, NULL, NULL);
 	while (tree != NULL)
 	{
-		if ((tbl[i] = ft_strdup(tree->data)) == NULL)
-			sh_error(TRUE, 6, NULL, NULL);
+		if (tree->quote == QUOTE || tree->quote == DQUOTE)
+		{
+			if ((tbl[i] = ft_strdup(tree->data)) == NULL)
+				sh_error(FALSE, 6, NULL, NULL);
+		}
+		else
+		{
+			if ((tbl[i] = ft_strdup_ignchar(tree->data, '\\')) == NULL)
+				sh_error(FALSE, 6, NULL, NULL);
+		}
 		tree = tree->right;
 		i++;
 	}
@@ -26,7 +34,7 @@ static char			**tree_to_tbl(t_node *tree, int nb_elem)
 static char			**format_cmd(t_node *tree) //static ac manage cmd
 {
 	if (DEBUG_CMD == 1)
-		ft_putendl_fd ("----- FORMAT CMD -----", 2);
+		ft_putendl_fd("----- FORMAT CMD -----", 2);
 
 	char				**ret;
 	t_node				*tmp;
@@ -51,7 +59,7 @@ static int			nopipe_cmd(int pipefd_tab[2][2], t_node *tree,
 		t_lst_fd **lstfd, char **cmd)
 {
 	if (DEBUG_CMD == 1)
-		ft_putendl_fd ("----- MANAGE CMD WITHOUT PIPE -----", 2);
+		ft_putendl_fd("----- MANAGE CMD WITHOUT PIPE -----", 2);
 
 	int					ret;
 	int					fd;
@@ -60,16 +68,15 @@ static int			nopipe_cmd(int pipefd_tab[2][2], t_node *tree,
 	fd = (lstfd && *lstfd ? (*lstfd)->fd : -2);
 	if (tree && tree->left && ((*lstfd &&
 	(((ret = redirect(tree->left, *lstfd)) <= 0) || (*lstfd)->fd == -2))
-	|| (tree->left->type == DLRED && redirect(tree->left, NULL) == ERROR)))
+	|| (tree->left->type == DLRED && redirect(tree->left, *lstfd) == ERROR)))
 	{
-		//	sh_error(8, NULL, NULL);// -> pb sur redirection gauche, 2 erreurs s'affichent
 		if (ret == ERROR)
 		{
 			reset_std_fd();
 			close_lstfd(lstfd);
 			del_lstfd(lstfd);
 		}
-		else if (ret == ERROR|| ret == FALSE)
+		else if (ret == ERROR || ret == FALSE)
 			return (ret);
 	}
 	ret = check_builtin(fd, cmd, pipefd_tab, NULL);
@@ -82,7 +89,7 @@ int					manage_cmd(int pipefd_tab[2][2], t_node *tree,
 		t_lst_fd **lstfd)
 {
 	if (DEBUG_CMD == 1)
-		ft_putendl_fd ("----- CMD -----", 2);
+		ft_putendl_fd("----- CMD -----", 2);
 
 	char				**cmd;
 	int					ret;

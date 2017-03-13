@@ -17,7 +17,9 @@ int			duo_del(t_duo **lst)
 	t_duo		*tmp;
 
 	tmp = NULL;
-	while (lst && *lst && (*lst)->next)
+	if (lst  == NULL || *lst == NULL)
+		return (-1);
+	while ((*lst)->next)
 	{
 		tmp = (*lst)->next;
 		ft_strdel(&(*lst)->name);

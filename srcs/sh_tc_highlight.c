@@ -2,21 +2,21 @@
 #include "shell.h"
 #include "libft.h"
 
-static int			init_highlight(char **str, int *pos, t_line *stline)
+static int			init_highlight(char **str, t_line *stline)
 {
 	if (DEBUG_COPY_PASTE == 1)
 		ft_putendl_fd("------- INIT HIGHLIGHT ------", 2);
 
-	(void)pos;
 	if (stline->copy.cpy != NULL)
 	{
-		stline->copy.bkup = ft_strdup(stline->copy.cpy);
+		if ((stline->copy.bkup = ft_strdup(stline->copy.cpy)) == NULL)
+			sh_error(FALSE, 6, NULL, NULL);
 		ft_strdel(&(stline->copy.cpy));
 	}
 	if ((stline->copy.cpy = ft_strnew(ft_strlen(*str))) == NULL)
 	{
 		/* FREE : stline */
-		return (sh_error(TRUE, 6, NULL, NULL));
+		return (sh_error(FALSE, 6, NULL, NULL));
 	}
 	tputs(tgetstr("vi", NULL), 1, my_outc);
 	return (TRUE);
@@ -52,7 +52,8 @@ int					hide_highlight(char **str, int *pos, t_line *stline,
 	int					curs_pos;
 
 	curs_pos = (*pos);
-	tmp = ft_strdup(*str);
+	if ((tmp = ft_strdup(*str)) == NULL)
+		return (sh_error(FALSE, 6, NULL, NULL));
 	fct_end(str, pos, stline, history);
 	while (((*pos)) > 0)
 		fct_backspace(str, pos, stline, history);
@@ -70,7 +71,7 @@ int					hide_highlight(char **str, int *pos, t_line *stline,
 			fct_right(str, pos, stline, history);
 	}
 	tputs(tgetstr("ve", NULL), 1, my_outc);
-	return (TRUE);
+	return (str_dbltbl_ret(TRUE, &tmp, NULL, NULL));
 }
 
 int					fct_highlight(char **str, int *pos, t_line *stline,
@@ -84,7 +85,7 @@ int					fct_highlight(char **str, int *pos, t_line *stline,
 	len = ft_strlen(*str);
 	if (stline->copy.start == -1)
 	{
-		init_highlight(str, pos, stline);
+		init_highlight(str, stline);
 		if ((*pos) == len)
 			fct_left(str, pos, stline, history);
 		highlight(str, pos, stline, history);
@@ -97,7 +98,7 @@ int					fct_highlight(char **str, int *pos, t_line *stline,
 		{
 			if ((stline->copy.cpy = ft_strdup(stline->copy.bkup)) == NULL)
 				/* FREE : stline history */
-				return (sh_error(TRUE, 6, NULL, NULL));
+				return (sh_error(FALSE, 6, NULL, NULL));
 		}
 		stline->copy.start = -1;
 		hide_highlight(str, pos, stline, history);

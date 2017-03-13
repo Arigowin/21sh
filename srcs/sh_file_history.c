@@ -5,6 +5,9 @@
 
 static int			in_quote(char **buff, char *line)
 {
+	if (DEBUG_FILE_HIST == 1)
+		ft_putendl_fd("------- IN QUOTE ------", 2);
+
 	char				*tmp1;
 	char				*tmp2;
 
@@ -15,29 +18,23 @@ static int			in_quote(char **buff, char *line)
 		if ((tmp1 = ft_strjoin(line, "\n")) == NULL)
 			return (ERROR);
 		if ((tmp2 = ft_strjoin(*buff, tmp1)) == NULL)
-		{
-			ft_strdel(&tmp1);
-			return (ERROR);
-		}
-		ft_strdel(&tmp1);
-		ft_strdel(buff);
+			return (dblstr_duo_ret(ERROR, &tmp1, NULL, NULL));
+		dblstr_duo_ret(TRUE, &tmp1, buff, NULL);
 		if ((*buff = ft_strdup(tmp2)) == NULL)
-		{
-			ft_strdel(&tmp2);
-			return (ERROR);
-		}
+			return (dblstr_duo_ret(ERROR, &tmp2, NULL, NULL));
 		ft_strdel(&tmp2);
 	}
-	else if (line)
-	{
-		if ((*buff = ft_strjoin(line, "\n")) == NULL)
-			return (ERROR);
-	}
+	else if (line && (*buff = ft_strjoin(line, "\n")) == NULL)
+		return (ERROR);
 	return (TRUE);
 }
 
-static int			line_manager(char **buff, char *line, int *quote, t_history **history)
+static int			line_manager(char **buff, char *line, int *quote,
+					t_history **history)
 {
+	if (DEBUG_FILE_HIST == 1)
+		ft_putendl_fd("------- LINE MANAGER ------", 2);
+
 	char				*tmp;
 
 	tmp = NULL;
@@ -50,13 +47,12 @@ static int			line_manager(char **buff, char *line, int *quote, t_history **histo
 		if (*buff)
 		{
 			if ((tmp = ft_strjoin(*buff, line)) == NULL)
-				return (sh_error(TRUE, 6, NULL, NULL));
+				return (sh_error(FALSE, 6, NULL, NULL));
 			ft_strdel(buff);
 			if ((*buff = ft_strdup(tmp)) == NULL)
-				return (sh_error(TRUE, 6, NULL, NULL));
-			ft_strdel(&tmp);
+				return (sh_error(FALSE, 6, NULL, NULL));
 			add_history(history, *buff);
-			ft_strdel(buff);
+			dblstr_duo_ret(TRUE, &tmp, buff, NULL);
 		}
 		else
 			add_history(history, line); // pb indirectly loss
@@ -66,6 +62,9 @@ static int			line_manager(char **buff, char *line, int *quote, t_history **histo
 
 static int			get_line_in_file(int fd, t_history **history)
 {
+	if (DEBUG_FILE_HIST == 1)
+		ft_putendl_fd("------- GET LINE IN FILE ------", 2);
+
 	int					quote;
 	char				*buff;
 	char				*line;
@@ -75,34 +74,26 @@ static int			get_line_in_file(int fd, t_history **history)
 	line = NULL;
 	while (fd > -1 && get_next_line(fd, &line) > 0)
 	{
-		if (quote != DQUOTE && ft_strncount(line, QUOTE) % 2 != 0)
-			quote = (quote == QUOTE ? 0 : QUOTE);
-		else if (quote != QUOTE && ft_strncount(line, DQUOTE) % 2 != 0)
-			quote = (quote == DQUOTE ? 0 : DQUOTE);
+		quote = quote_is_close(&line) - quote_is_close(&buff);
 		if (line == NULL || line_manager(&buff, line, &quote, history) == ERROR) // indirectly loss
-		{
-			ft_strdel(&line);
-			ft_strdel(&buff);
-			return (ERROR);
-		}
+			return (dblstr_duo_ret(ERROR, &line, &buff, NULL));
 		ft_strdel(&line);
 	}
 	if (line)
 	{
+		quote = quote_is_close(&line) - quote_is_close(&buff);
 		if (line_manager(&buff, line, &quote, history) == ERROR)
-		{
-			ft_strdel(&line);
-			ft_strdel(&buff);
-			return (ERROR);
-		}
+			return (dblstr_duo_ret(ERROR, &line, &buff, NULL));
 		ft_strdel(&line);
 	}
-	ft_strdel(&buff);
-	return (TRUE);
+	return (dblstr_duo_ret(TRUE, &buff, NULL, NULL));
 }
 
 int					load_history(t_history **history)
 {
+	if (DEBUG_FILE_HIST == 1)
+		ft_putendl_fd("------- LOAD HISTORY ------", 2);
+
 	char				*home;
 	char				*path;
 	int					fd;
@@ -112,14 +103,10 @@ int					load_history(t_history **history)
 	home = get_env("HOME");
 	if (home)
 		path = ft_strjoin(home, HISTORY_FILE_NAME);
-	if (path && (fd = open(path, O_RDONLY | O_CREAT,  S_IRUSR | S_IWUSR)) == ERROR)
-	{
-		ft_strdel(&path);
-		ft_strdel(&home);
-		return (ERROR);
-	}
-	ft_strdel(&path);
-	ft_strdel(&home);
+	if (path && (fd = open(path, O_RDONLY | O_CREAT, S_IRUSR | S_IWUSR))
+	== ERROR)
+		return (dblstr_duo_ret(ERROR, &path, &home, NULL));
+	dblstr_duo_ret(TRUE, &path, &home, NULL);
 	if (get_line_in_file(fd, history) == ERROR)
 		return (ERROR);
 	if (fd > 2)
@@ -129,40 +116,31 @@ int					load_history(t_history **history)
 
 int					save_history(void)
 {
+	if (DEBUG_FILE_HIST == 1)
+		ft_putendl_fd("------- SAVE HISTORY ------", 2);
+
 	char				*home;
 	char				*path;
 	int					fd;
-	t_history			**history;
-	char				end;
+	t_history			*history;
 
 	path = NULL;
-	fd = -1;
-	if ((history = savior_history(NULL, FALSE)) == NULL)
+	if ((history = *(savior_history(NULL, FALSE))) == NULL)
 		return (FALSE);
 	home = get_env("HOME");
-	if (home)
-		path = ft_strjoin(home, HISTORY_FILE_NAME);
-	ft_strdel(&home);
-	if ((fd = open(path,  O_WRONLY | O_TRUNC | O_CREAT,  S_IRUSR | S_IWUSR))
-			== ERROR && path)
+	path = (home != NULL ? ft_strjoin(home, HISTORY_FILE_NAME) : NULL);
+	if ((fd = open(path, O_WRONLY | O_TRUNC | O_CREAT, S_IRUSR | S_IWUSR))
+	== ERROR && path)
+		return (dblstr_hist_ret(ERROR, &path, &home, &history));
+	while (history && history->prev)
+		history = history->prev;
+	while (history && history->line)
 	{
-		ft_strdel(&path);
-		return (ERROR);
+		ft_putendl_fd(history->line, fd);
+		history = history->next;
 	}
-	ft_strdel(&path);
-	while (*history && (*history)->prev)
-		*history = (*history)->prev;
-	while (*history && (*history)->line)
-	{
-		write(fd, (*history)->line, ft_strlen((*history)->line));
-		write(fd, "\n", 1);
-		*history = (*history)->next;
-	}
-	// ft_putchar_fd(3, fd); ???
-	end = 3;
-	write(fd, &end, 1);
+	ft_putchar_fd(3, fd);
 	if (fd > 2)
 		close(fd);
-	del_history(history);
-	return (TRUE);
+	return (dblstr_hist_ret(TRUE, &path, &home, &history));
 }
