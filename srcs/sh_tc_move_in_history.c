@@ -134,21 +134,16 @@ int					history_down(char **str, int *pos, t_line *stline,
 	{
 		*history = (*history)->next;
 		i = -1;
-		//i = 0;
 	}
 	fct_end(str, pos, stline, history);
 	while (left_move_cdt(*pos, stline))
 		fct_backspace(str, pos, stline, history);
 	while (++i >= 0 && ((*history)->line)[i])
 		fct_insert(str, pos, ((*history)->line)[i], stline);
-	//while (i >= 0 && ((*history)->line)[i])
-	//{
-	//	fct_insert(str, pos, ((*history)->line)[i], stline);
-	//	i++;
-	//}
 	if (i == -1 && stline->curr_hist)
 		while ((stline->curr_hist)[++i])
 			fct_insert(str, pos, (stline->curr_hist)[i], stline);
+	reset_pos_x_y(&((*history)->line), pos, stline);
 	savior_history(history, TRUE);
 	return (TRUE);
 }
