@@ -11,13 +11,15 @@ static int			history_up_prev(t_history **history, char *tmp, int *pos,
 
 	if ((*history)->prev && tmp && *pos > 0)
 	{
-		if (stline->curs_y > 0)
-		{
-			len = ft_strlen((*history)->line);
-			tmpchr = ft_strsub(tmp, ft_strlen(tmp) - len, len);
-		}
-		else
-			tmpchr = ft_strrchr(tmp, '\n');
+		len = ft_strlen((*history)->line);
+		tmpchr = (stline->curs_y > 0 ? ft_strsub(tmp, ft_strlen(tmp) - len, len)
+				: ft_strrchr(tmp, '\n'));
+//		if (stline->curs_y > 0)
+//		{
+//			tmpchr = ft_strsub(tmp, ft_strlen(tmp) - len, len);
+//		}
+//		else
+//			tmpchr = ft_strrchr(tmp, '\n');
 		if (tmpchr != NULL && ft_strlen(tmpchr) > 1)
 		{
 			if (stline->curs_y == 0)
@@ -28,10 +30,8 @@ static int			history_up_prev(t_history **history, char *tmp, int *pos,
 				*history = (*history)->prev;
 		}
 		else
-		{
 			if ((ret = ft_strcmp(tmp, (*history)->line)) == 0)
 				*history = (*history)->prev;
-		}
 	}
 	return (TRUE);
 }
@@ -57,32 +57,6 @@ static int			nb_line_total(char *str, t_line *stline)
 	}
 	free_tab(&line);
 	return (nb);
-
-//	char				**line;
-//	int					i;
-//	int					nb_line;
-//	int					len;
-//	int					nb;
-//
-//	nb = ft_strncount(str, '\n');
-//	line = ft_strsplit(str, '\n');
-//	i = 0;
-//	nb_line = 0;
-//	while (line && line[i])
-//	{
-//		nb_line++;
-//		len = ft_strlen(line[i]);
-//		if (len > stline->win.ws_col)
-//		{
-//			nb_line += ((len) / stline->win.ws_col) - 1;
-//			nb++;
-//		}
-//		i++;
-//	}
-//	free_tab(&line);
-//	if (i - 1 < nb)
-//		nb_line += (nb - i) + 1;
-//	return (nb_line - 1);
 }
 
 // nom a revoir
@@ -129,8 +103,6 @@ int					history_up(char **str, int *pos, t_line *stline,
 			: ft_strdup(*str));
 	if ((*history)->next == NULL && *pos > 0 && ft_strcmp(t, (*history)->line))
 	{
-		//tmpchr = ft_strrchr(t, '\n');
-		//if (tmpchr && ft_strlen(tmpchr) > 1)
 		if ((tmpchr = ft_strrchr(t, '\n')) && ft_strlen(tmpchr) > 1)
 			stline->curr_hist = ft_strdup(tmpchr + 1);
 		else if (*str && *pos > 0 && (*str)[*pos - 1] != '\n')
@@ -138,9 +110,7 @@ int					history_up(char **str, int *pos, t_line *stline,
 	}
 	history_up_prev(history, t, pos, stline);
 	while (left_move_cdt(*pos, stline))
-	{
 		fct_backspace(str, pos, stline, history);
-	}
 	i = -1;
 	while (((*history)->line)[++i])
 		fct_insert(str, pos, ((*history)->line)[i], stline);
