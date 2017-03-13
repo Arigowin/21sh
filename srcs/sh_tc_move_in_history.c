@@ -9,7 +9,6 @@ static int			history_up_prev(t_history **history, char *tmp, int *pos,
 	int					ret;
 	int					len;
 
-	if ((*history)->prev)
 	if ((*history)->prev && tmp && *pos > 0)
 	{
 		if (stline->curs_y > 0)
