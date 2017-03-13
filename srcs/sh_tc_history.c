@@ -70,7 +70,7 @@ void				del_history(t_history **history)
 	history = NULL;
 }
 
-static int			remove_backslach_eol(char **line)
+static int			remove_backslash_eol(char **line)
 {
 	char				*tmp;
 
@@ -90,7 +90,7 @@ void				modif_history(t_history **history, char *line, int mini_prt)
 
 	if (line == NULL)
 		return ;
-	remove_backslach_eol(&line);
+	remove_backslash_eol(&line);
 	if (*history == NULL
 	|| ((mini_prt == FALSE && ft_strcmp((*history)->line, line) != 0))
 	|| (*history)->next != NULL)
