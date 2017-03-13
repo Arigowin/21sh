@@ -13,7 +13,7 @@ static int			history_up_prev(t_history **history, char *tmp, int *pos,
 	{
 		len = ft_strlen((*history)->line);
 		tmpchr = (stline->curs_y > 0 ? ft_strsub(tmp, ft_strlen(tmp) - len, len)
-				: ft_strrchr(tmp, '\n'));
+				: ft_strdup(ft_strrchr(tmp, '\n')));
 //		if (stline->curs_y > 0)
 //		{
 //			tmpchr = ft_strsub(tmp, ft_strlen(tmp) - len, len);
@@ -32,6 +32,7 @@ static int			history_up_prev(t_history **history, char *tmp, int *pos,
 		else
 			if ((ret = ft_strcmp(tmp, (*history)->line)) == 0)
 				*history = (*history)->prev;
+		ft_strdel(&tmpchr);
 	}
 	return (TRUE);
 }
