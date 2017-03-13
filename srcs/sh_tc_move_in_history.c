@@ -122,7 +122,7 @@ int					history_up(char **str, int *pos, t_line *stline,
 	char				*t;
 	char				*tmpchr;
 
-	if ((history = savior_history(NULL, FALSE)) == NULL)
+	if ((history = savior_history(NULL, FALSE)) == NULL || *history == NULL)
 		return (FALSE);
 	fct_end(str, pos, stline, history);
 	t = (*pos > 0 && (*str)[*pos - 1] == '\n' ? ft_strsub(*str, 0, *pos - 1)

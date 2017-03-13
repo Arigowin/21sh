@@ -50,7 +50,7 @@ static int			state_quote(int *hrd, char *read_buff, char **data_tmp)
 	if (DEBUG_TOKEN == 1)
 		ft_putendl_fd("------- STATE QUOTE ------", 2);
 
-	*hrd = (*hrd == 0 ? QUOTE : *hrd);
+	*hrd = (*hrd > 1 ? *hrd : QUOTE);
 	if (*read_buff)
 	{
 		if (*read_buff == QUOTE)
@@ -69,7 +69,7 @@ static int			state_dquote(int *hrd, char **read_buff, char **data_tmp)
 	if (DEBUG_TOKEN == 1)
 		ft_putendl_fd("------- STATE DQUOTE ------", 2);
 
-	*hrd = (*hrd == 0 ? DQUOTE : *hrd);
+	*hrd = (*hrd > 1 ? *hrd : DQUOTE);
 	if (**read_buff == DQUOTE)
 	{
 		if (*(*read_buff + 1) == DQUOTE)
@@ -104,6 +104,7 @@ int					finite_state_automaton(int *hrd, char **read_buff,
 		state = get_state(state, read_buff);
 		if (!(**read_buff))
 			break ;
+		printf("read buff char ((%c)) hrd ((%d))\n", **read_buff, *hrd);
 		if (state == STANDARD)
 			state_standard(int_tbl, read_buff, data_tmp, l_expr);
 		else if (state == IN_QUOTE)
