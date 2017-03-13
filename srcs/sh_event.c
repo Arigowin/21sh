@@ -99,6 +99,25 @@ int					event(int key_to_insrt, t_line *stline, t_history **history)
 	i = -1;
 	ret = 0;
 	tputs(tgetstr("vi", NULL), 1, my_outc);
+
+#include<term.h>
+	char *res;
+		tputs(tgetstr("sc", NULL), 1, my_outc);
+		res = tgetstr("cm", NULL);
+		tputs(tgoto(res, 10, 5), 1, my_outc);
+		tputs(tgetstr("ce", NULL), 1, my_outc);
+		ft_putstr("-----");
+		ft_putstr("x :");
+		ft_putnbr(stline->curs_x);
+		ft_putstr(" y :");
+		ft_putnbr(stline->curs_y);
+		ft_putstr(" pos :");
+		ft_putnbr(stline->pos);
+		ft_putstr("-----");
+		//ft_putstr(" mini prt :");
+		//ft_putnbr(stline->mini_prt);
+		tputs(tgetstr("rc", NULL), 1, my_outc);
+
 	while (++i < 18)
 	{
 		if (tbl_keys[i].key == key_to_insrt)
