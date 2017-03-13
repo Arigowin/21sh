@@ -18,7 +18,7 @@ static int			multi_left(char **str, int *pos, t_line *stline)
 		ft_strlen(&((*str)[*pos - 1])))) == NULL)
 			return (ERROR);
 		nb =
-			(chr = ft_strchr(tmp, '\n')) ? ft_strlen(chr + 1) : ft_strlen(tmp);
+			(chr = ft_strrchr(tmp, '\n')) ? ft_strlen(chr + 1) : ft_strlen(tmp);
 		if (stline->curs_y == 0)
 			nb += PRT_LEN;
 		if (nb > stline->win.ws_col)

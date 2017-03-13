@@ -149,6 +149,7 @@ int					history_down(char **str, int *pos, t_line *stline,
 	if (i == -1 && stline->curr_hist)
 		while ((stline->curr_hist)[++i])
 			fct_insert(str, pos, (stline->curr_hist)[i], stline);
+	reset_pos_x_y(&((*history)->line), pos, stline);
 	savior_history(history, TRUE);
 	return (TRUE);
 }
