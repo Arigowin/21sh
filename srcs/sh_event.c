@@ -2,13 +2,23 @@
 #include "shell.h"
 #include "libft.h"
 
+static int			end_history(char **str, int *pos, t_line *stline,
+					t_history **history)
+{
+	fct_end(str, pos, stline, history);
+	while (history && *history && (*history)->next)
+		*history = (*history)->next;
+	savior_history(history, TRUE);
+	return (TRUE);
+}
+
 int					fct_return(char **str, int *pos, t_line *stline,
 					t_history **history)
 {
 	if (DEBUG_KEY == 1)
 		ft_putendl_fd("------- FCT RETURN ------", 2);
 
-	fct_end(str, pos, stline, history);
+	end_history(str, pos, stline, history);
 	stline->quote = quote_is_close(str);
 	if (stline->quote != 0 || ((*pos == 1 && (*str)[*pos - 1]
 	&& (*str)[*pos - 1] == '\\') || (*pos > 1 && (*str)[*pos - 1] &&
