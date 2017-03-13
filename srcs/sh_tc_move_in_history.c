@@ -7,13 +7,22 @@ static int			history_up_prev(t_history **history, char *tmp, int *pos,
 {
 	char				*tmpchr;
 	int					ret;
+	int					len;
 
 	if ((*history)->prev && tmp && *pos > 0)
 	{
-		tmpchr = ft_strrchr(tmp, '\n');
+		if (stline->curs_y > 0)
+		{
+			len = ft_strlen((*history)->line);
+			tmpchr = ft_strsub(tmp, ft_strlen(tmp) - len, len);
+		}
+		else
+			tmpchr = ft_strrchr(tmp, '\n');
 		if (tmpchr != NULL && ft_strlen(tmpchr) > 1)
 		{
-			(tmpchr)++;
+			if (stline->curs_y == 0)
+				(tmpchr)++;
+			ret = 0;
 			if (stline->mini_prt == FALSE
 			|| (ret = ft_strcmp(tmpchr, (*history)->line)) == 0)
 				*history = (*history)->prev;
@@ -112,7 +121,7 @@ int					history_up(char **str, int *pos, t_line *stline,
 	i = -1;
 	while (((*history)->line)[++i])
 		fct_insert(str, pos, ((*history)->line)[i], stline);
-	reset_pos_x_y(str, pos, stline);
+	reset_pos_x_y(&((*history)->line), pos, stline);
 	savior_history(history, TRUE);
 	return (dblstr_duo_ret(TRUE, &t, NULL, NULL));
 }
