@@ -104,7 +104,6 @@ int					finite_state_automaton(int *hrd, char **read_buff,
 		state = get_state(state, read_buff);
 		if (!(**read_buff))
 			break ;
-		printf("read buff char ((%c)) hrd ((%d))\n", **read_buff, *hrd);
 		if (state == STANDARD)
 			state_standard(int_tbl, read_buff, data_tmp, l_expr);
 		else if (state == IN_QUOTE)
