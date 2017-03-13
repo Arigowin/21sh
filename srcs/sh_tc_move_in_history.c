@@ -60,7 +60,8 @@ static int			nb_line_total(char *str, t_line *stline)
 }
 
 // nom a revoir
-static int			reset_pos_x_y(char **str, int *pos, t_line *stline) //static ac les 2 suivantes
+static int			reset_pos_x_y(char **str, int *pos, t_line *stline, //static ac les 2 suivantes
+					t_history **history)
 {
 	int					nb;
 	int					len;
@@ -83,6 +84,7 @@ static int			reset_pos_x_y(char **str, int *pos, t_line *stline) //static ac les
 		}
 		stline->curs_x = len;
 	}
+	savior_history(history, TRUE);
 	return (TRUE);
 }
 
@@ -109,13 +111,13 @@ int					history_up(char **str, int *pos, t_line *stline,
 			stline->curr_hist = ft_strdup(*str);
 	}
 	history_up_prev(history, t, pos, stline);
-	while (left_move_cdt(*pos, stline))
+	while (*pos > 0	&& ((stline->curs_y == 0 && stline->curs_x > 2)
+	|| stline->curs_y > 0))
 		fct_backspace(str, pos, stline, history);
 	i = -1;
 	while (((*history)->line)[++i])
 		fct_insert(str, pos, ((*history)->line)[i], stline);
-	reset_pos_x_y(&((*history)->line), pos, stline);
-	savior_history(history, TRUE);
+	reset_pos_x_y(&((*history)->line), pos, stline, history);
 	return (dblstr_duo_ret(TRUE, &t, NULL, NULL));
 }
 
@@ -136,14 +138,14 @@ int					history_down(char **str, int *pos, t_line *stline,
 		i = -1;
 	}
 	fct_end(str, pos, stline, history);
-	while (left_move_cdt(*pos, stline))
+	while (*pos > 0	&& ((stline->curs_y == 0 && stline->curs_x > 2)
+	|| stline->curs_y > 0))
 		fct_backspace(str, pos, stline, history);
 	while (++i >= 0 && ((*history)->line)[i])
 		fct_insert(str, pos, ((*history)->line)[i], stline);
 	if (i == -1 && stline->curr_hist)
 		while ((stline->curr_hist)[++i])
 			fct_insert(str, pos, (stline->curr_hist)[i], stline);
-	reset_pos_x_y(&((*history)->line), pos, stline);
-	savior_history(history, TRUE);
+	reset_pos_x_y(&((*history)->line), pos, stline, history);
 	return (TRUE);
 }
