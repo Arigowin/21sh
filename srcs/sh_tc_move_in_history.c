@@ -9,7 +9,6 @@ static int			history_up_prev(t_history **history, char *tmp, int *pos,
 	int					ret;
 	int					len;
 
-	if ((*history)->prev)
 	if ((*history)->prev && tmp && *pos > 0)
 	{
 		if (stline->curs_y > 0)
@@ -123,7 +122,7 @@ int					history_up(char **str, int *pos, t_line *stline,
 	char				*t;
 	char				*tmpchr;
 
-	if ((history = savior_history(NULL, FALSE)) == NULL)
+	if ((history = savior_history(NULL, FALSE)) == NULL || *history == NULL)
 		return (FALSE);
 	fct_end(str, pos, stline, history);
 	t = (*pos > 0 && (*str)[*pos - 1] == '\n' ? ft_strsub(*str, 0, *pos - 1)
@@ -158,7 +157,7 @@ int					history_down(char **str, int *pos, t_line *stline,
 
 	int					i;
 
-	if ((history = savior_history(NULL, FALSE)) == NULL)
+	if ((history = savior_history(NULL, FALSE)) == NULL || *history == NULL)
 		return (FALSE);
 	i = -2;
 	if ((*history)->next)
