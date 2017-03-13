@@ -4,6 +4,7 @@
 
 int					left_move_cdt(int pos, t_line *stline)
 {
+
 	return (pos > 0
 		&& ((stline->curs_y == 0 && stline->curs_x > 2)
 			|| stline->curs_y > 0));
