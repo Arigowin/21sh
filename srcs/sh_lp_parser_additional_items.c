@@ -74,8 +74,7 @@ int					check_red(int *nb_hrd, t_e_list **l_expr, t_node **tree)
 		if (!move_in_list(l_expr) ||
 		check_red(nb_hrd, l_expr, &(node->left)) != TRUE)
 			*tree = save;
-		*tree = node;
-		return (ret);
+		return (parser_ret_fct(ret, tree, &node, &node));
 	}
 	return (error_clear_node(ret, 26, (*l_expr)->data, &node));
 	//return (sh_error(ret, 26, (*l_expr)->data, NULL));
@@ -102,6 +101,7 @@ int					check_arg(int *nb_hrd, t_e_list **l_expr, t_node **tree,
 		}
 		ret = check_next(nb_hrd, l_expr, &save, &(node->right));
 		*right_node = node;
+		clear_node(&node);
 		return (ret);
 	}
 	clear_node(&node);
