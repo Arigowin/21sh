@@ -153,7 +153,7 @@ int					history_down(char **str, int *pos, t_line *stline,
 
 	int					i;
 
-	if ((history = savior_history(NULL, FALSE)) == NULL || *history == NULL || ft_strcmp(stline->curr_hist, stline->line) == 0)
+	if ((history = savior_history(NULL, FALSE)) == NULL || *history == NULL || (stline && stline->line && stline->curr_hist && ft_strcmp(stline->curr_hist, stline->line) == 0))
 		return (FALSE);
 	i = -2;
 	if ((*history)->next)
