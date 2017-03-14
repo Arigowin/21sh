@@ -18,7 +18,7 @@ static int			multi_left(char **str, int *pos, t_line *stline)
 		ft_strlen(&((*str)[*pos - 1])))) == NULL)
 			return (ERROR);
 		nb =
-			(chr = ft_strchr(tmp, '\n')) ? ft_strlen(chr + 1) : ft_strlen(tmp);
+			(chr = ft_strrchr(tmp, '\n')) ? ft_strlen(chr + 1) : ft_strlen(tmp);
 		if (stline->curs_y == 0)
 			nb += PRT_LEN;
 		if (nb > stline->win.ws_col)
@@ -39,7 +39,8 @@ int					fct_left(char **str, int *pos, t_line *stline,
 		ft_putendl_fd("------- MOVE LEFT ------", 2);
 
 	(void)history;
-	if (*str && *pos > 0 && left_move_cdt(*pos, stline))
+	if (*str && *pos > 0 && ((stline->curs_y == 0 && stline->curs_x > 2)
+	|| stline->curs_y > 0))
 	{
 		if (stline->copy.start != -1 && (*pos) > stline->copy.start)
 			del_in_copy(str, pos, stline, LEFT);
@@ -103,11 +104,12 @@ int					fct_ctrl_left(char **str, int *pos, t_line *stline,
 
 	int					x;
 
-	(void)history;
-	if (left_move_cdt(*pos, stline))
+	if (*pos > 0 && ((stline->curs_y == 0 && stline->curs_x > 2)
+	|| stline->curs_y > 0))
 		fct_left(str, pos, stline, history);
 	x = (*pos);
-	while (left_move_cdt(x, stline))
+	while (x > 0 && ((stline->curs_y == 0 && stline->curs_x > 2)
+	|| stline->curs_y > 0))
 	{
 		if (((*str)[x - 1] == ' ' || (*str)[x - 1] == '\n') && (*str)[x] != ' ')
 			break ;

@@ -60,11 +60,18 @@ int					display_prompt(void)
 
 	char				*name;
 	char				*path;
+	char				*shlvl;
 
 	path = get_path();
 	name = get_env("LOGNAME");
 	if (name)
 		ft_putstr_color("\033[34;1m", name);
+	if ((shlvl = get_env("SHLVL")))
+	{
+		ft_putchar_color("\033[31m", '[');
+		ft_putstr_color("\033[31m", shlvl);
+		ft_putchar_color("\033[31m", ']');
+	}
 	if (name && path)
 		ft_putstr(":");
 	if (path)
@@ -74,6 +81,7 @@ int					display_prompt(void)
 	ft_putstr_color("\033[36m", "> ");
 	ft_strdel(&name);
 	ft_strdel(&path);
+	ft_strdel(&shlvl);
 	return (TRUE);
 }
 

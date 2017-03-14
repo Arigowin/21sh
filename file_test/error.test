@@ -2,6 +2,14 @@ echo 'CMD: [cd -]'
 cd -
 echo 'CMD: [ls >&9]'
 ls >&9
+echo 'CMD: [ls <&9]'
+ls >&9
+echo 'CMD: [ls >&noright]'
+ls >&9
+echo 'CMD: [ls <&noright]'
+ls >&9
+echo 'CMD: [ls <&noexist]'
+ls >&9
 echo 'CMD: [unsetenv]'
 unsetenv
 echo 'CMD: [setenv a b c d e f]'
@@ -10,10 +18,14 @@ echo 'CMD: [||]'
 ||
 echo 'CMD: [|]'
 |
+echo 'CMD: [&&]'
+&&
+echo 'CMD: [&]'
+&
 echo 'CMD: [>>> toto]'
 >>> toto
-echo 'CMD: [ls &<toto]'
-ls &<toto
+echo 'CMD: [<<< toto]'
+<<< toto
 echo 'CMD: [cd Makefile]'
 cd Makefile
 echo 'CMD: [cd noexist]'

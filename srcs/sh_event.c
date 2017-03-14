@@ -2,13 +2,23 @@
 #include "shell.h"
 #include "libft.h"
 
+static int			end_history(char **str, int *pos, t_line *stline,
+					t_history **history)
+{
+	fct_end(str, pos, stline, history);
+	while (history && *history && (*history)->next)
+		*history = (*history)->next;
+	savior_history(history, TRUE);
+	return (TRUE);
+}
+
 int					fct_return(char **str, int *pos, t_line *stline,
 					t_history **history)
 {
 	if (DEBUG_KEY == 1)
 		ft_putendl_fd("------- FCT RETURN ------", 2);
 
-	fct_end(str, pos, stline, history);
+	end_history(str, pos, stline, history);
 	stline->quote = quote_is_close(str);
 	if (stline->quote != 0 || ((*pos == 1 && (*str)[*pos - 1]
 	&& (*str)[*pos - 1] == '\\') || (*pos > 1 && (*str)[*pos - 1] &&
@@ -100,20 +110,20 @@ int					event(int key_to_insrt, t_line *stline, t_history **history)
 	ret = 0;
 	tputs(tgetstr("vi", NULL), 1, my_outc);
 
-	char *res;
-	tputs(tgetstr("sc", NULL), 1, my_outc);
-	res = tgetstr("cm", NULL);
-	tputs(tgoto(res, 3, 0), 1, my_outc);
-	tputs(tgetstr("ce", NULL), 1, my_outc);
-	ft_putstr("x :");
-	ft_putnbr(stline->curs_x);
-	ft_putstr(" y :");
-	ft_putnbr(stline->curs_y);
-	ft_putstr(" pos :");
-	ft_putnbr(stline->pos);
-	ft_putstr(" mp :");
-	ft_putnbr(stline->mini_prt);
-	tputs(tgetstr("rc", NULL), 1, my_outc);
+//	char *res;
+//	tputs(tgetstr("sc", NULL), 1, my_outc);
+//	res = tgetstr("cm", NULL);
+//	tputs(tgoto(res, 3, 0), 1, my_outc);
+//	tputs(tgetstr("ce", NULL), 1, my_outc);
+//	ft_putstr("x :");
+//	ft_putnbr(stline->curs_x);
+//	ft_putstr(" y :");
+//	ft_putnbr(stline->curs_y);
+//	ft_putstr(" pos :");
+//	ft_putnbr(stline->pos);
+//	ft_putstr(" mp :");
+//	ft_putnbr(stline->mini_prt);
+//	tputs(tgetstr("rc", NULL), 1, my_outc);
 
 	while (++i < 18)
 	{
