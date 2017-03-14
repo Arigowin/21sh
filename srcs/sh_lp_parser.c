@@ -55,7 +55,6 @@ static int			check_c_pipe(int *nb_hrd, t_e_list **l_expr, t_node **tree)  // sta
 			if (!(move_in_list(l_expr) && (ret = check_c_pipe(nb_hrd, l_expr,
 			&(node->right)))))
 				return (error_clear_node(ret, 26, (*l_expr)->data, &node));
-			clear_node(&node);
 			return (ret);
 		}
 		return (parser_ret_fct(ret, tree, node_to_give, &node));
@@ -87,7 +86,7 @@ static int			check_logic(int *nb_hrd, t_e_list **l_expr, t_node **tree)  // stat
 				clear_node(&node);
 				return (sh_error(TRUE, 26, (*l_expr)->data, NULL));
 			}
-			return (parser_ret_fct(ret, NULL, NULL, &node));
+			return (ret);
 		}
 		return (parser_ret_fct(ret, tree, node_to_give, &node));
 	}
@@ -117,8 +116,8 @@ static int			check_expr(int *nb_hrd, t_e_list **l_expr, t_node **tree) // static
 			*tree = node;
 			if ((ret = move_in_list(l_expr))
 			&& ((ret = check_expr(nb_hrd, l_expr, &(node->right)) < 0)))
-				return (parser_ret_fct(ret, NULL, NULL, &node));
-			return (parser_ret_fct(TRUE, NULL, NULL, &node));
+				return (ret);
+			return (TRUE); // si on return ret ici, on ne peut plus faire 'ls;ls'
 		}
 		return (parser_ret_fct(ret, tree, node_to_give, &node));
 	}
