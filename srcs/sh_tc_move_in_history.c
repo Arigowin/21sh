@@ -25,7 +25,6 @@ static int			history_up_prev(t_history **history, char *tmp, int *pos,
 	int					ret;
 	int					len;
 
-	tmpchr = NULL;
 	if ((*history)->prev && tmp && *pos > 0)
 	{
 		len = ft_strlen((*history)->line);
@@ -36,15 +35,20 @@ static int			history_up_prev(t_history **history, char *tmp, int *pos,
 			if (stline->curs_y == 0)
 				dup_move_one(&tmpchr);
 			ret = 0;
-			if (stline->mini_prt == FALSE
-			|| (ret = ft_strcmp(tmpchr, (*history)->line)) == 0)
+			if (ft_strcmp(tmpchr, (*history)->line) == 0)
 				*history = (*history)->prev;
+			*history = (*history)->prev;
+		//	if (stline->mini_prt == FALSE // code a l'origine
+		//	|| (ret = ft_strcmp(tmpchr, (*history)->line)) == 0)
+		//	{
+		//		*history = (*history)->prev;
+		//	}
 		}
 		else
 			if ((ret = ft_strcmp(tmp, (*history)->line)) == 0)
 				*history = (*history)->prev;
+		ft_strdel(&tmpchr);
 	}
-	ft_strdel(&tmpchr);
 	return (TRUE);
 }
 
@@ -66,7 +70,8 @@ static int			nb_line_total(char *str, t_line *stline)
 		len = ft_strlen(line[i]);
 		if (len > stline->win.ws_col)
 		{
-			nb += ((len) / stline->win.ws_col) - 1;
+			nb += (len) / stline->win.ws_col;
+			nb -= (len % stline->win.ws_col == 0 ? 1 : 0);
 		}
 		i++;
 	}
@@ -109,13 +114,14 @@ static int			reset_pos_x_y(char **str, int *pos, t_line *stline, //static ac les
 int					history_up(char **str, int *pos, t_line *stline,
 					t_history **history)
 {
-	if (DEBUG_HISTORY == 1)
+	if (DEBUG_HISTORY == -1)
 		ft_putendl_fd("---------------- HISTORY UP -----------------------", 2);
 
 	int					i;
 	char				*t;
 	char				*tmpchr;
 
+	//printf("\t\t\t\t\tline ((%s))\n\t\t\t\t\t curr hist ((%s)) \n\t\t\t\t\tnext ((%p))\n", (*history)->line, stline->curr_hist, (*history)->next);
 	if ((history = savior_history(NULL, FALSE)) == NULL || *history == NULL)
 		return (FALSE);
 	fct_end(str, pos, stline, history);
@@ -147,7 +153,7 @@ int					history_down(char **str, int *pos, t_line *stline,
 
 	int					i;
 
-	if ((history = savior_history(NULL, FALSE)) == NULL || *history == NULL)
+	if ((history = savior_history(NULL, FALSE)) == NULL || *history == NULL || ft_strcmp(stline->curr_hist, stline->line) == 0)
 		return (FALSE);
 	i = -2;
 	if ((*history)->next)
@@ -156,6 +162,7 @@ int					history_down(char **str, int *pos, t_line *stline,
 		i = -1;
 	}
 	fct_end(str, pos, stline, history);
+	//printf("curr hist((%s)) line ((%s))\n", stline->curr_hist, stline->line);
 	while (*pos > 0	&& ((stline->curs_y == 0 && stline->curs_x > 2)
 	|| stline->curs_y > 0))
 		fct_backspace(str, pos, stline, history);
