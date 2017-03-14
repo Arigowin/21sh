@@ -9,17 +9,16 @@ static int			history_up_prev(t_history **history, char *tmp, int *pos,
 	int					ret;
 	int					len;
 
+	tmpchr = NULL;
 	if ((*history)->prev && tmp && *pos > 0)
 	{
 		len = ft_strlen((*history)->line);
 		tmpchr = (stline->curs_y > 0 ? ft_strsub(tmp, ft_strlen(tmp) - len, len)
 				: ft_strdup(ft_strrchr(tmp, '\n')));
 //		if (stline->curs_y > 0)
-//		{
-//			tmpchr = ft_strsub(tmp, ft_strlen(tmp) - len, len);
-//		}
+//			tmpchr =  ft_strsub(tmp, ft_strlen(tmp) - len, len);
 //		else
-//			tmpchr = ft_strrchr(tmp, '\n');
+//			tmpchr = ft_strdup(ft_strrchr(tmp, '\n'));
 		if (tmpchr != NULL && ft_strlen(tmpchr) > 1)
 		{
 			if (stline->curs_y == 0)
@@ -32,8 +31,8 @@ static int			history_up_prev(t_history **history, char *tmp, int *pos,
 		else
 			if ((ret = ft_strcmp(tmp, (*history)->line)) == 0)
 				*history = (*history)->prev;
-		ft_strdel(&tmpchr);
 	}
+	ft_strdel(&tmpchr);
 	return (TRUE);
 }
 
