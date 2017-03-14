@@ -104,6 +104,7 @@ void					ft_putchar_color_fd(int fd, char *color, char c);
 void					ft_putstr_color_fd(int fd, char *color, char *s);
 void					ft_putstr_print(const char *s);
 void					ft_putstr_print_fd(const char *s, int fd);
+void					ft_putstr_visible(const char *s);
 
 t_list					*ft_lstnew(char *content);
 void					ft_lstdelone(t_list **alst, void (*del)(void *, int));

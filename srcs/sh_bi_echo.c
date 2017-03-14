@@ -16,7 +16,7 @@ int					bi_echo(char **arg, t_duo **env)
 	{
 		while (arg && arg[i])
 		{
-			ft_putstr_print(arg[i]);
+			ft_putstr_visible(arg[i]);
 			if (arg[i + 1])
 				ft_putchar(' ');
 			i++;
