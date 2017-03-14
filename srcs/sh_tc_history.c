@@ -42,6 +42,7 @@ void				add_history(t_history **history, char *line)
 		*history = new;
 	}
 	savior_history(history, TRUE);
+	del_history(&new); // pour limiter les still reachable
 }
 
 void				del_history(t_history **history)
