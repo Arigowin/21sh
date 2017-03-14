@@ -1,10 +1,26 @@
 #include "shell.h"
 #include "libft.h"
 
+int					dup_move_one(char **str)
+{
+	char				*tmp;
+
+	if ((tmp = ft_strdup(*(str + 1))) == NULL)
+		sh_error(FALSE, 6, NULL, NULL);
+	ft_strdel(str);
+	if ((*str = ft_strdup(tmp)) == NULL)
+		sh_error(FALSE, 6, NULL, NULL);
+	ft_strdel(&tmp);
+	return (TRUE);
+}
+
 // nom a revoir
 static int			history_up_prev(t_history **history, char *tmp, int *pos,
 					t_line *stline) //static av history up
 {
+	if (DEBUG_HISTORY == 1)
+		ft_putendl_fd("---------------- HISTORY UP PREV -----------------------", 2);
+
 	char				*tmpchr;
 	int					ret;
 	int					len;
@@ -15,14 +31,10 @@ static int			history_up_prev(t_history **history, char *tmp, int *pos,
 		len = ft_strlen((*history)->line);
 		tmpchr = (stline->curs_y > 0 ? ft_strsub(tmp, ft_strlen(tmp) - len, len)
 				: ft_strdup(ft_strrchr(tmp, '\n')));
-//		if (stline->curs_y > 0)
-//			tmpchr =  ft_strsub(tmp, ft_strlen(tmp) - len, len);
-//		else
-//			tmpchr = ft_strdup(ft_strrchr(tmp, '\n'));
 		if (tmpchr != NULL && ft_strlen(tmpchr) > 1)
 		{
 			if (stline->curs_y == 0)
-				(tmpchr)++;
+				dup_move_one(&tmpchr);
 			ret = 0;
 			if (stline->mini_prt == FALSE
 			|| (ret = ft_strcmp(tmpchr, (*history)->line)) == 0)
@@ -38,6 +50,9 @@ static int			history_up_prev(t_history **history, char *tmp, int *pos,
 
 static int			nb_line_total(char *str, t_line *stline)
 {
+	if (DEBUG_HISTORY == 1)
+		ft_putendl_fd("---------------- NB LINE TOTAL -----------------------", 2);
+
 	char				**line;
 	int					i;
 	int					len;
@@ -63,6 +78,9 @@ static int			nb_line_total(char *str, t_line *stline)
 static int			reset_pos_x_y(char **str, int *pos, t_line *stline, //static ac les 2 suivantes
 					t_history **history)
 {
+	if (DEBUG_HISTORY == 1)
+		ft_putendl_fd("---------------- RESET POS X Y --------------------", 2);
+
 	int					nb;
 	int					len;
 	int					nb_line;
