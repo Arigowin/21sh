@@ -3,7 +3,6 @@
 
 int					fill_leaf(t_e_list **l_expr, t_node **node)
 {
-
 	(*node)->quote = (*l_expr)->hrd_quote;
 	if ((*l_expr)->data && ((*node)->data = ft_strdup((*l_expr)->data)) == NULL)
 		return (ERROR);

@@ -89,7 +89,6 @@ void				modif_history(t_history **history, char *line, int mini_prt)
 	if (DEBUG_HISTORY == 1)
 		ft_putendl_fd("------- ADD HISTORY ------", 2);
 
-
 	if (line == NULL)
 		return ;
 	remove_backslash_eol(&line);

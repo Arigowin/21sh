@@ -13,13 +13,13 @@ static int			sh_lvl(void)
 	if ((lvl = get_env("SHLVL")) == NULL || ft_strcmp(lvl, "-") == 0)
 	{
 		if ((lvl = ft_strdup("0")) == NULL)
-			return(error_clear_str(FALSE, 6, NULL, &lvl));
+			return (error_clear_str(FALSE, 6, NULL, &lvl));
 	}
 	new_lvl = ft_itoa(ft_atoi(lvl) + 1);
 	if (new_lvl[0] == '-')
 	{
 		if ((new_lvl = ft_strdup("-")) == NULL)
-			return(error_clear_str(FALSE, 6, NULL, &lvl));
+			return (error_clear_str(FALSE, 6, NULL, &lvl));
 	}
 	change_env("SHLVL", new_lvl);
 	ft_strdel(&lvl);

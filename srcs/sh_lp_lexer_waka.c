@@ -69,7 +69,7 @@ static int			red_fd_copy(char **data, t_e_list **l_expr, char (*tmp)[],
 		(*i)++;
 	}
 	if (!(*data = ft_strsub((*l_expr)->data, *i,
-	ft_strlen((*l_expr)->data) - *i))) // ok??
+	ft_strlen((*l_expr)->data) - *i)))
 		return (sh_error(FALSE, 6, NULL, NULL));
 	return (TRUE);
 }
@@ -92,8 +92,8 @@ int					waka_lexer(t_e_list **l_expr)
 	if (red_fd_copy(&data, l_expr, &tmp_fd, &i) == FALSE)
 		return (TRUE);
 	ft_strdel(&((*l_expr)->data));
-	if ((data && ((*l_expr)->data = ft_strdup(data)) == NULL)
-	|| (tmp_fd[0] == '\0' || (tmp_fd[0] != '\0' && (new = expr_new(tmp_fd, 0)) == NULL)))
+	if ((data && ((*l_expr)->data = ft_strdup(data)) == NULL) || (tmp_fd[0] ==
+	'\0' || (tmp_fd[0] != '\0' && (new = expr_new(tmp_fd, 0)) == NULL)))
 	{
 		ft_strdel(&data);
 		return (sh_error(FALSE, 6, NULL, NULL));

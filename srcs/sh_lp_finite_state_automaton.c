@@ -73,7 +73,7 @@ static int			state_dquote(int *hrd, char **read_buff, char **data_tmp)
 	if (**read_buff == DQUOTE)
 	{
 		if (*(*read_buff + 1) == DQUOTE)
-			add_in_tbl(data_tmp, 26); // 26 -> char non imprimable
+			add_in_tbl(data_tmp, 26);
 		return (FALSE);
 	}
 	if (**read_buff == '\\')

@@ -57,7 +57,7 @@ static int			type_analyzer(t_e_list **l_expr, int boule)
 		t = *l_expr;
 		hrd = t->next->hrd_quote;
 		if (((ft_strchr(t->next->data, '<') || ft_strchr(t->next->data, '>')))
-		&& t->next->hrd_quote == 0) // a priori usless mais a tester
+		&& t->next->hrd_quote == 0)
 		{
 			if (waka_lexer(&(t->next)) == -4)
 				return (-4);
@@ -107,7 +107,7 @@ int					lexer(t_e_list **l_expr)
 		t->type = CMD;
 		boule = 1;
 	}
-	// DEBUG transfomer par
+	// DEBUG transfomer par ====>>> A VOIR UNE FOIS LE COMMENTAIRE RM
 	// return (type_analyzer(&t, boule));
 	// // pour norme
 	if ((ret = type_analyzer(&t, boule)) != TRUE)

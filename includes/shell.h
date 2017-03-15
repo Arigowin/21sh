@@ -97,39 +97,40 @@
 # define CTRL_D 4
 # define DEL 2117294875
 
-# if defined(__unix__)
-# define LOL 3
+#  if defined(__unix__)
+#  define LOL 3
 // - LINUX CTRL + [q|w]
-# define CTRL_UP 28955
-# define CTRL_DOWN 30491
+#  define CTRL_UP 28955
+#  define CTRL_DOWN 30491
 // - LINUX ALT + [h|v|c|x]
-# define HIGHLIGHT 26651
-# define PASTE 30235
-# define COPY 25371
-# define CUT 30747
+#  define HIGHLIGHT 26651
+#  define PASTE 30235
+#  define COPY 25371
+#  define CUT 30747
 // - LINUX CTRL + [a|e]
-# define CTRL_LEFT 1
-# define CTRL_RIGHT 5
+#  define CTRL_LEFT 1
+#  define CTRL_RIGHT 5
 // - LINUX
-# define HOME 2117163803
-# define END 2117360411
-#elif defined(__APPLE__)
-#define LOL 4
+#  define HOME 2117163803
+#  define END 2117360411
+
+# elif defined(__APPLE__)
+# define LOL 4
 // - MAC
-# define CTRL_UP 16693
-# define CTRL_DOWN 16949
+#  define CTRL_UP 16693
+#  define CTRL_DOWN 16949
 // - MAC OPT + [h|v|c|x]
-# define HIGHLIGHT 39371
-# define PASTE 10127586
-# define COPY 42947
-# define CUT 8948194
+#  define HIGHLIGHT 39371
+#  define PASTE 10127586
+#  define COPY 42947
+#  define CUT 8948194
 // - MAC
-# define CTRL_LEFT 17461
-# define CTRL_RIGHT 17205
+#  define CTRL_LEFT 17461
+#  define CTRL_RIGHT 17205
 // - MAC
-# define HOME 4741915
-# define END 4610843
-#endif
+#  define HOME 4741915
+#  define END 4610843
+# endif
 
 # define PRT_LEN 2
 
@@ -160,7 +161,7 @@ typedef enum			e_types
 	LOGIC_AND,
 	LOGIC_OR,
 	AMP
-} 						t_types;
+}						t_types;
 
 typedef enum			e_states
 {
@@ -169,7 +170,7 @@ typedef enum			e_states
 	IN_DQUOTE
 }						t_states;
 
-typedef struct			s_e_list // -> l_expr
+typedef struct			s_e_list
 {
 	char				*data;
 	t_types				type;
@@ -177,7 +178,7 @@ typedef struct			s_e_list // -> l_expr
 	struct s_e_list		*next;
 }						t_e_list;
 
-typedef struct			s_node // -> node ou tree //-> savior
+typedef struct			s_node
 {
 	int					quote;
 	char				*data;
@@ -186,7 +187,7 @@ typedef struct			s_node // -> node ou tree //-> savior
 	struct s_node		*right;
 }						t_node;
 
-typedef struct			s_copy //in sline
+typedef struct			s_copy
 {
 	char				*cpy;
 	char				*bkup;
@@ -194,22 +195,20 @@ typedef struct			s_copy //in sline
 	int					start;
 }						t_copy;
 
-typedef struct			s_heredoc //in sline
+typedef struct			s_heredoc
 {
 	int					nb;
-	int 				pos;
+	int					pos;
 	int					ctrl_d;
 	struct s_node		*deli;
 	char				*line;
 	char 				*ptr;
 }						t_heredoc;
 
-typedef struct			s_line //-> savior
+typedef struct			s_line
 {
 	int					pos;
-	int					curs_x; //first line start at  = stline->pos + PRT_LEN;
-								// other line start at = 0
-								// quote line start at len of "> "
+	int					curs_x;
 	int					curs_y;
 	int					mini_prt;
 	int					quote;
@@ -221,7 +220,7 @@ typedef struct			s_line //-> savior
 	struct s_heredoc	hrd;
 }						t_line;
 
-typedef struct			s_history // savior
+typedef struct			s_history
 {
 	char				*line;
 	struct s_history	*prev;
@@ -235,7 +234,7 @@ typedef struct			s_key_fct
 							t_history **history);
 }						t_key_fct;
 
-typedef struct			s_lst_fd //savior?
+typedef struct			s_lst_fd
 {
 	int					fd;
 	char				*filename;
@@ -274,11 +273,11 @@ int						dblstr_hist_ret(int ret, char **str1, char **str2,
 ** free_return_error
 */
 int						error_clear_node(int ret, int index, char *err,
-	   						t_node **to_free);
+							t_node **to_free);
 int						error_clear_str(int ret, int index, char *err,
-	   						char **to_free);
+							char **to_free);
 int						error_clear_tab(int ret, int index, char *err,
-	   						char ***to_free);
+							char ***to_free);
 
 /*
 ** sh_file_history
@@ -307,7 +306,7 @@ int						init_pipefd(int pipefd_tab[2][2]);
 ** sh_first_steps
 */
 int						miniprt_reset_stline(t_line *stline);
-int 					mini_prt_handler(char **str, int *pos, t_line *stline);
+int						mini_prt_handler(char **str, int *pos, t_line *stline);
 int						display_prompt(void);
 char					**cpy_env(char **env);
 int						fill_path(char ***env);
@@ -355,7 +354,7 @@ int						bi_env(char **arg, t_duo **env);
 ** sh_bi_exit
 */
 int						bi_exit(char **arg, t_duo **env);
-int 					exit_pgm(int exit_code);
+int						exit_pgm(int exit_code);
 
 /*
 ** sh_bi_setenv
@@ -374,25 +373,26 @@ int						bi_unsetenv(char **arg, t_duo **env);
 */
 int						expr_del(t_e_list **new);
 t_e_list				*expr_new(char *content,int hrd);
-int 					expr_pushbk(t_e_list **l_expr, char *data_tmp, int hrd);
+int						expr_pushbk(t_e_list **l_expr, char *data_tmp, int hrd);
 
 /*
 ** sh_lp_finite_state_automaton
 */
-int 					finite_state_automaton(int *hrd, char **read_buff,
+int						finite_state_automaton(int *hrd, char **read_buff,
 							t_e_list **l_expr, char **data_tmp);
 /*
 ** sh_lp_tokenizer
 */
 int						concat(char **dest, char *s1, char *s2);
-int 					token_sep(int *hrd, char **read_buff, char **data_tmp,
+int						token_sep(int *hrd, char **read_buff, char **data_tmp,
 							t_e_list **l_expr);
 int						tokenizer(int *hrd, char *read_buff, t_e_list **l_expr);
 
 /*
 ** sh_lp_tokenizer_spec
 */
-int						token_backslash(t_states state, char **read_buff, char **data_tmp);
+int						token_backslash(t_states state, char **read_buff,
+							char **data_tmp);
 int						token_dollar(char **read_buff, char **data_tmp);
 int						token_tilde(char **buff, char **data_tmp, int *bln);
 

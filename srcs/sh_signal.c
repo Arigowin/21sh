@@ -62,7 +62,6 @@ int					check_signal(int loc)
 {
 	if (loc == 1)
 	{
-//		signal(SIGWINCH, win_resize);
 		signal(SIGWINCH, SIG_DFL);
 		signal(SIGQUIT, fct_true_void);
 		signal(SIGTSTP, fct_true_void);

@@ -117,7 +117,7 @@ static int			check_expr(int *nb_hrd, t_e_list **l_expr, t_node **tree) // static
 			if ((ret = move_in_list(l_expr))
 			&& ((ret = check_expr(nb_hrd, l_expr, &(node->right)) < 0)))
 				return (ret);
-			return (TRUE); // si on return ret ici, on ne peut plus faire 'ls;ls'
+			return (TRUE);
 		}
 		return (parser_ret_fct(ret, tree, node_to_give, &node));
 	}
