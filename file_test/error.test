@@ -3,13 +3,13 @@ cd -
 echo 'CMD: [ls >&9]'
 ls >&9
 echo 'CMD: [ls <&9]'
-ls >&9
+ls <&9
 echo 'CMD: [ls >&noright]'
-ls >&9
+ls >&noright
 echo 'CMD: [ls <&noright]'
-ls >&9
+ls <&noright
 echo 'CMD: [ls <&noexist]'
-ls >&9
+ls <&noexist
 echo 'CMD: [unsetenv]'
 unsetenv
 echo 'CMD: [setenv a b c d e f]'
