@@ -97,7 +97,7 @@
 # define CTRL_D 4
 # define DEL 2117294875
 
-#  if defined(__unix__)
+# if defined(__unix__)
 #  define LOL 3
 // - LINUX CTRL + [q|w]
 #  define CTRL_UP 28955
@@ -115,7 +115,7 @@
 #  define END 2117360411
 
 # elif defined(__APPLE__)
-# define LOL 4
+#  define LOL 4
 // - MAC
 #  define CTRL_UP 16693
 #  define CTRL_DOWN 16949
@@ -202,7 +202,7 @@ typedef struct			s_heredoc
 	int					ctrl_d;
 	struct s_node		*deli;
 	char				*line;
-	char 				*ptr;
+	char				*ptr;
 }						t_heredoc;
 
 typedef struct			s_line
@@ -372,7 +372,7 @@ int						bi_unsetenv(char **arg, t_duo **env);
 ** sh_t_e_list_handler
 */
 int						expr_del(t_e_list **new);
-t_e_list				*expr_new(char *content,int hrd);
+t_e_list				*expr_new(char *content, int hrd);
 int						expr_pushbk(t_e_list **l_expr, char *data_tmp, int hrd);
 
 /*
@@ -448,7 +448,7 @@ int						fct_ctrl_d(char **s, int *pos, t_line *stline,
 /*
 ** sh_tc_insert_in_line
 */
-int						fct_insert(char **s, int *pos,char c, t_line *stline);
+int						fct_insert(char **s, int *pos, char c, t_line *stline);
 
 /*
 ** sh_tc_delete_in_line

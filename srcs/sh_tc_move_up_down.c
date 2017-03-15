@@ -15,7 +15,7 @@ int					fct_down(char **str, int *pos, t_line *stline,
 					t_history **history)
 {
 	if (DEBUG_TERMCAPS == 1)
-		ft_putendl_fd("------------------ MOVE CTRL DOWN -------------------", 2);
+		ft_putendl_fd("---------------- MOVE CTRL DOWN -------------------", 2);
 
 	int					nb_line;
 	int					last_line;
