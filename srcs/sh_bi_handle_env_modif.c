@@ -8,7 +8,7 @@ static int			add_env(char *name, char *value) //static ac change env
 
 	t_duo				*env;
 
-	env = savior(NULL, FALSE);
+	env = savior_env(NULL, FALSE);
 	if (name == NULL)
 		return (sh_error(TRUE, 26, "setenv", NULL));
 	else
@@ -17,7 +17,7 @@ static int			add_env(char *name, char *value) //static ac change env
 			duo_pushback(&env, name, "");
 		else
 			duo_pushback(&env, name, value);
-		savior(env, TRUE);
+		savior_env(env, TRUE);
 	}
 	return (TRUE);
 }
@@ -29,7 +29,7 @@ int					change_env(char *name, char *value)
 
 	t_duo				*env;
 
-	env = savior(NULL, FALSE);
+	env = savior_env(NULL, FALSE);
 	while (env)
 	{
 		if (ft_strcmp(env->name, name) == 0)
@@ -54,7 +54,7 @@ char				*get_env(char *name)
 	char				*tmp;
 
 	tmp = NULL;
-	env = savior(NULL, FALSE);
+	env = savior_env(NULL, FALSE);
 	while (env)
 	{
 		if (ft_strcmp(name, env->name) == 0)

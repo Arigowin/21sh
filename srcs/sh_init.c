@@ -59,9 +59,9 @@ int					init_env(char **env, t_duo **env_cpy)
 	if (env_cpy == NULL && *env_cpy == NULL)
 		return (sh_error(FALSE, 6, NULL, NULL));
 	del_env(env_cpy, "OLDPWD");
-	savior(*env_cpy, TRUE);
+	savior_env(*env_cpy, TRUE);
 	sh_lvl();
-	savior(*env_cpy, TRUE);
+	savior_env(*env_cpy, TRUE);
 	return (TRUE);
 }
 

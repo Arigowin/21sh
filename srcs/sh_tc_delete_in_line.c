@@ -2,6 +2,29 @@
 #include "shell.h"
 #include "libft.h"
 
+int					fct_ctrl_d(char **str, int *pos, t_line *stline,
+		t_history **history)
+{
+	if (DEBUG_KEY == 1)
+		ft_putendl_fd("------- FCT CTRL D ------", 2);
+
+	t_duo				*env;
+
+	env = savior_env(NULL, FALSE);
+	if (*str[0] == '\0' && stline->hrd.nb == 0)
+		bi_exit(NULL, &env);
+	else if (stline->hrd.nb != 0 && (*str[0] == '\0'
+	|| (*str)[ft_strlen(*str) - 1] == '\n'))
+	{
+		stline->hrd.ctrl_d = TRUE;
+		ft_putendl("");
+		return (sh_error(BREAK, 31, stline->hrd.deli->data, NULL));
+	}
+	else
+		fct_del(str, pos, stline, history);
+	return (TRUE);
+}
+
 static int			delete_char(char **str, int *pos, int i, t_line *stline)
 {
 	if (DEBUG_TERMCAPS == 1)

@@ -47,6 +47,7 @@ void					*ft_memchr(const void *str, int i, int n);
 int						ft_memcmp(const void *str1, const void *str2, int n);
 char					*ft_strdup(const char *str);
 char					*ft_strdup_ignchar(const char *str, char c);
+int						dup_move_one(char **str);
 int						ft_strlen(const char *c);
 char					*ft_strcpy(char *dst, const char *src);
 char					*ft_strncpy(char *dst, const char *src, int n);

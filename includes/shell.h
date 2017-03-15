@@ -288,7 +288,7 @@ int						save_history(void);
 /*
 ** sh_savior
 */
-t_duo					*savior(t_duo *env, int code);
+t_duo					*savior_env(t_duo *env, int code);
 t_line					*savior_stline(t_line *stline, int code);
 char					*savior_tty(char *tty, int code);
 t_node					*savior_tree(t_node *tree, int code);
@@ -442,8 +442,6 @@ int						reset_term();
 */
 int						quote_is_close(char **str);
 int						event(int key, t_line *stline, t_history **history);
-int						fct_ctrl_d(char **s, int *pos, t_line *stline,
-							t_history **history);
 
 /*
 ** sh_tc_insert_in_line
@@ -453,6 +451,8 @@ int						fct_insert(char **s, int *pos, char c, t_line *stline);
 /*
 ** sh_tc_delete_in_line
 */
+int						fct_ctrl_d(char **s, int *pos, t_line *stline,
+							t_history **history);
 int						fct_backspace(char **s, int *pos, t_line *stline,
 							t_history **history);
 /*
