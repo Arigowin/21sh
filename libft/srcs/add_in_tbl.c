@@ -12,7 +12,7 @@
 
 #include "libft.h"
 
-int 			add_in_tbl(char **tbl, char c)
+int				add_in_tbl(char **tbl, char c)
 {
 	int				i;
 

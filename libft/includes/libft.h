@@ -34,7 +34,7 @@ typedef struct			s_list
 
 typedef struct			s_intlst
 {
-	int 				data;
+	int					data;
 	struct s_intlst		*next;
 }						t_intlst;
 
@@ -122,7 +122,7 @@ void					ft_lstpushback(t_list **alst, char *new_c);
 char					*ft_itoa_base(int n, int base);
 t_list					*ft_split_to_lst(const char *s, char c);
 t_duo					*tbl_to_duo(char **tbl, char c);
-int		 				add_in_tbl(char **tbl, char c);
+int						add_in_tbl(char **tbl, char c);
 char					**duo_to_tbl(t_duo *lst, char *sep);
 char					*srch_begining(const char *str, int c);
 char					*srch_value(const char *str, int c);

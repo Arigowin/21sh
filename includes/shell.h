@@ -97,8 +97,8 @@
 # define CTRL_D 4
 # define DEL 2117294875
 
-#if defined(__unix__)
-#define LOL 3
+# if defined(__unix__)
+# define LOL 3
 // - LINUX CTRL + [q|w]
 # define CTRL_UP 28955
 # define CTRL_DOWN 30491
@@ -458,9 +458,10 @@ int						fct_backspace(char **s, int *pos, t_line *stline,
 /*
 ** sh_tc_move_in_line
 */
-int						fct_left(char **s, int *pos, t_line *l,	t_history **h);
-int						fct_right(char **s, int *pos, t_line *l,t_history **h);
-int						fct_ctrl_left(char **s, int *pos, t_line *stline,
+int						fct_left(char **s, int *pos, t_line *l, t_history **h);
+int						fct_right(char **s, int *pos, t_line *line,
+							t _history **history);
+int						fct_ctrl_left(char **s, int *pos, t_line *stline,i
 							t_history **history);
 int						fct_ctrl_right(char **s, int *pos, t_line *stline,
 							t_history **history);
@@ -477,7 +478,7 @@ int						fct_up(char **s, int *p, t_line *l, t_history **h);
 ** sh_tc_spec_key
 */
 int						fct_end(char **s, int *pos, t_line *l, t_history **h);
-int						fct_home(char **s, int *pos, t_line *l,	t_history **h);
+int						fct_home(char **s, int *pos, t_line *l, t_history **h);
 int						fct_del(char **s, int *pos, t_line *l, t_history **h);
 
 /*
@@ -485,13 +486,13 @@ int						fct_del(char **s, int *pos, t_line *l, t_history **h);
 */
 void					del_history(t_history **history);
 void					add_history(t_history **h, char *line);
-void					modif_history(t_history **history, char *line, int mini);
+void					modif_history(t_history **hist, char *line, int mini);
 
 /*
 ** sh_tc_move_in_history
 */
 int						history_down(char **str, int *pos, t_line *stline,
-	   						t_history **history);
+							t_history **history);
 int						history_up(char **s, int *p, t_line *l, t_history **h);
 
 /*
@@ -499,7 +500,7 @@ int						history_up(char **s, int *p, t_line *l, t_history **h);
 */
 int						fct_cut(char **s, int *pos, t_line *l, t_history **h);
 int						fct_paste(char **s, int *pos, t_line *l, t_history **h);
-int						fct_copy(char **s, int *pos, t_line *l,	t_history **h);
+int						fct_copy(char **s, int *pos, t_line *l, t_history **h);
 
 /*
 ** sh_tc_add_del_in_copy
@@ -554,7 +555,8 @@ int						del_tree(t_node **tree);
 /*
 ** sh_tree_traversal
 */
-int						tree_traversal(t_node *tree, t_lst_fd **lstfd, int pipefd[2][2]);
+int						tree_traversal(t_node *tree, t_lst_fd **lstfd,
+							int pipefd[2][2]);
 
 /*
 ** fd_open
@@ -565,8 +567,8 @@ int						fd_open(int	*fd, int reset_save, t_node *tree);
 ** sh_rd_red
 */
 int						fd_exist(int fd, char *filename);
-int 					heredoc_handler(t_line *l, t_node **t, t_history **h);
-int     				redirect(t_node *tree, t_lst_fd *lstfd);
+int						heredoc_handler(t_line *l, t_node **t, t_history **h);
+int						redirect(t_node *tree, t_lst_fd *lstfd);
 
 /*
 ** sh_rd_manage_lstfd
@@ -575,7 +577,7 @@ int						del_lstfd(t_lst_fd **lstfd);
 t_lst_fd				*lstfd_new(int fd, char *filename);
 int						close_lstfd(t_lst_fd **lstfd);
 int						lstfd_pushfront(t_lst_fd **lstfd, int fd, char *name);
-int 					push_in_lstfd(t_node *tree, t_lst_fd **lstfd, int fd,
+int						push_in_lstfd(t_node *tree, t_lst_fd **lstfd, int fd,
 							int *fd_save);
 
 /*
@@ -606,15 +608,16 @@ int						return_heredoc(t_line *stline);
 /*
 ** sh_cmd
 */
-int						manage_cmd(int pipefd_tab[2][2], t_node *tree, t_lst_fd **lstfd);
+int						manage_cmd(int pipefd_tab[2][2], t_node *tree,
+							t_lst_fd **lstfd);
 
 /*
 ** sh_pipe
 */
-int 					pfd_handler(int pipefd_tab[2][2]);
-int		 				pfd_close(int pipefd_tab[2][2]);
+int						pfd_handler(int pipefd_tab[2][2]);
+int						pfd_close(int pipefd_tab[2][2]);
 int						pipe_function(int pipefd_tab[2][2], t_node *tree,
-						t_lst_fd **lstfd);
+							t_lst_fd **lstfd);
 
 #endif
 
