@@ -48,8 +48,7 @@ int					handle_builtin(char **cmd)
 	{
 		if ((ret = tbl_bi[i](cmd, &env)) == ERROR)
 			return (ERROR);
-		else // pas necessaire ? puisqu ' on return avant
-			return (ret);
+		return (ret);
 	}
 	if (cmd)
 		free_tab(&cmd);

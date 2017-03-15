@@ -14,8 +14,9 @@ static t_history	*new_history(char *line)
 		sh_error(FALSE, 6, NULL, NULL);
 	if ((new->line = ft_strdup(line)) == NULL)
 	{
-		free(new);
 		ft_strdel(&line);
+		free(new);
+		new = NULL;
 		sh_error(FALSE, 6, NULL, NULL);
 	}
 	new->prev = NULL;
@@ -40,6 +41,7 @@ void				add_history(t_history **history, char *line)
 		(*history)->next = new;
 		new->prev = *history;
 		*history = new;
+		new = NULL;
 	}
 	savior_history(history, TRUE);
 }

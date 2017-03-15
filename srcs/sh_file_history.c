@@ -55,7 +55,7 @@ static int			line_manager(char **buff, char *line, int *quote,
 			dblstr_duo_ret(TRUE, &tmp, buff, NULL);
 		}
 		else
-			add_history(history, line); // pb indirectly loss
+			add_history(history, line);
 	}
 	return (TRUE);
 }
