@@ -461,7 +461,7 @@ int						fct_backspace(char **s, int *pos, t_line *stline,
 int						fct_left(char **s, int *pos, t_line *l, t_history **h);
 int						fct_right(char **s, int *pos, t_line *line,
 							t_history **history);
-int						fct_ctrl_left(char **s, int *pos, t_line *stline,i
+int						fct_ctrl_left(char **s, int *pos, t_line *stline,
 							t_history **history);
 int						fct_ctrl_right(char **s, int *pos, t_line *stline,
 							t_history **history);
