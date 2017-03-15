@@ -33,15 +33,6 @@ int					check_end_pipe(char **str, int *pos)
 	return (FALSE);
 }
 
-//int					check_nb_quote(char c, int back, int *quote, int to_fill)
-//{
-//	if (c && (*quote == QUOTE || (c != '\\' || back % 2 == 0)))
-//		*quote = (*quote != 0 ? 0 : to_fill);
-//	if (c == '\0')
-//		*quote = (*quote != 0 ? 0 : to_fill);
-//	return (TRUE);
-//}
-
 int					quote_is_close(char **str)
 {
 	int					i;

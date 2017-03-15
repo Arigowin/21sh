@@ -44,9 +44,8 @@ static int			history_up_prev(t_history **history, char *tmp, int *pos,
 		//		*history = (*history)->prev;
 		//	}
 		}
-		else
-			if ((ret = ft_strcmp(tmp, (*history)->line)) == 0)
-				*history = (*history)->prev;
+		else if ((ret = ft_strcmp(tmp, (*history)->line)) == 0)
+			*history = (*history)->prev;
 		ft_strdel(&tmpchr);
 	}
 	return (TRUE);
@@ -79,7 +78,6 @@ static int			nb_line_total(char *str, t_line *stline)
 	return (nb);
 }
 
-// nom a revoir
 static int			reset_pos_x_y(char **str, int *pos, t_line *stline, //static ac les 2 suivantes
 					t_history **history)
 {
@@ -121,7 +119,6 @@ int					history_up(char **str, int *pos, t_line *stline,
 	char				*t;
 	char				*tmpchr;
 
-	//printf("\t\t\t\t\tline ((%s))\n\t\t\t\t\t curr hist ((%s)) \n\t\t\t\t\tnext ((%p))\n", (*history)->line, stline->curr_hist, (*history)->next);
 	if ((history = savior_history(NULL, FALSE)) == NULL || *history == NULL)
 		return (FALSE);
 	fct_end(str, pos, stline, history);
@@ -135,7 +132,7 @@ int					history_up(char **str, int *pos, t_line *stline,
 			stline->curr_hist = ft_strdup(*str);
 	}
 	history_up_prev(history, t, pos, stline);
-	while (*pos > 0	&& ((stline->curs_y == 0 && stline->curs_x > 2)
+	while (*pos > 0 && ((stline->curs_y == 0 && stline->curs_x > 2)
 	|| stline->curs_y > 0))
 		fct_backspace(str, pos, stline, history);
 	i = -1;
@@ -153,7 +150,9 @@ int					history_down(char **str, int *pos, t_line *stline,
 
 	int					i;
 
-	if ((history = savior_history(NULL, FALSE)) == NULL || *history == NULL || (stline && stline->line && stline->curr_hist && ft_strcmp(stline->curr_hist, stline->line) == 0))
+	if ((history = savior_history(NULL, FALSE)) == NULL || *history == NULL
+	|| (stline && stline->line && stline->curr_hist
+	&& ft_strcmp(stline->curr_hist, stline->line) == 0))
 		return (FALSE);
 	i = -2;
 	if ((*history)->next)
@@ -162,8 +161,7 @@ int					history_down(char **str, int *pos, t_line *stline,
 		i = -1;
 	}
 	fct_end(str, pos, stline, history);
-	//printf("curr hist((%s)) line ((%s))\n", stline->curr_hist, stline->line);
-	while (*pos > 0	&& ((stline->curs_y == 0 && stline->curs_x > 2)
+	while (*pos > 0 && ((stline->curs_y == 0 && stline->curs_x > 2)
 	|| stline->curs_y > 0))
 		fct_backspace(str, pos, stline, history);
 	while (++i >= 0 && ((*history)->line)[i])

@@ -43,7 +43,6 @@ static int			tree_trav_cmd(t_node *tree, t_lst_fd **lstfd) //static ac tree trav
 	t_lst_fd			*tmpfd;
 
 	tmpfd = NULL;
-	// a revoir
 	if (tree->left != NULL && (*lstfd))
 	{
 		tree = tree->left;
@@ -95,7 +94,7 @@ int					tree_traversal(t_node *tree, t_lst_fd **lstfd,
 	if (tree->type == PIPE &&
 	(ret == tree_trav_pipe(tree, lstfd, pipefd_tab)) != TRUE)
 		return (ret);
-	if (tree->type == CMD)// || (tree->type >= RRED && tree->type <= DLRED))
+	if (tree->type == CMD)
 	{
 		if ((manage_cmd(pipefd_tab, tree, lstfd)) == ERROR)
 			return (ERROR);

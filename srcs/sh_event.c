@@ -110,6 +110,7 @@ int					event(int key_to_insrt, t_line *stline, t_history **history)
 	ret = 0;
 	tputs(tgetstr("vi", NULL), 1, my_outc);
 
+	//ANTIBUG
 	char *res;
 	tputs(tgetstr("sc", NULL), 1, my_outc);
 	res = tgetstr("cm", NULL);
@@ -124,6 +125,7 @@ int					event(int key_to_insrt, t_line *stline, t_history **history)
 	ft_putstr(" mp :");
 	ft_putnbr(stline->mini_prt);
 	tputs(tgetstr("rc", NULL), 1, my_outc);
+	//fin ANTIBUG
 
 	while (++i < 18)
 	{

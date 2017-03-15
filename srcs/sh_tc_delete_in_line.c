@@ -60,7 +60,7 @@ int					fct_backspace(char **str, int *pos, t_line *stline,
 		return (FALSE);
 	delete_in_quote(str, pos, stline);
 	eol = ft_strsub(*str, (*pos), ft_strlen(*str));
-	if (*pos > 0	&& ((stline->curs_y == 0 && stline->curs_x > 2)
+	if (*pos > 0 && ((stline->curs_y == 0 && stline->curs_x > 2)
 	|| stline->curs_y > 0))
 	{
 		i = 0;

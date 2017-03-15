@@ -18,8 +18,6 @@ static int			start_init_term(void)
 		term_name = "xterm";
 	tgetent(NULL, term_name);
 	ft_strdel(&term_name);
-	//if (tgetent(NULL, term_name) == ERROR) ->quand je fais ca, ca hurle de partout pour les termcap
-	//	return (sh_error(TRUE, 0, NULL, NULL));
 	return (TRUE);
 }
 
@@ -44,7 +42,7 @@ int					init_term(int full_init)
 	term.c_lflag &= ~(ICANON | ECHO);
 	term.c_cc[VMIN] = 1;
 	term.c_cc[VTIME] = 0;
-	tcsetattr(0, TCSANOW, &term);// point to uninitialize byte selon valgrind
+	tcsetattr(0, TCSANOW, &term);
 	ft_strdel(&term_env);
 	return (TRUE);
 }
@@ -60,9 +58,7 @@ int					reset_term(void)
 		return (FALSE);
 	tputs(tgetstr("ve", NULL), 1, my_outc);
 	tcgetattr(0, &term);
-//	if (tcgetattr(0, &term) == ERROR)
-//		return (sh_error(TRUE, 0, NULL, NULL));
 	term.c_lflag |= (ICANON | ECHO);
-	tcsetattr(0, TCSANOW, &term);// point to uninitialize byte selon valgrind
+	tcsetattr(0, TCSANOW, &term);
 	return (TRUE);
 }

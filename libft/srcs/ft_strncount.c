@@ -21,7 +21,6 @@ int					ft_strncount(char *str, char c)
 	i = 0;
 	if (!str)
 		return (-1);
-
 	while (str[i])
 	{
 		if (str[i] == c)
