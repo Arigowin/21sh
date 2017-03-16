@@ -61,7 +61,7 @@ int					init_stline(t_line *stline)
 	char				*s;
 
 	if ((s = ttyname(0)) != NULL && ioctl(0, TIOCGWINSZ, &(stline->win)) == -1)
-			return (sh_error(FALSE, 1, NULL, NULL));
+		return (sh_error(FALSE, 1, NULL, NULL));
 	if ((stline->line = ft_strnew(BUFF_SIZE)) == NULL)
 		return (sh_error(FALSE, 1, NULL, NULL));
 	stline->mini_prt = FALSE;

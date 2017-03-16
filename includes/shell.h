@@ -246,7 +246,7 @@ int						error_clear_dblstr(int ret, int index, char **to_free,
 							char **to_free_bis);
 int						error_clear_tab(int ret, int index, char *err,
 							char ***to_free);
-void	 				exit_clear_stline(int ret, t_line **stline);
+void					exit_clear_stline(int ret, t_line **stline);
 
 /*
 ** sh_file_history
