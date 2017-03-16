@@ -48,3 +48,9 @@ int					error_clear_tab(int ret, int index, char *err,
 		free_tab(to_free);
 	return (sh_error(ret, index, err, NULL));
 }
+
+void 				exit_clear_stline(int ret, t_line **stline)
+{
+	del_stline(stline);
+	exit_pgm(ret);
+}
