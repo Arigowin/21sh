@@ -60,19 +60,30 @@ int					checktty(t_line *stline)
 	if (!isatty(0))
 	{
 		if (checktty_tool(&tmp) == ERROR)
-			exit(EXIT_FAILURE);
+		{
+			del_stline(&stline);
+			exit_pgm(EXIT_FAILURE);
+		}
 		if (tmp)
 		{
 			if ((cmd = ft_strsplit(tmp, '\n')) == NULL)
-				exit(EXIT_FAILURE);
+			{
+				del_stline(&stline);
+				exit_pgm(EXIT_FAILURE);
+			}
 			ft_strdel(&tmp);
 			if (checktty_tool2(stline, cmd) == ERROR)
-				exit(EXIT_FAILURE);
+			{
+				del_stline(&stline);
+				exit_pgm(EXIT_FAILURE);
+			}
 			free_tab(&cmd);
-			exit(EXIT_SUCCESS);
+			del_stline(&stline);
+			exit_pgm(EXIT_SUCCESS);
 		}
 		ft_strdel(&tmp);
-		exit(EXIT_FAILURE);
+		del_stline(&stline);
+		exit_pgm(EXIT_FAILURE);
 	}
 	return (TRUE);
 }
@@ -96,7 +107,6 @@ int					main(void)
 	init_term(TRUE);
 	while (TRUE)
 	{
-//		if (stline.line != NULL && stline.line[0] != '\0')
 		reset_stline(&stline);
 		check_signal(1);
 		display_prompt();
@@ -104,5 +114,4 @@ int					main(void)
 			break ;
 	}
 	reset_term();
-	return (dblstr_duo_ret(0, &(stline.line), &(stline.hrd).line, &env_cpy));
 }

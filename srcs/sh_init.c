@@ -70,10 +70,12 @@ int					init_stline(t_line *stline)
 	if (DEBUG == 1)
 		ft_putendl_fd("------- INIT STLINE ------", 2);
 
-	if (ttyname(0) != NULL && ioctl(0, TIOCGWINSZ, &(stline->win)) == ERROR)
-		return (sh_error(FALSE, 1, NULL, NULL));
+	char				*s;
+
+	if ((s = ttyname(0)) != NULL && ioctl(0, TIOCGWINSZ, &(stline->win)) == -1)
+			return (sh_error(FALSE, 1, NULL, NULL));
 	if ((stline->line = ft_strnew(BUFF_SIZE)) == NULL)
-		return (sh_error(FALSE, 6, NULL, NULL));
+		return (sh_error(FALSE, 1, NULL, NULL));
 	stline->mini_prt = FALSE;
 	stline->quote = 0;
 	stline->pos = 0;

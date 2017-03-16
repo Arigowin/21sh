@@ -2,6 +2,16 @@
 #include "shell.h"
 #include "libft.h"
 
+int					del_stline(t_line **stline)
+{
+	ft_strdel(&((*stline)->line));
+	ft_strdel(&((*stline)->curr_hist));
+	ft_strdel(&((*stline)->copy.cpy));
+	ft_strdel(&((*stline)->copy.bkup));
+	ft_strdel(&((*stline)->hrd.line));
+	return (TRUE);
+}
+
 int					exit_pgm(int exit_code)
 {
 	if (DEBUG_BUILTIN == 1)
@@ -20,8 +30,7 @@ int					exit_pgm(int exit_code)
 	duo_del(&env);
 	reset_term();
 	tree = NULL;
-	ft_strdel(&(stline->hrd.line));
-	ft_strdel(&(stline->line));
+	del_stline(&stline);
 	if (exit_code == EXIT_SUCCESS)
 		ft_putendl("exit");
 	exit(exit_code);
