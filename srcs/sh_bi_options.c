@@ -1,11 +1,8 @@
 #include "shell.h"
 #include "libft.h"
 
-static int			bi_opt(char *arg, char *bi, int *no_more, char *handled_opt) //static ac check opt
+static int			bi_opt(char *arg, char *bi, int *no_more, char *handled_opt)
 {
-	if (DEBUG_BUILTIN == 1)
-		ft_putendl_fd("------- BI OPT ------", 2);
-
 	int					i;
 
 	i = 1;
@@ -31,9 +28,6 @@ static int			bi_opt(char *arg, char *bi, int *no_more, char *handled_opt) //stat
 
 int					check_opt(char **arg, int *i)
 {
-	if (DEBUG_BUILTIN == 1)
-		ft_putendl_fd("------- CHECK OPT ------", 2);
-
 	int					no_more;
 	int					ret;
 	char				**tmp;

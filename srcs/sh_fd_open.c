@@ -5,9 +5,6 @@
 
 static int			saved_fd(int *fd, int *fd_save)
 {
-	if (DEBUG_TREE == 1)
-		ft_putendl_fd("------- SAVED FD -------", 2);
-
 	*fd_save = (*fd == -2 ? 0 : *fd_save);
 	if (*fd_save == -1)
 	{
@@ -23,9 +20,6 @@ static int			saved_fd(int *fd, int *fd_save)
 
 static int			flag(t_node *tree)
 {
-	if (DEBUG_TREE == 1)
-		ft_putendl_fd("------- FLAGS -------", 2);
-
 	t_types				type;
 	int					flags;
 
@@ -40,9 +34,6 @@ static int			flag(t_node *tree)
 
 static int			check_fd(int *fd, char *name, t_node *node, t_node *tree)
 {
-	if (DEBUG_TREE == 1)
-		ft_putendl_fd("------- CHECK FD -------", 2);
-
 	char				*tmp;
 	int					retnum;
 	int					ret;
@@ -68,14 +59,10 @@ static int			check_fd(int *fd, char *name, t_node *node, t_node *tree)
 		open(name, flag(tree), S_IRUSR | S_IWUSR | S_IRGRP | S_IROTH) : ret);
 	}
 	return (ret);
-	//return (str_dbltbl_ret(ret, &tmp, NULL, NULL));
 }
 
 static int			fct_open(int *fd, int *fd_save, t_node *tree)
 {
-	if (DEBUG_TREE == 1)
-		ft_putendl_fd("------- FCT OPEN -------", 2);
-
 	t_node				*node;
 	char				*filename;
 	char				*tmp;
@@ -104,9 +91,6 @@ static int			fct_open(int *fd, int *fd_save, t_node *tree)
 
 int					fd_open(int *fd, int reset_save, t_node *tree)
 {
-	if (DEBUG_TREE == 1)
-		ft_putendl_fd("------- FD OPEN -------", 2);
-
 	static int			fd_save = 0;
 
 	if (tree && (tree->type == RRED || tree->type == DRRED || tree->type == LRED

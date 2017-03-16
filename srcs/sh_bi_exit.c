@@ -4,9 +4,6 @@
 
 int					exit_pgm(int exit_code)
 {
-	if (DEBUG_BUILTIN == 1)
-		ft_putendl_fd("------- EXIT PGM ------", 2);
-
 	t_node				*tree;
 	t_line				*stline;
 	t_duo				*env;
@@ -30,9 +27,6 @@ int					exit_pgm(int exit_code)
 
 int					bi_exit(char **arg, t_duo **env)
 {
-	if (DEBUG_BUILTIN == 1)
-		ft_putendl_fd("------- BI EXIT ------", 2);
-
 	int					i;
 
 	i = 0;
@@ -42,10 +36,7 @@ int					bi_exit(char **arg, t_duo **env)
 	while (arg && arg[1] && arg[1][i])
 	{
 		if (ft_isdigit(arg[1][i]) == 0)
-		{
-			return (sh_error(FALSE, 28, arg[1], NULL)); //peut etre appeler la fct d'erreur sans le return ?
-			exit_pgm(255); // pour moi on exit pas vu qu'il y a eu une erreur dans exit de toute facon, vu qu'on return avan, on exit pas...
-		}
+			return (sh_error(FALSE, 28, arg[1], NULL));
 		i++;
 	}
 	i = (arg && arg[1] ? ft_atoi(arg[1]) : 0);

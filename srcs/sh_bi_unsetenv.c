@@ -4,9 +4,6 @@
 
 static int			del_first(t_duo **env, char *name)
 {
-	if (DEBUG_BUILTIN == 1)
-		ft_putendl_fd("------- DEL FIRST ------", 2);
-
 	t_duo				*cpy;
 	t_duo				*tmp;
 
@@ -27,9 +24,6 @@ static int			del_first(t_duo **env, char *name)
 
 int					del_env(t_duo **env, char *name)
 {
-	if (DEBUG_BUILTIN == 1)
-		ft_putendl_fd("------- DEL ENV ------", 2);
-
 	t_duo				*cpy;
 	t_duo				*tmp;
 
@@ -56,9 +50,6 @@ int					del_env(t_duo **env, char *name)
 
 int					bi_unsetenv(char **arg, t_duo **env)
 {
-	if (DEBUG_BUILTIN == 1)
-		ft_putendl_fd("------- BI UNSETENV ------", 2);
-
 	int					i;
 
 	i = 1;

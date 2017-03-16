@@ -50,9 +50,6 @@ static int			checktty_tool2(t_line *stline, char **cmd)
 
 int					checktty(t_line *stline)
 {
-	if (DEBUG == 1)
-		ft_putendl_fd("--------- CHECKTTY ------", 2);
-
 	char				*tmp;
 	char				**cmd;
 
@@ -79,9 +76,6 @@ int					checktty(t_line *stline)
 
 int					main(void)
 {
-	if (DEBUG == 1)
-		ft_putendl_fd("--------- MAIN ------", 2);
-
 	extern char			**environ;
 	t_duo				*env_cpy;
 	t_line				stline;
@@ -96,7 +90,6 @@ int					main(void)
 	init_term(TRUE);
 	while (TRUE)
 	{
-//		if (stline.line != NULL && stline.line[0] != '\0')
 		reset_stline(&stline);
 		check_signal(1);
 		display_prompt();

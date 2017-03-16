@@ -8,26 +8,17 @@
 
 const char			*tbl_error1(int index)
 {
-	static const char	*err_tbl1[] = {/*0*/"21sh: cannot access termacp database",
-						/*1*/"21sh: ioctl: cannot get window size",
-						/*2*/"21sh: cannot open ",/*3*/ "21sh: cannot open fd",
-						/*4*/"21sh: cannot performe pipe function",
-						/*5*/"21sh: cannot performe fork function",
-						/*6*/"21sh: memory allocation failed",
-						/*7*/"21sh: cannot duplicate fd",
-						/*8*/"21sh: bad file descriptor",
-						/*9*/"21sh: unsetenv: too few arguments",
-						/*10*/"21sh: setenv: too many arguments",
-						/*11*/"21sh: cd: no OLDPWD variable set",
-						/*12*/"21sh: no PATH variable set",
-						/*13*/"21sh: cd: no HOME variable set",
-						/*14*/"21sh: unsetenv", /*15*/"21sh: setenv",
-						/*16 -> 16, 17, 18*/"21sh: cd",/*17->19, 20, 21, 22, 23, 25, 26, 29, 30*/ "21sh",
-						/*18->26*/"21sh: parse error near",
-						/*19->27, 28*/"21sh: exit",
-						/*20->31*/"21sh: warning: here-document was delimited by",
-						/*21->32*/"21sh: cannot performe stat function"
-						};
+	static const char	*err_tbl1[] = {"21sh: cannot access termacp database",
+	"21sh: ioctl: cannot get window size", "21sh: cannot open ",
+	"21sh: cannot open fd", "21sh: cannot performe pipe function",
+	"21sh: cannot performe fork function", "21sh: memory allocation failed",
+	"21sh: cannot duplicate fd", "21sh: bad file descriptor",
+	"21sh: unsetenv: too few arguments", "21sh: setenv: too many arguments",
+	"21sh: cd: no OLDPWD variable set", "21sh: no PATH variable set",
+	"21sh: cd: no HOME variable set", "21sh: unsetenv", "21sh: setenv",
+	"21sh: cd", "21sh", "21sh: parse error near", "21sh: exit",
+	"21sh: warning: here-document was delimited by",
+	"21sh: cannot performe stat function"};
 	int					ret_index;
 
 	ret_index = index;
@@ -43,19 +34,12 @@ const char			*tbl_error1(int index)
 
 const char			*tbl_error2(int index)
 {
-	static const char	*err_tbl2[] = {/*0->14*/": undefined variable",
-						/*1->15*/": not a valid identifier",
-						/*2->16, 23*/": not a directory",
-						/*3->17, 21*/": no such file or directory",
-						/*4->18, 19, 20*/": permission denied", /*5->22*/": invalid option",
-						/*6->24*/": command not found",
-						/*7->26*/": value not set", // : missing name for redirect",
-						/*8->27*/": too many arguments",
-						/*9->28*/": numeric argument required",
-						/*10->29*/": bad file descriptor",
-						/*11->30*/": ambiguous redirect",
-						/*12->33*/": is a directory"
-						};
+	static const char	*err_tbl2[] = {": undefined variable",
+	": not a valid identifier", ": not a directory",
+	": no such file or directory", ": permission denied", ": invalid option",
+	": command not found", ": value not set", ": too many arguments",
+	": numeric argument required", ": bad file descriptor",
+	": ambiguous redirect", ": is a directory"};
 	int					ret_index;
 
 	ret_index = 0;
@@ -99,176 +83,3 @@ int					sh_error(int ret, int index, char *err, char *bi)
 		return (NO_PRINT);
 	return (ret);
 }
-/*
- * CD :
- * 	MESSAGES
- * 	- '21sh: cd: ' + ': not a directory' + 1 char * + return FALSE
- * 	- '21sh: cd: ' + ': no such file or directory' + char * + return FALSE
- * 	- '21sh: cd: ' + ': permission denied' + 1 char * + return FALSE
- * 	- '21sh: cd: no HOME variable set' + return FALSE
- * 	- '21sh: cd: no OLDPWD variable set'
- * 	FREE
- * 	- 1 char * + return TRUE
- * 	- 1 char * + return RET
- * 	- 2 char * + FALSE
- *
- * ENV :
- *	FREE
- * 	- 1 char * + return TRUE
- * 	- 1 char ** + return TRUE
- *
- * OPTION :
- *	MESSAGE
- *	- '21sh: ' + ': ' + ': invalid option' + 2 char * + return ERROR (a vérifier)
- *
- * SETENV :
- * 	MESSAGES
- * 	- '21sh: setenv: ' + ': not a valid identifier' + 1 char * + return FALSE
- * 	- '21sh: setenv: too many arguments' + return FALSE
- *
- * UNSETENV :
- * 	MESSAGES
- * 	- '21sh: unsetenv: too few arguments' + return FALSE
- * 	- '21sh: unsetenv: ' + ': undefined variable' + 1 char * + return TRUE
- *
- * CMD
- * 	MESSAGES
- *	- '21sh: bad file descriptor' + FREE lstfd + close? + FALSE
- *
- * CMD LINE ASSEMBLE
- * 	MESSAGES
- * 	- '21sh: cannnot performe pipe function' + exit FAILURE
- * 	- '21sh: cannnot duplicate fd: ' + int fd + exit FAILURE
- * 	- '21sh: no PATH variable set' + exit FAILURE
- * 	- '21sh: memory allocation failed'
- * 	- '21sh: ' + ': permission denied' + 1 char * + return -2 (important!!!!)
- * 	FREE
- * 	- 2 char ** + return FALSE + message 'command not found' ici?
- *
- * FATHER N SON
- * 	MESSAGES
- * 	- '21sh: ' + ': command not found' + 1 char * + exit FAILURE
- * 	- '21sh: cannot perform fork function' + exit FAILURE
- *
- * FCT READ
- *	MESSAGES
- *	- '21sh: cannot open fd' + exit FAILURE
- * 	- '21sh: cannnot duplicate fd: ' + int fd + exit FAILURE
- *	FREE
- *	- 1 t_e_list + return RET
- *	- 1 t_node (tree//savior) + return RET
- *	- 1 t_lstfd (lstfd//savior) + return RET
- *
- * FILE HISTORY
- * 	MESSAGES
- * 	- '21sh: memory allocation failed' + exit FAILURE
- *	FREE
- * 	- 1 char * + '21sh: memory allocation failed' + exit FAILURE
- * 	- 2 char * + exit FAILURE
- * 	- 1 char * + exit FAILURE
- * 	- 2 char * + '21sh : cannot open ' + 1 char *(path -> on le passe parmis les 2 précédents) + exit FAILURE
- * 	- 1 char * + '21sh : cannot open ' + 1 char *(path -> on le passe parmis les 1 précédents) + exit FAILURE
- * 	- 1 t_history (in savior) + return TRUE
- *
- * FIRST STEPS
- * 	FREE
- * 	- 2 char * + return TRUE
- * 	- 1 char * + return TRUE
- *
- * INIT
- * 	FREE
- * 	- 1 char ** + '21sh: memory allocation failed' + exit FAILURE
- * 	- '21sh: memory allocation failed' + exit FAILURE
- * 	- '21sh: ioctl: cannot get window size' + exit FAILURE
- * 	- 1 char * + '21sh: memory allocation failed' + exit FAILURE
- *
- * LEXER
- * 	FREE
- * 	- 1 l_expr * + '21sh: memory allocation failed' + exit FAILURE
- * 	- 1 char * + '21sh: memory allocation failed' + exit FAILURE
- * 	- 1 char * + return TRUE
- *
- * PARSER    // parse error = EXIT!!!!!!!!
- * 	MESSAGES
- * 	- '21sh: parse error near: ' + 1 char * + exit FAILURE // fct parse error
- *	FREE
- * 	- 1 t_node * + '21sh: memory allocation failed' + exit FAILURE
- * 	- 1 t_node * + return TRUE
- * 	- '21sh: parse error near: ' + 1 char * (msg) + 1 t_node * (free)+ exit FAILURE // fct parse error
- *
- * PARSER ADDITIONAL ITEMS    // parse error = EXIT!!!!!!!!
- * 	MESSAGES
- * 	- '21sh: parse error near: ' + 1 char * + exit FAILURE // fct parse error
- * 	- '21sh: parse error near: ' + 1 char * + ': missing name for redirect' + exit FAILURE // fct parse error
- *	FREE
- * 	- 1 t_node * + '21sh: memory allocation failed' + exit FAILURE
- *
- * TOKENIZER
- * 	FREE
- * 	- '21sh: memory allocation failed' + exit FAILURE
- *
- * TOKENIZER SPEC
- * 	FREE
- * 	- '21sh: memory allocation failed' + exit FAILURE
- * 	- 1 char * + return FALSE (a vérif ce qu'on fait dans get_env, si dup -> exit failure)
- * 	- 1 char * + '21sh: memory allocation failed' + exit FAILURE
- * 	- 2 char * + '21sh: memory allocation failed' + exit FAILURE
- * 	- 2 char * + return TRUE
- *
- * MAIN
- * 	FREE
- * 	- 1 char * + exit SUCCESS
- * 	- 1 char * + exit FAILURE
- * 	- 2 char * + exit SUCCESS ? (return 0 in main)
- *
- * PIPE
- * 	MESSAGES
- * 	- '21sh: memory allocation failed' + exit FAILURE
- *
- * PIPE HANDLER
- * 	MESSAGES
- * 	- '21sh: cannnot duplicate fd: ' + exit FAILURE
- *
- * HEREDOC
- * 	MESSAGES
- * 	- '21sh: memory allocation failed' + exit FAILURE
- *
- * MANAGE LSTFD
- * 	MESSAGES
- * 	- '21sh: memory allocation failed' + exit FAILURE
- *
- * HIGHLIGHT
- * 	MESSAGES
- * 	- '21sh: memory allocation failed' + exit FAILURE
- *
- * HISTORY
- * 	MESSAGES
- * 	- '21sh: memory allocation failed' + exit FAILURE
- *
- * INSERT IN HISTORY
- * 	MESSAGES
- * 	- '21sh: memory allocation failed' + exit FAILURE + free saviors
- *
- * TERMCAP
- * 	MESSAGES
- * 	- '21sh: Could not access the termcap database' + exit FAILURE
- *
- * TELIST HANDLER
- * 	FREE
- * 	- 1 char * + return NULL _> ds fct erreur ?
- *
- * TREE FUNCTION
- * 	MESSAGES
- * 	- '21sh: memory allocation failed' + exit FAILURE
- *
- * TREE TRAVERSAL
- * 	MESSAGES
- * 	- '21sh: memory allocation failed' + exit FAILURE
- * 	- '21sh: ' + ': no such file or directory'+ 1 char * + return FALSE
- * 	- '21sh: ' + ': permission denied'+ 1 char * + return FALSE
- * 	- '21sh: memory allocation failed' + exit FAILURE + free saviors
- *
- *
- * EXIT (A FAIRE)!!!!!!!!
- *
- */

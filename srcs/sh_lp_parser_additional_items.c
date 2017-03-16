@@ -17,9 +17,6 @@ int					manage_hrd_arg(char *red, t_types *ntype, t_e_list **l_expr)
 
 int					check_red_arg(t_e_list **l_expr, t_node **tree, char *red)
 {
-	if (DEBUG_PARSER == 1)
-		ft_putendl_fd("------- CHECK RED_ARG ------", 2);
-
 	t_node				*node;
 	t_node				*save;
 	t_types				ntype;
@@ -45,14 +42,10 @@ int					check_red_arg(t_e_list **l_expr, t_node **tree, char *red)
 		return (parser_ret_fct(ret, tree, &save, NULL));
 	}
 	return (error_clear_node(ret, 26, (*l_expr)->data, &node));
-	//return (sh_error(ret, 26, (*l_expr)->data, NULL));
 }
 
 int					check_red(int *nb_hrd, t_e_list **l_expr, t_node **tree)
 {
-	if (DEBUG_PARSER == 1)
-		ft_putendl_fd("------- CHECK RED ------", 2);
-
 	t_node				*node;
 	t_node				*save;
 	t_e_list			*list_save;
@@ -78,15 +71,11 @@ int					check_red(int *nb_hrd, t_e_list **l_expr, t_node **tree)
 		return (ret);
 	}
 	return (error_clear_node(ret, 26, (*l_expr)->data, &node));
-	//return (sh_error(ret, 26, (*l_expr)->data, NULL));
 }
 
 int					check_arg(int *nb_hrd, t_e_list **l_expr, t_node **tree,
 					t_node **right_node)
 {
-	if (DEBUG_PARSER == 1)
-		ft_putendl_fd("------- CHECK ARG ------", 2);
-
 	t_node				*node;
 	t_node				*save;
 	int					ret;
@@ -111,9 +100,6 @@ int					check_arg(int *nb_hrd, t_e_list **l_expr, t_node **tree,
 int					check_next(int *nb_hrd, t_e_list **l_expr, t_node **tree,
 					t_node **right_node)
 {
-	if (DEBUG_PARSER == 1)
-		ft_putendl_fd("------- CHECK NEXT ------", 2);
-
 	t_node				*save;
 	int					ret;
 

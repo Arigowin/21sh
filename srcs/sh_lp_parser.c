@@ -3,11 +3,8 @@
 #include "shell.h"
 #include "libft.h"
 
-static int			check_command(int *nb_hrd, t_e_list **l_expr, t_node **tree) //static ac check c pipe
+static int			check_command(int *nb_hrd, t_e_list **l_expr, t_node **tree)
 {
-	if (DEBUG_PARSER == 1)
-		ft_putendl_fd("------- CHECK COMMAND -----", 2);
-
 	t_node				*save;
 	t_node				*node;
 	int					ret;
@@ -33,11 +30,8 @@ static int			check_command(int *nb_hrd, t_e_list **l_expr, t_node **tree) //stat
 	return (sh_error(ret, 26, (*l_expr)->data, NULL));
 }
 
-static int			check_c_pipe(int *nb_hrd, t_e_list **l_expr, t_node **tree)  // static ac check expr
+static int			check_c_pipe(int *nb_hrd, t_e_list **l_expr, t_node **tree)
 {
-	if (DEBUG_PARSER == 1)
-		ft_putendl_fd("------- CHECK C PIPE ------", 2);
-
 	t_node				*node;
 	t_node				**node_to_give;
 	int					ret;
@@ -62,11 +56,8 @@ static int			check_c_pipe(int *nb_hrd, t_e_list **l_expr, t_node **tree)  // sta
 	return (error_clear_node(ret, 26, (*l_expr)->data, &node));
 }
 
-static int			check_logic(int *nb_hrd, t_e_list **l_expr, t_node **tree)  // static ac check expr
+static int			check_logic(int *nb_hrd, t_e_list **l_expr, t_node **tree)
 {
-	if (DEBUG_PARSER == 1)
-		ft_putendl_fd("------- CHECK LOGIC ------", 2);
-
 	t_node				*node;
 	t_node				**node_to_give;
 	int					ret;
@@ -94,11 +85,8 @@ static int			check_logic(int *nb_hrd, t_e_list **l_expr, t_node **tree)  // stat
 	return (sh_error(ret, 26, (*l_expr)->data, NULL));
 }
 
-static int			check_expr(int *nb_hrd, t_e_list **l_expr, t_node **tree) // static ac parser
+static int			check_expr(int *nb_hrd, t_e_list **l_expr, t_node **tree)
 {
-	if (DEBUG_PARSER == 1)
-		ft_putendl_fd("------- CHECK EXPR ------", 2);
-
 	t_node				*node;
 	t_node				**node_to_give;
 	int					ret;
@@ -127,25 +115,10 @@ static int			check_expr(int *nb_hrd, t_e_list **l_expr, t_node **tree) // static
 
 int					parser(int *nb_hrd, t_e_list **l_expr, t_node **tree)
 {
-	if (DEBUG_PARSER == 1)
-		ft_putendl_fd("------- PARSER ------", 2);
-
 	int					ret;
 
 	if (*l_expr == NULL)
 		return (FALSE);
 	ret = check_expr(nb_hrd, l_expr, tree);
-
-	// ANTIBUG !!!!!!!!!
-	if (DEBUG_PARSER == 1)
-	{
-		t_e_list			*head_l_expr;
-	head_l_expr = *l_expr;
-		t_e_list *tmp = head_l_expr;
-		while(tmp){printf("parser[%s ->type %d ->nb_hrd %d] --> ", (tmp)->data, (tmp)->type, tmp->hrd_quote); tmp = (tmp)->next;}
-		printf("\n");
-	}
-	// fin ANTIBUG !!!!!!!!!
-
 	return (ret);
 }

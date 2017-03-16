@@ -5,9 +5,6 @@
 
 static int			in_quote(char **buff, char *line)
 {
-	if (DEBUG_FILE_HIST == 1)
-		ft_putendl_fd("------- IN QUOTE ------", 2);
-
 	char				*tmp1;
 	char				*tmp2;
 
@@ -32,9 +29,6 @@ static int			in_quote(char **buff, char *line)
 static int			line_manager(char **buff, char *line, int *quote,
 					t_history **history)
 {
-	if (DEBUG_FILE_HIST == 1)
-		ft_putendl_fd("------- LINE MANAGER ------", 2);
-
 	char				*tmp;
 
 	tmp = NULL;
@@ -62,9 +56,6 @@ static int			line_manager(char **buff, char *line, int *quote,
 
 static int			get_line_in_file(int fd, t_history **history)
 {
-	if (DEBUG_FILE_HIST == 1)
-		ft_putendl_fd("------- GET LINE IN FILE ------", 2);
-
 	int					quote;
 	char				*buff;
 	char				*line;
@@ -91,9 +82,6 @@ static int			get_line_in_file(int fd, t_history **history)
 
 int					load_history(t_history **history)
 {
-	if (DEBUG_FILE_HIST == 1)
-		ft_putendl_fd("------- LOAD HISTORY ------", 2);
-
 	char				*home;
 	char				*path;
 	int					fd;
@@ -116,9 +104,6 @@ int					load_history(t_history **history)
 
 int					save_history(void)
 {
-	if (DEBUG_FILE_HIST == 1)
-		ft_putendl_fd("------- SAVE HISTORY ------", 2);
-
 	char				*home;
 	char				*path;
 	int					fd;

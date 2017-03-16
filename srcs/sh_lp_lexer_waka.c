@@ -3,9 +3,6 @@
 
 static void			land_link_creator(t_e_list **l_expr)
 {
-	if (DEBUG_LEXER == 1)
-		ft_putendl_fd("------- LAND LINK CREATOR ------", 2);
-
 	t_e_list			*new;
 	char				*tmp2;
 
@@ -35,9 +32,6 @@ static void			land_link_creator(t_e_list **l_expr)
 
 static int			waka_land_handler(t_e_list **l_expr, char (*tmp)[], int *i)
 {
-	if (DEBUG_LEXER == 1)
-		ft_putendl_fd("------- WAKA LAND HANDLER ------", 2);
-
 	if (ft_strncount((*l_expr)->data, '&') > 1)
 		return (sh_error(FALSE, 26, "&", NULL));
 	if ((*l_expr)->data[0] == '&' && ft_strchr(((*l_expr)->data) + 1, '<'))
@@ -53,11 +47,8 @@ static int			waka_land_handler(t_e_list **l_expr, char (*tmp)[], int *i)
 }
 
 static int			red_fd_copy(char **data, t_e_list **l_expr, char (*tmp)[],
-					int *i) // static ac waka lexer
+					int *i)
 {
-	if (DEBUG_LEXER == 1)
-		ft_putendl_fd("------- RED FD COPY ------", 2);
-
 	if (ft_strchr(WAKA, ((*l_expr)->data)[0]))
 	{
 		(*l_expr)->type = RED;
@@ -76,9 +67,6 @@ static int			red_fd_copy(char **data, t_e_list **l_expr, char (*tmp)[],
 
 int					waka_lexer(t_e_list **l_expr)
 {
-	if (DEBUG_LEXER == 1)
-		ft_putendl_fd("------- WAKA LEXER ------", 2);
-
 	int					i;
 	char				tmp_fd[11];
 	char				*data;
