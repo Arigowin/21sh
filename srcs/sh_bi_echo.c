@@ -4,13 +4,10 @@
 
 int					bi_echo(char **arg, t_duo **env)
 {
-	if (DEBUG_BUILTIN == 1)
-		ft_putendl_fd("------- BI ECHO ------", 2);
-
-	(void)env;
 	int i;
 
 	i = 1;
+	(void)env;
 	check_opt(arg, &i);
 	if (tbl_len(arg) > 1)
 	{

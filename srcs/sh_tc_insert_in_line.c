@@ -4,9 +4,6 @@
 
 static int			enlarge_line(char **str, int *pos)
 {
-	if (DEBUG_TERMCAPS == 1)
-		ft_putendl_fd("------- ENLARGE LINE ------", 2);
-
 	char				*tmp;
 	int					i;
 
@@ -30,9 +27,6 @@ static int			enlarge_line(char **str, int *pos)
 
 static int			screen_up(int *pos, char **str, t_line *stline)
 {
-	if (DEBUG_TERMCAPS == 1)
-		ft_putendl_fd("------- SCREEN UP ------", 2);
-
 	char				*line;
 	int					nb_line;
 	int					len;
@@ -61,13 +55,9 @@ static int			screen_up(int *pos, char **str, t_line *stline)
 
 static int			insert_char(char c, char *end_line, char **str, int *pos)
 {
-	if (DEBUG_TERMCAPS == 1)
-		ft_putendl_fd("------- INSERT CHAR ------", 2);
-
 	int					i;
 
 	i = 0;
-	// ce == shift + d in vim
 	tputs(tgetstr("ce", NULL), 1, my_outc);
 	(*str)[*pos] = c;
 	i = (*pos) + 1;
@@ -77,10 +67,8 @@ static int			insert_char(char c, char *end_line, char **str, int *pos)
 		i++;
 	}
 	(*str)[i] = '\0';
-	// save the current cursor position
 	tputs(tgetstr("sc", NULL), 1, my_outc);
 	ft_putstr(end_line);
-	// restore the last saved cursor position.
 	tputs(tgetstr("rc", NULL), 1, my_outc);
 	return (TRUE);
 }
@@ -104,9 +92,6 @@ static int			muli_line_insert(t_line *stline, char c)
 
 int					fct_insert(char **str, int *pos, char c, t_line *stline)
 {
-	if (DEBUG_TERMCAPS == 1)
-		ft_putendl_fd("------- INSERT ------", 2);
-
 	char				*end_line;
 
 	end_line = NULL;

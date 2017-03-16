@@ -3,9 +3,6 @@
 
 static int			sh_lvl(void)
 {
-	if (DEBUG == 1)
-		ft_putendl_fd("------- SHLVL ------", 2);
-
 	char				*lvl;
 	char				*new_lvl;
 
@@ -29,9 +26,6 @@ static int			sh_lvl(void)
 
 int					init_pipefd(int pipefd_tab[2][2])
 {
-	if (DEBUG == 1)
-		ft_putendl_fd("------- INIT PIPE FD ------", 2);
-
 	pipefd_tab[0][0] = -2;
 	pipefd_tab[0][1] = -2;
 	pipefd_tab[1][0] = -2;
@@ -41,9 +35,6 @@ int					init_pipefd(int pipefd_tab[2][2])
 
 int					init_env(char **env, t_duo **env_cpy)
 {
-	if (DEBUG == 1)
-		ft_putendl_fd("------- INIT ENV ------", 2);
-
 	char				**cpy;
 
 	cpy = NULL;
@@ -67,13 +58,10 @@ int					init_env(char **env, t_duo **env_cpy)
 
 int					init_stline(t_line *stline)
 {
-	if (DEBUG == 1)
-		ft_putendl_fd("------- INIT STLINE ------", 2);
-
 	char				*s;
 
 	if ((s = ttyname(0)) != NULL && ioctl(0, TIOCGWINSZ, &(stline->win)) == -1)
-			return (sh_error(FALSE, 1, NULL, NULL));
+		return (sh_error(FALSE, 1, NULL, NULL));
 	if ((stline->line = ft_strnew(BUFF_SIZE)) == NULL)
 		return (sh_error(FALSE, 1, NULL, NULL));
 	stline->mini_prt = FALSE;
@@ -99,9 +87,6 @@ int					init_stline(t_line *stline)
 
 int					reset_stline(t_line *stline)
 {
-	if (DEBUG == 1)
-		ft_putendl_fd("------- RESET STLINE ------", 2);
-
 	ft_bzero(stline->line, ft_strlen(stline->line));
 	stline->mini_prt = FALSE;
 	stline->quote = 0;

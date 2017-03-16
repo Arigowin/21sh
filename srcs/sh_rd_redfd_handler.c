@@ -6,9 +6,6 @@
 
 int					check_file_name(char **filename, char *str)
 {
-	if (DEBUG_RED == 1)
-		ft_putendl_fd("------- CHECK FILE NAME -------", 2);
-
 	if ((*filename = ft_strsub(str, 1, ft_strlen(str))) == NULL)
 		return (sh_error(FALSE, 6, NULL, NULL));
 	if (ft_isstrnum(*filename))
@@ -23,9 +20,6 @@ int					check_file_name(char **filename, char *str)
 
 int					reset_std_fd(void)
 {
-	if (DEBUG_RED == 1)
-		ft_putendl_fd("------- RESET STD FD -------", 2);
-
 	int					fd;
 	int					std_fd;
 
@@ -48,9 +42,6 @@ int					reset_std_fd(void)
 
 int					red_fd(int fd, t_node *tree, t_lst_fd **lstfd, t_types type)
 {
-	if (DEBUG_TREE == 1)
-		ft_putendl_fd("------- RED FD -------", 2);
-
 	int					ret;
 	static int			fd_save = 0;
 	static int			reset_save = TRUE;
@@ -73,7 +64,7 @@ int					red_fd(int fd, t_node *tree, t_lst_fd **lstfd, t_types type)
 	if (tree && tree->right && tree->type == PIPE)
 		if ((ret = red_fd(fd, tree->right, lstfd, type)) == ERROR)
 			fd = -1;
-	if (tree && tree->left && (ret = red_fd(fd, tree->left, lstfd, type)) == FALSE) //remplacer parla valeur de FALSE
+	if (tree && tree->left && (ret = red_fd(fd, tree->left, lstfd, type)) == 0)
 		fd = -1;
 	return (push_in_lstfd(tree, lstfd, fd, &fd_save));
 }

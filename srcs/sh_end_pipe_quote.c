@@ -3,9 +3,6 @@
 
 int					check_end_pipe(char **str, int *pos)
 {
-	if (DEBUG_KEY == 1)
-		ft_putendl_fd("------- CHECK END PIPE ------", 2);
-
 	int					i;
 	int					j;
 
@@ -61,9 +58,6 @@ int					quote_is_close(char **str)
 
 int					handle_quote(int key, char **str, int *pos, t_line *stline)
 {
-	if (DEBUG == 1)
-		ft_putendl_fd("------- HANDLE QUOTE ------", 2);
-
 	if (*pos > 0 && (*str)[(*pos) - 1] && (*str)[(*pos) - 1] == '\\')
 		return (FALSE);
 	if (key == QUOTE || key == DQUOTE)

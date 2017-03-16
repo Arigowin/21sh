@@ -5,9 +5,6 @@
 int					fct_copy(char **str, int *pos, t_line *stline,
 					t_history **history)
 {
-	if (DEBUG_COPY_PASTE == 1)
-		ft_putendl_fd("------- COPY ------", 2);
-
 	if (stline->copy.start == -1)
 		return (FALSE);
 	tputs(tgetstr("me", NULL), 1, my_outc);
@@ -19,9 +16,6 @@ int					fct_copy(char **str, int *pos, t_line *stline,
 int					fct_paste(char **str, int *pos, t_line *stline,
 					t_history **history)
 {
-	if (DEBUG_COPY_PASTE == 1)
-		ft_putendl_fd("------- PASTE ------", 2);
-
 	int					i;
 
 	i = 0;
@@ -40,9 +34,6 @@ int					fct_paste(char **str, int *pos, t_line *stline,
 int					fct_cut(char **str, int *pos, t_line *stline,
 					t_history **history)
 {
-	if (DEBUG_COPY_PASTE == 1)
-		ft_putendl_fd("------- PASTE ------", 2);
-
 	int					curs_start;
 	int					curs_end;
 

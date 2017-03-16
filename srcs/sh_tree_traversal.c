@@ -2,7 +2,7 @@
 #include "libft.h"
 
 static int			tree_trav_semi(t_node *tree, t_lst_fd **lstfd,
-					int pipefd_tab[2][2]) //static ac tree traversal
+					int pipefd_tab[2][2])
 {
 	if (tree && tree->left)
 		if ((tree_traversal(tree->left, lstfd, pipefd_tab)) == ERROR)
@@ -15,7 +15,7 @@ static int			tree_trav_semi(t_node *tree, t_lst_fd **lstfd,
 }
 
 static int			tree_trav_pipe(t_node *tree, t_lst_fd **lstfd,
-					int pipefd_tab[2][2]) //static ac tree traversal
+					int pipefd_tab[2][2])
 {
 	int					ret;
 
@@ -38,7 +38,7 @@ static int			tree_trav_pipe(t_node *tree, t_lst_fd **lstfd,
 	return (ret);
 }
 
-static int			tree_trav_cmd(t_node *tree, t_lst_fd **lstfd) //static ac tree traversal
+static int			tree_trav_cmd(t_node *tree, t_lst_fd **lstfd)
 {
 	t_lst_fd			*tmpfd;
 
@@ -63,13 +63,9 @@ static int			tree_trav_cmd(t_node *tree, t_lst_fd **lstfd) //static ac tree trav
 	return (TRUE);
 }
 
-// sans les antibug norme OK
 int					tree_traversal(t_node *tree, t_lst_fd **lstfd,
 					int pipefd_tab[2][2])
 {
-	if (DEBUG_TREE == 1)
-		ft_putendl_fd("------- TREE TRAVERSAL -------", 2);
-
 	int					ret;
 
 	ret = 0;
@@ -79,18 +75,6 @@ int					tree_traversal(t_node *tree, t_lst_fd **lstfd,
 			return (ERROR);
 	if (tree && tree->type != SEMI && lstfd && *lstfd == NULL)
 		red_fd(-2, tree, lstfd, NONE);
-	//ANTIBUG -11 lignes
-	if (DEBUG_ANTIBUG == 1)
-	{
-		printf("lstfd :\n");
-		t_lst_fd *tmp = *lstfd;
-		while(tmp){
-			printf("in pipe [filename->%s]--[fd->%d]\n", tmp->filename, tmp->fd);
-			tmp=tmp->next;
-		}
-		printf("end lstfd :\n");
-	}
-	//  fin ANTIBUG
 	if (tree->type == PIPE &&
 	(ret == tree_trav_pipe(tree, lstfd, pipefd_tab)) != TRUE)
 		return (ret);
@@ -105,17 +89,6 @@ int					tree_traversal(t_node *tree, t_lst_fd **lstfd,
 			close_lstfd(lstfd);
 			del_lstfd(lstfd);
 		}
-		//ANTIBUG
-		if (DEBUG_ANTIBUG == 1)
-		{
-			printf("lstfd2 :\n");
-			t_lst_fd *tmp = *lstfd;
-			while(tmp){
-				printf("[filename->%s]--[fd->%d]\n", tmp->filename, tmp->fd);
-				tmp=tmp->next;
-			}
-		}
-		//  fin ANTIBUG
 	}
 	return (TRUE);
 }

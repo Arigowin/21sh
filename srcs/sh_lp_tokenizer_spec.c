@@ -4,9 +4,6 @@
 int					token_backslash(t_states state, char **r_buff,
 					char **data_tmp)
 {
-	if (DEBUG_TOKEN == 1)
-		ft_putendl_fd("------- TOKEN BACKSLASH ------", 2);
-
 	(void)state;
 	if (**r_buff == '\\' && (*(*r_buff + 1)) && (*(*r_buff + 1)) == '\n')
 		(*r_buff) += 1;
@@ -25,9 +22,6 @@ int					token_backslash(t_states state, char **r_buff,
 
 int					token_dollar(char **read_buff, char **data_tmp)
 {
-	if (DEBUG_TOKEN == 1)
-		ft_putendl_fd("------- TOKEN DOLLAR ------", 2);
-
 	char				*env_name;
 	char				*env_val;
 	char				*tmp;
@@ -57,9 +51,6 @@ int					token_dollar(char **read_buff, char **data_tmp)
 
 int					token_tilde(char **read_buff, char **data_tmp, int *bln)
 {
-	if (DEBUG_TOKEN == 1)
-		ft_putendl_fd("------- TOKEN TILDE ------", 2);
-
 	char				*env_val;
 	char				*tmp;
 
