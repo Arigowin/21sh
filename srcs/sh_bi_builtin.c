@@ -40,7 +40,7 @@ int					handle_builtin(char **cmd)
 	static int			(*tbl_bi[])(char **cmd, t_duo **env) = {&bi_echo,
 						&bi_cd, &bi_setenv, &bi_unsetenv, &bi_env, &bi_exit};
 
-	env = savior(NULL, FALSE);
+	env = savior_env(NULL, FALSE);
 	i = 0;
 	while (i < 6 && ft_strcmp(cmd[0], bi[i]) != 0)
 		i++;
@@ -48,8 +48,7 @@ int					handle_builtin(char **cmd)
 	{
 		if ((ret = tbl_bi[i](cmd, &env)) == ERROR)
 			return (ERROR);
-		else // pas necessaire ? puisqu ' on return avant
-			return (ret);
+		return (ret);
 	}
 	if (cmd)
 		free_tab(&cmd);

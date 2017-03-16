@@ -5,39 +5,44 @@
 static int			history_up_prev(t_history **history, char *tmp, int *pos,
 					t_line *stline) //static av history up
 {
+	if (DEBUG_HISTORY == 1)
+		ft_putendl_fd("---------------- HISTORY UP PREV -----------------------", 2);
+
 	char				*tmpchr;
 	int					ret;
 	int					len;
 
-	tmpchr = NULL;
 	if ((*history)->prev && tmp && *pos > 0)
 	{
 		len = ft_strlen((*history)->line);
 		tmpchr = (stline->curs_y > 0 ? ft_strsub(tmp, ft_strlen(tmp) - len, len)
 				: ft_strdup(ft_strrchr(tmp, '\n')));
-//		if (stline->curs_y > 0)
-//			tmpchr =  ft_strsub(tmp, ft_strlen(tmp) - len, len);
-//		else
-//			tmpchr = ft_strdup(ft_strrchr(tmp, '\n'));
 		if (tmpchr != NULL && ft_strlen(tmpchr) > 1)
 		{
-			if (stline->curs_y == 0)
-				(tmpchr)++;
+			if (stline->curs_y == 0 && dup_move_one(&tmpchr) == ERROR)
+				return (sh_error(FALSE, 6, NULL, NULL));
 			ret = 0;
-			if (stline->mini_prt == FALSE
-			|| (ret = ft_strcmp(tmpchr, (*history)->line)) == 0)
+			if (ft_strcmp(tmpchr, (*history)->line) == 0)
 				*history = (*history)->prev;
+			*history = (*history)->prev;
+		//	if (stline->mini_prt == FALSE // code a l'origine
+		//	|| (ret = ft_strcmp(tmpchr, (*history)->line)) == 0)
+		//	{
+		//		*history = (*history)->prev;
+		//	}
 		}
-		else
-			if ((ret = ft_strcmp(tmp, (*history)->line)) == 0)
-				*history = (*history)->prev;
+		else if ((ret = ft_strcmp(tmp, (*history)->line)) == 0)
+			*history = (*history)->prev;
+		ft_strdel(&tmpchr);
 	}
-	ft_strdel(&tmpchr);
 	return (TRUE);
 }
 
 static int			nb_line_total(char *str, t_line *stline)
 {
+	if (DEBUG_HISTORY == 1)
+		ft_putendl_fd("---------------- NB LINE TOTAL -----------------------", 2);
+
 	char				**line;
 	int					i;
 	int					len;
@@ -51,7 +56,8 @@ static int			nb_line_total(char *str, t_line *stline)
 		len = ft_strlen(line[i]);
 		if (len > stline->win.ws_col)
 		{
-			nb += ((len) / stline->win.ws_col) - 1;
+			nb += (len) / stline->win.ws_col;
+			nb -= (len % stline->win.ws_col == 0 ? 1 : 0);
 		}
 		i++;
 	}
@@ -59,10 +65,12 @@ static int			nb_line_total(char *str, t_line *stline)
 	return (nb);
 }
 
-// nom a revoir
 static int			reset_pos_x_y(char **str, int *pos, t_line *stline, //static ac les 2 suivantes
 					t_history **history)
 {
+	if (DEBUG_HISTORY == 1)
+		ft_putendl_fd("---------------- RESET POS X Y --------------------", 2);
+
 	int					nb;
 	int					len;
 	int					nb_line;
@@ -91,7 +99,7 @@ static int			reset_pos_x_y(char **str, int *pos, t_line *stline, //static ac les
 int					history_up(char **str, int *pos, t_line *stline,
 					t_history **history)
 {
-	if (DEBUG_HISTORY == 1)
+	if (DEBUG_HISTORY == -1)
 		ft_putendl_fd("---------------- HISTORY UP -----------------------", 2);
 
 	int					i;
@@ -111,7 +119,7 @@ int					history_up(char **str, int *pos, t_line *stline,
 			stline->curr_hist = ft_strdup(*str);
 	}
 	history_up_prev(history, t, pos, stline);
-	while (*pos > 0	&& ((stline->curs_y == 0 && stline->curs_x > 2)
+	while (*pos > 0 && ((stline->curs_y == 0 && stline->curs_x > 2)
 	|| stline->curs_y > 0))
 		fct_backspace(str, pos, stline, history);
 	i = -1;
@@ -129,7 +137,9 @@ int					history_down(char **str, int *pos, t_line *stline,
 
 	int					i;
 
-	if ((history = savior_history(NULL, FALSE)) == NULL || *history == NULL)
+	if ((history = savior_history(NULL, FALSE)) == NULL || *history == NULL
+	|| (stline && stline->line && stline->curr_hist
+	&& ft_strcmp(stline->curr_hist, stline->line) == 0))
 		return (FALSE);
 	i = -2;
 	if ((*history)->next)
@@ -138,7 +148,7 @@ int					history_down(char **str, int *pos, t_line *stline,
 		i = -1;
 	}
 	fct_end(str, pos, stline, history);
-	while (*pos > 0	&& ((stline->curs_y == 0 && stline->curs_x > 2)
+	while (*pos > 0 && ((stline->curs_y == 0 && stline->curs_x > 2)
 	|| stline->curs_y > 0))
 		fct_backspace(str, pos, stline, history);
 	while (++i >= 0 && ((*history)->line)[i])

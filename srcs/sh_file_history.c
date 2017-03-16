@@ -55,7 +55,7 @@ static int			line_manager(char **buff, char *line, int *quote,
 			dblstr_duo_ret(TRUE, &tmp, buff, NULL);
 		}
 		else
-			add_history(history, line); // pb indirectly loss
+			add_history(history, line);
 	}
 	return (TRUE);
 }
@@ -75,7 +75,7 @@ static int			get_line_in_file(int fd, t_history **history)
 	while (fd > -1 && get_next_line(fd, &line) > 0)
 	{
 		quote = quote_is_close(&line) - quote_is_close(&buff);
-		if (line == NULL || line_manager(&buff, line, &quote, history) == ERROR) // indirectly loss
+		if (line == NULL || line_manager(&buff, line, &quote, history) == ERROR)
 			return (dblstr_duo_ret(ERROR, &line, &buff, NULL));
 		ft_strdel(&line);
 	}

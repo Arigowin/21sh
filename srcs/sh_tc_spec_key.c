@@ -29,7 +29,7 @@ int					fct_home(char **str, int *pos, t_line *stline,
 	if (DEBUG_TERMCAPS == 1)
 		ft_putendl_fd("------- HOME ------", 2);
 
-	while (*pos > 0	&& ((stline->curs_y == 0 && stline->curs_x > 2)
+	while (*pos > 0 && ((stline->curs_y == 0 && stline->curs_x > 2)
 	|| stline->curs_y > 0))
 	{
 		fct_left(str, pos, stline, history);

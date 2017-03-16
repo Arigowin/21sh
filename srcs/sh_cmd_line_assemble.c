@@ -94,7 +94,7 @@ int					check_fct(int fd, char **cmd)
 
 	tmp = NULL;
 	null_input(fd);
-	env = savior(NULL, FALSE);
+	env = savior_env(NULL, FALSE);
 	if ((tbl_env = duo_to_tbl(env, "=")) == NULL)
 		return (sh_error(FALSE, 6, NULL, NULL));
 	if ((tmp = get_env("PATH")) == NULL)

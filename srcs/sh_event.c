@@ -12,7 +12,7 @@ static int			end_history(char **str, int *pos, t_line *stline,
 	return (TRUE);
 }
 
-int					fct_return(char **str, int *pos, t_line *stline,
+static int			fct_return(char **str, int *pos, t_line *stline,
 					t_history **history)
 {
 	if (DEBUG_KEY == 1)
@@ -45,29 +45,6 @@ int					fct_return(char **str, int *pos, t_line *stline,
 	return (FALSE);
 }
 
-int					fct_ctrl_d(char **str, int *pos, t_line *stline,
-		t_history **history)
-{
-	if (DEBUG_KEY == 1)
-		ft_putendl_fd("------- FCT CTRL D ------", 2);
-
-	t_duo				*env;
-
-	env = savior(NULL, FALSE);
-	if (*str[0] == '\0' && stline->hrd.nb == 0)
-		bi_exit(NULL, &env);
-	else if (stline->hrd.nb != 0 && (*str[0] == '\0'
-	|| (*str)[ft_strlen(*str) - 1] == '\n'))
-	{
-		stline->hrd.ctrl_d = TRUE;
-		ft_putendl("");
-		return (sh_error(BREAK, 31, stline->hrd.deli->data, NULL));
-	}
-	else
-		fct_del(str, pos, stline, history);
-	return (TRUE);
-}
-
 static t_key_fct	*tbl_key_fill(void)
 {
 	static t_key_fct	tbl_keys[18] =
@@ -83,7 +60,7 @@ static t_key_fct	*tbl_key_fill(void)
 	return (tbl_keys);
 }
 
-int					insert_key(int key_to_insrt, t_line *stline)
+static int			insert_key(int key_to_insrt, t_line *stline)
 {
 	if (key_to_insrt != TAB && key_to_insrt > 31 && key_to_insrt < 128)
 	{
@@ -110,20 +87,22 @@ int					event(int key_to_insrt, t_line *stline, t_history **history)
 	ret = 0;
 	tputs(tgetstr("vi", NULL), 1, my_outc);
 
-//	char *res;
-//	tputs(tgetstr("sc", NULL), 1, my_outc);
-//	res = tgetstr("cm", NULL);
-//	tputs(tgoto(res, 3, 0), 1, my_outc);
-//	tputs(tgetstr("ce", NULL), 1, my_outc);
-//	ft_putstr("x :");
-//	ft_putnbr(stline->curs_x);
-//	ft_putstr(" y :");
-//	ft_putnbr(stline->curs_y);
-//	ft_putstr(" pos :");
-//	ft_putnbr(stline->pos);
-//	ft_putstr(" mp :");
-//	ft_putnbr(stline->mini_prt);
-//	tputs(tgetstr("rc", NULL), 1, my_outc);
+	//ANTIBUG
+	char *res;
+	tputs(tgetstr("sc", NULL), 1, my_outc);
+	res = tgetstr("cm", NULL);
+	tputs(tgoto(res, 3, 0), 1, my_outc);
+	tputs(tgetstr("ce", NULL), 1, my_outc);
+	ft_putstr("x :");
+	ft_putnbr(stline->curs_x);
+	ft_putstr(" y :");
+	ft_putnbr(stline->curs_y);
+	ft_putstr(" pos :");
+	ft_putnbr(stline->pos);
+	ft_putstr(" mp :");
+	ft_putnbr(stline->mini_prt);
+	tputs(tgetstr("rc", NULL), 1, my_outc);
+	//ANTIBUG
 
 	while (++i < 18)
 	{

@@ -14,7 +14,7 @@ int					exit_pgm(int exit_code)
 	tree = savior_tree(NULL, FALSE);
 	savior_history(NULL, FALSE);
 	stline = savior_stline(NULL, FALSE);
-	env = savior(NULL, FALSE);
+	env = savior_env(NULL, FALSE);
 	del_tree(&tree);
 	save_history();
 	duo_del(&env);

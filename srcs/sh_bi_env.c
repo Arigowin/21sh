@@ -74,7 +74,7 @@ static int			modif_env(char **arg, t_duo *env, int len, int i)
 	int					nb;
 
 	nb = 0;
-	savior(env, TRUE);
+	savior_env(env, TRUE);
 	while (arg[i])
 	{
 		if (strchr(arg[i], '=') != NULL)
@@ -110,6 +110,6 @@ int					bi_env(char **arg, t_duo **env)
 	}
 	else
 		print_env(*env);
-	savior(*env, TRUE);
+	savior_env(*env, TRUE);
 	return (TRUE);
 }

@@ -33,10 +33,17 @@
 # define SYS_CALL_FAIL -3
 # define NO_PRINT -4
 
-# define IGN " \t\n" // j'ai enlevé le \0 des IGN
+/*
+** j'ai enlevé le \0 des IGN
+*/
+# define IGN " \t\n"
 # define SEP "|&;>< \t\n\0"
 # define SPECIAL "|&><;"
-# define SPECIAL2 "|><;" // juste pour pouvoir gérer '&' tout seul
+
+/*
+** juste pour pouvoir gerer '&' tout seul
+*/
+# define SPECIAL2 "|><;"
 # define LWAKA "><|&"
 # define WAKA "><"
 # define BUFF_SIZE 1024
@@ -45,47 +52,49 @@
 # define QUOTE 39
 # define DQUOTE 34
 
-//# define LEFT 4479771
-//# define RIGHT 4414235
-//# define UP 4283163
-//# define DOWN 4348699
-//// - LINUX CTRL + [q|w]
-////# define CTRL_UP 28955
-////# define CTRL_DOWN 30491
-//// - MAC
-//# define CTRL_UP 16693
-//# define CTRL_DOWN 16949
-//
-//# define BACKSPACE 127
-//# define TAB 9
-//# define RETURN 10
-//# define CTRL_D 4
-//
-//// - LINUX ALT + [h|v|c|x]
-////# define HIGHLIGHT 26651
-////# define PASTE 30235
-////# define COPY 25371
-////# define CUT 30747
-//// - MAC OPT + [h|v|c|x]
-//# define HIGHLIGHT 39371
-//# define PASTE 10127586
-//# define COPY 42947
-//# define CUT 8948194
-//
-//// - LINUX CTRL + [a|e]
-////# define CTRL_LEFT 1
-////# define CTRL_RIGHT 5
-//// - MAC
-//# define CTRL_LEFT 17461
-//# define CTRL_RIGHT 17205
-//
-//# define DEL 2117294875
-//// - LINUX
-////# define HOME 2117163803
-////# define END 2117360411
-//// - MAC
-//# define HOME 4741915
-//# define END 4610843
+/*
+** # define LEFT 4479771
+** # define RIGHT 4414235
+** # define UP 4283163
+** # define DOWN 4348699
+** - LINUX CTRL + [q|w]
+** # define CTRL_UP 28955
+** # define CTRL_DOWN 30491
+** - MAC
+** # define CTRL_UP 16693
+** # define CTRL_DOWN 16949
+**
+** # define BACKSPACE 127
+** # define TAB 9
+** # define RETURN 10
+** # define CTRL_D 4
+**
+** - LINUX ALT + [h|v|c|x]
+** # define HIGHLIGHT 26651
+** # define PASTE 30235
+** # define COPY 25371
+** # define CUT 30747
+** - MAC OPT + [h|v|c|x]
+** # define HIGHLIGHT 39371
+** # define PASTE 10127586
+** # define COPY 42947
+** # define CUT 8948194
+**
+** - LINUX CTRL + [a|e]
+** # define CTRL_LEFT 1
+** # define CTRL_RIGHT 5
+** - MAC
+** # define CTRL_LEFT 17461
+** # define CTRL_RIGHT 17205
+**
+** # define DEL 2117294875
+** - LINUX
+** # define HOME 2117163803
+** # define END 2117360411
+** - MAC
+** # define HOME 4741915
+** # define END 4610843
+*/
 
 # define LEFT 4479771
 # define RIGHT 4414235
@@ -97,39 +106,65 @@
 # define CTRL_D 4
 # define DEL 2117294875
 
-#if defined(__unix__)
-#define LOL 3
-// - LINUX CTRL + [q|w]
-# define CTRL_UP 28955
-# define CTRL_DOWN 30491
-// - LINUX ALT + [h|v|c|x]
-# define HIGHLIGHT 26651
-# define PASTE 30235
-# define COPY 25371
-# define CUT 30747
-// - LINUX CTRL + [a|e]
-# define CTRL_LEFT 1
-# define CTRL_RIGHT 5
-// - LINUX
-# define HOME 2117163803
-# define END 2117360411
-#elif defined(__APPLE__)
-#define LOL 4
-// - MAC
-# define CTRL_UP 16693
-# define CTRL_DOWN 16949
-// - MAC OPT + [h|v|c|x]
-# define HIGHLIGHT 39371
-# define PASTE 10127586
-# define COPY 42947
-# define CUT 8948194
-// - MAC
-# define CTRL_LEFT 17461
-# define CTRL_RIGHT 17205
-// - MAC
-# define HOME 4741915
-# define END 4610843
-#endif
+# if defined(__unix__)
+#  define LOL 3
+
+/*
+** LINUX CTRL + [q|w]
+*/
+#  define CTRL_UP 28955
+#  define CTRL_DOWN 30491
+
+/*
+** LINUX ALT + [h|v|c|x]
+** pouette commentaire multilignes !
+*/
+#  define HIGHLIGHT 26651
+#  define PASTE 30235
+#  define COPY 25371
+#  define CUT 30747
+
+/*
+** LINUX CTRL + [a|e]
+*/
+#  define CTRL_LEFT 1
+#  define CTRL_RIGHT 5
+
+/*
+** LINUX
+*/
+#  define HOME 2117163803
+#  define END 2117360411
+
+# elif defined(__APPLE__)
+#  define LOL 4
+
+/*
+** MAC
+*/
+#  define CTRL_UP 16693
+#  define CTRL_DOWN 16949
+
+/*
+** MAC OPT + [h|v|c|x]
+*/
+#  define HIGHLIGHT 39371
+#  define PASTE 10127586
+#  define COPY 42947
+#  define CUT 8948194
+
+/*
+** MAC
+*/
+#  define CTRL_LEFT 17461
+#  define CTRL_RIGHT 17205
+
+/*
+** MAC
+*/
+#  define HOME 4741915
+#  define END 4610843
+# endif
 
 # define PRT_LEN 2
 
@@ -139,10 +174,14 @@
 # include <sys/ioctl.h>
 # include "libft.h"
 
+/*
+** EXP Never used
+** trololo
+*/
 typedef enum			e_types
 {
 	NONE,
-	EXP, // never used
+	EXP,
 	SEMI,
 	PIPE,
 	CMD,
@@ -160,7 +199,7 @@ typedef enum			e_types
 	LOGIC_AND,
 	LOGIC_OR,
 	AMP
-} 						t_types;
+}						t_types;
 
 typedef enum			e_states
 {
@@ -169,7 +208,7 @@ typedef enum			e_states
 	IN_DQUOTE
 }						t_states;
 
-typedef struct			s_e_list // -> l_expr
+typedef struct			s_e_list
 {
 	char				*data;
 	t_types				type;
@@ -177,7 +216,7 @@ typedef struct			s_e_list // -> l_expr
 	struct s_e_list		*next;
 }						t_e_list;
 
-typedef struct			s_node // -> node ou tree //-> savior
+typedef struct			s_node
 {
 	int					quote;
 	char				*data;
@@ -186,7 +225,7 @@ typedef struct			s_node // -> node ou tree //-> savior
 	struct s_node		*right;
 }						t_node;
 
-typedef struct			s_copy //in sline
+typedef struct			s_copy
 {
 	char				*cpy;
 	char				*bkup;
@@ -194,22 +233,20 @@ typedef struct			s_copy //in sline
 	int					start;
 }						t_copy;
 
-typedef struct			s_heredoc //in sline
+typedef struct			s_heredoc
 {
 	int					nb;
-	int 				pos;
+	int					pos;
 	int					ctrl_d;
 	struct s_node		*deli;
 	char				*line;
-	char 				*ptr;
+	char				*ptr;
 }						t_heredoc;
 
-typedef struct			s_line //-> savior
+typedef struct			s_line
 {
 	int					pos;
-	int					curs_x; //first line start at  = stline->pos + PRT_LEN;
-								// other line start at = 0
-								// quote line start at len of "> "
+	int					curs_x;
 	int					curs_y;
 	int					mini_prt;
 	int					quote;
@@ -221,7 +258,7 @@ typedef struct			s_line //-> savior
 	struct s_heredoc	hrd;
 }						t_line;
 
-typedef struct			s_history // savior
+typedef struct			s_history
 {
 	char				*line;
 	struct s_history	*prev;
@@ -235,7 +272,7 @@ typedef struct			s_key_fct
 							t_history **history);
 }						t_key_fct;
 
-typedef struct			s_lst_fd //savior?
+typedef struct			s_lst_fd
 {
 	int					fd;
 	char				*filename;
@@ -274,11 +311,11 @@ int						dblstr_hist_ret(int ret, char **str1, char **str2,
 ** free_return_error
 */
 int						error_clear_node(int ret, int index, char *err,
-	   						t_node **to_free);
+							t_node **to_free);
 int						error_clear_str(int ret, int index, char *err,
-	   						char **to_free);
+							char **to_free);
 int						error_clear_tab(int ret, int index, char *err,
-	   						char ***to_free);
+							char ***to_free);
 
 /*
 ** sh_file_history
@@ -289,7 +326,7 @@ int						save_history(void);
 /*
 ** sh_savior
 */
-t_duo					*savior(t_duo *env, int code);
+t_duo					*savior_env(t_duo *env, int code);
 t_line					*savior_stline(t_line *stline, int code);
 char					*savior_tty(char *tty, int code);
 t_node					*savior_tree(t_node *tree, int code);
@@ -307,7 +344,7 @@ int						init_pipefd(int pipefd_tab[2][2]);
 ** sh_first_steps
 */
 int						miniprt_reset_stline(t_line *stline);
-int 					mini_prt_handler(char **str, int *pos, t_line *stline);
+int						mini_prt_handler(char **str, int *pos, t_line *stline);
 int						display_prompt(void);
 char					**cpy_env(char **env);
 int						fill_path(char ***env);
@@ -355,7 +392,7 @@ int						bi_env(char **arg, t_duo **env);
 ** sh_bi_exit
 */
 int						bi_exit(char **arg, t_duo **env);
-int 					exit_pgm(int exit_code);
+int						exit_pgm(int exit_code);
 
 /*
 ** sh_bi_setenv
@@ -373,26 +410,27 @@ int						bi_unsetenv(char **arg, t_duo **env);
 ** sh_t_e_list_handler
 */
 int						expr_del(t_e_list **new);
-t_e_list				*expr_new(char *content,int hrd);
-int 					expr_pushbk(t_e_list **l_expr, char *data_tmp, int hrd);
+t_e_list				*expr_new(char *content, int hrd);
+int						expr_pushbk(t_e_list **l_expr, char *data_tmp, int hrd);
 
 /*
 ** sh_lp_finite_state_automaton
 */
-int 					finite_state_automaton(int *hrd, char **read_buff,
+int						finite_state_automaton(int *hrd, char **read_buff,
 							t_e_list **l_expr, char **data_tmp);
 /*
 ** sh_lp_tokenizer
 */
 int						concat(char **dest, char *s1, char *s2);
-int 					token_sep(int *hrd, char **read_buff, char **data_tmp,
+int						token_sep(int *hrd, char **read_buff, char **data_tmp,
 							t_e_list **l_expr);
 int						tokenizer(int *hrd, char *read_buff, t_e_list **l_expr);
 
 /*
 ** sh_lp_tokenizer_spec
 */
-int						token_backslash(t_states state, char **read_buff, char **data_tmp);
+int						token_backslash(t_states state, char **read_buff,
+							char **data_tmp);
 int						token_dollar(char **read_buff, char **data_tmp);
 int						token_tilde(char **buff, char **data_tmp, int *bln);
 
@@ -442,24 +480,25 @@ int						reset_term();
 */
 int						quote_is_close(char **str);
 int						event(int key, t_line *stline, t_history **history);
-int						fct_ctrl_d(char **s, int *pos, t_line *stline,
-							t_history **history);
 
 /*
 ** sh_tc_insert_in_line
 */
-int						fct_insert(char **s, int *pos,char c, t_line *stline);
+int						fct_insert(char **s, int *pos, char c, t_line *stline);
 
 /*
 ** sh_tc_delete_in_line
 */
+int						fct_ctrl_d(char **s, int *pos, t_line *stline,
+							t_history **history);
 int						fct_backspace(char **s, int *pos, t_line *stline,
 							t_history **history);
 /*
 ** sh_tc_move_in_line
 */
-int						fct_left(char **s, int *pos, t_line *l,	t_history **h);
-int						fct_right(char **s, int *pos, t_line *l,t_history **h);
+int						fct_left(char **s, int *pos, t_line *l, t_history **h);
+int						fct_right(char **s, int *pos, t_line *line,
+							t_history **history);
 int						fct_ctrl_left(char **s, int *pos, t_line *stline,
 							t_history **history);
 int						fct_ctrl_right(char **s, int *pos, t_line *stline,
@@ -477,7 +516,7 @@ int						fct_up(char **s, int *p, t_line *l, t_history **h);
 ** sh_tc_spec_key
 */
 int						fct_end(char **s, int *pos, t_line *l, t_history **h);
-int						fct_home(char **s, int *pos, t_line *l,	t_history **h);
+int						fct_home(char **s, int *pos, t_line *l, t_history **h);
 int						fct_del(char **s, int *pos, t_line *l, t_history **h);
 
 /*
@@ -485,13 +524,13 @@ int						fct_del(char **s, int *pos, t_line *l, t_history **h);
 */
 void					del_history(t_history **history);
 void					add_history(t_history **h, char *line);
-void					modif_history(t_history **history, char *line, int mini);
+void					modif_history(t_history **hist, char *line, int mini);
 
 /*
 ** sh_tc_move_in_history
 */
 int						history_down(char **str, int *pos, t_line *stline,
-	   						t_history **history);
+							t_history **history);
 int						history_up(char **s, int *p, t_line *l, t_history **h);
 
 /*
@@ -499,7 +538,7 @@ int						history_up(char **s, int *p, t_line *l, t_history **h);
 */
 int						fct_cut(char **s, int *pos, t_line *l, t_history **h);
 int						fct_paste(char **s, int *pos, t_line *l, t_history **h);
-int						fct_copy(char **s, int *pos, t_line *l,	t_history **h);
+int						fct_copy(char **s, int *pos, t_line *l, t_history **h);
 
 /*
 ** sh_tc_add_del_in_copy
@@ -554,7 +593,8 @@ int						del_tree(t_node **tree);
 /*
 ** sh_tree_traversal
 */
-int						tree_traversal(t_node *tree, t_lst_fd **lstfd, int pipefd[2][2]);
+int						tree_traversal(t_node *tree, t_lst_fd **lstfd,
+							int pipefd[2][2]);
 
 /*
 ** fd_open
@@ -565,8 +605,8 @@ int						fd_open(int	*fd, int reset_save, t_node *tree);
 ** sh_rd_red
 */
 int						fd_exist(int fd, char *filename);
-int 					heredoc_handler(t_line *l, t_node **t, t_history **h);
-int     				redirect(t_node *tree, t_lst_fd *lstfd);
+int						heredoc_handler(t_line *l, t_node **t, t_history **h);
+int						redirect(t_node *tree, t_lst_fd *lstfd);
 
 /*
 ** sh_rd_manage_lstfd
@@ -575,7 +615,7 @@ int						del_lstfd(t_lst_fd **lstfd);
 t_lst_fd				*lstfd_new(int fd, char *filename);
 int						close_lstfd(t_lst_fd **lstfd);
 int						lstfd_pushfront(t_lst_fd **lstfd, int fd, char *name);
-int 					push_in_lstfd(t_node *tree, t_lst_fd **lstfd, int fd,
+int						push_in_lstfd(t_node *tree, t_lst_fd **lstfd, int fd,
 							int *fd_save);
 
 /*
@@ -606,64 +646,67 @@ int						return_heredoc(t_line *stline);
 /*
 ** sh_cmd
 */
-int						manage_cmd(int pipefd_tab[2][2], t_node *tree, t_lst_fd **lstfd);
+int						manage_cmd(int pipefd_tab[2][2], t_node *tree,
+							t_lst_fd **lstfd);
 
 /*
 ** sh_pipe
 */
-int 					pfd_handler(int pipefd_tab[2][2]);
-int		 				pfd_close(int pipefd_tab[2][2]);
+int						pfd_handler(int pipefd_tab[2][2]);
+int						pfd_close(int pipefd_tab[2][2]);
 int						pipe_function(int pipefd_tab[2][2], t_node *tree,
-						t_lst_fd **lstfd);
+							t_lst_fd **lstfd);
 
 #endif
 
 /*
- * single quote https://www.gnu.org/software/bash/manual/html_node/Single-Quotes.html
- * double quote https://www.gnu.org/software/bash/manual/html_node/Double-Quotes.html
- */
-
-/*
-x == fd x >= 0
-y == fd y >= 0     /dev/fd (http://stackoverflow.com/questions/7082001/file-descriptors)
-
-	if (access("/dev/fd/3", F_OK) == -1)
-		return (-1);
-	// si access return false sa veut dire que le fd n'existe pas
-
-OK cmd > file   le 1 dans file
-OK cmd >& y     le 1 et 2 dans x
-OK cmd >& file  le 1 et 2 dans file
-OK cmd x> file  le x dans file
-OK cmd x>& file le x est ignorer redirige le 1 et 2 dans file
-OK cmd x>& y    le x est ignorer redirige le 1 et 2 dans y
-OK cmd &> file  le 1 et 2 dans file
+** single quote
+** https://www.gnu.org/software/bash/manual/html_node/Single-Quotes.html
+** double quote
+** https://www.gnu.org/software/bash/manual/html_node/Double-Quotes.html
 */
 
 /*
-x == file or fd
-cmd > &x error bash: syntax error near unexpected token `&'
-cmd >&x == cmd >& x
-
-cmd & > ... error
-cmd &> ... OK
-
-cmd &>& file
-cmd &>& y
+** x == fd x >= 0
+** y == fd y >= 0     /dev/fd
+** (http://stackoverflow.com/questions/7082001/file-descriptors)
+**
+** 	if (access("/dev/fd/3", F_OK) == -1)
+** 		return (-1);
+** 	// si access return false sa veut dire que le fd n'existe pas
+**
+** OK cmd > file   le 1 dans file
+** OK cmd >& y     le 1 et 2 dans x
+** OK cmd >& file  le 1 et 2 dans file
+** OK cmd x> file  le x dans file
+** OK cmd x>& file le x est ignorer redirige le 1 et 2 dans file
+** OK cmd x>& y    le x est ignorer redirige le 1 et 2 dans y
+** OK cmd &> file  le 1 et 2 dans file
 */
 
 /*
-il faut gerer encore
-	cmd <
-	> file (sans commande)
+** x == file or fd
+** cmd > &x error bash: syntax error near unexpected token `&'
+** cmd >&x == cmd >& x
+**
+** cmd & > ... error
+** cmd &> ... OK
+**
+** cmd &>& file
+** cmd &>& y
 */
 
 /*
-&< error
+** il faut gerer encore
+**	cmd <
+**	> file (sans commande)
 */
 
+/*
+**&< error
+*/
 
 /*
-Probleme de redirection de l'erreur qui devrait s'afficher dans le less
-ls /tmp/ abc 2>&1 | less
+**Probleme de redirection de l'erreur qui devrait s'afficher dans le less
+**ls /tmp/ abc 2>&1 | less
 */

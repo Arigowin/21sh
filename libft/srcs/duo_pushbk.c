@@ -21,8 +21,6 @@ static t_duo		*duo_new(char *name, char *value)
 	new->name = NULL;
 	new->value = NULL;
 	new->next = NULL;
-	/* if (name == NULL && value == NULL) */
-	/* 	return (NULL); */
 	if (name && (new->name = ft_strdup(name)) == NULL)
 		return (NULL);
 	if (value && (new->value = ft_strdup(value)) == NULL)

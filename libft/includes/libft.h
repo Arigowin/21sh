@@ -34,7 +34,7 @@ typedef struct			s_list
 
 typedef struct			s_intlst
 {
-	int 				data;
+	int					data;
 	struct s_intlst		*next;
 }						t_intlst;
 
@@ -47,6 +47,7 @@ void					*ft_memchr(const void *str, int i, int n);
 int						ft_memcmp(const void *str1, const void *str2, int n);
 char					*ft_strdup(const char *str);
 char					*ft_strdup_ignchar(const char *str, char c);
+int						dup_move_one(char **str);
 int						ft_strlen(const char *c);
 char					*ft_strcpy(char *dst, const char *src);
 char					*ft_strncpy(char *dst, const char *src, int n);
@@ -104,6 +105,7 @@ void					ft_putchar_color_fd(int fd, char *color, char c);
 void					ft_putstr_color_fd(int fd, char *color, char *s);
 void					ft_putstr_print(const char *s);
 void					ft_putstr_print_fd(const char *s, int fd);
+void					ft_putstr_visible(const char *s);
 
 t_list					*ft_lstnew(char *content);
 void					ft_lstdelone(t_list **alst, void (*del)(void *, int));
@@ -121,7 +123,7 @@ void					ft_lstpushback(t_list **alst, char *new_c);
 char					*ft_itoa_base(int n, int base);
 t_list					*ft_split_to_lst(const char *s, char c);
 t_duo					*tbl_to_duo(char **tbl, char c);
-int		 				add_in_tbl(char **tbl, char c);
+int						add_in_tbl(char **tbl, char c);
 char					**duo_to_tbl(t_duo *lst, char *sep);
 char					*srch_begining(const char *str, int c);
 char					*srch_value(const char *str, int c);

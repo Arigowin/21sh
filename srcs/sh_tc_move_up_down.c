@@ -2,16 +2,6 @@
 #include "shell.h"
 #include "libft.h"
 
-//int					left_move_cdt(int pos, t_line *stline)
-//{
-//	return (pos > 0	&& ((stline->curs_y == 0 && stline->curs_x > 2) || stline->curs_y > 0));
-////	return (pos > 0
-////		&& ((stline->mini_prt == TRUE && stline->curs_y == 0 && stline->curs_x > 2)
-////			|| (stline->mini_prt == TRUE && stline->curs_y > 0)
-////			|| (stline->mini_prt == FALSE  && stline->curs_y == 0 && stline->curs_x > 2)
-////			|| (stline->mini_prt == FALSE && stline->curs_y > 0)));
-//}
-
 static int			down_term(int i, t_line *stline)
 {
 	tputs(tgetstr("do", NULL), 1, my_outc);
@@ -25,7 +15,7 @@ int					fct_down(char **str, int *pos, t_line *stline,
 					t_history **history)
 {
 	if (DEBUG_TERMCAPS == 1)
-		ft_putendl_fd("------------------ MOVE CTRL DOWN -------------------", 2);
+		ft_putendl_fd("---------------- MOVE CTRL DOWN -------------------", 2);
 
 	int					nb_line;
 	int					last_line;

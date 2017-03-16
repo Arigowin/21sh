@@ -13,7 +13,7 @@ char				*savior_tty(char *tty, int code)
 	return (save_tty);
 }
 
-t_duo				*savior(t_duo *env, int code)
+t_duo				*savior_env(t_duo *env, int code)
 {
 	if (DEBUG_SAVIOR == 1)
 		ft_putendl_fd("------- SAVIOR -------", 2);

@@ -13,13 +13,13 @@ static int			sh_lvl(void)
 	if ((lvl = get_env("SHLVL")) == NULL || ft_strcmp(lvl, "-") == 0)
 	{
 		if ((lvl = ft_strdup("0")) == NULL)
-			return(error_clear_str(FALSE, 6, NULL, &lvl));
+			return (error_clear_str(FALSE, 6, NULL, &lvl));
 	}
 	new_lvl = ft_itoa(ft_atoi(lvl) + 1);
 	if (new_lvl[0] == '-')
 	{
 		if ((new_lvl = ft_strdup("-")) == NULL)
-			return(error_clear_str(FALSE, 6, NULL, &lvl));
+			return (error_clear_str(FALSE, 6, NULL, &lvl));
 	}
 	change_env("SHLVL", new_lvl);
 	ft_strdel(&lvl);
@@ -59,9 +59,9 @@ int					init_env(char **env, t_duo **env_cpy)
 	if (env_cpy == NULL && *env_cpy == NULL)
 		return (sh_error(FALSE, 6, NULL, NULL));
 	del_env(env_cpy, "OLDPWD");
-	savior(*env_cpy, TRUE);
+	savior_env(*env_cpy, TRUE);
 	sh_lvl();
-	savior(*env_cpy, TRUE);
+	savior_env(*env_cpy, TRUE);
 	return (TRUE);
 }
 

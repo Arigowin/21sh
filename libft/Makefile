@@ -28,6 +28,7 @@ SRC = ft_memset.c \
 	  ft_strlen.c \
 	  ft_strdup.c \
 	  ft_strdup_ignchar.c \
+	  dup_move_one.c \
 	  ft_strcpy.c \
 	  ft_strncpy.c \
 	  ft_strcat.c \
@@ -84,6 +85,7 @@ SRC = ft_memset.c \
 	  ft_putstr_color_fd.c \
 	  ft_putstr_print.c \
 	  ft_putstr_print_fd.c \
+	  ft_putstr_visible.c \
 \
 	  ft_lstnew.c \
 	  ft_lstdelone.c \

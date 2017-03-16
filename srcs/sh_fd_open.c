@@ -87,7 +87,7 @@ static int			fct_open(int *fd, int *fd_save, t_node *tree)
 		node = (tree->right->type == RA ? tree->right : tree->right->right);
 	if (node && node->data && (filename = node->data) == NULL)
 		return (lstfd_node_ret(ERROR, &node, NULL, NULL));
-	if((ret = check_fd(fd, filename, node, tree)) != TRUE && *fd != -1)
+	if ((ret = check_fd(fd, filename, node, tree)) != TRUE && *fd != -1)
 		return (ret);
 	*fd_save = *fd;
 	if (*fd == -1 && node && node->data &&

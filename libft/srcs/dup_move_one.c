@@ -1,35 +1,26 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   duo_del.c                                          :+:      :+:    :+:   */
+/*   dup_move_one.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: avacher <avacher@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2016/01/10 10:47:52 by avacher           #+#    #+#             */
-/*   Updated: 2016/01/10 12:01:07 by avacher          ###   ########.fr       */
+/*   Created: 2015/12/08 21:06:21 by avacher           #+#    #+#             */
+/*   Updated: 2015/12/12 13:05:49 by avacher          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-int			duo_del(t_duo **lst)
+int					dup_move_one(char **str)
 {
-	t_duo		*tmp;
+	char				*tmp;
 
-	tmp = NULL;
-	if (lst == NULL || *lst == NULL)
+	if ((tmp = ft_strdup(*(str + 1))) == NULL)
 		return (-1);
-	while ((*lst)->next)
-	{
-		tmp = (*lst)->next;
-		ft_strdel(&(*lst)->name);
-		ft_strdel(&(*lst)->value);
-		free(*lst);
-		*lst = tmp;
-	}
-	ft_strdel(&(*lst)->name);
-	ft_strdel(&(*lst)->value);
-	free(*lst);
-	*lst = NULL;
+	ft_strdel(str);
+	if ((*str = ft_strdup(tmp)) == NULL)
+		return (-1);
+	ft_strdel(&tmp);
 	return (0);
 }
