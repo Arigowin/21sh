@@ -27,4 +27,5 @@ int					main(void)
 			break ;
 	}
 	reset_term();
+	return (dblstr_duo_ret(0, &(stline.line), &(stline.hrd).line, &env_cpy));
 }
