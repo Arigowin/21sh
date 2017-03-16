@@ -23,7 +23,7 @@ const char			*tbl_error1(int index)
 
 	ret_index = index;
 	ret_index = (index >= 16 && index <= 18 ? 16 : ret_index);
-	ret_index = (index >= 26 ? 18 : ret_index);
+	ret_index = (index == 26 ? 18 : ret_index);
 	ret_index = (index == 15 || (index >= 19 && index <= 25) || index == 29
 				|| index == 30 || index == 33 ? 17 : ret_index);
 	ret_index = (index >= 27 && index <= 28 ? 19 : ret_index);

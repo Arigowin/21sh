@@ -203,6 +203,11 @@ typedef struct			s_lst_fd
 }						t_lst_fd;
 
 /*
+** sh_check_tty
+*/
+int						checktty(t_line *stline);
+
+/*
 ** sh_end_pipe_quote
 */
 int						check_end_pipe(char **str, int *pos);
@@ -237,8 +242,11 @@ int						error_clear_node(int ret, int index, char *err,
 							t_node **to_free);
 int						error_clear_str(int ret, int index, char *err,
 							char **to_free);
+int						error_clear_dblstr(int ret, int index, char **to_free,
+							char **to_free_bis);
 int						error_clear_tab(int ret, int index, char *err,
 							char ***to_free);
+void	 				exit_clear_stline(int ret, t_line **stline);
 
 /*
 ** sh_file_history
@@ -314,6 +322,7 @@ int						bi_env(char **arg, t_duo **env);
 /*
 ** sh_bi_exit
 */
+int						del_stline(t_line **stline);
 int						bi_exit(char **arg, t_duo **env);
 int						exit_pgm(int exit_code);
 
