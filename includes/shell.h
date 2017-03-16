@@ -658,3 +658,55 @@ int						pipe_function(int pipefd_tab[2][2], t_node *tree,
 							t_lst_fd **lstfd);
 
 #endif
+
+/*
+** single quote
+** https://www.gnu.org/software/bash/manual/html_node/Single-Quotes.html
+** double quote
+** https://www.gnu.org/software/bash/manual/html_node/Double-Quotes.html
+*/
+
+/*
+** x == fd x >= 0
+** y == fd y >= 0     /dev/fd
+** (http://stackoverflow.com/questions/7082001/file-descriptors)
+**
+** 	if (access("/dev/fd/3", F_OK) == -1)
+** 		return (-1);
+** 	// si access return false sa veut dire que le fd n'existe pas
+**
+** OK cmd > file   le 1 dans file
+** OK cmd >& y     le 1 et 2 dans x
+** OK cmd >& file  le 1 et 2 dans file
+** OK cmd x> file  le x dans file
+** OK cmd x>& file le x est ignorer redirige le 1 et 2 dans file
+** OK cmd x>& y    le x est ignorer redirige le 1 et 2 dans y
+** OK cmd &> file  le 1 et 2 dans file
+*/
+
+/*
+** x == file or fd
+** cmd > &x error bash: syntax error near unexpected token `&'
+** cmd >&x == cmd >& x
+**
+** cmd & > ... error
+** cmd &> ... OK
+**
+** cmd &>& file
+** cmd &>& y
+*/
+
+/*
+** il faut gerer encore
+**	cmd <
+**	> file (sans commande)
+*/
+
+/*
+**&< error
+*/
+
+/*
+**Probleme de redirection de l'erreur qui devrait s'afficher dans le less
+**ls /tmp/ abc 2>&1 | less
+*/
