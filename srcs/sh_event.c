@@ -15,9 +15,6 @@ static int			end_history(char **str, int *pos, t_line *stline,
 static int			fct_return(char **str, int *pos, t_line *stline,
 					t_history **history)
 {
-	if (DEBUG_KEY == 1)
-		ft_putendl_fd("------- FCT RETURN ------", 2);
-
 	end_history(str, pos, stline, history);
 	stline->quote = quote_is_close(str);
 	if (stline->quote != 0 || ((*pos == 1 && (*str)[*pos - 1]
@@ -48,14 +45,12 @@ static int			fct_return(char **str, int *pos, t_line *stline,
 static t_key_fct	*tbl_key_fill(void)
 {
 	static t_key_fct	tbl_keys[18] =
-	{
-		{RETURN, fct_return}, {BACKSPACE, fct_backspace}, {DOWN, history_down},
+	{{RETURN, fct_return}, {BACKSPACE, fct_backspace}, {DOWN, history_down},
 		{HOME, fct_home}, {DEL, fct_del}, {CTRL_D, fct_ctrl_d}, {END, fct_end},
 		{LEFT, fct_left}, {RIGHT, fct_right}, {UP, history_up},
 		{CTRL_LEFT, fct_ctrl_left}, {CTRL_RIGHT, fct_ctrl_right},
 		{CTRL_UP, fct_up}, {CTRL_DOWN, fct_down}, {CUT, fct_cut},
-		{HIGHLIGHT, fct_highlight}, {PASTE, fct_paste}, {COPY, fct_copy}
-	};
+		{HIGHLIGHT, fct_highlight}, {PASTE, fct_paste}, {COPY, fct_copy}};
 
 	return (tbl_keys);
 }
@@ -75,9 +70,6 @@ static int			insert_key(int key_to_insrt, t_line *stline)
 
 int					event(int key_to_insrt, t_line *stline, t_history **history)
 {
-	if (DEBUG == 1)
-		ft_putendl_fd("------- EVENT ------", 2);
-
 	int					i;
 	int					ret;
 	t_key_fct			*tbl_keys;
@@ -86,24 +78,6 @@ int					event(int key_to_insrt, t_line *stline, t_history **history)
 	i = -1;
 	ret = 0;
 	tputs(tgetstr("vi", NULL), 1, my_outc);
-
-	//ANTIBUG
-	char *res;
-	tputs(tgetstr("sc", NULL), 1, my_outc);
-	res = tgetstr("cm", NULL);
-	tputs(tgoto(res, 3, 0), 1, my_outc);
-	tputs(tgetstr("ce", NULL), 1, my_outc);
-	ft_putstr("x :");
-	ft_putnbr(stline->curs_x);
-	ft_putstr(" y :");
-	ft_putnbr(stline->curs_y);
-	ft_putstr(" pos :");
-	ft_putnbr(stline->pos);
-	ft_putstr(" mp :");
-	ft_putnbr(stline->mini_prt);
-	tputs(tgetstr("rc", NULL), 1, my_outc);
-	//ANTIBUG
-
 	while (++i < 18)
 	{
 		if (tbl_keys[i].key == key_to_insrt)

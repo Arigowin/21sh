@@ -1,13 +1,9 @@
 #include "shell.h"
 #include "libft.h"
 
-// nom a revoir
 static int			history_up_prev(t_history **history, char *tmp, int *pos,
-					t_line *stline) //static av history up
+					t_line *stline)
 {
-	if (DEBUG_HISTORY == 1)
-		ft_putendl_fd("---------------- HISTORY UP PREV -----------------------", 2);
-
 	char				*tmpchr;
 	int					ret;
 	int					len;
@@ -25,11 +21,6 @@ static int			history_up_prev(t_history **history, char *tmp, int *pos,
 			if (ft_strcmp(tmpchr, (*history)->line) == 0)
 				*history = (*history)->prev;
 			*history = (*history)->prev;
-		//	if (stline->mini_prt == FALSE // code a l'origine
-		//	|| (ret = ft_strcmp(tmpchr, (*history)->line)) == 0)
-		//	{
-		//		*history = (*history)->prev;
-		//	}
 		}
 		else if ((ret = ft_strcmp(tmp, (*history)->line)) == 0)
 			*history = (*history)->prev;
@@ -40,9 +31,6 @@ static int			history_up_prev(t_history **history, char *tmp, int *pos,
 
 static int			nb_line_total(char *str, t_line *stline)
 {
-	if (DEBUG_HISTORY == 1)
-		ft_putendl_fd("---------------- NB LINE TOTAL -----------------------", 2);
-
 	char				**line;
 	int					i;
 	int					len;
@@ -65,12 +53,9 @@ static int			nb_line_total(char *str, t_line *stline)
 	return (nb);
 }
 
-static int			reset_pos_x_y(char **str, int *pos, t_line *stline, //static ac les 2 suivantes
+static int			reset_pos_x_y(char **str, int *pos, t_line *stline,
 					t_history **history)
 {
-	if (DEBUG_HISTORY == 1)
-		ft_putendl_fd("---------------- RESET POS X Y --------------------", 2);
-
 	int					nb;
 	int					len;
 	int					nb_line;
@@ -99,9 +84,6 @@ static int			reset_pos_x_y(char **str, int *pos, t_line *stline, //static ac les
 int					history_up(char **str, int *pos, t_line *stline,
 					t_history **history)
 {
-	if (DEBUG_HISTORY == -1)
-		ft_putendl_fd("---------------- HISTORY UP -----------------------", 2);
-
 	int					i;
 	char				*t;
 	char				*tmpchr;
@@ -132,9 +114,6 @@ int					history_up(char **str, int *pos, t_line *stline,
 int					history_down(char **str, int *pos, t_line *stline,
 					t_history **history)
 {
-	if (DEBUG_HISTORY == 1)
-		ft_putendl_fd("---------------- HISTORY DOWN ---------------------", 2);
-
 	int					i;
 
 	if ((history = savior_history(NULL, FALSE)) == NULL || *history == NULL

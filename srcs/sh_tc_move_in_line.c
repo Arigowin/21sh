@@ -4,9 +4,6 @@
 
 static int			multi_left(char **str, int *pos, t_line *stline)
 {
-	if (DEBUG_TERMCAPS == 1)
-		ft_putendl_fd("------- MULTI LEFT ------", 2);
-
 	int					nb;
 	char				*tmp;
 	char				*chr;
@@ -35,9 +32,6 @@ static int			multi_left(char **str, int *pos, t_line *stline)
 int					fct_left(char **str, int *pos, t_line *stline,
 					t_history **history)
 {
-	if (DEBUG_TERMCAPS == 1)
-		ft_putendl_fd("------- MOVE LEFT ------", 2);
-
 	(void)history;
 	if (*str && *pos > 0 && ((stline->curs_y == 0 && stline->curs_x > 2)
 	|| stline->curs_y > 0))
@@ -67,9 +61,6 @@ int					fct_left(char **str, int *pos, t_line *stline,
 int					fct_right(char **str, int *pos, t_line *stline,
 					t_history **history)
 {
-	if (DEBUG_TERMCAPS == 1)
-		ft_putendl_fd("------- MOVE RIGHT ------", 2);
-
 	(void)history;
 	if ((stline->copy.start == -1 && ((*pos))
 		< (int)ft_strlen(*str)) || (stline->copy.start != -1
@@ -99,9 +90,6 @@ int					fct_right(char **str, int *pos, t_line *stline,
 int					fct_ctrl_left(char **str, int *pos, t_line *stline,
 					t_history **history)
 {
-	if (DEBUG_TERMCAPS == 1)
-		ft_putendl_fd("------- MOVE WORD LEFT ------", 2);
-
 	int					x;
 
 	if (*pos > 0 && ((stline->curs_y == 0 && stline->curs_x > 2)
@@ -122,9 +110,6 @@ int					fct_ctrl_left(char **str, int *pos, t_line *stline,
 int					fct_ctrl_right(char **str, int *pos, t_line *stline,
 					t_history **history)
 {
-	if (DEBUG_TERMCAPS == 1)
-		ft_putendl_fd("------- MOVE WORD RIGHT ------", 2);
-
 	int					x;
 
 	(void)history;

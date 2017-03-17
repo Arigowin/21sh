@@ -4,9 +4,6 @@
 
 int					str_addleft(char *tbl, char c)
 {
-	if (DEBUG_COPY_PASTE == 1)
-		ft_putendl_fd("------- str_addleft ------", 2);
-
 	int					i;
 
 	i = 0;
@@ -26,9 +23,6 @@ int					str_addleft(char *tbl, char c)
 
 int					str_delleft(char *tbl)
 {
-	if (DEBUG_COPY_PASTE == 1)
-		ft_putendl_fd("------- str_delleft ------", 2);
-
 	int					i;
 
 	i = 0;
@@ -45,9 +39,6 @@ int					str_delleft(char *tbl)
 
 int					del_in_copy(char **str, int *pos, t_line *stline, int dir)
 {
-	if (DEBUG_COPY_PASTE == 1)
-		ft_putendl_fd("------- DEL_IN_COPY ------", 2);
-
 	if (dir != RIGHT && dir != LEFT)
 		return (FALSE);
 	tputs(tgetstr("me", NULL), 1, my_outc);
@@ -64,9 +55,6 @@ int					del_in_copy(char **str, int *pos, t_line *stline, int dir)
 
 int					add_in_copy(char **str, int *pos, t_line *stline, int dir)
 {
-	if (DEBUG_COPY_PASTE == 1)
-		ft_putendl_fd("------- ADD_IN_COPY ------", 2);
-
 	if (dir != RIGHT && dir != LEFT)
 		return (FALSE);
 	tputs(tgetstr("mr", NULL), 1, my_outc);

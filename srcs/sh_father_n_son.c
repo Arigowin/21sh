@@ -8,9 +8,6 @@
 
 static int			father(int pipefd_tab[2][2])
 {
-	if (DEBUG == 1)
-		ft_putendl_fd("------- FATHER ------", 2);
-
 	int					stat_loc;
 
 	stat_loc = 0;
@@ -20,7 +17,7 @@ static int			father(int pipefd_tab[2][2])
 		while (waitpid(-1, &stat_loc, WNOHANG) >= 0)
 			;
 	if (WIFSIGNALED(stat_loc))
-		return (-2); // revoir le code de retour
+		return (-2);
 	if (WIFEXITED(stat_loc) != TRUE)
 		return (ERROR);
 	return (WEXITSTATUS(stat_loc));
@@ -29,9 +26,6 @@ static int			father(int pipefd_tab[2][2])
 static int			son(char **cmd, int pipefd_tab[2][2], t_node *tree,
 					t_lst_fd **lstfd)
 {
-	if (DEBUG == 1)
-		ft_putendl_fd("------- SON ------", 2);
-
 	int					ret;
 	int					fd;
 
@@ -57,9 +51,6 @@ static int			son(char **cmd, int pipefd_tab[2][2], t_node *tree,
 int					handle_fork(int pipefd_tab[2][2], t_node *tree,
 					t_lst_fd **lstfd, char **cmd)
 {
-	if (DEBUG == 1)
-		ft_putendl_fd("------- HANDLE FORK ------", 2);
-
 	pid_t				fpid;
 
 	fpid = -1;

@@ -6,9 +6,6 @@
 
 static int			change_dir(char *path)
 {
-	if (DEBUG_BUILTIN == 1)
-		ft_putendl_fd("------- CHANGE DIR ------", 2);
-
 	struct stat			stat_buf;
 
 	if (chdir(path) == -1)
@@ -25,9 +22,6 @@ static int			change_dir(char *path)
 
 static int			cd_home(void)
 {
-	if (DEBUG_BUILTIN == 1)
-		ft_putendl_fd("------- CD HOME ------", 2);
-
 	char				*path;
 	int					ret;
 
@@ -65,9 +59,6 @@ static int			handle_cd_arg(int *i, int *ret, char **arg)
 
 int					bi_cd(char **arg, t_duo **env)
 {
-	if (DEBUG_BUILTIN == 1)
-		ft_putendl_fd("------- BI CD ------", 2);
-
 	char				*tmp;
 	char				*path;
 	int					i;

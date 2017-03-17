@@ -6,9 +6,6 @@
 
 static int			pushbck_cdt(char **read_buff, char **data_tmp)
 {
-	if (DEBUG_TOKEN == 1)
-		ft_putendl_fd("------- PUSHBCK_CDT ------", 2);
-
 	return (**data_tmp
 		&& (!(ft_strchr(WAKA, (*data_tmp)[ft_strlen(*data_tmp) - 1])
 				&& **read_buff == '&'))
@@ -22,9 +19,6 @@ static int			pushbck_cdt(char **read_buff, char **data_tmp)
 
 int					concat(char **dest, char *s1, char *s2)
 {
-	if (DEBUG_TOKEN == 1)
-		ft_putendl_fd("------- CONCAT ------", 2);
-
 	if (!(dest && *dest))
 		return (ERROR);
 	while (s1 && *s1)
@@ -43,9 +37,6 @@ int					concat(char **dest, char *s1, char *s2)
 int					token_sep(int *hrd, char **read_buff, char **data_tmp,
 					t_e_list **l_expr)
 {
-	if (DEBUG_TOKEN == 1)
-		ft_putendl_fd("------- TOKEN SEP ------", 2);
-
 	if (pushbck_cdt(read_buff, data_tmp))
 	{
 		expr_pushbk(l_expr, *data_tmp, *hrd);
@@ -75,9 +66,6 @@ int					token_sep(int *hrd, char **read_buff, char **data_tmp,
 
 int					tokenizer(int *hrd, char *read_buff, t_e_list **l_expr)
 {
-	if (DEBUG_TOKEN == 1)
-		ft_putendl_fd("------- TOKENIZER ------", 2);
-
 	char				*data_tmp;
 
 	if ((data_tmp = ft_strnew(ft_strlen(read_buff))) == NULL)
@@ -93,18 +81,5 @@ int					tokenizer(int *hrd, char *read_buff, t_e_list **l_expr)
 			*hrd = 0;
 	}
 	ft_strdel(&data_tmp);
-
-	// ANTIBUG !!!!!!!!!
-	if (DEBUG_TOKEN == 1)
-	{
-		t_e_list *tmp = *l_expr;
-		while (tmp)
-		{
-			printf("t[(%s)(%d)] -> ", tmp->data, *hrd);
-			tmp = tmp->next;
-		}
-		printf ("\n");
-	}
-	// fin  ANTIBUG !!!!!!!!!
 	return (TRUE);
 }

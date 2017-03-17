@@ -3,9 +3,6 @@
 
 t_lst_fd			*lstfd_new(int fd, char *filename)
 {
-	if (DEBUG_RED == 1)
-		ft_putendl_fd("------- LSTFD NEW -------", 2);
-
 	t_lst_fd			*new_fd;
 
 	if ((new_fd = (t_lst_fd*)malloc(sizeof(t_lst_fd))) == NULL)
@@ -25,9 +22,6 @@ t_lst_fd			*lstfd_new(int fd, char *filename)
 
 int					lstfd_pushfront(t_lst_fd **lstfd, int fd, char *filename)
 {
-	if (DEBUG_RED == 1)
-		ft_putendl_fd("------- LSTFD PUSHFRONT -------", 2);
-
 	t_lst_fd			*new_fd;
 
 	new_fd = NULL;
@@ -42,11 +36,8 @@ int					lstfd_pushfront(t_lst_fd **lstfd, int fd, char *filename)
 	return (TRUE);
 }
 
-int					del_lstfd(t_lst_fd **lstfd) // la fct close_lstfd est à privilégier elle close le fd avant de le free...
+int					del_lstfd(t_lst_fd **lstfd)
 {
-	if (DEBUG_RED == 1)
-		ft_putendl_fd("------------ DEL LSTFD -------", 2);
-
 	t_lst_fd			*tmpfd;
 
 	tmpfd = NULL;
@@ -64,9 +55,6 @@ int					del_lstfd(t_lst_fd **lstfd) // la fct close_lstfd est à privilégier el
 
 int					close_lstfd(t_lst_fd **lstfd)
 {
-	if (DEBUG_RED == 1)
-		ft_putendl_fd("----- CLOSE LSTFD -----", 2);
-
 	t_lst_fd			*tmp;
 
 	tmp = NULL;
@@ -90,9 +78,6 @@ int					close_lstfd(t_lst_fd **lstfd)
 int					push_in_lstfd(t_node *tree, t_lst_fd **lstfd, int fd,
 					int *fd_save)
 {
-	if (DEBUG_TREE == 1)
-		ft_putendl_fd("------- PUSH IN LSTFD -------", 2);
-
 	char				*filename;
 
 	if (*fd_save == -1)

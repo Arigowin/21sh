@@ -4,10 +4,6 @@ echo 'CMD: [ls >&9]'
 ls >&9
 echo 'CMD: [ls <&9]'
 ls <&9
-echo 'CMD: [ls >&noright]'
-ls >&noright
-echo 'CMD: [ls <&noright]'
-ls <&noright
 echo 'CMD: [ls <&noexist]'
 ls <&noexist
 echo 'CMD: [unsetenv]'
@@ -36,3 +32,8 @@ echo 'CMD: [noexist]'
 noexist
 echo 'CMD: [exit abc]'
 exit abc
+echo 'CMD: [ls >&noright]'
+ls >&noright
+echo 'CMD: [ls <&noright]'
+ls <&noright
+rm noright
