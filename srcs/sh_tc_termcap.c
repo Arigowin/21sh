@@ -1,5 +1,4 @@
 #include <term.h>
-#include <termios.h>
 #include "shell.h"
 #include "libft.h"
 
@@ -23,9 +22,6 @@ static int			start_init_term(void)
 
 int					init_term(int full_init)
 {
-	if (DEBUG_TERMCAPS == 1)
-		ft_putendl_fd("------- INIT TERM ------", 2);
-
 	struct termios		term;
 	char				*term_env;
 
@@ -49,9 +45,6 @@ int					init_term(int full_init)
 
 int					reset_term(void)
 {
-	if (DEBUG_TERMCAPS == 1)
-		ft_putendl_fd("------- RESET TERM ------", 2);
-
 	struct termios		term;
 
 	if (ttyname(0) == NULL)

@@ -3,9 +3,6 @@
 
 static t_states		get_state(t_states state, char **read_buff)
 {
-	if (DEBUG_TOKEN == 1)
-		ft_putendl_fd("------- GET STATE ------", 2);
-
 	if (state == STANDARD && **read_buff == '"')
 		return (IN_DQUOTE);
 	if (state == STANDARD && **read_buff == '\'')
@@ -22,9 +19,6 @@ static t_states		get_state(t_states state, char **read_buff)
 static int			state_standard(int *int_tbl[2], char **read_buff,
 					char **data_tmp, t_e_list **l_expr)
 {
-	if (DEBUG_TOKEN == 1)
-		ft_putendl_fd("------- STATE STANDARD ------", 2);
-
 	if (**read_buff == DQUOTE || **read_buff == QUOTE)
 		return (FALSE);
 	if (**read_buff == '\\')
@@ -47,9 +41,6 @@ static int			state_standard(int *int_tbl[2], char **read_buff,
 
 static int			state_quote(int *hrd, char *read_buff, char **data_tmp)
 {
-	if (DEBUG_TOKEN == 1)
-		ft_putendl_fd("------- STATE QUOTE ------", 2);
-
 	*hrd = (*hrd > 1 ? *hrd : QUOTE);
 	if (*read_buff)
 	{
@@ -66,9 +57,6 @@ static int			state_quote(int *hrd, char *read_buff, char **data_tmp)
 
 static int			state_dquote(int *hrd, char **read_buff, char **data_tmp)
 {
-	if (DEBUG_TOKEN == 1)
-		ft_putendl_fd("------- STATE DQUOTE ------", 2);
-
 	*hrd = (*hrd > 1 ? *hrd : DQUOTE);
 	if (**read_buff == DQUOTE)
 	{
@@ -88,9 +76,6 @@ static int			state_dquote(int *hrd, char **read_buff, char **data_tmp)
 int					finite_state_automaton(int *hrd, char **read_buff,
 					t_e_list **l_expr, char **data_tmp)
 {
-	if (DEBUG_TOKEN == 1)
-		ft_putendl_fd("------- FINITE STATE AUTOMATON ------", 2);
-
 	int					bln;
 	int					*int_tbl[2];
 	t_states			state;

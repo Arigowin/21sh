@@ -2,11 +2,8 @@
 #include "shell.h"
 #include "libft.h"
 
-static char			*join_exe(char *s1, char *s2) //static ac check fct
+static char			*join_exe(char *s1, char *s2)
 {
-	if (DEBUG == 1)
-		ft_putendl_fd("------- JOIN EXE ------", 2);
-
 	char				*rlt;
 	char				*tmp;
 
@@ -22,11 +19,8 @@ static char			*join_exe(char *s1, char *s2) //static ac check fct
 	return (rlt);
 }
 
-int					null_input(int fd) // static ac check fct
+int					null_input(int fd)
 {
-	if (DEBUG == 1)
-		ft_putendl_fd("------- NULL INPUT ------", 2);
-
 	int					pfd[2];
 
 	if (fd == -1)
@@ -45,9 +39,6 @@ int					null_input(int fd) // static ac check fct
 
 int					ft_is_dir(char *path)
 {
-	if (DEBUG == 1)
-		ft_putendl_fd("------- FT IS DIR ------", 2);
-
 	struct stat			file_stat;
 
 	if (stat(path, &file_stat) == ERROR)
@@ -60,9 +51,6 @@ int					ft_is_dir(char *path)
 static int			check_rights(char *tmp, char **path, char **cmd,
 					char **tbl_env)
 {
-	if (DEBUG == 1)
-		ft_putendl_fd("------- CHECK RIGHTS ------", 2);
-
 	if (access(tmp, F_OK) != ERROR)
 	{
 		if (access(tmp, X_OK) == ERROR)
@@ -83,9 +71,6 @@ static int			check_rights(char *tmp, char **path, char **cmd,
 
 int					check_fct(int fd, char **cmd)
 {
-	if (DEBUG == 1)
-		ft_putendl_fd("------- CHECK FCT------", 2);
-
 	char				**path;
 	char				*tmp;
 	t_duo				*env;

@@ -3,9 +3,6 @@
 
 static t_history	*new_history(char *line)
 {
-	if (DEBUG_HISTORY == 1)
-		ft_putendl_fd("------- NEW HISTORY ------", 2);
-
 	t_history			*new;
 
 	if (line == NULL)
@@ -26,9 +23,6 @@ static t_history	*new_history(char *line)
 
 void				add_history(t_history **history, char *line)
 {
-	if (DEBUG_HISTORY == 1)
-		ft_putendl_fd("------- ADD HISTORY ------", 2);
-
 	t_history			*new;
 
 	while (*history && (*history)->next != NULL)
@@ -48,9 +42,6 @@ void				add_history(t_history **history, char *line)
 
 void				del_history(t_history **history)
 {
-	if (DEBUG_HISTORY == 1)
-		ft_putendl_fd("------- DEL HISTORY ------", 2);
-
 	t_history *save;
 
 	if (history == NULL || *history == NULL)
@@ -86,9 +77,6 @@ static int			remove_backslash_eol(char **line)
 
 void				modif_history(t_history **history, char *line, int mini_prt)
 {
-	if (DEBUG_HISTORY == 1)
-		ft_putendl_fd("------- ADD HISTORY ------", 2);
-
 	if (line == NULL)
 		return ;
 	remove_backslash_eol(&line);

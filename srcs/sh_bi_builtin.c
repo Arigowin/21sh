@@ -1,17 +1,11 @@
-#include <stdio.h>
 #include "shell.h"
 #include "libft.h"
 
 int					is_builtin(char **cmd)
 {
-	if (DEBUG == 1)
-		ft_putendl_fd("------- IS BUILTIN ------", 2);
-
+	static const char	*bi[] = {"echo", "cd", "setenv", "unsetenv",
+								"env", "exit"};
 	int					i;
-	static const char	*bi[] =
-	{
-		"echo", "cd", "setenv", "unsetenv", "env", "exit"
-	};
 
 	i = 0;
 	if (cmd)
@@ -23,15 +17,11 @@ int					is_builtin(char **cmd)
 			i++;
 		}
 	}
-	/* -1 car code special pas une ERROR (cmd != bultin)*/
 	return (-1);
 }
 
 int					handle_builtin(char **cmd)
 {
-	if (DEBUG == 1)
-		ft_putendl_fd("------- HANDLE BUILTIN ------", 2);
-
 	int					i;
 	int					ret;
 	t_duo				*env;
@@ -58,9 +48,6 @@ int					handle_builtin(char **cmd)
 int					check_builtin(int fd, char **cmd, int pipefd_tab[2][2],
 					t_lst_fd **lstfd)
 {
-	if (DEBUG == 1)
-		ft_putendl_fd("------- CHECK BUILTIN ------", 2);
-
 	int					ret;
 
 	if (fd == -1)

@@ -1,27 +1,6 @@
 #ifndef SHELL_H
 # define SHELL_H
 
-# define DEBUG 0
-# define DEBUG_ANTIBUG 0
-# define DEBUG_BUILTIN 0
-# define DEBUG_CMD 0
-# define DEBUG_COPY_PASTE 0
-# define DEBUG_HEREDOC 0
-# define DEBUG_HISTORY 0
-# define DEBUG_FILE_HIST 0
-# define DEBUG_KEY 0
-# define DEBUG_LEXER 0
-# define DEBUG_PARSER 0
-# define DEBUG_PIPE 0
-# define DEBUG_RED 0
-# define DEBUG_SAVIOR 0
-# define DEBUG_TERMCAPS 0
-# define DEBUG_TOKEN 0
-# define DEBUG_TREE 0
-# define DEBUG_TREE_CREATION 0
-# define DEBUG_TREE_VERIF 0
-# include <stdio.h>
-
 # define HISTORY_FILE_NAME "/.21sh_history"
 
 # define CONTINUE 3
@@ -33,16 +12,10 @@
 # define SYS_CALL_FAIL -3
 # define NO_PRINT -4
 
-/*
-** j'ai enlevé le \0 des IGN
-*/
 # define IGN " \t\n"
 # define SEP "|&;>< \t\n\0"
 # define SPECIAL "|&><;"
 
-/*
-** juste pour pouvoir gerer '&' tout seul
-*/
 # define SPECIAL2 "|><;"
 # define LWAKA "><|&"
 # define WAKA "><"
@@ -51,50 +24,6 @@
 
 # define QUOTE 39
 # define DQUOTE 34
-
-/*
-** # define LEFT 4479771
-** # define RIGHT 4414235
-** # define UP 4283163
-** # define DOWN 4348699
-** - LINUX CTRL + [q|w]
-** # define CTRL_UP 28955
-** # define CTRL_DOWN 30491
-** - MAC
-** # define CTRL_UP 16693
-** # define CTRL_DOWN 16949
-**
-** # define BACKSPACE 127
-** # define TAB 9
-** # define RETURN 10
-** # define CTRL_D 4
-**
-** - LINUX ALT + [h|v|c|x]
-** # define HIGHLIGHT 26651
-** # define PASTE 30235
-** # define COPY 25371
-** # define CUT 30747
-** - MAC OPT + [h|v|c|x]
-** # define HIGHLIGHT 39371
-** # define PASTE 10127586
-** # define COPY 42947
-** # define CUT 8948194
-**
-** - LINUX CTRL + [a|e]
-** # define CTRL_LEFT 1
-** # define CTRL_RIGHT 5
-** - MAC
-** # define CTRL_LEFT 17461
-** # define CTRL_RIGHT 17205
-**
-** # define DEL 2117294875
-** - LINUX
-** # define HOME 2117163803
-** # define END 2117360411
-** - MAC
-** # define HOME 4741915
-** # define END 4610843
-*/
 
 # define LEFT 4479771
 # define RIGHT 4414235
@@ -107,7 +36,6 @@
 # define DEL 2117294875
 
 # if defined(__unix__)
-#  define LOL 3
 
 /*
 ** LINUX CTRL + [q|w]
@@ -117,7 +45,6 @@
 
 /*
 ** LINUX ALT + [h|v|c|x]
-** pouette commentaire multilignes !
 */
 #  define HIGHLIGHT 26651
 #  define PASTE 30235
@@ -137,7 +64,6 @@
 #  define END 2117360411
 
 # elif defined(__APPLE__)
-#  define LOL 4
 
 /*
 ** MAC
@@ -174,10 +100,6 @@
 # include <sys/ioctl.h>
 # include "libft.h"
 
-/*
-** EXP Never used
-** trololo
-*/
 typedef enum			e_types
 {
 	NONE,
@@ -280,6 +202,11 @@ typedef struct			s_lst_fd
 }						t_lst_fd;
 
 /*
+** sh_check_tty
+*/
+int						checktty(t_line *stline);
+
+/*
 ** sh_end_pipe_quote
 */
 int						check_end_pipe(char **str, int *pos);
@@ -314,8 +241,11 @@ int						error_clear_node(int ret, int index, char *err,
 							t_node **to_free);
 int						error_clear_str(int ret, int index, char *err,
 							char **to_free);
+int						error_clear_dblstr(int ret, int index, char **to_free,
+							char **to_free_bis);
 int						error_clear_tab(int ret, int index, char *err,
 							char ***to_free);
+void					exit_clear_stline(int ret, t_line **stline);
 
 /*
 ** sh_file_history
@@ -391,6 +321,7 @@ int						bi_env(char **arg, t_duo **env);
 /*
 ** sh_bi_exit
 */
+int						del_stline(t_line **stline);
 int						bi_exit(char **arg, t_duo **env);
 int						exit_pgm(int exit_code);
 
@@ -658,55 +589,3 @@ int						pipe_function(int pipefd_tab[2][2], t_node *tree,
 							t_lst_fd **lstfd);
 
 #endif
-
-/*
-** single quote
-** https://www.gnu.org/software/bash/manual/html_node/Single-Quotes.html
-** double quote
-** https://www.gnu.org/software/bash/manual/html_node/Double-Quotes.html
-*/
-
-/*
-** x == fd x >= 0
-** y == fd y >= 0     /dev/fd
-** (http://stackoverflow.com/questions/7082001/file-descriptors)
-**
-** 	if (access("/dev/fd/3", F_OK) == -1)
-** 		return (-1);
-** 	// si access return false sa veut dire que le fd n'existe pas
-**
-** OK cmd > file   le 1 dans file
-** OK cmd >& y     le 1 et 2 dans x
-** OK cmd >& file  le 1 et 2 dans file
-** OK cmd x> file  le x dans file
-** OK cmd x>& file le x est ignorer redirige le 1 et 2 dans file
-** OK cmd x>& y    le x est ignorer redirige le 1 et 2 dans y
-** OK cmd &> file  le 1 et 2 dans file
-*/
-
-/*
-** x == file or fd
-** cmd > &x error bash: syntax error near unexpected token `&'
-** cmd >&x == cmd >& x
-**
-** cmd & > ... error
-** cmd &> ... OK
-**
-** cmd &>& file
-** cmd &>& y
-*/
-
-/*
-** il faut gerer encore
-**	cmd <
-**	> file (sans commande)
-*/
-
-/*
-**&< error
-*/
-
-/*
-**Probleme de redirection de l'erreur qui devrait s'afficher dans le less
-**ls /tmp/ abc 2>&1 | less
-*/

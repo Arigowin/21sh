@@ -1,12 +1,8 @@
-#include <stdio.h>
 #include "shell.h"
 #include "libft.h"
 
 static char			*get_path(void)
 {
-	if (DEBUG == 1)
-		ft_putendl_fd("------- GET PATH ------", 2);
-
 	char				*path;
 	char				*tmp;
 	char				*home;
@@ -38,9 +34,6 @@ int					miniprt_reset_stline(t_line *stline)
 
 int					mini_prt_handler(char **str, int *pos, t_line *stline)
 {
-	if (DEBUG_KEY == 1)
-		ft_putendl_fd("------- MINI PRT HANDLER ------", 2);
-
 	if ((*str)[0] != '\0')
 		fct_insert(str, pos, '\n', stline);
 	else if (!ft_strcmp(*str, ""))
@@ -53,9 +46,6 @@ int					mini_prt_handler(char **str, int *pos, t_line *stline)
 
 int					display_prompt(void)
 {
-	if (DEBUG == 1)
-		ft_putendl_fd("------- DISPLAY PROMPT ------", 2);
-
 	char				*name;
 	char				*path;
 	char				*shlvl;
@@ -85,9 +75,6 @@ int					display_prompt(void)
 
 int					fill_path(char ***env)
 {
-	if (DEBUG == 1)
-		ft_putendl_fd("------- FILL PATH ------", 2);
-
 	char				*tmp;
 
 	tmp = NULL;

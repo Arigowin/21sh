@@ -1,11 +1,10 @@
+#include <unistd.h>
+#include <stdlib.h>
 #include "shell.h"
 #include "libft.h"
 
 static char			**tree_to_tbl(t_node *tree, int nb_elem)
 {
-	if (DEBUG_CMD == 1)
-		ft_putendl_fd("----- TREE TO TBL -----", 2);
-
 	int					i;
 	char				**tbl;
 
@@ -31,11 +30,8 @@ static char			**tree_to_tbl(t_node *tree, int nb_elem)
 	return (tbl);
 }
 
-static char			**format_cmd(t_node *tree) //static ac manage cmd
+static char			**format_cmd(t_node *tree)
 {
-	if (DEBUG_CMD == 1)
-		ft_putendl_fd("----- FORMAT CMD -----", 2);
-
 	char				**ret;
 	t_node				*tmp;
 	int					i;
@@ -58,9 +54,6 @@ static char			**format_cmd(t_node *tree) //static ac manage cmd
 static int			nopipe_cmd(int pipefd_tab[2][2], t_node *tree,
 		t_lst_fd **lstfd, char **cmd)
 {
-	if (DEBUG_CMD == 1)
-		ft_putendl_fd("----- MANAGE CMD WITHOUT PIPE -----", 2);
-
 	int					ret;
 	int					fd;
 
@@ -88,9 +81,6 @@ static int			nopipe_cmd(int pipefd_tab[2][2], t_node *tree,
 int					manage_cmd(int pipefd_tab[2][2], t_node *tree,
 		t_lst_fd **lstfd)
 {
-	if (DEBUG_CMD == 1)
-		ft_putendl_fd("----- CMD -----", 2);
-
 	char				**cmd;
 	int					ret;
 

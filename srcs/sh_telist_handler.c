@@ -1,13 +1,9 @@
 #include <stdlib.h>
-#include <limits.h>
 #include "libft.h"
 #include "shell.h"
 
 t_e_list			*expr_new(char *content, int hrd)
 {
-	if (DEBUG_LEXER == 1)
-		ft_putendl_fd("------- EXPR NEW ------", 2);
-
 	t_e_list			*new;
 
 	if ((new = (t_e_list *)malloc(sizeof(t_e_list))) == NULL)
@@ -30,9 +26,6 @@ t_e_list			*expr_new(char *content, int hrd)
 
 int					expr_del(t_e_list **lst)
 {
-	if (DEBUG_LEXER == 1)
-		ft_putendl_fd("------- EXPR DEL ------", 2);
-
 	t_e_list			*tmp;
 
 	tmp = NULL;
@@ -50,10 +43,8 @@ int					expr_del(t_e_list **lst)
 
 int					expr_pushbk(t_e_list **l_expr, char *data_tmp, int hrd)
 {
-	if (DEBUG_LEXER == 1)
-		ft_putendl_fd("------- EXPR PUSHBK ------", 2);
-
 	t_e_list			*tmp;
+
 	if (data_tmp == NULL || *data_tmp == '\0')
 		return (FALSE);
 	if (!(*l_expr))

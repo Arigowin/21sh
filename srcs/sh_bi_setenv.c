@@ -1,11 +1,9 @@
+#include <unistd.h>
 #include "shell.h"
 #include "libft.h"
 
 int					valid_env_name(char *str, char *bi)
 {
-	if (DEBUG_BUILTIN == 1)
-		ft_putendl_fd("------- IS VALID ------", 2);
-
 	int					i;
 
 	i = -1;
@@ -22,9 +20,6 @@ int					valid_env_name(char *str, char *bi)
 
 int					bi_setenv(char **arg, t_duo **env)
 {
-	if (DEBUG_BUILTIN == 1)
-		ft_putendl_fd("------- BI SETENV ------", 2);
-
 	int					i;
 
 	i = 0;

@@ -1,12 +1,19 @@
-#include <stdlib.h>
+#include <unistd.h>
 #include "shell.h"
 #include "libft.h"
 
+int					del_stline(t_line **stline)
+{
+	ft_strdel(&((*stline)->line));
+	ft_strdel(&((*stline)->curr_hist));
+	ft_strdel(&((*stline)->copy.cpy));
+	ft_strdel(&((*stline)->copy.bkup));
+	ft_strdel(&((*stline)->hrd.line));
+	return (TRUE);
+}
+
 int					exit_pgm(int exit_code)
 {
-	if (DEBUG_BUILTIN == 1)
-		ft_putendl_fd("------- EXIT PGM ------", 2);
-
 	t_node				*tree;
 	t_line				*stline;
 	t_duo				*env;
@@ -16,12 +23,13 @@ int					exit_pgm(int exit_code)
 	stline = savior_stline(NULL, FALSE);
 	env = savior_env(NULL, FALSE);
 	del_tree(&tree);
+	savior_tree(NULL, TRUE);
 	save_history();
 	duo_del(&env);
+	savior_env(NULL, TRUE);
 	reset_term();
-	tree = NULL;
-	ft_strdel(&(stline->hrd.line));
-	ft_strdel(&(stline->line));
+	del_stline(&stline);
+	savior_stline(NULL, TRUE);
 	if (exit_code == EXIT_SUCCESS)
 		ft_putendl("exit");
 	exit(exit_code);
@@ -30,9 +38,6 @@ int					exit_pgm(int exit_code)
 
 int					bi_exit(char **arg, t_duo **env)
 {
-	if (DEBUG_BUILTIN == 1)
-		ft_putendl_fd("------- BI EXIT ------", 2);
-
 	int					i;
 
 	i = 0;
@@ -42,10 +47,7 @@ int					bi_exit(char **arg, t_duo **env)
 	while (arg && arg[1] && arg[1][i])
 	{
 		if (ft_isdigit(arg[1][i]) == 0)
-		{
-			return (sh_error(FALSE, 28, arg[1], NULL)); //peut etre appeler la fct d'erreur sans le return ?
-			exit_pgm(255); // pour moi on exit pas vu qu'il y a eu une erreur dans exit de toute facon, vu qu'on return avan, on exit pas...
-		}
+			return (sh_error(FALSE, 28, arg[1], NULL));
 		i++;
 	}
 	i = (arg && arg[1] ? ft_atoi(arg[1]) : 0);

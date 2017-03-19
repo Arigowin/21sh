@@ -1,4 +1,3 @@
-#include <unistd.h>
 #include <stdlib.h>
 #include "shell.h"
 #include "libft.h"
@@ -12,11 +11,15 @@ static int			rightred(int c)
 	return (0);
 }
 
+static int			waka_search(char *str)
+{
+	if (str != NULL && (ft_strchr(str, '<') || ft_strchr(str, '>')))
+		return (TRUE);
+	return (FALSE);
+}
+
 static int			type_analyzer2(int hrd, t_e_list **t, int *bole)
 {
-	if (DEBUG_LEXER == 1)
-		ft_putendl_fd("------- TYPE ANALYZER2 ------", 2);
-
 	if (hrd < 1 && ft_strcmp((*t)->next->data, ";") == 0)
 	{
 		(*t)->next->type = SEMI;
@@ -46,9 +49,6 @@ static int			type_analyzer2(int hrd, t_e_list **t, int *bole)
 
 static int			type_analyzer(t_e_list **l_expr, int boule)
 {
-	if (DEBUG_LEXER == 1)
-		ft_putendl_fd("------- TYPE ANALYZER ------", 2);
-
 	int					hrd;
 	t_e_list			*t;
 
@@ -56,8 +56,7 @@ static int			type_analyzer(t_e_list **l_expr, int boule)
 	{
 		t = *l_expr;
 		hrd = t->next->hrd_quote;
-		if (((ft_strchr(t->next->data, '<') || ft_strchr(t->next->data, '>')))
-		&& t->next->hrd_quote == 0)
+		if (waka_search(t->next->data) == TRUE && t->next->hrd_quote == 0)
 		{
 			if (waka_lexer(&(t->next)) == -4)
 				return (-4);
@@ -78,19 +77,14 @@ static int			type_analyzer(t_e_list **l_expr, int boule)
 
 int					lexer(t_e_list **l_expr)
 {
-	if (DEBUG_LEXER == 1)
-		ft_putendl_fd("------- LEXER ------", 2);
-
 	t_e_list			*t;
 	int					boule;
-	int					ret;
 
 	t = *l_expr;
 	boule = 0;
 	if (*l_expr == NULL)
 		return (FALSE);
-	if (t->hrd_quote < 1 && t && (ft_strchr(t->data, '<')
-	|| ft_strchr(t->data, '>')))
+	if (t->hrd_quote < 1 && t && waka_search(t->data) == TRUE)
 	{
 		if (waka_lexer(&t) == -4)
 			return (-4);
@@ -107,23 +101,5 @@ int					lexer(t_e_list **l_expr)
 		t->type = CMD;
 		boule = 1;
 	}
-	// DEBUG transfomer par ====>>> A VOIR UNE FOIS LE COMMENTAIRE RM
-	// return (type_analyzer(&t, boule));
-	// // pour norme
-	if ((ret = type_analyzer(&t, boule)) != TRUE)
-		return (ret);
-
-	// ANTIBUG!!!!!!
-	if (DEBUG_LEXER == 1)
-	{
-		t_e_list *tmp2 = *l_expr;
-		while (tmp2)
-		{
-			printf("[%s-%d-%d] -> ", tmp2->data, tmp2->type, tmp2->hrd_quote);
-			tmp2 = tmp2->next;
-		}
-		printf("\n");
-	}
-	// fin ANTIBUG !!!!!
-	return (TRUE);
+	return (type_analyzer(&t, boule));
 }

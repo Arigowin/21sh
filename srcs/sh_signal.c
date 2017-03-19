@@ -1,14 +1,10 @@
 #include <signal.h>
-#include <term.h>
 #include <unistd.h>
 #include "shell.h"
 #include "libft.h"
 
 static void			fct_ctrl_c_hrd(int sig)
 {
-	if (DEBUG == 1)
-		ft_putendl_fd("------- FCT CTRL C HRD ------", 2);
-
 	t_line				*stline;
 	int					pfd[2];
 
@@ -28,9 +24,6 @@ static void			fct_ctrl_c_hrd(int sig)
 
 static void			fct_m_ctrl_c(int sig)
 {
-	if (DEBUG == 1)
-		ft_putendl_fd("------- FCT M CTRL C ------", 2);
-
 	t_line				*stline;
 	t_history			**history;
 

@@ -5,9 +5,6 @@
 int					tree_trav_hrd(t_line *stline, t_node **tree,
 					t_history **history)
 {
-	if (DEBUG_HEREDOC == 1)
-		ft_putendl_fd("------------ TREE TRAV HRD ----------", 2);
-
 	if (*tree && (*tree)->left)
 	{
 		if (heredoc_handler(stline, &((*tree)->left), history) == ERROR)
@@ -23,9 +20,6 @@ int					tree_trav_hrd(t_line *stline, t_node **tree,
 
 int					check_end_heredoc(t_line *stline)
 {
-	if (DEBUG_HEREDOC == 1)
-		ft_putendl_fd("------------ CHECK END HEREDOC ----------", 2);
-
 	if (ft_strcmp(stline->hrd.deli->data, stline->hrd.ptr) == 0)
 		return (BREAK);
 	stline->hrd.ptr = &((stline->hrd.line)[stline->hrd.pos + 1]);
@@ -34,9 +28,6 @@ int					check_end_heredoc(t_line *stline)
 
 char				*hrd_quote_dup(char *str, int len, int type)
 {
-	if (DEBUG_HEREDOC == 1)
-		ft_putendl_fd("------------ HRD QUOTE DUP ----------", 2);
-
 	char				*ret;
 	char				*tmp;
 
@@ -59,11 +50,8 @@ char				*hrd_quote_dup(char *str, int len, int type)
 	return (tmp);
 }
 
-static int			fill_hrd_content(t_line *stline, t_node **tree) // static ac heredoc handler
+static int			fill_hrd_content(t_line *stline, t_node **tree)
 {
-	if (DEBUG_HEREDOC == 1)
-		ft_putendl_fd("------------ FILL HRD CONTENT ----------", 2);
-
 	int					len;
 	int					len_deli;
 
@@ -89,9 +77,6 @@ static int			fill_hrd_content(t_line *stline, t_node **tree) // static ac heredo
 int					manage_hrd_document(int bln, t_line *stline, t_node **tree,
 					t_history **history)
 {
-	if (DEBUG_HEREDOC == 1)
-		ft_putendl_fd("------------ MANAGE HRD DOCUMENT ----------", 2);
-
 	stline->hrd.deli = (((*tree)->right->type == RA || (*tree)->right->type
 				== HRD_QUOTE) ? (*tree)->right : (*tree)->right->right);
 	stline->hrd.ptr = stline->hrd.line;
