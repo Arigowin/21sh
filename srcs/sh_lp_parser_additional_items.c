@@ -68,7 +68,7 @@ int					check_red(int *nb_hrd, t_e_list **l_expr, t_node **tree)
 		check_red(nb_hrd, l_expr, &(node->left)) != TRUE)
 			*tree = save;
 		*tree = node;
-		return (ret);
+		return (TRUE);
 	}
 	return (error_clear_node(ret, 26, (*l_expr)->data, &node));
 }
