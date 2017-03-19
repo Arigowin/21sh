@@ -1,5 +1,4 @@
 #include <signal.h>
-#include <term.h>
 #include <unistd.h>
 #include "shell.h"
 #include "libft.h"

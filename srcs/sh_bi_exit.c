@@ -1,4 +1,4 @@
-#include <stdlib.h>
+#include <unistd.h>
 #include "shell.h"
 #include "libft.h"
 
@@ -24,7 +24,6 @@ int					exit_pgm(int exit_code)
 	env = savior_env(NULL, FALSE);
 	del_tree(&tree);
 	savior_tree(NULL, TRUE);
-	tree = NULL;
 	save_history();
 	duo_del(&env);
 	savior_env(NULL, TRUE);

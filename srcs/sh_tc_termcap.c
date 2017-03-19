@@ -1,5 +1,4 @@
 #include <term.h>
-#include <termios.h>
 #include "shell.h"
 #include "libft.h"
 

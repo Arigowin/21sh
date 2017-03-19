@@ -1,4 +1,3 @@
-#include <stdlib.h>
 #include "shell.h"
 #include "libft.h"
 

@@ -1,5 +1,4 @@
-#include <unistd.h>
-#include <stdlib.h>
+#include <string.h>
 #include <fcntl.h>
 #include "shell.h"
 #include "libft.h"
