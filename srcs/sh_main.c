@@ -22,6 +22,7 @@ int					main(void)
 		display_prompt();
 		if (fct_read(FALSE, &stline, &history) == ERROR)
 			break ;
+		raz_g_count();
 	}
 	reset_term();
 	return (dblstr_duo_ret(0, &(stline.line), &(stline.hrd).line, &env_cpy));

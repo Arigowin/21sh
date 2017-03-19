@@ -35,6 +35,8 @@
 # define CTRL_D 4
 # define DEL 2117294875
 
+extern int g_count[19];
+
 # if defined(__unix__)
 
 /*
@@ -102,7 +104,7 @@
 
 typedef enum			e_types
 {
-	NONE,
+	NONE = 0,
 	EXP,
 	SEMI,
 	PIPE,
@@ -205,6 +207,7 @@ typedef struct			s_lst_fd
 ** sh_check_tty
 */
 int						checktty(t_line *stline);
+void					raz_g_count(void);
 
 /*
 ** sh_end_pipe_quote

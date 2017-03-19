@@ -11,6 +11,7 @@ t_node				*create_node(t_types type)
 		sh_error(FALSE, 6, NULL, NULL);
 	new_node->data = NULL;
 	new_node->type = type;
+	g_count[type] += 1;
 	new_node->left = NULL;
 	new_node->right = NULL;
 	return (new_node);
@@ -20,6 +21,7 @@ int					clear_node(t_node **node)
 {
 	if (node && *node)
 	{
+		g_count[(*node)->type] -= 1;
 		ft_strdel(&((*node)->data));
 		(*node)->left = NULL;
 		(*node)->right = NULL;
