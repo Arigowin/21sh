@@ -1,5 +1,3 @@
-#include <stdio.h>
-#include <fcntl.h>
 #include "shell.h"
 #include "libft.h"
 

@@ -45,7 +45,6 @@
 
 /*
 ** LINUX ALT + [h|v|c|x]
-** pouette commentaire multilignes !
 */
 #  define HIGHLIGHT 26651
 #  define PASTE 30235

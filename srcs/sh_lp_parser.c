@@ -1,9 +1,6 @@
-#include <unistd.h>
 #include <stdlib.h>
 #include "shell.h"
 #include "libft.h"
-
-#include <stdio.h>
 
 static int			check_command(int *nb_hrd, t_e_list **l_expr, t_node **tree)
 {
