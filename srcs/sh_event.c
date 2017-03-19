@@ -8,19 +8,20 @@ static int			end_history(char **str, int *pos, t_line *stline,
 	fct_end(str, pos, stline, history);
 	while (history && *history && (*history)->next)
 		*history = (*history)->next;
-	savior_history(history, TRUE);
+	if (history)
+		savior_history(history, TRUE);
 	return (TRUE);
 }
 
 static int			fct_return(char **str, int *pos, t_line *stline,
-					t_history **history)
+							   t_history **history)
 {
 	end_history(str, pos, stline, history);
 	stline->quote = quote_is_close(str);
 	if (stline->quote != 0 || ((*pos == 1 && (*str)[*pos - 1]
-	&& (*str)[*pos - 1] == '\\') || (*pos > 1 && (*str)[*pos - 1] &&
-	(*str)[*pos - 2] && (*str)[*pos - 1] == '\\' && (*str)[*pos - 2] != '\\'))
-	|| stline->hrd.nb > 0 || (*pos > 0 && check_end_pipe(str, pos)))
+								&& (*str)[*pos - 1] == '\\') || (*pos > 1 && (*str)[*pos - 1] &&
+																 (*str)[*pos - 2] && (*str)[*pos - 1] == '\\' && (*str)[*pos - 2] != '\\'))
+		|| stline->hrd.nb > 0 || (*pos > 0 && check_end_pipe(str, pos)))
 	{
 		if (stline->hrd.nb > 0 && (check_end_heredoc(stline) == BREAK))
 			return (BREAK);
@@ -45,12 +46,12 @@ static int			fct_return(char **str, int *pos, t_line *stline,
 static t_key_fct	*tbl_key_fill(void)
 {
 	static t_key_fct	tbl_keys[18] =
-	{{RETURN, fct_return}, {BACKSPACE, fct_backspace}, {DOWN, history_down},
-		{HOME, fct_home}, {DEL, fct_del}, {CTRL_D, fct_ctrl_d}, {END, fct_end},
-		{LEFT, fct_left}, {RIGHT, fct_right}, {UP, history_up},
-		{CTRL_LEFT, fct_ctrl_left}, {CTRL_RIGHT, fct_ctrl_right},
-		{CTRL_UP, fct_up}, {CTRL_DOWN, fct_down}, {CUT, fct_cut},
-		{HIGHLIGHT, fct_highlight}, {PASTE, fct_paste}, {COPY, fct_copy}};
+		{{RETURN, fct_return}, {BACKSPACE, fct_backspace}, {DOWN, history_down},
+		 {HOME, fct_home}, {DEL, fct_del}, {CTRL_D, fct_ctrl_d}, {END, fct_end},
+		 {LEFT, fct_left}, {RIGHT, fct_right}, {UP, history_up},
+		 {CTRL_LEFT, fct_ctrl_left}, {CTRL_RIGHT, fct_ctrl_right},
+		 {CTRL_UP, fct_up}, {CTRL_DOWN, fct_down}, {CUT, fct_cut},
+		 {HIGHLIGHT, fct_highlight}, {PASTE, fct_paste}, {COPY, fct_copy}};
 
 	return (tbl_keys);
 }
@@ -62,8 +63,8 @@ static int			insert_key(int key_to_insrt, t_line *stline)
 		if (stline->hrd.nb <= 0)
 			handle_quote(key_to_insrt, &(stline->line), &(stline->pos), stline);
 		fct_insert((stline->hrd.nb > 0 ? &(stline->hrd.line) :
-			&(stline->line)), (stline->hrd.nb > 0 ? &(stline->hrd.pos) :
-				&(stline->pos)), key_to_insrt, stline);
+					&(stline->line)), (stline->hrd.nb > 0 ? &(stline->hrd.pos) :
+									   &(stline->pos)), key_to_insrt, stline);
 	}
 	return (TRUE);
 }
@@ -83,8 +84,8 @@ int					event(int key_to_insrt, t_line *stline, t_history **history)
 		if (tbl_keys[i].key == key_to_insrt)
 		{
 			ret = (tbl_keys[i].fct((stline->hrd.nb > 0 ? &(stline->hrd.line)
-					: &(stline->line)), (stline->hrd.nb > 0 ? &(stline->hrd.pos)
-					: &(stline->pos)), stline, history));
+									: &(stline->line)), (stline->hrd.nb > 0 ? &(stline->hrd.pos)
+														 : &(stline->pos)), stline, history));
 			tputs(tgetstr("ve", NULL), 1, my_outc);
 			return (ret);
 		}
