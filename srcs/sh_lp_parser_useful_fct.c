@@ -27,6 +27,7 @@ int					parser_ret_fct(int ret, t_node **tree, t_node **node,
 {
 	if (tree && node && *node)
 		*tree = *node;
+	*node = NULL;
 	clear_node(to_free);
 	return (ret);
 }

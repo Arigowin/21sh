@@ -1,6 +1,9 @@
 #include "libft.h"
 #include "shell.h"
 
+
+#include <stdio.h>
+
 static int			checktty_tool(char **tmp)
 {
 	char				buff[BUFF_SIZE + 1];
