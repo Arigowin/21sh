@@ -8,7 +8,10 @@ static int			end_history(char **str, int *pos, t_line *stline,
 	fct_end(str, pos, stline, history);
 	while (history && *history && (*history)->next)
 		*history = (*history)->next;
-	savior_history(history, TRUE);
+	if (history)
+		savior_history(history, TRUE);
+	else
+		savior_history(NULL, TRUE);
 	return (TRUE);
 }
 
