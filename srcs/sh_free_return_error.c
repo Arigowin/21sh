@@ -5,7 +5,7 @@ int					error_clear_node(int ret, int index, char *err,
 					t_node **to_free)
 {
 	if (to_free)
-		clear_node(to_free);
+		del_tree(to_free);
 	return (sh_error(ret, index, err, NULL));
 }
 

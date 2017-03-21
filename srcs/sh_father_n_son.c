@@ -1,7 +1,4 @@
-#include <unistd.h>
 #include <stdlib.h>
-#include <fcntl.h>
-#include <stdio.h>
 #include <sys/wait.h>
 #include "shell.h"
 #include "libft.h"
@@ -36,15 +33,15 @@ static int			son(char **cmd, int pipefd_tab[2][2], t_node *tree,
 	&& lstfd && *lstfd && !(ret = redirect(tree->left, *lstfd)))
 	{
 		if (ret == ERROR)
-			exit(EXIT_FAILURE);
+			exit_pgm(EXIT_FAILURE);
 		if (ret == FALSE)
-			exit(EXIT_SUCCESS);
+			exit_pgm(EXIT_SUCCESS);
 	}
 	if (lstfd && check_builtin(fd, cmd, pipefd_tab, lstfd) == TRUE)
-		exit(EXIT_SUCCESS);
+		exit_pgm(EXIT_SUCCESS);
 	check_signal(2);
 	if (check_fct(fd, cmd) == -2)
-		exit(EXIT_FAILURE);
+		exit_pgm(EXIT_FAILURE);
 	return (sh_error(FALSE, 24, cmd[0], NULL));
 }
 

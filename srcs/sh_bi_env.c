@@ -1,3 +1,4 @@
+#include <unistd.h>
 #include "libft.h"
 #include "shell.h"
 

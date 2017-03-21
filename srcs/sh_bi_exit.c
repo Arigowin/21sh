@@ -1,4 +1,4 @@
-#include <stdlib.h>
+#include <unistd.h>
 #include "shell.h"
 #include "libft.h"
 
@@ -23,11 +23,13 @@ int					exit_pgm(int exit_code)
 	stline = savior_stline(NULL, FALSE);
 	env = savior_env(NULL, FALSE);
 	del_tree(&tree);
+	savior_tree(NULL, TRUE);
 	save_history();
 	duo_del(&env);
+	savior_env(NULL, TRUE);
 	reset_term();
-	tree = NULL;
 	del_stline(&stline);
+	savior_stline(NULL, TRUE);
 	if (exit_code == EXIT_SUCCESS)
 		ft_putendl("exit");
 	exit(exit_code);

@@ -1,4 +1,3 @@
-#include <unistd.h>
 #include <stdlib.h>
 #include "shell.h"
 #include "libft.h"
@@ -17,7 +16,7 @@ static int			check_command(int *nb_hrd, t_e_list **l_expr, t_node **tree)
 	{
 		if (fill_leaf(l_expr, &node) == ERROR)
 		{
-			clear_node(&node);
+			del_tree(&node);
 			return (sh_error(FALSE, 6, NULL, NULL));
 		}
 		if ((ret = check_next(nb_hrd, l_expr, &node, &(node->right))) < 0)
@@ -26,7 +25,7 @@ static int			check_command(int *nb_hrd, t_e_list **l_expr, t_node **tree)
 	}
 	if (ret == TRUE && (*l_expr)->type != CMD)
 		return (parser_ret_fct(TRUE, tree, &(node->left), &node));
-	clear_node(&node);
+	del_tree(&node);
 	return (sh_error(ret, 26, (*l_expr)->data, NULL));
 }
 
@@ -74,14 +73,14 @@ static int			check_logic(int *nb_hrd, t_e_list **l_expr, t_node **tree)
 			if (!(move_in_list(l_expr)
 			&& (ret = check_logic(nb_hrd, l_expr, &(node->right)))))
 			{
-				clear_node(&node);
+				del_tree(&node);
 				return (sh_error(TRUE, 26, (*l_expr)->data, NULL));
 			}
 			return (ret);
 		}
 		return (parser_ret_fct(ret, tree, node_to_give, &node));
 	}
-	clear_node(&node);
+	del_tree(&node);
 	return (sh_error(ret, 26, (*l_expr)->data, NULL));
 }
 
@@ -103,13 +102,13 @@ static int			check_expr(int *nb_hrd, t_e_list **l_expr, t_node **tree)
 				return (error_clear_node(FALSE, 6, NULL, &node));
 			*tree = node;
 			if ((ret = move_in_list(l_expr))
-			&& ((ret = check_expr(nb_hrd, l_expr, &(node->right)) < 0)))
+			&& ((ret = check_expr(nb_hrd, l_expr, &(node->right))) < 0))
 				return (ret);
 			return (TRUE);
 		}
 		return (parser_ret_fct(ret, tree, node_to_give, &node));
 	}
-	clear_node(&node);
+	del_tree(&node);
 	return (sh_error(ret, 26, (*l_expr)->data, NULL));
 }
 

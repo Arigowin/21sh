@@ -68,7 +68,7 @@ int					check_red(int *nb_hrd, t_e_list **l_expr, t_node **tree)
 		check_red(nb_hrd, l_expr, &(node->left)) != TRUE)
 			*tree = save;
 		*tree = node;
-		return (ret);
+		return (TRUE);
 	}
 	return (error_clear_node(ret, 26, (*l_expr)->data, &node));
 }
@@ -86,14 +86,14 @@ int					check_arg(int *nb_hrd, t_e_list **l_expr, t_node **tree,
 	{
 		if (fill_leaf(l_expr, &node) == ERROR)
 		{
-			clear_node(&node);
+			del_tree(&node);
 			return (sh_error(FALSE, 6, NULL, NULL));
 		}
 		ret = check_next(nb_hrd, l_expr, &save, &(node->right));
 		*right_node = node;
 		return (ret);
 	}
-	clear_node(&node);
+	del_tree(&node);
 	return (FALSE);
 }
 
