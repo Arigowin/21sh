@@ -41,7 +41,7 @@ t_history			**savior_history(t_history **history, int code)
 {
 	static t_history		*save = NULL;
 
-	if ((save == NULL && history && *history) || code == TRUE)
+	if (history && *history && (save == NULL || code == TRUE))
 		save = *history;
 	return (&save);
 }
