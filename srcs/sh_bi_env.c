@@ -69,7 +69,7 @@ static int			modif_env(char **arg, t_duo *env, int len, int i)
 	savior_env(env, TRUE);
 	while (arg[i])
 	{
-		if (strchr(arg[i], '=') != NULL)
+		if (ft_strchr(arg[i], '=') != NULL)
 			format_env(arg[i], &nb);
 		else
 			break ;
