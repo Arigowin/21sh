@@ -60,7 +60,7 @@ int					display_prompt(void)
 		ft_putstr_color("\033[31m", shlvl);
 		ft_putchar_color("\033[31m", ']');
 	}
-	if (name && path)
+	if ((name || shlvl) && path)
 		ft_putstr(":");
 	if (path)
 		ft_putstr_color("\033[32;1m", path);
