@@ -7,7 +7,8 @@ static int			sh_lvl(void)
 	char				*new_lvl;
 
 	lvl = NULL;
-	if ((lvl = get_env("SHLVL")) == NULL || ft_strcmp(lvl, "-") == 0)
+	if ((lvl = get_env("SHLVL")) == NULL || ft_strcmp(lvl, "-") == 0
+	|| ft_isstrnum(lvl) == 0 || ft_strlen(lvl) > 10)
 	{
 		if ((lvl = ft_strdup("0")) == NULL)
 			return (error_clear_str(FALSE, 6, NULL, &lvl));
