@@ -7,7 +7,8 @@ static int			sh_lvl(void)
 	char				*new_lvl;
 
 	lvl = NULL;
-	if ((lvl = get_env("SHLVL")) == NULL || ft_strcmp(lvl, "-") == 0)
+	if ((lvl = get_env("SHLVL")) == NULL || ft_strcmp(lvl, "-") == 0
+	|| ft_isstrnum(lvl) == 0 || ft_strlen(lvl) > 10)
 	{
 		if ((lvl = ft_strdup("0")) == NULL)
 			return (error_clear_str(FALSE, 6, NULL, &lvl));
@@ -64,7 +65,7 @@ int					init_stline(t_line *stline)
 	if ((s = ttyname(0)) != NULL)
 		return (sh_error(FALSE, 1, NULL, NULL));
 	if ((stline->line = ft_strnew(BUFF_SIZE)) == NULL)
-		return (sh_error(FALSE, 1, NULL, NULL));
+		return (sh_error(FALSE, 6, NULL, NULL));
 	stline->mini_prt = FALSE;
 	stline->quote = 0;
 	stline->pos = 0;

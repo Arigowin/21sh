@@ -30,8 +30,6 @@ int					exit_pgm(int exit_code)
 	reset_term();
 	del_stline(&stline);
 	savior_stline(NULL, TRUE);
-	if (exit_code == EXIT_SUCCESS)
-		ft_putendl("exit");
 	exit(exit_code);
 	return (0);
 }
@@ -52,6 +50,7 @@ int					bi_exit(char **arg, t_duo **env)
 	}
 	i = (arg && arg[1] ? ft_atoi(arg[1]) : 0);
 	free_tab(&arg);
+	ft_putendl("exit");
 	exit_pgm(i);
 	return (0);
 }
